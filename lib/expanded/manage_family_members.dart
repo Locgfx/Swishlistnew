@@ -112,6 +112,20 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                 "Linked",
                 style: AppTextStyle().textColor70707012w500,
               ),
+              familyModel2.isEmpty?
+              Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                    // Image.asset("assets/images/delivery.png",height: 100,),
+                    SizedBox(height: 5),
+                    Text('No Family Members Yet',
+                      style: AppTextStyle().textColor29292914w500,)
+                  ],
+                ),
+              ) :
               ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
@@ -133,21 +147,21 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
               SizedBox(
                 height: 20.h,
               ),
-              Text(
-                "Manged by me",
-                style: AppTextStyle().textColor70707012w500,
-              ),
-              ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  // scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: 2,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: MangedByMeWidget(),
-                    );
-                  }),
+              // Text(
+              //   "Manged by me",
+              //   style: AppTextStyle().textColor70707012w500,
+              // ),
+              // ListView.builder(
+              //     physics: NeverScrollableScrollPhysics(),
+              //     // scrollDirection: Axis.vertical,
+              //     shrinkWrap: true,
+              //     itemCount: 2,
+              //     itemBuilder: (BuildContext context, int index) {
+              //       return Padding(
+              //         padding: const EdgeInsets.only(bottom: 20),
+              //         child: MangedByMeWidget(),
+              //       );
+              //     }),
               SizedBox(
                 height: 20.h,
               ),
@@ -158,6 +172,20 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
               SizedBox(
                 height: 20.h,
               ),
+              familyRequested.isEmpty?
+              Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                    // Image.asset("assets/images/delivery.png",height: 100,),
+                    SizedBox(height: 5),
+                    Text('No Family Requests',
+                      style: AppTextStyle().textColor29292914w500,)
+                  ],
+                ),
+              ) :
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
