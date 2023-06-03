@@ -74,7 +74,7 @@ Future<dynamic> deleteProductsApi({
     'Content-Type': 'application/x-www-form-urlencoded',
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
-  var request = http.Request('POST', Uri.parse('https://swishlist.locgfx.com/api/user/product/delete'));
+  var request = http.Request('POST', Uri.parse('$baseUrl/api/user/product/delete'));
   request.bodyFields = {
     'id': id,
   };

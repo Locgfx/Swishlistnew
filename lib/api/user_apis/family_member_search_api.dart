@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:http/http.dart' as http;
+import 'package:swishlist/constants/urls.dart';
 
 Future<dynamic> searchMemberApi({
   required String name,
@@ -9,7 +10,7 @@ Future<dynamic> searchMemberApi({
   var headers = {
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
-  var request = http.MultipartRequest('POST', Uri.parse('https://swishlist.locgfx.com/api/search/user'));
+  var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/api/search/user'));
   request.fields.addAll({
     'name': name,
   });
