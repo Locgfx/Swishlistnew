@@ -69,23 +69,22 @@ class _FFamilyState extends State<FFamily> {
       ),
       body: isLoading ? Loading() : Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        child: Column(
+        child:  friendDetails!.data!.family!.isEmpty ?
+        Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline,color: Colors.black,size: 80,),
+              // Image.asset("assets/images/delivery.png",height: 100,),
+              SizedBox(height: 5),
+              Text('Your friend has no family member yet',
+                style: AppTextStyle().textColor29292914w500,)
+            ],
+          ),
+        ) :
+        Column(
           children: [
-
-            friendDetails!.data!.family!.isEmpty ?
-            Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                  // Image.asset("assets/images/delivery.png",height: 100,),
-                  SizedBox(height: 5),
-                  Text('No family member added yet',
-                    style: AppTextStyle().textColor29292914w500,)
-                ],
-              ),
-            ) :
         ListView.separated(
         itemCount: friendDetails!.data!.family!.length,
        shrinkWrap:  true,

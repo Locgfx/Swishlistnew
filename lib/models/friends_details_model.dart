@@ -545,11 +545,26 @@ class Data {
     email = json['email'];
     photo = json['photo'].toString();
     type = json['type'];
-    profile =
-    json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
+    profile = json['profile'] != null
+        ? new Profile.fromJson(json['profile']) :
+          Profile(
+            name: '',
+            photo: '',
+            gender: '',
+            dob: '',
+            occupation: '',
+            relationStatus: '',
+            email: '',
+            phone:'',
+            alternatePhone: '',
+            homeAddress: '',
+            workAddress: '',
+            privacyStatus: '',
+            createdAt: '',
+          );
     sizeWeight = json['sizeWeight'] != null
         ? new SizeWeight.fromJson(json['sizeWeight'])
-        : null;
+        : SizeWeight(waist: '',shirt: '',bed: '',shoes: '',);
     interest = json['interest'] != null
         ? new Interest.fromJson(json['interest'])
         : null;

@@ -70,22 +70,20 @@ class _FPetsState extends State<FPets> {
       ),
       body:isLoading ? Loading() : Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        child: Column(
+        child: friendDetails!.data!.pets!.isEmpty ? Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline,color: Colors.black,size: 100,),
+              // Image.asset("assets/images/delivery.png",height: 100,),
+              SizedBox(height: 5),
+              Text('Your Friend has No Pets yet',
+                style: AppTextStyle().textColor29292914w500,)
+            ],
+          ),
+        ): Column(
           children: [
-            friendDetails!.data!.family!.isEmpty ?
-            Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                  // Image.asset("assets/images/delivery.png",height: 100,),
-                  SizedBox(height: 5),
-                  Text('No Pets yet',
-                    style: AppTextStyle().textColor29292914w500,)
-                ],
-              ),
-            ) :
             ListView.separated(
               itemCount: friendDetails!.data!.pets!.length,
                 shrinkWrap:  true,

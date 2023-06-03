@@ -10,7 +10,43 @@ class ProfileModel {
     code = json['code'];
     status = json['status'];
     message = json['message'];
-    data = json ['data'] == [] ? null :json['data'] != null ? new Data.fromJson(json['data']) : null;
+    if(json['data'].runtimeType == List<dynamic> ) {
+      print('v');
+      // data = Data.fromJson({
+      //
+      // });
+      data = Data(
+        name: '',
+        gender: '',
+        dob: '',
+        occupation: '',
+        relationStatus: '',
+        email: '',
+        phone: '',
+        alternatePhone: '',
+        homeAddress: '',
+        workAddress:'',
+        privacyStatus: '',
+        createdAt: '',
+        updatedAt: '',
+        deletedAt: '',
+        user: User(
+          name: '',
+          username: '',
+          phone: '',
+          email: '',
+          photo: '',
+          type: '',
+        )
+      );
+    } else if(json['data'] == null) {
+      print('kkk');
+      data = Data.fromJson({});
+    } else{
+      print('mdkmc');
+      data = Data.fromJson(json['data']);
+    }
+    // data = json ['data'] == [] ? null :json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {

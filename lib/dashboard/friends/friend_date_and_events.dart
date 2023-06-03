@@ -124,7 +124,7 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                 height: 20.h,
               ),
 
-              friendDetails1!.data!.family!.isEmpty ?
+              friendDetails1!.data!.eventDate!.isEmpty ?
               Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -180,7 +180,7 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
               SizedBox(
                 height: 20.h,
               ),
-              friendDetails1!.data!.family!.isEmpty ?
+              friendDetails1!.data!.eventDate!.isEmpty ?
               Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

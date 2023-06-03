@@ -46,7 +46,6 @@ class _FriendsState extends State<Friends> {
           setState(() {
             for (var v in value['data']) {
               friendList.add(ModelFriend.fromJson(v));
-
             }
             isLoading = false;
             // friendsModels = FriendModel.fromJson(value);
@@ -68,7 +67,6 @@ class _FriendsState extends State<Friends> {
 
   List<ModelFriend> searchList = [];
   List<ModelFriend> friendList = [];
-
 
 
   @override
@@ -226,17 +224,17 @@ class _FriendsState extends State<Friends> {
                           style: AppTextStyle().textColor70707012w500,
                         ),
                         Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                           setState(() {
-                             // isLoading ? Loading() : getFriends();
-                           });
-                          },
-                          child: Text(
-                            "Refresh List",
-                            style: AppTextStyle().robotocolor22222214w500,
-                          ),
-                        ),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //    setState(() {
+                        //      // isLoading ? Loading() : getFriends();
+                        //    });
+                        //   },
+                        //   child: Text(
+                        //     "Refresh List",
+                        //     style: AppTextStyle().robotocolor22222214w500,
+                        //   ),
+                        // ),
                         // SizedBox(width: 6),
                         // Image.asset("assets/images/sortarrowdown.png")
                       ],

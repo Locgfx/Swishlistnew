@@ -47,7 +47,24 @@ class _FProfileState extends State<FProfile> {
   }
 
   bool isLoading = true;
-  FriendDetailsModel friendDetails = FriendDetailsModel();
+  FriendDetailsModel friendDetails = FriendDetailsModel(
+    data: Data(
+      profile: Profile(
+        name: '',
+        photo: '',
+        gender: '',
+        occupation: '',
+        relationStatus: '',
+        email: '',
+        phone: '',
+        alternatePhone: '',
+        homeAddress: '',
+        workAddress: '',
+        privacyStatus: '',
+        createdAt: '',
+      )
+    )
+  );
 
   getFriendDetails() {
     isLoading = true;
@@ -55,55 +72,66 @@ class _FProfileState extends State<FProfile> {
     resp.then((value) {
       if(mounted) {
         if(value['status'] == true) {
-          setState(() {
-            if(friendDetails.data != null) {
-              if(friendDetails.data!.profile != null) {
-              }
-            } else {
-              friendDetails = FriendDetailsModel(
-                  data: Data(
-                    id: 0,
-                    name: '',
-                    username: '',
-                    phone: '',
-                    email: '',
-                    photo: '',
-                    type: '',
-                    profile: Profile(
-                      id: 0,
-                      userId: 0,
-                      name: '',
-                      photo: '',
-                      gender: '',
-                      dob: '',
-                      occupation: '',
-                      relationStatus: '',
-                      email: '',
-                      phone: '',
-                      alternatePhone: '',
-                      homeAddress: '',
-                      workAddress: '',
-                      privacyStatus: '',
-                      createdAt: '',
-                    ),
-                    sizeWeight: SizeWeight(
-                      id: 0,
-                      userId: 0,
-                      waist: '',
-                      shirt: '',
-                      shoes: '',
-                      bed: '',
-                      privacyStatus: '',
-                      createdAt: '',
-                    ),
-                    interest: Interest(
-                        interest: ''
-                    ),
-                  )
-              );
-            }
-            isLoading = false;
-          });
+          if(value['message'] == "No Data") {
+            setState(() {
+              isLoading = false;
+            });
+          } else {
+            setState(() {
+              friendDetails = FriendDetailsModel.fromJson(value);
+              isLoading = false;
+            });
+          }
+          // setState(() {
+          //
+          //   // if(friendDetails.data != null) {
+          //   //   if(friendDetails.data!.profile != null) {
+          //   //   }
+          //   // } else {
+          //   //   friendDetails = FriendDetailsModel(
+          //   //       data: Data(
+          //   //         id: 0,
+          //   //         name: '',
+          //   //         username: '',
+          //   //         phone: '',
+          //   //         email: '',
+          //   //         photo: '',
+          //   //         type: '',
+          //   //         profile: Profile(
+          //   //           id: 0,
+          //   //           userId: 0,
+          //   //           name: '',
+          //   //           photo: '',
+          //   //           gender: '',
+          //   //           dob: '',
+          //   //           occupation: '',
+          //   //           relationStatus: '',
+          //   //           email: '',
+          //   //           phone: '',
+          //   //           alternatePhone: '',
+          //   //           homeAddress: '',
+          //   //           workAddress: '',
+          //   //           privacyStatus: '',
+          //   //           createdAt: '',
+          //   //         ),
+          //   //         sizeWeight: SizeWeight(
+          //   //           id: 0,
+          //   //           userId: 0,
+          //   //           waist: '',
+          //   //           shirt: '',
+          //   //           shoes: '',
+          //   //           bed: '',
+          //   //           privacyStatus: '',
+          //   //           createdAt: '',
+          //   //         ),
+          //   //         interest: Interest(
+          //   //             interest: ''
+          //   //         ),
+          //   //       )
+          //   //   );
+          //   // }
+          //   isLoading = false;
+          // });
         } else {
           setState(() {
             isLoading = false;
@@ -137,7 +165,8 @@ class _FProfileState extends State<FProfile> {
       body:isLoading ? Loading(): SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
+          child:
+           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
@@ -165,10 +194,11 @@ class _FProfileState extends State<FProfile> {
                       style: AppTextStyle().textColor70707014w400,
                     ),
                     Spacer(),
+
                     Text(
-                        friendDetails.data!.name.toString() == '' ?
+                        friendDetails.data!.profile!.name.toString() == '' ?
                         'No Name added yet' :
-                        friendDetails.data!.name.toString(),
+                        friendDetails.data!.profile!.name.toString(),
                       // 'Harry Wilson',
                       style:
                       // AppTextStyle().textColorD5574514w500 :
@@ -204,6 +234,12 @@ class _FProfileState extends State<FProfile> {
                       style: AppTextStyle().textColor70707014w400,
                     ),
                     Spacer(),
+                    // friendDetails.data!.profile!.gender!.isEmpty?
+                    // Text(
+                    //   friendDetails.data!.profile!.gender!.toString(),
+                    //   style:
+                    //   AppTextStyle().textColor29292914w400,
+                    // ):
                     Text(
                       friendDetails.data!.profile!.gender.toString()=='' ?
                       'Gender is not added yet':
@@ -247,6 +283,13 @@ class _FProfileState extends State<FProfile> {
                     SizedBox(
                       width: 5.w,
                     ),
+
+                    // friendDetails.data!.profile!.dob!.isEmpty?
+                    // Text(
+                    //   friendDetails.data!.profile!.dob.toString(),
+                    //   style:
+                    //   AppTextStyle().textColor29292914w400,
+                    // ):
                     Text(
                       friendDetails.data!.profile!.dob.toString() == '' ?
                       'Dob is not added yet' :
@@ -274,6 +317,12 @@ class _FProfileState extends State<FProfile> {
                   SizedBox(
                     width: 5.w,
                   ),
+                  // friendDetails.data!.profile!.occupation!.isEmpty?
+                  // Text(
+                  //   friendDetails.data!.profile!.occupation.toString(),
+                  //   style:
+                  //   AppTextStyle().textColor29292914w400,
+                  // ):
                   Text(
                     friendDetails.data!.profile!.occupation.toString() == '' ?
                     'Occupation is not added yet' :
@@ -295,6 +344,12 @@ class _FProfileState extends State<FProfile> {
                   SizedBox(
                     width: 5.w,
                   ),
+                  // friendDetails.data!.profile!.relationStatus!.isEmpty?
+                  // Text(
+                  //   friendDetails.data!.profile!.relationStatus.toString(),
+                  //   style:
+                  //   AppTextStyle().textColor29292914w400,
+                  // ):
                   Text(
                     friendDetails.data!.profile!.relationStatus.toString() == '' ?
                     'Relationship is not added yet'  :
@@ -333,6 +388,12 @@ class _FProfileState extends State<FProfile> {
                       style: AppTextStyle().textColor70707014w400,
                     ),
                     Spacer(),
+                    // friendDetails.data!.profile!.phone!.isEmpty?
+                    // Text(
+                    //   friendDetails.data!.profile!.phone.toString(),
+                    //   style:
+                    //   AppTextStyle().textColor29292914w400,
+                    // ):
                     Text(
                         friendDetails.data!.profile!.phone.toString() == '' ?
                         'phone is not added yet':
@@ -354,6 +415,12 @@ class _FProfileState extends State<FProfile> {
                   SizedBox(
                     width: 5.w,
                   ),
+                  // friendDetails.data!.profile!.alternatePhone!.isEmpty?
+                  // Text(
+                  //   friendDetails.data!.profile!.alternatePhone.toString(),
+                  //   style:
+                  //   AppTextStyle().textColor29292914w400,
+                  // ):
                   Text(
                     friendDetails.data!.profile!.alternatePhone.toString() == '' ?
                     'Alternate phone is not added yet' :
@@ -373,6 +440,12 @@ class _FProfileState extends State<FProfile> {
                   SizedBox(
                     width: 5.w,
                   ),
+                  // friendDetails.data!.profile!.email!.isEmpty?
+                  // Text(
+                  //   friendDetails.data!.profile!.email.toString(),
+                  //   style:
+                  //   AppTextStyle().textColor29292914w400,
+                  // ):
                   Text(
                     friendDetails.data!.profile!.email.toString() == '' ?
                     'Email is not added yet' :
@@ -397,6 +470,12 @@ class _FProfileState extends State<FProfile> {
                     style: AppTextStyle().textColor70707014w400,
                   ),
                   SizedBox(height: 10.h),
+                  // friendDetails.data!.profile!.homeAddress!.isEmpty?
+                  // Text(
+                  //   friendDetails.data!.profile!.homeAddress.toString(),
+                  //   style:
+                  //   AppTextStyle().textColor29292914w400,
+                  // ):
                   Text(
                     friendDetails.data!.profile!.homeAddress.toString() == '' ?
                     'home address is not added yet':
@@ -418,6 +497,12 @@ class _FProfileState extends State<FProfile> {
                   SizedBox(
                     width: 5.w,
                   ),
+                  // friendDetails.data!.profile!.workAddress!.isEmpty?
+                  // Text(
+                  //   friendDetails.data!.profile!.workAddress.toString(),
+                  //   style:
+                  //   AppTextStyle().textColor29292914w400,
+                  // ):
                   Text(
                     friendDetails.data!.profile!.workAddress.toString() == '' ?
                     'work Address is not added yet' :

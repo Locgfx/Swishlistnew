@@ -108,20 +108,20 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                     ),
                   ),
                 ),
-                PopupMenuItem(
-                  child: ListTile(
-                    title: InkWell(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Privacy()));
-                      },
-                      child: Text(
-                        'Privacy',
-                        style: AppTextStyle().textColor39393914w500,
-                      ),
-                    ),
-                  ),
-                ),
+                // PopupMenuItem(
+                //   child: ListTile(
+                //     title: InkWell(
+                //       onTap: () {
+                //         Navigator.push(context,
+                //             MaterialPageRoute(builder: (context) => Privacy()));
+                //       },
+                //       child: Text(
+                //         'Privacy',
+                //         style: AppTextStyle().textColor39393914w500,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 PopupMenuItem(
                   child: GestureDetector(
                     onTap: () {

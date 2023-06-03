@@ -189,7 +189,7 @@ class _AccountState extends State<Account> {
             //     Image.asset("assets/images/Vector175.png"),
             //   ],
             // ),
-            Spacer(),
+           /* Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: 34),
               child: SizedBox(
@@ -202,7 +202,7 @@ class _AccountState extends State<Account> {
                   backgroundColor: MaterialStateProperty.all(Colors.white),
                 ),
               ),
-            )
+            )*/
           ],
         ),
       ),

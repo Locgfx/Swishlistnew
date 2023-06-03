@@ -19,6 +19,7 @@ import '../../profile_page/widgets/popup_menu_widget.dart';
 
 class FriendProfile extends StatefulWidget {
   final String friendId;
+
   // final String friendName;
   // final String friendUserName;
   const FriendProfile({Key? key,
@@ -254,6 +255,8 @@ class _FriendProfileState extends State<FriendProfile> {
               SizedBox(height: 12),
               // friendDetails!.data!.interest! == null ?
               //     Text('Friend has no interest added yet'):
+              elements!.isEmpty?
+                  Text('no data'):
               Wrap(
                 children: elements!.map((e) => chipBox(name:e)).toList(),
               ),
