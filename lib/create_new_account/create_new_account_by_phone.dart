@@ -240,18 +240,19 @@ class _CreateNewAccountByPhone extends State<CreateNewAccountByPhone> {
                         if(response?.status != null &&
                             response!.status == true) {
                           print(response);
-                          Fluttertoast.showToast(msg: "Account Successfully Created");
-                          SharedPrefs().setUserPhoto(pickedImage.toString());
-                          SharedPrefs().setName(updateNameController.toString());
-                          SharedPrefs().setUsername(userNameController.toString());
-                          print(pickedImage.toString());
-                          print(updateNameController.text);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) => Login(),
                             ),
                           );
+                          Fluttertoast.showToast(msg: "Account Successfully Created");
+                          SharedPrefs().setUserPhoto(pickedImage.toString());
+                          SharedPrefs().setName(updateNameController.toString());
+                          SharedPrefs().setUsername(userNameController.toString());
+                          print(pickedImage.toString());
+                          print(updateNameController.text);
+
                         } else{
                           Fluttertoast.showToast(msg: "Account Failed to create check your details");
 

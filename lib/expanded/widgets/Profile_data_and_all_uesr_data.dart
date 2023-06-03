@@ -200,8 +200,7 @@ class _FavoritesRowWidgetState extends State<FavoritesRowWidget> {
             Text(
                 '${SharedPrefs().getFavourites()}' == "null" ?
                  "update your favourites" :
-                '${SharedPrefs().getFavourites()}'
-              ,
+                '${SharedPrefs().getFavourites()}',
               // "8%",
               style: AppTextStyle().textColor70707012w400,
             )
@@ -242,6 +241,7 @@ class _PetsRowWidgetState extends State<PetsRowWidget> {
   //   _sharedPrefs();
   //   super.initState();
   // }
+
   @override
   Widget build(BuildContext context) {
     return Row(

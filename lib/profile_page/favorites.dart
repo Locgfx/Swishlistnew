@@ -1127,37 +1127,53 @@ class _FavoritesState extends State<Favorites> {
                       Colors.black :
                       ColorSelect.colorB5B07A,
                       onTap: () {
-                        postFavouriteApi(
-                            car: carController.text,
-                            bike: bikesController.text,
-                            movies: moviesController.text,
-                            shows: showsController.text,
-                            food: foodController.text,
-                            gadgets: gadgetsController.text,
-                            superheroes: superheroesController.text,
-                            actors: actorController.text,
-                            singer: singersController.text,
-                            actress: actressController.text,
-                            player: playersController.text,
-                            cities: citiesController.text,
-                            countries: countriesController.text,
-                            restaurants: restaurantsController.text,
-                            hotels: hotelsController.text,
-                            privacy: 'public').then((value) async {
-                          if(value['status'] ==  true) {
-                            SharedPrefs().setFavourites('100 %');
+                        if(carController.text.isNotEmpty &&
+                            bikesController.text.isNotEmpty &&
+                            moviesController.text.isNotEmpty &&
+                            showsController.text.isNotEmpty &&
+                            foodController.text.isNotEmpty &&
+                            gadgetsController.text.isNotEmpty &&
+                            superheroesController.text.isNotEmpty &&
+                            actorController.text.isNotEmpty &&
+                            singersController.text.isNotEmpty &&
+                            actressController.text.isNotEmpty &&
+                            playersController.text.isNotEmpty &&
+                            citiesController.text.isNotEmpty &&
+                            countriesController.text.isNotEmpty &&
+                            restaurantsController.text.isNotEmpty &&
+                            hotelsController.text.isNotEmpty) {
+                            postFavouriteApi(
+                              car: carController.text,
+                              bike: bikesController.text,
+                              movies: moviesController.text,
+                              shows: showsController.text,
+                              food: foodController.text,
+                              gadgets: gadgetsController.text,
+                              superheroes: superheroesController.text,
+                              actors: actorController.text,
+                              singer: singersController.text,
+                              actress: actressController.text,
+                              player: playersController.text,
+                              cities: citiesController.text,
+                              countries: countriesController.text,
+                              restaurants: restaurantsController.text,
+                              hotels: hotelsController.text,
+                              privacy: 'public').then((value) async {
+                            if(value['status'] ==  true) {
+                              SharedPrefs().setFavourites('100 %');
 
-                            Navigator.pop(context);
-                            // setState(() {
-                            //   isLoading ? Loading() : getFavourites();
-                            // });
-                            Fluttertoast.showToast(
-                                msg: value['message']);
-                          } else {
-                            Fluttertoast.showToast(
-                                msg:'please fill all details field'  /*value['message']*/);
-                          }
-                        });
+                              Navigator.pop(context);
+                              // setState(() {
+                              //   isLoading ? Loading() : getFavourites();
+                              // });
+                              Fluttertoast.showToast(
+                                  msg: value['message']);
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg:'please fill all details field'  /*value['message']*/);
+                            }
+                          });
+                        }
                       },
                       title: 'Add'
                   ):

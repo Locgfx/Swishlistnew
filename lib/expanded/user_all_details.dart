@@ -271,7 +271,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                      onTap: () {
                        Navigator.push(context,
                           MaterialPageRoute(builder: (context) => DateAndEvents()));
-                    },
+                       },
                     child: DateAndEventsRowWidget(),
                   )
                 ],
