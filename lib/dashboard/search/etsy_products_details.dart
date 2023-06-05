@@ -198,25 +198,11 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                         Border.all(color: ColorSelect.colorE0E0E0, width: 1),
                                         color: ColorSelect.colorFFFFFF,
                                         borderRadius: BorderRadius.circular(12)),
-                                    // width: 50,
-                                    // height: 50,
-                                    //margin: EdgeInsets.symmetric(horizontal: 24),
-                                    // decoration: BoxDecoration(
-                                    //     color: Colors.white,
-                                    //     shape: BoxShape.circle
-                                    // ),
                                   ),
-
                                 ),
                               ),
                         ),
-                        // child: Center(
-                        //   child: Image.asset(
-                        //     "assets/images/image10.png",
-                        //     width: 118,
-                        //     height: 200,
-                        //   ),
-                        // ),
+
                       );
 
                     }, separatorBuilder: (BuildContext context, int index) => SizedBox(width: 10),),
@@ -232,75 +218,10 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                     overflow: TextOverflow.ellipsis,
                     // style: AppTextStyle().textColor29292916w500,
                     ),
-                  // Spacer(),
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(8),
-                  //     color: ColorSelect.colorF7E641,
-                  //   ),
-                  //   width: 140.w,
-                  //   height: 52.h,
-                  //   child: Row(
-                  //     children: [
-                  //       Column(
-                  //         children: [
-                  //           Padding(
-                  //             padding: const EdgeInsets.only(top: 10, left: 28),
-                  //             child: Text(
-                  //               "View on",
-                  //               style: AppTextStyle().textcolor3F3F3F12w500,
-                  //             ),
-                  //           ),
-                  //           Padding(
-                  //             padding: const EdgeInsets.only(left: 28, top: 4),
-                  //             child:
-                  //             Image.asset('assets/images/amazonimage.png'),
-                  //           )
-                  //         ],
-                  //       ),
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(left: 16),
-                  //         child: SvgPicture.asset(
-                  //           "assets/icons/arrowimage.svg",
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // )
                 ],
               ),
 
-              // Row(
-              //   children: [
-              //     // Text(
-              //     //   "12 June, 2022",
-              //     //   style: AppTextStyle().textColor70707012w400,
-              //     // ),
-              //     // SizedBox(
-              //     //   width: 8.w,
-              //     // ),
-              //     // Container(
-              //     //   height: 2.h,
-              //     //   width: 2.w,
-              //     //   decoration: BoxDecoration(
-              //     //       shape: BoxShape.circle, color: ColorSelect.color707070),
-              //     // ),
-              //     // SizedBox(
-              //     //   width: 10.w,
-              //     // ),
-              //     Text(
-              //       "Total views",
-              //       style: AppTextStyle().textColor70707012w400,
-              //     ),
-              //     SizedBox(width: 6.w),
-              //     SvgPicture.asset("assets/icons/eyeicons.svg"),
-              //     SizedBox(width: 6.w),
-              //     // Text(
-              //     //   widget.views,
-              //     //   style: AppTextStyle().textColor70707012w400,
-              //     // )
-              //   ],
-              // ),
+
               SizedBox(
                 height: 22,
               ),

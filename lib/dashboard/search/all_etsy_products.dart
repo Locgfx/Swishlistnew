@@ -61,11 +61,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
           friendList.add(EtsyLoadMoreModel.fromJson(v));
           isLoading = false;
         }
-        // for(var v in etsy) {
-        //   getAllListingImages(v.listingId!);
-        //
-        //
-        // }
       });
     });
   }
@@ -80,8 +75,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
     resp.then((value) {
       setState(() {
         scrollLength = value["results"].length;
-        // etsy.add(EtsyLoadMoreModel.fromJson(value));
-        // etsyProducts = EtsyListingModel.fromJson(value);
         for (var v in value['results']) {
           friendList.add(EtsyLoadMoreModel.fromJson(v));
           isLoading = false;
@@ -105,6 +98,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
       throw 'Could not launch $url';
     }
   }
+
 
   @override
   void dispose() {
@@ -160,81 +154,81 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
               Padding(
                 padding: const EdgeInsets.only(right: 0),
                 child: Text(
-                  "All Products",
+                  "All Etsy Products",
                   style: AppTextStyle().textColor29292916w500,
                 ),
               ),
               Spacer(),
-              // Container(
-              //   width: 150,
-              //   color: Colors.transparent,
-              //   child:TextFormField(
-              //     onChanged: (val) {
-              //       setState(() {
-              //
-              //       });
-              //       // print(friendList.toString());
-              //       // print(searchController.text);
-              //       // // print(friendList[0].);
-              //       // for (var v in friendList) {
-              //       //   if(v.title == val) {
-              //       //     if(searchList.contains(v)) {
-              //       //
-              //       //     } else {
-              //       //       searchList.add(v);
-              //       //     }
-              //       //   }
-              //       // }
-              //       // // final suggestions = friendList.where((element) =>
-              //       // // element.friend!.name == searchController.text).toList();
-              //       // // print(suggestions);
-              //       // setState(() {
-              //       //   // searchList = suggestions;
-              //       //   print(searchList);
-              //       //   if(searchController.text.isEmpty) {
-              //       //     searchList.clear();
-              //       //   }
-              //       // });
-              //     },
-              //     controller: searchController,
-              //     cursorColor: ColorSelect.colorF7E641,
-              //     decoration: AppTFDecoration(
-              //         hint: 'Enter Product Title').decoration(),
-              //     //keyboardType: TextInputType.phone,
-              //   ),
-              // )
+              Container(
+                width: 150,
+                color: Colors.transparent,
+                child:TextFormField(
+                  onChanged: (val) {
+                    // print(friendList);
+                    print(searchController.text);
+                    // print(friendList.title);
+                    for (var v in friendList) {
+                      if(v.title! == val) {
+                        if(searchList.contains(v)) {
+
+                        } else {
+                          searchList.add(v);
+                        }
+                      }
+                    }
+                    final suggestions = friendList.where((element) =>
+                    element.title == searchController.text).toList();
+                    print(suggestions);
+                    setState(() {
+
+                      // final suggestions = friendList.where((element) =>
+                      // element.title == searchController.text).toList();
+                      // print(suggestions);
+                      searchList = suggestions;
+                      print(searchList.toString());
+                      if(searchController.text.isEmpty) {
+                        searchList.clear();
+                      }
+                    });
+                  },
+                  controller: searchController,
+                  cursorColor: ColorSelect.colorF7E641,
+                  decoration: AppTFDecoration(
+                      hint: 'Enter Product Title').decoration(),
+                  //keyboardType: TextInputType.phone,
+                ),
+              )
             ],
           ),
-
         ],
       ),
-      leadingWidth: 40,
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 20),
-        child: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: SvgPicture.asset(
-            "assets/icons/arrowback.svg",
-          ),
-        ),
-      ),
+      // leadingWidth: 40,
+      // leading: Padding(
+      //   padding: const EdgeInsets.only(left: 20),
+      //   child: InkWell(
+      //     onTap: () {
+      //       Navigator.pop(context);
+      //     },
+      //     child: SvgPicture.asset(
+      //       "assets/icons/arrowback.svg",
+      //     ),
+      //   ),
+      // ),
     ),
       body: isLoading ? Loading() : Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: /*searchList.isEmpty ?*/ LazyLoadScrollView(
+        child: searchList.isEmpty ? LazyLoadScrollView(
           isLoading: isLoading ,
           onEndOfPage: () {
-            print(scrollLength);
+            // print(scrollLength);
             if (scrollLength >= 25) {
               loadMore();
             }
           },
         child:   ListView.separated(
           padding: EdgeInsets.only(top: 16,bottom: 200),
-          itemCount: friendList./*where((element) => element.title!.contains(
-              searchController.text)).*/length + 1,
+          itemCount: friendList/*.*//*where((element) => element.title!.contains(
+              searchController.text)).*/.length + 1,
           shrinkWrap: true,
           // physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context,i) {
@@ -339,14 +333,16 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                   )));
 
                             },
-                            title: 'View Details'),),
+                            title: 'View Details'),
+                      ),
 
                       GestureDetector(
                         onTap: ()  {
                           launchUrlStart(url: friendList[i].url.toString() );
                         },
                           child: Text('View in website',
-                          style: AppTextStyle().textColor29292916w500,))
+                          style: AppTextStyle().textColor29292916w500,)
+                      ),
                     ],
                   ),
                 ],
@@ -370,23 +366,13 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
           }, separatorBuilder: (BuildContext context, int index) => SizedBox(height: 16,),
         ),
         )
-
- /*    :
-      LazyLoadScrollView(
-      isLoading: isLoading ,
-      onEndOfPage: () {
-        print(scrollLength);
-        if (scrollLength >= 25) {
-          loadMore();
-        }
-      },
-      child:   ListView.separated(
+     :
+      ListView.separated(
         padding: EdgeInsets.only(top: 16,bottom: 200),
-        itemCount: searchList.length + 1,
+        itemCount: searchList.length ,
         shrinkWrap: true,
         // physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context,i) {
-          if (i < searchList.length ) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -499,25 +485,8 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                 ),
               ],
             );
-          } else if (scrollLength >= 25 && isLoading) {
-            return Center(
-              child: LoadingAnimationWidget.staggeredDotsWave(
-                size: 70, color: ColorSelect.colorF7E641,
-              ),
-            );
-
-          } else if( scrollLength <10) {
-            return SizedBox.shrink();
-          } else {
-            return Center(
-              child: LoadingAnimationWidget.staggeredDotsWave(
-                size: 70, color: ColorSelect.colorF7E641,
-              ),
-            );
-          }
         }, separatorBuilder: (BuildContext context, int index) => SizedBox(height: 16,),
-      ),
-    )*/
+      )
 
     ),
     );

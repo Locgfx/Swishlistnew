@@ -195,11 +195,11 @@ class _FriendsState extends State<Friends> {
                             }
                           }
                         }
-                        // final suggestions = friendList.where((element) =>
-                        // element.friend!.name == searchController.text).toList();
-                        // print(suggestions);
+                        final suggestions = friendList.where((element) =>
+                        element.friend!.name == searchController.text).toList();
+                        print(suggestions);
                         setState(() {
-                          // searchList = suggestions;
+                          searchList = suggestions;
                           print(searchList);
                           if(searchController.text.isEmpty) {
                             searchList.clear();
