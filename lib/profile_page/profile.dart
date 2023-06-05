@@ -164,7 +164,7 @@ class _ProfileState extends State<Profile> {
   final homeController = TextEditingController();
   final workController = TextEditingController();
   String dobFormat ='';
-  GlobalKey<FormState>  formKey = GlobalKey<FormState>();
+  // GlobalKey<FormState>  formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +208,7 @@ class _ProfileState extends State<Profile> {
       backgroundColor: Colors.white,
       body:  isLoading ? Loading() :SingleChildScrollView(
         child: Form(
-          key: formKey,
+          // key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -972,17 +972,7 @@ class _ProfileState extends State<Profile> {
                           Colors.black :
                           ColorSelect.colorB5B07A,
                           onTap: () {
-                            if(nameController.text.isNotEmpty &&
-                            genderController.text.isNotEmpty &&
-                                dobFormat.isNotEmpty &&
-                                occupationController.text.isNotEmpty &&
-                                relationStatus.text.isNotEmpty &&
-                                emailController.text.isNotEmpty &&
-                                phoneController.text.isNotEmpty &&
-                                alternateNo.text.isNotEmpty &&
-                                homeController.text.isNotEmpty &&
-                                workController.text.isNotEmpty 
-                            ) {
+                            // if(formKey.currentState!.validate()) {
                               postProfile(
                                 name: nameController.text,
                                 gender: genderController.text,
@@ -1009,7 +999,7 @@ class _ProfileState extends State<Profile> {
                                       msg: 'please add all details fields'/*value['message']*/);
                                 }
                               });
-                            }
+                            // }
                           },
                           title: 'Add'
                       ) :

@@ -448,11 +448,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                     ) ? Colors.black :
                         ColorSelect.colorB5B07A,
                     onTap: () {
-                      if(waistController.text.isNotEmpty &&
-                          shirtController.text.isNotEmpty &&
-                          shoesController.text.isNotEmpty &&
-                          bedController.text.isNotEmpty
-                      ) {
+                      if(formKey.currentState!.validate()) {
                         postSizeAndWeightApi(
                             waist: waistController.text,
                             shirt: shirtController.text,
