@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/color.dart';
@@ -10,6 +11,7 @@ import 'package:swishlist/dashboard/friends/profile_chat.dart';
 import 'package:swishlist/dashboard/friends/widget/appbar_icon.dart';
 import 'package:swishlist/dashboard/products/productadd.dart';
 import 'package:swishlist/dashboard/products/productdontwant.dart';
+import 'package:swishlist/models/friend_product_model.dart';
 import 'package:swishlist/profile_page/widgets/popup_menu_widget.dart';
 
 import '../../api/user_apis/friends_api.dart';
@@ -53,8 +55,49 @@ class _FriendProductState extends State<FriendProduct> {
 
   @override
   void initState() {
-    print(widget.friendId);
+    // print(widget.friendId);
+    getFWantProducts();
     super.initState();
+  }
+
+  bool isLoading = false;
+  List <FriendProductModel> haveProducts = [];
+  List <FriendProductModel> haveProducts2 = [];
+  // FriendModel?  haveProducts = FriendModel();
+
+  getFWantProducts() {
+    isLoading = true;
+    var resp = getFriendProductsApi(friendId: widget.friendId);
+    resp.then((value) {
+      if (value['status'] == true) {
+        for(var v in value["data"]){
+          haveProducts.add(FriendProductModel.fromJson(v));
+        }
+        for(var v in haveProducts) {
+          if(v.type! == "have") {
+            haveProducts2.add(v);
+          }
+        }
+        print(haveProducts2);
+        isLoading = false;
+        // setState(() {
+        //   // haveProducts = FriendModel.fromJson(value);
+        //   haveProducts.add(FriendProductModel.fromJson(value));
+        //   print(haveProducts);
+        //   for (var v in haveProducts) {
+        //     if(v.type == 'have') {
+        //       haveProducts2.add(v);
+        //     }
+        //   }
+        //   print(haveProducts2.toString());
+        //   isLoading = false;
+        // });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
   }
 
 
@@ -98,7 +141,7 @@ class _FriendProductState extends State<FriendProduct> {
                         );
                       },
                       iconName: '4xchat'),
-                  Container(
+                  SizedBox(
                     height: 24,
                     width: 24,
                     child: GestureDetector(
@@ -428,12 +471,107 @@ class _FriendProductState extends State<FriendProduct> {
                   ),
                   SizedBox(height: 12),
                   SizedBox(
-                    height: 220,
-                    child: IWantProductListWidget(
-                      imageList: imageList,
-                      itemNameList: itemNameList,
-                      itemPrice: itemPrice,
-                    ),
+                      height: 200,
+                      child:  Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: ListView.builder(
+                          // physics: NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemCount:haveProducts2.length,
+                          // itemCount: 2,
+                          shrinkWrap: true,
+                          itemBuilder: (context, i) {
+                            return Container(
+                              color: Colors.transparent,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 16),
+                                  Expanded(
+                                    flex:4,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => WantProducts(
+                                              isUser: true,
+                                            ),
+                                          ),
+                                        );},
+                                      child: Container(
+                                        width: 173,
+                                        height: 129,
+                                        margin: EdgeInsets.only(left: 16),
+                                        clipBehavior: Clip.hardEdge,
+                                        decoration: BoxDecoration(
+                                            border:
+                                            Border.all(color: ColorSelect.colorE0E0E0, width: 1),
+                                            color: ColorSelect.colorFFFFFF,
+                                            borderRadius: BorderRadius.circular(12)),
+                                        child: CachedNetworkImage(
+                                          imageUrl: (haveProducts2[i].photo.toString()),
+                                          // imageUrl: haveProducts.toString().contains("https") ?
+                                          // haveProducts[i].photo.toString() :
+                                          // baseUrl+wantProducts2[i].photo.toString(),
+                                          fit: BoxFit.cover,
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error,size: 40,),
+                                          progressIndicatorBuilder:  (a,b,c) =>
+                                              Opacity(
+                                                opacity: 0.3,
+                                                child: Shimmer.fromColors(
+                                                  baseColor: Colors.black12,
+                                                  highlightColor: Colors.white,
+                                                  child: Container(
+                                                    width: 173,
+                                                    height: 129,
+                                                    decoration: BoxDecoration(
+                                                        border:
+                                                        Border.all(color: ColorSelect.colorE0E0E0, width: 1),
+                                                        color: ColorSelect.colorFFFFFF,
+                                                        borderRadius: BorderRadius.circular(12)),
+                                                  ),
+                                                ),
+                                              ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 12),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 16),
+                                      child: SizedBox(
+                                        width: 170.w,
+                                        child: Text(
+                                          haveProducts2[i].name.toString(),
+                                          // widget.itemNameList[i],
+                                          // haveProducts2[i].name.toString(),
+                                          // widget.itemNameList[i],
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: AppTextStyle().textColor29292912w400,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 16),
+                                      child: Text(
+                                        '\$ ${haveProducts2[i].price.toString()}',
+                                        style: AppTextStyle().textColor29292914w500,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      )
                   ),
                   SizedBox(height: 50),
                   Padding(

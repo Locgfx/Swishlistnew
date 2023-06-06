@@ -133,6 +133,4 @@ Future<dynamic> updateProducts({
     print(response.reasonPhrase);
     print(response.statusCode);
   }
-
-
 }

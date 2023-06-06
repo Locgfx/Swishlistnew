@@ -279,8 +279,11 @@ class _FriendsState extends State<Friends> {
                                             friendId: friendList[i].friend!.id.toString(),
                                             friendPhoto: baseUrl+friendList[i].friend!.photo!,
                                             id: friendList[i].id!.toString(),
-                                           /* id: searchList[i].id.toString(),*/)));
-                                },
+                                           /* id: searchList[i].id.toString(),*/
+                                          ),
+                                        ),
+                                     );
+                                  },
                                 child: Container(
                                   color: Colors.transparent,
                                   child: Row(

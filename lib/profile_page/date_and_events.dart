@@ -223,7 +223,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AlertDialog(
+                          return AlertDialog (
                             insetPadding: EdgeInsets.only(left: 20, right: 20),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),

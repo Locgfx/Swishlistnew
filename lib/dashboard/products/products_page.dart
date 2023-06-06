@@ -809,8 +809,9 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                             MaterialPageRoute(
                                 builder: (context) => WantProducts(
                                   isUser: true,
-                                )));
-                      },
+                                ),
+                             ),
+                          );},
                       child: Container(
                         width: 173,
                         height: 129,

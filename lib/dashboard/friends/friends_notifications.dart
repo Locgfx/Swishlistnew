@@ -383,7 +383,7 @@ class _RequestStatusBottomSheet extends State<RequestStatusBottomSheet> {
                       ),
                       child: Center(
                           child: Text(
-                            'accepted',
+                            'Accept',
                             // style: _gIndex == 0
                             //     ? textColorF7E64114w400
                             //     : ColorSelect.colorF7E641
@@ -409,7 +409,7 @@ class _RequestStatusBottomSheet extends State<RequestStatusBottomSheet> {
                       ),
                       child: Center(
                           child: Text(
-                            'rejected',
+                            'Reject',
                             // style: _gIndex == 1
                             //     ? kManRope_500_16_white
                             //     : kManRope_500_16_626A6A,

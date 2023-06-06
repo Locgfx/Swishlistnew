@@ -13,6 +13,7 @@ import '../../buttons/light_yellow.dart';
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../models/etsy_image_model.dart';
+import '../../models/etsy_load_more_model.dart';
 import '../../models/etsy_single_image_model.dart';
 import '../../profile_page/widgets/date_picker.dart';
 import '../products/manuallyadd.dart';
@@ -51,24 +52,8 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
   EtsyImagesModel?  imageModel;
   // List<EtsyImagesModel> imageModel = [];
   bool isLoading = false;
-  // getImages() {
-  //   isLoading = true;
-  //   var resp = getEtsyImagesApi(listingId: widget.productId);
-  //   // print(widget.productId);
-  //   resp.then((value) {
-  //     if (value['status'] == true) {
-  //       setState(() {
-  //         imageModel = EtsyImagesModel.fromJson(value);
-  //         isLoading = false;
-  //         // print(imageModel);
-  //       });
-  //     } else {
-  //       setState(() {
-  //         isLoading = false;
-  //       });
-  //     }
-  //   });
-  // }
+  EtsyLoadMoreModel? etsyDetails;
+
 
   getImages() {
     isLoading = true;

@@ -148,5 +148,29 @@ Future<dynamic> deleteFriendApi({
     return resp;
   }
 
+}
+
+Future <dynamic> getFriendProductsApi({
+  required String friendId,
+}) async {
+  var headers = {
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  };
+  var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/api/user/friend/product'));
+  request.fields.addAll({
+    'friend_user_id': friendId,
+  });
+  request.headers.addAll(headers);
+  http.StreamedResponse response = await request.send();
+  var resp = jsonDecode(await response.stream.bytesToString());
+  if (response.statusCode == 200){
+    // print(resp);
+    return resp;
+  } else {
+    // print(resp);
+    print(response.statusCode);
+    print(response.reasonPhrase);
+    return resp;
+  }
 
 }
