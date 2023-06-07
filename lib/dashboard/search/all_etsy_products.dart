@@ -116,60 +116,22 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          toolbarHeight: 120,
-        backgroundColor: Colors.transparent,
+        backgroundColor: ColorSelect.colorF7E641,
         automaticallyImplyLeading: false,
         elevation: 0,
-        flexibleSpace: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: ColorSelect.colorF7E641,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
+        flexibleSpace: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: ColorSelect.colorF7E641,
+              ),
+              child: Text(
+                "All Etsy Products",
+                style: AppTextStyle().textColor29292916w500,
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 1.sw,
-                  color: ColorSelect.colorF7E641,
-                  child: Text(
-                    "All Etsy Products",
-                    style: AppTextStyle().textColor29292916w500,
-                  ),
-                ),
-                SizedBox(height: 16),
-                Center(
-                  child: Container(
-                    width: 1.sw,
-                    color: Colors.transparent,
-                    child:TextFormField(
-                      onChanged: (val) {
-                        setState(() {
-                          if(searchController.text.isNotEmpty){
-                            getSearch(val);
-                          } else {
-                            setState(() {
-                              searchList.clear();
-                              matches.clear();
-                            });
-                          }
-                        });
-                      },
-                      controller: searchController,
-                      cursorColor: ColorSelect.colorF7E641,
-                      decoration: AppTFDecoration(
-                          hint: 'Enter Product').decoration(),
-                      //keyboardType: TextInputType.phone,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
+          ],
         ),
         // title: Column(
         //   crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,11 +171,12 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
         //   ],
         // ),
       ),
-        body: isLoading ? Loading() : Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Stack(
-            children: [
-              searchController.text.isEmpty? LazyLoadScrollView(
+        body: isLoading ? Loading() : Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 16,right: 16,top: 75),
+              child: searchController.text.isEmpty?
+              LazyLoadScrollView(
                 isLoading: isLoading,
                 scrollDirection: Axis.vertical,
                 onEndOfPage: () {
@@ -364,9 +327,8 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                   }, separatorBuilder: (BuildContext context, int index) => SizedBox(height: 16,),
                 ),
               ),
-              )
-       :
-        ListView.separated(
+              ) :
+              ListView.separated(
               padding: EdgeInsets.only(top: 16,bottom: 200),
               itemCount: searchList.length ,
               shrinkWrap: true,
@@ -482,11 +444,45 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                     ],
                   );
               }, separatorBuilder: (BuildContext context, int index) => SizedBox(height: 16,),
-        ),
-            ],
-          )
+            )
 
       ),
+            Container(
+              padding: EdgeInsets.only(left: 16,right: 16,top: 10,bottom: 16),
+              width: 1.sw,
+              decoration: BoxDecoration(
+                  color: ColorSelect.colorF7E641,
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(20)
+                )
+              ),
+              child:TextFormField(
+                onFieldSubmitted: (v) {
+
+
+                },
+                onChanged: (val) {
+                  setState(() {
+                    if(searchController.text.isNotEmpty){
+                      getSearch(val);
+                    } else {
+                      setState(() {
+                        searchList.clear();
+                        matches.clear();
+                      });
+                    }
+                  });
+                },
+                controller: searchController,
+                cursorColor: ColorSelect.colorF7E641,
+                decoration: AppTFDecoration(
+                    hint: 'Enter Product').decoration(),
+                //keyboardType: TextInputType.phone,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
