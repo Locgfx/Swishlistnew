@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:swishlist/api/etsy_apis/all_listing_apis.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import '../../api/etsy_apis/etsy_images_api.dart';
 import '../../api/etsy_apis/etsy_single_image_api.dart';
@@ -15,6 +16,7 @@ import '../../constants/color.dart';
 import '../../models/etsy_image_model.dart';
 import '../../models/etsy_load_more_model.dart';
 import '../../models/etsy_single_image_model.dart';
+import '../../models/etsy_single_listing_model.dart';
 import '../../profile_page/widgets/date_picker.dart';
 import '../products/manuallyadd.dart';
 import '../products/widget/product_widget.dart';
@@ -24,10 +26,8 @@ class EtsyProductDetails extends StatefulWidget {
   final String productTitle;
   final String productPrice;
   final String productUrl;
-  // final String productImageId;
-
-
   final String productDescription;
+
   const EtsyProductDetails({Key? key,
     required this.productTitle,
     required this.productPrice,
@@ -44,38 +44,45 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
   @override
   void initState() {
     getImages();
-
+    // getProductDetails();
     super.initState();
 
   }
-
   EtsyImagesModel?  imageModel;
-  // List<EtsyImagesModel> imageModel = [];
   bool isLoading = false;
+
   EtsyLoadMoreModel? etsyDetails;
+
 
 
   getImages() {
     isLoading = true;
     var resp = getEtsyImagesApi(listingId: widget.productId);
     resp.then((value) {
-      // if (value['status'] == true) {
         setState(() {
           imageModel = EtsyImagesModel.fromJson(value);
           isLoading = false;
         });
         print(imageModel!.results![0].urlFullxfull.toString());
         // print(object)
-
-
-      // } else {
-      //   setState(() {
-      //     isLoading = false;
-      //   });
-      // }
     });
   }
-  EtsySingleImageModel?  singleImage;
+
+  // EtsyProductDetailsModel? productDetails;
+  // getProductDetails() {
+  //   isLoading = true;
+  //   var resp = getSingleListing(listingId: widget.productId);
+  //   resp.then((value) {
+  //     setState(() {
+  //         productDetails = EtsyProductDetailsModel.fromJson(value);
+  //         isLoading = false;
+  //     });
+  //     // print(imageModel!.results![0].urlFullxfull.toString());
+  //     // print(object)
+  //   });
+  // }
+
+
 
 
 
@@ -104,8 +111,8 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
             "Product details",
             style: AppTextStyle().textColor29292916w500,
           ),
-
-        ]),
+        ],
+        ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
           child: InkWell(
@@ -123,14 +130,18 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
             children: [
               Row(
                 children: [
-                  Text( 'Product Id : ${widget.productId}',
-                  textAlign: TextAlign.left,),
+                  Text(
+                   " Product Id : ${widget.productId}",
+                    // 'Product Id : ${widget.productId}',
+                  textAlign: TextAlign.left,
+                  ),
                 ],
               ),
               SizedBox(
                 height: 16.h,
               ),
               Text(
+                // productDetails!.title.toString(),
                 widget.productTitle,
                 style: AppTextStyle().textColor29292916w500,
               ),
@@ -140,6 +151,7 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
               Row(
                 children: [
                   Text(
+                    // '\$ ${productDetails!.price.toString()}',
                     '\$ ${widget.productPrice}',
                     style: AppTextStyle().textColor29292924w700,
                   ),
@@ -192,12 +204,17 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
 
                     }, separatorBuilder: (BuildContext context, int index) => SizedBox(width: 10),),
               ),
+              // Wrap(
+              //   children: productDetails.tags!.map((e) => chipBox(name:e)).toList(),
+              // ),
+
               SizedBox(
                 height: 10.h,
               ),
               Column(
                 children: [
                   Text(
+                   // productDetails!.description.toString(),
                     widget.productDescription,
                     maxLines: 100,
                     overflow: TextOverflow.ellipsis,
