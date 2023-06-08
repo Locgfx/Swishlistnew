@@ -60,18 +60,6 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
             SizedBox(height: 40.h),
             Stack(
               children: [
-                // SizedBox(
-                //   height: 100,
-                //   width: 100,
-                //   child: ClipRRect(
-                //     borderRadius:
-                //     BorderRadius.circular(50),
-                //     // child: Image.file(
-                //     //   imageFile,
-                //     //   fit: BoxFit.fitWidth,
-                //     // ),
-                //   ),
-                // ),
                 CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.grey,

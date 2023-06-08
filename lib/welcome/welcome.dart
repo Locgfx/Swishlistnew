@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/login/login.dart';
-
 import '../signup/signup_with_email.dart';
 import '../signup/signup_with_phone.dart';
 
@@ -145,10 +144,6 @@ class _WelcomeState extends State<Welcome> {
                                   style:
                                       TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              /* Text(
-                        "Already a member?? Log in",
-                        style: AppTextStyle().textColor00000014w500,
-                      ),*/
                                 ],
                             ),
                         ),

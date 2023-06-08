@@ -50,7 +50,6 @@ class _MyOptionsDialogState extends State<MyOptionsDialog> {
                                   builder: (context) {
                                     return MoveToSheet();
                                   });
-
                               // setState(() {
                               //   Share.share('Share your friend details');
                               // });

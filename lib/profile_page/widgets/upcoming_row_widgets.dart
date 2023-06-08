@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/models/date_and_events_model.dart';
-
 import '../../constants/color.dart';
 
 class UpcomingRowWidget extends StatelessWidget {

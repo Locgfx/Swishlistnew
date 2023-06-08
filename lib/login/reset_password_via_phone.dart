@@ -3,13 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:swishlist/constants/color.dart';
-import 'package:swishlist/login/reset_password_via_email.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
-
 import '../api/login_signup_apis/reset_password_api.dart';
-import '../buttons/light_yellow.dart';
-import '../buttons/resend_with_two_text_button.dart';
-import '../buttons/yellow_button.dart';
 import '../constants/globals/shared_prefs.dart';
 import 'login.dart';
 
@@ -471,9 +466,6 @@ class _ResetPasswordViaPhoneState extends State<ResetPasswordViaPhone> {
                     });
                   }
                 },
-                  /*=> setState(() {
-                  currentStep = step;
-                }),*/
                 steps: getSteps(),
               ),
             ),

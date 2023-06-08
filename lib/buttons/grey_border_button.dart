@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../constants/color.dart';
 
 class GreyBorderButtonWithText extends StatelessWidget {
@@ -35,7 +34,7 @@ class GreyBorderButtonWithText extends StatelessWidget {
         child: Text(
           title,
           style: AppTextStyle()
-              .textColor29292914w500, //TextStyle(fontSize: 16, color: textStyleColor),
+              .textColor29292914w500,
         ),
       ),
     );

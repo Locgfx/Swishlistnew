@@ -35,7 +35,6 @@ class _FriendNotificationState extends State<FriendNotification> {
             for (var v in value['data']) {
               friendNotification.add(FriendNotificationModel.fromJson(v));
             }
-            // friendNotification = FriendNotificationModel.fromJson(value);
             isLoading = false;
           });
 
@@ -205,20 +204,10 @@ class _FriendNotificationState extends State<FriendNotification> {
                                               }
                                             });
                                         },
-                                        backgroundColor :/*:(
-                                              nameController.text.isNotEmpty &&
-                                                  typeController.text.isNotEmpty ||
-                                                  dateController.text.isNotEmpty
-                                          ) ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                                              // :*/ MaterialStateProperty.all(ColorSelect.colorF7E641),
-                                        textStyleColor: /*nameController.text.isNotEmpty &&
-                                              typeController.text.isNotEmpty ||
-                                              dateController.text.isNotEmpty ?*/
-                                        Colors.black, /*:
-                                          ColorSelect.colorB5B07A,*/
+                                        backgroundColor : MaterialStateProperty.all(ColorSelect.colorF7E641),
+                                        textStyleColor: Colors.black,
                                         title: 'save',
                                       ),
-
                                     ],
                                   ),
 
@@ -410,10 +399,8 @@ class _RequestStatusBottomSheet extends State<RequestStatusBottomSheet> {
                       child: Center(
                           child: Text(
                             'Reject',
-                            // style: _gIndex == 1
-                            //     ? kManRope_500_16_white
-                            //     : kManRope_500_16_626A6A,
-                          )),
+                          ),
+                      ),
                     ),
                   ),
                   SizedBox(

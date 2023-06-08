@@ -5,17 +5,12 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/globals.dart';
-import 'package:swishlist/login/login.dart';
 import 'package:swishlist/models/login_models.dart';
-import 'package:swishlist/models/signup_models.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
 import '../api/login_signup_apis/signup_api.dart';
 import '../buttons/white_button.dart';
 import '../constants/globals/shared_prefs.dart';
-import '../create_new_account/create_new_account.dart';
 import '../create_new_account/create_new_account_by_phone.dart';
-import '../dashboard/dashboard.dart';
-import 'email_verfication.dart';
 
 class PhoneVerification extends StatefulWidget {
   final String phoneNO;

@@ -10,7 +10,6 @@ import '../buttons/white_button.dart';
 import '../constants/globals/globals.dart';
 import '../constants/globals/shared_prefs.dart';
 import '../create_new_account/create_new_account.dart';
-import '../dashboard/dashboard.dart';
 import '../models/login_models.dart';
 
 class EmailVerification extends StatefulWidget {
@@ -46,26 +45,6 @@ class _EmailVerificationState extends State<EmailVerification> {
                       : ColorSelect.colorB5B07A,
                   onTap: () {
                     if (otpController.text.length == 4) {
-                      // resendOtp(
-                      //   context: context,
-                      //   emailPhone:widget.email,
-                      // ).then((value) async {
-                      //   if( value['status'] == true) {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) => CreateNewAccount(
-                      //         ),
-                      //       ),
-                      //     );
-                      //     Fluttertoast.showToast(
-                      //         msg:'Otp Verified');
-                      //   } else {
-                      //     Fluttertoast.showToast(
-                      //         msg:value['message']);
-                      //   }
-                      // });
-
                       verifyOtp(
                         context: context,
                         otp: otpController.text,

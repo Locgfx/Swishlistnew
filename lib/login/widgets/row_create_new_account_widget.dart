@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/buttons/white_button.dart';
 import 'package:swishlist/constants/color.dart';
-import 'package:swishlist/create_new_account/create_new_account.dart';
 import 'package:swishlist/login/reset_password_via_email.dart';
 import 'package:swishlist/login/reset_password_via_phone.dart';
 
@@ -50,7 +49,6 @@ class RowCreateNewAccountWidget extends StatelessWidget {
                 context: context,
                 backgroundColor: Colors.white,
                 builder: (BuildContext context) {
-                  // UDE : SizedBox instead of Container for whitespaces
                   return SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),

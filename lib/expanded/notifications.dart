@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/loading.dart';
-
 import '../api/user_apis/notification_api.dart';
 import '../buttons/light_yellow.dart';
 import '../models/notification_model.dart';
@@ -256,9 +255,9 @@ class _NotificationsState extends State<Notifications> {
                         // });
                     } else {
                       Fluttertoast.showToast(msg: value['message']);
-
                     }
-                  });
+                  },
+                  );
                 },
                 title: 'update'
             )

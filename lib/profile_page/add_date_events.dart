@@ -3,15 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
-import 'package:swishlist/profile_page/pets.dart';
 import 'package:swishlist/profile_page/widgets/date_picker.dart';
-import 'dart:io';
 import '../../constants/color.dart';
 import '../api/user_apis/event_date_api.dart';
-import '../api/user_apis/pets_api.dart';
 
 class AddDateAndEvents extends StatefulWidget {
   const AddDateAndEvents({Key? key}) : super(key: key);
@@ -189,26 +185,6 @@ class _AddDateAndEventsState extends State<AddDateAndEvents> {
                                   ),
                                 );
                               });
-                              //
-                              // DateTime? pickedDate = await showDatePicker(
-                              //     context: context,
-                              //     initialDate: DateTime.now(),
-                              //     firstDate: DateTime(1950),
-                              //     //DateTime.now() - not to allow to choose before today.
-                              //     lastDate: DateTime(2100));
-                              //
-                              // if (pickedDate != null) {
-                              //   print(
-                              //       pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                              //   String formattedDate =
-                              //   DateFormat('yyyy-MM-dd').format(pickedDate);
-                              //   print(
-                              //       formattedDate); //formatted date output using intl package =>  2021-03-16
-                              //   setState(() {
-                              //     dateController.text =
-                              //         formattedDate; //set output date to TextField value.
-                              //   });
-                              // } else {}
                             },
                             decoration: InputDecoration(
                                 border: InputBorder.none,

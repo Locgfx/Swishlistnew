@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -29,35 +28,6 @@ Future <dynamic> getActivityApi() async {
     return resp;
   }
 }
-//
-// Future postActivityApi({
-//   required String userid,
-//   required String leadUserid,
-//   required String productId
-// } ) async{
-//   var headers = {
-//     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
-//   };
-//   var request = http.MultipartRequest('POST',
-//       Uri.parse('$baseUrl/api/user/activities/store'));
-//   request.fields.addAll({
-//     'user_id': userid,
-//     'lead_user_id': leadUserid,
-//     'product_id': productId,
-//   });
-//   request.headers.addAll(headers);
-//   http.StreamedResponse response = await request.send();
-//   var resp = jsonDecode(await response.stream.bytesToString());
-//   if(response.statusCode == 200 ){
-//     return resp;
-//   } else {
-//     print(resp);
-//     print(response.statusCode);
-//     print(response.request);
-//     return resp;
-//   }
-// }
-
 
 Future postActivityApi({
   required String leadUserid,
@@ -90,9 +60,7 @@ Future activity() async {
   var headers = {'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'};
   var request = http.MultipartRequest(
       'POST', Uri.parse('$baseUrl/api/user/activities'));
-
   request.headers.addAll(headers);
-
   http.StreamedResponse response = await request.send();
   var resBody = jsonDecode(await response.stream.bytesToString());
 

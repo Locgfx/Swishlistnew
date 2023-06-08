@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:swishlist/models/friends_model.dart';
-import '../../api/user_apis/friends_api.dart';
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
-import '../../models/add_friend_model.dart';
+
 
 class AddFriendList extends StatefulWidget {
   // final FriendModel friendModel;

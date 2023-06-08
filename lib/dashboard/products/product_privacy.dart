@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../constants/color.dart';
 import 'my_friends_except.dart';
 import 'only_selected_friends.dart';

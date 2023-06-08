@@ -1,27 +1,17 @@
-
-
-import 'dart:developer';
-import 'dart:typed_data';
-// import 'package:contacts_service/contacts_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/contact_api.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import '../../api/user_apis/friends_api.dart';
-import '../../buttons/white_button.dart';
 import '../../constants/color.dart';
 import '../../constants/urls.dart';
-import '../../models/add_friend_model.dart';
 import '../../models/contact_model.dart';
-import 'addfriendlist.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AddFriends extends StatefulWidget {
   // final FriendModel friendModel;
@@ -46,21 +36,7 @@ class _AddFriendsState extends State<AddFriends> {
   }
   List<Contact>? contacts;
   bool isLoading = true;
-  // ContactModel contactModel = ContactModel();
 
-  // contact() {
-  //   var resp = getContactApi(contacts: phNo);
-  //   resp.then((value) {
-  //       if(value['status'] == true) {
-  //         setState(() {
-  //           contactModel = ContactModel.fromJson(value);
-  //           isLoading = false;
-  //         });
-  //       } else {
-  //         isLoading = false;
-  //       }
-  //   });
-  // }
 
   List<ModelContact> searchList = [];
   List<ModelContact> friendList = [];
@@ -75,14 +51,11 @@ class _AddFriendsState extends State<AddFriends> {
           setState(() {
             for (var v in value['data']) {
               friendList.add(ModelContact.fromJson(v));
-
             }
             isLoading = false;
-            // friendsModels = FriendModel.fromJson(value);
           });
         } else {
           setState(() {
-            // friendsModels = GetFriendsModel.fromJson(value);
             isLoading = false;
           });
 
@@ -248,8 +221,6 @@ class _AddFriendsState extends State<AddFriends> {
                                   ),
                                   Text(
                                       friendList[i].phone.toString()
-                                    // contactModel.data![i].phone.toString()
-                                    // num,style: AppTextStyle().textColor70707014w400,
                                   ),
                                 ],
                               ),
@@ -307,7 +278,6 @@ class _AddFriendsState extends State<AddFriends> {
                             clipBehavior: Clip.hardEdge,
                             child: CachedNetworkImage(
                               imageUrl: baseUrl+searchList[i].photo.toString(),
-                              // imageUrl: baseUrl+contactModel.data![i].photo.toString(),
                               fit: BoxFit.cover,
                               errorWidget: (context, url, error) =>
                                   Icon(Icons.error),
@@ -320,7 +290,6 @@ class _AddFriendsState extends State<AddFriends> {
                                       child: Container(
                                         width: 50,
                                         height: 50,
-                                        //margin: EdgeInsets.symmetric(horizontal: 24),
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             shape: BoxShape.circle
@@ -336,14 +305,9 @@ class _AddFriendsState extends State<AddFriends> {
                                 children: [
                                   Text(
                                     searchList[i].name.toString(),
-                                    // contactModel.data![i].name.toString()
-                                    // "${contacts![index].name.first} ${contacts![index].name.last}",
-                                    // style: AppTextStyle().textColor29292914w500,
                                   ),
                                   Text(
                                       searchList[i].phone.toString()
-                                    // contactModel.data![i].phone.toString()
-                                    // num,style: AppTextStyle().textColor70707014w400,
                                   ),
                                 ],
                               ),
@@ -388,61 +352,6 @@ class _AddFriendsState extends State<AddFriends> {
                     })
               ],
             )
-            // (contacts) == null
-            //     ? Padding(
-            //       padding: const EdgeInsets.only(top: 200),
-            //       child: LoadingAnimationWidget.inkDrop(
-            //         size: 40, color: ColorSelect.colorF7E641,
-            //       ),
-            //     ) : Expanded(
-            //       child: ListView.builder(
-            //         padding: EdgeInsets.only(top: 10),
-            //         itemCount: contacts!.length,
-            //         itemBuilder: (BuildContext context, int index) {
-            //         Uint8List? image = contacts![index].photo;
-            //         String num = (contacts![index].phones.isNotEmpty) ? (contacts![index].phones.first.number) : "--";
-            //       return ListTile(
-            //           leading: (contacts![index].photo == null)
-            //               ? const CircleAvatar(
-            //                backgroundColor: Colors.white60,
-            //               child: Icon(Icons.person,color: Colors.grey,))
-            //               : CircleAvatar(backgroundImage: MemoryImage(image!,),),
-            //           title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //             children: [
-            //               Column(crossAxisAlignment:CrossAxisAlignment.start,
-            //                 children: [
-            //                   Text(
-            //                       "${contacts![index].name.first} ${contacts![index].name.last}",
-            //                   style: AppTextStyle().textColor29292914w500,),
-            //                   Text(num,style: AppTextStyle().textColor70707014w400,),
-            //                 ],
-            //               ),
-            //               Padding(
-            //                 padding: const EdgeInsets.only(right: 10),
-            //                 child: SizedBox(
-            //                   width: 70,
-            //                   height: 36,
-            //                   child: YellowButtonWithText(
-            //                     backgroundColor:
-            //                     MaterialStateProperty.all(ColorSelect.colorF7E641),
-            //                     textStyleColor: ColorSelect.color292929,
-            //                     title: 'Add',
-            //                     onTap: () async {
-            //                     },
-            //                   ),
-            //                 ),
-            //               )
-            //             ],
-            //           ),
-            //           // subtitle: Text(num),
-            //           onTap: () {
-            //             if (contacts![index].phones.isNotEmpty) {
-            //               launch('tel: ${num}');
-            //             }
-            //           });
-            //         },
-            //       ),
-            //    ),
             ],
           ),
         ),

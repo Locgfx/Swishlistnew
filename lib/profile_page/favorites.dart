@@ -5,21 +5,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
-import 'package:swishlist/expanded/widgets/indicatorsContainer.dart';
 import 'package:swishlist/models/favourites_model.dart';
-import 'package:swishlist/profile_page/widgets/favorites_row1_widgets.dart';
-import 'package:swishlist/profile_page/widgets/favorites_row2_widgets.dart';
-import 'package:swishlist/profile_page/widgets/favorites_row3_widgets.dart';
 import '../api/user_apis/favourites_api.dart';
 import '../buttons/light_yellow.dart';
 import '../constants/decoration.dart';
 import '../constants/globals/loading.dart';
-import '../expanded/user_all_details.dart';
 import 'favourite_add_widgets/car_edit_dialog.dart';
 
 
 class Favorites extends StatefulWidget {
-  // final FavouritesModel fav;
   const Favorites({Key? key, }) : super(key: key);
   @override
   State<Favorites> createState() => _FavoritesState();
@@ -204,8 +198,6 @@ class _FavoritesState extends State<Favorites> {
                     percent.isEmpty ?
                         '0% Completed' :
                         "$percent% completed",
-                    // '${fav.length *100 /15}% Completed',
-                    // "60% Completed",
                     style: AppTextStyle().textColor70707012w400,
                   ),
                 )
@@ -231,30 +223,6 @@ class _FavoritesState extends State<Favorites> {
       body:  isLoading ? Loading() :SingleChildScrollView(
         child: Column(
           children: [
-            // Stack(
-            //   children: [
-            //     Container(
-            //       height: 8.h,
-            //       width: 360.w,
-            //       decoration: BoxDecoration(
-            //           color: Color(0xffD55745).withOpacity(0.28),
-            //           borderRadius: BorderRadius.all(Radius.circular(12))),
-            //     ),
-            //     Row(
-            //       children: [
-            //         Container(
-            //           height: 8.h,
-            //           width: 216.w,
-            //           decoration: BoxDecoration(
-            //               color: ColorSelect.colorD55745,
-            //               borderRadius: BorderRadius.only(
-            //                   topRight: Radius.circular(12),
-            //                   bottomRight: Radius.circular(12))),
-            //         ),
-            //       ],
-            //     )
-            //   ],
-            // ),
              LinearPercentIndicator(
                curve: Curves.linear,
               width: 1.sw,
@@ -1263,114 +1231,3 @@ class _FavoritesState extends State<Favorites> {
     );
   }
 }
-
-// Row(
-//   children: [
-//     Expanded(
-//       child: IndicatorContainer(
-//           color: index == 1 ?
-//           Color(0xffD55745).withOpacity(0.28):
-//           Color(0xffD55745)
-//       ),
-//     ),
-//     Expanded(child: IndicatorContainer(
-//         color: Color(0xffD55745).withOpacity(0.28))
-//     ),
-//     // Expanded(child: IndicatorContainer(color: carController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: bikesController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: moviesController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer(color: Color(0xffD55745).withOpacity(0.28))),
-//     // Expanded(child: IndicatorContainer( color: showsController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: foodController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: gadgetsController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: superheroesController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: actorController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: actressController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: singersController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: playersController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: citiesController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: countriesController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: restaurantsController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//     // Expanded(child: IndicatorContainer( color: hotelsController.text.isNotEmpty ?
-//     // Color(0xffD55745).withOpacity(0.28):
-//     // Color(0xffD55745))),
-//
-//
-//   ],
-// ),
-// Stack(
-//   children: [
-//     Container(
-//       height: 8.h,
-//       width: 360.w,
-//       decoration: BoxDecoration(
-//           color: Color(0xffD55745).withOpacity(0.28),
-//           borderRadius: BorderRadius.all(Radius.circular(12))),
-//     ),
-//     Row(
-//       children: [
-//         Container(
-//           height: 8.h,
-//           width: 216.w,
-//           decoration: BoxDecoration(
-//               color: ColorSelect.colorD55745,
-//               borderRadius: BorderRadius.only(
-//                   topRight: Radius.circular(12),
-//                   bottomRight: Radius.circular(12))),
-//         ),
-//       ],
-//     )
-//   ],
-// ),
-// Stack(
-//   children: [
-//     Container(
-//       height: 8.h,
-//       width: 360.w,
-//       decoration: BoxDecoration(
-//           color: Color(0xffD55745).withOpacity(0.28),
-//           borderRadius: BorderRadius.all(Radius.circular(12))),
-//     ),
-//     Row(
-//       children: [
-//         Container(
-//           height: 8.h,
-//           width: 216.w,
-//           decoration: BoxDecoration(
-//               color: ColorSelect.colorD55745,
-//               borderRadius: BorderRadius.only(
-//                   topRight: Radius.circular(12),
-//                   bottomRight: Radius.circular(12))),
-//         ),
-//       ],
-//     )
-//   ],
-// ),

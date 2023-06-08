@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
-
 import '../../api/user_apis/message_api.dart';
 import '../../constants/color.dart';
 import '../../constants/urls.dart';

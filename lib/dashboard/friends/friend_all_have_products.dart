@@ -2,32 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:swishlist/api/user_apis/products_api.dart';
-import 'package:swishlist/dashboard/products/productAdded.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
-import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
-import 'package:swishlist/dashboard/products/widget/popmenu.dart';
-import 'package:swishlist/dashboard/products/widget/search_filter.dart';
-import 'package:swishlist/models/activity_model.dart';
-
 import '../../api/user_apis/friends_api.dart';
-import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/friend_product_model.dart';
-import '../../models/product_type_model.dart';
+
 
 class FriendHaveProducts extends StatefulWidget {
   final String friendId;
   final String friendName;
-  // final bool isUser;
   const
-  FriendHaveProducts({Key? key, required this.friendId, required this.friendName,/* required this.isUser*/}) : super(key: key);
+  FriendHaveProducts({Key? key, required this.friendId, required this.friendName,}) : super(key: key);
 
   @override
   State<FriendHaveProducts> createState() => _FriendHaveProductsState();
@@ -134,15 +122,6 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                       SingleChildScrollView(
                         child: Column(
                           children: [
-                            // Row(
-                            //   children: [
-                            //     Text(
-                            //       '${products!.data!.length.toString()} Products',
-                            //       // "6 Products",
-                            //       style: AppTextStyle().textColor70707012w500,
-                            //     ),
-                            //   ],
-                            // ),
                             ListView.builder(
                               padding: EdgeInsets.only(bottom: 30),
                               physics: NeverScrollableScrollPhysics(),
@@ -189,7 +168,6 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                     ),
                                                   ),
                                                   child: CachedNetworkImage(
-                                                    // imageUrl: (baseUrl+wantProduct2[i].photo.toString()),
                                                     imageUrl: products!.data!.have![i].photo.toString().contains("https") ?
                                                     products!.data!.have![i].photo.toString() :
                                                     baseUrl+products!.data!.have![i].photo.toString(),
@@ -214,11 +192,9 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                           ),
                                                         ),
                                                   ),
-                                                  // child: Center(
-                                                  //     child: Image.asset(
-                                                  //         "assets/images/image10.png")),
                                                 ),
-                                              ]),
+                                              ],
+                                              ),
                                               Column(
                                                 crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -230,7 +206,6 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                       width: 230.w,
                                                       child: Text(
                                                         products!.data!.have![i].name.toString(),
-                                                        // "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
                                                         overflow:
                                                         TextOverflow.ellipsis,
                                                         maxLines: 2,
@@ -292,32 +267,6 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                                 DateTime.parse( products!.data!.have![i].createdAt.toString())).inHours} hr ago"
                                                                 : "${DateTime.now().difference(
                                                                 DateTime.parse( products!.data!.have![i].createdAt.toString())).inDays} days ago"),
-                                                        // Text(
-                                                        //   DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.
-                                                        //       toString()
-                                                        //   )).inMinutes <=
-                                                        //     59
-                                                        //       ? "${DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.
-                                                        //   toString())).inMinutes
-                                                        //   } min ago" :
-                                                        //   DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.
-                                                        //       toString()
-                                                        //   )).inHours <=
-                                                        //       23?
-                                                        //   "${DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.toString())).inHours} hour ago"
-                                                        //       :
-                                                        //   "${DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.toString())).inDays} day ago"
-                                                        // ),
-                                                        // Text(
-                                                        //   "Today",
-                                                        //   style: AppTextStyle()
-                                                        //       .textColor70707012w400,
-                                                        // )
                                                       ],
                                                     ),
                                                   )

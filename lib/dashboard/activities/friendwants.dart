@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../constants/color.dart';
 import '../products/widget/popmenu.dart';
 import '../products/widget/product_add_widget.dart';
@@ -12,19 +11,6 @@ class FriendWants extends StatefulWidget {
 }
 
 class _FriendWantsState extends State<FriendWants> {
-  List imageList = [
-    "assets/images/image10.png",
-    "assets/images/image12.png",
-    "assets/images/image10.png",
-    "assets/images/image12.png",
-  ];
-  List itemNameList = [
-    "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
-    "Samsung Galaxy Tab A8 Android Tablet, 10.5” LCD Scre...",
-    "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
-    "Samsung Galaxy Tab A8 Android Tablet, 10.5” LCD Scre...",
-  ];
-  List itemPrice = ["47.99", "1247.99", "47.99", "1247.99"];
   List<int> selectedItems = [];
   @override
   Widget build(BuildContext context) {
@@ -58,7 +44,6 @@ class _FriendWantsState extends State<FriendWants> {
               }, child: Image.asset('assets/images/Vector190.png')),
         ),
       ),
-      /*bottomSheet: Container(),*/
       body: SingleChildScrollView(
         child: Column(
           children: [

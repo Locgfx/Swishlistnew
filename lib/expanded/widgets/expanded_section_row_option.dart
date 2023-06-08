@@ -95,26 +95,6 @@ class _OptionRowFamilyState extends State<OptionRowFamily> {
   List<GetFamilyModel> familyModel1 = [];
   List<Data> familyModel2 = [];
 
-  // getFamilyMember() {
-  //   isLoading = true;
-  //   var resp = getFamilyMemberApi();
-  //   resp.then((value) {
-  //     if(mounted){
-  //       if (value['status'] == true) {
-  //         setState(() {
-  //           familyModel = GetFamilyModel.fromJson(value);
-  //           isLoading = false;
-  //         });
-  //       } else {
-  //         setState(() {
-  //           isLoading = false;
-  //         });
-  //
-  //         // isLoading = false;
-  //       }
-  //     }
-  //   });
-  // }
   getFamilyMember() {
     isLoading = true;
     var resp = getFamilyMemberApi();
@@ -187,22 +167,6 @@ class _OptionRowFamilyState extends State<OptionRowFamily> {
                             ),
                           ),
                     ),
-                    // child: Image.network(
-                    //   widget.img,
-                    //   fit: BoxFit.fill,
-                    //   errorBuilder: (_, a, b) {
-                    //     return Container(
-                    //       width: 44,
-                    //       height: 44,
-                    //       padding: EdgeInsets.all(8),
-                    //       decoration: BoxDecoration(
-                    //         shape: BoxShape.circle,
-                    //         color: ColorSelect.colorEDEDF1,
-                    //       ),
-                    //       child: SvgPicture.asset('assets/icons/userpro.svg'),
-                    //     );
-                    //   },
-                    // ),
                   ),
                   SizedBox(width: 8),
                   Column(

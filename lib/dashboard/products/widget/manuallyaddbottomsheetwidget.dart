@@ -11,9 +11,8 @@ import '../manuallyadd.dart';
 import '../productAdded.dart';
 
 class ManuallyAddBottomSheetWidget extends StatefulWidget {
-  // final ProductTypeModel model;
    ManuallyAddBottomSheetWidget({
-    Key? key, /*required this.model,*/
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -37,7 +36,7 @@ class _ManuallyAddBottomSheetWidgetState extends State<ManuallyAddBottomSheetWid
             GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ManuallyAdd(/*model: widget.model,*/)));
+                    MaterialPageRoute(builder: (context) => ManuallyAdd()));
               },
               child: Container(
                 width: 138.w,
@@ -142,7 +141,9 @@ class _ManuallyAddBottomSheetWidgetState extends State<ManuallyAddBottomSheetWid
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ProductAdded(name: '', price: '', productImage: '')));
+                                    builder: (context) => ProductAdded(name: '', price: '', productImage: ''),
+                                ),
+                            );
                           },
                           title: 'Add'),
                     ),
@@ -188,7 +189,7 @@ class _EtsyAddBottomSheetWidgetState extends State<EtsyAddBottomSheetWidget> {
             GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ManuallyAdd(/*model: widget.model,*/)));
+                    MaterialPageRoute(builder: (context) => ManuallyAdd()));
               },
               child: Container(
                 width: 138.w,

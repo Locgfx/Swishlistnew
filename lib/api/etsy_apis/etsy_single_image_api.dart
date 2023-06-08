@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-
 import '../../constants/urls.dart';
+
 Future<dynamic> getEtsySingleImagesApi({
   required String listingId,
   required String imageId,

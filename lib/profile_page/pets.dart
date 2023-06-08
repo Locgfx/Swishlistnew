@@ -12,7 +12,6 @@ import 'package:swishlist/models/pets_models.dart';
 import 'package:swishlist/profile_page/add_pets.dart';
 import '../api/user_apis/pets_api.dart';
 import '../constants/globals/loading.dart';
-import '../expanded/user_all_details.dart';
 
 class Pets extends StatefulWidget {
   const Pets({Key? key}) : super(key: key);
@@ -65,16 +64,6 @@ class _PetsState extends State<Pets> {
                     style: AppTextStyle().textColor29292916w500,
                   ),
                 ),
-              //   SizedBox(
-              //     height: 5.h,
-              //   ),
-              //   Padding(
-              //     padding: const EdgeInsets.only(right: 80),
-              //     child: Text('',
-              // /*      "60% Completed",*/
-              //       style: AppTextStyle().textColor70707012w400,
-              //     ),
-              //   )
               ],
             ),
             selectedItems.isEmpty ? SizedBox() : GestureDetector(
@@ -156,106 +145,6 @@ class _PetsState extends State<Pets> {
                 SizedBox(
                   height: 20,
                 ),
-                // GridView.count(
-                //     crossAxisSpacing: 1,
-                //     childAspectRatio: 1,
-                //     mainAxisSpacing: 10,
-                //     crossAxisCount: 2,
-                //     shrinkWrap: true,
-                //     physics: NeverScrollableScrollPhysics(),
-                //     children: [
-                //       Container(
-                //         margin: EdgeInsets.symmetric(horizontal: 5),
-                //         height: 220,
-                //         width: 130,
-                //         decoration: BoxDecoration(
-                //             border: Border.all(color: Colors.grey, width: 1),
-                //             borderRadius: BorderRadius.all(Radius.circular(10))),
-                //         child: Column(
-                //           children: [
-                //             SizedBox(
-                //               height: 20.h,
-                //             ),
-                //             Image.asset('assets/images/Frame1000003045.png'),
-                //             SizedBox(
-                //               height: 20.h,
-                //             ),
-                //             Row(
-                //               children: [
-                //                 Padding(
-                //                   padding: const EdgeInsets.only(left: 16),
-                //                   child: Column(
-                //                     crossAxisAlignment: CrossAxisAlignment.start,
-                //                     children: [
-                //                       Text(
-                //                         "Stevie",
-                //                         style:
-                //                             AppTextStyle().textColor29292914w400,
-                //                       ),
-                //                       Row(
-                //                         children: [
-                //                           Text(
-                //                             "Cat",
-                //                             style: AppTextStyle()
-                //                                 .textColor70707014w400,
-                //                           ),
-                //                           SizedBox(
-                //                             width: 10.w,
-                //                           ),
-                //                           Container(
-                //                               height: 5.h,
-                //                               width: 5.w,
-                //                               decoration: BoxDecoration(
-                //                                   color: Colors.grey,
-                //                                   shape: BoxShape.circle)),
-                //                           SizedBox(
-                //                             width: 10.w,
-                //                           ),
-                //                           Text(
-                //                             "Persian",
-                //                             style: AppTextStyle()
-                //                                 .textColor70707014w400,
-                //                           ),
-                //                         ],
-                //                       )
-                //                     ],
-                //                   ),
-                //                 ),
-                //                 Spacer(),
-                //                 Padding(
-                //                   padding: const EdgeInsets.only(right: 10),
-                //                   child:
-                //                       Image.asset('assets/images/Vector175.png'),
-                //                 )
-                //               ],
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //       Container(
-                //         margin: EdgeInsets.symmetric(horizontal: 5),
-                //         height: 220,
-                //         width: 130,
-                //         decoration: BoxDecoration(
-                //             border: Border.all(color: Colors.grey, width: 1),
-                //             borderRadius: BorderRadius.all(Radius.circular(10))),
-                //         child: Column(
-                //           children: [
-                //             SizedBox(
-                //               height: 20.h,
-                //             ),
-                //             Image.asset('assets/images/Frame10000030453.png'),
-                //             SizedBox(
-                //               height: 20.h,
-                //             ),
-                //             Text(
-                //               "+ Add more",
-                //               style: AppTextStyle().textColorC09B3D14w600,
-                //             )
-                //           ],
-                //         ),
-                //       ),
-                //     ]),
                 pets!.data!.isEmpty ?
                 GestureDetector(
                   onTap: (){
@@ -401,13 +290,11 @@ class _PetsState extends State<Pets> {
                                             child: Container(
                                               width: 50,
                                               height: 50,
-                                              //margin: EdgeInsets.symmetric(horizontal: 24),
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   shape: BoxShape.circle
                                               ),
                                             ),
-
                                           ),
                                         ),
                                   ),

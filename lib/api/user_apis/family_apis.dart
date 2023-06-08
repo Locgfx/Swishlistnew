@@ -35,7 +35,7 @@ Future<dynamic> postFamilyMemberApi({
   };
   var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/api/user/familyMember/store'));
   request.fields.addAll({
-    // 'user_id': '1',
+
     'family_member_user_id': familyMemberId,
     'relation': relation.toLowerCase(),
     'status': status,
@@ -87,6 +87,33 @@ Future<dynamic> updateFamilyMember({
     print(response.reasonPhrase);
     return resp;
   }
+}
+
+Future<dynamic> deleteFamilyMembers({
+  required String id,
+}) async {
+  var headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  };
+  var request = http.Request('POST', Uri.parse('$baseUrl/api/user/familyMember/delete'));
+  request.bodyFields = {
+    'id': id
+  };
+  request.headers.addAll(headers);
+  http.StreamedResponse response = await request.send();
+  var resp = jsonDecode(await response.stream.bytesToString());
+  if (response.statusCode == 200){
+    print(resp);
+    return resp;
+  } else {
+    print(resp);
+    print(response.statusCode);
+    print(response.reasonPhrase);
+    return resp;
+  }
+
+
 }
 
 

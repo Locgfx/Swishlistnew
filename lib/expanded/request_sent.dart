@@ -1,10 +1,7 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
-import 'package:swishlist/models/search_model.dart';
-
 import '../constants/color.dart';
 
 class RequestSent extends StatefulWidget {
@@ -79,7 +76,7 @@ class _RequestSentState extends State<RequestSent> {
                       Padding(
                         padding: const EdgeInsets.only(top: 180),
                         child: Text(
-                          "Request Sent",
+                          "Request Send",
                           style: AppTextStyle().textColor29292924w700,
                         ),
                       ),

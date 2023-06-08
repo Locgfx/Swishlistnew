@@ -1,27 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
-import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/login/widgets/row_create_new_account_widget.dart';
-import 'package:swishlist/login/widgets/row_email_facebook_google_widget.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
 import 'package:swishlist/welcome/welcome.dart';
 import '../api/login_signup_apis/login_api.dart';
-import '../constants/globals/globals.dart';
 import '../dashboard/dashboard.dart';
 import '../models/login_models.dart';
 
 class Login extends StatefulWidget {
-  // final LoginResponse response;
   const Login({Key? key,
-    // required this.response
   }) : super(key: key);
 
   @override

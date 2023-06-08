@@ -54,52 +54,6 @@ class _FFavouritesState extends State<FFavourites> {
       if (value ['status'] == true) {
         setState(() {
             friendDetails = FriendDetailsModel.fromJson(value);
-            // if(friendDetails!.data != null) {
-            //   if(friendDetails!.data!.favourite == null ) {
-            //   }
-            // } else {
-            //   friendDetails = FriendDetailsModel(
-            //       data: Data(
-            //         id: 0,
-            //         name: '',
-            //         username: '',
-            //         phone: '',
-            //         email: '',
-            //         photo: '',
-            //         type: '',
-            //         profile: Profile(
-            //           id: 0,
-            //           userId: 0,
-            //           name: '',
-            //           photo: '',
-            //           gender: '',
-            //           dob: '',
-            //           occupation: '',
-            //           relationStatus: '',
-            //           email: '',
-            //           phone: '',
-            //           alternatePhone: '',
-            //           homeAddress: '',
-            //           workAddress: '',
-            //           privacyStatus: '',
-            //           createdAt: '',
-            //         ),
-            //         sizeWeight: SizeWeight(
-            //           id: 0,
-            //           userId: 0,
-            //           waist: '',
-            //           shirt: '',
-            //           shoes: '',
-            //           bed: '',
-            //           privacyStatus: '',
-            //           createdAt: '',
-            //         ),
-            //         interest: Interest(
-            //             interest: ''
-            //         ),
-            //       )
-            //   );
-            // }
             isLoading= false;
         });
       } else {
@@ -133,11 +87,8 @@ class _FFavouritesState extends State<FFavourites> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: friendDetails!.data!.favourite!.isEmpty ? Column(
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(child: Icon(Icons.error_outline,color: Colors.black,size: 80,)),
-              // Image.asset("assets/images/delivery.png",height: 100,),
               SizedBox(height: 5),
               Text('Your friend not added favourites yet',
                 style: AppTextStyle().textColor29292914w500)
@@ -146,7 +97,6 @@ class _FFavouritesState extends State<FFavourites> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-              // friendDetails!.data!.favourite![0].cars.toString(),
                 "Things",
                 style: AppTextStyle().textColor29292914w600,
               ),
@@ -155,24 +105,6 @@ class _FFavouritesState extends State<FFavourites> {
               ),
               GestureDetector(
                 onTap: () {
-                  /*showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return NameEditDialogWidget(
-                        title: 'Car',
-                        addTextField: TextFormField(
-                          onChanged: (v) {
-                            setState(() {});
-                          },
-                          controller: carController,
-                          cursorColor: ColorSelect.colorF7E641,
-                          decoration: AppTFDecoration(
-                              hint: 'Car Name').decoration(),
-                          //keyboardType: TextInputType.phone,
-                        ),
-                      );
-                    },
-                  );*/
                 },
                 child: Row(
                   children: [
@@ -200,24 +132,6 @@ class _FFavouritesState extends State<FFavourites> {
               ),
               GestureDetector(
                 onTap: () {
-                /*  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return NameEditDialogWidget(
-                        title: 'Bike',
-                        addTextField: TextFormField(
-                          onChanged: (v) {
-                            setState(() {});
-                          },
-                          controller: bikesController,
-                          cursorColor: ColorSelect.colorF7E641,
-                          decoration: AppTFDecoration(
-                              hint: 'bike Name').decoration(),
-                          //keyboardType: TextInputType.phone,
-                        ),
-                      );
-                    },
-                  );*/
                 },
                 child: Row(
                   children: [

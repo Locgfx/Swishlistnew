@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:http/http.dart' as http;
 import 'package:swishlist/constants/urls.dart';
@@ -13,8 +12,6 @@ Future <dynamic> etsyStoreApi({
   required String status,
   required String photo,
   required String photoUrl,
-
-  // required String photoUrl,
 })async {
   var headers = {
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'

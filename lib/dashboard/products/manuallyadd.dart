@@ -192,83 +192,6 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                         ),
                       ),
                     ),
-                    // Positioned(
-                    //   top: 60,
-                    //   bottom: 60,
-                    //   left: 10,
-                    //   right: 10,
-                    //   child: Center(
-                    //     child: GestureDetector(
-                    //       onTap: () async {
-                    //         XFile? v = await _imgPicker.pickImage(
-                    //             source: ImageSource.gallery
-                    //         );
-                    //         if (v != null) {
-                    //           setState(() {
-                    //             pickedImage = File(v.path);
-                    //           },);
-                    //         }
-                    //         print(pickedImage);
-                    //       },
-                    //       child:  Container(
-                    //         height: 44.h,
-                    //         width: 144.w,
-                    //         decoration: BoxDecoration(
-                    //             borderRadius: BorderRadius.circular(8),
-                    //             border: Border.all(
-                    //                 width: 1,
-                    //                 color: ColorSelect.colorA3A3A3,
-                    //             ),
-                    //         ),
-                    //         child: Center(
-                    //           child: Row(
-                    //             children: [
-                    //               SizedBox(width: 24),
-                    //               Image.asset("assets/images/image-add.png"),
-                    //               SizedBox(width: 10),
-                    //               Text("Add image")
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       )
-                    //       // Stack(
-                    //       //   children: [
-                    //       //     Container(
-                    //       //       height: 246.h,
-                    //       //       width: 328.w,
-                    //       //       clipBehavior:Clip.hardEdge,
-                    //       //       decoration: BoxDecoration(
-                    //       //         borderRadius: BorderRadius.circular(8),
-                    //       //         border: Border.all(
-                    //       //           width: 2,
-                    //       //           color: ColorSelect.colorA3A3A3,
-                    //       //         ),
-                    //       //       ),
-                    //       //       child: Image.file(
-                    //       //         pickedImage,
-                    //       //         width: 1.sw,
-                    //       //         height: 420,
-                    //       //         fit: BoxFit.contain,
-                    //       //       ),
-                    //       //     ),
-                    //       //     Positioned(
-                    //       //       right: 0,
-                    //       //       top: 0,
-                    //       //       child: Container(
-                    //       //         height: 32,
-                    //       //         width: 32,
-                    //       //         decoration: BoxDecoration(
-                    //       //           color: ColorSelect.colorF7E641,
-                    //       //           shape: BoxShape.circle,
-                    //       //           image: DecorationImage(image: AssetImage('assets/icons/iconcross.png'))
-                    //       //         ),
-                    //       //       ),
-                    //       //     ),
-                    //       //   ],
-                    //       // ),
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
                 SizedBox(height: 20),
@@ -439,26 +362,6 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                                  ),
                                );
                              });
-                              //
-                              // DateTime? pickedDate = await showDatePicker(
-                              //     context: context,
-                              //     initialDate: DateTime.now(),
-                              //     firstDate: DateTime(1950),
-                              //     //DateTime.now() - not to allow to choose before today.
-                              //     lastDate: DateTime(2100));
-                              //
-                              // if (pickedDate != null) {
-                              //   print(
-                              //       pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                              //   String formattedDate =
-                              //   DateFormat('yyyy-MM-dd').format(pickedDate);
-                              //   print(
-                              //       formattedDate); //formatted date output using intl package =>  2021-03-16
-                              //   setState(() {
-                              //     dateController.text =
-                              //         formattedDate; //set output date to TextField value.
-                              //   });
-                              // } else {}
                             },
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -606,9 +509,6 @@ class _ProductTypeBottomSheet extends State<ProductTypeBottomSheet> {
                       child: Center(
                           child: Text(
                             'have',
-                            // style: _gIndex == 0
-                            //     ? textColorF7E64114w400
-                            //     : ColorSelect.colorF7E641
                           )),
                     ),
                   ),
@@ -632,9 +532,6 @@ class _ProductTypeBottomSheet extends State<ProductTypeBottomSheet> {
                       child: Center(
                           child: Text(
                             'dont want',
-                            // style: _gIndex == 1
-                            //     ? kManRope_500_16_white
-                            //     : kManRope_500_16_626A6A,
                           )),
                     ),
                   ),
@@ -658,9 +555,6 @@ class _ProductTypeBottomSheet extends State<ProductTypeBottomSheet> {
                       child: Center(
                           child: Text(
                             'want',
-                            // style: _gIndex == 2
-                            //     ? kManRope_500_16_white
-                            //     : kManRope_500_16_626A6A,
                           )),
                     ),
                   ),

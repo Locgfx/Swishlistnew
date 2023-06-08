@@ -4,7 +4,7 @@ import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/models/friends_details_model.dart';
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
-import 'friend_profile_page.dart';
+
 
 class FDatesAndEvents extends StatefulWidget {
   final String friendId;
@@ -32,20 +32,7 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
   FriendDetailsModel? friendDetails1 ;
   List<EventDate> eventListAll = [];
   List<EventDate> eventListUp = [];
-  // getFriendEventDetails() {
-  //   isLoading = true;
-  //   var resp = friendDetailsApi();
-  //   resp.then((value) {
-  //     if(value['status'] == true) {
-  //       setState(() {
-  //         friendDetails = FriendDetailsModel.fromJson(value);
-  //         isLoading = false;
-  //       });
-  //     } else {
-  //       isLoading = false;
-  //     }
-  //   });
-  // }
+
   getAllFriendEventDetails() {
     isLoading = true;
     var resp = friendDetailsApi(friendUserId: widget.friendId);
@@ -155,14 +142,7 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                           // '12 July, 1988',
                           style:AppTextStyle().textColor29292914w400,
                         ),
-                        // SizedBox(
-                        //   width: 5.w,
-                        // ),
-                        // Image.asset("assets/images/image46.png"),
-                        // SizedBox(
-                        //   width: 20.w,
-                        // ),
-                        // Image.asset("assets/images/Vector175.png"),
+
                       ],
                     );
                   }),
@@ -211,92 +191,13 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                       // '12 July, 1988',
                       style:AppTextStyle().textColor29292914w400,
                     ),
-                    // SizedBox(
-                    //   width: 5.w,
-                    // ),
-                    // Image.asset("assets/images/image46.png"),
-                    // SizedBox(
-                    //   width: 20.w,
-                    // ),
-                    // Image.asset("assets/images/Vector175.png"),
                   ],
                 );
               }),
-              // SizedBox(
-              //   height: 20.h,
-              // ),
-              // Row(
-              //   children: [
-              //     Text(
-              //       "First Job",
-              //       style: AppTextStyle().textColor70707014w400,
-              //     ),
-              //     Spacer(),
-              //     Text(
-              //       '12 July, 1988',
-              //       style:AppTextStyle().textColor29292914w400,
-              //     ),
-              //     // Image.asset("assets/images/information5.png"),
-              //     // SizedBox(
-              //     //   width: 20.w,
-              //     // ),
-              //     // Image.asset("assets/images/Vector175.png"),
-              //   ],
-              // ),
-              // SizedBox(
-              //   height: 20.h,
-              // ),
-              // Row(
-              //   children: [
-              //     Text(
-              //       "Anniversary",
-              //       style: AppTextStyle().textColor70707014w400,
-              //     ),
-              //     Spacer(),
-              //     Text(
-              //       '12 July, 1988',
-              //       style:AppTextStyle().textColor29292914w400,
-              //     ),
-              //     // Image.asset("assets/images/information5.png"),
-              //     // SizedBox(
-              //     //   width: 20.w,
-              //     // ),
-              //     // Image.asset("assets/images/Vector175.png"),
-              //   ],
-              // ),
-              // SizedBox(
-              //   height: 20.h,
-              // ),
-              // Row(
-              //   children: [
-              //     Text(
-              //       "+ Add more",
-              //       style: AppTextStyle().textColorBA54DE14w500,
-              //     ),
-              //     Spacer(),
-              //     Image.asset("assets/images/Vector175.png"),
-              //   ],
-              // ),
             ],
           ),
         ),
       )
-      /*Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Upcoming', style: AppTextStyle().textColor29292914w600),
-            for (int i = 0; i < upcomingDetails.length; i++)
-              ProfileRowValue(title: upcomingDetails[i], value: 'Event Date'),
-            SizedBox(height: 24),
-            Text('All', style: AppTextStyle().textColor29292914w600),
-            for (int i = 0; i < allDetails.length; i++)
-              ProfileRowValue(title: allDetails[i], value: 'Event Date'),
-            SizedBox(height: 24),
-          ],
-        ),
-      ),*/
     );
   }
 }

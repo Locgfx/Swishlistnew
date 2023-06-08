@@ -45,8 +45,7 @@ Future<dynamic> updateProfile({
   var headers = {
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
-  var request = http.MultipartRequest('POST',
-      Uri.parse('$baseUrl/api/user/profile/update'));
+  var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/api/user/profile/update'));
   request.fields.addAll({
     'name': name,
     'gender': gender,
@@ -61,7 +60,9 @@ Future<dynamic> updateProfile({
     'privacy_status': privacyStatus,
     'id': id,
   });
-  request.files.add(await http.MultipartFile.fromPath('photo', photo));
+  if (photo != '') {
+    request.files.add(await http.MultipartFile.fromPath('photo',photo));
+  }
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
@@ -88,8 +89,7 @@ Future<dynamic> postProfile({
   required String homeAddress,
   required String workAddress,
   required String privacyStatus,
-  // required String id,
-
+  required String photo,
 }) async {
   var headers = {
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
@@ -110,6 +110,9 @@ Future<dynamic> postProfile({
     'privacy_status': privacyStatus,
     // 'id': id,
   });
+  if (photo != '') {
+    request.files.add(await http.MultipartFile.fromPath('photo',photo));
+  }
   request.headers.addAll(headers);
   print(request.fields);
   print(headers);

@@ -2,32 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:swishlist/api/user_apis/products_api.dart';
-import 'package:swishlist/dashboard/products/productAdded.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
-import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
-import 'package:swishlist/dashboard/products/widget/popmenu.dart';
-import 'package:swishlist/dashboard/products/widget/search_filter.dart';
-import 'package:swishlist/models/activity_model.dart';
-
 import '../../api/user_apis/friends_api.dart';
-import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/friend_product_model.dart';
-import '../../models/product_type_model.dart';
 
 class FriendDonWantProducts extends StatefulWidget {
   final String friendId;
   final String friendName;
-  // final bool isUser;
   const
-  FriendDonWantProducts({Key? key, required this.friendId, required this.friendName,/* required this.isUser*/}) : super(key: key);
+  FriendDonWantProducts({Key? key, required this.friendId, required this.friendName,}) : super(key: key);
 
   @override
   State<FriendDonWantProducts> createState() => _FriendDonWantProductsState();
@@ -135,20 +122,10 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                       SingleChildScrollView(
                         child: Column(
                           children: [
-                            // Row(
-                            //   children: [
-                            //     Text(
-                            //       '${products!.data!.length.toString()} Products',
-                            //       // "6 Products",
-                            //       style: AppTextStyle().textColor70707012w500,
-                            //     ),
-                            //   ],
-                            // ),
                             ListView.builder(
                               padding: EdgeInsets.only(bottom: 30),
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: products!.data!.dontWant!.length,
-                              // itemCount: 6,
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               itemBuilder: (context, i) {
@@ -217,11 +194,9 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                           ),
                                                         ),
                                                   ),
-                                                  // child: Center(
-                                                  //     child: Image.asset(
-                                                  //         "assets/images/image10.png")),
                                                 ),
-                                              ]),
+                                              ],
+                                              ),
                                               Column(
                                                 crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -233,7 +208,6 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                       width: 230.w,
                                                       child: Text(
                                                         products!.data!.dontWant![i].name.toString(),
-                                                        // "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
                                                         overflow:
                                                         TextOverflow.ellipsis,
                                                         maxLines: 2,
@@ -250,7 +224,6 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                         left: 16),
                                                     child: Text(
                                                       '\$ ${products!.data!.dontWant![i].price.toString()}',
-                                                      // "47.99",
                                                       style: AppTextStyle()
                                                           .textColor29292914w500,
                                                     ),
@@ -295,32 +268,6 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                                 DateTime.parse( products!.data!.dontWant![i].createdAt.toString())).inHours} hr ago"
                                                                 : "${DateTime.now().difference(
                                                                 DateTime.parse( products!.data!.dontWant![i].createdAt.toString())).inDays} days ago"),
-                                                        // Text(
-                                                        //   DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.
-                                                        //       toString()
-                                                        //   )).inMinutes <=
-                                                        //     59
-                                                        //       ? "${DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.
-                                                        //   toString())).inMinutes
-                                                        //   } min ago" :
-                                                        //   DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.
-                                                        //       toString()
-                                                        //   )).inHours <=
-                                                        //       23?
-                                                        //   "${DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.toString())).inHours} hour ago"
-                                                        //       :
-                                                        //   "${DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.toString())).inDays} day ago"
-                                                        // ),
-                                                        // Text(
-                                                        //   "Today",
-                                                        //   style: AppTextStyle()
-                                                        //       .textColor70707012w400,
-                                                        // )
                                                       ],
                                                     ),
                                                   )

@@ -9,17 +9,13 @@ import 'package:swishlist/dashboard/friends/friend_favourites.dart';
 import 'package:swishlist/dashboard/friends/friend_pets.dart';
 import 'package:swishlist/dashboard/friends/friend_profile_page.dart';
 import 'package:swishlist/dashboard/friends/friend_sizes_and_weights.dart';
-import 'package:swishlist/dashboard/friends/widget/appbar_icon.dart';
-
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../constants/urls.dart';
 import '../../models/friends_details_model.dart';
-import '../../profile_page/widgets/popup_menu_widget.dart';
 
 class FriendProfile extends StatefulWidget {
   final String friendId;
-
   // final String friendName;
   // final String friendUserName;
   const FriendProfile({Key? key,

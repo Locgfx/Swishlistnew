@@ -7,7 +7,6 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/message_api.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
-import 'package:swishlist/dashboard/friends/widget/messagechat.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
 import '../../models/list_message_model.dart';
@@ -18,11 +17,10 @@ class ChatPage extends StatefulWidget {
   final String name;
   final String friendImage;
   final List<int> selectedItems;
-  // final ModelFriend friendModel;
   const ChatPage({Key? key,
     required this.friendId,
     required this.name,
-    required this.friendImage, required this.selectedItems, /* required this.friendModel,*/
+    required this.friendImage, required this.selectedItems,
   }) : super(key: key);
 
 
@@ -40,17 +38,12 @@ class _ChatPageState extends State<ChatPage> {
       setState(() {});
     });
     getMessages();
-    // getUserMessages();
     ids = int.parse(SharedPrefs().getId()!);
-    // print(SharedPrefs().getId());
-    // print(widget.friendId);
-    // print(widget.name);
-    // print(widget.friendImage);
+
   }
   final GlobalKey _groupListKey = GlobalKey();
   bool isLoading = true;
   ListMessageModel? listMessages;
-  // ListMessageModel  listMessages = ListMessageModel();
   int ids = 0;
   getMessages() {
     isLoading = true;
@@ -74,15 +67,6 @@ class _ChatPageState extends State<ChatPage> {
 
   final focusNode = FocusNode();
   bool isFocused = false;
-  // @override
-  // void initState() {
-  //   print(widget.friendId);
-  //   super.initState();
-  //   focusNode.addListener(() {
-  //     setState(() {});
-  //   });
-  // }
-
   final sendMsgController = TextEditingController();
 
 
@@ -129,11 +113,7 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                 ),
               ),
-              // CircleAvatar(
-              //   radius: 20,
-              //   backgroundColor: Colors.grey,
-              //   backgroundImage: AssetImage('assets/images/Rectangle3194.png'),
-              // ),
+
               SizedBox(
                 width: 8,
               ),
@@ -147,11 +127,7 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                   Row(
                     children: [
-                      // Text(
-                      //   widget.name,
-                      //   // "PamRox23",
-                      //   style: AppTextStyle().robotocolor96969614w400,
-                      // ),
+
                       SizedBox(
                         width: 6,
                       ),
@@ -253,128 +229,8 @@ class _ChatPageState extends State<ChatPage> {
                           ),
                         ),
                       ),
-                    )
-
-
-                        // Align(
-                        //   alignment:  ids == element.sendFromUserId ? Alignment.centerRight : Alignment.centerLeft,
-                        //   child: Row(
-                        //     children: [
-                        //       Text(element.message.toString(),
-                        //       style: ids == element.sendFromUserId ? TextStyle(color: Colors.red) :
-                        //       TextStyle(color: Colors.yellow) ,
-                        //       /*style:  AppTextStyle().textColorFFFFFF14w400,*/),
-                        //     ],
-                        //   ),
-                        // )
-                    // Align(
-                    //   alignment: Alignment.centerRight,
-                    //   child: Row(
-                    //     children: [
-                    //       Text(element.message.toString(),
-                    //         /*style:  AppTextStyle().textColorFFFFFF14w400,*/),
-                    //     ],
-                    //   ),
-                    // ),
-
-
-                    // itemComparator: (item1, item2) => item1['name'].compareTo(item2['name']), // optional
-                    // useStickyGroupSeparators: true, // optional
-                    // floatingHeader: true, // optional
-                    // optional-9
+                    ),
                   ),
-
-
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     Text(
-                  //       "Today, 5:23 AM",
-                  //       style: AppTextStyle().textColor70707012w400,
-                  //     ),
-                  //   ],
-                  // ),
-                  // SizedBox(
-                  //   height: 16,
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(right: 100),
-                  //   child: Container(
-                  //     width: 144.w,
-                  //     height: 108.h,
-                  //     decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(12),
-                  //         border: Border.all(
-                  //             width: 1, color: ColorSelect.colorC2C2C2)),
-                  //     child: Center(
-                  //       child: Image.asset("assets/images/image10.png"),
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 8,
-                  // ),
-                  // Text(
-                  //   "RESPAWN 110 Racing Style Gaming Chair, Reclining\nErgonomic Chair with Footrest, in Green",
-                  //   style: AppTextStyle().textColor8F8F8F10w400,
-                  // ),
-                  // SizedBox(
-                  //   height: 16,
-                  // ),
-                  // Row(
-                  //   children: [
-                  //     SizedBox(
-                  //       width: 20,
-                  //     ),
-                  //     CircleAvatar(
-                  //       radius: 15,
-                  //       backgroundColor: Colors.grey,
-                  //       backgroundImage:
-                  //           AssetImage('assets/images/Rectangle3194.png'),
-                  //     ),
-                  //     SizedBox(
-                  //       width: 12,
-                  //     ),
-                  //     Container(
-                  //       width: 231.w,
-                  //       decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(8),
-                  //           color: ColorSelect.colorECEDF0),
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.symmetric(
-                  //             horizontal: 12, vertical: 8),
-                  //         child: Text(
-                  //           "Send me this ASAP. You haven’t gifted me yet",
-                  //           style: AppTextStyle().textColor2C2C2C14w500roboto,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // Align(
-                  //   alignment: Alignment.centerRight,
-                  //   child: Container(
-                  //     margin: EdgeInsets.symmetric(vertical: 12),
-                  //     decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(8),
-                  //         color: ColorSelect.color343434),
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.symmetric(
-                  //           horizontal: 12, vertical: 8),
-                  //       child: Text(
-                  //         "Sure, why not, lemme see",
-                  //         style: AppTextStyle().textColorFFFFFF14w400,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  /*GestureDetector(
-                    onTap: () {
-                      */ /*Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ChatMessage()));*/ /*
-                    },
-                    child: MessageChatWidget(selectedItems: selectedItems),
-                  ),*/
                 ],
               ),
             ),
@@ -534,10 +390,6 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                 ),
               )
-              // MessageChatWidget(
-              //   selectedItems: selectedItems,
-              //   friendId: widget.friendId,
-              //   /*friendId: widget.friendId,*/),
             ),
           ],
         ),

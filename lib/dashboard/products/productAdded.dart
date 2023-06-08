@@ -1,5 +1,3 @@
-
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,20 +5,16 @@ import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/buttons/grey_border_button.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/color.dart';
-
-
-import '../../models/login_models.dart';
 import 'manuallyadd.dart';
 
 class ProductAdded extends StatefulWidget {
   final String name;
   final String price;
   final String productImage;
-  // final LoginResponse response;
   const ProductAdded({Key? key,
     required this.name,
     required this.price,
-    required this.productImage,/* required this.response,*/}) : super(key: key);
+    required this.productImage,}) : super(key: key);
 
   @override
   State<ProductAdded> createState() => _ProductAddedState();
@@ -51,11 +45,6 @@ class _ProductAddedState extends State<ProductAdded> {
                   onTap: () {
                     // print(widget.productImage);
                     Navigator.of(context)..pop()..pop()..pop();
-                    // Navigator.of(context).popUntil((_) => count-- <= 0);
-                    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>
-                    //     Dashboard(response:widget.response )));
-                    
-
                   },
                   title: 'Home',
                 ),
@@ -145,24 +134,11 @@ class _ProductAddedState extends State<ProductAdded> {
                                     Border.all(color: ColorSelect.colorE0E0E0, width: 1),
                                     color: ColorSelect.colorFFFFFF,
                                     borderRadius: BorderRadius.circular(12)),
-                                // width: 50,
-                                // height: 50,
-                                //margin: EdgeInsets.symmetric(horizontal: 24),
-                                // decoration: BoxDecoration(
-                                //     color: Colors.white,
-                                //     shape: BoxShape.circle
-                                // ),
                               ),
 
                             ),
                           ),
                     ),
-                    // child: Center(
-                    //   child: Image.asset(
-                    //     widget.productImage.toString(),
-                    //     width: 80.w,
-                    //   ),
-                    // ),
                   ),
                   SizedBox(height: 16),
                   Container(
@@ -170,7 +146,6 @@ class _ProductAddedState extends State<ProductAdded> {
                     width: 1.sw,
                     child: Text(
                       widget.name,
-                      // 'RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest, in Green',
                       style: AppTextStyle().textColor29292914w400,
                     ),
                   ),
@@ -180,7 +155,6 @@ class _ProductAddedState extends State<ProductAdded> {
                     width: 1.sw,
                     child: Text(
                       widget.price,
-                      // '\$12',
                       style: AppTextStyle().roboto32323216w600,
                     ),
                   ),

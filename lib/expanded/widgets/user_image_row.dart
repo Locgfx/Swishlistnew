@@ -5,7 +5,6 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/models/login_models.dart';
-
 import '../../constants/color.dart';
 import '../../constants/globals/shared_prefs.dart';
 

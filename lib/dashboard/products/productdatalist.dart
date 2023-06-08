@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/dashboard/products/widget/popmenu.dart';
-
 import '../../constants/color.dart';
 
 class ProductDataList extends StatefulWidget {
@@ -12,19 +11,7 @@ class ProductDataList extends StatefulWidget {
 }
 
 class _ProductDataListState extends State<ProductDataList> {
-  List imageList = [
-    "assets/images/image10.png",
-    "assets/images/image12.png",
-    "assets/images/image10.png",
-    "assets/images/image12.png",
-  ];
-  List itemNameList = [
-    "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
-    "Samsung Galaxy Tab A8 Android Tablet, 10.5” LCD Scre...",
-    "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
-    "Samsung Galaxy Tab A8 Android Tablet, 10.5” LCD Scre...",
-  ];
-  List itemPrice = ["47.99", "1247.99", "47.99", "1247.99"];
+
   List<int> selectedItems = [];
   @override
   Widget build(BuildContext context) {
@@ -70,24 +57,6 @@ class _ProductDataListState extends State<ProductDataList> {
                       padding: const EdgeInsets.only(top: 16),
                       child: GestureDetector(
                         onTap: () {
-                          /*Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ProductDetail()));
-                                log("hello");*/
-                          print("hello");
-                          print(selectedItems);
-                          /* setState(() {
-                                  selectedItems.add(i);
-                                  */ /*if (selectedItems.contains(i)) {
-                                    selectedItems.remove(i);
-                                  } else {
-                                    selectedItems.add(i);
-                                  }*/ /*
-                                  log("hello");
-                                  print(selectedItems);
-                                });*/
                         },
                         child: Column(
                           children: [
@@ -195,7 +164,8 @@ class _ProductDataListState extends State<ProductDataList> {
                         ),
                       ),
                     );
-                  }),
+                  },
+              ),
             ],
           ),
         ),

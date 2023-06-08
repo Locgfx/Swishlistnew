@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,7 +7,6 @@ import 'package:swishlist/dashboard/dashboard.dart';
 import 'package:swishlist/expanded/notifications.dart';
 import 'package:swishlist/expanded/user_all_details.dart';
 import 'package:swishlist/expanded/widgets/support_members_settings.dart';
-import 'package:swishlist/profile_page/privacy.dart';
 import '../constants/color.dart';
 import '../models/login_models.dart';
 
@@ -27,7 +25,6 @@ class _MemberSettingsState extends State<MemberSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: ColorSelect.colorF7E641,
       appBar: AppBar(
         backgroundColor: ColorSelect.colorF7E641,
         elevation: 0,
@@ -51,10 +48,6 @@ class _MemberSettingsState extends State<MemberSettings> {
             width: 1.sw,
             color: ColorSelect.colorF7E641,
           ),
-          /* Padding(
-            padding: const EdgeInsets.only(top: 80, left: 40),
-            child:
-          ),*/
           Column(
             children: [
               SizedBox(height: 30),

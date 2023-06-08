@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/dashboard/products/productalready.dart';
@@ -18,20 +17,14 @@ import 'package:swishlist/expanded/widgets/expanded_section_row_option.dart';
 import '../../api/user_apis/products_api.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/shared_prefs.dart';
-import '../../login/login.dart';
 import '../../models/login_models.dart';
 import '../../models/product_model.dart';
 import '../../models/product_type_model.dart';
-import '../../profile_page/account.dart';
-import '../../profile_page/privacy.dart';
-import '../../profile_page/widgets/popup_menu_widget.dart';
 
 class ProductsPage extends StatefulWidget {
-  // final ProductTypeModel model;
   final LoginResponse response;
   const ProductsPage({Key? key, 
     required this.response,
-    // required this.model,
    
   }) : super(key: key);
 
@@ -42,16 +35,8 @@ class ProductsPage extends StatefulWidget {
 class _ProductsPageState extends State<ProductsPage> {
   @override
   void initState() {
-    // getWantProducts();
     super.initState();
   }
-  List imageList = ["assets/images/image11.png", "assets/images/image10.png"];
-  List itemNameList = [
-    "MorePro Fitness Tracker, Heart Rate Monitor Blood Pressure ...",
-    "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergon..."
-  ];
-  List itemPrice = ["87.29", "127.99"];
-  int pageIndex = 0;
   bool showBox = true;
   bool showExpandedScreen = false;
   bool isLoading = false;
@@ -416,11 +401,7 @@ class _ProductsPageState extends State<ProductsPage> {
                   ),
                 ]),
               ),
-              IWantProductListWidget(
-                  imageList: imageList,
-                  itemNameList: itemNameList,
-                  itemPrice: itemPrice
-              ),
+              IWantProductListWidget(),
               SizedBox(
                 height: 68,
               ),
@@ -473,10 +454,7 @@ class _ProductsPageState extends State<ProductsPage> {
                   ),
                 ]),
               ),
-              NotWantProductListWidget(
-                  imageList: imageList,
-                  itemNameList: itemNameList,
-                  itemPrice: itemPrice),
+              NotWantProductListWidget(),
               SizedBox(
                 height: 68,
               ),
@@ -493,7 +471,7 @@ class _ProductsPageState extends State<ProductsPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProductAlready(/*model: widget.model,*/)));
+                              builder: (context) => ProductAlready()));
                     },
                     child: Text(
                       "View all",
@@ -510,7 +488,7 @@ class _ProductsPageState extends State<ProductsPage> {
                           context: context,
                           isScrollControlled: true,
                           builder: (context) {
-                            return ManuallyAddBottomSheetWidget(/*model: widget.model,*/);
+                            return ManuallyAddBottomSheetWidget();
                           });
                     },
                     child: Container(
@@ -523,17 +501,9 @@ class _ProductsPageState extends State<ProductsPage> {
                       child: Center(child: Icon(Icons.add)),
                     ),
                   ),
-                ]),
-              ),
-              /*isLoading ? Center(
-                  child: LoadingAnimationWidget.newtonCradle(
-                    size: 20, color: ColorSelect.colorF7E641,
-                  )
-              ):*/AlreadyProductListWidget(
-                  imageList: imageList,
-                  itemNameList: itemNameList,
-                  itemPrice: itemPrice
-              ),
+                ],
+                ),
+              ), AlreadyProductListWidget(),
               SizedBox(height: 132)
             ],
           ),
@@ -546,15 +516,7 @@ class _ProductsPageState extends State<ProductsPage> {
 class AlreadyProductListWidget extends StatefulWidget {
   const AlreadyProductListWidget({
     Key? key,
-    required this.imageList,
-    required this.itemNameList,
-    required this.itemPrice,
   }) : super(key: key);
-
-  final List imageList;
-  final List itemNameList;
-  final List itemPrice;
-
 
   @override
   State<AlreadyProductListWidget> createState() => _AlreadyProductListWidgetState();
@@ -596,7 +558,6 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
         setState(() {
         });
       }
-      // haveProducts2.clear();
     });
   }
 
@@ -611,8 +572,6 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
       child:(haveProducts2.isNotEmpty) ?Padding(
         padding: const EdgeInsets.only(right: 8),
         child: ListView.builder(
-          // padding: EdgeInsets.zero,
-          // physics: NeverScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemCount: haveProducts2.length,
           shrinkWrap: true,
@@ -630,7 +589,7 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ProductAlready(/*model: widget.model,*/)));
+                                builder: (context) => ProductAlready()));
                       },
                       child: Container(
                         width: 173,
@@ -663,15 +622,7 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
                                         Border.all(color: ColorSelect.colorE0E0E0, width: 1),
                                         color: ColorSelect.colorFFFFFF,
                                         borderRadius: BorderRadius.circular(12)),
-                                    // width: 50,
-                                    // height: 50,
-                                    //margin: EdgeInsets.symmetric(horizontal: 24),
-                                    // decoration: BoxDecoration(
-                                    //     color: Colors.white,
-                                    //     shape: BoxShape.circle
-                                    // ),
                                   ),
-
                                 ),
                               ),
                         ),
@@ -686,7 +637,6 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
                         width: 170.w,
                         child: Text(
                           haveProducts2[i].name.toString(),
-                          // widget.itemNameList[i],
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
                           style: AppTextStyle().textColor29292912w400,
@@ -700,7 +650,6 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
                       padding: const EdgeInsets.only(left: 16),
                       child: Text(
                         '\$ ${haveProducts2[i].price.toString()}',
-                        // widget.itemPrice[i],
                         style: AppTextStyle().textColor29292914w500,
                       ),
                     ),
@@ -734,13 +683,7 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
 class IWantProductListWidget extends StatefulWidget {
    IWantProductListWidget({
     Key? key,
-    required this.imageList,
-    required this.itemNameList,
-    required this.itemPrice,
   }) : super(key: key);
-    final List imageList;
-    final List itemNameList;
-    final List itemPrice;
 
   @override
   State<IWantProductListWidget> createState() => _IWantProductListWidgetState();
@@ -788,7 +731,6 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
       child: (wantProducts2.isNotEmpty) ? Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: ListView.builder(
-          // physics: NeverScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemCount:wantProducts2.length,
           // itemCount: 2,
@@ -823,7 +765,6 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                             color: ColorSelect.colorFFFFFF,
                             borderRadius: BorderRadius.circular(12)),
                         child: CachedNetworkImage(
-                          // imageUrl: (baseUrl+wantProducts2[i].photo.toString()),
                           imageUrl: wantProducts2[i].photo.toString().contains("https") ?
                           wantProducts2[i].photo.toString() :
                           baseUrl+wantProducts2[i].photo.toString(),
@@ -844,13 +785,6 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                                         Border.all(color: ColorSelect.colorE0E0E0, width: 1),
                                         color: ColorSelect.colorFFFFFF,
                                         borderRadius: BorderRadius.circular(12)),
-                                    // width: 50,
-                                    // height: 50,
-                                    //margin: EdgeInsets.symmetric(horizontal: 24),
-                                    // decoration: BoxDecoration(
-                                    //     color: Colors.white,
-                                    //     shape: BoxShape.circle
-                                    // ),
                                   ),
 
                                 ),
@@ -867,9 +801,6 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                         width: 170.w,
                         child: Text(
                           wantProducts2[i].name.toString(),
-                          // widget.itemNameList[i],
-                          // haveProducts2[i].name.toString(),
-                          // widget.itemNameList[i],
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: AppTextStyle().textColor29292912w400,
@@ -883,9 +814,6 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                       padding: const EdgeInsets.only(left: 16),
                       child: Text(
                         '\$ ${wantProducts2[i].price.toString()}',
-                          // widget.itemPrice[i],
-                        // haveProducts2[i].price.toString(),
-                        // widget.itemPrice[i],
                         style: AppTextStyle().textColor29292914w500,
                       ),
                     ),
@@ -906,7 +834,6 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.error_outline,color: Colors.black,size: 80,),
-            // Image.asset("assets/images/delivery.png",height: 100,),
             SizedBox(height: 5),
             Text('Add Products',
             style: AppTextStyle().textColor29292914w500,)
@@ -920,14 +847,7 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
 class NotWantProductListWidget extends StatefulWidget {
   const NotWantProductListWidget({
     Key? key,
-    required this.imageList,
-    required this.itemNameList,
-    required this.itemPrice,
   }) : super(key: key);
-
-  final List imageList;
-  final List itemNameList;
-  final List itemPrice;
 
   @override
   State<NotWantProductListWidget> createState() => _NotWantProductListWidgetState();
@@ -975,10 +895,7 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
       child: (notWant2.isNotEmpty) ? Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: ListView.builder(
-          // padding: EdgeInsets.zero,
-          // physics: NeverScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          // itemCount:2,
           itemCount: notWant2.length,
           shrinkWrap: true,
           itemBuilder: (context, i) {
@@ -1016,7 +933,6 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
                           imageUrl: notWant2[i].photo.toString().contains("https") ?
                           notWant2[i].photo.toString() :
                           baseUrl+notWant2[i].photo.toString(),
-                          // imageUrl: (baseUrl+notWant2[i].photo.toString()),
                           fit: BoxFit.cover,
                           errorWidget: (context, url, error) =>
                               Icon(Icons.error,size: 40,),
@@ -1034,15 +950,7 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
                                         Border.all(color: ColorSelect.colorE0E0E0, width: 1),
                                         color: ColorSelect.colorFFFFFF,
                                         borderRadius: BorderRadius.circular(12)),
-                                    // width: 50,
-                                    // height: 50,
-                                    //margin: EdgeInsets.symmetric(horizontal: 24),
-                                    // decoration: BoxDecoration(
-                                    //     color: Colors.white,
-                                    //     shape: BoxShape.circle
-                                    // ),
                                   ),
-
                                 ),
                               ),
                         ),

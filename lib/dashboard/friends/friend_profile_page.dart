@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/constants/globals/loading.dart';
-
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../models/friends_details_model.dart';
@@ -16,29 +15,7 @@ class FProfile extends StatefulWidget {
 }
 
 class _FProfileState extends State<FProfile> {
-  List personalDetails = [
-    'Name',
-    'Gender',
-    'Date of Birth',
-    'Occupation',
-    'Relationship Status',
-  ];
-  List contactDetails = [
-    'Phone',
-    'Alternate Phone',
-    'Email',
-  ];
-  List addressValues = [
-    'Street',
-    'City',
-    'State',
-    'Zip Code',
-    'Country',
-  ];
-  List eduValues = [
-    'College',
-    'School',
-  ];
+
 
   @override
   void initState() {
@@ -82,56 +59,6 @@ class _FProfileState extends State<FProfile> {
               isLoading = false;
             });
           }
-          // setState(() {
-          //
-          //   // if(friendDetails.data != null) {
-          //   //   if(friendDetails.data!.profile != null) {
-          //   //   }
-          //   // } else {
-          //   //   friendDetails = FriendDetailsModel(
-          //   //       data: Data(
-          //   //         id: 0,
-          //   //         name: '',
-          //   //         username: '',
-          //   //         phone: '',
-          //   //         email: '',
-          //   //         photo: '',
-          //   //         type: '',
-          //   //         profile: Profile(
-          //   //           id: 0,
-          //   //           userId: 0,
-          //   //           name: '',
-          //   //           photo: '',
-          //   //           gender: '',
-          //   //           dob: '',
-          //   //           occupation: '',
-          //   //           relationStatus: '',
-          //   //           email: '',
-          //   //           phone: '',
-          //   //           alternatePhone: '',
-          //   //           homeAddress: '',
-          //   //           workAddress: '',
-          //   //           privacyStatus: '',
-          //   //           createdAt: '',
-          //   //         ),
-          //   //         sizeWeight: SizeWeight(
-          //   //           id: 0,
-          //   //           userId: 0,
-          //   //           waist: '',
-          //   //           shirt: '',
-          //   //           shoes: '',
-          //   //           bed: '',
-          //   //           privacyStatus: '',
-          //   //           createdAt: '',
-          //   //         ),
-          //   //         interest: Interest(
-          //   //             interest: ''
-          //   //         ),
-          //   //       )
-          //   //   );
-          //   // }
-          //   isLoading = false;
-          // });
         } else {
           setState(() {
             isLoading = false;
@@ -181,11 +108,6 @@ class _FProfileState extends State<FProfile> {
               ),
               InkWell(
                 onTap: () {
-                  // showDialog(
-                  //   context: context,
-                  //   builder: (BuildContext context) {
-                  //   },
-                  // );
                 },
                 child: Row(
                   children: [

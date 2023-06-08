@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/constants/urls.dart';
+
 Future<dynamic> logoutApi() async {
   var headers = {
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'

@@ -2,25 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:swishlist/api/user_apis/products_api.dart';
-import 'package:swishlist/dashboard/products/productAdded.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
-import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
-import 'package:swishlist/dashboard/products/widget/popmenu.dart';
-import 'package:swishlist/dashboard/products/widget/search_filter.dart';
-import 'package:swishlist/models/activity_model.dart';
-
 import '../../api/user_apis/friends_api.dart';
-import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/friend_product_model.dart';
-import '../../models/product_type_model.dart';
+
 
 class FriendWantProducts extends StatefulWidget {
   final String friendId;
@@ -43,11 +32,10 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
   }
 
 
-  // List<int> selectedItems = [];
+
   bool loading = false;
   bool isLoading = false;
   FriendProductModel? products;
-  // List <FriendProductModel> haveProducts2 = [];
 
   getProducts() {
     isLoading = true;
@@ -289,32 +277,6 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                                                 DateTime.parse( products!.data!.want![i].createdAt.toString())).inHours} hr ago"
                                                                 : "${DateTime.now().difference(
                                                                 DateTime.parse( products!.data!.want![i].createdAt.toString())).inDays} days ago"),
-                                                        // Text(
-                                                        //   DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.
-                                                        //       toString()
-                                                        //   )).inMinutes <=
-                                                        //     59
-                                                        //       ? "${DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.
-                                                        //   toString())).inMinutes
-                                                        //   } min ago" :
-                                                        //   DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.
-                                                        //       toString()
-                                                        //   )).inHours <=
-                                                        //       23?
-                                                        //   "${DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.toString())).inHours} hour ago"
-                                                        //       :
-                                                        //   "${DateTime.now().difference(DateTime.parse(
-                                                        //       wantProduct2[i].purchasedDate.toString())).inDays} day ago"
-                                                        // ),
-                                                        // Text(
-                                                        //   "Today",
-                                                        //   style: AppTextStyle()
-                                                        //       .textColor70707012w400,
-                                                        // )
                                                       ],
                                                     ),
                                                   )

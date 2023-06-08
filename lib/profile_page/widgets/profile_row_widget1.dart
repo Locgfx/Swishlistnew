@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:swishlist/constants/color.dart';
-
 import '../../models/profile_model.dart';
 import 'date_picker.dart';
 

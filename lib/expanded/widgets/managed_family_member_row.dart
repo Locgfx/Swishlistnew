@@ -26,11 +26,6 @@ class UserRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // CircleAvatar(
-        //   radius: 20,
-        //   backgroundColor: Colors.grey,
-        //   backgroundImage: AssetImage('assets/images/Rectangle319.png'),
-        // ),
         Expanded(
           child: Row(
             children: [
@@ -66,22 +61,6 @@ class UserRowWidget extends StatelessWidget {
                         ),
                       ),
                 ),
-                // child: Image.network(
-                //   widget.img,
-                //   fit: BoxFit.fill,
-                //   errorBuilder: (_, a, b) {
-                //     return Container(
-                //       width: 44,
-                //       height: 44,
-                //       padding: EdgeInsets.all(8),
-                //       decoration: BoxDecoration(
-                //         shape: BoxShape.circle,
-                //         color: ColorSelect.colorEDEDF1,
-                //       ),
-                //       child: SvgPicture.asset('assets/icons/userpro.svg'),
-                //     );
-                //   },
-                // ),
               ),
               SizedBox(
                 width: 10.w,

@@ -32,9 +32,6 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
     super.initState();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return TextFieldUnFocusOnTap(

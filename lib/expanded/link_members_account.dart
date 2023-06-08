@@ -12,11 +12,8 @@ import 'package:swishlist/models/search_model.dart';
 import '../api/user_apis/family_apis.dart';
 import '../api/user_apis/family_member_search_api.dart';
 
-
 class LinkMembersAccount extends StatefulWidget {
-  // final SearchModel search;
   const LinkMembersAccount({Key? key,
-    // required this.search
   }) : super(key: key);
 
   @override
@@ -53,9 +50,6 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
   }
 
   String _selectedText = 'father';
-  // List<String> suggest = ["hjihsdi", "mdkfcmsdkvh", "hdsksl", "dldsh",
-  //   "hsdsdsdsp",'psdlpdslasph','dcmskcndscdh','dndhkmsd','dlpssh',
-  // "mdiaksm",'ndsjh','osdmsodohh','dlpsdhh','nfdfdsnhhhd','dndfnfh','sdmhskm','lllllddd'];
   final TextEditingController _typeAheadController = TextEditingController();
 
   @override
@@ -82,19 +76,18 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
           ) ?  Colors.black :
                ColorSelect.colorB5B07A,
           onTap: () {
+            print(memberId.text);
             if(searchController.text.isNotEmpty ) {
               postFamilyMemberApi(
                   familyMemberId: memberId.text,
                   relation: _selectedText,
-                  status: 'requested',
+                  status: 'accepted',
                   privacy: privacyStatus.text,
                   ).then((value) async {
                     if(value['status'] == true) {
                       Navigator.push(context,
                           MaterialPageRoute(
                               builder: (context) => RequestSent(name: searchController.text,)));
-                      Fluttertoast.showToast(
-                          msg: value['message']);
                     } else {
                       Fluttertoast.showToast(
                           msg: value['message']);
@@ -102,7 +95,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
               });
             }
           },
-          title: 'Send request',
+          title: 'Add Family Member',
         ),
       ),
       body: SingleChildScrollView(
@@ -152,6 +145,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: TypeAheadField(
+                  hideSuggestionsOnKeyboardHide: true,
                   animationStart: 0,
                   animationDuration: Duration.zero,
                   textFieldConfiguration: TextFieldConfiguration(
@@ -200,7 +194,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
                     setState(() {
                       searchController.clear();
                       searchController.text = suggestion.name!;
-                      memberId.text = suggestion.id!.toString();
+                      memberId.text = suggestion.userId!.toString();
                       privacyStatus.text = suggestion.privacyStatus!;
                       searchModel.clear();
                     });
@@ -208,93 +202,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
                 ),
               ),
             ),
-            // Container(
-            //   margin: EdgeInsets.symmetric(horizontal: 16),
-            //   height: 52.h,
-            //   decoration: BoxDecoration(
-            //       color: ColorSelect.colorEDEDF1,
-            //       borderRadius: BorderRadius.all(Radius.circular(8))),
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(left: 20),
-            //     child: Column(
-            //       children: [
-            //     TextField(
-            //     decoration: InputDecoration(
-            //     hintText: 'Enter username',
-            //         border: InputBorder.none
-            //     ),
-            //     controller: searchController,
-            //     focusNode: focusNode,
-            //     onChanged: (String value) {
-            //       RawAutocomplete.onFieldSubmitted<SearchModel>(_autocompleteKey);
-            //     },
-            //   ),
-            //         RawAutocomplete<SearchModel>(
-            //           textEditingController: searchController,
-            //           focusNode:focusNode ,
-            //           key: _autocompleteKey,
-            //           // initialValue: TextEditingValue(text: searchController.text),
-            //           optionsBuilder: (TextEditingValue textEditingValue) {
-            //             if (textEditingValue.text == '') {
-            //               return const Iterable<SearchModel>.empty();
-            //             }else{
-            //               List<SearchModel> matches = <SearchModel>[];
-            //               matches.addAll(searchModel);
-            //
-            //
-            //               matches.retainWhere((s){
-            //                 return s.name!.toLowerCase().contains(textEditingValue.text.toLowerCase());
-            //               });
-            //               return matches;
-            //             }
-            //           },
-            //
-            //           onSelected: ( selection) {
-            //             print('You just selected $selection');
-            //           },
-            //           optionsViewBuilder: (BuildContext context, void Function(SearchModel) onSelected,
-            //               Iterable<SearchModel> options) {
-            //             return Column(crossAxisAlignment: CrossAxisAlignment.start,
-            //               children: [
-            //                 Container(height: 3,width: 200,color: Colors.transparent,),
-            //                 Material(
-            //                     borderRadius:  BorderRadius.circular(8.0),
-            //                   color: Colors.transparent,
-            //                     child:SingleChildScrollView(
-            //                         child: Column(
-            //                           crossAxisAlignment:CrossAxisAlignment.start,
-            //                           children: options.map((opt){
-            //                             return InkWell(
-            //                                 onTap: () {
-            //                                   onSelected(opt);
-            //                                 },
-            //                                 child: Container(
-            //                                     color: ColorSelect.colorEDEDF1,
-            //                                     child:Container(
-            //                                       width: 300.w,
-            //                                       padding: EdgeInsets.all(10),
-            //                                       child:Text(opt.name!),
-            //                                     )
-            //                                 ),
-            //                             );
-            //                           }).toList(),
-            //                         ),
-            //                     )
-            //                 ),
-            //               ],
-            //             );
-            //           },
-            //         ),
-            //       ],
-            //     )
-            //     // child: TextFormField(
-            //     //   decoration: InputDecoration(
-            //     //       border: InputBorder.none,
-            //     //        hintText: "Enter name"),
-            //     //       keyboardType: TextInputType.name,
-            //     // ),
-            //   ),
-            // ),
+
             SizedBox(height: 20.h),
             Container(
               height: 52.h,

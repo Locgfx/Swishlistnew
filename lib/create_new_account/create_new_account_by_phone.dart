@@ -59,18 +59,6 @@ class _CreateNewAccountByPhone extends State<CreateNewAccountByPhone> {
             SizedBox(height: 40.h),
             Stack(
               children: [
-                // SizedBox(
-                //   height: 100,
-                //   width: 100,
-                //   child: ClipRRect(
-                //     borderRadius:
-                //     BorderRadius.circular(50),
-                //     // child: Image.file(
-                //     //   imageFile,
-                //     //   fit: BoxFit.fitWidth,
-                //     // ),
-                //   ),
-                // ),
                 CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.grey,
@@ -146,25 +134,6 @@ class _CreateNewAccountByPhone extends State<CreateNewAccountByPhone> {
               ),
             ),
             SizedBox(height: 16,),
-            // Container(
-            //   margin: EdgeInsets.symmetric(horizontal: 16),
-            //   width: 328.w,
-            //   decoration: BoxDecoration(
-            //       color: ColorSelect.colorEDEDF1,
-            //       borderRadius: BorderRadius.all(Radius.circular(8))),
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(left: 20),
-            //     child: TextFormField(
-            //       controller: phoneNoController,
-            //       decoration: InputDecoration(
-            //           contentPadding: EdgeInsets.symmetric(vertical: 24),
-            //           border: InputBorder.none,
-            //           hintText: "Add mobile no"),
-            //       keyboardType: TextInputType.name,
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(height: 16,),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16),
               width: 328.w,
@@ -196,36 +165,7 @@ class _CreateNewAccountByPhone extends State<CreateNewAccountByPhone> {
                     print(userNameController.text);
                     print(emailController.text);
                     print(widget.phoneNo);
-
                     if(updateNameController.text.isNotEmpty) {
-                      // createAccountApi(
-                      //   name: updateNameController.text,
-                      //   userName: userNameController.text,
-                      //   email: emailController.text,
-                      //   phone: widget.phoneNo,
-                      //   photo:  pickedImage.isAbsolute
-                      //       ?  pickedImage.path
-                      //       : '',
-                      // ).then((value) async {
-                      //   if(value['status'] == true) {
-                      //     Fluttertoast.showToast(msg: "Account Successfully Created");
-                      //     SharedPrefs().setUserPhoto(pickedImage.toString());
-                      //     SharedPrefs().setName(updateNameController.toString());
-                      //     SharedPrefs().setUsername(userNameController.toString());
-                      //     // print(pickedImage.toString());
-                      //     // print(updateNameController.text);
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (_) => Login(),
-                      //       ),
-                      //     );
-                      //   } else{
-                      //     Fluttertoast.showToast(msg: "Account Failed to create check your details");
-                      //
-                      //   }
-                      // }
-                      // );
                       updateProfile(
                         context: context,
                         name: updateNameController.text,

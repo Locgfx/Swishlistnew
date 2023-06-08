@@ -1,32 +1,18 @@
-import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/api/etsy_apis/all_listing_apis.dart';
+import 'package:swishlist/constants/globals/globals.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../api/user_apis/etsy_product_add.dart';
-import '../../api/user_apis/products_api.dart';
 import '../../buttons/light_yellow.dart';
-import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../constants/decoration.dart';
 import '../../constants/globals/loading.dart';
-import '../../models/etsy_image_model.dart';
-import '../../models/etsy_listing_model.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import '../../models/etsy_load_more_model.dart';
-import '../../models/etsy_search_model.dart';
-import '../../profile_page/widgets/date_picker.dart';
-import '../products/manuallyadd.dart';
-
 import 'etsy_products_details.dart';
 
 class AllEtsyProducts extends StatefulWidget {
@@ -40,7 +26,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
   @override
   void initState() {
     getAllListing();
-    // getSearch(val);
     super.initState();
   }
 
@@ -52,7 +37,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
     var resp = allEtsyListingApi(page: '0');
     resp.then((value) {
       setState(() {
-       // etsyProducts = EtsyListingModel.fromJson(value);
         scrollLength = value["results"].length;
         for (var v in value['results']) {
           friendList.add(EtsyLoadMoreModel.fromJson(v));
@@ -82,7 +66,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
   List<EtsyLoadMoreModel> matches = <EtsyLoadMoreModel>[];
   List<EtsyLoadMoreModel> searchList = [];
   getSearch(val) {
-    final resp = searchEtsyProductApi(search: val/*search: searchController.text*/);
+    final resp = searchEtsyProductApi(search: val);
     resp.then((value) {
       searchList.clear();
       for (var v in value['results']) {
@@ -90,7 +74,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
         isLoading = false;
         print(searchList);
       }
-      // print(searchList.toString());
     });
 
   }
@@ -133,43 +116,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
             ),
           ],
         ),
-        // title: Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     Container(
-        //       width: 1.sw,
-        //       color: Colors.white,
-        //       child: Text(
-        //         "All Etsy Products",
-        //         style: AppTextStyle().textColor29292916w500,
-        //       ),
-        //     ),
-        //     SizedBox(height: 16),
-        //     Container(
-        //       width: 1.sw,
-        //       color: Colors.transparent,
-        //       child:TextFormField(
-        //         onChanged: (val) {
-        //           setState(() {
-        //             if(searchController.text.isNotEmpty){
-        //               getSearch(val);
-        //             } else {
-        //               setState(() {
-        //                 searchList.clear();
-        //                 matches.clear();
-        //               });
-        //             }
-        //           });
-        //         },
-        //         controller: searchController,
-        //         cursorColor: ColorSelect.colorF7E641,
-        //         decoration: AppTFDecoration(
-        //             hint: 'Enter Product Title').decoration(),
-        //         //keyboardType: TextInputType.phone,
-        //       ),
-        //     )
-        //   ],
-        // ),
       ),
         body: isLoading ? Loading() : Stack(
           children: [
@@ -207,9 +153,9 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                         productDescription: friendList[i].description.toString(),
                                         productId: friendList[i].listingId.toString(),
                                         productUrl: friendList[i].url.toString(),
-
-
-                                      )));
+                                      ),
+                                      ),
+                                  );
                                 },
                                 child: Container(
                                   width: 1.sw,
@@ -276,9 +222,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
-                                // height: 52.h,
-                                // width: 88.w,
-
                                 child: LightYellowButtonWithText(
                                     backgroundColor:
                                     MaterialStateProperty.all(ColorSelect.colorF7E641),
@@ -291,8 +234,9 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                             productDescription: friendList[i].description.toString(),
                                             productId: friendList[i].listingId.toString(),
                                             productUrl: friendList[i].url.toString(),
-                                          )));
-
+                                          ),
+                                          ),
+                                      );
                                     },
                                     title: 'View Details'),
                               ),
@@ -339,18 +283,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                     children: [
                       Stack(
                         children: [
-                          GestureDetector(
-                            onTap : () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => EtsyProductDetails(
-                                    productTitle: searchList[i].title.toString(),
-                                    productPrice: searchList[i].price!.amount.toString(),
-                                    productDescription: searchList[i].description.toString(),
-                                    productId: searchList[i].listingId.toString(),
-                                    productUrl: searchList[i].url.toString(),
-
-                                  )));
-                            },
+                          TextFieldUnFocusOnTap(
                             child: Container(
                               width: 1.sw,
                               padding: EdgeInsets.all(30),
@@ -458,10 +391,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                 )
               ),
               child:TextFormField(
-                onFieldSubmitted: (v) {
-
-
-                },
                 onChanged: (val) {
                   setState(() {
                     if(searchController.text.isNotEmpty){

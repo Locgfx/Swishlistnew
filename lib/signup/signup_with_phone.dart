@@ -6,10 +6,8 @@ import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/signup/phone_verfication.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
-
 import '../api/login_signup_apis/signup_api.dart';
 import '../buttons/light_yellow.dart';
-import 'email_verfication.dart';
 
 class SignUpWithPhone extends StatefulWidget {
   const SignUpWithPhone({Key? key}) : super(key: key);

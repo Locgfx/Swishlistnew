@@ -3,18 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:swishlist/dashboard/products/products_page.dart';
 import 'package:swishlist/dashboard/search/all_etsy_products.dart';
 import '../constants/color.dart';
-import '../constants/globals/loading.dart';
 import '../models/login_models.dart';
 import 'activities/activities.dart';
 import 'friends/friends.dart';
-import 'search/search.dart';
 
 class Dashboard extends StatefulWidget {
   final LoginResponse response;
-  // final String friendId;
   const Dashboard({Key? key,
      required this.response,
-    // required this.friendId
   }) : super(key: key);
 
   @override
@@ -278,8 +274,7 @@ class _DashboardState extends State<Dashboard> {
 }
 
 Future<bool> showExitPopup(context) async {
-  return await showDialog( //show confirm dialogue
-    //the return value will be from "Yes" or "No" options
+  return await showDialog(
     context: context,
     builder: (context) => AlertDialog(
       title: Text('Exit App'),
@@ -293,13 +288,12 @@ Future<bool> showExitPopup(context) async {
 
         ElevatedButton(
           onPressed: () => Navigator.of(context).pop(true),
-          //return true when click on "Yes"
           child:Text('Yes'),
         ),
 
       ],
     ),
-  )??false; //if showDialouge had returned null, then return false
+  )??false;
 }
 
 

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:http/http.dart' as http;

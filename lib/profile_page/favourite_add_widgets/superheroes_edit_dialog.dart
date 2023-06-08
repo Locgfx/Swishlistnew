@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swishlist/profile_page/privacy.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../constants/color.dart';
 import '../../constants/decoration.dart';
 

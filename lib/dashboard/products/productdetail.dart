@@ -6,15 +6,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:swishlist/dashboard/products/product_privacy.dart';
-import 'package:swishlist/dashboard/products/widget/product_widget.dart';
-
 import '../../api/user_apis/products_api.dart';
 import '../../buttons/red_button.dart';
 import '../../buttons/white_button.dart';
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
-import '../../constants/decoration.dart';
 import '../../profile_page/add_date_events.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -255,8 +251,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                                               }
                                                         }
                                                         );
-                                                        /*Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => UserDetails()));*/
                                                       },
                                                       title: 'Save'),
                                                 )
@@ -264,7 +258,8 @@ class _ProductDetailState extends State<ProductDetail> {
                                             ),
                                           ),
                                         );
-                                      });
+                                      },
+                                  );
                                 },
                                 child: Container(
                                   height: 40.h,
@@ -410,26 +405,6 @@ class _ProductDetailState extends State<ProductDetail> {
 
                                                         },
                                                         title: 'Save'),
-                                                    /*RedButtonWithText(
-                                                      backgroundColor:
-                                                      MaterialStateProperty.all(ColorSelect.colorCE5252),
-                                                      textStyleColor: ColorSelect.colorFFFFFF,
-                                                      image: Image.asset(""),
-                                                      onTap: () {
-                                                        deleteProductsApi(
-                                                            id: widget.id).
-                                                        then((value){
-                                                          if(value['status'] == true) {
-
-                                                            Navigator.of(context)..pop()..pop();
-                                                            Fluttertoast.showToast(msg: value['message']);
-                                                          } else {
-                                                            Fluttertoast.showToast(msg: value['message']);
-                                                          }
-                                                        });
-                                                      },
-                                                      title: 'Save',
-                                                    ),*/
                                                   ),
                                                 ),
                                               ],
@@ -439,10 +414,8 @@ class _ProductDetailState extends State<ProductDetail> {
                                       ),
                                     ),
                                   );
-                                 } );
-
-                                  // Navigator.push(context,
-                                  //     MaterialPageRoute(builder: (context) => ProductPrivacy()));
+                                 },
+                                );
                                 },
                                 child: Container(
                                   height: 40.h,
@@ -494,29 +467,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                   ),
                                 ),
                               ),
-                              // SizedBox(
-                              //   height: 8.h,
-                              // ),
-                              // Container(
-                              //   height: 40.h,
-                              //   width: 328.w,
-                              //   color: Colors.transparent,
-                              //   child: Row(
-                              //     children: [
-                              //       SizedBox(
-                              //         height: 32,
-                              //       ),
-                              //       Padding(
-                              //         padding: const EdgeInsets.only(right: 15),
-                              //         child: SvgPicture.asset("assets/icons/folder-download.svg"),
-                              //       ),
-                              //       Text(
-                              //         "Archieve",
-                              //         style: AppTextStyle().textColor39393914w500,
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
                               SizedBox(
                                 height: 8.h,
                               ),
@@ -677,36 +627,6 @@ class _ProductDetailState extends State<ProductDetail> {
                     style: AppTextStyle().textColor29292924w700,
                   ),
                   Spacer(),
-                  // Container(
-                  //   padding: EdgeInsets.symmetric(horizontal: 28, vertical: 9),
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(8),
-                  //     color: ColorSelect.colorF7E641,
-                  //   ),
-                  //   child: Row(
-                  //     children: [
-                  //       Column(
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           Text(
-                  //             "View on",
-                  //             style: AppTextStyle().textcolor3F3F3F12w500,
-                  //           ),
-                  //           SizedBox(height: 4),
-                  //           Image.asset('assets/images/amazonimage.png')
-                  //         ],
-                  //       ),
-                  //       SizedBox(width: 16),
-                  //       SizedBox(
-                  //         width: 24,
-                  //         height: 24,
-                  //         child: SvgPicture.asset(
-                  //           "assets/icons/arrowimage.svg",
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // )
                 ],
               ),
               SizedBox(height: 20.h),
@@ -756,24 +676,6 @@ class _ProductDetailState extends State<ProductDetail> {
                   SizedBox(
                     width: 8.w,
                   ),
-
-                  // Container(
-                  //   height: 2.h,
-                  //   width: 2.w,
-                  //   decoration: BoxDecoration(
-                  //       shape: BoxShape.circle, color: ColorSelect.color707070),
-                  // ),
-                  // SizedBox(
-                  //   width: 10.w,
-                  // ),
-                  // SvgPicture.asset("assets/icons/eyeicons.svg"),
-                  // SizedBox(
-                  //   width: 6.w,
-                  // ),
-                  // Text(
-                  //   "4",
-                  //   style: AppTextStyle().textColor70707012w400,
-                  // )
                 ],
               ),
               SizedBox(
@@ -787,59 +689,6 @@ class _ProductDetailState extends State<ProductDetail> {
                     style: AppTextStyle().textColor29292916w500,
                 ),
               ),
-              // Container(
-              //   height: 52.h,
-              //   width: 328.w,
-              //   decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(8),
-              //       color: ColorSelect.colorEBF6E9),
-              //   child: Row(
-              //     children: [
-              //       Padding(
-              //         padding: const EdgeInsets.only(
-              //             left: 12, top: 10, bottom: 10, right: 4),
-              //         child: CircleAvatar(
-              //           radius: 20,
-              //           backgroundImage:
-              //               AssetImage('assets/images/Rectangle1072.png'),
-              //         ),
-              //       ),
-              //       Text(
-              //         "I want this.",
-              //         style: AppTextStyle().textcolor4B955714w400,
-              //       ),
-              //       Spacer(),
-              //       Padding(
-              //         padding: const EdgeInsets.only(right: 18),
-              //         child: Text(
-              //           "Change",
-              //           style: AppTextStyle().textcolor27272714w500,
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 12.h,
-              // ),
-              // Container(
-              //   width: 328.w,
-              //   height: 101.h,
-              //   decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(8),
-              //       color: ColorSelect.colorF0F0F0),
-              //   child: Padding(
-              //     padding:
-              //         const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-              //     child: TextField(
-              //       decoration: InputDecoration(
-              //           hintText: "Write a note", border: InputBorder.none),
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 40.h,
-              // )
             ],
           ),
         ),

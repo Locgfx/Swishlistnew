@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:swishlist/constants/color.dart';
-import 'package:swishlist/constants/globals/shared_prefs.dart';
-
 import '../../models/profile_model.dart';
 
 class EmailRowWidget extends StatelessWidget {

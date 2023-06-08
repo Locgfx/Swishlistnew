@@ -3,18 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/products_api.dart';
-import 'package:swishlist/dashboard/products/productAdded.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
 import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
-import 'package:swishlist/dashboard/products/widget/popmenu.dart';
-import 'package:swishlist/dashboard/products/widget/search_filter.dart';
-import 'package:swishlist/models/activity_model.dart';
-
-import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
@@ -30,19 +23,6 @@ class WantProducts extends StatefulWidget {
 }
 
 class _WantProductsState extends State<WantProducts> {
-/*  List imageList = [
-    "assets/images/image10.png",
-    "assets/images/image12.png",
-    "assets/images/image10.png",
-    "assets/images/image12.png",
-  ];
-  List itemNameList = [
-    "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
-    "Samsung Galaxy Tab A8 Android Tablet, 10.5” LCD Scre...",
-    "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
-    "Samsung Galaxy Tab A8 Android Tablet, 10.5” LCD Scre...",
-  ];
-  List itemPrice = ["47.99", "1247.99", "47.99", "1247.99"];*/
   @override
   void initState() {
     getWantProduct();
@@ -514,11 +494,6 @@ class _WantProductsState extends State<WantProducts> {
                               builder: (context) {
                                 return ManuallyAddBottomSheetWidget();
                               });
-                          /* Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProductDataList()));*/
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -664,9 +639,6 @@ class _WantProductsState extends State<WantProducts> {
                                                             ),
                                                           ),
                                                     ),
-                                                    // child: Center(
-                                                    //     child: Image.asset(
-                                                    //         "assets/images/image10.png")),
                                                   ),
                                                   Positioned(
                                                     bottom: 0,
@@ -753,32 +725,6 @@ class _WantProductsState extends State<WantProducts> {
                                                                   DateTime.parse( wantProduct2[i].createdAt.toString())).inHours} hr ago"
                                                                   : "${DateTime.now().difference(
                                                                   DateTime.parse( wantProduct2[i].createdAt.toString())).inDays} days ago"),
-                                                          // Text(
-                                                          //   DateTime.now().difference(DateTime.parse(
-                                                          //       wantProduct2[i].purchasedDate.
-                                                          //       toString()
-                                                          //   )).inMinutes <=
-                                                          //     59
-                                                          //       ? "${DateTime.now().difference(DateTime.parse(
-                                                          //       wantProduct2[i].purchasedDate.
-                                                          //   toString())).inMinutes
-                                                          //   } min ago" :
-                                                          //   DateTime.now().difference(DateTime.parse(
-                                                          //       wantProduct2[i].purchasedDate.
-                                                          //       toString()
-                                                          //   )).inHours <=
-                                                          //       23?
-                                                          //   "${DateTime.now().difference(DateTime.parse(
-                                                          //       wantProduct2[i].purchasedDate.toString())).inHours} hour ago"
-                                                          //       :
-                                                          //   "${DateTime.now().difference(DateTime.parse(
-                                                          //       wantProduct2[i].purchasedDate.toString())).inDays} day ago"
-                                                          // ),
-                                                          // Text(
-                                                          //   "Today",
-                                                          //   style: AppTextStyle()
-                                                          //       .textColor70707012w400,
-                                                          // )
                                                         ],
                                                       ),
                                                     )

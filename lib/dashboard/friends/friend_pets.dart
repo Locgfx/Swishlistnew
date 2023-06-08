@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/constants/urls.dart';
-
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../models/friends_details_model.dart';
@@ -121,7 +120,6 @@ class _FPetsState extends State<FPets> {
                               ),
                             ),
                       ),
-                      // child: Image.asset('assets/images/Frame1000003045.png'),
                     ),
                     SizedBox(width: 8),
                     Column(

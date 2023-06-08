@@ -5,25 +5,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/constants/urls.dart';
-import 'package:swishlist/expanded/user_all_details.dart';
 import 'package:swishlist/models/profile_model.dart';
 import 'package:swishlist/profile_page/privacy.dart';
 import 'package:swishlist/profile_page/widgets/date_picker.dart';
-import 'package:swishlist/profile_page/widgets/gender_dialog.dart';
-import 'package:swishlist/profile_page/widgets/home_address_dialog_widget.dart';
-import 'package:swishlist/profile_page/widgets/name_dialog_widget.dart';
-import 'package:swishlist/profile_page/widgets/occupation_dialog_widget.dart';
-import 'package:swishlist/profile_page/widgets/profile_row_widget1.dart';
-import 'package:swishlist/profile_page/widgets/profile_row_widget2.dart';
-import '../api/user_apis/get_profile_details.dart';
 import 'dart:io';
-
 import '../api/user_apis/profile_apis.dart';
 import '../buttons/light_yellow.dart';
 import '../constants/decoration.dart';
@@ -41,7 +31,7 @@ class _ProfileState extends State<Profile> {
   bool checkedFemale = false;
   bool checkedOther = false;
   bool isLoading = false;
-  List <String> pro = [];
+
 
   @override
   void initState() {
@@ -108,10 +98,11 @@ class _ProfileState extends State<Profile> {
     alternateNo.text = profile!.data!.alternatePhone!.toString() ?? '';
     homeController.text = profile!.data!.homeAddress!.toString() ?? '';
     workController.text = profile!.data!.workAddress!.toString() ?? '';
-
   }
+
   double dou = 00;
   var percent = "";
+  List <String> pro = [];
 
   get() {
     if(profile!.data!.name != null || profile!.data!.name != ''){
@@ -138,7 +129,7 @@ class _ProfileState extends State<Profile> {
     if(profile!.data!.alternatePhone != null || profile!.data!.alternatePhone != ''){
       pro.add('alternate_phone');
     }
-    if(profile!.data!.homeAddress != null || profile!.data!.homeAddress != ''){
+    if(profile!.data!.homeAddress != null || profile!.data!.homeAddress!= ''){
       pro.add('home_address');
     }
     if(profile!.data!.workAddress != null || profile!.data!.workAddress != ''){
@@ -221,30 +212,6 @@ class _ProfileState extends State<Profile> {
                 backgroundColor: Color(0xff66D340).withOpacity(0.28),
                 progressColor: ColorSelect.color66D340,
               ),
-              // Stack(
-              //   children: [
-              //     Container(
-              //       height: 8.h,
-              //       width: 360.w,
-              //       decoration: BoxDecoration(
-              //           color: Color(0xff66D340).withOpacity(0.28),
-              //           borderRadius: BorderRadius.all(Radius.circular(12))),
-              //     ),
-              //     Row(
-              //       children: [
-              //         Container(
-              //           height: 8.h,
-              //           width: 216.w,
-              //           decoration: BoxDecoration(
-              //               color: ColorSelect.color66D340,
-              //               borderRadius: BorderRadius.only(
-              //                   topRight: Radius.circular(12),
-              //                   bottomRight: Radius.circular(12))),
-              //         ),
-              //       ],
-              //     )
-              //   ],
-              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
@@ -307,12 +274,7 @@ class _ProfileState extends State<Profile> {
                                         ),
                                       ),
                                     ),
-                              ) /*: Image.file(
-                                pickedImage,
-                                width: 1.sw,
-                                height: 420,
-                                fit: BoxFit.cover,
-                              ),*/
+                              ),
                             ),
                             Positioned(
                                 top: 60,
@@ -605,25 +567,8 @@ class _ProfileState extends State<Profile> {
                                   relationStatus.text = val;
                                 });
                               }, relation: relationStatus.text,);
-                          });
-                      /*showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return NameEditDialogWidget(
-                            title: 'Relationship Status',
-                            addTextField: TextFormField(
-                              onChanged: (v) {
-                                setState(() {});
-                              },
-                              controller: relationStatus,
-                              cursorColor: ColorSelect.colorF7E641,
-                              decoration: AppTFDecoration(
-                                  hint: 'Relationship Status').decoration(),
-                              //keyboardType: TextInputType.phone,
-                            ),
-                          );
-                        },
-                      );*/
+                          },
+                      );
                     },
                     child: Row(
                       children: [
@@ -972,7 +917,6 @@ class _ProfileState extends State<Profile> {
                           Colors.black :
                           ColorSelect.colorB5B07A,
                           onTap: () {
-                            // if(formKey.currentState!.validate()) {
                               postProfile(
                                 name: nameController.text,
                                 gender: genderController.text,
@@ -985,21 +929,22 @@ class _ProfileState extends State<Profile> {
                                 homeAddress: homeController.text,
                                 workAddress: workController.text,
                                 privacyStatus: 'public',
+                                photo:pickedImage.isAbsolute
+                                     ?  pickedImage.path
+                                     : '',
                               ).then((value) async {
                                 if(value['status'] == true) {
-                                  // setState(() {
-                                  //   isLoading ? Loading() :getProfile();
-                                  // });
                                   SharedPrefs().setPPercent('100 %');
                                   Navigator.pop(context);
                                   Fluttertoast.showToast(
                                       msg: value['message']);
                                 } else {
                                   Fluttertoast.showToast(
-                                      msg: 'please add all details fields'/*value['message']*/);
+                                      msg: 'please add all details fields'
+                                  );
                                 }
-                              });
-                            // }
+                              },
+                              );
                           },
                           title: 'Add'
                       ) :
@@ -1058,8 +1003,11 @@ class _ProfileState extends State<Profile> {
                                     Fluttertoast.showToast(
                                         msg: value['message']);
                                   } else {
-                                    Fluttertoast.showToast(
-                                        msg:'please fill all details field' /*value['message']*/);
+                                        Fluttertoast.showToast(
+                                        msg:'please update your profile image');
+
+                                  /*  Fluttertoast.showToast(
+                                        msg:'please fill all details field' *//*value['message']*//*);*/
                                   }
                                 });
 
@@ -1562,36 +1510,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
                   ),
                 ),
                 SizedBox(height: 20),
-                // Row(
-                //   children: [
-                //     GestureDetector(
-                //       onTap: () {
-                //         setState(() {
-                //           _gIndex = 1;
-                //           Navigator.of(context).pop();
-                //           widget.onPop("neutral");
-                //         });
-                //       },
-                //       child: Container(
-                //         height: 20,
-                //         width: 20,
-                //         decoration: BoxDecoration(
-                //           color: _gIndex == 2 ? ColorSelect.colorF7E641 :Colors.transparent,
-                //           shape: BoxShape.circle,
-                //           border:Border.all(
-                //             width: 1,
-                //             color: Colors.black,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     SizedBox(width: 10),
-                //     Text('neutral',
-                //         style:AppTextStyle()
-                //             .textColor29292914w500)
-                //   ],
-                // ),
-                // SizedBox(height: 20),
+
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);

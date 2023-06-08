@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:swishlist/constants/color.dart';
-import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/expanded/widgets/Profile_data_and_all_uesr_data.dart';
 import 'package:swishlist/expanded/widgets/user_image_row.dart';
 import 'package:swishlist/profile_page/account.dart';
@@ -12,16 +9,12 @@ import 'package:swishlist/profile_page/date_and_events.dart';
 import 'package:swishlist/profile_page/favorites.dart';
 import 'package:swishlist/profile_page/my_interests.dart';
 import 'package:swishlist/profile_page/pets.dart';
-import 'package:swishlist/profile_page/privacy.dart';
 import 'package:swishlist/profile_page/profile.dart';
 import 'package:swishlist/profile_page/sizes_and_weights.dart';
 import 'package:swishlist/profile_page/widgets/popup_menu_widget.dart';
-import '../api/login_signup_apis/logout_api.dart';
 import '../api/user_apis/interest_api.dart';
-import '../constants/globals/loading.dart';
 import '../constants/globals/shared_prefs.dart';
 import '../login/login.dart';
-import '../models/favourites_model.dart';
 import '../models/interest_model.dart';
 import '../models/login_models.dart';
 
@@ -135,14 +128,6 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                               builder: (_) => Login(),
                             ),
                           );
-                      //     Fluttertoast.showToast(
-                      //         msg: 'Logout successful');
-                      //   } else {
-                      //     Fluttertoast.showToast(
-                      //         msg: 'Logout failed');
-                      //   }
-                      // });
-
                     },
                     child: ListTile(
                       title: Text(
@@ -172,19 +157,22 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                 MyInterests(response: widget.response, id: _interest!.data!.id.toString(),)));
                         print(_interest!.data!.id);
                       },
-                      child: Row(
-                        children: [
-                          Text(
-                            "My Interests",
-                            style: AppTextStyle().textColor29292914w600,
-                          ),
-                          Spacer(),
-                          Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child:
-                                  SvgPicture.asset("assets/icons/Vectoredit.svg")
-                          ),
-                        ],
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        child: Row(
+                          children: [
+                            Text(
+                              "My Interests",
+                              style: AppTextStyle().textColor29292914w600,
+                            ),
+                            Spacer(),
+                            Padding(
+                                padding: const EdgeInsets.only(right: 20),
+                                child:
+                                    SvgPicture.asset("assets/icons/Vectoredit.svg")
+                            ),
+                          ],
+                        ),
                       ),
                   ),
                   SizedBox(
@@ -209,7 +197,6 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                     Wrap(
                        children: elements!.map((e) => chipBox(name:e)).toList(),
                      ),
-
                   // SizedBox(height: 10.h,),
                   // InterestRow2Widget(),
                   // SizedBox(height: 10.h,),

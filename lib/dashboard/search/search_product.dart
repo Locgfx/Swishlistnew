@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:swishlist/constants/color.dart';
-
 import '../products/products_page.dart';
 
 class SearchProduct extends StatefulWidget {
@@ -12,12 +11,6 @@ class SearchProduct extends StatefulWidget {
 }
 
 class _SearchProductState extends State<SearchProduct> {
-  List imageList = ["assets/images/image11.png", "assets/images/image10.png"];
-  List itemNameList = [
-    "MorePro Fitness Tracker, Heart Rate Monitor Blood Pressure ...",
-    "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergon..."
-  ];
-  List itemPrice = ["87.29", "127.99"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,9 +110,9 @@ class _SearchProductState extends State<SearchProduct> {
               SizedBox(
                 height: 220,
                 child: IWantProductListWidget(
-                  imageList: imageList,
+            /*      imageList: imageList,
                   itemNameList: itemNameList,
-                  itemPrice: itemPrice,
+                  itemPrice: itemPrice,*/
                 ),
               ),
               SizedBox(height: 34),
@@ -264,7 +257,8 @@ class _SearchProductState extends State<SearchProduct> {
                         )
                       ],
                     );
-                  })
+                  },
+              )
             ],
           ),
         ),

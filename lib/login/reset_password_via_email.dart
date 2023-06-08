@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/login/login.dart';
-
 import '../api/login_signup_apis/reset_password_api.dart';
-import '../buttons/resend_with_two_text_button.dart';
-import '../buttons/yellow_button.dart';
 import '../signup/widgets/text_term_widget.dart';
 
 class ResetPasswordViaEmail extends StatefulWidget {
@@ -349,20 +345,6 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
                               if(otpController.text.length == 4) {
                                 details.onStepContinue!();
 
-                                // resetPassValidateOtpApi(
-                                //     emailPhone: emailController.text,
-                                //     otp: otpController.text,
-                                //     password:'12345678' ).then((value) {
-                                //   if( value['status'] == true) {
-                                //     // details.onStepContinue!();
-                                //     Fluttertoast.showToast(
-                                //         msg:value['message']);
-                                //
-                                //   } else {
-                                //     Fluttertoast.showToast(
-                                //         msg:value['message']);
-                                //   }
-                                // });
                               }
                             },
                           ),
@@ -474,19 +456,6 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
                     currentStep -= 1;
                   }),
                   onStepContinue: () {
-                    // if(currentStep  ==  0) {
-                    //   resetPassGenerateOtpApi(
-                    //       emailPhone: emailController.text)
-                    //       .then((value)async {
-                    //     if( value['status'] == true) {
-                    //       Fluttertoast.showToast(
-                    //           msg: 'Your OTP is ${value['data']['otp']}');
-                    //     } else {
-                    //       Fluttertoast.showToast(
-                    //           msg:value['message']);
-                    //     }
-                    //   });
-                    // }
                     bool isLastStep = (currentStep == getSteps().length - 1);
                     if (isLastStep) {
                       //Do something with this information

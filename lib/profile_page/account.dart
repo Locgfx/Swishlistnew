@@ -1,11 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import '../api/user_apis/profile_apis.dart';
-import '../buttons/red_text_white_color_button.dart';
 import '../models/profile_model.dart';
 import 'change_password.dart';
 
@@ -64,8 +62,6 @@ class _AccountState extends State<Account> {
           child: InkWell(
               onTap: () {
                 Navigator.pop(context);
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => UserAllDetails()));
               },
               child: Image.asset('assets/images/Vector190.png')),
         ),
@@ -89,7 +85,6 @@ class _AccountState extends State<Account> {
                   profile.data!.user!.username!.toString() == "null" ?
                   "Add Your Username" :
                   profile.data!.user!.username!.toString(),
-                  // "MichieMaster34",
                   style: AppTextStyle().textColor29292914w400,
                 ),
                 SizedBox(
@@ -112,7 +107,6 @@ class _AccountState extends State<Account> {
                   profile.data!.user!.email!.toString() == "null" ?
                   "Add your email" :
                   profile.data!.user!.email!.toString(),
-                  // "Harrywilson134@gmail.com",
                   style: AppTextStyle().textColor29292914w400,
                 ),
                 SizedBox(

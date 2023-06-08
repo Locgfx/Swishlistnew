@@ -269,9 +269,7 @@ class _StoreSheetState extends State<StoreSheet> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 32,
-            )
+            SizedBox(height: 32)
           ],
         ),
       ),

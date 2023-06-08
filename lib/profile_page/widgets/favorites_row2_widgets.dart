@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:swishlist/models/favourites_model.dart';
-
 import '../../constants/color.dart';
 
 class SuperherosRowWidget extends StatelessWidget {

@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:swishlist/api/user_apis/event_date_api.dart';
 import 'package:swishlist/constants/color.dart';
-import 'package:swishlist/expanded/user_details.dart';
 import 'package:swishlist/profile_page/add_date_events.dart';
 import 'package:swishlist/profile_page/widgets/date_picker.dart';
-import 'package:swishlist/profile_page/widgets/upcoming_row_widgets.dart';
-
 import '../buttons/light_yellow.dart';
 import '../constants/globals/loading.dart';
-import '../models/date_and_events_model.dart';
 import '../models/date_and_events_model.dart';
 
 class DateAndEvents extends StatefulWidget {
@@ -37,28 +31,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
   EventModel? eventUpcoming;
   
   List<Data>  eventUpcoming2 = [];
-  // EventModel eM = EventModel();
   List<int> selectedItems = [];
-
-
-  // EventModel? event2;
-
-  // getAllEvent() {
-  //   isLoading = true;
-  //   var resp = getDateAndEventApi();
-  //   resp.then((value) {
-  //     if (value['status'] == true) {
-  //       setState(() {
-  //         event = EventModel.fromJson(value);
-  //         isLoading = false;
-  //       });
-  //     } else {
-  //       setState(() {
-  //         isLoading = false;
-  //       });
-  //     }
-  //   });
-  // }
 
   getAllEvent() {
     isLoading = true;
@@ -398,27 +371,16 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                 }
                                               });
                                             }
-
-
                                           },
-                                          backgroundColor :/*:(
-                                              nameController.text.isNotEmpty &&
-                                                  typeController.text.isNotEmpty ||
-                                                  dateController.text.isNotEmpty
-                                          ) ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                                              // :*/ MaterialStateProperty.all(ColorSelect.colorF7E641),
-                                          textStyleColor: /*nameController.text.isNotEmpty &&
-                                              typeController.text.isNotEmpty ||
-                                              dateController.text.isNotEmpty ?*/
-                                          Colors.black, /*:
-                                          ColorSelect.colorB5B07A,*/
+                                          backgroundColor :
+                                          MaterialStateProperty.all(ColorSelect.colorF7E641),
+                                          textStyleColor:
+                                          Colors.black,
                                           title: 'save',
                                         ),
-
                                         SizedBox(height: 24)
                                       ],
                                     ),
-
                                   ],
                                 ),
                               ),
@@ -426,10 +388,6 @@ class _DateAndEventsState extends State<DateAndEvents> {
                           );
                         },
                       );
-                      // Navigator.push(
-                      //     context, MaterialPageRoute(builder: (_) =>
-                      //     AddDateAndEvents()));
-
                     },
                     child: Text(
                       '+ Add Events',
@@ -453,7 +411,6 @@ class _DateAndEventsState extends State<DateAndEvents> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                        // Image.asset("assets/images/delivery.png",height: 100,),
                         SizedBox(height: 5),
                         Text('No Activities Found',
                           style: AppTextStyle().textColor29292914w500,)
@@ -475,15 +432,13 @@ class _DateAndEventsState extends State<DateAndEvents> {
                               children: [
                                 Text(
                                   eventUpcoming2[i].name.toString(),
-                                  style:/*selectedItems.contains(eventUpcoming2[i].id!) ?
-                                  AppTextStyle().textColorD5574514w500:*/
+                                  style:
                                   AppTextStyle().textColor70707014w400,
                                 ),
                                 Spacer(),
                                 Text(
                                   eventUpcoming2[i].date.toString(),
-                                  style: /*selectedItems.contains(eventUpcoming2[i].id!) ?
-                                  AppTextStyle().textColorD5574514w500:*/
+                                  style:
                                   AppTextStyle().textColor29292914w400,
                                 ),
                               ],
@@ -493,281 +448,6 @@ class _DateAndEventsState extends State<DateAndEvents> {
                       );
                     }, separatorBuilder: (BuildContext context, int index) => SizedBox(height: 16,),
                   ),
-                 /* UpcomingRowWidget(eventDate: event!,),*/
-
-            //       Row(
-            //         children: [
-            //           GestureDetector(
-            //             onTap: () {
-            //               showDialog(
-            //                 context: context,
-            //                 builder: (BuildContext context) {
-            //                   return AlertDialog(
-            //                     insetPadding: EdgeInsets.only(left: 20, right: 20),
-            //                     shape: RoundedRectangleBorder(
-            //                       borderRadius: BorderRadius.circular(12),
-            //                     ),
-            //                     elevation: 0,
-            //                     backgroundColor: Colors.white,
-            //                     content: SizedBox(
-            //                       width: 1.sw,
-            //                       child: SingleChildScrollView(
-            //                         child: Column(
-            //                           crossAxisAlignment: CrossAxisAlignment.start,
-            //                           children: [
-            //                             Column(
-            //                               crossAxisAlignment: CrossAxisAlignment.start,
-            //                               children: [
-            //
-            //                                 Text(
-            //                                   "Enter details",
-            //                                   style: AppTextStyle().textColor29292924w700,
-            //                                 ),
-            //                                 SizedBox(height: 25,),
-            //                                 // Text(
-            //                                 //   "Fill the details of product you own already.",
-            //                                 //   style: AppTextStyle().textColor70707014w400,
-            //                                 // ),
-            //                                 Container(
-            //                                   width: 328.w,
-            //                                   height: 52.h,
-            //                                   decoration: BoxDecoration(
-            //                                     borderRadius: BorderRadius.circular(8),
-            //                                     color: ColorSelect.colorEDEDF1,
-            //                                   ),
-            //                                   child: Padding(
-            //                                     padding: const EdgeInsets.only(left: 12),
-            //                                     child: Row(
-            //                                       children: [
-            //                                         Expanded(
-            //                                           child: TextFormField(
-            //                                             onChanged: (v) {
-            //                                               setState(() {});
-            //                                             },
-            //                                             controller: nameController,
-            //                                             keyboardType: TextInputType.text,
-            //                                             decoration: InputDecoration(
-            //                                                 border: InputBorder.none,
-            //                                                 hintText: "Name of event",
-            //                                                 hintStyle: AppTextStyle().textColor70707014w400
-            //                                             ),
-            //                                           ),
-            //                                         ),
-            //                                       ],
-            //                                     ),
-            //                                   ),
-            //                                 ),
-            //                                 SizedBox(height: 12),
-            //                                 Container(
-            //                                   width: 328.w,
-            //                                   height: 52.h,
-            //                                   decoration: BoxDecoration(
-            //                                       borderRadius: BorderRadius.circular(8),
-            //                                       color: ColorSelect.colorEDEDF1
-            //                                   ),
-            //                                   child: Padding(
-            //                                     padding: const EdgeInsets.only(left: 12),
-            //                                     child: Row(
-            //                                       children: [
-            //                                         Expanded(
-            //                                           child: TextFormField(
-            //                                             onTap:() {
-            //                                               showModalBottomSheet(
-            //                                                   shape: const RoundedRectangleBorder(
-            //                                                     borderRadius: BorderRadius.only(
-            //                                                         topRight: Radius.circular(20), topLeft: Radius.circular(20)),
-            //                                                   ),
-            //                                                   context: context,
-            //                                                   builder: (context) => EventTypeBottomSheet(
-            //                                                     eventType: typeController.text,
-            //                                                     onPop: (val) {
-            //                                                       setState(() {
-            //                                                         typeController.text = val;
-            //                                                       });
-            //                                                     },
-            //                                                   ));
-            //
-            //                                             },
-            //                                             onChanged: (v) {
-            //                                               setState(() {});
-            //                                             },
-            //                                             controller: typeController,
-            //                                             decoration: InputDecoration(
-            //                                                 border: InputBorder.none,
-            //                                                 hintText: "Type of the Event",
-            //                                                 hintStyle: AppTextStyle().textColor70707014w400,
-            //                                                 suffixIconConstraints: BoxConstraints(maxHeight: 40,maxWidth: 40),
-            //                                                 suffixIcon: Padding(
-            //                                                   padding: const EdgeInsets.only(right: 15.0),
-            //                                                   child: Image.asset('assets/images/down-arrow.png',height: 25,),
-            //                                                 )
-            //                                             ),
-            //                                             keyboardType: TextInputType.text,
-            //                                             readOnly: true,
-            //                                           ),
-            //                                         ),
-            //                                       ],
-            //                                     ),
-            //                                   ),
-            //                                 ),
-            //                                 SizedBox(height: 12),
-            //                                 Container(
-            //                                   width: 328.w,
-            //                                   height: 52.h,
-            //                                   decoration: BoxDecoration(
-            //                                       borderRadius: BorderRadius.circular(8),
-            //                                       color: ColorSelect.colorEDEDF1
-            //                                   ),
-            //                                   child: Padding(
-            //                                     padding: const EdgeInsets.only(left: 12),
-            //                                     child: Row(
-            //                                       children: [
-            //                                         Expanded(
-            //                                           child: TextFormField(
-            //                                             onChanged: (v) {
-            //                                               setState(() {
-            //
-            //                                               });
-            //                                             },
-            //                                             controller: dateController,
-            //                                             keyboardType: TextInputType.text,
-            //                                             readOnly: true,
-            //                                             onTap: ()  {
-            //                                               setState(() async {
-            //                                                 DateTime? pickedDate = await showDialog(
-            //                                                   context: context,
-            //                                                   builder: (_) => DatePickerWidget(onPop: (date) {
-            //                                                     dateController.text=DateFormat.yMMMd().format(date);
-            //                                                     dateFormat = DateFormat('yyyy-MM-dd').format(date) ;
-            //                                                   },
-            //                                                   ),
-            //                                                 );
-            //                                               });
-            //                                               //
-            //                                               // DateTime? pickedDate = await showDatePicker(
-            //                                               //     context: context,
-            //                                               //     initialDate: DateTime.now(),
-            //                                               //     firstDate: DateTime(1950),
-            //                                               //     //DateTime.now() - not to allow to choose before today.
-            //                                               //     lastDate: DateTime(2100));
-            //                                               //
-            //                                               // if (pickedDate != null) {
-            //                                               //   print(
-            //                                               //       pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-            //                                               //   String formattedDate =
-            //                                               //   DateFormat('yyyy-MM-dd').format(pickedDate);
-            //                                               //   print(
-            //                                               //       formattedDate); //formatted date output using intl package =>  2021-03-16
-            //                                               //   setState(() {
-            //                                               //     dateController.text =
-            //                                               //         formattedDate; //set output date to TextField value.
-            //                                               //   });
-            //                                               // } else {}
-            //                                             },
-            //                                             decoration: InputDecoration(
-            //                                                 border: InputBorder.none,
-            //                                                 hintText: "Date Purchased",
-            //                                                 hintStyle: AppTextStyle().textColor70707014w400,
-            //                                                 suffixIcon:
-            //                                                 Image.asset("assets/images/calendarimg.png")),
-            //                                           ),
-            //                                         ),
-            //                                       ],
-            //                                     ),
-            //                                   ),
-            //                                 ),
-            //
-            //                                 SizedBox(height: 30),
-            //                                 // event!.data.toString() =='' ?
-            //                                 // LightYellowButtonWithText(
-            //                                 //   onTap: () {
-            //                                 //     if(nameController.text.isNotEmpty &&
-            //                                 //         typeController.text.isNotEmpty &&
-            //                                 //         dateController.text.isNotEmpty) {
-            //                                 //       postDateAndEventApi(
-            //                                 //           name: nameController.text,
-            //                                 //           date: dateFormat,
-            //                                 //           type: typeController.text,
-            //                                 //           privacy: 'public').then((value) async {
-            //                                 //         if(value['status'] == true) {
-            //                                 //           Fluttertoast.showToast(msg: value['message']);
-            //                                 //         } else {
-            //                                 //           Fluttertoast.showToast(msg: value['message']);
-            //                                 //         }
-            //                                 //       });
-            //                                 //     }
-            //                                 //
-            //                                 //
-            //                                 //   },
-            //                                 //   backgroundColor:(
-            //                                 //       nameController.text.isNotEmpty &&
-            //                                 //           typeController.text.isNotEmpty ||
-            //                                 //           dateController.text.isNotEmpty
-            //                                 //   ) ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-            //                                 //       : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-            //                                 //   textStyleColor: nameController.text.isNotEmpty &&
-            //                                 //       typeController.text.isNotEmpty ||
-            //                                 //       dateController.text.isNotEmpty ?
-            //                                 //   Colors.black :
-            //                                 //   ColorSelect.colorB5B07A,
-            //                                 //   title: 'Add',
-            //                                 // ):
-            //                                 LightYellowButtonWithText(
-            //                                   onTap: () {
-            //                                     if(nameController.text.isNotEmpty &&
-            //                                         typeController.text.isNotEmpty &&
-            //                                         dateController.text.isNotEmpty) {
-            //                                       postDateAndEventApi(
-            //                                           name: nameController.text,
-            //                                           date: dateFormat,
-            //                                           type: typeController.text,
-            //                                           privacy: 'public').then((value) async {
-            //                                         if(value['status'] == true) {
-            //                                           Fluttertoast.showToast(msg: value['message']);
-            //                                           Navigator.pop(context);
-            //                                         } else {
-            //                                           Fluttertoast.showToast(msg:'Please fill all details fields');
-            //                                         }
-            //                                       });
-            //                                     }
-            //
-            //
-            //                                   },
-            //                                   backgroundColor:(
-            //                                       nameController.text.isNotEmpty &&
-            //                                           typeController.text.isNotEmpty ||
-            //                                           dateController.text.isNotEmpty
-            //                                   ) ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-            //                                       : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-            //                                   textStyleColor: nameController.text.isNotEmpty &&
-            //                                       typeController.text.isNotEmpty ||
-            //                                       dateController.text.isNotEmpty ?
-            //                                   Colors.black :
-            //                                   ColorSelect.colorB5B07A,
-            //                                   title: 'save',
-            //                                 ),
-            //
-            //                                 SizedBox(height: 24)
-            //                               ],
-            //                             ),
-            //
-            //                           ],
-            //                         ),
-            //                       ),
-            //                     ),
-            //                   );
-            //                 },
-            //               );
-            // },
-            //             child: Text(
-            //               "+ Add more",
-            //               style: AppTextStyle().textColorBA54DE14w500,
-            //             ),
-            //           ),
-            //           Spacer(),
-            //           Image.asset("assets/images/Vector175.png"),
-            //         ],
-            //       ),
                   SizedBox(
                     height: 40.h,
                   ),

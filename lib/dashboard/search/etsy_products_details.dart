@@ -5,21 +5,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:swishlist/api/etsy_apis/all_listing_apis.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import '../../api/etsy_apis/etsy_images_api.dart';
-import '../../api/etsy_apis/etsy_single_image_api.dart';
 import '../../api/user_apis/etsy_product_add.dart';
 import '../../buttons/light_yellow.dart';
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../models/etsy_image_model.dart';
 import '../../models/etsy_load_more_model.dart';
-import '../../models/etsy_single_image_model.dart';
-import '../../models/etsy_single_listing_model.dart';
 import '../../profile_page/widgets/date_picker.dart';
 import '../products/manuallyadd.dart';
-import '../products/widget/product_widget.dart';
 
 class EtsyProductDetails extends StatefulWidget {
   final String productId;
@@ -44,16 +39,12 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
   @override
   void initState() {
     getImages();
-    // getProductDetails();
     super.initState();
 
   }
   EtsyImagesModel?  imageModel;
   bool isLoading = false;
-
   EtsyLoadMoreModel? etsyDetails;
-
-
 
   getImages() {
     isLoading = true;
@@ -68,35 +59,9 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
     });
   }
 
-  // EtsyProductDetailsModel? productDetails;
-  // getProductDetails() {
-  //   isLoading = true;
-  //   var resp = getSingleListing(listingId: widget.productId);
-  //   resp.then((value) {
-  //     setState(() {
-  //         productDetails = EtsyProductDetailsModel.fromJson(value);
-  //         isLoading = false;
-  //     });
-  //     // print(imageModel!.results![0].urlFullxfull.toString());
-  //     // print(object)
-  //   });
-  // }
-
-
-
-
-
-
   final productTypeController = TextEditingController();
   final dateController = TextEditingController();
   String dateFormat ='';
-
-
-
-
-
-
-
 
 
   @override
@@ -132,7 +97,6 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                 children: [
                   Text(
                    " Product Id : ${widget.productId}",
-                    // 'Product Id : ${widget.productId}',
                   textAlign: TextAlign.left,
                   ),
                 ],
@@ -141,7 +105,6 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                 height: 16.h,
               ),
               Text(
-                // productDetails!.title.toString(),
                 widget.productTitle,
                 style: AppTextStyle().textColor29292916w500,
               ),
@@ -151,15 +114,12 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
               Row(
                 children: [
                   Text(
-                    // '\$ ${productDetails!.price.toString()}',
                     '\$ ${widget.productPrice}',
                     style: AppTextStyle().textColor29292924w700,
                   ),
                 ],
               ),
-              SizedBox(
-                height: 20.h,
-              ),
+              SizedBox(height: 20.h),
               SizedBox(
                 height: 200,
                 child: ListView.separated(
@@ -199,37 +159,22 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                 ),
                               ),
                         ),
-
                       );
-
-                    }, separatorBuilder: (BuildContext context, int index) => SizedBox(width: 10),),
+                    }, separatorBuilder: (BuildContext context, int index) => SizedBox(width: 10),
+                ),
               ),
-              // Wrap(
-              //   children: productDetails.tags!.map((e) => chipBox(name:e)).toList(),
-              // ),
-
-              SizedBox(
-                height: 10.h,
-              ),
+              SizedBox(height: 10.h),
               Column(
                 children: [
                   Text(
-                   // productDetails!.description.toString(),
                     widget.productDescription,
                     maxLines: 100,
                     overflow: TextOverflow.ellipsis,
-                    // style: AppTextStyle().textColor29292916w500,
                     ),
                 ],
               ),
-
-
+              SizedBox(height: 22),
               SizedBox(
-                height: 22,
-              ),
-
-              SizedBox(
-                // width: 70,
                 height: 36,
                 child: YellowButtonWithText(
                   backgroundColor:
@@ -420,15 +365,7 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                 backgroundColor:
                                                 MaterialStateProperty.all(ColorSelect.colorF7E641),
                                                 textStyleColor: ColorSelect.color292929,
-                                                // backgroundColor: /*(productTypeController.text.isNotEmpty) ?
-                                                // MaterialStateProperty.all(ColorSelect.colorF7E641)
-                                                // :*/
-                                                // MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                                                // textStyleColor: (productTypeController.text.isNotEmpty) ?
-                                                // Colors.black:
-                                                // ColorSelect.colorB5B07A,
                                                 onTap: () {
-                                                  // ;
                                                   etsyStoreApi(
                                                     type: productTypeController.text,
                                                     name: widget.productTitle,
@@ -446,11 +383,6 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                       Fluttertoast.showToast(msg: value['message']);
                                                     }
                                                   });
-
-                                                  // Navigator.pushReplacement(
-                                                  //     context,
-                                                  //     MaterialPageRoute(
-                                                  //         builder: (context) => ProductAdded(name: '', price: '', productImage: '')));
                                                 },
                                                 title: 'Add'),
                                           ),
@@ -466,20 +398,6 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                             ),
                           );
                         });
-                    // addFriendApi(
-                    //     friendsId: friendList[i].id.toString(),
-                    //     status: 'requested').then((value) {
-                    //   print(value);
-                    //   if(value['status'] == true) {
-                    //     setState(() {
-                    //       Fluttertoast.showToast(
-                    //           msg: value['message']);
-                    //     });
-                    //   } else {
-                    //     Fluttertoast.showToast(
-                    //         msg: value['message']);
-                    //   }
-                    // });
                   },
                 ),
               ),

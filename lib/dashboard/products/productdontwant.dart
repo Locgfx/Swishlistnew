@@ -8,37 +8,20 @@ import 'package:swishlist/api/user_apis/products_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
 import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
-import 'package:swishlist/dashboard/products/widget/popmenu.dart';
-import 'package:swishlist/dashboard/products/widget/search_filter.dart';
 import 'package:swishlist/models/product_model.dart';
-
 import '../../constants/color.dart';
 import '../../constants/urls.dart';
 import '../../models/product_type_model.dart';
 
 class Productdontwant extends StatefulWidget {
-  // final ProductTypeModel model;
   final bool isUser;
-  const Productdontwant({Key? key, required this.isUser,/* required this.model*/}) : super(key: key);
+  const Productdontwant({Key? key, required this.isUser,}) : super(key: key);
 
   @override
   State<Productdontwant> createState() => _ProductdontwantState();
 }
 
 class _ProductdontwantState extends State<Productdontwant> {
-  // List imageList = [
-  //   "assets/images/image10.png",
-  //   "assets/images/image12.png",
-  //   "assets/images/image10.png",
-  //   "assets/images/image12.png",
-  // ];
-  // List itemNameList = [
-  //   "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
-  //   "Samsung Galaxy Tab A8 Android Tablet, 10.5” LCD Scre...",
-  //   "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
-  //   "Samsung Galaxy Tab A8 Android Tablet, 10.5” LCD Scre...",
-  // ];
-  // List itemPrice = ["47.99", "1247.99", "47.99", "1247.99"];
   @override
   void initState() {
     getNotWantProducts();
@@ -90,29 +73,10 @@ class _ProductdontwantState extends State<Productdontwant> {
               style: AppTextStyle().textColor29292916w500,
             ),
             Spacer(),
-            // if (selectedItems.isEmpty)
-            //   GestureDetector(
-            //     onTap: () {
-            //       showModalBottomSheet(
-            //         backgroundColor: Colors.transparent,
-            //         context: context,
-            //         isScrollControlled: true,
-            //         builder: (_) => SearchFilters(),
-            //       );
-            //     },
-            //     child: Container(
-            //         color: Colors.transparent,
-            //         child: Image.asset("assets/images/filter06.png")),
-            //   ),
             if (selectedItems.isEmpty)
               SizedBox(
                 width: 20,
               ),
-            // MyOptionsDialog(),
-            // if (selectedItems.isEmpty) MyOptionsDialoglist(
-            //   onTap: () {
-            //     isLoading ? Loading() : getNotWantProducts();
-            //   },),
           ],
         ),
         actions: selectedItems.isEmpty
@@ -204,11 +168,6 @@ class _ProductdontwantState extends State<Productdontwant> {
                           builder: (context) {
                             return ManuallyAddBottomSheetWidget(/*model: widget.model,*/);
                           });
-                      /* Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ProductDataList()));*/
                     },
                     child: Row(
                       children: [
@@ -439,23 +398,6 @@ class _ProductdontwantState extends State<Productdontwant> {
                                                               DateTime.parse( notWantTwo[i].createdAt.toString())).inHours} hr ago"
                                                               : "${DateTime.now().difference(
                                                               DateTime.parse( notWantTwo[i].createdAt.toString())).inDays} days ago"),
-                                                      // Text(
-                                                      //   DateTime.now().difference(DateTime.parse(notWantTwo[i].purchasedDate
-                                                      //   .toString())).
-                                                      //       inMinutes <= 59?
-                                                      //       "${DateTime.now().difference(DateTime.parse(notWantTwo[i]
-                                                      //           .purchasedDate.toString())).inMinutes} min ago":
-                                                      //       DateTime.now().difference(DateTime.parse(notWantTwo[i].purchasedDate.
-                                                      //       toString())).
-                                                      //           inHours <= 23 ?
-                                                      //           "${DateTime.now().difference(DateTime.parse(notWantTwo[i].
-                                                      //           purchasedDate.toString())).inHours}hours ago":
-                                                      //           "${DateTime.now().difference(DateTime.parse(notWantTwo[i].
-                                                      //           purchasedDate.toString())).inDays} days ago",
-                                                      //   // "Today",
-                                                      //   style: AppTextStyle()
-                                                      //       .textColor70707012w400,
-                                                      // )
                                                     ],
                                                   ),
                                                 )
@@ -468,7 +410,8 @@ class _ProductdontwantState extends State<Productdontwant> {
                                   ),
                                 ),
                               );
-                            }),
+                            },
+                        ),
                       ],
                     ),
                   ),

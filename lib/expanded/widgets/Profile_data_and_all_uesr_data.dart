@@ -57,15 +57,9 @@ class _ProfileRowWidgetState extends State<ProfileRowWidget> {
               "Profile",
               style: AppTextStyle().textColor29292914w400,
             ),
-            Text(
-              // '${SharedPrefs().getUsername()}' == "null" ?
-              // "Please Add Your Username" :
-              // '${SharedPrefs().getUsername()}'
-              percent.isEmpty ?
+            Text(percent.isEmpty ?
                   "update your profile":
                  '${SharedPrefs().getPPercent()}',
-              // '${fav.length *100 /15}% Completed',
-              // "12%",
               style: AppTextStyle().textColor70707012w400,
             )
           ],
@@ -226,21 +220,6 @@ class PetsRowWidget extends StatefulWidget {
 
 class _PetsRowWidgetState extends State<PetsRowWidget> {
 
-  // bool profile = false;
-  // bool size = false;
-  // bool favourite = false;
-  //
-  // _sharedPrefs(){
-  //   profile = SharedPrefs().getPPercent() == '100 %' ? true : false;
-  //   size = SharedPrefs().getSetSize() == '100 %' ? true : false;
-  //   favourite = SharedPrefs().getFavourites() == '100 %' ? true : false;
-  //
-  // }
-  // @override
-  // void initState() {
-  //   _sharedPrefs();
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -263,11 +242,6 @@ class _PetsRowWidgetState extends State<PetsRowWidget> {
               "Pets",
               style: AppTextStyle().textColor29292914w400,
             ),
-            // Text(
-            //    '${SharedPrefs().getPets()}',
-            //   // "0%",
-            //   style: AppTextStyle().textColor70707012w400,
-            // )
           ],
         ),
         Spacer(),
@@ -305,10 +279,7 @@ class DateAndEventsRowWidget extends StatelessWidget {
               "Dates and Events",
               style: AppTextStyle().textColor29292914w400,
             ),
-            // Text(
-            //   "",
-            //   style: AppTextStyle().textColor70707012w400,
-            // )
+
           ],
         ),
         Spacer(),

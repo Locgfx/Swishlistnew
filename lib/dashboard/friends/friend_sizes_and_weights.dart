@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/constants/globals/loading.dart';
-
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../models/friends_details_model.dart';
-import 'friend_profile_page.dart';
 
 class FSizesAndWeights extends StatefulWidget {
   final String friendId;
@@ -16,11 +14,7 @@ class FSizesAndWeights extends StatefulWidget {
 }
 
 class _FSizesAndWeightsState extends State<FSizesAndWeights> {
-  List fashionValues = [
-    'Waist',
-    'Shirt',
-    'Shoes',
-  ];
+
 
   @override
   void initState() {
@@ -29,7 +23,7 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
   }
 
   bool isLoading = false;
-  // FriendDetailsModel? friendDetails;
+
   FriendDetailsModel? friendDetails = FriendDetailsModel(
     data: Data(
       sizeWeight: SizeWeight(
@@ -57,41 +51,6 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
               isLoading = false;
             });
           }
-
-          // setState(() {
-          //   friendDetails = FriendDetailsModel.fromJson(value);
-          //   if(friendDetails!.data != null) {
-          //     if(friendDetails!.data!.sizeWeight == null) {
-          //     }
-          //
-          //   } else {
-          //     friendDetails = FriendDetailsModel(
-          //         data: Data(
-          //           id: 0,
-          //           name: '',
-          //           username: '',
-          //           phone: '',
-          //           email: '',
-          //           photo: '',
-          //           type: '',
-          //           sizeWeight: SizeWeight(
-          //             id: 0,
-          //             userId: 0,
-          //             waist: '',
-          //             shirt: '',
-          //             shoes: '',
-          //             bed: '',
-          //             privacyStatus: '',
-          //             createdAt: '',
-          //           ),
-          //           interest: Interest(
-          //               interest: ''
-          //           ),
-          //         )
-          //     );
-          //   }
-          //   isLoading = false;
-          // });
         } else {
           setState(() {
             isLoading = false;
@@ -146,11 +105,6 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
               ),
               InkWell(
                 onTap: () {
-                  // showDialog(
-                  //   context: context,
-                  //   builder: (BuildContext context) {
-                  //   },
-                  // );
                 },
                 child: Row(
                   children: [
@@ -160,9 +114,7 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
                     ),
                     Spacer(),
                     Text(
-                       /* friendDetails!.data!.sizeWeight!.waist.toString() == '' ?
-                        'waist is not added yet' :*/
-                        friendDetails!.data!.sizeWeight!.waist.toString(),
+                      friendDetails!.data!.sizeWeight!.waist.toString(),
                       // '+ Add',
                       style:
                       // AppTextStyle().textColorD5574514w500 :
@@ -268,11 +220,6 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
               ),
               GestureDetector(
                 onTap: () {
-                  // showDialog(
-                  //   context: context,
-                  //   builder: (BuildContext context) {
-                  //   },
-                  // );
                 },
                 child: Row(
                   children: [
@@ -281,10 +228,7 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
                       style: AppTextStyle().textColor70707014w400,
                     ),
                     Spacer(),
-                    Text(
-                       /* friendDetails!.data!.sizeWeight!.bed.toString() == '' ?
-                        'waist is not added yet' :*/
-                        friendDetails!.data!.sizeWeight!.bed.toString(),
+                    Text(friendDetails!.data!.sizeWeight!.bed.toString(),
                       // '+ Add' ,
                       style: AppTextStyle().textColor29292914w400
                     ),
@@ -302,23 +246,6 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
             ],
           ) ,
         ),
-        // child: Container(
-        //   constraints: BoxConstraints(maxHeight: 1.sh),
-        //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       Text('Fashion', style: AppTextStyle().textColor29292914w600),
-        //       for (int i = 0; i < fashionValues.length; i++)
-        //         ProfileRowValue(title: fashionValues[i], value: 'Value'),
-        //       SizedBox(height: 24),
-        //       Text('Home', style: AppTextStyle().textColor29292914w600),
-        //       for (int i = 0; i < homeValues.length; i++)
-        //         ProfileRowValue(title: homeValues[i], value: 'Value'),
-        //       SizedBox(height: 24),
-        //     ],
-        //   ),
-        // ),
       ),
     );
   }

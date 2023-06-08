@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/api/user_apis/message_api.dart';
-import 'package:swishlist/models/friends_model.dart';
 import '../../../constants/color.dart';
 import '../../products/widget/product_add_widget.dart';
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/decoration.dart';
-
 import '../privacy.dart';
 
 class HomeAddressDialogWidget extends StatelessWidget {

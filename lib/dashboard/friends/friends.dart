@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
@@ -48,11 +47,9 @@ class _FriendsState extends State<Friends> {
               friendList.add(ModelFriend.fromJson(v));
             }
             isLoading = false;
-            // friendsModels = FriendModel.fromJson(value);
           });
         } else {
           setState(() {
-            // friendsModels = GetFriendsModel.fromJson(value);
             isLoading = false;
           });
 
@@ -224,19 +221,6 @@ class _FriendsState extends State<Friends> {
                           style: AppTextStyle().textColor70707012w500,
                         ),
                         Spacer(),
-                        // GestureDetector(
-                        //   onTap: () {
-                        //    setState(() {
-                        //      // isLoading ? Loading() : getFriends();
-                        //    });
-                        //   },
-                        //   child: Text(
-                        //     "Refresh List",
-                        //     style: AppTextStyle().robotocolor22222214w500,
-                        //   ),
-                        // ),
-                        // SizedBox(width: 6),
-                        // Image.asset("assets/images/sortarrowdown.png")
                       ],
                     ),
                     SizedBox(
@@ -320,12 +304,6 @@ class _FriendsState extends State<Friends> {
                                               ),
                                         ),
                                       ),
-                                      // CircleAvatar(
-                                      //   radius: 24,
-                                      //   backgroundColor: Colors.grey,
-                                      //   backgroundImage:
-                                      //       NetworkImage(model.data[i].user.photo),
-                                      // ),
                                       SizedBox(
                                         width: 8,
                                       ),
@@ -468,8 +446,7 @@ class _FriendsState extends State<Friends> {
                 ),
               ),
           ),
-            ),
-        // if(isLoading) Loading()
+        ),
       ],
     );
   }

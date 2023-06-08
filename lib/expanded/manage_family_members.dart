@@ -65,28 +65,6 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
               style: AppTextStyle().textColor29292916w500,
             ),
             Spacer(),
-            // Padding(
-            //   padding: const EdgeInsets.only(right: 24),
-            //   child: GestureDetector(
-            //     onTap: () {
-            //       Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (context) => AddFamilyMemberDetails()));
-            //     },
-            //     child: Container(
-            //       // color: Colors.red,
-            //       child: Padding(
-            //         padding: const EdgeInsets.only(left: 8,top: 8,bottom: 8),
-            //         child: SvgPicture.asset(
-            //           "assets/icons/Union.svg",
-            //           height: 14,
-            //           width: 14,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // )
           ],
         ),
         leadingWidth: 40,
@@ -202,24 +180,20 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                       id: familyRequested[i].familyMemberUserId.toString(),
                       widget: GestureDetector(
                           onTap: () {
-                            updateFamilyMember(
-                                status: 'cancelled',
-                                id: familyModel!.data![i].id.toString(),
-                                familyMemberId: familyRequested[i].familyMemberUserId.toString(),
-                                relation: familyRequested[i].relation.toString(),
-                                privacy: 'public').then((value) {
-                              if(value['status'] ==  true) {
-                                Fluttertoast.showToast(msg: value['message']);
-                              } else {
-                                Fluttertoast.showToast(msg: value['message']);
-                              }
-
-                            });
+                            deleteFamilyMembers(
+                                id: familyRequested[i].id.toString()).then((value) {
+                           if(value['status'] ==  true) {
+                             Navigator.pop(context);
+                           Fluttertoast.showToast(msg: value['message']);
+                           } else {
+                            Fluttertoast.showToast(msg: value['message']);
+                             }
+                            }) ;
                           },
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                           child: Text(
-                            "Cancel Request",
+                            "Delete Member",
                             textAlign: TextAlign.right,
                             style: AppTextStyle().textColorC92C2C14w500,
                           ),
@@ -229,48 +203,6 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                   );
                 },
               ),
-
-              // Row(
-              //   children: [
-              //     Column(
-              //       children: [
-              //         CircleAvatar(
-              //           radius: 20,
-              //           backgroundColor: Colors.grey,
-              //           backgroundImage:
-              //               AssetImage('assets/images/Rectangle3194.png'),
-              //         ),
-              //       ],
-              //     ),
-              //     SizedBox(
-              //       width: 10.w,
-              //     ),
-              //     Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         Text(
-              //           "Ryan Howard",
-              //           style: AppTextStyle().textColor29292914w500,
-              //         ),
-              //         SizedBox(
-              //           height: 10.h,
-              //         ),
-              //         Text(
-              //           "Ryan372882",
-              //           style: AppTextStyle().textColor70707014w400,
-              //         )
-              //       ],
-              //     ),
-              //     Spacer(),
-              //     Padding(
-              //       padding: const EdgeInsets.only(right: 16),
-              //       child: Text(
-              //         "Cancel Request",
-              //         style: AppTextStyle().textColorC92C2C14w500,
-              //       ),
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ),

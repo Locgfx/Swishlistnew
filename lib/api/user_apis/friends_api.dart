@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:http/http.dart'as http;
 import 'package:swishlist/constants/globals/shared_prefs.dart';
-
 import '../../constants/urls.dart';
-import '../../models/friends_model.dart';
+
 
 Future getFriendsApi() async {
   var headers = {

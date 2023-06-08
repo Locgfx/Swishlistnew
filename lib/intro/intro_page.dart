@@ -5,7 +5,6 @@ import 'package:swishlist/intro/intro_3.dart';
 import 'package:swishlist/intro/intro_4.dart';
 import 'package:swishlist/intro/intro_5.dart';
 import 'package:swishlist/intro/intro_final.dart';
-
 import '../constants/color.dart';
 import '../welcome/welcome.dart';
 import 'intro_1.dart';

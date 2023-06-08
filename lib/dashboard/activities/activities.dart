@@ -1,5 +1,3 @@
-
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +5,6 @@ import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
-import 'package:intl/intl.dart';
 import '../../api/user_apis/activities_api.dart';
 import '../../api/user_apis/activity_store_model.dart';
 import '../../constants/color.dart';
@@ -32,8 +29,6 @@ class _ActivitiesState extends State<Activities> {
 
   Activity1? activity1;
   ActivityStoreModel? activityStore;
-  // ActivityStore? activityStore1;
-  // ActivityStoreModel? storeModel;
   bool isLoading = false;
   getActivity() {
     isLoading = true;
@@ -74,24 +69,7 @@ class _ActivitiesState extends State<Activities> {
                 style: AppTextStyle().textColor70707012w500,
               ),
               SizedBox(height: 11),
-              // Center(
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.center,
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: [
-              //       Icon(Icons.error_outline,color: Colors.black,size: 80,),
-              //       // Image.asset("assets/images/delivery.png",height: 100,),
-              //       SizedBox(height: 5),
-              //       Text('No Activities Found',
-              //         style: AppTextStyle().textColor29292914w500,)
-              //     ],
-              //   ),
-              // )
 
-
-              //
-              // if (activity1 != null)
-              //   if (activity1!.data.isNotEmpty)
                   activity1!.data!.isEmpty ?
                   Center(
                     child: Column(
@@ -160,21 +138,7 @@ class _ActivitiesState extends State<Activities> {
                                               ),
                                             ),
                                       ),
-                                      // child: Image.asset(
-                                      //   'assets/images/Rectangle319.png',
-                                      //   fit: BoxFit.fill,
-                                      // ),
                                     ),
-                                   //  CircleAvatar(
-                                   //      radius: 24,
-                                   //      backgroundColor: Colors.grey,
-                                   //      //Todo: network image error widget
-                                   //      backgroundImage: NetworkImage(
-                                   //          '${baseUrl}${activity1!.data![i].user!.photo}') /*Image.network(
-                                   //
-                                   //
-                                   // */
-                                   //  ),
                                     SizedBox(width: 8),
                                     Expanded(
                                       child: Column(
@@ -207,11 +171,6 @@ class _ActivitiesState extends State<Activities> {
                                               : "${DateTime.now().difference(DateTime.parse(activity1!
                                                   .data![i].createdAt.toString())).inDays} days ago"),
 
-                                          /*Text(
-                                            "${activity1!.data[i].createdAt}",
-                                            style: AppTextStyle()
-                                                .robotocolor7C7F8C12w400,
-                                          )*/
                                         ],
                                       ),
                                     ),
@@ -261,22 +220,6 @@ class _ActivitiesState extends State<Activities> {
               SizedBox(
                 height: 12,
               ),
-              // if (activity1 != null)
-              //   if (activity1!.data.isNotEmpty)
-        /*      activity1!.data.isEmpty ?
-              Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                    // Image.asset("assets/images/delivery.png",height: 100,),
-                    SizedBox(height: 5),
-                    Text('No Activities Found',
-                      style: AppTextStyle().textColor29292914w500,)
-                  ],
-                ),
-              ) :*/
               activity1!.data!.isEmpty ?
               Center(
                 child: Column(
@@ -348,18 +291,6 @@ class _ActivitiesState extends State<Activities> {
                                                 .data![i].createdAt.toString())).inHours} hr ago"
                                                 : "${DateTime.now().difference(DateTime.parse(activity1!
                                                 .data![i].createdAt.toString())).inDays} days ago"),
-
-
-              // Text(DateFormat("dd MM yyyy").format(
-              //                               DateTime.parse(
-              //                                   activity1!
-              //                                       .data![i].createdAt.toString()))),
-              //                           Text(
-              //                         "${activity1!.data![i].createdAt}",
-              //                         style:
-              //                             AppTextStyle().robotocolor7C7F8C12w400,
-              //                       )
-                                        // Text('${DateTime.now()}')
                                       ],
                                     ),
                                   ),
@@ -390,10 +321,9 @@ class _ActivitiesState extends State<Activities> {
                                             Fluttertoast.showToast(
                                                 msg:
                                                 'Activity failed');
-
                                           }
-
-                                        });
+                                        }
+                                        );
                                       },
                                     ),
                                   )
