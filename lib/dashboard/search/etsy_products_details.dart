@@ -273,7 +273,6 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                     child: TextFormField(
                                                       onChanged: (v) {
                                                         setState(() {
-
                                                         });
                                                       },
                                                       controller: dateController,
@@ -286,7 +285,8 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                             builder: (_) => DatePickerWidget(onPop: (date) {
                                                               dateController.text=DateFormat.yMMMd().format(date);
                                                               dateFormat = DateFormat('yyyy-MM-dd').format(date) ;
-                                                            }, maximumDate: 2023,
+                                                            },
+                                                              maximumDate: 2023,
                                                             ),
                                                           );
                                                         });
@@ -397,55 +397,11 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                               ),
                             ),
                           );
-                        });
+                        },
+                    );
                   },
                 ),
               ),
-              // Container(
-              //   height: 52.h,
-              //   width: 328.w,
-              //   decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(8),
-              //       color: ColorSelect.colorEBF6E9),
-              //   child: Row(
-              //     children: [
-              //       Padding(
-              //         padding: const EdgeInsets.only(
-              //             left: 12, top: 10, bottom: 10, right: 4),
-              //         child: CircleAvatar(
-              //           radius: 20,
-              //           backgroundImage:
-              //           AssetImage('assets/images/Rectangle1072.png'),
-              //         ),
-              //       ),
-              //       Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           SizedBox(
-              //             height: 8,
-              //           ),
-              //           Text(
-              //             "Someone wants this",
-              //             style: AppTextStyle().textcolor4B955714w400,
-              //           ),
-              //           Text(
-              //             "“I really like it”",
-              //             style: AppTextStyle().textColor29292914w400,
-              //           )
-              //         ],
-              //       ),
-              //       Spacer(),
-              //       Padding(
-              //         padding: const EdgeInsets.only(right: 18),
-              //         child: Text(
-              //           "2 days",
-              //           style: AppTextStyle().robotocolor78787812w400,
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // ),
-
               SizedBox(
                 height: 40.h,
               ),

@@ -74,6 +74,7 @@ class _ProfileState extends State<Profile> {
           } else {
             setState(() {
               profile = ProfileModel.fromJson(value);
+              get();
               fields();
               isLoading = false;
             });
@@ -105,7 +106,8 @@ class _ProfileState extends State<Profile> {
   List <String> pro = [];
 
   get() {
-    if(profile!.data!.name != null || profile!.data!.name != ''){
+
+    if(profile!.data!.name != null || profile!.data!.name != '') {
       pro.add('name');
     }
     if(profile!.data!.gender != null || profile!.data!.gender != ''){
@@ -143,7 +145,6 @@ class _ProfileState extends State<Profile> {
   File pickedImage = File("");
   final ImagePicker _imgPicker = ImagePicker();
   String networkImage = '';
-
   final nameController = TextEditingController();
   final genderController = TextEditingController();
   final dobController = TextEditingController();
@@ -198,50 +199,33 @@ class _ProfileState extends State<Profile> {
       ),
       backgroundColor: Colors.white,
       body:  isLoading ? Loading() :SingleChildScrollView(
-        child: Form(
-          // key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              LinearPercentIndicator(
-                curve: Curves.linear,
-                width: 1.sw,
-                padding: EdgeInsets.zero,
-                lineHeight: 8.0,
-                percent: (pro.length/10) ,
-                backgroundColor: Color(0xff66D340).withOpacity(0.28),
-                progressColor: ColorSelect.color66D340,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 40.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                          Stack(
-                          children: [
-                            pickedImage.isAbsolute ?
-                            Container(
-                                height:100,
-                                width:100,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:Colors.grey.shade200,
-                                ),
-                                clipBehavior: Clip.hardEdge,
-                                child:Image.file(
-                                pickedImage,
-                                width: 1.sw,
-                                height: 420,
-                                fit: BoxFit.cover,
-                              ),
-                            ) :
-                            Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            LinearPercentIndicator(
+              curve: Curves.linear,
+              width: 1.sw,
+              padding: EdgeInsets.zero,
+              lineHeight: 8.0,
+              percent: (pro.length/10) ,
+              backgroundColor: Color(0xff66D340).withOpacity(0.28),
+              progressColor: ColorSelect.color66D340,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 40.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                        Stack(
+                        children: [
+                          pickedImage.isAbsolute ?
+                          Container(
                               height:100,
                               width:100,
                               decoration: BoxDecoration(
@@ -249,777 +233,781 @@ class _ProfileState extends State<Profile> {
                                 color:Colors.grey.shade200,
                               ),
                               clipBehavior: Clip.hardEdge,
-                              child:  CachedNetworkImage(
-                                imageUrl:/* baseUrl+profile!.data!.user!.photo! == '' ?
-                                'add photo' :*/
-                                // '${SharedPrefs().getUserPhoto()}',
-                                baseUrl+profile!.data!.user!.photo.toString(),
-                                fit: BoxFit.cover,
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error,size: 40,),
-                                progressIndicatorBuilder:  (a,b,c) =>
-                                    Opacity(
-                                      opacity: 0.3,
-                                      child: Shimmer.fromColors(
-                                        baseColor: Colors.black12,
-                                        highlightColor: Colors.white,
-                                        child: Container(
-                                          width: 50,
-                                          height: 50,
-                                          //margin: EdgeInsets.symmetric(horizontal: 24),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              shape: BoxShape.circle
-                                          ),
+                              child:Image.file(
+                              pickedImage,
+                              width: 1.sw,
+                              height: 420,
+                              fit: BoxFit.cover,
+                            ),
+                          ) :
+                          Container(
+                            height:100,
+                            width:100,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color:Colors.grey.shade200,
+                            ),
+                            clipBehavior: Clip.hardEdge,
+                            child:  CachedNetworkImage(
+                              imageUrl:/* baseUrl+profile!.data!.user!.photo! == '' ?
+                              'add photo' :*/
+                              '$baseUrl${SharedPrefs().getUserPhoto()}',
+                              // baseUrl+profile!.data!.user!.photo.toString(),
+                              fit: BoxFit.cover,
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error,size: 40,),
+                              progressIndicatorBuilder:  (a,b,c) =>
+                                  Opacity(
+                                    opacity: 0.3,
+                                    child: Shimmer.fromColors(
+                                      baseColor: Colors.black12,
+                                      highlightColor: Colors.white,
+                                      child: Container(
+                                        width: 50,
+                                        height: 50,
+                                        //margin: EdgeInsets.symmetric(horizontal: 24),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle
                                         ),
                                       ),
                                     ),
-                              ),
-                            ),
-                            Positioned(
-                                top: 60,
-                                right: 0.0,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    XFile? v = await _imgPicker.pickImage(
-                                        source: ImageSource.gallery
-                                    );
-                                    if (v != null) {
-                                      setState(() {
-                                        pickedImage = File(v.path);
-                                      },);
-                                    }
-                                    print(pickedImage);
-                                  },
-                                  child: Image.asset(
-                                      'assets/images/Frame1000002710.png',
                                   ),
-                                ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 40.h),
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return NameEditDialogWidget(
-                                title: 'Name',
-                                addTextField: TextFormField(
-                                  onChanged: (v) {
-                                    setState(() {});
-                                    if(!pro.contains("name")) {
-                                      setState(() {
-                                        pro.add('name');
-                                      });
-                                    }
-                                  },
-                                  controller: nameController,
-                                  cursorColor: ColorSelect.colorF7E641,
-                                  decoration: AppTFDecoration(hint: 'Name').decoration(),
-                                  //keyboardType: TextInputType.phone,
-                                ),
-                              );
-                              },
-                        );
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Text(
-                              "Name",
-                              style: AppTextStyle().textColor70707014w400,
-                            ),
-                            Spacer(),
-                            nameController.text.isEmpty ?
-                            Text(
-                              profile!.data!.name!.toString() == '' ?
-                              '+ Add':
-                              // '${SharedPrefs().getName()}',
-                              profile!.data!.name!.toString(),
-                              style: profile!.data!.name! == '' ? AppTextStyle().textColorD5574514w500 :
-                              AppTextStyle().textColor29292914w400,
-                            ) : Text(nameController.text,
-                              style:AppTextStyle().textColor29292914w400,),
-                            // SizedBox(
-                            //   width: 5.w,
-                            // ),
-                            // Image.asset("assets/images/image46.png"),
-                            // SizedBox(
-                            //   width: 20.w,
-                            // ),
-                            // SvgPicture.asset("assets/icons/forwordarrow.svg")
-                          ],
-                        ),
-                      ),
-                      // child: NameRowWidget(profile: profile!,),
-                    ),
-
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CheckBoxWidget(
-                                gender: genderController.text,
-                                onPop: (val ) {
-                                  setState(() {
-
-                                  });
-                                  if(!pro.contains("gender")) {
-                                    setState(() {
-                                      pro.add('gender');
-                                    });
-                                  }
-                                  setState(() {
-                                    genderController.text = val;
-                                  });
-                                },);
-                            });
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Text(
-                              "Gender",
-                              style: AppTextStyle().textColor70707014w400,
-                            ),
-                            Spacer(),
-                            genderController.text.isEmpty ?
-                            Text(
-                              profile!.data!.gender!.toString() == '' ?
-                              '+ Add':
-                              profile!.data!.gender!.toString(),
-                              style: profile!.data!.gender! == '' ?
-                              AppTextStyle().textColorD5574514w500 :
-                              AppTextStyle().textColor29292914w400,
-                            ) : Text(genderController.text,
-                              style:AppTextStyle().textColor29292914w400,),
-                            // SizedBox(
-                            //   width: 5.w,
-                            // ),
-                            // Image.asset("assets/images/image461.png"),
-                            // SizedBox(
-                            //   width: 20.w,
-                            // ),
-                            // SvgPicture.asset("assets/icons/forwordarrow.svg")
-                          ],
-                        ),
-                      ),
-                      // child: GenderRowWidget(profile: profile!,),
-                    ),
-                    SizedBox(height: 20.h,),
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return NameEditDialogWidget(
-                              title: 'Dob',
-                              addTextField: TextFormField(
-                                onChanged: (v) {
-                                  setState(() {});
-                                  if(!pro.contains("dob")) {
-                                    setState(() {
-                                      pro.add('dob');
-                                    });
-                                  }
-                                },
-                                controller: dobController,
-                                cursorColor: ColorSelect.colorF7E641,
-                                decoration: AppTFDecoration(
-                                    hint: 'Dob').decoration(),
-                                readOnly: true,
-                                onTap: () {
-                                  setState(() async {
-                                    DateTime? pickedDate = await showDialog(
-                                      context: context,
-                                      builder: (_) => DatePickerWidget(onPop: (date) {
-                                        dobController.text=DateFormat.yMMMd().format(date);
-                                        dobFormat = DateFormat('yyyy-MM-dd').format(date) ;
-                                      }, maximumDate: 2023,
-                                      ),
-                                    );
-                                  },
+                          ),
+                          Positioned(
+                              top: 60,
+                              right: 0.0,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  XFile? v = await _imgPicker.pickImage(
+                                      source: ImageSource.gallery
                                   );
+                                  if (v != null) {
+                                    setState(() {
+                                      pickedImage = File(v.path);
+                                    },);
+                                  }
+                                  print(pickedImage);
                                 },
-                                //keyboardType: TextInputType.phone,
+                                child: Image.asset(
+                                    'assets/images/Frame1000002710.png',
+                                ),
                               ),
-                            );
-                          },
-                        );
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Text(
-                              "Date of birth",
-                              style: AppTextStyle().textColor70707014w400,
-                            ),
-                            Spacer(),
-                            dobController.text.isEmpty ?
-                            Text(
-                              profile!.data!.dob!.toString() == '' ?
-                              '+ Add':
-                              profile!.data!.dob!.toString(),
-                              style: profile!.data!.dob! == '' ?
-                              AppTextStyle().textColorD5574514w500 :
-                              AppTextStyle().textColor29292914w400,
-                            ): Text(dobController.text,
-                                style:AppTextStyle().textColor29292914w400,)
-                            // SizedBox(
-                            //   width: 5.w,
-                            // ),
-                            // Image.asset("assets/images/image461.png"),
-                            // SizedBox(
-                            //   width: 20.w,
-                            // ),
-                            // SvgPicture.asset("assets/icons/forwordarrow.svg")
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ),
-                    // DateOfBirthWidget(profile: profile!,),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        showDialog(
+                    ],
+                  ),
+                  SizedBox(height: 40.h),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return NameEditDialogWidget(
-                              title: 'Occupation',
+                              title: 'Name',
                               addTextField: TextFormField(
                                 onChanged: (v) {
                                   setState(() {});
-                                  if(!pro.contains("occupation")) {
+                                  if(!pro.contains("name")) {
                                     setState(() {
-                                      pro.add('occupation');
+                                      pro.add('name');
                                     });
                                   }
                                 },
-                                controller: occupationController,
+                                controller: nameController,
                                 cursorColor: ColorSelect.colorF7E641,
-                                decoration: AppTFDecoration(
-                                    hint: 'Occupation'
-                                ).decoration(),
+                                decoration: AppTFDecoration(hint: 'Name').decoration(),
                                 //keyboardType: TextInputType.phone,
                               ),
                             );
-                          },
-                        );
-                      },
+                            },
+                      );
+                    },
+                    child: Container(
+                      color: Colors.transparent,
                       child: Row(
                         children: [
                           Text(
-                            "Occupation",
+                            "Name",
                             style: AppTextStyle().textColor70707014w400,
                           ),
                           Spacer(),
-                          occupationController.text.isEmpty ? Text(
-                            profile!.data!.occupation!.toString() == '' ?
-                            '+ Add' :
-                            profile!.data!.occupation!.toString(),
-                            style: profile!.data!.occupation! == '' ?
+                          nameController.text.isEmpty ?
+                          Text(
+                            profile!.data!.name!.toString() == '' ?
+                            '+ Add':
+                            // '${SharedPrefs().getName()}',
+                            profile!.data!.name!.toString(),
+                            style: profile!.data!.name! == '' ? AppTextStyle().textColorD5574514w500 :
+                            AppTextStyle().textColor29292914w400,
+                          ) : Text(nameController.text,
+                            style:AppTextStyle().textColor29292914w400,),
+
+                        ],
+                      ),
+                    ),
+                    // child: NameRowWidget(profile: profile!,),
+                  ),
+
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CheckBoxWidget(
+                              gender: genderController.text,
+                              onPop: (val ) {
+                                setState(() {
+
+                                });
+                                if(!pro.contains("gender")) {
+                                  setState(() {
+                                    pro.add('gender');
+                                  });
+                                }
+                                setState(() {
+                                  genderController.text = val;
+                                });
+                              },);
+                          });
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Row(
+                        children: [
+                          Text(
+                            "Gender",
+                            style: AppTextStyle().textColor70707014w400,
+                          ),
+                          Spacer(),
+                          genderController.text.isEmpty ?
+                          Text(
+                            profile!.data!.gender!.toString() == '' ?
+                            '+ Add':
+                            profile!.data!.gender!.toString(),
+                            style: profile!.data!.gender! == '' ?
                             AppTextStyle().textColorD5574514w500 :
                             AppTextStyle().textColor29292914w400,
-                          ) : Text(occupationController.text,
+                          ) : Text(genderController.text,
                             style:AppTextStyle().textColor29292914w400,),
                           // SizedBox(
                           //   width: 5.w,
                           // ),
-                          // Image.asset("assets/images/image46.png"),
+                          // Image.asset("assets/images/image461.png"),
                           // SizedBox(
                           //   width: 20.w,
                           // ),
                           // SvgPicture.asset("assets/icons/forwordarrow.svg")
                         ],
                       ),
-                      // child: OccupationRowWidget(profile: profile!)
                     ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
+                    // child: GenderRowWidget(profile: profile!,),
+                  ),
+                  SizedBox(height: 20.h,),
                   GestureDetector(
                     onTap: () {
                       showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return RelationShipCheckBox(
-                              onPop: (val ) {
-                                if(!pro.contains("cars")) {
+                        context: context,
+                        builder: (BuildContext context) {
+                          return NameEditDialogWidget(
+                            title: 'Dob',
+                            addTextField: TextFormField(
+                              onChanged: (v) {
+                                setState(() {});
+                                if(!pro.contains('dob')) {
                                   setState(() {
-                                    pro.add('cars');
+                                    pro.add('dob');
                                   });
                                 }
-                                setState(() {
-
-                                  relationStatus.text = val;
-                                });
-                              }, relation: relationStatus.text,);
-                          },
+                              },
+                              controller: dobController,
+                              cursorColor: ColorSelect.colorF7E641,
+                              decoration: AppTFDecoration(
+                                  hint: 'Dob').decoration(),
+                              readOnly: true,
+                              onTap: () {
+                                setState(() async {
+                                  DateTime? pickedDate = await showDialog(
+                                    context: context,
+                                    builder: (_) => DatePickerWidget(onPop: (date) {
+                                      dobController.text=DateFormat.yMMMd().format(date);
+                                      dobFormat = DateFormat('yyyy-MM-dd').format(date) ;
+                                    }, maximumDate: 2023,
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              //keyboardType: TextInputType.phone,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Row(
+                        children: [
+                          Text(
+                            "Date of birth",
+                            style: AppTextStyle().textColor70707014w400,
+                          ),
+                          Spacer(),
+                          dobController.text.isEmpty ?
+                          Text(
+                            profile!.data!.dob!.toString() == '' ?
+                            '+ Add':
+                            profile!.data!.dob!.toString(),
+                            style: profile!.data!.dob! == '' ?
+                            AppTextStyle().textColorD5574514w500 :
+                            AppTextStyle().textColor29292914w400,
+                          ): Text(dobController.text,
+                              style:AppTextStyle().textColor29292914w400,)
+                          // SizedBox(
+                          //   width: 5.w,
+                          // ),
+                          // Image.asset("assets/images/image461.png"),
+                          // SizedBox(
+                          //   width: 20.w,
+                          // ),
+                          // SvgPicture.asset("assets/icons/forwordarrow.svg")
+                        ],
+                      ),
+                    ),
+                  ),
+                  // DateOfBirthWidget(profile: profile!,),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return NameEditDialogWidget(
+                            title: 'Occupation',
+                            addTextField: TextFormField(
+                              onChanged: (v) {
+                                setState(() {});
+                                if(!pro.contains("occupation")) {
+                                  setState(() {
+                                    pro.add('occupation');
+                                  });
+                                }
+                              },
+                              controller: occupationController,
+                              cursorColor: ColorSelect.colorF7E641,
+                              decoration: AppTFDecoration(
+                                  hint: 'Occupation'
+                              ).decoration(),
+                              //keyboardType: TextInputType.phone,
+                            ),
+                          );
+                        },
                       );
                     },
                     child: Row(
                       children: [
                         Text(
-                          "Relationship Status",
+                          "Occupation",
                           style: AppTextStyle().textColor70707014w400,
                         ),
                         Spacer(),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        relationStatus.text.isEmpty ?
-                        Text(
-                          profile!.data!.relationStatus!.toString() == ''?
+                        occupationController.text.isEmpty ? Text(
+                          profile!.data!.occupation!.toString() == '' ?
                           '+ Add' :
-                          profile!.data!.relationStatus!.toString(),
-                          style: profile!.data!.relationStatus! == '' ?
+                          profile!.data!.occupation!.toString(),
+                          style: profile!.data!.occupation! == '' ?
                           AppTextStyle().textColorD5574514w500 :
                           AppTextStyle().textColor29292914w400,
-                        ) :
-                            Text(relationStatus.text,
-                              style:AppTextStyle().textColor29292914w400,),
-                        // Image.asset("assets/images/information1.png"),
+                        ) : Text(occupationController.text,
+                          style:AppTextStyle().textColor29292914w400,),
+                        // SizedBox(
+                        //   width: 5.w,
+                        // ),
+                        // Image.asset("assets/images/image46.png"),
                         // SizedBox(
                         //   width: 20.w,
                         // ),
                         // SvgPicture.asset("assets/icons/forwordarrow.svg")
                       ],
                     ),
+                    // child: OccupationRowWidget(profile: profile!)
                   ),
-                    // RelationshipStatusRowWidget(profile:profile!),
-                    SizedBox(height: 40.h),
-                    Text(
-                      "Contact",
-                      style: AppTextStyle().textColor29292914w600,
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return NameEditDialogWidget(
-                              title: 'Email',
-                              addTextField: TextFormField(
-                                onChanged: (v) {
-                                  setState(() {});
-                                  if(!pro.contains("email")) {
-                                    setState(() {
-                                      pro.add('email');
-                                    });
-                                  }
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return RelationShipCheckBox(
+                            onPop: (val ) {
+                              if(!pro.contains("relation_status")) {
+                                setState(() {
+                                  pro.add('relation_status');
+                                });
+                              }
+                              setState(() {
 
-                                },
-                                controller: emailController,
-                                cursorColor: ColorSelect.colorF7E641,
-                                decoration: AppTFDecoration(
-                                    hint: 'Email').decoration(),
-                                //keyboardType: TextInputType.phone,
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            "Email",
-                            style: AppTextStyle().textColor70707014w400,
-                          ),
-                          Spacer(),
-                          emailController.text.isEmpty ? Text(
-                            profile!.data!.user!.email.toString() == '' ?
-                            "+ Add" :
-                            profile!.data!.user!.email.toString(),
-                            // '${SharedPrefs().getEmail()}',
-                            style:profile!.data!.email! == '' ?
-                            AppTextStyle().textColorD5574514w500 :
-                            AppTextStyle().textColor29292914w400,
-                          ):
-                              Text(emailController.text,
-                                style:AppTextStyle().textColor29292914w400,)
-                        ],
+                                relationStatus.text = val;
+                              });
+                            }, relation: relationStatus.text,);
+                        },
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        "Relationship Status",
+                        style: AppTextStyle().textColor70707014w400,
                       ),
-                        // child: EmailRowWidget(profile:profile!),
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return NameEditDialogWidget(
-                              title: 'phone no',
-                              addTextField: TextFormField(
-                                keyboardType: TextInputType.number,
-                                onChanged: (v) {
-                                  setState(() {});
-                                  if(!pro.contains("phone")) {
-                                    setState(() {
-                                      pro.add('phone');
-                                    });
-                                  }
-                                },
-                                controller: phoneController,
-                                cursorColor: ColorSelect.colorF7E641,
-                                decoration: AppTFDecoration(
-                                    hint: 'phone no').decoration(),
-                                //keyboardType: TextInputType.phone,
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            "Phone",
-                            style: AppTextStyle().textColor70707014w400,
-                          ),
-                          Spacer(),
-                          phoneController.text.isEmpty ?
-                          Text(
-                            profile!.data!.phone.toString() == ''?
-                                '+ Add' :
-                                profile!.data!.phone.toString(),
-                            // profile!.data!.user!.phone.toString() == ''?
-                            // '+ Add' :
-                            // profile!.data!.user!.phone.toString(),
-                            style: profile!.data!.phone! == '' ?
-                            AppTextStyle().textColorD5574514w500 :
-                            AppTextStyle().textColor29292914w400,
-                          ) :
-                              Text(phoneController.text,
-                                style:AppTextStyle().textColor29292914w400,)
-                        ],
+                      Spacer(),
+                      SizedBox(
+                        width: 5.w,
                       ),
-                        // child: PhoneRowWidget(profile:profile!),
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return NameEditDialogWidget(
-                              title: 'Alternate phone no',
-                              addTextField: TextFormField(
-                                keyboardType: TextInputType.number,
-                                onChanged: (v) {
-                                  setState(() {});
-                                  if(!pro.contains("alternate_phone")) {
-                                    setState(() {
-                                      pro.add('alternate_phone');
-                                    });
-                                  }
-                                },
-                                controller: alternateNo,
-                                cursorColor: ColorSelect.colorF7E641,
-                                decoration: AppTFDecoration(
-                                    hint: 'Alternate phone no').decoration(),
-                                //keyboardType: TextInputType.phone,
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            "Alternate phone no",
-                            style: AppTextStyle().textColor70707014w400,
-                          ),
-                          Spacer(),
-                          alternateNo.text.isEmpty ?
-                          Text(
-                            profile!.data!.alternatePhone!.toString() == '' ?
-                            '+ Add' :
-                            profile!.data!.alternatePhone!.toString(),
-                            style: profile!.data!.alternatePhone! == '' ?
-                            AppTextStyle().textColorD5574514w500 :
-                            AppTextStyle().textColor29292914w400,
-                          ): Text(alternateNo.text,
-                            style:AppTextStyle().textColor29292914w400,)
-                        ],
-                      ),
-                        // child: AlternatePhoneRowWidget(profile:profile!),
-                    ),
-                    SizedBox(
-                      height: 40.h,
-                    ),
-                    Text(
-                      "Addresses",
-                      style: AppTextStyle().textColor29292914w600,
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Text(
-                      "Home",
-                      style: AppTextStyle().textColor70707014w400,
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return NameEditDialogWidget(
-                              title: 'Home Address',
-                              addTextField: TextFormField(
-                                onChanged: (v) {
-                                  setState(() {});
-                                  if(!pro.contains("home_address")) {
-                                    setState(() {
-                                      pro.add('home_address');
-                                    });
-                                  }
-                                },
-                                controller: homeController,
-                                cursorColor: ColorSelect.colorF7E641,
-                                decoration: AppTFDecoration(
-                                    hint: 'Home Address').decoration(),
-                                //keyboardType: TextInputType.phone,
-                              ),
-                            );
-                          },
-                        );
-                      },
-                        child:Container(
-                          color: Colors.transparent,
-                          child: Row(
-                            children: [
-                              homeController.text.isEmpty ?
-                              Text(profile!.data!.homeAddress!.toString() == '' ?
-                              '+ Add':
-                              profile!.data!.homeAddress!.toString(),
-                                style: profile!.data!.homeAddress! == '' ? AppTextStyle().textColorD5574514w500 :
-                                AppTextStyle().textColor29292914w400,
-                              ) :
-                                  Text(homeController.text,
-                                    style:AppTextStyle().textColor29292914w400,)
-                              // Spacer(),
-                              // Image.asset("assets/images/image462.png"),
-                              // SizedBox(width: 20.w),
-                              // SvgPicture.asset("assets/icons/forwordarrow.svg")
-                            ],
-                          ),
+                      relationStatus.text.isEmpty ?
+                      Text(
+                        profile!.data!.relationStatus!.toString() == ''?
+                        '+ Add' :
+                        profile!.data!.relationStatus!.toString(),
+                        style: profile!.data!.relationStatus! == '' ?
+                        AppTextStyle().textColorD5574514w500 :
+                        AppTextStyle().textColor29292914w400,
+                      ) :
+                          Text(relationStatus.text,
+                            style:AppTextStyle().textColor29292914w400,),
+                      // Image.asset("assets/images/information1.png"),
+                      // SizedBox(
+                      //   width: 20.w,
+                      // ),
+                      // SvgPicture.asset("assets/icons/forwordarrow.svg")
+                    ],
+                  ),
+                ),
+                  // RelationshipStatusRowWidget(profile:profile!),
+                  SizedBox(height: 40.h),
+                  Text(
+                    "Contact",
+                    style: AppTextStyle().textColor29292914w600,
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return NameEditDialogWidget(
+                            title: 'Email',
+                            addTextField: TextFormField(
+                              onChanged: (v) {
+                                setState(() {});
+                                if(!pro.contains("email")) {
+                                  setState(() {
+                                    pro.add('email');
+                                  });
+                                }
+
+                              },
+                              controller: emailController,
+                              cursorColor: ColorSelect.colorF7E641,
+                              decoration: AppTFDecoration(
+                                  hint: 'Email').decoration(),
+                              //keyboardType: TextInputType.phone,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Email",
+                          style: AppTextStyle().textColor70707014w400,
                         ),
-                      // child: AddressRowWidget(profile:profile!),
+                        Spacer(),
+                        emailController.text.isEmpty ? Text(
+                          profile!.data!.user!.email.toString() == '' ?
+                          "+ Add" :
+                          profile!.data!.user!.email.toString(),
+                          // '${SharedPrefs().getEmail()}',
+                          style:profile!.data!.email! == '' ?
+                          AppTextStyle().textColorD5574514w500 :
+                          AppTextStyle().textColor29292914w400,
+                        ):
+                            Text(emailController.text,
+                              style:AppTextStyle().textColor29292914w400,)
+                      ],
                     ),
-                    SizedBox(
-                      height: 10.h,
+                      // child: EmailRowWidget(profile:profile!),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return NameEditDialogWidget(
+                            title: 'phone no',
+                            addTextField: TextFormField(
+                              keyboardType: TextInputType.number,
+                              onChanged: (v) {
+                                setState(() {});
+                                if(!pro.contains("phone")) {
+                                  setState(() {
+                                    pro.add('phone');
+                                  });
+                                }
+                              },
+                              controller: phoneController,
+                              cursorColor: ColorSelect.colorF7E641,
+                              decoration: AppTFDecoration(
+                                  hint: 'phone no').decoration(),
+                              //keyboardType: TextInputType.phone,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Phone",
+                          style: AppTextStyle().textColor70707014w400,
+                        ),
+                        Spacer(),
+                        phoneController.text.isEmpty ?
+                        Text(
+                          profile!.data!.phone.toString() == ''?
+                              '+ Add' :
+                              profile!.data!.phone.toString(),
+                          // profile!.data!.user!.phone.toString() == ''?
+                          // '+ Add' :
+                          // profile!.data!.user!.phone.toString(),
+                          style: profile!.data!.phone! == '' ?
+                          AppTextStyle().textColorD5574514w500 :
+                          AppTextStyle().textColor29292914w400,
+                        ) :
+                            Text(phoneController.text,
+                              style:AppTextStyle().textColor29292914w400,)
+                      ],
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return NameEditDialogWidget(
-                              title: 'Work Address',
-                              addTextField: TextFormField(
-                                onChanged: (v) {
-                                  setState(() {});
-                                  if(!pro.contains("work_address")) {
-                                    setState(() {
-                                      pro.add('work_address');
-                                    });
-                                  }
-                                },
-                                controller: workController,
-                                cursorColor: ColorSelect.colorF7E641,
-                                decoration: AppTFDecoration(
-                                    hint: 'Work Address').decoration(),
-                                onTap: (){},
-                                //keyboardType: TextInputType.phone,
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            "Work",
-                            style: AppTextStyle().textColor70707014w400,
-                          ),
-                          Spacer(),
-                          SizedBox(width: 5.w),
-                          workController.text.isEmpty ?
-                          Text(
-                            profile!.data!.workAddress!.toString() == '' ?
-                            '+ Add' :
-                            profile!.data!.workAddress!.toString(),
-                            style: profile!.data!.workAddress! == '' ?
-                            AppTextStyle().textColorD5574514w500 :
-                            AppTextStyle().textColor29292914w400,
-                          ):Text(workController.text,
-                            style:AppTextStyle().textColor29292914w400,)
-                          // Image.asset("assets/images/information1.png"),
-                          // SizedBox(width: 20.w),
-                          // SvgPicture.asset("assets/icons/forwordarrow.svg")
-                        ],
+                      // child: PhoneRowWidget(profile:profile!),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return NameEditDialogWidget(
+                            title: 'Alternate phone no',
+                            addTextField: TextFormField(
+                              keyboardType: TextInputType.number,
+                              onChanged: (v) {
+                                setState(() {});
+                                if(!pro.contains("alternate_phone")) {
+                                  setState(() {
+                                    pro.add('alternate_phone');
+                                  });
+                                }
+                              },
+                              controller: alternateNo,
+                              cursorColor: ColorSelect.colorF7E641,
+                              decoration: AppTFDecoration(
+                                  hint: 'Alternate phone no').decoration(),
+                              //keyboardType: TextInputType.phone,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Alternate phone no",
+                          style: AppTextStyle().textColor70707014w400,
+                        ),
+                        Spacer(),
+                        alternateNo.text.isEmpty ?
+                        Text(
+                          profile!.data!.alternatePhone!.toString() == '' ?
+                          '+ Add' :
+                          profile!.data!.alternatePhone!.toString(),
+                          style: profile!.data!.alternatePhone! == '' ?
+                          AppTextStyle().textColorD5574514w500 :
+                          AppTextStyle().textColor29292914w400,
+                        ): Text(alternateNo.text,
+                          style:AppTextStyle().textColor29292914w400,)
+                      ],
+                    ),
+                      // child: AlternatePhoneRowWidget(profile:profile!),
+                  ),
+                  SizedBox(
+                    height: 40.h,
+                  ),
+                  Text(
+                    "Addresses",
+                    style: AppTextStyle().textColor29292914w600,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Text(
+                    "Home",
+                    style: AppTextStyle().textColor70707014w400,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return NameEditDialogWidget(
+                            title: 'Home Address',
+                            addTextField: TextFormField(
+                              onChanged: (v) {
+                                setState(() {});
+                                if(!pro.contains("home_address")) {
+                                  setState(() {
+                                    pro.add('home_address');
+                                  });
+                                }
+                              },
+                              controller: homeController,
+                              cursorColor: ColorSelect.colorF7E641,
+                              decoration: AppTFDecoration(
+                                  hint: 'Home Address').decoration(),
+                              //keyboardType: TextInputType.phone,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                      child:Container(
+                        color: Colors.transparent,
+                        child: Row(
+                          children: [
+                            homeController.text.isEmpty ?
+                            Text(profile!.data!.homeAddress!.toString() == '' ?
+                            '+ Add':
+                            profile!.data!.homeAddress!.toString(),
+                              style: profile!.data!.homeAddress! == '' ? AppTextStyle().textColorD5574514w500 :
+                              AppTextStyle().textColor29292914w400,
+                            ) :
+                                Text(homeController.text,
+                                  style:AppTextStyle().textColor29292914w400,)
+                            // Spacer(),
+                            // Image.asset("assets/images/image462.png"),
+                            // SizedBox(width: 20.w),
+                            // SvgPicture.asset("assets/icons/forwordarrow.svg")
+                          ],
+                        ),
                       ),
-                        // child: WorkRowWidget(profile:profile!),
+                    // child: AddressRowWidget(profile:profile!),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return NameEditDialogWidget(
+                            title: 'Work Address',
+                            addTextField: TextFormField(
+                              onChanged: (v) {
+                                setState(() {});
+                                if(!pro.contains("work_address")) {
+                                  setState(() {
+                                    pro.add('work_address');
+                                  });
+                                }
+                              },
+                              controller: workController,
+                              cursorColor: ColorSelect.colorF7E641,
+                              decoration: AppTFDecoration(
+                                  hint: 'Work Address').decoration(),
+                              onTap: (){},
+                              //keyboardType: TextInputType.phone,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Work",
+                          style: AppTextStyle().textColor70707014w400,
+                        ),
+                        Spacer(),
+                        SizedBox(width: 5.w),
+                        workController.text.isEmpty ?
+                        Text(
+                          profile!.data!.workAddress!.toString() == '' ?
+                          '+ Add' :
+                          profile!.data!.workAddress!.toString(),
+                          style: profile!.data!.workAddress! == '' ?
+                          AppTextStyle().textColorD5574514w500 :
+                          AppTextStyle().textColor29292914w400,
+                        ):Text(workController.text,
+                          style:AppTextStyle().textColor29292914w400,)
+                        // Image.asset("assets/images/information1.png"),
+                        // SizedBox(width: 20.w),
+                        // SvgPicture.asset("assets/icons/forwordarrow.svg")
+                      ],
                     ),
-                    SizedBox(height: 30),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: 16),
-                      child: (profile!.data!.occupation.toString() == '') ?
-                      LightYellowButtonWithText(
-                          backgroundColor:(
-                              nameController.text.isNotEmpty &&
-                                  genderController.text.isNotEmpty &&
-                                  dobFormat.isNotEmpty &&
-                                  occupationController.text.isNotEmpty &&
-                                  relationStatus.text.isNotEmpty &&
-                                  emailController.text.isNotEmpty &&
-                                  phoneController.text.isNotEmpty &&
-                                  alternateNo.text.isNotEmpty &&
-                                  homeController.text.isNotEmpty &&
-                                  workController.text.isNotEmpty
-                          ) ? MaterialStateProperty.all(ColorSelect.colorF7E641) :
-                          MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                          textStyleColor: (
-                              nameController.text.isNotEmpty &&
-                                  genderController.text.isNotEmpty &&
-                                  dobFormat.isNotEmpty &&
-                                  occupationController.text.isNotEmpty &&
-                                  relationStatus.text.isNotEmpty &&
-                                  emailController.text.isNotEmpty &&
-                                  phoneController.text.isNotEmpty &&
-                                  alternateNo.text.isNotEmpty &&
-                                  homeController.text.isNotEmpty &&
-                                  workController.text.isNotEmpty
-                          ) ?
-                          Colors.black :
-                          ColorSelect.colorB5B07A,
-                          onTap: () {
-                              postProfile(
-                                name: nameController.text,
-                                gender: genderController.text,
-                                dob: dobFormat,
-                                occupation: occupationController.text,
-                                relationStatus: relationStatus.text,
-                                email: emailController.text,
-                                phone: phoneController.text,
-                                alternateNo: alternateNo.text,
-                                homeAddress: homeController.text,
-                                workAddress: workController.text,
-                                privacyStatus: 'public',
-                                photo:pickedImage.isAbsolute
-                                     ?  pickedImage.path
-                                     : '',
-                              ).then((value) async {
-                                if(value['status'] == true) {
-                                  SharedPrefs().setPPercent('100 %');
-                                  Navigator.pop(context);
+                      // child: WorkRowWidget(profile:profile!),
+                  ),
+                  SizedBox(height: 30),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 16),
+                    child: (profile!.data!.occupation.toString() == '') ?
+                    LightYellowButtonWithText(
+                        backgroundColor:(
+                            nameController.text.isNotEmpty &&
+                                genderController.text.isNotEmpty &&
+                                dobFormat.isNotEmpty &&
+                                occupationController.text.isNotEmpty &&
+                                relationStatus.text.isNotEmpty &&
+                                emailController.text.isNotEmpty &&
+                                phoneController.text.isNotEmpty &&
+                                alternateNo.text.isNotEmpty &&
+                                homeController.text.isNotEmpty &&
+                                workController.text.isNotEmpty
+                        ) ? MaterialStateProperty.all(ColorSelect.colorF7E641) :
+                        MaterialStateProperty.all(ColorSelect.colorFCF5B6),
+                        textStyleColor: (
+                            nameController.text.isNotEmpty &&
+                                genderController.text.isNotEmpty &&
+                                dobFormat.isNotEmpty &&
+                                occupationController.text.isNotEmpty &&
+                                relationStatus.text.isNotEmpty &&
+                                emailController.text.isNotEmpty &&
+                                phoneController.text.isNotEmpty &&
+                                alternateNo.text.isNotEmpty &&
+                                homeController.text.isNotEmpty &&
+                                workController.text.isNotEmpty
+                        ) ?
+                        Colors.black :
+                        ColorSelect.colorB5B07A,
+                        onTap: () {
+                            postProfile(
+                              name: nameController.text,
+                              gender: genderController.text,
+                              dob: dobFormat,
+                              occupation: occupationController.text,
+                              relationStatus: relationStatus.text,
+                              email: emailController.text,
+                              phone: phoneController.text,
+                              alternateNo: alternateNo.text,
+                              homeAddress: homeController.text,
+                              workAddress: workController.text,
+                              privacyStatus: 'public',
+                              photo:pickedImage.isAbsolute
+                                   ?  pickedImage.path
+                                   : '',
+                            ).then((value) async {
+                              if(value['status'] == true) {
+                                SharedPrefs().setPPercent('100 %');
+                                Navigator.pop(context);
+                                Fluttertoast.showToast(
+                                    msg: value['message']);
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: 'please add all details fields'
+                                );
+                              }
+                            },
+                            );
+                        },
+                        title: 'Add'
+                    ) :
+                        LightYellowButtonWithText(
+                            backgroundColor:(
+                                nameController.text.isNotEmpty &&
+                                    genderController.text.isNotEmpty &&
+                                    dobFormat.isNotEmpty &&
+                                    occupationController.text.isNotEmpty &&
+                                    relationStatus.text.isNotEmpty &&
+                                    emailController.text.isNotEmpty &&
+                                    phoneController.text.isNotEmpty &&
+                                    alternateNo.text.isNotEmpty &&
+                                    homeController.text.isNotEmpty &&
+                                    workController.text.isNotEmpty
+                            ) ? MaterialStateProperty.all(ColorSelect.colorF7E641) :
+                            MaterialStateProperty.all(ColorSelect.colorFCF5B6),
+                            textStyleColor: (
+                                nameController.text.isNotEmpty &&
+                                genderController.text.isNotEmpty &&
+                                dobFormat.isNotEmpty &&
+                                occupationController.text.isNotEmpty &&
+                                relationStatus.text.isNotEmpty &&
+                                emailController.text.isNotEmpty &&
+                                phoneController.text.isNotEmpty &&
+                                alternateNo.text.isNotEmpty &&
+                                homeController.text.isNotEmpty &&
+                                workController.text.isNotEmpty
+                            ) ?
+                            Colors.black :
+                            ColorSelect.colorB5B07A,
+                            onTap: () {
+                              updateProfile(
+                                  name: nameController.text,
+                                  gender: genderController.text,
+                                  dob: dobFormat,
+                                  occupation: occupationController.text,
+                                  relationStatus: relationStatus.text,
+                                  email: emailController.text,
+                                  phone: phoneController.text,
+                                  alternateNo: alternateNo.text,
+                                  homeAddress: homeController.text,
+                                  workAddress: workController.text,
+                                  privacyStatus: 'public',
+                                  id: profile!.data!.user!.id.toString(),
+                                  photo: pickedImage.isAbsolute
+                                      ?  pickedImage.path
+                                      : ''
+                              ).then((value)  {
+                                print(pickedImage);
+                                  if(value['status'] ==  true) {
+                                    Navigator.pop(context);
+                                    // setState(() {
+                                    //   // isLoading ? Loading() :getProfile();
+                                    // });
                                   Fluttertoast.showToast(
                                       msg: value['message']);
                                 } else {
-                                  Fluttertoast.showToast(
-                                      msg: 'please add all details fields'
-                                  );
+                                      Fluttertoast.showToast(
+                                      msg:'please update your profile image');
                                 }
-                              },
-                              );
-                          },
-                          title: 'Add'
-                      ) :
-                          LightYellowButtonWithText(
-                              backgroundColor:(
-                                  nameController.text.isNotEmpty &&
-                                      genderController.text.isNotEmpty &&
-                                      dobFormat.isNotEmpty &&
-                                      occupationController.text.isNotEmpty &&
-                                      relationStatus.text.isNotEmpty &&
-                                      emailController.text.isNotEmpty &&
-                                      phoneController.text.isNotEmpty &&
-                                      alternateNo.text.isNotEmpty &&
-                                      homeController.text.isNotEmpty &&
-                                      workController.text.isNotEmpty
-                              ) ? MaterialStateProperty.all(ColorSelect.colorF7E641) :
-                              MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                              textStyleColor: (
-                                  nameController.text.isNotEmpty &&
-                                  genderController.text.isNotEmpty &&
-                                  dobFormat.isNotEmpty &&
-                                  occupationController.text.isNotEmpty &&
-                                  relationStatus.text.isNotEmpty &&
-                                  emailController.text.isNotEmpty &&
-                                  phoneController.text.isNotEmpty &&
-                                  alternateNo.text.isNotEmpty &&
-                                  homeController.text.isNotEmpty &&
-                                  workController.text.isNotEmpty
-                              ) ?
-                              Colors.black :
-                              ColorSelect.colorB5B07A,
-                              onTap: () {
-                                updateProfile(
-                                    name: nameController.text,
-                                    gender: genderController.text,
-                                    dob: dobFormat,
-                                    occupation: occupationController.text,
-                                    relationStatus: relationStatus.text,
-                                    email: emailController.text,
-                                    phone: phoneController.text,
-                                    alternateNo: alternateNo.text,
-                                    homeAddress: homeController.text,
-                                    workAddress: workController.text,
-                                    privacyStatus: 'public',
-                                    id: profile!.data!.id.toString(),
-                                    photo:pickedImage.isAbsolute
-                                        ?  pickedImage.path
-                                        : ''
-                                ).then((value)  {
-                                  print(pickedImage);
-                                    if(value['status'] ==  true) {
-                                      Navigator.pop(context);
-                                      // setState(() {
-                                      //   // isLoading ? Loading() :getProfile();
-                                      // });
-                                    Fluttertoast.showToast(
-                                        msg: value['message']);
-                                  } else {
-                                        Fluttertoast.showToast(
-                                        msg:'please update your profile image');
+                              });
 
-                                  /*  Fluttertoast.showToast(
-                                        msg:'please fill all details field' *//*value['message']*//*);*/
-                                  }
-                                });
-
-                              },
-                              title: 'Update')
-                    ),
-                    SizedBox(height: 25.h)
-                  ],
-                ),
-              )
-            ],
-          ),
+                            },
+                            title: 'Update')
+                  ),
+                  SizedBox(height: 25.h)
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

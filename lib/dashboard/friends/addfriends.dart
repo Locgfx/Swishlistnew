@@ -135,7 +135,6 @@ class _AddFriendsState extends State<AddFriends> {
                           for (var v in friendList) {
                             if(v.name! == val) {
                               if(searchList.contains(v)) {
-
                               } else {
                                 searchList.add(v);
                               }
@@ -147,10 +146,7 @@ class _AddFriendsState extends State<AddFriends> {
                             }
                             print(searchList);
                           });
-
-
                         },
-
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Search friend name"),

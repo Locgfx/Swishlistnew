@@ -26,7 +26,7 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
   final phoneNoController= TextEditingController();
   final numberController = TextEditingController();
 
-  LoginResponse? response;
+  // LoginResponse? response;
   File pickedImage = File("");
   final ImagePicker _imgPicker = ImagePicker();
 
@@ -162,11 +162,7 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
                       MaterialStateProperty.all(ColorSelect.colorF7E641),
                   textStyleColor: ColorSelect.color292929,
                   onTap: () {
-                    print(widget.email);
-                    print(numberController.text);
-                    // if(updateNameController.text.isNotEmpty) {
-                      updateProfile(
-                        context: context,
+                    createAccountApi(
                         name: updateNameController.text,
                         userName: userNameController.text,
                         email: widget.email,
@@ -175,28 +171,22 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
                             ?  pickedImage.path
                             : '',
                       ).then((value) async {
-                        response = value;
-                        if(response?.status != null &&
-                            response!.status == true) {
+                        // response = value;
+                        if(value['status']  == true  /*&&
+                            response!.status == true*/) {
                           // print(response);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => Login(),
-                            ),
-                          );
                           Fluttertoast.showToast(msg: "Account Successfully Created");
                           SharedPrefs().setUserPhoto(pickedImage.toString());
                           SharedPrefs().setName(updateNameController.toString());
                           SharedPrefs().setUsername(userNameController.toString());
-                          // print(pickedImage.toString());
-                          // print(updateNameController.text);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) => Login(),
                             ),
                           );
+                          // print(pickedImage.toString());
+                          // print(updateNameController.text);
                         } else{
                           Fluttertoast.showToast(msg: "Account Failed to create check your details");
 

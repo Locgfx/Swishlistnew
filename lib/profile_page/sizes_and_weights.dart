@@ -54,6 +54,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
           } else {
             setState(() {
               sizeWeight = SizesAndWeightModel.fromJson(value);
+              get();
               fields();
               isLoading = false;
             });
@@ -73,10 +74,10 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
     shoesController.text = sizeWeight!.data!.shoes.toString() ?? '';
     bedController.text = sizeWeight!.data!.bed.toString() ?? '';
   }
-
   List <String> siz = [];
   double dou = 00;
   var percent = "";
+
   get() {
     if(sizeWeight!.data!.waist != null || sizeWeight!.data!.waist != ''){
       siz.add('waist');
@@ -193,12 +194,14 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                   setState(() {
                                     waistController.text = val;
                                   });
-                                  if(!siz.contains("waist")) {
+                                  if(!siz.contains('waist')) {
                                     setState(() {
                                       siz.add('waist');
-                                    });
-                                  }
-                                },);
+                                        }
+                                      );
+                                    }
+                                  },
+                                );
                               },
                             );
                           },
@@ -243,7 +246,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                   setState(() {
                                     shirtController.text = val;
                                   });
-                                  if(!siz.contains("shirt")) {
+                                  if(!siz.contains('shirt')) {
                                     setState(() {
                                       siz.add('shirt');
                                     });
@@ -295,7 +298,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                   setState(() {
                                     shoesController.text = val;
                                   });
-                                  if(!siz.contains("shoes")) {
+                                  if(!siz.contains('shoes')) {
                                     setState(() {
                                       siz.add('shoes');
                                     });
@@ -354,7 +357,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                   setState(() {
                                     bedController.text = val;
                                   });
-                                  if(!siz.contains("bed")) {
+                                  if(!siz.contains('bed')) {
                                     setState(() {
                                       siz.add('bed');
                                     });
@@ -428,10 +431,10 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                             then((value) async {
                               if(value['status'] == true ) {
                                 SharedPrefs().setSize('100 %');
-                                setState(() {
-                                  isLoading ? Loading(): getSizedWeight();
-                                });
-                                // Navigator.pop(context);
+                                // setState(() {
+                                //   isLoading ? Loading(): getSizedWeight();
+                                // });
+                                Navigator.pop(context);
                                 Fluttertoast.showToast(
                                     msg: value['message']);
                               } else {

@@ -953,10 +953,10 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
                                   ),
                                 ),
                               ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
                   SizedBox(height: 12),
                   Expanded(
                     child: Padding(

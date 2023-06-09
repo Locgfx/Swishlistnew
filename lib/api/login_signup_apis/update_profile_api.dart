@@ -68,20 +68,20 @@ Future<dynamic> createAccountApi({
   required String email,
   required String phone,
 })async {
-var headers = {
-  'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
-};
-var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/api/updateProfile'));
-request.fields.addAll({
-  'name': name,
-  'username': userName,
-  'email': email,
-  'phone': phone
-});
-request.files.add(await http.MultipartFile.fromPath('photo', photo));
-request.headers.addAll(headers);
-http.StreamedResponse response = await request.send();
-var resp = jsonDecode(await response.stream.bytesToString());
+  var headers = {
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  };
+  var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/api/updateProfile'));
+  request.fields.addAll({
+    'name': name,
+    'username': userName,
+    'email': email,
+    'phone': phone,
+  });
+  request.files.add(await http.MultipartFile.fromPath('photo',photo));
+  request.headers.addAll(headers);
+  http.StreamedResponse response = await request.send();
+  var resp = jsonDecode(await response.stream.bytesToString());
 if(response.statusCode == 200 ) {
   print(resp);
   return resp;
@@ -91,8 +91,4 @@ if(response.statusCode == 200 ) {
   print(resp);
   return resp;
 }
-
-
-
-
 }

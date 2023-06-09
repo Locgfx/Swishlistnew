@@ -161,45 +161,76 @@ class _CreateNewAccountByPhone extends State<CreateNewAccountByPhone> {
                   MaterialStateProperty.all(ColorSelect.colorF7E641),
                   textStyleColor: ColorSelect.color292929,
                   onTap: () {
-                    print(updateNameController.text);
-                    print(userNameController.text);
-                    print(emailController.text);
-                    print(widget.phoneNo);
-                    if(updateNameController.text.isNotEmpty) {
-                      updateProfile(
-                        context: context,
-                        name: updateNameController.text,
-                        userName: userNameController.text,
-                        photo:  pickedImage.isAbsolute
-                            ?  pickedImage.path
-                            : '',
-                        email: emailController.text,
-                        phone: widget.phoneNo,
-                      ).then((value) async {
-                        response = value;
-                        if(response?.status != null &&
-                            response!.status == true) {
-                          print(response);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => Login(),
-                            ),
-                          );
-                          Fluttertoast.showToast(msg: "Account Successfully Created");
-                          SharedPrefs().setUserPhoto(pickedImage.toString());
-                          SharedPrefs().setName(updateNameController.toString());
-                          SharedPrefs().setUsername(userNameController.toString());
-                          print(pickedImage.toString());
-                          print(updateNameController.text);
+                    createAccountApi(
+                      name: updateNameController.text,
+                      userName: userNameController.text,
+                      email: emailController.text,
+                      phone: widget.phoneNo,
+                      photo:  pickedImage.isAbsolute
+                          ?  pickedImage.path
+                          : '',
+                    ).then((value) async {
+                      // response = value;
+                      if(value['status']  == true  /*&&
+                            response!.status == true*/) {
+                        // print(response);
+                        Fluttertoast.showToast(msg: "Account Successfully Created");
+                        SharedPrefs().setUserPhoto(pickedImage.toString());
+                        SharedPrefs().setName(updateNameController.toString());
+                        SharedPrefs().setUsername(userNameController.toString());
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => Login(),
+                          ),
+                        );
+                        // print(pickedImage.toString());
+                        // print(updateNameController.text);
+                      } else{
+                        Fluttertoast.showToast(msg: "Account Failed to create check your details");
 
-                        } else{
-                          Fluttertoast.showToast(msg: "Account Failed to create check your details");
-
-                        }
                       }
-                      );
                     }
+                    );
+                    // print(updateNameController.text);
+                    // print(userNameController.text);
+                    // print(emailController.text);
+                    // print(widget.phoneNo);
+                    // if(updateNameController.text.isNotEmpty) {
+                    //   updateProfile(
+                    //     context: context,
+                    //     name: updateNameController.text,
+                    //     userName: userNameController.text,
+                    //     photo:  pickedImage.isAbsolute
+                    //         ?  pickedImage.path
+                    //         : '',
+                    //     email: emailController.text,
+                    //     phone: widget.phoneNo,
+                    //   ).then((value) async {
+                    //     response = value;
+                    //     if(response?.status != null &&
+                    //         response!.status == true) {
+                    //       print(response);
+                    //       Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (_) => Login(),
+                    //         ),
+                    //       );
+                    //       Fluttertoast.showToast(msg: "Account Successfully Created");
+                    //       SharedPrefs().setUserPhoto(pickedImage.toString());
+                    //       SharedPrefs().setName(updateNameController.toString());
+                    //       SharedPrefs().setUsername(userNameController.toString());
+                    //       print(pickedImage.toString());
+                    //       print(updateNameController.text);
+                    //
+                    //     } else{
+                    //       Fluttertoast.showToast(msg: "Account Failed to create check your details");
+                    //
+                    //     }
+                    //   }
+                    //   );
+                    // }
                   },
                   title: 'Create Account'),
             ),

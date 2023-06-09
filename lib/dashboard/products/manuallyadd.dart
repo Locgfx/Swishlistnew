@@ -461,6 +461,7 @@ class ProductTypeBottomSheet extends StatefulWidget {
 
 class _ProductTypeBottomSheet extends State<ProductTypeBottomSheet> {
   int _gIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -554,10 +555,11 @@ class _ProductTypeBottomSheet extends State<ProductTypeBottomSheet> {
                       ),
                       child: Center(
                           child: Text(
-                            'want',
-                          )),
+                            'want'
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
                   SizedBox(
                     height: 20.h,
                   )

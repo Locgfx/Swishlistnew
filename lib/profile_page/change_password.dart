@@ -176,7 +176,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 hintText: "Enter new password",
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    // Based on passwordVisible state choose the icon
                                     _passwordVisible
                                         ? Icons.visibility
                                         : Icons.visibility_off,
