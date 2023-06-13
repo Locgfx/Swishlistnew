@@ -321,8 +321,8 @@ class _ActivitiesState extends State<Activities> {
                                             Fluttertoast.showToast(
                                                 msg:
                                                 'Activity failed');
+                                            }
                                           }
-                                        }
                                         );
                                       },
                                     ),

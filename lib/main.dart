@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/splash/splash.dart';
@@ -9,6 +10,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
   await SharedPrefs().init();
+/*  await Firebase.initializeApp();*/
   runApp(const MyApp());
 }
 class MyHttpOverrides extends HttpOverrides {

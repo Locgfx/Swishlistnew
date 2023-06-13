@@ -75,7 +75,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
         print(searchList);
       }
     });
-
   }
 
   List<EtsyLoadMoreModel> friendList = [];
@@ -176,7 +175,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                   onTap: () async {
                                     print(friendList[i].url);
                                     await Clipboard.setData(
-                                        ClipboardData(text: friendList[i].url)
+                                        ClipboardData(text: friendList[i].url.toString())
                                     );
                                   },
                                   child: Icon(
@@ -258,19 +257,18 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                           size: 70, color: ColorSelect.colorF7E641,
                         ),
                       );
-
-                    } else if( scrollLength <10) {
+                    } else if( scrollLength < 10) {
                       return SizedBox.shrink();
                     } else {
                       return Center(
                         child: LoadingAnimationWidget.staggeredDotsWave(
                           size: 70, color: ColorSelect.colorF7E641,
-                        ),
-                      );
-                    }
-                  }, separatorBuilder: (BuildContext context, int index) => SizedBox(height: 16,),
+                           ),
+                        );
+                      }
+                    }, separatorBuilder: (BuildContext context, int index) => SizedBox(height: 16,),
+                  ),
                 ),
-              ),
               ) :
               ListView.separated(
               padding: EdgeInsets.only(top: 16,bottom: 200),
@@ -303,7 +301,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                               onTap: () async {
                                 print(searchList[i].url);
                                 await Clipboard.setData(
-                                    ClipboardData(text: searchList[i].url)
+                                    ClipboardData(text: searchList[i].url.toString())
                                 );
                               },
                               child: Icon(
@@ -381,14 +379,19 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
 
       ),
             Container(
-              padding: EdgeInsets.only(left: 16,right: 16,top: 10,bottom: 16),
+              padding: EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 10,
+                  bottom: 16
+              ),
               width: 1.sw,
               decoration: BoxDecoration(
                   color: ColorSelect.colorF7E641,
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(20),
                   bottomLeft: Radius.circular(20)
-                )
+                ),
               ),
               child:TextFormField(
                 onChanged: (val) {

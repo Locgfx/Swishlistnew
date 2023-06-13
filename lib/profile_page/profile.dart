@@ -60,6 +60,7 @@ class _ProfileState extends State<Profile> {
       ),
     ),
   );
+
   getProfile() {
     isLoading = true;
     var resp = getProfileDetails();
