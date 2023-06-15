@@ -120,7 +120,7 @@ class _ProductdontwantState extends State<Productdontwant> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Share.share('Link');
+                    Share.share(notWantTwo[0].link.toString());
                   },
                   child: Container(
                     width: 36,

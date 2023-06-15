@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
+import 'package:swishlist/dashboard/friends/profile_chat.dart';
 import '../../api/user_apis/message_api.dart';
 import '../../constants/color.dart';
 import '../../constants/urls.dart';
@@ -9,8 +10,10 @@ import '../../models/message_model.dart';
 import '../friends/chatpage.dart';
 
 class Messages extends StatefulWidget {
-  // final String friendId;
-  const Messages({Key? key,
+  final String friendId;
+  final String friendName;
+  final String friendPhoto;
+  const Messages({Key? key, required this.friendId, required this.friendName, required this.friendPhoto,
     // required this.friendId,
   }) : super(key: key);
 
@@ -82,7 +85,7 @@ class _MessagesState extends State<Messages> {
                 children: [
                   Icon(Icons.message,color: Colors.black,size: 80,),
                   SizedBox(height: 5),
-                  Text('No Messages Found',
+                  Text('No Recent Messages',
                     style: AppTextStyle().textColor29292914w500,)
                 ],
               ),
@@ -105,11 +108,20 @@ class _MessagesState extends State<Messages> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatPage(
+                                    builder: (context) =>
+                                        ProfileChatPage(
+                                          friendId: widget.friendId,
+                                          name: widget.friendName,
+                                          friendImage: widget.friendPhoto,
+                                          selectedItems: [],
+                                        ),
+                                   /*     ChatPage(
                                       friendId: msgModel!.data![i].userMessages![0].sendToUserId.toString(),
                                       name: msgModel!.data![i].friendProfile!.name.toString(),
                                        friendImage: baseUrl+msgModel!.data![i].friendProfile!.photo.toString(), selectedItems: [],
-                                      /*friendId: widget.friendId,*/)));
+                                      *//*friendId: widget.friendId,*//*)*/
+                                )
+                            );
                           },
                           child: Container(
                             color: Colors.transparent,

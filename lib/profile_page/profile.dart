@@ -20,13 +20,13 @@ import '../constants/decoration.dart';
 import '../constants/globals/loading.dart';
 import 'favourite_add_widgets/car_edit_dialog.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+class UserProfile extends StatefulWidget {
+  const UserProfile({Key? key}) : super(key: key);
   @override
-  State<Profile> createState() => _ProfileState();
+  State<UserProfile> createState() => _UserProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _UserProfileState extends State<UserProfile> {
   bool checkedMale = false;
   bool checkedFemale = false;
   bool checkedOther = false;
@@ -420,6 +420,9 @@ class _ProfileState extends State<Profile> {
                             addTextField: TextFormField(
                               onChanged: (v) {
                                 setState(() {});
+                                setState(() {
+
+                                });
                                 if(!pro.contains('dob')) {
                                   setState(() {
                                     pro.add('dob');
@@ -933,12 +936,11 @@ class _ProfileState extends State<Profile> {
                                     msg: value['message']);
                               } else {
                                 Fluttertoast.showToast(
-                                    msg: 'please add all details fields'
-                                );
-                              }
-                            },
+                                    msg: value['message']);
+                                }
+                              },
                             );
-                        },
+                          },
                         title: 'Add'
                     ) :
                         LightYellowButtonWithText(
@@ -997,7 +999,7 @@ class _ProfileState extends State<Profile> {
                                       msg: value['message']);
                                 } else {
                                       Fluttertoast.showToast(
-                                      msg:'please update your profile image');
+                                      msg:value['message']);
                                 }
                               });
 

@@ -1,11 +1,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/loading.dart';
+import 'package:swishlist/profile_page/profile.dart';
+import '../api/user_apis/delete_account_api.dart';
 import '../api/user_apis/profile_apis.dart';
+import '../buttons/red_button.dart';
+import '../buttons/red_text_white_color_button.dart';
+import '../buttons/white_button.dart';
 import '../models/profile_model.dart';
 import 'change_password.dart';
+import 'delete_account.dart';
+
 
 class Account extends StatefulWidget {
   const Account({Key? key}) : super(key: key);
@@ -48,15 +57,30 @@ class _AccountState extends State<Account> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Row(children: [
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
           Text(
             "Account",
             style: AppTextStyle().textColor29292916w500,
           ),
-          SizedBox(
-            width: 130.w,
-          ),
-        ]),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => UserProfile(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.only(left: 3,right: 3),
+                  height: 24,
+                  width: 24,
+                  // color: Colors.red,
+                    child: SvgPicture.asset("assets/icons/Vectoredit.svg")),
+              ),
+        ],
+        ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
           child: InkWell(
@@ -87,10 +111,10 @@ class _AccountState extends State<Account> {
                   profile.data!.user!.username!.toString(),
                   style: AppTextStyle().textColor29292914w400,
                 ),
-                SizedBox(
+                /*SizedBox(
                   width: 10.w,
                 ),
-                Image.asset("assets/images/Vector175.png"),
+                Image.asset("assets/images/Vector175.png"),*/
               ],
             ),
             SizedBox(
@@ -109,10 +133,10 @@ class _AccountState extends State<Account> {
                   profile.data!.user!.email!.toString(),
                   style: AppTextStyle().textColor29292914w400,
                 ),
-                SizedBox(
+                /*SizedBox(
                   width: 10.w,
                 ),
-                Image.asset("assets/images/Vector175.png"),
+                Image.asset("assets/images/Vector175.png"),*/
               ],
             ),
             SizedBox(
@@ -132,10 +156,10 @@ class _AccountState extends State<Account> {
                   // "+18397840844",
                   style: AppTextStyle().textColor29292914w400,
                 ),
-                SizedBox(
+                /*SizedBox(
                   width: 10.w,
                 ),
-                Image.asset("assets/images/Vector175.png"),
+                Image.asset("assets/images/Vector175.png"),*/
               ],
             ),
             SizedBox(
@@ -183,7 +207,7 @@ class _AccountState extends State<Account> {
             //     Image.asset("assets/images/Vector175.png"),
             //   ],
             // ),
-           /* Spacer(),
+            Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: 34),
               child: SizedBox(
@@ -192,12 +216,125 @@ class _AccountState extends State<Account> {
                 child: RedTextWhiteButtonWithText(
                   title: 'Delete Account',
                   textStyleColor: ColorSelect.colorC33C3C,
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return DeleteAccountDialog();
+                        });
+                  },
                   backgroundColor: MaterialStateProperty.all(Colors.white),
                 ),
               ),
-            )*/
+            )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+class DeleteAccountDialog extends StatefulWidget {
+  const DeleteAccountDialog({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<DeleteAccountDialog> createState() => _DeleteAccountDialogState();
+}
+
+class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      insetPadding: EdgeInsets.only(left: 20, right: 20),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      elevation: 0,
+      backgroundColor: Colors.white,
+      content: SizedBox(
+        width: 1.sw,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                "Delete this Account?",
+                style: AppTextStyle().textColor29292918w500,
+              ),
+              SizedBox(
+                height: 8.h,
+              ),
+              Text(
+                "This Account with will be permanently deleted",
+                style: AppTextStyle().textcolor82828212w400,
+              ),
+              SizedBox(
+                height: 44.h,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 52,
+                      child: WhiteButtonWithText(
+                          backgroundColor:
+                          MaterialStateProperty.all(Colors.white),
+                          textStyleColor: ColorSelect.color292929,
+                          onTap: () {
+                            Navigator.pop(context);
+                            /*Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ResetPasswordViaPhone()));*/
+                          },
+                          title: 'Cancel'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 12.w,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 52,
+                      child: RedButtonWithText(
+                        backgroundColor:
+                        MaterialStateProperty.all(ColorSelect.colorCE5252),
+                        textStyleColor: ColorSelect.colorFFFFFF,
+                        image: Image.asset("assets/images/trashdel.png"),
+                        onTap: () {
+                          deleteAccountApi().then((value) async {
+                            if(value['status']  == true  /*&&
+                              response!.status == true*/) {
+                              Fluttertoast.showToast(
+                                  msg: 'Your OTP is ${value['data']['otp']}');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => DeleteAccount(),
+                                ),
+                              );
+                              // print(pickedImage.toString());
+                              // print(updateNameController.text);
+                            } else{
+                              Fluttertoast.showToast(msg:value['message']);
+                            }
+                          }
+                          );
+
+                        },
+                        title: 'Delete',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

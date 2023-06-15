@@ -80,6 +80,7 @@ Future<dynamic> createAccountApi({
   });
   request.files.add(await http.MultipartFile.fromPath('photo',photo));
   request.headers.addAll(headers);
+  print(request.fields);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
 if(response.statusCode == 200 ) {

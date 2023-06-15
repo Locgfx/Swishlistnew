@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/login/login.dart';
+import '../api/social_signin/google_signin.dart';
 import '../signup/signup_with_email.dart';
 import '../signup/signup_with_phone.dart';
 
@@ -105,18 +109,25 @@ class _WelcomeState extends State<Welcome> {
                             width: 1, color: ColorSelect.colorA3A3A3)),
                     child: SvgPicture.asset("assets/icons/logos_facebook.svg",
                         height: 20, width: 20, fit: BoxFit.scaleDown)),
-                Container(
-                    height: 48,
-                    width: 120,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        border: Border.all(
-                            width: 1, color: ColorSelect.colorA3A3A3)),
-                    child: SvgPicture.asset(
-                        "assets/icons/flat-color-icons_google.svg",
-                        height: 20,
-                        width: 20,
-                        fit: BoxFit.scaleDown)),
+                GestureDetector(
+                  onTap: () async {
+                    final auth = await GoogleSignInClass().googleLogin();
+                    log(auth.idToken.toString());
+                  },
+                  child: Container(
+                      height: 48,
+                      width: 120,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          border: Border.all(
+                              width: 1, color: ColorSelect.colorA3A3A3)),
+                      child: SvgPicture.asset(
+                          "assets/icons/flat-color-icons_google.svg",
+                          height: 20,
+                          width: 20,
+                          fit: BoxFit.scaleDown)
+                  ),
+                ),
               ],
             ),
             GestureDetector(

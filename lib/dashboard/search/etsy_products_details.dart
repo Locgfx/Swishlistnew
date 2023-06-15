@@ -293,7 +293,7 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                       },
                                                       decoration: InputDecoration(
                                                           border: InputBorder.none,
-                                                          hintText: "Date Purchased",
+                                                          hintText: "Ideal Purchased date or Purchase date",
                                                           hintStyle: AppTextStyle().textColor70707014w400,
                                                           suffixIcon:
                                                           Image.asset("assets/images/calendarimg.png")),

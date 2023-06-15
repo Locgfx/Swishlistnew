@@ -38,7 +38,8 @@ class _AddFriendsState extends State<AddFriends> {
   bool isLoading = true;
 
 
-  List<ModelContact> searchList = [];
+  // List<ModelContact> searchList = [];
+  List <String> phNo = [];
   List<ModelContact> friendList = [];
   final searchController = TextEditingController();
 
@@ -57,31 +58,30 @@ class _AddFriendsState extends State<AddFriends> {
         } else {
           setState(() {
             isLoading = false;
-          });
-
-          // isLoading = false;
+              }
+            );
+          }
         }
       }
-    });
+    );
   }
 
   void getContact() async {
     if (await FlutterContacts.requestPermission()) {
       contacts = await FlutterContacts.getContacts(
-          withProperties: true, withPhoto: true);
-      for (var v in contacts!){
+          withPhoto: true,
+      );
+      for (var v in contacts!) {
         phNo.add(v.phones.first.number);
       }
       contact();
-
-
-      // print(contacts);
+      print(contacts);
       setState(() {});
     }
   }
   final TextEditingController _controller = TextEditingController();
-   List <String> phNo = [];
-   List  listPh = [];
+
+   /*List  listPh = [];*/
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +128,7 @@ class _AddFriendsState extends State<AddFriends> {
                     ),
                     Image.asset("assets/images/Vectorse.png"),
                     SizedBox(width: 16,),
-                    Expanded(
+                   /* Expanded(
                       child: TextFormField(
                         controller: searchController,
                         onChanged: (val) {
@@ -152,7 +152,7 @@ class _AddFriendsState extends State<AddFriends> {
                             hintText: "Search friend name"),
                         keyboardType: TextInputType.text,
                       ),
-                    )
+                    )*/
                   ],
                 ),
               ),
@@ -166,7 +166,7 @@ class _AddFriendsState extends State<AddFriends> {
                     ) :
             Column(
               children: [
-                searchList.isEmpty ?
+             /*   searchList.isEmpty ?*/
                 ListView.builder(
                     shrinkWrap: true,
                     itemCount: friendList.length,
@@ -258,7 +258,8 @@ class _AddFriendsState extends State<AddFriends> {
                             // }
                           });
 
-                }) :
+                })
+    /*                :
                 ListView.builder(
                     shrinkWrap: true,
                     itemCount: searchList.length,
@@ -345,7 +346,7 @@ class _AddFriendsState extends State<AddFriends> {
                             // }
                           });
 
-                    })
+                    })*/
               ],
             )
             ],

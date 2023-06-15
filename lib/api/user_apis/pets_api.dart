@@ -18,7 +18,7 @@ Future<dynamic> getPetsAPi() async {
   } else {
     print(response.statusCode);
     print(response.reasonPhrase);
-    // print(resp);
+    print(resp);
     return resp;
   }
 }
@@ -43,9 +43,11 @@ Future<dynamic> postPetsApi({
   });
   request.files.add(await http.MultipartFile.fromPath('photo', photo));
   request.headers.addAll(headers);
+  print(request.fields);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   if(response.statusCode == 200) {
+    print(resp);
     return resp;
   } else {
     print(resp);

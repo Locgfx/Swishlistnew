@@ -26,7 +26,7 @@ class ProductAlready extends StatefulWidget {
 }
 
 class _ProductAlreadyState extends State<ProductAlready> {
-  List imageList = [
+/*  List imageList = [
     "assets/images/image10.png",
     "assets/images/image12.png",
     "assets/images/image10.png",
@@ -38,7 +38,7 @@ class _ProductAlreadyState extends State<ProductAlready> {
     "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
     "Samsung Galaxy Tab A8 Android Tablet, 10.5” LCD Scre...",
   ];
-  List itemPrice = ["47.99", "1247.99", "47.99", "1247.99"];
+  List itemPrice = ["47.99", "1247.99", "47.99", "1247.99"];*/
   List<int> selectedItems = [];
 
   @override
@@ -159,7 +159,7 @@ class _ProductAlreadyState extends State<ProductAlready> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Share.share('Link');
+                    Share.share(haveProducts2[0].link.toString());
                   },
                   child: Container(
                     width: 36,

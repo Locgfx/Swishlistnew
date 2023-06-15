@@ -96,7 +96,7 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                   children: [
                     Expanded(
                       child: Text(
-                        '${widget.friendName}Friend Name Wants',
+                        '${widget.friendName} Wants',
                         maxLines: 2,
                         style: AppTextStyle().textColor29292924w700,
                       ),
@@ -131,6 +131,20 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                             //     ),
                             //   ],
                             // ),
+                            products!.data!.want!.isEmpty ?
+                            Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                                  // Image.asset("assets/images/delivery.png",height: 100,),
+                                  SizedBox(height: 5),
+                                  Text('Your Friend does not Added Product yet',
+                                    style: AppTextStyle().textColor29292914w500,)
+                                ],
+                              ),
+                            ):
                             ListView.builder(
                               padding: EdgeInsets.only(bottom: 30),
                               physics: NeverScrollableScrollPhysics(),

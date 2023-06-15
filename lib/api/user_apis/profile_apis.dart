@@ -117,11 +117,11 @@ Future<dynamic> postProfile({
   }
   request.headers.addAll(headers);
   print(request.fields);
-  print(headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   print(resp);
   if(response.statusCode == 200) {
+    print(resp);
     return resp;
   } else {
     print(resp);

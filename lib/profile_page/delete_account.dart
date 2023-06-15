@@ -1,32 +1,27 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:swishlist/api/login_signup_apis/signup_api.dart';
-import 'package:swishlist/buttons/light_yellow.dart';
-import 'package:swishlist/constants/color.dart';
-import 'package:swishlist/signup/widgets/text_term_widget.dart';
+import '../api/user_apis/delete_account_api.dart';
+import '../buttons/light_yellow.dart';
 import '../buttons/white_button.dart';
+import '../constants/color.dart';
 import '../constants/globals/globals.dart';
-import '../constants/globals/shared_prefs.dart';
-import '../create_new_account/create_new_account.dart';
-import '../models/login_models.dart';
+import '../login/login.dart';
+import '../signup/widgets/text_term_widget.dart';
 
-class EmailVerification extends StatefulWidget {
-  final String email;
-  final String password;
-  const EmailVerification({Key? key, required this.email, required this.password}) : super(key: key);
+class DeleteAccount extends StatefulWidget {
+  const DeleteAccount({Key? key}) : super(key: key);
 
   @override
-  State<EmailVerification> createState() => _EmailVerificationState();
+  State<DeleteAccount> createState() => _DeleteAccountState();
 }
 
-class _EmailVerificationState extends State<EmailVerification> {
+class _DeleteAccountState extends State<DeleteAccount> {
   final otpController = TextEditingController();
   bool loading = false;
-  LoginResponse? response;
+
   bool show = false;
   @override
   Widget build(BuildContext context) {
@@ -56,28 +51,24 @@ class _EmailVerificationState extends State<EmailVerification> {
                       });
                     });
                     if (otpController.text.length == 4) {
-                      verifyOtp(
-                        context: context,
-                        otp: otpController.text,
-                        email: widget.email,
-                        password: widget.password,
-                      ).then((value)async {
-                        response = value;
-                        if(response?.status != null && response!.status == true) {
-                          print(response);
-                          print(widget.password);
-                          SharedPrefs().setLoginToken(response!.token);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => CreateNewAccountWithEmail(email: widget.email,),
-                            ),
-                          );
-                        }
-                      });
+                        deleteAccountOtpApi(otp: otpController.text
+                        ).then((value)async {
+                          Fluttertoast.showToast(msg: value['message']);
+                          if(value['status'] == true) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => Login(),
+                              ),
+                            );
+                          } else {
+                            Fluttertoast.showToast(msg: value['message']);
+                          }
+                        });
 
-                    }
-                  },
+                      }
+
+                    },
                   title: 'Submit',
                 ),
               ),
@@ -91,30 +82,25 @@ class _EmailVerificationState extends State<EmailVerification> {
                   backgroundColor: MaterialStateProperty.all(Colors.white),
                   textStyleColor: ColorSelect.color292929,
                   onTap: () {
-                    resendOtp(
-                        context: context,
-                        emailPhone:widget.email,
-                      ).then((value) async {
-                        if( value['status'] == true) {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => CreateNewAccount(
-                          //     ),
-                          //   ),
-                          // );
-                          Fluttertoast.showToast(
-                              msg: 'Your OTP is ${value['data']['otp']}');
-                        } else {
-                          Fluttertoast.showToast(
-                              msg:value['message']);
-                        }
-                      });
+                    deleteAccountApi().then((value) async {
+                      if(value['status']  == true  /*&&
+                              response!.status == true*/) {
+                        Fluttertoast.showToast(
+                            msg: 'Your OTP is ${value['data']['otp']}');
+
+                        // print(pickedImage.toString());
+                        // print(updateNameController.text);
+                      } else{
+                        Fluttertoast.showToast(msg:value['message']);
+                      }
+                    }
+                    );
 
                   },
                   title: 'Resent OTP',
                 ),
               ),
+
               SizedBox(height: 50),
             ],
           ),
@@ -138,7 +124,7 @@ class _EmailVerificationState extends State<EmailVerification> {
               Padding(
                 padding: const EdgeInsets.only(top: 10, left: 40, right: 20),
                 child: Text(
-                  "Please enter the 4-digit verification code sent to ${widget.email}. The code is valid for 10 minutes.",
+                  "Please enter the 4-digit verification code ",
                   textAlign: TextAlign.center,
                   style: AppTextStyle().textColor70707014w400,
                 ),
@@ -179,3 +165,4 @@ class _EmailVerificationState extends State<EmailVerification> {
     );
   }
 }
+

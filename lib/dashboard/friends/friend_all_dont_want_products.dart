@@ -1,3 +1,5 @@
+
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -83,7 +85,9 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
         ),
       ),
       /*bottomSheet: Container(),*/
-      body:isLoading? Loading(): Stack(
+      body:isLoading?
+      Loading():
+      Stack(
         children: [
           Column(
             children: [
@@ -95,7 +99,7 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                   children: [
                     Expanded(
                       child: Text(
-                        /*  widget.isUser ? "I want" : */"${widget.friendName} Wants",
+                        /*  widget.isUser ? "I want" : */"${widget.friendName} does not Wants",
                         maxLines: 2,
                         style: AppTextStyle().textColor29292924w700
                       ),
@@ -116,13 +120,28 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(24),
-                          topLeft: Radius.circular(24))),
+                          topLeft: Radius.circular(24)
+                      )
+                  ),
                   child: Stack(
                     children: [
                       SingleChildScrollView(
                         child: Column(
                           children: [
-                            ListView.builder(
+                            products!.data!.dontWant!.isEmpty ?
+                            Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                                  // Image.asset("assets/images/delivery.png",height: 100,),
+                                  SizedBox(height: 5),
+                                  Text('Your Friend does not Added Any product yet',
+                                    style: AppTextStyle().textColor29292914w500,)
+                                ],
+                              ),
+                            ): ListView.builder(
                               padding: EdgeInsets.only(bottom: 30),
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: products!.data!.dontWant!.length,

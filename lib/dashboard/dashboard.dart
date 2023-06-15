@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:swishlist/dashboard/products/products_page.dart';
 import 'package:swishlist/dashboard/search/all_etsy_products.dart';
+import 'package:swishlist/dashboard/search/search.dart';
 import '../constants/color.dart';
 import '../models/login_models.dart';
 import 'activities/activities.dart';
@@ -117,18 +118,18 @@ class _DashboardState extends State<Dashboard> {
                       children: [
                         Image.asset(
                           pageIndex == 1
-                              ? "assets/images/Etsy Logo.png"
-                              : "assets/images/Etsy Logo.png",
-                              // ? "assets/images/search4.png"
-                              // : "assets/images/search4.png",
-                          // color: pageIndex == 1
-                          //     ? Color(0xff292929)
-                          //     : Color(0xff707070),
+                              // ? "assets/images/Etsy Logo.png"
+                              // : "assets/images/Etsy Logo.png",
+                              ? "assets/images/search4.png"
+                              : "assets/images/search4.png",
+                          color: pageIndex == 1
+                              ? Color(0xff292929)
+                              : Color(0xff707070),
                           height: 24,
                           width: 24,
                         ),
                         SizedBox(height: 8),
-                        Text("Etsy",
+                        Text("shop",
                             style: AppTextStyle().textColor29292912w500.copyWith(
                                 color: pageIndex == 1
                                     ? Color(0xff292929)
@@ -260,8 +261,8 @@ class _DashboardState extends State<Dashboard> {
               },
               children: [
                 ProductsPage(response: widget.response,),
-                AllEtsyProducts(),
-                // Search(),
+                // AllEtsyProducts(),
+                Search(),
                 Activities(),
                 Friends(),
               ],

@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/splash/splash.dart';
 import 'constants/globals/shared_prefs.dart';
@@ -10,7 +12,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
   await SharedPrefs().init();
-/*  await Firebase.initializeApp();*/
+  await Firebase.initializeApp();
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
   runApp(const MyApp());
 }
 class MyHttpOverrides extends HttpOverrides {

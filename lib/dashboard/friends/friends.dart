@@ -145,7 +145,10 @@ class _FriendsState extends State<Friends> {
                       GestureDetector(
                         onTap: () {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Messages()));
+                              MaterialPageRoute(builder: (context) => Messages(
+                                friendId: friendList[0].friend!.id.toString(),
+                                friendName: friendList[0].friend!.name.toString(),
+                                friendPhoto: baseUrl+friendList[0].friend!.photo!,)));
                         },
                         child: Container(
                           height: 24,

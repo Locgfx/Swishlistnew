@@ -140,7 +140,7 @@ class _WantProductsState extends State<WantProducts> {
           ),
           GestureDetector(
             onTap: () {
-              Share.share('Link');
+              Share.share(wantProduct2[0].link.toString());
             },
             child: Container(
               width: 36,

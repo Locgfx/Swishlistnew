@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -68,6 +70,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
 
   final focusNode = FocusNode();
   final sendMsgController = TextEditingController();
+  bool show = false;
 
 
   @override
@@ -261,7 +264,15 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                 hintStyle: AppTextStyle().textColor70707014w400,
                                 suffixIcon: GestureDetector(
                                     onTap: () {
-                                      focusNode.hasFocus
+                                      setState(() {
+                                        show = !show;
+                                      });
+                                      Timer timer = Timer(Duration(seconds: 2), () {
+                                        setState(() {
+                                          show = false;
+                                        });
+                                      });
+                                      /*focusNode.hasFocus
                                           ? () {}
                                           : showModalBottomSheet(
                                           backgroundColor: Colors.transparent,
@@ -359,10 +370,33 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                 ),
                                               ),
                                             );
-                                          });
+                                          });*/
+                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      if(sendMsgController.text.isNotEmpty) {
+                                        print(widget.friendId);
+                                        sendMessageApi(
+                                            sendUserid: widget.friendId,
+                                            message: sendMsgController.text).then((value) async {
+                                          print(widget.friendId);
+                                          print(sendMsgController);
+                                          if(value['status'] == true) {
+                                            isLoading ? Loading() :getMessages();
+                                            // Fluttertoast.showToast(msg: value['message']);
+                                          } else {
+                                            Fluttertoast.showToast(msg: value['message']);
+                                          }
+                                        });
+                                      }
                                     },
-                                    child: focusNode.hasFocus
-                                        ? GestureDetector(
+                                    child: show ? Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: CircularProgressIndicator(
+                                        color: ColorSelect.colorF7E641,
+                                      ),
+                                    ):
+                                    Image.asset('assets/images/sentimage.png')
+                                    /* focusNode.hasFocus
+                                        ? *//*GestureDetector(
                                         onTap: () {
                                           FocusManager.instance.primaryFocus?.unfocus();
                                           if(sendMsgController.text.isNotEmpty) {
@@ -381,8 +415,11 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                             });
                                           }
                                         },
-                                        child: Image.asset('assets/images/sentimage.png'))
-                                        : Image.asset("assets/images/shoppingbag.png"))),
+                                        child: Image.asset('assets/images/sentimage.png')
+                                    )*/
+                                       /* : Image.asset("assets/images/shoppingbag.png")*/
+                            )
+                    ),
                             keyboardType: TextInputType.text,
                           ),
                         )

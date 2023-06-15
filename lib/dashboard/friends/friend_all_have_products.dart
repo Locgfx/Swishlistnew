@@ -122,6 +122,19 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                       SingleChildScrollView(
                         child: Column(
                           children: [
+                            products!.data!.have!.isEmpty ? Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                                  // Image.asset("assets/images/delivery.png",height: 100,),
+                                  SizedBox(height: 5),
+                                  Text('Your Friend does not want any product ',
+                                    style: AppTextStyle().textColor29292914w500,)
+                                ],
+                              ),
+                            ) :
                             ListView.builder(
                               padding: EdgeInsets.only(bottom: 30),
                               physics: NeverScrollableScrollPhysics(),

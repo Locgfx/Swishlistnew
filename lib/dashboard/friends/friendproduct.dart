@@ -396,7 +396,19 @@ class _FriendProductState extends State<FriendProduct> {
                       height: 200,
                       child:  Padding(
                         padding: const EdgeInsets.only(right: 8.0),
-                        child: ListView.builder(
+                        child: products!.data!.want!.isEmpty ? Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                              // Image.asset("assets/images/delivery.png",height: 100,),
+                              SizedBox(height: 5),
+                              Text('Your Friend does not want any product ',
+                                style: AppTextStyle().textColor29292914w500,)
+                            ],
+                          ),
+                        ) :ListView.builder(
                           // physics: NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemCount: products!.data!.want!.length,
@@ -536,7 +548,19 @@ class _FriendProductState extends State<FriendProduct> {
                       height: 200,
                       child:  Padding(
                         padding: const EdgeInsets.only(right: 8.0),
-                        child: ListView.builder(
+                        child: products!.data!.dontWant!.isEmpty ? Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                              // Image.asset("assets/images/delivery.png",height: 100,),
+                              SizedBox(height: 5),
+                              Text('Your Friend does not want any product ',
+                                style: AppTextStyle().textColor29292914w500,)
+                            ],
+                          ),
+                        ) :ListView.builder(
                           // physics: NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemCount: products!.data!.dontWant!.length,
@@ -676,8 +700,19 @@ class _FriendProductState extends State<FriendProduct> {
                       height: 200,
                       child:  Padding(
                         padding: const EdgeInsets.only(right: 8.0),
-                        child: ListView.builder(
-                          // physics: NeverScrollableScrollPhysics(),
+                        child: products!.data!.have!.isEmpty ? Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                              // Image.asset("assets/images/delivery.png",height: 100,),
+                              SizedBox(height: 5),
+                              Text('Your Friend does not want any product ',
+                                style: AppTextStyle().textColor29292914w500,)
+                            ],
+                          ),
+                        ) :ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: products!.data!.have!.length,
                           // itemCount: 2,
@@ -702,7 +737,8 @@ class _FriendProductState extends State<FriendProduct> {
 
                                             ),
                                           ),
-                                        );},
+                                        );
+                                        },
                                       child: Container(
                                         width: 173,
                                         height: 129,
@@ -714,19 +750,9 @@ class _FriendProductState extends State<FriendProduct> {
                                             color: ColorSelect.colorFFFFFF,
                                             borderRadius: BorderRadius.circular(12)),
                                         child: CachedNetworkImage(
-                                          // products[i].data.want.toString().contains("https") ?
-                                          // haveProducts2[i].photo.toString() :
-                                          // baseUrl+haveProducts2[i].photo.toString(),
                                           imageUrl: products!.data!.have![i].photo.toString().contains("https")?
                                           products!.data!.have![i].photo.toString() :
                                           baseUrl+products!.data!.have![i].photo.toString(),
-
-
-
-                                          // imageUrl: (products!.data!.want![i].toString()),
-                                          // imageUrl: haveProducts.toString().contains("https") ?
-                                          // haveProducts[i].photo.toString() :
-                                          // baseUrl+wantProducts2[i].photo.toString(),
                                           fit: BoxFit.cover,
                                           errorWidget: (context, url, error) =>
                                               Icon(Icons.error,size: 40,),

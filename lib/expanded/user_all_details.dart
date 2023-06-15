@@ -17,6 +17,7 @@ import '../constants/globals/shared_prefs.dart';
 import '../login/login.dart';
 import '../models/interest_model.dart';
 import '../models/login_models.dart';
+import 'member_settings.dart';
 
 class UserAllDetails extends StatefulWidget {
   final LoginResponse response;
@@ -79,6 +80,9 @@ class _UserAllDetailsState extends State<UserAllDetails> {
               child: InkWell(
                 onTap: () {
                   Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MemberSettings(response: widget.response,)));
+                  
                 },
                 child: SvgPicture.asset(
                   "assets/icons/arrowback.svg",
@@ -91,7 +95,8 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                   child: ListTile(
                     title: InkWell(
                       onTap: () {
-                        Navigator.push(context,
+                        Navigator.push(
+                            context,
                             MaterialPageRoute(builder: (context) => Account()));
                       },
                       child: Text(
@@ -209,7 +214,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                      splashColor: Colors.transparent,
                      onTap: () {
                       Navigator.push(context,
-                           MaterialPageRoute(builder: (context) => Profile()));
+                           MaterialPageRoute(builder: (context) => UserProfile()));
                     },
                     child: ProfileRowWidget(),
                   ),

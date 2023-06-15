@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "67971639557-96nk8ttp03ei2qp0av0chgnlf1ajeacc.apps.googleusercontent.com",
+          "client_id": "67971639557-731kjfn5ud31f5aaq3370iqbondcdiiv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.locgfx.swishlist",
+            "certificate_hash": "27d1e7de0ccf5cd9c851704caad42bfe6a07ad1f"
+          }
+        },
+        {
+          "client_id": "67971639557-c2i06llp5svnmsi0vn728vr8s2ks796e.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -29,6 +37,13 @@
             {
               "client_id": "67971639557-96nk8ttp03ei2qp0av0chgnlf1ajeacc.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "67971639557-jsbeqnjvgv8ihbmhiim8nhthgad0anru.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stokeventures.swishlist"
+              }
             }
           ]
         }

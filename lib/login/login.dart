@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
@@ -24,6 +27,7 @@ class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool loading = false;
   LoginResponse? response;
+  bool show = false;
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -111,7 +115,7 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   height: 52.h,
                   width: 328.w,
-                  child:/* loading ? LoadingLightYellowButton():*/ LightYellowButtonWithText(
+                  child: show ? LoadingLightYellowButton(): LightYellowButtonWithText(
                     backgroundColor:(phoneEmailController.text.isNotEmpty && passwordController.text.isNotEmpty)
                             ? MaterialStateProperty.all(ColorSelect.colorF7E641)
                             : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
@@ -120,15 +124,23 @@ class _LoginState extends State<Login> {
                             ? Colors.black
                             : ColorSelect.colorB5B07A,
                     onTap: () {
+                      setState(() {
+                        show = !show;
+                      });
+                      Timer timer = Timer(Duration(seconds: 2), () {
+                        setState(() {
+                          show = false;
+                        });
+                      });
                       /*Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PhoneVerification()));*/
                       if (phoneEmailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
                       if(_formKey.currentState!.validate()) {
-                        setState(() {
+                       /* setState(() {
                           loading = true;
-                        });
+                        });*/
                         login(
                             context: context,
                             email: phoneEmailController.text,
@@ -144,24 +156,19 @@ class _LoginState extends State<Login> {
                             SharedPrefs().setName(response!.data.name.toString());
                             SharedPrefs().setUsername(response!.data.username.toString());
                             SharedPrefs().setUserPhoto(response!.data.photo.toString());
-                            print(response!.data.id);
-                            // print(response!.data.name.toString());
-                            // print(response!.data.username.toString());
-                            // print(response!.data.photo.toString());
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (_) => Dashboard(response: response!,),
                               ),
                             );
+
                           }
                         });
                       } else {
-                        setState(() {
                           loading = false;
-                        });
-                      }
 
+                      }
                       }
                     },
                     title: 'Next'

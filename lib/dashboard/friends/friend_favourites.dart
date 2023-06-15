@@ -86,13 +86,15 @@ class _FFavouritesState extends State<FFavourites> {
       body: isLoading ? Loading() :SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: friendDetails!.data!.favourite!.isEmpty ? Column(
-            children: [
-              Center(child: Icon(Icons.error_outline,color: Colors.black,size: 80,)),
-              SizedBox(height: 5),
-              Text('Your friend not added favourites yet',
-                style: AppTextStyle().textColor29292914w500)
-            ],
+          child: friendDetails!.data!.favourite!.isEmpty ? Center(
+            child: Column(
+              children: [
+                Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                SizedBox(height: 5),
+                Text('Your friend not added favourites yet',
+                  style: AppTextStyle().textColor29292914w500)
+              ],
+            ),
           ) : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

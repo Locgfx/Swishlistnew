@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,7 +33,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
     _passwordVisible = false;
     super.initState();
   }
-
+  bool show = false;
   @override
   Widget build(BuildContext context) {
     return TextFieldUnFocusOnTap(
@@ -98,13 +100,21 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                 SizedBox(
                   height: 52.h,
                   width: 328.w,
-                  child: LightYellowButtonWithText(
+                  child: show ? LoadingLightYellowButton(): LightYellowButtonWithText(
                     backgroundColor: isChecked
                         ? MaterialStateProperty.all(ColorSelect.colorF7E641)
                         : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
                     textStyleColor:
                         isChecked ? Colors.black : ColorSelect.colorB5B07A,
                     onTap: () {
+                      setState(() {
+                        show = !show;
+                      });
+                      Timer timer = Timer(Duration(seconds: 2), () {
+                        setState(() {
+                          show = false;
+                        });
+                      });
 
                       if (isChecked) {
                         // SharedPrefs().setPassword(passwordController.text);
