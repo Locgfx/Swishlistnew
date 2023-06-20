@@ -182,7 +182,7 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
                         ).then((value) async {
                           if(value['status']  == true  /*&&
                               response!.status == true*/) {
-                            Fluttertoast.showToast(msg: "Account Successfully Created");
+
                             SharedPrefs().setUserPhoto(pickedImage.toString());
                             SharedPrefs().setName(updateNameController.toString());
                             SharedPrefs().setUsername(userNameController.toString());
@@ -192,6 +192,7 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
                                 builder: (_) => Login(),
                               ),
                             );
+                            Fluttertoast.showToast(msg: "Account Successfully Created");
                             // print(pickedImage.toString());
                             // print(updateNameController.text);
                           } else{

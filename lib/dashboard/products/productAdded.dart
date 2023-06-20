@@ -5,6 +5,9 @@ import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/buttons/grey_border_button.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/color.dart';
+import 'package:swishlist/constants/urls.dart';
+import '../../api/user_apis/products_api.dart';
+import '../../models/product_type_model.dart';
 import 'manuallyadd.dart';
 
 class ProductAdded extends StatefulWidget {
@@ -23,6 +26,9 @@ class ProductAdded extends StatefulWidget {
 class _ProductAddedState extends State<ProductAdded> {
   @override
   void initState() {
+    print(widget.productImage);
+    print(widget.productImage);
+    print(widget.productImage);
 
     super.initState();
   }
@@ -43,8 +49,9 @@ class _ProductAddedState extends State<ProductAdded> {
                       MaterialStateProperty.all(ColorSelect.colorF7E641),
                   textStyleColor: Colors.black,
                   onTap: () {
-                    // print(widget.productImage);
-                    Navigator.of(context)..pop()..pop()..pop();
+                    print(widget.productImage);
+
+                   /* Navigator.of(context)..pop()..pop()..pop();*/
                   },
                   title: 'Home',
                 ),
@@ -57,7 +64,7 @@ class _ProductAddedState extends State<ProductAdded> {
                   textStyleColor: Colors.black,
                   onTap: () {
                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>
-                   ManuallyAdd(/*model: widget.model,*/)));
+                   ManuallyAdd()));
                   },
                   title: '+ Add more',
                 ),
@@ -116,7 +123,7 @@ class _ProductAddedState extends State<ProductAdded> {
                     ),
                     child: CachedNetworkImage(
                       // imageUrl: (baseUrl+haveProducts2[i].photo.toString()),
-                      imageUrl: widget.productImage.toString(),
+                      imageUrl: '$baseUrl2${widget.productImage}',
                       fit: BoxFit.cover,
                       errorWidget: (context, url, error) =>
                           Icon(Icons.error,size: 40,),

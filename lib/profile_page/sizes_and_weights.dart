@@ -79,22 +79,21 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
   var percent = "";
 
   get() {
-    if(sizeWeight!.data!.waist != null || sizeWeight!.data!.waist != ''){
+    if(sizeWeight!.data!.waist != null || sizeWeight!.data!.waist != '') {
       siz.add('waist');
     }
-    if(sizeWeight!.data!.shirt != null || sizeWeight!.data!.shirt != ''){
+    if(sizeWeight!.data!.shirt != null || sizeWeight!.data!.shirt != '') {
       siz.add('shirt');
     }
-    if(sizeWeight!.data!.shoes != null || sizeWeight!.data!.shoes != ''){
+    if(sizeWeight!.data!.shoes != null || sizeWeight!.data!.shoes != '') {
       siz.add('shoes');
     }
-    if(sizeWeight!.data!.bed != null || sizeWeight!.data!.bed != ''){
+    if(sizeWeight!.data!.bed != null || sizeWeight!.data!.bed != '') {
       siz.add('bed');
     }
     percent = ((siz.length / 4)*100).toString().split(".").first ;
     dou = (siz.length / 4);
   }
-
 
   int selectedSize = 0;
   bool selected = false;
@@ -164,7 +163,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                 width: 1.sw,
                 padding: EdgeInsets.zero,
                 lineHeight: 8.0,
-                percent: (siz.length/4) ,
+                percent: (siz.length/4),
                 backgroundColor: Color(0xff576ACC).withOpacity(0.28),
                 progressColor: ColorSelect.color576ACC,
               ),

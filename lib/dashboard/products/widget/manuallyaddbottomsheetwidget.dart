@@ -9,6 +9,7 @@ import '../../../buttons/light_yellow.dart';
 import '../../../constants/color.dart';
 import '../manuallyadd.dart';
 import '../productAdded.dart';
+import 'link_product_add.dart';
 
 class ManuallyAddBottomSheetWidget extends StatefulWidget {
    ManuallyAddBottomSheetWidget({
@@ -20,7 +21,7 @@ class ManuallyAddBottomSheetWidget extends StatefulWidget {
 }
 
 class _ManuallyAddBottomSheetWidgetState extends State<ManuallyAddBottomSheetWidget> {
-  final controller = TextEditingController();
+  final productLinkController = TextEditingController();
   // ProductTypeModel? model;
 
   @override
@@ -112,9 +113,10 @@ class _ManuallyAddBottomSheetWidgetState extends State<ManuallyAddBottomSheetWid
                                     border: InputBorder.none,
                                     hintText: "Amazon or Etsy link"),
                                 keyboardType: TextInputType.text,
-                                controller: controller,
+                                controller: productLinkController,
                                 onChanged: (v) {
                                  setState(() {
+
 
                                  });
                                 },
@@ -131,19 +133,23 @@ class _ManuallyAddBottomSheetWidgetState extends State<ManuallyAddBottomSheetWid
                       height: 52.h,
                       width: 88.w,
                       child: LightYellowButtonWithText(
-                          backgroundColor: (controller.text.isNotEmpty) ?
+                          backgroundColor: (productLinkController.text.isNotEmpty) ?
                            MaterialStateProperty.all(ColorSelect.colorF7E641):
                           MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                          textStyleColor: (controller.text.isNotEmpty) ?
+                          textStyleColor: (productLinkController.text.isNotEmpty) ?
                           Colors.black:
                           ColorSelect.colorB5B07A,
                           onTap: () {
-                            Navigator.pushReplacement(
+                           /* Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProductAdded(name: '', price: '', productImage: ''),
                                 ),
-                            );
+                            );*/
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => LinkProductAdd(
+                                  productLink: productLinkController.text,
+                                 )));
                           },
                           title: 'Add'),
                     ),

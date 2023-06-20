@@ -35,3 +35,21 @@ class Loading extends StatelessWidget {
     );
   }
 }
+
+
+class DotsLoader extends StatelessWidget {
+  const DotsLoader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0),
+      child: Center(
+        child: LoadingAnimationWidget.waveDots(
+          size: 70,
+          color: ColorSelect.colorF7E641,
+        ),
+      ),
+    );
+  }
+}

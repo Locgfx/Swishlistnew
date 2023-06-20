@@ -8,8 +8,10 @@ import 'package:swishlist/expanded/add_family_member_details.dart';
 import 'package:swishlist/expanded/widgets/managed_family_member_row.dart';
 
 import '../api/user_apis/family_apis.dart';
+import '../constants/globals/globals.dart';
 import '../constants/globals/loading.dart';
 import '../models/family_model.dart';
+import 'link_members_account.dart';
 
 class ManageFamilyMembers extends StatefulWidget {
   const ManageFamilyMembers({Key? key}) : super(key: key);
@@ -82,8 +84,21 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
       ),
       body: isLoading ? Loading() :SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 16, top: 40),
-          child: Column(
+          padding: const EdgeInsets.only(left: 16, top: 40,right:16 ),
+          child: familyModel2.isEmpty ?
+          AddProductImage(
+            image: 'assets/images/addfriends.png',
+            txt: 'Add family members to share your profile and your favorite product',
+            buttonTxt: 'Add Family Member',
+            tap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const LinkMembersAccount(),
+                ),
+              );
+            }, buttonIcon: 'assets/images/4xuseradd.png',
+          ):
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(

@@ -172,6 +172,11 @@ class AppTextStyle {
           fontSize: 16.sp,
           fontWeight: FontWeight.w600,
           color: ColorSelect.k323232));
+  TextStyle roboto29292914w500 = GoogleFonts.roboto(
+      textStyle: TextStyle(
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w500,
+          color: ColorSelect.color292929));
   TextStyle robotocolor96969614w400 = GoogleFonts.roboto(
       textStyle: TextStyle(
           fontSize: 14.sp,
@@ -295,6 +300,11 @@ class AppTextStyle {
   TextStyle textColorF7E64120w700 = GoogleFonts.roboto(
       textStyle: TextStyle(
           fontSize: 20.sp,
+          fontWeight: FontWeight.w700,
+          color: ColorSelect.colorF7E641));
+  TextStyle textColorF7E64150w700 = GoogleFonts.roboto(
+      textStyle: TextStyle(
+          fontSize: 50.sp,
           fontWeight: FontWeight.w700,
           color: ColorSelect.colorF7E641));
   TextStyle textColorFFFFFF14w500 = GoogleFonts.roboto(

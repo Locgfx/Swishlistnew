@@ -6,7 +6,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../api/user_apis/products_api.dart';
+import '../../buttons/light_yellow.dart';
 import '../../buttons/red_button.dart';
 import '../../buttons/white_button.dart';
 import '../../buttons/yellow_button.dart';
@@ -37,6 +39,12 @@ class _ProductDetailState extends State<ProductDetail> {
   bool seenBy = false;
   final textController = TextEditingController();
   final privacyController = TextEditingController();
+
+  Future<void> launchUrlStart({required String url}) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -666,7 +674,7 @@ class _ProductDetailState extends State<ProductDetail> {
               SizedBox(
                 height: 10.h,
               ),
-              Row(
+             /* Row(
                 children: [
                   Text(
                     'Purchase date :  ${widget.purchaseDate}',
@@ -677,18 +685,61 @@ class _ProductDetailState extends State<ProductDetail> {
                     width: 8.w,
                   ),
                 ],
-              ),
+              ),*/
               SizedBox(
                 height: 10,
               ),
-              Align(
+            /*  Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  widget.link.toString(),
-                  // "12 June, 2022",
-                    style: AppTextStyle().textColor29292916w500,
+                child: GestureDetector(
+                  onTap: () {
+                    launchUrlStart(url: widget.link.toString() );
+                  },
+                  child: Text(
+                    widget.link.toString(),
+                    // "12 June, 2022",
+                      style: AppTextStyle().textColor29292916w500,
+                  ),
+                ),
+              ),*/
+              GestureDetector(
+                onTap: () {
+                  launchUrlStart(url: widget.link.toString() );
+                },
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    height: 52.h,
+                    width: 100.w,
+                    decoration: BoxDecoration(
+                      color: ColorSelect.colorF7E641,
+                      borderRadius: BorderRadius.circular(8)
+                    ),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("View on\n website",
+                          style: AppTextStyle().textColor29292912w400,),
+                        SizedBox(width: 5,),
+                        Image.asset("assets/images/website view icon.png",height: 24,width: 24,)
+
+                      ],
+                    ),
+                  ),
                 ),
               ),
+           /*   SizedBox(
+                height: 52.h,
+                width: 88.w,
+                child: LightYellowButtonWithText(
+                    backgroundColor:
+                    MaterialStateProperty.all(ColorSelect.colorF7E641),
+                    textStyleColor:
+                    Colors.black,
+                    onTap: (){},
+
+
+                    title: 'Add'),
+              ),*/
             ],
           ),
         ),

@@ -13,6 +13,7 @@ import 'package:swishlist/dashboard/products/widget/search_filter.dart';
 import 'package:intl/intl.dart';
 import '../../api/user_apis/products_api.dart';
 import '../../constants/color.dart';
+import '../../constants/globals/globals.dart';
 import '../../constants/urls.dart';
 import '../../models/product_model.dart';
 import '../../models/product_type_model.dart';
@@ -26,19 +27,6 @@ class ProductAlready extends StatefulWidget {
 }
 
 class _ProductAlreadyState extends State<ProductAlready> {
-/*  List imageList = [
-    "assets/images/image10.png",
-    "assets/images/image12.png",
-    "assets/images/image10.png",
-    "assets/images/image12.png",
-  ];
-  List itemNameList = [
-    "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
-    "Samsung Galaxy Tab A8 Android Tablet, 10.5” LCD Scre...",
-    "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
-    "Samsung Galaxy Tab A8 Android Tablet, 10.5” LCD Scre...",
-  ];
-  List itemPrice = ["47.99", "1247.99", "47.99", "1247.99"];*/
   List<int> selectedItems = [];
 
   @override
@@ -261,6 +249,13 @@ class _ProductAlreadyState extends State<ProductAlready> {
                             ),
                           ],
                         ),
+                        haveProducts2.isEmpty ?
+                        AddProductImage(
+                          image: 'assets/images/Asset 1product 1.png',
+                          txt: 'Add Product',
+                          buttonTxt: 'Add Product',
+                          tap: () {  },
+                          buttonIcon: 'assets/images/plus.png',):
                         ListView.builder(
                           padding: EdgeInsets.only(bottom: 50),
                             physics: NeverScrollableScrollPhysics(),

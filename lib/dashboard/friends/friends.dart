@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:swishlist/constants/globals/globals.dart';
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../constants/decoration.dart';
@@ -146,9 +147,12 @@ class _FriendsState extends State<Friends> {
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Messages(
-                                friendId: friendList[0].friend!.id.toString(),
-                                friendName: friendList[0].friend!.name.toString(),
-                                friendPhoto: baseUrl+friendList[0].friend!.photo!,)));
+                                // friendId: friendList[0].friend!.id.toString(),
+                                // friendName: friendList[0].friend!.name.toString(),
+                                // friendPhoto: baseUrl+friendList[0].friend!.photo!,
+                              )
+                              )
+                          );
                         },
                         child: Container(
                           height: 24,
@@ -230,18 +234,14 @@ class _FriendsState extends State<Friends> {
                       height: 14,
                     ),
                   friendList.isEmpty?
-                  Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                        // Image.asset("assets/images/delivery.png",height: 100,),
-                        SizedBox(height: 5),
-                        Text('No Friends Added Yet',
-                          style: AppTextStyle().textColor29292914w500,)
-                      ],
-                    ),
+                  AddProductImage(
+                    image: 'assets/images/addfriends.png',
+                    txt: 'Add friends to share your profile and your favorite product',
+                    buttonTxt: 'Add Friend',
+                    tap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => AddFriends()));
+                    }, buttonIcon: 'assets/images/4xuseradd.png',
                   ) :
                       searchList.isEmpty ?
                   Padding(

@@ -8,11 +8,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/api/etsy_apis/all_listing_apis.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../api/etsy_apis/etsy_images_api.dart';
 import '../../buttons/light_yellow.dart';
 import '../../constants/color.dart';
 import '../../constants/decoration.dart';
 import '../../constants/globals/loading.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import '../../models/etsy_image_model.dart';
 import '../../models/etsy_load_more_model.dart';
 import 'etsy_products_details.dart';
 
@@ -47,6 +49,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
     });
   }
 
+
   int scroll = 0;
   int scrollLength = 0;
 
@@ -64,6 +67,20 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
       });
     });
   }
+/*  EtsyImagesModel?  imageModel;
+  getImages() {
+    isLoading = true;
+    var resp = getEtsyImagesApi(listingId: widget.productId);
+    resp.then((value) {
+      setState(() {
+        imageModel = EtsyImagesModel.fromJson(value);
+        isLoading = false;
+      });
+      print(imageModel!.results![0].urlFullxfull.toString());
+      // print(object)
+    });
+  }*/
+
   List<EtsyLoadMoreModel> matches = <EtsyLoadMoreModel>[];
   List<EtsyLoadMoreModel> searchList = [];
   getSearch(val) {

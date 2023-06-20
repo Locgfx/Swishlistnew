@@ -198,7 +198,8 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                   GestureDetector(
                                     onTap: () {
                                       Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) => ManuallyAdd(/*model: widget.model,*/)));
+                                          MaterialPageRoute(builder: (context) => ManuallyAdd(
+                                            /*model: widget.model,*/)));
                                     },
                                     child: Container(
                                       width: 138.w,

@@ -16,6 +16,8 @@ import 'package:swishlist/expanded/user_all_details.dart';
 import 'package:swishlist/expanded/widgets/expanded_section_row_option.dart';
 import '../../api/user_apis/products_api.dart';
 import '../../constants/color.dart';
+import '../../constants/globals/globals.dart';
+import '../../constants/globals/loading.dart';
 import '../../constants/globals/shared_prefs.dart';
 import '../../models/login_models.dart';
 import '../../models/product_model.dart';
@@ -43,10 +45,10 @@ class _ProductsPageState extends State<ProductsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child:  isLoading ? Center(
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: isLoading ? Center(
           child: LoadingAnimationWidget.inkDrop(
             size: 40, color: ColorSelect.colorF7E641,
           ),
@@ -563,13 +565,18 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading ? Center(
-      child: LoadingAnimationWidget.newtonCradle(
-        size: 20, color: ColorSelect.colorF7E641,
-      )
-    ):SizedBox(
+    return isLoading ? DotsLoader(): haveProducts2.isEmpty ?AddProductError(
+        image: 'assets/images/addproduct3.png', tap: () {
+          showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return ManuallyAddBottomSheetWidget(/*model: widget.model,*/);
+        }); },):
+    SizedBox(
       height: 200,
-      child:(haveProducts2.isNotEmpty) ?Padding(
+      child:Padding(
         padding: const EdgeInsets.only(right: 8),
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -659,23 +666,11 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
             );
           },
         ),
-      ):isLoading ? Center(
+      ),/*:isLoading ? Center(
        child: LoadingAnimationWidget.waveDots(
         size: 70,
         color: ColorSelect.colorF7E641),
-       ): Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline,color: Colors.black,size: 80,),
-            // Image.asset("assets/images/delivery.png",height: 100,),
-            SizedBox(height: 5),
-            Text('Add Products',
-              style: AppTextStyle().textColor29292914w500,)
-          ],
-        ),
-      )
+       ): Text("flmv"*/
     );
   }
 }
@@ -726,9 +721,20 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return isLoading ? DotsLoader() : wantProducts2.isEmpty ?
+    AddProductError(
+        image: 'assets/images/Asset 1product 1.png',
+      tap: () {
+        showModalBottomSheet(
+            backgroundColor: Colors.transparent,
+            context: context,
+            isScrollControlled: true,
+            builder: (context) {
+              return ManuallyAddBottomSheetWidget(/*model: widget.model,*/);
+            });
+      },): SizedBox(
       height: 200,
-      child: (wantProducts2.isNotEmpty) ? Padding(
+      child:  Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -823,23 +829,12 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
             );
           },
         ),
-      ) :isLoading ? Center(
+      ) /*:isLoading ? Center(
         child: LoadingAnimationWidget.waveDots(
           size: 70,
           color: ColorSelect.colorF7E641,
         ),
-      ): Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline,color: Colors.black,size: 80,),
-            SizedBox(height: 5),
-            Text('Add Products',
-            style: AppTextStyle().textColor29292914w500,)
-          ],
-        ),
-      )
+      ): Text("flmv")*/
     ) ;
   }
 }
@@ -890,9 +885,19 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return isLoading ? DotsLoader(): notWant2.isEmpty ?
+    AddProductError(
+      image: 'assets/images/addproducts2.png',
+      tap: () {   showModalBottomSheet(
+          backgroundColor: Colors.transparent,
+          context: context,
+          isScrollControlled: true,
+          builder: (context) {
+            return ManuallyAddBottomSheetWidget(/*model: widget.model,*/);
+          });},):
+    SizedBox(
       height: 200,
-      child: (notWant2.isNotEmpty) ? Padding(
+      child:  Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -989,24 +994,13 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
             );
           },
         ),
-      ) :isLoading ? Center(
+      )
+      /*:isLoading ? Center(
           child: LoadingAnimationWidget.waveDots(
           size: 70,
            color: ColorSelect.colorF7E641,
           ),
-    ): Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline,color: Colors.black,size: 80,),
-            // Image.asset("assets/images/delivery.png",height: 100,),
-            SizedBox(height: 5),
-            Text('Add Products',
-              style: AppTextStyle().textColor29292914w500,)
-          ],
-        ),
-      )
+    )*/
     );
   }
 }

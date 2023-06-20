@@ -4,8 +4,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swishlist/intro/intro_page.dart';
 import 'package:swishlist/splash/splash.dart';
 import 'constants/globals/shared_prefs.dart';
+import 'dashboard/products/productAdded.dart';
+import 'intro/intro_final.dart';
 
 
 void main() async {
@@ -39,7 +42,9 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           home: SplashScreen()
-          // home:ProductAdded()
+          // home: IntroPage(),
+          // home: IntroFinal(onBackTap: () {},),
+          // home:ProductAdded(name: '', price: '', productImage: '',)
         );
         //Dashboard());
       },

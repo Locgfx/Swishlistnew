@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/dashboard/search/all_etsy_products.dart';
 import 'package:swishlist/dashboard/search/search_product.dart';
@@ -7,6 +8,7 @@ import 'package:swishlist/dashboard/search/search_product.dart';
 import '../../api/etsy_apis/all_listing_apis.dart';
 import '../../models/etsy_load_more_model.dart';
 import '../../profile_page/add_date_events.dart';
+import 'etsy_products_details.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -16,20 +18,7 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  bool isLoading = false;
-  List<EtsyLoadMoreModel> matches = <EtsyLoadMoreModel>[];
-  List<EtsyLoadMoreModel> searchList = [];
-  getSearch(val) {
-    final resp = searchEtsyProductApi(search: val);
-    resp.then((value) {
-      searchList.clear();
-      for (var v in value['results']) {
-        searchList.add(EtsyLoadMoreModel.fromJson(v));
-        isLoading = false;
-        print(searchList);
-      }
-    });
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,21 +81,102 @@ class _SearchState extends State<Search> {
                               border: InputBorder.none,
                               hintText: "Search product, username and more"),
                           keyboardType: TextInputType.text,
-                          onFieldSubmitted: (val){
-                           /* showModalBottomSheet(
+                          onFieldSubmitted: (val) {
+                            showModalBottomSheet(
+                                shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+                            ),
+                            context: context,
+                            builder: (context) => SearchProductBottomSheet());
+
+                          },
+                      /*    onFieldSubmitted: (val){
+                            showModalBottomSheet(
                                 shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(20), topLeft: Radius.circular(20)),
                                 ),
                                 context: context,
-                                builder: (context) => EventTypeBottomSheet(
-                                  eventType:'',
-                                  onPop: (val) {
-                                    setState(() {
-                                    });
-                                  },
-                                ));*/
-                          },
+                                builder: (context) => SingleChildScrollView(
+                                  child: Container(
+                                    height: 400,
+                                    child: Expanded(
+                                      child: GridView.builder(
+                                        shrinkWrap: true,
+                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 12.0,
+                                          mainAxisSpacing: 12.0,
+                                          mainAxisExtent: 310,
+                                        ),
+                                        itemCount: searchList.length,
+                                        itemBuilder: (_, i) {
+                                          return Column(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(
+                                                      16.0,
+                                                    ),
+                                                    color: Colors.amberAccent.shade100,
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius: const BorderRadius.only(
+                                                          topLeft: Radius.circular(16.0),
+                                                          topRight: Radius.circular(16.0),
+                                                        ),
+                                                        child: SvgPicture.asset(
+                                                          "assets/images/etsy.svg",
+                                                          height: 170,
+                                                          width: double.infinity,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(
+                                                              searchList[i].title.toString(),
+                                                              overflow: TextOverflow.ellipsis,
+                                                              textAlign: TextAlign.left,
+                                                              maxLines: 5,
+                                                              style: AppTextStyle().textColor29292912w500,
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 8.0,
+                                                            ),
+                                                            Text(
+                                                              ' \$ ${searchList[i].price!.amount.toString()}',
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: AppTextStyle().textColor29292912w500,),
+                                                            const SizedBox(
+                                                              height: 8.0,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                )
+                            );
+                          },*/
                         ),
                       )
                     ],
@@ -227,6 +297,7 @@ class StoreSheet extends StatefulWidget {
 class _StoreSheetState extends State<StoreSheet> {
   bool _switchAmazon = false;
   bool _switchEtsy = false;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -312,10 +383,8 @@ class _StoreSheetState extends State<StoreSheet> {
 
 
 class SearchProductBottomSheet extends StatefulWidget {
-  final String eventType;
-  final Function(String) onPop;
   const SearchProductBottomSheet(
-      {Key? key, required this.eventType, required this.onPop})
+      {Key? key, })
       : super(key: key);
 
   @override
@@ -323,7 +392,21 @@ class SearchProductBottomSheet extends StatefulWidget {
 }
 
 class _SearchProductBottomSheet extends State<SearchProductBottomSheet> {
-  int _gIndex = 0;
+
+  bool isLoading = false;
+  List<EtsyLoadMoreModel> matches = <EtsyLoadMoreModel>[];
+  List<EtsyLoadMoreModel> searchList = [];
+  getSearch(val) {
+    final resp = searchEtsyProductApi(search: val);
+    resp.then((value) {
+      searchList.clear();
+      for (var v in value['results']) {
+        searchList.add(EtsyLoadMoreModel.fromJson(v));
+        isLoading = false;
+        print(searchList);
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -331,101 +414,85 @@ class _SearchProductBottomSheet extends State<SearchProductBottomSheet> {
         decoration: const BoxDecoration(
           // color: k006D77,
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20)
+          ),
         ),
-        // height: 259.h,
-        child: Column(
-          children: [
-            Container(
-              height: 71.h,
-              decoration: const BoxDecoration(
-                color: ColorSelect.colorF7E641,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
-              ),
-              child: Center(
-                child: Text(
-                  'Select Puppy Type',
-                  // style: kManRope_700_20_white,
-                  textAlign: TextAlign.center,
+        child: GridView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          physics: ScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 12.0,
+            mainAxisSpacing: 12.0,
+            mainAxisExtent: 310,
+          ),
+          itemCount: searchList.length,
+          itemBuilder: (_, i) {
+            return Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        16.0,
+                      ),
+                      color: Colors.amberAccent.shade100,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(16.0),
+                            topRight: Radius.circular(16.0),
+                          ),
+                          child: SvgPicture.asset(
+                            "assets/images/etsy.svg",
+                            height: 170,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                searchList[i].title.toString(),
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                maxLines: 5,
+                                style: AppTextStyle().textColor29292912w500,
+                              ),
+                              const SizedBox(
+                                height: 8.0,
+                              ),
+                              Text(
+                                ' \$ ${searchList[i].price.toString()}',
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextStyle().textColor29292912w500,),
+                              const SizedBox(
+                                height: 8.0,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 20.h),
-              child: Column(
-                children: [
-                  GestureDetector(
-                    onTap: () => setState(() {
-                      _gIndex = 0;
-                      Navigator.of(context).pop();
-                      widget.onPop("all");
-                    }),
-                    child: Container(
-                      height: 44.h,
-                      width: 78.w,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 0 ? ColorSelect.colorF7E641 : Colors.transparent,
-                      ),
-                      child: Center(
-                          child: Text(
-                            'all',
-                            // style: _gIndex == 0
-                            //     ? textColorF7E64114w400
-                            //     : ColorSelect.colorF7E641
-                          )),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8.h,
-                  ),
-                  GestureDetector(
-                    onTap: () => setState(() {
-                      _gIndex = 1;
-                      Navigator.of(context).pop();
-                      widget.onPop("upcoming");
-                    }),
-                    child: Container(
-                      height: 44.h,
-                      width: 78.w,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 1 ? ColorSelect.colorF7E641 : Colors.transparent,
-                      ),
-                      child: Center(
-                          child: Text(
-                            'upcoming',
-                            // style: _gIndex == 1
-                            //     ? kManRope_500_16_white
-                            //     : kManRope_500_16_626A6A,
-                          )),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  )
-                ],
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
-  @override
-  void initState() {
-    if (widget.eventType == "all") {
-      _gIndex = 0;
-    } /*else if (widget.eventType == "upcoming") {
-      _gIndex = 1;
-    }*/ else {
-      _gIndex = 2;
-    }
-    super.initState();
-  }
+
 }

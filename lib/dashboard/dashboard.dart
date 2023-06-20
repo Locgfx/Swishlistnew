@@ -73,8 +73,8 @@ class _DashboardState extends State<Dashboard> {
                       children: [
                         Image.asset(
                           pageIndex == 0
-                              ? "assets/images/bag01.png"
-                              : "assets/images/bag01.png",
+                              ? "assets/images/home.png"
+                              : "assets/images/home.png",
                           color: pageIndex == 0
                               ? Color(0xff292929)
                               : Color(0xff707070),
@@ -82,7 +82,7 @@ class _DashboardState extends State<Dashboard> {
                           width: 24,
                         ),
                         SizedBox(height: 8),
-                        Text("Products",
+                        Text("Home",
                             style: AppTextStyle().textColor29292912w500.copyWith(
                                 color: pageIndex == 0
                                     ? Color(0xff292929)
@@ -120,8 +120,8 @@ class _DashboardState extends State<Dashboard> {
                           pageIndex == 1
                               // ? "assets/images/Etsy Logo.png"
                               // : "assets/images/Etsy Logo.png",
-                              ? "assets/images/search4.png"
-                              : "assets/images/search4.png",
+                              ? "assets/icons/4xstoreicon.png"
+                              : "assets/icons/4xstoreicon.png",
                           color: pageIndex == 1
                               ? Color(0xff292929)
                               : Color(0xff707070),
@@ -129,7 +129,7 @@ class _DashboardState extends State<Dashboard> {
                           width: 24,
                         ),
                         SizedBox(height: 8),
-                        Text("shop",
+                        Text("Store",
                             style: AppTextStyle().textColor29292912w500.copyWith(
                                 color: pageIndex == 1
                                     ? Color(0xff292929)
@@ -165,8 +165,8 @@ class _DashboardState extends State<Dashboard> {
                       children: [
                         Image.asset(
                           pageIndex == 2
-                              ? "assets/images/iconact.png"
-                              : "assets/images/iconact.png",
+                              ? "assets/icons/4xactivityicon.png"
+                              : "assets/icons/4xactivityicon.png",
                           color: pageIndex == 2
                               ? Color(0xff292929)
                               : Color(0xff707070),
@@ -210,8 +210,8 @@ class _DashboardState extends State<Dashboard> {
                       children: [
                         Image.asset(
                           pageIndex == 3
-                              ? "assets/images/iconfriends.png"
-                              : "assets/images/iconfriends.png",
+                              ? "assets/icons/4xfriendsicon.png"
+                              : "assets/icons/4xfriendsicon.png",
                           color: pageIndex == 3
                               ? Color(0xff292929)
                               : Color(0xff707070),

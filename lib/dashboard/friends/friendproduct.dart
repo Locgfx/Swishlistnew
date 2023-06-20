@@ -9,6 +9,7 @@ import 'package:swishlist/dashboard/friends/profile_chat.dart';
 import 'package:swishlist/dashboard/friends/widget/appbar_icon.dart';
 import 'package:swishlist/models/friend_product_model.dart';
 import '../../api/user_apis/friends_api.dart';
+import '../../constants/globals/globals.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import 'friend_all_dont_want_products.dart';
@@ -168,7 +169,7 @@ class _FriendProductState extends State<FriendProduct> {
                                                         ),
                                                       ),
                                                     ),
-                                ListTile(
+                                            ListTile(
                                                   title: GestureDetector(
                                                     onTap: () {
                                                       Navigator.push(
@@ -189,16 +190,15 @@ class _FriendProductState extends State<FriendProduct> {
                                           title: GestureDetector(
                                             onTap: () {
                                               deleteFriendApi(
-                                                                          id: widget.id).then((value) {
-                                                                        if(value['status'] == true) {
-                                                                          Fluttertoast.showToast(msg: value['message']);
-                                                                          Navigator.pop(context);
-                                                                          Navigator.pop(context);
-                                                                        } else {
-                                                                          Fluttertoast.showToast(msg: value['message']);
-                                                                        }
-                                                                      });
-
+                                                  id: widget.id).then((value) {
+                                                    if(value['status'] == true) {
+                                                      Fluttertoast.showToast(msg: value['message']);
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                    } else {
+                                                      Fluttertoast.showToast(msg: value['message']);
+                                                    }
+                                                  });
                                             },
                                             child: Text(
                                               'Unfriend',
@@ -396,20 +396,13 @@ class _FriendProductState extends State<FriendProduct> {
                       height: 200,
                       child:  Padding(
                         padding: const EdgeInsets.only(right: 8.0),
-                        child: products!.data!.want!.isEmpty ? Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                              // Image.asset("assets/images/delivery.png",height: 100,),
-                              SizedBox(height: 5),
-                              Text('Your Friend does not want any product ',
-                                style: AppTextStyle().textColor29292914w500,)
-                            ],
-                          ),
-                        ) :ListView.builder(
-                          // physics: NeverScrollableScrollPhysics(),
+                        child: products!.data!.want!.isEmpty ?
+                        AddProductImage(
+                          image: 'assets/images/Asset 1product 1.png',
+                          txt: 'Add Product',
+                          buttonTxt: 'Add Product',
+                          tap: () {  },
+                          buttonIcon: 'assets/images/plus.png',) :ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: products!.data!.want!.length,
                           // itemCount: 2,
@@ -548,19 +541,13 @@ class _FriendProductState extends State<FriendProduct> {
                       height: 200,
                       child:  Padding(
                         padding: const EdgeInsets.only(right: 8.0),
-                        child: products!.data!.dontWant!.isEmpty ? Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                              // Image.asset("assets/images/delivery.png",height: 100,),
-                              SizedBox(height: 5),
-                              Text('Your Friend does not want any product ',
-                                style: AppTextStyle().textColor29292914w500,)
-                            ],
-                          ),
-                        ) :ListView.builder(
+                        child: products!.data!.dontWant!.isEmpty ?
+                        AddProductImage(
+                          image: 'assets/images/Asset 1product 1.png',
+                          txt: 'Add Product',
+                          buttonTxt: 'Add Product',
+                          tap: () {  },
+                          buttonIcon: 'assets/images/plus.png',) :ListView.builder(
                           // physics: NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemCount: products!.data!.dontWant!.length,
@@ -700,19 +687,13 @@ class _FriendProductState extends State<FriendProduct> {
                       height: 200,
                       child:  Padding(
                         padding: const EdgeInsets.only(right: 8.0),
-                        child: products!.data!.have!.isEmpty ? Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                              // Image.asset("assets/images/delivery.png",height: 100,),
-                              SizedBox(height: 5),
-                              Text('Your Friend does not want any product ',
-                                style: AppTextStyle().textColor29292914w500,)
-                            ],
-                          ),
-                        ) :ListView.builder(
+                        child: products!.data!.have!.isEmpty ?
+                        AddProductImage(
+                          image: 'assets/images/Asset 1product 1.png',
+                          txt: 'Add Product',
+                          buttonTxt: 'Add Product',
+                          tap: () {  },
+                          buttonIcon: 'assets/images/plus.png',) :ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: products!.data!.have!.length,
                           // itemCount: 2,

@@ -45,11 +45,14 @@ class _AddFriendsState extends State<AddFriends> {
 
   contact() {
     isLoading = true;
+
     var resp = getContactApi(contacts: phNo);
+    phNo.clear();
     resp.then((value) {
       if(mounted){
         if (value['status'] == true) {
           setState(() {
+
             for (var v in value['data']) {
               friendList.add(ModelContact.fromJson(v));
             }
@@ -69,18 +72,18 @@ class _AddFriendsState extends State<AddFriends> {
   void getContact() async {
     if (await FlutterContacts.requestPermission()) {
       contacts = await FlutterContacts.getContacts(
-          withPhoto: true,
+          withProperties: true, withPhoto: false
       );
+      print(contacts);
       for (var v in contacts!) {
         phNo.add(v.phones.first.number);
+        contact();
       }
-      contact();
-      print(contacts);
       setState(() {});
     }
   }
-  final TextEditingController _controller = TextEditingController();
 
+  final TextEditingController _controller = TextEditingController();
    /*List  listPh = [];*/
 
   @override
@@ -170,6 +173,7 @@ class _AddFriendsState extends State<AddFriends> {
                 ListView.builder(
                     shrinkWrap: true,
                     itemCount: friendList.length,
+                    physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context,i) {
                       return ListTile(
                           leading: Container(

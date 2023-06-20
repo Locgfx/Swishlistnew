@@ -9,6 +9,7 @@ import 'package:swishlist/api/user_apis/products_api.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
 import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
 import '../../constants/color.dart';
+import '../../constants/globals/globals.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/product_type_model.dart';
@@ -543,6 +544,13 @@ class _WantProductsState extends State<WantProducts> {
                                 ),
                               ],
                             ),
+                            wantProduct2.isEmpty ?
+                            AddProductImage(
+                              image: 'assets/images/Asset 1product 1.png',
+                              txt: 'Add Product',
+                              buttonTxt: 'Add Product',
+                              tap: () {  },
+                              buttonIcon: 'assets/images/plus.png',):
                             ListView.builder(
                               padding: EdgeInsets.only(bottom: 30),
                                 physics: NeverScrollableScrollPhysics(),

@@ -10,6 +10,7 @@ import 'package:swishlist/dashboard/products/productdetail.dart';
 import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
 import 'package:swishlist/models/product_model.dart';
 import '../../constants/color.dart';
+import '../../constants/globals/globals.dart';
 import '../../constants/urls.dart';
 import '../../models/product_type_model.dart';
 
@@ -212,6 +213,13 @@ class _ProductdontwantState extends State<Productdontwant> {
                             ),
                           ],
                         ),
+                        notWantTwo.isEmpty ?
+                        AddProductImage(
+                          image: 'assets/images/Asset 1product 1.png',
+                          txt: 'Add Product',
+                          buttonTxt: 'Add Product',
+                          tap: () {  },
+                          buttonIcon: 'assets/images/plus.png',):
                         ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: notWantTwo.length,

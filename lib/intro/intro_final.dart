@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,6 +22,8 @@ class _IntroFinalState extends State<IntroFinal> with TickerProviderStateMixin {
   late Animation<double> _animation1;
   late Animation<double> _animation2;
   late Animation<double> _animation3;
+
+
   @override
   void dispose() {
     animationController.dispose();
@@ -35,8 +38,8 @@ class _IntroFinalState extends State<IntroFinal> with TickerProviderStateMixin {
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
-    )..repeat(reverse: true);
+      duration: Duration(seconds: 5),
+    )..stop(canceled: true);
     animationController1 = AnimationController(
       vsync: this,
       duration: Duration(seconds: 1),
@@ -71,7 +74,7 @@ class _IntroFinalState extends State<IntroFinal> with TickerProviderStateMixin {
     );
     _animation3 = Tween<double>(
       begin: 0,
-      end: 1,
+      end: 3,
     ).animate(
       CurvedAnimation(
         parent: animationController3,
@@ -80,7 +83,7 @@ class _IntroFinalState extends State<IntroFinal> with TickerProviderStateMixin {
     );
     _animation = Tween<double>(
       begin: 1,
-      end: 3,
+      end: 5,
     ).animate(
       CurvedAnimation(
         parent: animationController,
@@ -111,57 +114,78 @@ class _IntroFinalState extends State<IntroFinal> with TickerProviderStateMixin {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 123.h,
-          ),
-          FadeTransition(
-            opacity: _animation1,
-            child: Text(
-              "Let's",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.roboto(
-                textStyle: TextStyle(
-                  fontSize: 50.sp,
-                  fontWeight: FontWeight.w700,
-                  color: ColorSelect.colorF7E641,
-                ),
-              ),
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 123.h,
             ),
-          ),
-          FadeTransition(
-            opacity: _animation2,
-            child: Text(
-              "Get",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.roboto(
-                textStyle: TextStyle(
-                  fontSize: 50.sp,
-                  fontWeight: FontWeight.w700,
-                  color: ColorSelect.colorF7E641,
-                ),
-              ),
-            ),
-          ),
-          FadeTransition(
-            opacity: _animation3,
-            child: ScaleTransition(
-              scale: _animation,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Center(
-                  child: Text(
-                    "Swishing!",
-                    style: AppTextStyle().textColorF7E64120w700,
+            FadeTransition(
+              opacity: _animation1,
+              child: Text(
+                "Let's",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    fontSize: 50.sp,
+                    fontWeight: FontWeight.w700,
+                    color: ColorSelect.colorF7E641,
                   ),
                 ),
               ),
             ),
-          ),
-          /*_scale(),*/
-          Spacer(),
-        ],
+            FadeTransition(
+              opacity: _animation2,
+              child: Text(
+                "Get",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    fontSize: 50.sp,
+                    fontWeight: FontWeight.w700,
+                    color: ColorSelect.colorF7E641,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            FadeTransition(
+              opacity: _animation3,
+              child: ScaleTransition(
+                scale: _animation,
+                child: AnimatedDefaultTextStyle(
+                    child: Text('Swishing!'),
+                    style: AppTextStyle().textColorF7E64150w700,
+                    duration: Duration(seconds: 3)),
+              )
+              /*ScaleTransition(
+                scale: _animation,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Center(
+                    child: Text(
+                      "Swishing!",
+                      style: AppTextStyle().textColorF7E64120w700,
+                    ),
+                  ),
+                ),
+              ),*/
+            ),
+
+         /*   TweenAnimationBuilder(
+              tween: Tween<double>(begin: 1,end: 30),
+              duration: Duration(seconds: 5), builder: (BuildContext context, double value, Widget? child) {
+                return Text("jiknn",
+                  style:TextStyle(
+                  fontSize: value,
+                  )); },
+            ),*/
+
+
+            /*_scale(),*/
+            Spacer(),
+          ],
+        ),
       ),
     );
   }

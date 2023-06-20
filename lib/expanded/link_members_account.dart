@@ -37,9 +37,10 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
   getSearch(val) {
     isLoading = true;
     final resp = searchMemberApi(name: val);
+    searchModel.clear();
     resp.then((value) {
       print(value);
-      searchModel.clear();
+      // searchModel.clear();
       setState(() {
         for (var v in value['data']) {
           searchModel.add(SearchModel.fromJson(v));
@@ -170,7 +171,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
                       decoration: InputDecoration(
                         hintText: 'please enter atleast 4 characters',
                           border: InputBorder.none
-                      )
+                      ),
                   ),
                   suggestionsBoxDecoration: SuggestionsBoxDecoration(
                     color: ColorSelect.colorEDEDF1,

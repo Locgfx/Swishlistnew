@@ -9,8 +9,10 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/message_api.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
+import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
+// import '../../models/friends_details_model.dart';
 import '../../models/list_message_model.dart';
 import '../products/widget/product_add_widget.dart';
 
@@ -22,7 +24,8 @@ class ProfileChatPage extends StatefulWidget {
   const ProfileChatPage({Key? key,
     required this.friendId,
     required this.name,
-    required this.friendImage, required this.selectedItems,
+    required this.friendImage,
+    required this.selectedItems,
   }) : super(key: key);
 
   @override
@@ -34,15 +37,12 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
   @override
   void initState() {
     super.initState();
-    SharedPrefs().getId();
+    // SharedPrefs().getId();
     getMessages();
-    focusNode.addListener(() {
+ /*   focusNode.addListener(() {
       setState(() {});
-    });
-    ids = int.parse(SharedPrefs().getId()!);
-    print(widget.friendId);
-    print(widget.name);
-    print(widget.friendImage);
+    });*/
+    // ids = int.parse(SharedPrefs().getId()!);
   }
   final GlobalKey _groupListKey = GlobalKey();
   bool isLoading = true;
@@ -52,7 +52,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
     isLoading = true;
     var resp = listMessageApi(specificUserid: widget.friendId);
     resp.then((value) {
-      print(widget.friendId);
+      // print(widget.friendId);
       if (mounted) {
         if (value['status'] == true) {
           setState(() {
@@ -67,6 +67,38 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
       }
     });
   }
+
+/*
+  FriendDetailsModel friendDetails = FriendDetailsModel(
+      data: Data()
+  );
+
+  getFriendDetails() {
+    isLoading = true;
+    var resp = friendDetailsApi(friendUserId: widget.friendId);
+    resp.then((value) {
+      if(mounted) {
+        if(value['status'] == true) {
+          if(value['message'] == "No Data") {
+            setState(() {
+              isLoading = false;
+            });
+          } else {
+            setState(() {
+              friendDetails = FriendDetailsModel.fromJson(value);
+              isLoading = false;
+            });
+          }
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
+    });
+  }
+*/
+
 
   final focusNode = FocusNode();
   final sendMsgController = TextEditingController();

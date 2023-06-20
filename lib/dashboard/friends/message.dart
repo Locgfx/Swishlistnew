@@ -10,11 +10,13 @@ import '../../models/message_model.dart';
 import '../friends/chatpage.dart';
 
 class Messages extends StatefulWidget {
-  final String friendId;
-  final String friendName;
-  final String friendPhoto;
-  const Messages({Key? key, required this.friendId, required this.friendName, required this.friendPhoto,
+  // final String friendId;
+  // final String friendName;
+  // final String friendPhoto;
+  const Messages({Key? key,
     // required this.friendId,
+    // required this.friendName,
+    // required this.friendPhoto,
   }) : super(key: key);
 
   @override
@@ -31,12 +33,17 @@ class _MessagesState extends State<Messages> {
 
  bool isLoading = false;
   MessageModel?  msgModel;
+  // List<MessageModel> msgModel = [];
+
   getMessages() {
     isLoading = true;
     var resp = getMessageApi();
     resp.then((value) {
       if (value['status'] == true) {
         setState(() {
+          // for(var v in value['data']) {
+          //   msgModel.add(MessageModel.fromJson(v));
+          // }
           msgModel = MessageModel.fromJson(value);
           isLoading = false;
         });
@@ -51,7 +58,6 @@ class _MessagesState extends State<Messages> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorSelect.colorFFFFFF,
@@ -110,17 +116,12 @@ class _MessagesState extends State<Messages> {
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         ProfileChatPage(
-                                          friendId: widget.friendId,
-                                          name: widget.friendName,
-                                          friendImage: widget.friendPhoto,
+                                          friendId: msgModel!.data![i].usersIds.toString(),
+                                          name: msgModel!.data![i].friendProfile!.name.toString(),
+                                          friendImage: msgModel!.data![i].friendProfile!.photo.toString(),
                                           selectedItems: [],
                                         ),
-                                   /*     ChatPage(
-                                      friendId: msgModel!.data![i].userMessages![0].sendToUserId.toString(),
-                                      name: msgModel!.data![i].friendProfile!.name.toString(),
-                                       friendImage: baseUrl+msgModel!.data![i].friendProfile!.photo.toString(), selectedItems: [],
-                                      *//*friendId: widget.friendId,*//*)*/
-                                )
+                                ),
                             );
                           },
                           child: Container(
@@ -166,7 +167,7 @@ class _MessagesState extends State<Messages> {
                                     Text(
                                       msgModel!.data![i].friendProfile!.name.toString() == '' ?
                                       'your friend does not updated name yet':
-                                msgModel!.data![i].friendProfile!.name.toString(),
+                                      msgModel!.data![i].friendProfile!.name.toString(),
                                       // "Pam",
                                       style: AppTextStyle()
                                           .robotocolor1F1F1C14w500,
