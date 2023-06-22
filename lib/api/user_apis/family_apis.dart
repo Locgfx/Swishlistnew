@@ -14,6 +14,7 @@ Future<dynamic> getFamilyMemberApi() async {
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   if(response.statusCode == 200) {
+    print(resp);
     return resp;
   } else {
     print(resp);

@@ -158,7 +158,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
               SizedBox(
                 height: 20.h,
               ),
-              Text(
+          /*    Text(
                 "Requested",
                 style: AppTextStyle().textColor70707012w500,
               ),
@@ -217,7 +217,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                     ),
                   );
                 },
-              ),
+              ),*/
             ],
           ),
         ),

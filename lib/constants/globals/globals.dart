@@ -86,8 +86,9 @@ class AddProductImage extends StatelessWidget {
 class AddProductError extends StatelessWidget {
   final String image;
   final Function() tap;
+  final Widget? addButton;
 
-  const AddProductError({super.key, required this.image, required this.tap});
+  const AddProductError({super.key, required this.image, required this.tap, this.addButton});
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +98,7 @@ class AddProductError extends StatelessWidget {
           padding: const EdgeInsets.only(left: 60,right: 60,bottom: 12,top: 20),
           child: Image.asset(image,),
         ),
+        addButton ??
         Padding(
           padding: const EdgeInsets.only(left: 16,right: 16),
           child: SizedBox(

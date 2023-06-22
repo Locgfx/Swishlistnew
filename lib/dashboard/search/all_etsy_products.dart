@@ -56,7 +56,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
           // print(productId);
         }
         print(productId);
-
         getListingId();
         //  for(var v in friendList) {
         //   getListingId(v.listingId);
@@ -69,7 +68,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
     scroll++;
     final resp = allEtsyListingApi(page: scroll.toString());
     resp.then((value) {
-      // productId.clear();
+      productId.clear();
       setState(() {
         scrollLength = value["results"].length;
         for (var v in value['results']) {
@@ -77,7 +76,8 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
           // friendList.add(EtsyLoadMoreModel.fromJson(v));
           isLoading = false;
         }
-        print(productId);
+        print("$productId loadmore");
+        // print(value);
         getListingId();
         /*  for(var v in friendList) {
           getListingId(v.listingId);
@@ -88,7 +88,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
   }
 
   getListingId() {
-    isLoading = true;
     var resp = getListingByListingIds(listingId: productId.join(","));
     resp.then((value) {
       setState(() {
@@ -118,7 +117,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
 
   // List<EtsyLoadMoreModel> matches = <EtsyLoadMoreModel>[];
   List<EtsyLoadMoreModel> searchList = [];
-
   List<int> searchId = [];
   List<EtsyListingIdModel> searchListings = [];
   List<EtsyListingIdModel> matches = <EtsyListingIdModel>[];
@@ -154,7 +152,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
       });
     });
   }
-
 
   List<EtsyLoadMoreModel> friendList = [];
   final searchController = TextEditingController();
@@ -196,51 +193,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
               },
               child: Image.asset('assets/images/Vector190.png')),
         ),
-        //   actions: [
-        //     GestureDetector(
-        //       onTap: () {
-        //
-        //       },
-        //       child: searchField ?
-        //         Image.asset(
-        //         "assets/images/Frame 1000002471.png",
-        //           height: 24,
-        //           width: 24,
-        //
-        //       // color: ColorSelect.color292929,
-        //   ) :
-        // Padding(
-        //   padding: const EdgeInsets.only(right: 20.0),
-        //   child: Image.asset(
-        //       "assets/images/search 03.png",
-        //       height: 24,
-        //       width: 24,
-        //       color: ColorSelect.color292929,
-        //   ),
-        // ),
-        //     ) ,
-        //   ],
       ),
-      //   appBar: AppBar(
-      //   backgroundColor: ColorSelect.colorF7E641,
-      //   automaticallyImplyLeading: false,
-      //   elevation: 0,
-      //   flexibleSpace: Row(
-      //     children: [
-      //
-      //       Container(
-      //         padding: EdgeInsets.all(16),
-      //         decoration: BoxDecoration(
-      //           color: ColorSelect.colorF7E641,
-      //         ),
-      //         child: Text(
-      //           "All Etsy Products",
-      //           style: AppTextStyle().textColor29292916w500,
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
       body: isLoading
           ? Loading()
           : Stack(
@@ -252,7 +205,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                           isLoading: isLoading,
                           scrollDirection: Axis.vertical,
                           onEndOfPage: () {
-                            if (scrollLength >= 10) {
+                            if (scrollLength >= 25) {
                               loadMore();
                             }
                           },
@@ -266,7 +219,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                 crossAxisSpacing: 10.0,
                                 mainAxisSpacing: 10.0,
                                       mainAxisExtent: 300
-                              ),
+                                  ),
                               itemCount: listings.length + 1,
                               itemBuilder: (_, i) {
                                 if (i < listings.length) {
@@ -469,7 +422,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                     //   ],
                                     // ),
                                   );
-                                } else if (scrollLength >= 10 && isLoading) {
+                                } else if (scrollLength >= 25 && isLoading) {
                                   return Center(
                                     child: LoadingAnimationWidget
                                         .staggeredDotsWave(
@@ -477,7 +430,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                       color: ColorSelect.colorF7E641,
                                     ),
                                   );
-                                } else if (scrollLength < 5) {
+                                } else if (scrollLength < 25) {
                                   return SizedBox.shrink();
                                 } else {
                                   return Center(

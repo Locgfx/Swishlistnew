@@ -107,6 +107,7 @@ class _OptionRowFamilyState extends State<OptionRowFamily> {
               familyModel2.add(v);
             }
           }
+          print(familyModel2);
           isLoading = false;
         });
       } else{
@@ -127,6 +128,7 @@ class _OptionRowFamilyState extends State<OptionRowFamily> {
     ): ListView.builder(
       physics: NeverScrollableScrollPhysics(),
       itemCount: familyModel2.length,
+      // itemCount: 3,
       shrinkWrap: true,
       itemBuilder: (context, i) {
         return Padding(
@@ -214,6 +216,7 @@ class _OptionRowFamilyState extends State<OptionRowFamily> {
             ],
           ),
         );
+        // return Text("Family");
       },
     );
   }

@@ -36,9 +36,6 @@ class _AddFriendsState extends State<AddFriends> {
   }
   List<Contact>? contacts;
   bool isLoading = true;
-
-
-  // List<ModelContact> searchList = [];
   List <String> phNo = [];
   List<ModelContact> friendList = [];
   final searchController = TextEditingController();
@@ -52,7 +49,6 @@ class _AddFriendsState extends State<AddFriends> {
       if(mounted){
         if (value['status'] == true) {
           setState(() {
-
             for (var v in value['data']) {
               friendList.add(ModelContact.fromJson(v));
             }
@@ -84,7 +80,7 @@ class _AddFriendsState extends State<AddFriends> {
   }
 
   final TextEditingController _controller = TextEditingController();
-   /*List  listPh = [];*/
+
 
   @override
   Widget build(BuildContext context) {

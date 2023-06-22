@@ -12,6 +12,7 @@ import '../../api/user_apis/friends_api.dart';
 import '../../constants/globals/globals.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
+import '../products/widget/manuallyaddbottomsheetwidget.dart';
 import 'friend_all_dont_want_products.dart';
 import 'friend_all_have_products.dart';
 import 'friend_all_want_products.dart';
@@ -392,17 +393,24 @@ class _FriendProductState extends State<FriendProduct> {
                     ),
                   ),
                   SizedBox(height: 12),
+                  products!.data!.want!.isEmpty ?
+                  AddProductError(
+                    addButton: SizedBox(),
+                    image: 'assets/images/Asset 1product 1.png',
+                    tap: () {
+                      showModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) {
+                            return ManuallyAddBottomSheetWidget(/*model: widget.model,*/);
+                          });
+                    },) :
                   SizedBox(
                       height: 200,
                       child:  Padding(
                         padding: const EdgeInsets.only(right: 8.0),
-                        child: products!.data!.want!.isEmpty ?
-                        AddProductImage(
-                          image: 'assets/images/Asset 1product 1.png',
-                          txt: 'Add Product',
-                          buttonTxt: 'Add Product',
-                          tap: () {  },
-                          buttonIcon: 'assets/images/plus.png',) :ListView.builder(
+                        child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: products!.data!.want!.length,
                           // itemCount: 2,
@@ -537,6 +545,19 @@ class _FriendProductState extends State<FriendProduct> {
                     ),
                   ),
                   SizedBox(height: 12),
+                  products!.data!.dontWant!.isEmpty ?
+                  AddProductError(
+                    addButton: SizedBox(),
+                    image: 'assets/images/addproducts2.png',
+                    tap: () {
+                      showModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) {
+                            return ManuallyAddBottomSheetWidget(/*model: widget.model,*/);
+                          });
+                    },) :
                   SizedBox(
                       height: 200,
                       child:  Padding(
@@ -683,6 +704,19 @@ class _FriendProductState extends State<FriendProduct> {
                     ),
                   ),
                   SizedBox(height: 12),
+                  products!.data!.have!.isEmpty ?
+                  AddProductError(
+                    addButton: SizedBox(),
+                    image: 'assets/images/addproduct3.png',
+                    tap: () {
+                      showModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) {
+                            return ManuallyAddBottomSheetWidget(/*model: widget.model,*/);
+                          });
+                    },) :
                   SizedBox(
                       height: 200,
                       child:  Padding(
@@ -790,6 +824,7 @@ class _FriendProductState extends State<FriendProduct> {
                         ),
                       )
                   ),
+                  SizedBox(height: 100,)
                 ],
               ),
             ),

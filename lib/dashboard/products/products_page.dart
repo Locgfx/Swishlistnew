@@ -42,6 +42,7 @@ class _ProductsPageState extends State<ProductsPage> {
   bool showBox = true;
   bool showExpandedScreen = false;
   bool isLoading = false;
+  int itemCount = 2;
 
   @override
   Widget build(BuildContext context) {
