@@ -93,13 +93,14 @@ class _FriendNotificationState extends State<FriendNotification> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.error_outline,
+                Icon(Icons.notifications,
                   color: Colors.black,
                   size: 80,
                 ),
                 // Image.asset("assets/images/delivery.png",height: 100,),
                 SizedBox(height: 5),
-                Text('No Notification',
+                Text(
+                  'No Notification',
                   style: AppTextStyle().textColor29292914w500,)
               ],
             ),

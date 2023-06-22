@@ -70,3 +70,4 @@ class Results {
     return data;
   }
 }
+

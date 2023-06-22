@@ -9,7 +9,7 @@ Future<dynamic> allEtsyListingApi({
     'x-api-key': 'oqcujtilmdun1lcgvlp59otk',
     // 'Cookie': 'fve=1685077796.0; uaid=f2Zq16_qS6ihIWxrR5qKlfw57oNjZACClAJ7KRhdrVSamJmiZKVkGp7lnV7gEpId7uHv75eRnBrobJhmrKtb6JXioVTLAAA.; user_prefs=Crrq9ofhr2gKykE6JQV6Zy5Y2X9jZACClAJ7biitEq3k6RekpJNXmpOjo5Sap-vupKQDFIKKGEEoXEQsAwA.'
   };
-  var request = http.Request('GET', Uri.parse('$etsyUrl/v3/application/listings/active?limit=25&page=$page'));
+  var request = http.Request('GET', Uri.parse('$etsyUrl/v3/application/listings/active?limit=10&page=$page'));
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
@@ -17,7 +17,7 @@ Future<dynamic> allEtsyListingApi({
     // print(resp);
     return resp;
   } else {
-    print(resp);
+    // print(resp);
     print(response.statusCode);
     print(response.reasonPhrase);
     return resp;
@@ -56,12 +56,12 @@ Future<dynamic> searchEtsyProductApi({
     // 'Cookie': 'fve=1685077796.0; uaid=f2Zq16_qS6ihIWxrR5qKlfw57oNjZACClAJ7KRhdrVSamJmiZKVkGp7lnV7gEpId7uHv75eRnBrobJhmrKtb6JXioVTLAAA.; user_prefs=Crrq9ofhr2gKykE6JQV6Zy5Y2X9jZACClAJ7biitEq3k6RekpJNXmpOjo5Sap-vupKQDFIKKGEEoXEQsAwA.'
   };
   var request = http.Request('GET', Uri.parse(
-      'https://openapi.etsy.com/v3/application/listings/active?&keywords=$search'));
+      'https://openapi.etsy.com/v3/application/listings/active?limit=100&page=page&keywords=$search'));
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   if (response.statusCode == 200){
-    print(resp);
+    // print(resp);
     return resp;
   } else {
     print(resp);

@@ -13,10 +13,11 @@ Future<dynamic> getEtsyImagesApi({
   };
   var request = http.Request('GET', Uri.parse('$etsyUrl/v3/application/listings/$listingId/images'));
   request.headers.addAll(headers);
+  print(request.headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   if (response.statusCode == 200){
-    // print(resp);
+    print(resp);
     return resp;
   } else {
     // print(resp);
