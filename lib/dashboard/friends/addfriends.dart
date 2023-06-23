@@ -42,7 +42,6 @@ class _AddFriendsState extends State<AddFriends> {
 
   contact() {
     isLoading = true;
-
     var resp = getContactApi(contacts: phNo);
     phNo.clear();
     resp.then((value) {

@@ -50,9 +50,9 @@ class _ActivitiesState extends State<Activities> {
       backgroundColor: Colors.white,
       body: isLoading ? Loading():
       RefreshIndicator(
-        displacement: 250,
-        backgroundColor: Colors.yellow,
-        color: Colors.red,
+        displacement: 500,
+        backgroundColor: Colors.white,
+        color: ColorSelect.colorF7E641,
         strokeWidth: 3,
         onRefresh: () {
           setState(() {

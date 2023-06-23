@@ -22,8 +22,6 @@ class ChatPage extends StatefulWidget {
     required this.name,
     required this.friendImage, required this.selectedItems,
   }) : super(key: key);
-
-
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
