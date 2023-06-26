@@ -410,9 +410,9 @@ class _DateAndEventsState extends State<DateAndEvents> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                        SizedBox(height: 5),
-                        Text('No Activities Found',
+                  /*      Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                        SizedBox(height: 5),*/
+                        Text('No Dates Added Yet',
                           style: AppTextStyle().textColor29292914w500,)
                       ],
                     ),
@@ -464,10 +464,10 @@ class _DateAndEventsState extends State<DateAndEvents> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                     /*   Icon(Icons.error_outline,color: Colors.black,size: 80,),
                         // Image.asset("assets/images/delivery.png",height: 100,),
-                        SizedBox(height: 5),
-                        Text('No Activities Found',
+                        SizedBox(height: 5),*/
+                        Text('No Dates Added Yet',
                           style: AppTextStyle().textColor29292914w500,),
                         SizedBox(height: 30),
                       ],

@@ -249,7 +249,8 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                      onTap: () {
                       Navigator.push(
                           context, MaterialPageRoute(
-                          builder: (context) => Pets())
+                          builder: (context) => Pets(),
+                        )
                       );
                     },
                     child: PetsRowWidget(),

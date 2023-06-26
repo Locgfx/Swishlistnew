@@ -133,8 +133,8 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border:
-                            Border.all(color: ColorSelect.colorE0E0E0, width: 1)),
+                            border: Border.all(width: 2,color:  ColorSelect.colorF7E641)
+                        ),
                         child: CachedNetworkImage(
                           // imageUrl: (baseUrl+haveProducts2[i].photo.toString()),
                           imageUrl: imageModel!.results![i].url570xN.toString(),

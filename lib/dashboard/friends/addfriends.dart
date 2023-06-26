@@ -106,249 +106,273 @@ class _AddFriendsState extends State<AddFriends> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: isLoading ? Loading() : SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              SizedBox(height: 16,),
-              Container(
-                width: 328.w,
-                height: 52.h,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: ColorSelect.colorEDEDF1,
-                ),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Image.asset("assets/images/Vectorse.png"),
-                    SizedBox(width: 16,),
-                   /* Expanded(
-                      child: TextFormField(
-                        controller: searchController,
-                        onChanged: (val) {
-                          for (var v in friendList) {
-                            if(v.name! == val) {
-                              if(searchList.contains(v)) {
-                              } else {
-                                searchList.add(v);
+      body: isLoading ? Loading() : RefreshIndicator(
+        displacement: 500,
+        backgroundColor: Colors.white,
+        color: ColorSelect.colorF7E641,
+        strokeWidth: 3,
+        onRefresh: () {
+          setState(() {
+            isLoading = true;
+          });
+          return contact() ;
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                SizedBox(height: 16,),
+                Container(
+                  width: 328.w,
+                  height: 52.h,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: ColorSelect.colorEDEDF1,
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Image.asset("assets/images/Vectorse.png"),
+                      SizedBox(width: 16,),
+                     /* Expanded(
+                        child: TextFormField(
+                          controller: searchController,
+                          onChanged: (val) {
+                            for (var v in friendList) {
+                              if(v.name! == val) {
+                                if(searchList.contains(v)) {
+                                } else {
+                                  searchList.add(v);
+                                }
                               }
                             }
-                          }
-                          setState(() {
-                            if(searchController.text.isEmpty) {
-                              searchList.clear();
-                            }
-                            print(searchList);
-                          });
-                        },
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Search friend name"),
-                        keyboardType: TextInputType.text,
-                      ),
-                    )*/
-                  ],
+                            setState(() {
+                              if(searchController.text.isEmpty) {
+                                searchList.clear();
+                              }
+                              print(searchList);
+                            });
+                          },
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Search friend name"),
+                          keyboardType: TextInputType.text,
+                        ),
+                      )*/
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 16,),
-              (contacts) == null ?
-              Padding(
-                      padding: const EdgeInsets.only(top: 200),
-                      child: LoadingAnimationWidget.inkDrop(
-                        size: 40, color: ColorSelect.colorF7E641,
-                      ),
-                    ) :
-            Column(
-              children: [
-             /*   searchList.isEmpty ?*/
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: friendList.length,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context,i) {
-                      return ListTile(
-                          leading: Container(
-                            height:50,
-                            width:50,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color:Colors.grey.shade200,
-                            ),
-                            clipBehavior: Clip.hardEdge,
-                            child: CachedNetworkImage(
-                              imageUrl: baseUrl+friendList[i].photo.toString(),
-                              // imageUrl: baseUrl+contactModel.data![i].photo.toString(),
-                              fit: BoxFit.cover,
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                              progressIndicatorBuilder:  (a,b,c) =>
-                                  Opacity(
-                                    opacity: 0.3,
-                                    child: Shimmer.fromColors(
-                                      baseColor: Colors.black12,
-                                      highlightColor: Colors.white,
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        //margin: EdgeInsets.symmetric(horizontal: 24),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle
+                SizedBox(height: 16,),
+                (contacts) == null ?
+                Padding(
+                        padding: const EdgeInsets.only(top: 200),
+                        child: LoadingAnimationWidget.inkDrop(
+                          size: 40, color: ColorSelect.colorF7E641,
+                        ),
+                      ) :
+              Column(
+                children: [
+               /*   searchList.isEmpty ?*/
+                  RefreshIndicator(
+                    displacement: 500,
+                    backgroundColor: Colors.white,
+                    color: ColorSelect.colorF7E641,
+                    strokeWidth: 3,
+                    onRefresh: () {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      return contact() ;
+                    },
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: friendList.length,
+                        // physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context,i) {
+                          return ListTile(
+                              leading: Container(
+                                height:50,
+                                width:50,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:Colors.grey.shade200,
+                                ),
+                                clipBehavior: Clip.hardEdge,
+                                child: CachedNetworkImage(
+                                  imageUrl: baseUrl+friendList[i].photo.toString(),
+                                  // imageUrl: baseUrl+contactModel.data![i].photo.toString(),
+                                  fit: BoxFit.cover,
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                  progressIndicatorBuilder:  (a,b,c) =>
+                                      Opacity(
+                                        opacity: 0.3,
+                                        child: Shimmer.fromColors(
+                                          baseColor: Colors.black12,
+                                          highlightColor: Colors.white,
+                                          child: Container(
+                                            width: 50,
+                                            height: 50,
+                                            //margin: EdgeInsets.symmetric(horizontal: 24),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                shape: BoxShape.circle
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                            ),
-                          ),
-                          title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(crossAxisAlignment:CrossAxisAlignment.start,
+                                ),
+                              ),
+                              title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                      friendList[i].name.toString(),
-                                    // contactModel.data![i].name.toString()
-                                    // "${contacts![index].name.first} ${contacts![index].name.last}",
-                                    // style: AppTextStyle().textColor29292914w500,
+                                  Column(crossAxisAlignment:CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          friendList[i].name.toString(),
+                                        // contactModel.data![i].name.toString()
+                                        // "${contacts![index].name.first} ${contacts![index].name.last}",
+                                        // style: AppTextStyle().textColor29292914w500,
+                                      ),
+                                      Text(
+                                          friendList[i].phone.toString()
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                      friendList[i].phone.toString()
-                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: SizedBox(
+                                      width: 70,
+                                      height: 36,
+                                      child: YellowButtonWithText(
+                                        backgroundColor:
+                                        MaterialStateProperty.all(ColorSelect.colorF7E641),
+                                        textStyleColor: ColorSelect.color292929,
+                                        title: 'Add',
+                                        onTap: () {
+                                          addFriendApi(
+                                              friendsId: friendList[i].id.toString(),
+                                              status: 'requested').then((value) {
+                                            print(value);
+                                            if(value['status'] == true) {
+                                              setState(() {
+                                                Fluttertoast.showToast(
+                                                    msg: value['message']);
+                                              });
+                                            } else {
+                                              Fluttertoast.showToast(
+                                                  msg: value['message']);
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: SizedBox(
-                                  width: 70,
-                                  height: 36,
-                                  child: YellowButtonWithText(
-                                    backgroundColor:
-                                    MaterialStateProperty.all(ColorSelect.colorF7E641),
-                                    textStyleColor: ColorSelect.color292929,
-                                    title: 'Add',
-                                    onTap: () {
-                                      addFriendApi(
-                                          friendsId: friendList[i].id.toString(),
-                                          status: 'requested').then((value) {
-                                        print(value);
-                                        if(value['status'] == true) {
-                                          setState(() {
-                                            Fluttertoast.showToast(
-                                                msg: value['message']);
-                                          });
-                                        } else {
-                                          Fluttertoast.showToast(
-                                              msg: value['message']);
-                                        }
-                                      });
-                                    },
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          // subtitle: Text(num),
-                          onTap: () {
-                            // if (contacts![index].phones.isNotEmpty) {
-                            //   launch('tel: ${num}');
-                            // }
-                          });
+                              // subtitle: Text(num),
+                              onTap: () {
+                                // if (contacts![index].phones.isNotEmpty) {
+                                //   launch('tel: ${num}');
+                                // }
+                              });
 
-                })
+                    }),
+                  )
     /*                :
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: searchList.length,
-                    itemBuilder: (context,i) {
-                      return ListTile(
-                          leading: Container(
-                            height:50,
-                            width:50,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color:Colors.grey.shade200,
-                            ),
-                            clipBehavior: Clip.hardEdge,
-                            child: CachedNetworkImage(
-                              imageUrl: baseUrl+searchList[i].photo.toString(),
-                              fit: BoxFit.cover,
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                              progressIndicatorBuilder:  (a,b,c) =>
-                                  Opacity(
-                                    opacity: 0.3,
-                                    child: Shimmer.fromColors(
-                                      baseColor: Colors.black12,
-                                      highlightColor: Colors.white,
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: searchList.length,
+                      itemBuilder: (context,i) {
+                        return ListTile(
+                            leading: Container(
+                              height:50,
+                              width:50,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color:Colors.grey.shade200,
+                              ),
+                              clipBehavior: Clip.hardEdge,
+                              child: CachedNetworkImage(
+                                imageUrl: baseUrl+searchList[i].photo.toString(),
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                                progressIndicatorBuilder:  (a,b,c) =>
+                                    Opacity(
+                                      opacity: 0.3,
+                                      child: Shimmer.fromColors(
+                                        baseColor: Colors.black12,
+                                        highlightColor: Colors.white,
+                                        child: Container(
+                                          width: 50,
+                                          height: 50,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                            ),
-                          ),
-                          title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(crossAxisAlignment:CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    searchList[i].name.toString(),
-                                  ),
-                                  Text(
-                                      searchList[i].phone.toString()
-                                  ),
-                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: SizedBox(
-                                  width: 70,
-                                  height: 36,
-                                  child: YellowButtonWithText(
-                                    backgroundColor:
-                                    MaterialStateProperty.all(ColorSelect.colorF7E641),
-                                    textStyleColor: ColorSelect.color292929,
-                                    title: 'Add',
-                                    onTap: () {
-                                      addFriendApi(
-                                          friendsId: friendList[i].id.toString(),
-                                          status: 'requested').then((value) {
-                                        print(value);
-                                        if(value['status'] == true) {
-                                          setState(() {
+                            ),
+                            title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(crossAxisAlignment:CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      searchList[i].name.toString(),
+                                    ),
+                                    Text(
+                                        searchList[i].phone.toString()
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: SizedBox(
+                                    width: 70,
+                                    height: 36,
+                                    child: YellowButtonWithText(
+                                      backgroundColor:
+                                      MaterialStateProperty.all(ColorSelect.colorF7E641),
+                                      textStyleColor: ColorSelect.color292929,
+                                      title: 'Add',
+                                      onTap: () {
+                                        addFriendApi(
+                                            friendsId: friendList[i].id.toString(),
+                                            status: 'requested').then((value) {
+                                          print(value);
+                                          if(value['status'] == true) {
+                                            setState(() {
+                                              Fluttertoast.showToast(
+                                                  msg: value['message']);
+                                            });
+                                          } else {
                                             Fluttertoast.showToast(
                                                 msg: value['message']);
-                                          });
-                                        } else {
-                                          Fluttertoast.showToast(
-                                              msg: value['message']);
-                                        }
-                                      });
-                                    },
+                                          }
+                                        });
+                                      },
+                                    ),
                                   ),
-                                ),
-                              )
-                            ],
-                          ),
-                          // subtitle: Text(num),
-                          onTap: () {
-                            // if (contacts![index].phones.isNotEmpty) {
-                            //   launch('tel: ${num}');
-                            // }
-                          });
+                                )
+                              ],
+                            ),
+                            // subtitle: Text(num),
+                            onTap: () {
+                              // if (contacts![index].phones.isNotEmpty) {
+                              //   launch('tel: ${num}');
+                              // }
+                            });
 
-                    })*/
+                      })*/
+                ],
+              )
               ],
-            )
-            ],
+            ),
           ),
         ),
       ),

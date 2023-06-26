@@ -115,254 +115,266 @@ class _PetsState extends State<Pets> {
         ),
       ),
       backgroundColor: Colors.white,
-      body:  isLoading ? Loading() : SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  height: 8.h,
-                  width: 360.w,
-                  decoration: BoxDecoration(
-                      color: Color(0xffC09B3D).withOpacity(0.28),
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                ),
-                Row(
-                  children: [
-                    Container(
-                      height: 8.h,
-                      width: 360.w,
+      body:  isLoading ? Loading() : RefreshIndicator(
+        displacement: 500,
+        backgroundColor: Colors.white,
+        color: ColorSelect.colorF7E641,
+        strokeWidth: 3,
+        onRefresh: () {
+          setState(() {
+            isLoading = true;
+          });
+          return  getPets() ;
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    height: 8.h,
+                    width: 360.w,
+                    decoration: BoxDecoration(
+                        color: Color(0xffC09B3D).withOpacity(0.28),
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        height: 8.h,
+                        width: 360.w,
+                        decoration: BoxDecoration(
+                          color: ColorSelect.colorC09B3D,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  pets!.data!.isEmpty ?
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushReplacement(
+                          context, MaterialPageRoute(builder: (_) =>
+                          AddPets()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      height: 200,
+                      width: 220,
                       decoration: BoxDecoration(
-                        color: ColorSelect.colorC09B3D,
+                          border: Border.all(color: Colors.grey, width: 1),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          Image.asset('assets/images/Frame10000030453.png'),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          Text(
+                            "+ Add Pets",
+                            style: AppTextStyle().textColorC09B3D14w600,
+                          )
+                        ],
                       ),
                     ),
-                  ],
-                )
-              ],
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                pets!.data!.isEmpty ?
-                GestureDetector(
-                  onTap: (){
-                    Navigator.pushReplacement(
-                        context, MaterialPageRoute(builder: (_) =>
-                        AddPets()));
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5),
-                    height: 200,
-                    width: 220,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey, width: 1),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20.h,
-                        ),
-                        Image.asset('assets/images/Frame10000030453.png'),
-                        SizedBox(
-                          height: 20.h,
-                        ),
-                        Text(
-                          "+ Add more",
-                          style: AppTextStyle().textColorC09B3D14w600,
-                        )
-                      ],
-                    ),
-                  ),
-                ):
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: GridView.builder(
-                    scrollDirection: Axis.vertical,
-                    physics: ScrollPhysics(),
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    itemCount: pets!.data!.length + 1,
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1,
-                        mainAxisSpacing: 10,
-                    ),
-                    itemBuilder: (ctx, index) {
-                       if( index >=pets!.data!.length ) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (_) =>
-                            AddPets()));
-                          },
-                          child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 5),
-                            height: 220,
-                            width: 130,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey, width: 1),
-                                borderRadius: BorderRadius.all(Radius.circular(10))),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 20.h,
-                                ),
-                                Image.asset('assets/images/Frame10000030453.png'),
-                                SizedBox(
-                                  height: 20.h,
-                                ),
-                                Text(
-                                  "+ Add more",
-                                  style: AppTextStyle().textColorC09B3D14w600,
-                                )
-                              ],
+                  ):
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: GridView.builder(
+                      scrollDirection: Axis.vertical,
+                      physics: ScrollPhysics(),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      itemCount: pets!.data!.length + 1,
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1,
+                          mainAxisSpacing: 10,
+                      ),
+                      itemBuilder: (ctx, index) {
+                         if( index >=pets!.data!.length ) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context, MaterialPageRoute(builder: (_) =>
+                              AddPets()));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              height: 220,
+                              width: 130,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey, width: 1),
+                                  borderRadius: BorderRadius.all(Radius.circular(10))),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 20.h,
+                                  ),
+                                  Image.asset('assets/images/Frame10000030453.png'),
+                                  SizedBox(
+                                    height: 20.h,
+                                  ),
+                                  Text(
+                                    "+ Add more",
+                                    style: AppTextStyle().textColorC09B3D14w600,
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      } else {
-                        return
-                        GestureDetector(
-                          onLongPress: () {
-                            if (selectedItems.isEmpty) {
-                              setState(() {
-                                selectedItems.add(pets!.data![index].id!);
-                              });
-                            }
-                          },
-                          onTap: () {
-                            if (selectedItems.isEmpty) {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             selectedItems()));
-                            } else {
-                              if (selectedItems.contains(pets!.data![index].id!)) {
-                                setState(() {
-                                  selectedItems.remove(pets!.data![index].id!);
-                                });
-                              } else {
+                          );
+                        } else {
+                          return
+                          GestureDetector(
+                            onLongPress: () {
+                              if (selectedItems.isEmpty) {
                                 setState(() {
                                   selectedItems.add(pets!.data![index].id!);
                                 });
                               }
-                            }
+                            },
+                            onTap: () {
+                              if (selectedItems.isEmpty) {
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             selectedItems()));
+                              } else {
+                                if (selectedItems.contains(pets!.data![index].id!)) {
+                                  setState(() {
+                                    selectedItems.remove(pets!.data![index].id!);
+                                  });
+                                } else {
+                                  setState(() {
+                                    selectedItems.add(pets!.data![index].id!);
+                                  });
+                                }
+                              }
 
-                          },
-                          child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 5),
-                            height: 220,
-                            width: 130,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: selectedItems.contains(pets!.data![index].id!)
-                                        ? ColorSelect.colorF7E641
-                                        : Colors.grey,
-                                    // color: Colors.grey,
-                                    width: 1),
-                                borderRadius: BorderRadius.all(Radius.circular(10))),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 20.h,
-                                ),
-                                Container(
-                                  height:80,
-                                  width:80,
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color:Colors.grey.shade200,
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              height: 220,
+                              width: 130,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: selectedItems.contains(pets!.data![index].id!)
+                                          ? ColorSelect.colorF7E641
+                                          : Colors.grey,
+                                      // color: Colors.grey,
+                                      width: 1),
+                                  borderRadius: BorderRadius.all(Radius.circular(10))),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 20.h,
                                   ),
-                                  child: CachedNetworkImage(
-                                    imageUrl: (baseUrl+pets!.data![index].photo.toString()),
-                                    fit: BoxFit.cover,
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error,size: 40,),
-                                    progressIndicatorBuilder:  (a,b,c) =>
-                                        Opacity(
-                                          opacity: 0.3,
-                                          child: Shimmer.fromColors(
-                                            baseColor: Colors.black12,
-                                            highlightColor: Colors.white,
-                                            child: Container(
-                                              width: 50,
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle
+                                  Container(
+                                    height:80,
+                                    width:80,
+                                    clipBehavior: Clip.hardEdge,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color:Colors.grey.shade200,
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl: (baseUrl+pets!.data![index].photo.toString()),
+                                      fit: BoxFit.cover,
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error,size: 40,),
+                                      progressIndicatorBuilder:  (a,b,c) =>
+                                          Opacity(
+                                            opacity: 0.3,
+                                            child: Shimmer.fromColors(
+                                              baseColor: Colors.black12,
+                                              highlightColor: Colors.white,
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    shape: BoxShape.circle
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                  ),
-                                ),
-                                // Image.asset(pets!.data[index].photo.toString()),
-                                SizedBox(
-                                  height: 20.h,
-                                ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 16),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            pets!.data![index].name.toString(),
-                                            style:
-                                            AppTextStyle().textColor29292914w400,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                pets!.data![index].type.toString(),
-                                                style: AppTextStyle()
-                                                    .textColor70707014w400,
-                                              ),
-                                              SizedBox(
-                                                width: 10.w,
-                                              ),
-                                              Container(
-                                                  height: 5.h,
-                                                  width: 5.w,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.grey,
-                                                      shape: BoxShape.circle)),
-                                              SizedBox(
-                                                width: 10.w,
-                                              ),
-                                              Text(
-                                                pets!.data![index].origin.toString(),
-                                                style: AppTextStyle()
-                                                    .textColor70707014w400,
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
                                     ),
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child:
-                                      Image.asset('assets/images/Vector175.png'),
-                                    )
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                  // Image.asset(pets!.data[index].photo.toString()),
+                                  SizedBox(
+                                    height: 20.h,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 16),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              pets!.data![index].name.toString(),
+                                              style:
+                                              AppTextStyle().textColor29292914w400,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  pets!.data![index].type.toString(),
+                                                  style: AppTextStyle()
+                                                      .textColor70707014w400,
+                                                ),
+                                                SizedBox(
+                                                  width: 10.w,
+                                                ),
+                                                Container(
+                                                    height: 5.h,
+                                                    width: 5.w,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.grey,
+                                                        shape: BoxShape.circle)),
+                                                SizedBox(
+                                                  width: 10.w,
+                                                ),
+                                                Text(
+                                                  pets!.data![index].origin.toString(),
+                                                  style: AppTextStyle()
+                                                      .textColor70707014w400,
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child:
+                                        Image.asset('assets/images/Vector175.png'),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                )
-              ],
-            ),
-          ],
+                          );
+                        }
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

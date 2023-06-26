@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/color.dart';
+import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/dashboard/search/all_etsy_products.dart';
 import 'package:swishlist/dashboard/search/search_product.dart';
 
@@ -33,6 +35,7 @@ class _SearchState extends State<Search> {
   }
 
   bool isLoading = false;
+  bool loading= false;
 /*
   List<EtsyLoadMoreModel> matches = <EtsyLoadMoreModel>[];
   List<EtsyLoadMoreModel> searchList = [];
@@ -72,15 +75,16 @@ class _SearchState extends State<Search> {
   }
 
   getSearchId() {
+    loading = true;
     var resp = getListingByListingIds(listingId: searchId.join(","));
     resp.then((value) {
       searchListings.clear();
       setState(() {
         for (var v in value['results']) {
           searchListings.add(EtsyListingIdModel.fromJson(v));
-          isLoading = false;
+          loading = false;
         }
-        isLoading = false;
+        loading= false;
       });
     });
   }
@@ -145,6 +149,15 @@ class _SearchState extends State<Search> {
                               });
                             }
                           });*/
+                          if (searchController.text.isNotEmpty) {
+                            getSearch();
+                          } else {
+                            setState(() {
+                              searchListings.clear();
+                              matches.clear();
+                            });
+                          }
+
                         },
                         controller: searchController,
                         cursorColor: ColorSelect.colorF7E641,
@@ -154,14 +167,14 @@ class _SearchState extends State<Search> {
                           GestureDetector(
                               onTap: () {
 
-                                  if (searchController.text.isNotEmpty) {
+                               /*   if (searchController.text.isNotEmpty) {
                                     getSearch();
                                   } else {
                                     setState(() {
                                       searchListings.clear();
                                       matches.clear();
                                     });
-                                  }
+                                  }*/
 
                               },
                               child: Image.asset('assets/images/search 03.png',height: 25,)),
@@ -303,6 +316,16 @@ class _SearchState extends State<Search> {
               //   // ),
               // ),
               searchController.text.isNotEmpty ?
+                  loading ? Padding(
+                    padding: const EdgeInsets.only(top: 50),
+                    child: Center(
+                      child: LoadingAnimationWidget
+                          .staggeredDotsWave(
+                        size: 70,
+                        color: ColorSelect.colorF7E641,
+                      ),
+                    ),
+                  ) :
               GridView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.only(bottom: 150,top: 24),

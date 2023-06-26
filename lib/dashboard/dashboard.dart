@@ -129,7 +129,7 @@ class _DashboardState extends State<Dashboard> {
                           width: 24,
                         ),
                         SizedBox(height: 8),
-                        Text("Store",
+                        Text("Products",
                             style: AppTextStyle().textColor29292912w500.copyWith(
                                 color: pageIndex == 1
                                     ? Color(0xff292929)
@@ -165,8 +165,8 @@ class _DashboardState extends State<Dashboard> {
                       children: [
                         Image.asset(
                           pageIndex == 2
-                              ? "assets/icons/4xactivityicon.png"
-                              : "assets/icons/4xactivityicon.png",
+                              ? "assets/images/notification-pngrepo-com.png"
+                              : "assets/images/notification-pngrepo-com.png",
                           color: pageIndex == 2
                               ? Color(0xff292929)
                               : Color(0xff707070),
@@ -174,7 +174,7 @@ class _DashboardState extends State<Dashboard> {
                           width: 24,
                         ),
                         SizedBox(height: 8),
-                        Text("Activities",
+                        Text("notification",
                             style: AppTextStyle().textColor29292912w500.copyWith(
                                 color: pageIndex == 2
                                     ? Color(0xff292929)

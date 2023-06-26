@@ -155,6 +155,14 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  listMessages!.data!.isEmpty ?
+                  Text(
+                    "friend Name not updated",
+                    overflow: TextOverflow.ellipsis,
+                    // "Pam",
+                    style: AppTextStyle().robotocolor1F1F1C14w500,
+                  ):
+
                   Text(
                     widget.name,
                     // "Pam",
@@ -202,71 +210,85 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
         height: 1.sh,
         child: Stack(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  GroupedListView<Data,String>(
-                    padding: EdgeInsets.only(bottom: 100),
-                      order: GroupedListOrder.DESC,
-                      shrinkWrap:  true,
-                      elements: listMessages!.data!,
-                      groupBy: (element) => DateTime.now()
-                          .difference(
-                          DateTime.parse(
-                              element.createdAt.toString()))
-                          .inMinutes <=
-                          59
-                          ? "${DateTime.now().difference(
-                          DateTime.parse(element.createdAt.toString())).inMinutes} min ago"
-                          : DateTime.now()
-                          .difference(DateTime
-                          .parse(element.createdAt.toString()))
-                          .inHours <=
-                          23
-                          ? "${DateTime.now().difference(
-                          DateTime.parse(element.createdAt.toString())).inHours} hr ago"
-                          : "${DateTime.now().difference(
-                          DateTime.parse(element.createdAt.toString())).inDays} days ago",
-                      groupSeparatorBuilder: (String groupByValue) =>
-                          Text(groupByValue,textAlign: TextAlign.center,),
-                      itemBuilder: (context, Data element) =>
-                      ids == element.sendFromUserId ?
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 12),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: ColorSelect.color343434),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
-                            child: Text(
-                              element.message.toString(),
-                              style: AppTextStyle().textColorFFFFFF14w400,
+            RefreshIndicator(
+              displacement: 500,
+              backgroundColor: Colors.white,
+              color: ColorSelect.colorF7E641,
+              strokeWidth: 3,
+              onRefresh: () {
+                setState(() {
+                  isLoading = true;
+                });
+                return getMessages() ;
+              },
+
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    GroupedListView<Data,String>(
+                      padding: EdgeInsets.only(bottom: 100),
+                        order: GroupedListOrder.DESC,
+                        shrinkWrap:  true,
+                        elements: listMessages!.data!,
+                        groupBy: (element) => DateTime.now()
+                            .difference(
+                            DateTime.parse(
+                                element.createdAt.toString()))
+                            .inMinutes <=
+                            59
+                            ? "${DateTime.now().difference(
+                            DateTime.parse(element.createdAt.toString())).inMinutes} min ago"
+                            : DateTime.now()
+                            .difference(DateTime
+                            .parse(element.createdAt.toString()))
+                            .inHours <=
+                            23
+                            ? "${DateTime.now().difference(
+                            DateTime.parse(element.createdAt.toString())).inHours} hr ago"
+                            : "${DateTime.now().difference(
+                            DateTime.parse(element.createdAt.toString())).inDays} days ago",
+                        groupSeparatorBuilder: (String groupByValue) =>
+                            Text(groupByValue,textAlign: TextAlign.center,),
+                        itemBuilder: (context, Data element) =>
+                        ids == element.sendFromUserId ?
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 12),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: ColorSelect.color343434),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 8),
+                              child: Text(
+                                element.message.toString(),
+                                style: AppTextStyle().textColorFFFFFF14w400,
+                              ),
                             ),
                           ),
-                        ),
-                      ) :
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 12),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: ColorSelect.colorECEDF0),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
-                            child: Text(
-                              element.message.toString(),
-                              style: AppTextStyle().textColor2C2C2C14w500roboto,
+                        ) :
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 12),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: ColorSelect.colorECEDF0),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 8),
+                              child: Text(
+                                element.message.toString(),
+                                style: AppTextStyle().textColor2C2C2C14w500roboto,
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                  ),
-                ],
+                        )
+                    ),
+                  ],
+                ),
               ),
             ),
             Positioned(

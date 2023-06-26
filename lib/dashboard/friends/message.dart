@@ -68,7 +68,8 @@ class _MessagesState extends State<Messages> {
             style: AppTextStyle().textColor29292916w500,
           ),
           Spacer(),
-        ]),
+        ],
+        ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
           child: InkWell(
@@ -118,7 +119,7 @@ class _MessagesState extends State<Messages> {
                                         ProfileChatPage(
                                           friendId: msgModel!.data![i].usersIds.toString(),
                                           name: msgModel!.data![i].friendProfile!.name.toString(),
-                                          friendImage: msgModel!.data![i].friendProfile!.photo.toString(),
+                                          friendImage: baseUrl+msgModel!.data![i].friendProfile!.photo.toString(),
                                           selectedItems: [],
                                         ),
                                 ),

@@ -39,6 +39,7 @@ class _FriendsState extends State<Friends> {
   FriendModel ? friendsModels;
   getFriends() {
     isLoading = true;
+    friendList.clear();
     var resp = getFriendsApi();
     resp.then((value) {
       if(mounted){
@@ -80,13 +81,19 @@ class _FriendsState extends State<Friends> {
     return Scaffold(
       body: isLoading ? Loading():
       RefreshIndicator(
+        displacement: 500,
+        backgroundColor: Colors.white,
+        color: ColorSelect.colorF7E641,
+        strokeWidth: 3,
         onRefresh: () {
           setState(() {
             isLoading = true;
           });
-          return getFriends();
+          return  getFriends();
         },
+
         child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
@@ -251,104 +258,116 @@ class _FriendsState extends State<Friends> {
                   }, buttonIcon: 'assets/images/4xuseradd.png',
                 ) :
                     searchList.isEmpty ?
-                Padding(
-                    padding: const EdgeInsets.only(bottom: 200.0),
-                    child: ListView.separated(
-                      padding: EdgeInsets.zero,
-                      // itemCount: 4,
-                      itemCount: friendList.length,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, i) {
-                        return Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FriendProduct(
-                                            friendName:friendList[i].friend!.name.toString(),
-                                          friendUserName:friendList[i].friend!.name.toString(),
-                                          friendId: friendList[i].friend!.id.toString(),
-                                          friendPhoto: baseUrl+friendList[i].friend!.photo!,
-                                          id: friendList[i].id!.toString(),
-                                         /* id: searchList[i].id.toString(),*/
+                RefreshIndicator(
+                  displacement: 500,
+                  backgroundColor: Colors.white,
+                  color: ColorSelect.colorF7E641,
+                  strokeWidth: 3,
+                  onRefresh: () {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    return getFriends() ;
+                  },
+                  child: Padding(
+                      padding: const EdgeInsets.only(bottom: 200.0),
+                      child: ListView.separated(
+                        padding: EdgeInsets.zero,
+                        // itemCount: 4,
+                        itemCount: friendList.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, i) {
+                          return Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => FriendProduct(
+                                              friendName:friendList[i].friend!.name.toString(),
+                                            friendUserName:friendList[i].friend!.name.toString(),
+                                            friendId: friendList[i].friend!.id.toString(),
+                                            friendPhoto: baseUrl+friendList[i].friend!.photo!,
+                                            id: friendList[i].id!.toString(),
+                                           /* id: searchList[i].id.toString(),*/
+                                          ),
                                         ),
-                                      ),
-                                   );
-                                },
-                              child: Container(
-                                color: Colors.transparent,
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      height:50,
-                                      width:50,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color:Colors.grey.shade200,
-                                      ),
-                                      clipBehavior: Clip.hardEdge,
-                                      child: CachedNetworkImage(
-                                          imageUrl: baseUrl+friendList[i].friend!.photo!,
-                                          fit: BoxFit.cover,
-                                          errorWidget: (context, url, error) =>
-                                            Icon(Icons.error),
-                                          progressIndicatorBuilder:  (a,b,c) =>
-                                            Opacity(
-                                              opacity: 0.3,
-                                              child: Shimmer.fromColors(
-                                                baseColor: Colors.black12,
-                                                highlightColor: Colors.white,
-                                                child: Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  //margin: EdgeInsets.symmetric(horizontal: 24),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    shape: BoxShape.circle
+                                     );
+                                  },
+                                child: Container(
+                                  color: Colors.transparent,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height:50,
+                                        width:50,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color:Colors.grey.shade200,
+                                        ),
+                                        clipBehavior: Clip.hardEdge,
+                                        child: CachedNetworkImage(
+                                            imageUrl: baseUrl+friendList[i].friend!.photo!,
+                                            fit: BoxFit.cover,
+                                            errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
+                                            progressIndicatorBuilder:  (a,b,c) =>
+                                              Opacity(
+                                                opacity: 0.3,
+                                                child: Shimmer.fromColors(
+                                                  baseColor: Colors.black12,
+                                                  highlightColor: Colors.white,
+                                                  child: Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    //margin: EdgeInsets.symmetric(horizontal: 24),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      shape: BoxShape.circle
+                                                    ),
                                                   ),
                                                 ),
                                               ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              friendList[i].friend!.name!,
+                                              // "Andy Bernard",
+                                              style: AppTextStyle().textColor29292914w500,
                                             ),
+                                            SizedBox(height: 4),
+                                            Text(
+                                              friendList[i].friend!.username!,
+                                              // "AndyAngie3260",
+                                              style: AppTextStyle().textColor70707014w400,
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            friendList[i].friend!.name!,
-                                            // "Andy Bernard",
-                                            style: AppTextStyle().textColor29292914w500,
-                                          ),
-                                          SizedBox(height: 4),
-                                          Text(
-                                            friendList[i].friend!.username!,
-                                            // "AndyAngie3260",
-                                            style: AppTextStyle().textColor70707014w400,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: 16,
-                        );
-                      },
+                              )
+                            ],
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: 16,
+                          );
+                        },
+                      ),
                     ),
-                  ):
+                ):
                     Padding(
                       padding: const EdgeInsets.only(bottom: 200.0),
                       child: ListView.separated(

@@ -61,6 +61,7 @@ class _ActivitiesState extends State<Activities> {
           return getActivity();
         },
         child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start,

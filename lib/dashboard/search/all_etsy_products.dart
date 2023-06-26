@@ -44,6 +44,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
   List<int> searchId = [];
   List<EtsyListingIdModel> searchListings = [];
   List<EtsyListingIdModel> matches = <EtsyListingIdModel>[];
+  bool loading = false;
 
   getAllListing() {
     isLoading = true;
@@ -146,15 +147,16 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
   // }
 
   getSearchId() {
+    loading = true;
     var resp = getListingByListingIds(listingId: searchId.join(","));
     resp.then((value) {
       searchListings.clear();
       setState(() {
         for (var v in value['results']) {
           searchListings.add(EtsyListingIdModel.fromJson(v));
-          isLoading = false;
+          loading = false;
         }
-        isLoading = false;
+        loading = false;
       });
     });
   }
@@ -206,387 +208,405 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                   padding: const EdgeInsets.only(left: 16, right: 16, top: 75),
                   child: searchController.text.isEmpty
                       ? LazyLoadScrollView(
-                          isLoading: isLoading,
-                          scrollDirection: Axis.vertical,
-                          onEndOfPage: () {
-                            if (scrollLength >= 25) {
-                              loadMore();
-                            }
-                          },
-                          child: Scrollbar(
-                            child: GridView.builder(
-                              padding: EdgeInsets.only(bottom: 24),
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 10.0,
-                                mainAxisSpacing: 10.0,
-                                      mainAxisExtent: 300
-                                  ),
-                              itemCount: listings.length + 1,
-                              itemBuilder: (_, i) {
-                                if (i < listings.length) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              EtsyProductDetails(
-                                            productTitle:
-                                                listings[i].title.toString(),
-                                            productPrice: listings[i]
-                                                .price!
-                                                .amount
-                                                .toString(),
-                                            productDescription: listings[i]
-                                                .description
-                                                .toString(),
-                                            productId: listings[i]
-                                                .listingId
-                                                .toString(),
-                                            productUrl:
-                                            listings[i].url.toString(),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16),
-                                       border: Border.all(width: 1,color:  ColorSelect.colorF7E641)
-                                      ),
-
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 200,
-                                            clipBehavior: Clip.hardEdge,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                        topLeft: Radius.circular(16.0),
-                                                        topRight: Radius.circular(16.0),
-                                                      )
-                                            ),
-                                            child: CachedNetworkImage(
-                                                      imageUrl: listings[i]
-                                                          .images![0]
-                                                          .url570xN
-                                                          .toString(),
-                                                      fit: BoxFit.cover,
-                                                      errorWidget:
-                                                          (context, url, error) => Icon(
-                                                        Icons.error,
-                                                        size: 40,
-                                                      ),
-                                                      progressIndicatorBuilder:
-                                                          (a, b, c) => Opacity(
-                                                        opacity: 0.3,
-                                                        child: Shimmer.fromColors(
-                                                          baseColor: Colors.black12,
-                                                          highlightColor: Colors.white,
-                                                          child: Container(
-                                                            width: 173,
-                                                            height: 129,
-                                                            decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                    color: ColorSelect
-                                                                        .colorE0E0E0,
-                                                                    width: 1),
-                                                                color: ColorSelect
-                                                                    .colorFFFFFF,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(12)),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.all(8),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                              Text(
-                                                listings[i]
-                                                    .title
-                                                    .toString(),
-                                                overflow:
-                                                TextOverflow.ellipsis,
-                                                textAlign: TextAlign.left,
-                                                maxLines: 2,
-                                                style: AppTextStyle().textColor29292914w400,
-                                                        ),
-                                                const SizedBox(
-                                                  height: 8.0,
-                                                        ),
-                                                Text(
-                                                  ' \$ ${listings[i].price!.amount.toString()}',
-                                                  overflow:
-                                                  TextOverflow.ellipsis,
-                                                          style: AppTextStyle()
-                                                              .textColor29292912w500,
-                                                        ),
-                                              ],
-                                            ),
-
-                                          )
-                                        ],
-
-                                      ),
-                                    ),
-                                    // child: Column(
-                                    //   crossAxisAlignment:
-                                    //       CrossAxisAlignment.start,
-                                    //   children: [
-                                    //     Container(
-                                    //      /* borderRadius:
-                                    //           const BorderRadius.only(
-                                    //         topLeft: Radius.circular(16.0),
-                                    //         topRight: Radius.circular(16.0),
-                                    //       ),*/
-                                    //       child: CachedNetworkImage(
-                                    //         // imageUrl: (baseUrl+haveProducts2[i].photo.toString()),
-                                    //         imageUrl: listings[i]
-                                    //             .images![0]
-                                    //             .url570xN
-                                    //             .toString(),
-                                    //         fit: BoxFit.cover,
-                                    //         errorWidget:
-                                    //             (context, url, error) => Icon(
-                                    //           Icons.error,
-                                    //           size: 40,
-                                    //         ),
-                                    //         progressIndicatorBuilder:
-                                    //             (a, b, c) => Opacity(
-                                    //           opacity: 0.3,
-                                    //           child: Shimmer.fromColors(
-                                    //             baseColor: Colors.black12,
-                                    //             highlightColor: Colors.white,
-                                    //             child: Container(
-                                    //               width: 173,
-                                    //               height: 129,
-                                    //               decoration: BoxDecoration(
-                                    //                   border: Border.all(
-                                    //                       color: ColorSelect
-                                    //                           .colorE0E0E0,
-                                    //                       width: 1),
-                                    //                   color: ColorSelect
-                                    //                       .colorFFFFFF,
-                                    //                   borderRadius:
-                                    //                       BorderRadius
-                                    //                           .circular(12)),
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //   /*   child: SvgPicture.asset(
-                                    //      "assets/images/etsy.svg",
-                                    //       height: 170,
-                                    //       width: double.infinity,
-                                    //       fit: BoxFit.cover,
-                                    //       ),*/
-                                    //     ),
-                                    //     Padding(
-                                    //       padding: const EdgeInsets.all(8.0),
-                                    //       child: Column(
-                                    //         crossAxisAlignment:
-                                    //             CrossAxisAlignment.start,
-                                    //         children: [
-                                    //           Text(
-                                    //             listings[i]
-                                    //                 .title
-                                    //                 .toString(),
-                                    //             overflow:
-                                    //                 TextOverflow.ellipsis,
-                                    //             textAlign: TextAlign.left,
-                                    //             maxLines: 5,
-                                    //             style: AppTextStyle()
-                                    //                 .textColor29292912w500,
-                                    //           ),
-                                    //           const SizedBox(
-                                    //             height: 8.0,
-                                    //           ),
-                                    //           Text(
-                                    //             ' \$ ${listings[i].price!.amount.toString()}',
-                                    //             overflow:
-                                    //                 TextOverflow.ellipsis,
-                                    //             style: AppTextStyle()
-                                    //                 .textColor29292912w500,
-                                    //           ),
-                                    //           const SizedBox(
-                                    //             height: 8.0,
-                                    //           ),
-                                    //         ],
-                                    //       ),
-                                    //     ),
-                                    //   ],
-                                    // ),
-                                  );
-                                } else if (scrollLength >= 25 && isLoading) {
-                                  return Center(
-                                    child: LoadingAnimationWidget
-                                        .staggeredDotsWave(
-                                      size: 70,
-                                      color: ColorSelect.colorF7E641,
-                                    ),
-                                  );
-                                } else if (scrollLength < 25) {
-                                  return SizedBox.shrink();
-                                } else {
-                                  return Center(
-                                    child: LoadingAnimationWidget
-                                        .staggeredDotsWave(
-                                      size: 70,
-                                      color: ColorSelect.colorF7E641,
-                                    ),
-                                  );
+                              isLoading: isLoading,
+                              scrollDirection: Axis.vertical,
+                              onEndOfPage: () {
+                                if (scrollLength >= 25) {
+                                  loadMore();
                                 }
                               },
-                            ),
-                          ),
-                          // child: ListView.separated(
-                          //   padding: EdgeInsets.only(top: 16,bottom: 200),
-                          //   itemCount: listings.length + 1,
-                          //   shrinkWrap: true,
-                          //   // physics: NeverScrollableScrollPhysics(),
-                          //   itemBuilder: (context,i) {
-                          //     if (i < listings.length ) {
-                          //       return Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           Stack(
-                          //             children: [
-                          //               GestureDetector(
-                          //                 onTap : () {
-                          //                   Navigator.push(context,
-                          //                       MaterialPageRoute(builder: (context) => EtsyProductDetails(
-                          //                         productTitle: listings[i].title.toString(),
-                          //                         productPrice: listings[i].price!.amount.toString(),
-                          //                         productDescription: listings[i].description.toString(),
-                          //                         productId: listings[i].listingId.toString(),
-                          //                         productUrl: listings[i].url.toString(),
-                          //                       ),
-                          //                       ),
-                          //                   );
-                          //                 },
-                          //                 child: Container(
-                          //                   width: 1.sw,
-                          //                   padding: EdgeInsets.all(30),
-                          //                   clipBehavior: Clip.hardEdge,
-                          //                   decoration: BoxDecoration(
-                          //                       border:
-                          //                       Border.all(color: ColorSelect.colorE0E0E0, width: 1),
-                          //                       color: ColorSelect.colorFFFFFF,
-                          //                       borderRadius: BorderRadius.circular(12)),
-                          //                   child: SvgPicture.asset("assets/images/etsy.svg",fit: BoxFit.contain),
-                          //                 ),
-                          //               ),
-                          //               Positioned(
-                          //                 top:10,
-                          //                 right:10,
-                          //                 child: GestureDetector(
-                          //                   onTap: () async {
-                          //                     print(listings[i].url);
-                          //                     await Clipboard.setData(
-                          //                         ClipboardData(text: listings[i].url.toString())
-                          //                     );
-                          //                   },
-                          //                   child: Icon(
-                          //                     Icons.copy_rounded,
-                          //                     size: 25,
-                          //                   ),
-                          //                 ),
-                          //               ),
-                          //               Positioned(
-                          //                 top:10,
-                          //                 right:45,
-                          //                 child: GestureDetector(
-                          //                   onTap:() {
-                          //                     setState(() {
-                          //                       Share.share(listings[i].url.toString());
-                          //                     });
-                          //
-                          //                   },
-                          //                   child: Icon(
-                          //                     Icons.share,
-                          //                     size: 25,),
-                          //                 ),
-                          //               )
-                          //             ],
-                          //           ),
-                          //           SizedBox(height: 10),
-                          //           Text(
-                          //             listings[i].title.toString(),
-                          //             overflow: TextOverflow.ellipsis,
-                          //             textAlign: TextAlign.left,
-                          //             maxLines: 2,
-                          //             style: AppTextStyle().textColor29292912w500,
-                          //           ),
-                          //           SizedBox(height: 10),
-                          //           Text(
-                          //             ' \$ ${listings[i].price!.amount.toString()}',
-                          //             overflow: TextOverflow.ellipsis,
-                          //             textAlign: TextAlign.left,
-                          //             maxLines: 2,
-                          //             style: AppTextStyle().textColor29292912w500,
-                          //           ),
-                          //           SizedBox(height: 10),
-                          //           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //             children: [
-                          //               SizedBox(
-                          //                 child: LightYellowButtonWithText(
-                          //                     backgroundColor:
-                          //                     MaterialStateProperty.all(ColorSelect.colorF7E641),
-                          //                     textStyleColor: ColorSelect.color292929,
-                          //                     onTap: () {
-                          //                       Navigator.push(context,
-                          //                           MaterialPageRoute(builder: (context) => EtsyProductDetails(
-                          //                             productTitle: listings[i].title.toString(),
-                          //                             productPrice: listings[i].price!.amount.toString(),
-                          //                             productDescription: listings[i].description.toString(),
-                          //                             productId: listings[i].listingId.toString(),
-                          //                             productUrl: listings[i].url.toString(),
-                          //                           ),
-                          //                           ),
-                          //                       );
-                          //                     },
-                          //                     title: 'View Details'),
-                          //               ),
-                          //
-                          //               GestureDetector(
-                          //                 onTap: ()  {
-                          //                   launchUrlStart(url: listings[i].url.toString() );
-                          //                 },
-                          //                   child: Text('View in website',
-                          //                   style: AppTextStyle().textColor29292916w500,)
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         ],
-                          //       );
-                          //     }
-                          //     else if (scrollLength >= 25 && isLoading) {
-                          //       return Center(
-                          //         child: LoadingAnimationWidget.staggeredDotsWave(
-                          //           size: 70, color: ColorSelect.colorF7E641,
-                          //         ),
-                          //       );
-                          //     } else if( scrollLength < 10) {
-                          //       return SizedBox.shrink();
-                          //     } else {
-                          //       return Center(
-                          //         child: LoadingAnimationWidget.staggeredDotsWave(
-                          //           size: 70, color: ColorSelect.colorF7E641,
-                          //            ),
-                          //         );
-                          //       }
-                          //     }, separatorBuilder: (BuildContext context, int index) => SizedBox(height: 16,),
-                          //   ),
-                        )
-                      :
+                              child: RefreshIndicator(
+                                displacement: 500,
+                                backgroundColor: Colors.white,
+                                color: ColorSelect.colorF7E641,
+                                strokeWidth: 3,
+                                onRefresh: () {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  return  getListingId() ;
+                                },
+                                child: Scrollbar(
+                                  child: GridView.builder(
+                                    padding: EdgeInsets.only(bottom: 24),
+                                    shrinkWrap: true,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 10.0,
+                                      mainAxisSpacing: 10.0,
+                                            mainAxisExtent: 300
+                                        ),
+                                    itemCount: listings.length + 1,
+                                    itemBuilder: (_, i) {
+                                      if (i < listings.length) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EtsyProductDetails(
+                                                  productTitle:
+                                                      listings[i].title.toString(),
+                                                  productPrice: listings[i]
+                                                      .price!
+                                                      .amount
+                                                      .toString(),
+                                                  productDescription: listings[i]
+                                                      .description
+                                                      .toString(),
+                                                  productId: listings[i]
+                                                      .listingId
+                                                      .toString(),
+                                                  productUrl:
+                                                  listings[i].url.toString(),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(16),
+                                             border: Border.all(width: 1,color:  ColorSelect.colorF7E641)
+                                            ),
+
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  height: 200,
+                                                  clipBehavior: Clip.hardEdge,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.only(
+                                                              topLeft: Radius.circular(16.0),
+                                                              topRight: Radius.circular(16.0),
+                                                            )
+                                                  ),
+                                                  child: CachedNetworkImage(
+                                                            imageUrl: listings[i]
+                                                                .images![0]
+                                                                .url570xN
+                                                                .toString(),
+                                                            fit: BoxFit.cover,
+                                                            errorWidget:
+                                                                (context, url, error) => Icon(
+                                                              Icons.error,
+                                                              size: 40,
+                                                            ),
+                                                            progressIndicatorBuilder:
+                                                                (a, b, c) => Opacity(
+                                                              opacity: 0.3,
+                                                              child: Shimmer.fromColors(
+                                                                baseColor: Colors.black12,
+                                                                highlightColor: Colors.white,
+                                                                child: Container(
+                                                                  width: 173,
+                                                                  height: 129,
+                                                                  decoration: BoxDecoration(
+                                                                      border: Border.all(
+                                                                          color: ColorSelect
+                                                                              .colorE0E0E0,
+                                                                          width: 1),
+                                                                      color: ColorSelect
+                                                                          .colorFFFFFF,
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(12)),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.all(8),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                    Text(
+                                                      listings[i]
+                                                          .title
+                                                          .toString(),
+                                                      overflow:
+                                                      TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.left,
+                                                      maxLines: 2,
+                                                      style: AppTextStyle().textColor29292914w400,
+                                                              ),
+                                                      const SizedBox(
+                                                        height: 8.0,
+                                                              ),
+                                                      Text(
+                                                        ' \$ ${listings[i].price!.amount.toString()}',
+                                                        overflow:
+                                                        TextOverflow.ellipsis,
+                                                                style: AppTextStyle()
+                                                                    .textColor29292912w500,
+                                                              ),
+                                                    ],
+                                                  ),
+
+                                                )
+                                              ],
+
+                                            ),
+                                          ),
+                                          // child: Column(
+                                          //   crossAxisAlignment:
+                                          //       CrossAxisAlignment.start,
+                                          //   children: [
+                                          //     Container(
+                                          //      /* borderRadius:
+                                          //           const BorderRadius.only(
+                                          //         topLeft: Radius.circular(16.0),
+                                          //         topRight: Radius.circular(16.0),
+                                          //       ),*/
+                                          //       child: CachedNetworkImage(
+                                          //         // imageUrl: (baseUrl+haveProducts2[i].photo.toString()),
+                                          //         imageUrl: listings[i]
+                                          //             .images![0]
+                                          //             .url570xN
+                                          //             .toString(),
+                                          //         fit: BoxFit.cover,
+                                          //         errorWidget:
+                                          //             (context, url, error) => Icon(
+                                          //           Icons.error,
+                                          //           size: 40,
+                                          //         ),
+                                          //         progressIndicatorBuilder:
+                                          //             (a, b, c) => Opacity(
+                                          //           opacity: 0.3,
+                                          //           child: Shimmer.fromColors(
+                                          //             baseColor: Colors.black12,
+                                          //             highlightColor: Colors.white,
+                                          //             child: Container(
+                                          //               width: 173,
+                                          //               height: 129,
+                                          //               decoration: BoxDecoration(
+                                          //                   border: Border.all(
+                                          //                       color: ColorSelect
+                                          //                           .colorE0E0E0,
+                                          //                       width: 1),
+                                          //                   color: ColorSelect
+                                          //                       .colorFFFFFF,
+                                          //                   borderRadius:
+                                          //                       BorderRadius
+                                          //                           .circular(12)),
+                                          //             ),
+                                          //           ),
+                                          //         ),
+                                          //       ),
+                                          //   /*   child: SvgPicture.asset(
+                                          //      "assets/images/etsy.svg",
+                                          //       height: 170,
+                                          //       width: double.infinity,
+                                          //       fit: BoxFit.cover,
+                                          //       ),*/
+                                          //     ),
+                                          //     Padding(
+                                          //       padding: const EdgeInsets.all(8.0),
+                                          //       child: Column(
+                                          //         crossAxisAlignment:
+                                          //             CrossAxisAlignment.start,
+                                          //         children: [
+                                          //           Text(
+                                          //             listings[i]
+                                          //                 .title
+                                          //                 .toString(),
+                                          //             overflow:
+                                          //                 TextOverflow.ellipsis,
+                                          //             textAlign: TextAlign.left,
+                                          //             maxLines: 5,
+                                          //             style: AppTextStyle()
+                                          //                 .textColor29292912w500,
+                                          //           ),
+                                          //           const SizedBox(
+                                          //             height: 8.0,
+                                          //           ),
+                                          //           Text(
+                                          //             ' \$ ${listings[i].price!.amount.toString()}',
+                                          //             overflow:
+                                          //                 TextOverflow.ellipsis,
+                                          //             style: AppTextStyle()
+                                          //                 .textColor29292912w500,
+                                          //           ),
+                                          //           const SizedBox(
+                                          //             height: 8.0,
+                                          //           ),
+                                          //         ],
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // ),
+                                        );
+                                      } else if (scrollLength >= 25 && isLoading) {
+                                        return Center(
+                                          child: LoadingAnimationWidget
+                                              .staggeredDotsWave(
+                                            size: 70,
+                                            color: ColorSelect.colorF7E641,
+                                          ),
+                                        );
+                                      } else if (scrollLength < 25) {
+                                        return SizedBox.shrink();
+                                      } else {
+                                        return Center(
+                                          child: LoadingAnimationWidget
+                                              .staggeredDotsWave(
+                                            size: 70,
+                                            color: ColorSelect.colorF7E641,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                              // child: ListView.separated(
+                              //   padding: EdgeInsets.only(top: 16,bottom: 200),
+                              //   itemCount: listings.length + 1,
+                              //   shrinkWrap: true,
+                              //   // physics: NeverScrollableScrollPhysics(),
+                              //   itemBuilder: (context,i) {
+                              //     if (i < listings.length ) {
+                              //       return Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           Stack(
+                              //             children: [
+                              //               GestureDetector(
+                              //                 onTap : () {
+                              //                   Navigator.push(context,
+                              //                       MaterialPageRoute(builder: (context) => EtsyProductDetails(
+                              //                         productTitle: listings[i].title.toString(),
+                              //                         productPrice: listings[i].price!.amount.toString(),
+                              //                         productDescription: listings[i].description.toString(),
+                              //                         productId: listings[i].listingId.toString(),
+                              //                         productUrl: listings[i].url.toString(),
+                              //                       ),
+                              //                       ),
+                              //                   );
+                              //                 },
+                              //                 child: Container(
+                              //                   width: 1.sw,
+                              //                   padding: EdgeInsets.all(30),
+                              //                   clipBehavior: Clip.hardEdge,
+                              //                   decoration: BoxDecoration(
+                              //                       border:
+                              //                       Border.all(color: ColorSelect.colorE0E0E0, width: 1),
+                              //                       color: ColorSelect.colorFFFFFF,
+                              //                       borderRadius: BorderRadius.circular(12)),
+                              //                   child: SvgPicture.asset("assets/images/etsy.svg",fit: BoxFit.contain),
+                              //                 ),
+                              //               ),
+                              //               Positioned(
+                              //                 top:10,
+                              //                 right:10,
+                              //                 child: GestureDetector(
+                              //                   onTap: () async {
+                              //                     print(listings[i].url);
+                              //                     await Clipboard.setData(
+                              //                         ClipboardData(text: listings[i].url.toString())
+                              //                     );
+                              //                   },
+                              //                   child: Icon(
+                              //                     Icons.copy_rounded,
+                              //                     size: 25,
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //               Positioned(
+                              //                 top:10,
+                              //                 right:45,
+                              //                 child: GestureDetector(
+                              //                   onTap:() {
+                              //                     setState(() {
+                              //                       Share.share(listings[i].url.toString());
+                              //                     });
+                              //
+                              //                   },
+                              //                   child: Icon(
+                              //                     Icons.share,
+                              //                     size: 25,),
+                              //                 ),
+                              //               )
+                              //             ],
+                              //           ),
+                              //           SizedBox(height: 10),
+                              //           Text(
+                              //             listings[i].title.toString(),
+                              //             overflow: TextOverflow.ellipsis,
+                              //             textAlign: TextAlign.left,
+                              //             maxLines: 2,
+                              //             style: AppTextStyle().textColor29292912w500,
+                              //           ),
+                              //           SizedBox(height: 10),
+                              //           Text(
+                              //             ' \$ ${listings[i].price!.amount.toString()}',
+                              //             overflow: TextOverflow.ellipsis,
+                              //             textAlign: TextAlign.left,
+                              //             maxLines: 2,
+                              //             style: AppTextStyle().textColor29292912w500,
+                              //           ),
+                              //           SizedBox(height: 10),
+                              //           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //             children: [
+                              //               SizedBox(
+                              //                 child: LightYellowButtonWithText(
+                              //                     backgroundColor:
+                              //                     MaterialStateProperty.all(ColorSelect.colorF7E641),
+                              //                     textStyleColor: ColorSelect.color292929,
+                              //                     onTap: () {
+                              //                       Navigator.push(context,
+                              //                           MaterialPageRoute(builder: (context) => EtsyProductDetails(
+                              //                             productTitle: listings[i].title.toString(),
+                              //                             productPrice: listings[i].price!.amount.toString(),
+                              //                             productDescription: listings[i].description.toString(),
+                              //                             productId: listings[i].listingId.toString(),
+                              //                             productUrl: listings[i].url.toString(),
+                              //                           ),
+                              //                           ),
+                              //                       );
+                              //                     },
+                              //                     title: 'View Details'),
+                              //               ),
+                              //
+                              //               GestureDetector(
+                              //                 onTap: ()  {
+                              //                   launchUrlStart(url: listings[i].url.toString() );
+                              //                 },
+                              //                   child: Text('View in website',
+                              //                   style: AppTextStyle().textColor29292916w500,)
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ],
+                              //       );
+                              //     }
+                              //     else if (scrollLength >= 25 && isLoading) {
+                              //       return Center(
+                              //         child: LoadingAnimationWidget.staggeredDotsWave(
+                              //           size: 70, color: ColorSelect.colorF7E641,
+                              //         ),
+                              //       );
+                              //     } else if( scrollLength < 10) {
+                              //       return SizedBox.shrink();
+                              //     } else {
+                              //       return Center(
+                              //         child: LoadingAnimationWidget.staggeredDotsWave(
+                              //           size: 70, color: ColorSelect.colorF7E641,
+                              //            ),
+                              //         );
+                              //       }
+                              //     }, separatorBuilder: (BuildContext context, int index) => SizedBox(height: 16,),
+                              //   ),
+                            ) :
+                      loading ? Center(
+                        child: LoadingAnimationWidget
+                            .staggeredDotsWave(
+                          size: 70,
+                          color: ColorSelect.colorF7E641,
+                        ),
+                      ) :
                   Scrollbar(
                     child: GridView.builder(
                       padding: EdgeInsets.only(bottom: 24),
@@ -715,311 +735,6 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                     ),
                   ),
 
-                  // GridView.builder(
-                  //   padding: EdgeInsets.only(bottom: 24),
-                  //   shrinkWrap: true,
-                  //   gridDelegate:
-                  //   const SliverGridDelegateWithFixedCrossAxisCount(
-                  //       crossAxisCount: 2,
-                  //       crossAxisSpacing: 10.0,
-                  //       mainAxisSpacing: 10.0,
-                  //       mainAxisExtent: 300
-                  //   ),
-                  //   itemCount: searchListings.length,
-                  //   itemBuilder: (_, i) {
-                  //       return GestureDetector(
-                  //         onTap: () {
-                  //           Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //               builder: (context) =>
-                  //                   EtsyProductDetails(
-                  //                     productTitle:
-                  //                     searchListings[i].title.toString(),
-                  //                     productPrice: searchListings[i]
-                  //                         .price!
-                  //                         .amount
-                  //                         .toString(),
-                  //                     productDescription: searchListings[i]
-                  //                         .description
-                  //                         .toString(),
-                  //                     productId: searchListings[i]
-                  //                         .listingId
-                  //                         .toString(),
-                  //                     productUrl:
-                  //                     searchListings[i].url.toString(),
-                  //                   ),
-                  //             ),
-                  //           );
-                  //         },
-                  //         child: Container(
-                  //           decoration: BoxDecoration(
-                  //               borderRadius: BorderRadius.circular(16),
-                  //               border: Border.all(width: 1,color:  ColorSelect.colorF7E641)
-                  //           ),
-                  //
-                  //           child: Column(
-                  //             children: [
-                  //               Container(
-                  //                 height: 200,
-                  //                 clipBehavior: Clip.hardEdge,
-                  //                 decoration: BoxDecoration(
-                  //                     borderRadius: BorderRadius.only(
-                  //                       topLeft: Radius.circular(16.0),
-                  //                       topRight: Radius.circular(16.0),
-                  //                     )
-                  //                 ),
-                  //                 child: CachedNetworkImage(
-                  //                   imageUrl: searchListings[i]
-                  //                       .images![0]
-                  //                       .url570xN
-                  //                       .toString(),
-                  //                   fit: BoxFit.cover,
-                  //                   errorWidget:
-                  //                       (context, url, error) => Icon(
-                  //                     Icons.error,
-                  //                     size: 40,
-                  //                   ),
-                  //                   progressIndicatorBuilder:
-                  //                       (a, b, c) => Opacity(
-                  //                     opacity: 0.3,
-                  //                     child: Shimmer.fromColors(
-                  //                       baseColor: Colors.black12,
-                  //                       highlightColor: Colors.white,
-                  //                       child: Container(
-                  //                         width: 173,
-                  //                         height: 129,
-                  //                         decoration: BoxDecoration(
-                  //                             border: Border.all(
-                  //                                 color: ColorSelect
-                  //                                     .colorE0E0E0,
-                  //                                 width: 1),
-                  //                             color: ColorSelect
-                  //                                 .colorFFFFFF,
-                  //                             borderRadius:
-                  //                             BorderRadius
-                  //                                 .circular(12)),
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //               ),
-                  //               Container(
-                  //                 margin: EdgeInsets.all(8),
-                  //                 child: Column(
-                  //                   crossAxisAlignment: CrossAxisAlignment.start,
-                  //                   children: [
-                  //                     Text(
-                  //                       searchListings[i]
-                  //                           .title
-                  //                           .toString(),
-                  //                       overflow:
-                  //                       TextOverflow.ellipsis,
-                  //                       textAlign: TextAlign.left,
-                  //                       maxLines: 3,
-                  //                       style: AppTextStyle()
-                  //                           .textColor29292912w500,
-                  //                     ),
-                  //                     const SizedBox(
-                  //                       height: 8.0,
-                  //                     ),
-                  //                     Text(
-                  //                       ' \$ ${searchListings[i].price!.amount.toString()}',
-                  //                       overflow:
-                  //                       TextOverflow.ellipsis,
-                  //                       style: AppTextStyle()
-                  //                           .textColor29292912w500,
-                  //                     ),
-                  //
-                  //                   ],
-                  //                 ),
-                  //
-                  //               )
-                  //             ],
-                  //
-                  //           ),
-                  //         ),
-                  //         // child: Column(
-                  //         //   crossAxisAlignment:
-                  //         //       CrossAxisAlignment.start,
-                  //         //   children: [
-                  //         //     Container(
-                  //         //      /* borderRadius:
-                  //         //           const BorderRadius.only(
-                  //         //         topLeft: Radius.circular(16.0),
-                  //         //         topRight: Radius.circular(16.0),
-                  //         //       ),*/
-                  //         //       child: CachedNetworkImage(
-                  //         //         // imageUrl: (baseUrl+haveProducts2[i].photo.toString()),
-                  //         //         imageUrl: listings[i]
-                  //         //             .images![0]
-                  //         //             .url570xN
-                  //         //             .toString(),
-                  //         //         fit: BoxFit.cover,
-                  //         //         errorWidget:
-                  //         //             (context, url, error) => Icon(
-                  //         //           Icons.error,
-                  //         //           size: 40,
-                  //         //         ),
-                  //         //         progressIndicatorBuilder:
-                  //         //             (a, b, c) => Opacity(
-                  //         //           opacity: 0.3,
-                  //         //           child: Shimmer.fromColors(
-                  //         //             baseColor: Colors.black12,
-                  //         //             highlightColor: Colors.white,
-                  //         //             child: Container(
-                  //         //               width: 173,
-                  //         //               height: 129,
-                  //         //               decoration: BoxDecoration(
-                  //         //                   border: Border.all(
-                  //         //                       color: ColorSelect
-                  //         //                           .colorE0E0E0,
-                  //         //                       width: 1),
-                  //         //                   color: ColorSelect
-                  //         //                       .colorFFFFFF,
-                  //         //                   borderRadius:
-                  //         //                       BorderRadius
-                  //         //                           .circular(12)),
-                  //         //             ),
-                  //         //           ),
-                  //         //         ),
-                  //         //       ),
-                  //         //   /*   child: SvgPicture.asset(
-                  //         //      "assets/images/etsy.svg",
-                  //         //       height: 170,
-                  //         //       width: double.infinity,
-                  //         //       fit: BoxFit.cover,
-                  //         //       ),*/
-                  //         //     ),
-                  //         //     Padding(
-                  //         //       padding: const EdgeInsets.all(8.0),
-                  //         //       child: Column(
-                  //         //         crossAxisAlignment:
-                  //         //             CrossAxisAlignment.start,
-                  //         //         children: [
-                  //         //           Text(
-                  //         //             listings[i]
-                  //         //                 .title
-                  //         //                 .toString(),
-                  //         //             overflow:
-                  //         //                 TextOverflow.ellipsis,
-                  //         //             textAlign: TextAlign.left,
-                  //         //             maxLines: 5,
-                  //         //             style: AppTextStyle()
-                  //         //                 .textColor29292912w500,
-                  //         //           ),
-                  //         //           const SizedBox(
-                  //         //             height: 8.0,
-                  //         //           ),
-                  //         //           Text(
-                  //         //             ' \$ ${listings[i].price!.amount.toString()}',
-                  //         //             overflow:
-                  //         //                 TextOverflow.ellipsis,
-                  //         //             style: AppTextStyle()
-                  //         //                 .textColor29292912w500,
-                  //         //           ),
-                  //         //           const SizedBox(
-                  //         //             height: 8.0,
-                  //         //           ),
-                  //         //         ],
-                  //         //       ),
-                  //         //     ),
-                  //         //   ],
-                  //         // ),
-                  //       );
-                  //
-                  //   },
-                  // ),
-
-                  /*GridView.builder(
-                          shrinkWrap: true,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 12.0,
-                            mainAxisSpacing: 12.0,
-                            mainAxisExtent: 310,
-                          ),
-                          itemCount: searchListings.length,
-                          itemBuilder: (_, i) {
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EtsyProductDetails(
-                                      productTitle:
-                                      searchListings[i].title.toString(),
-                                      productPrice: listings[i]
-                                          .price!
-                                          .amount
-                                          .toString(),
-                                      productDescription:
-                                      searchListings[i].description.toString(),
-                                      productId:
-                                      searchListings[i].listingId.toString(),
-                                      productUrl: listings[i].url.toString(),
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                    16.0,
-                                  ),
-                                  color: Colors.amberAccent.shade100,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(16.0),
-                                        topRight: Radius.circular(16.0),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        "assets/images/etsy.svg",
-                                        height: 170,
-                                        width: double.infinity,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            searchList[i].title.toString(),
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.left,
-                                            maxLines: 5,
-                                            style: AppTextStyle()
-                                                .textColor29292912w500,
-                                          ),
-                                          const SizedBox(
-                                            height: 8.0,
-                                          ),
-                                          Text(
-                                            ' \$ ${searchList[i].price!.amount.toString()}',
-                                            overflow: TextOverflow.ellipsis,
-                                            style: AppTextStyle()
-                                                .textColor29292912w500,
-                                          ),
-                                          const SizedBox(
-                                            height: 8.0,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),*/
 
                 ),
                 Container(

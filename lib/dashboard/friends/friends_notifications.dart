@@ -97,7 +97,6 @@ class _FriendNotificationState extends State<FriendNotification> {
                   color: Colors.black,
                   size: 80,
                 ),
-                // Image.asset("assets/images/delivery.png",height: 100,),
                 SizedBox(height: 5),
                 Text(
                   'No Notification',
@@ -106,6 +105,7 @@ class _FriendNotificationState extends State<FriendNotification> {
             ),
           ) :
       SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
         child:  ListView.separated(
           padding: EdgeInsets.only(top: 16,bottom: 200,left: 16,right: 16),
           itemCount: friendNotification.length,
