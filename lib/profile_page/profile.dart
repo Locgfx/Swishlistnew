@@ -107,7 +107,6 @@ class _UserProfileState extends State<UserProfile> {
   List <String> pro = [];
 
   get() {
-
     if(profile!.data!.name != null || profile!.data!.name != '') {
       pro.add('name');
     }

@@ -70,7 +70,7 @@ class _ActivitiesState extends State<Activities> {
                   height: 52,
                 ),
                 Text(
-                  "Activities",
+                  "Notifications",
                   style: AppTextStyle().ubuntu29292924w700,
                 ),
                 activity1!.data!.isEmpty ?
@@ -84,7 +84,7 @@ class _ActivitiesState extends State<Activities> {
                     Padding(
                       padding: const EdgeInsets.only(left: 60,right: 60,top:24 ),
                       child: Text(
-                        "Share your profile and add friends & family to see their activities",
+                        "Share your profile and add friends & family to see their notifications",
                         maxLines: 2,
                         style: AppTextStyle().roboto29292914w500,
                         textAlign: TextAlign.center,),

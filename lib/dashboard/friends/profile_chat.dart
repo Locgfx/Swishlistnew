@@ -434,7 +434,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                           print(widget.friendId);
                                           print(sendMsgController);
                                           if(value['status'] == true) {
-                                            isLoading ? Loading() :getMessages();
+                                            isLoading ? Loading() : getMessages();
                                             // Fluttertoast.showToast(msg: value['message']);
                                           } else {
                                             Fluttertoast.showToast(msg: value['message']);
