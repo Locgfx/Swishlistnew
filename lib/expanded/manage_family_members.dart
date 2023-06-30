@@ -34,6 +34,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
     isLoading = true;
     var resp = getFamilyMemberApi();
     resp.then((value) {
+      familyModel2.clear();
       if(value['status'] == true) {
         setState(() {
           familyModel = GetFamilyModel.fromJson(value);
@@ -82,143 +83,168 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
           ),
         ),
       ),
-      body: isLoading ? Loading() :SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16, top: 40,right:16 ),
-          child: familyModel2.isEmpty ?
-          AddProductImage(
-            image: 'assets/images/addfriends.png',
-            txt: 'Add family members to share your profile and your favorite product',
-            buttonTxt: 'Add Family Member',
-            tap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const LinkMembersAccount(),
+      body: isLoading ? Loading() :RefreshIndicator(
+        displacement: 500,
+        backgroundColor: Colors.white,
+        color: ColorSelect.colorF7E641,
+        strokeWidth: 3,
+        onRefresh: () {
+          setState(() {
+            isLoading = true;
+          });
+          return getFamilyMember();
+        },
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, top: 40,right:16 ),
+            child: familyModel2.isEmpty ?
+            AddProductImage(
+              image: 'assets/images/addfriends.png',
+              txt: 'Add family members to share your profile and your favorite product',
+              buttonTxt: 'Add Family Member',
+              tap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const LinkMembersAccount(),
+                  ),
+                );
+              }, buttonIcon: 'assets/images/4xuseradd.png',
+            ):
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Linked",
+                  style: AppTextStyle().textColor70707012w500,
                 ),
-              );
-            }, buttonIcon: 'assets/images/4xuseradd.png',
-          ):
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Linked",
-                style: AppTextStyle().textColor70707012w500,
-              ),
-              familyModel2.isEmpty?
-              Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                    // Image.asset("assets/images/delivery.png",height: 100,),
-                    SizedBox(height: 5),
-                    Text('No Family Members Yet',
-                      style: AppTextStyle().textColor29292914w500,)
-                  ],
+                familyModel2.isEmpty?
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                      // Image.asset("assets/images/delivery.png",height: 100,),
+                      SizedBox(height: 5),
+                      Text('No Family Members Yet',
+                        style: AppTextStyle().textColor29292914w500,)
+                    ],
+                  ),
+                ) :
+                ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: familyModel2.length,
+                    itemBuilder: (context,i) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: UserRowWidget(
+                          familyName: familyModel2[i].familyMemberUser!.name.toString(),
+                          familyUsername: familyModel2[i].familyMemberUser!.username.toString(),
+                          familyPhoto: baseUrl+familyModel2[i].familyMemberUser!.photo.toString(),
+                          familyRelation: familyModel2[i].relation.toString(),
+                          id: familyModel2[i].familyMemberUserId.toString(),
+                          tap: () {
+                            deleteFamilyMembers(id: familyModel2[i].id.toString()).then((value) => {
+                              if(value['status'] == true) {
+                                setState(() {
+                              isLoading ? Loading() :getFamilyMember();
+                            }),
+                                Fluttertoast.showToast(msg: value['message']),
+                              } else {
+                                Fluttertoast.showToast(msg: value['message']),
+                              }
+                            });
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                SizedBox(
+                  height: 20.h,
                 ),
-              ) :
-              ListView.builder(
+                // Text(
+                //   "Manged by me",
+                //   style: AppTextStyle().textColor70707012w500,
+                // ),
+                // ListView.builder(
+                //     physics: NeverScrollableScrollPhysics(),
+                //     // scrollDirection: Axis.vertical,
+                //     shrinkWrap: true,
+                //     itemCount: 2,
+                //     itemBuilder: (BuildContext context, int index) {
+                //       return Padding(
+                //         padding: const EdgeInsets.only(bottom: 20),
+                //         child: MangedByMeWidget(),
+                //       );
+                //     }),
+                SizedBox(
+                  height: 20.h,
+                ),
+            /*    Text(
+                  "Requested",
+                  style: AppTextStyle().textColor70707012w500,
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                familyRequested.isEmpty?
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                      // Image.asset("assets/images/delivery.png",height: 100,),
+                      SizedBox(height: 5),
+                      Text('No Family Requests',
+                        style: AppTextStyle().textColor29292914w500,)
+                    ],
+                  ),
+                ) :
+                ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: familyModel2.length,
+                  itemCount: familyRequested.length,
                   itemBuilder: (context,i) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: UserRowWidget(
-                        familyName: familyModel2[i].familyMemberUser!.name.toString(),
-                        familyUsername: familyModel2[i].familyMemberUser!.username.toString(),
-                        familyPhoto: baseUrl+familyModel2[i].familyMemberUser!.photo.toString(),
-                        familyRelation: familyModel2[i].relation.toString(),
-                        id: familyModel2[i].familyMemberUserId.toString(),
-                      ),
-                    );
-                  },
-                ),
-              SizedBox(
-                height: 20.h,
-              ),
-              // Text(
-              //   "Manged by me",
-              //   style: AppTextStyle().textColor70707012w500,
-              // ),
-              // ListView.builder(
-              //     physics: NeverScrollableScrollPhysics(),
-              //     // scrollDirection: Axis.vertical,
-              //     shrinkWrap: true,
-              //     itemCount: 2,
-              //     itemBuilder: (BuildContext context, int index) {
-              //       return Padding(
-              //         padding: const EdgeInsets.only(bottom: 20),
-              //         child: MangedByMeWidget(),
-              //       );
-              //     }),
-              SizedBox(
-                height: 20.h,
-              ),
-          /*    Text(
-                "Requested",
-                style: AppTextStyle().textColor70707012w500,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              familyRequested.isEmpty?
-              Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                    // Image.asset("assets/images/delivery.png",height: 100,),
-                    SizedBox(height: 5),
-                    Text('No Family Requests',
-                      style: AppTextStyle().textColor29292914w500,)
-                  ],
-                ),
-              ) :
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: familyRequested.length,
-                itemBuilder: (context,i) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: UserRowWidget(
-                      familyName: familyRequested[i].familyMemberUser!.name.toString(),
-                      familyUsername: familyRequested[i].familyMemberUser!.username.toString(),
-                      familyPhoto: baseUrl+familyRequested[i].familyMemberUser!.photo.toString(),
-                      familyRelation: familyRequested[i].relation.toString(),
-                      id: familyRequested[i].familyMemberUserId.toString(),
-                      widget: GestureDetector(
-                          onTap: () {
-                            deleteFamilyMembers(
-                                id: familyRequested[i].id.toString()).then((value) {
-                           if(value['status'] ==  true) {
-                             Navigator.pop(context);
-                           Fluttertoast.showToast(msg: value['message']);
-                           } else {
-                            Fluttertoast.showToast(msg: value['message']);
-                             }
-                            }) ;
-                          },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                          child: Text(
-                            "Delete Member",
-                            textAlign: TextAlign.right,
-                            style: AppTextStyle().textColorC92C2C14w500,
+                        familyName: familyRequested[i].familyMemberUser!.name.toString(),
+                        familyUsername: familyRequested[i].familyMemberUser!.username.toString(),
+                        familyPhoto: baseUrl+familyRequested[i].familyMemberUser!.photo.toString(),
+                        familyRelation: familyRequested[i].relation.toString(),
+                        id: familyRequested[i].familyMemberUserId.toString(),
+                        widget: GestureDetector(
+                            onTap: () {
+                              deleteFamilyMembers(
+                                  id: familyRequested[i].id.toString()).then((value) {
+                             if(value['status'] ==  true) {
+                               Navigator.pop(context);
+                             Fluttertoast.showToast(msg: value['message']);
+                             } else {
+                              Fluttertoast.showToast(msg: value['message']);
+                               }
+                              }) ;
+                            },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                            child: Text(
+                              "Delete Member",
+                              textAlign: TextAlign.right,
+                              style: AppTextStyle().textColorC92C2C14w500,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),*/
-            ],
+                    );
+                  },
+                ),*/
+              ],
+            ),
           ),
         ),
       ),

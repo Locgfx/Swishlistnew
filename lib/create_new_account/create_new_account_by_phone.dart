@@ -168,9 +168,8 @@ class _CreateNewAccountByPhone extends State<CreateNewAccountByPhone> {
                       phone: widget.phoneNo,
                       photo:  pickedImage.isAbsolute
                           ?  pickedImage.path
-                          : '',
+                          :  '',
                     ).then((value) async {
-                      // response = value;
                       if(value['status']  == true  /*&&
                             response!.status == true*/) {
                         // print(response);

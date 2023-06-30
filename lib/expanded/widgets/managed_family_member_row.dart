@@ -11,6 +11,7 @@ class UserRowWidget extends StatelessWidget {
   final String familyPhoto;
   final String familyRelation;
   final String id;
+  final Function() tap;
   final Widget? widget;
   const UserRowWidget({
     Key? key,
@@ -19,7 +20,7 @@ class UserRowWidget extends StatelessWidget {
     required this.familyPhoto,
     required this.familyRelation,
     this.widget,
-    required this.id,
+    required this.id, required this.tap,
   }) : super(key: key);
 
   @override
@@ -115,10 +116,16 @@ class UserRowWidget extends StatelessWidget {
           padding: const EdgeInsets.only(right: 16),
           child: widget
         ),
-        // Padding(
-        //   padding: const EdgeInsets.only(right: 30),
-        //   child: Icon(Icons.more_vert),
-        // ),
+        Padding(
+          padding: const EdgeInsets.only(right: 0),
+          child: GestureDetector(
+            onTap: tap,
+            child: SizedBox(
+                height: 42,
+                width: 42,
+                child: Image.asset("assets/images/del.png",color: ColorSelect.colorD55745,)),
+          ),
+        ),
       ],
     );
   }

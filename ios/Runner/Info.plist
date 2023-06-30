@@ -23,8 +23,6 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
-	<key>NSContactsUsageDescription</key>
-    <string>Your description of why you are requesting permissions.</string>
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>

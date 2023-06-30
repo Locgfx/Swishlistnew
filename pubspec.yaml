@@ -65,14 +65,8 @@ dependencies:
   google_sign_in: ^6.1.4
   animated_text_kit: ^4.2.2
   custom_refresh_indicator: ^2.2.1
-  fast_contacts: ^3.0.3
-
-
-
-
-
-
-
+#  fast_contacts: ^3.0.3
+#  contacts_service: ^0.6.3
 
 
 dev_dependencies:

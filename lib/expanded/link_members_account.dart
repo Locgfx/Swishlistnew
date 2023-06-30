@@ -238,6 +238,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
                       'mother',
                       'brother',
                       'child',
+                      'sister'
                     ].map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
