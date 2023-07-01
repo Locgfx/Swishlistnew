@@ -1,24 +1,21 @@
+
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
-// import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/contact_api.dart';
-import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import '../../api/user_apis/friends_api.dart';
+import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../constants/urls.dart';
 import '../../models/contact_model.dart';
-// import 'package:flutter_contacts/flutter_contacts.dart';
 
 class AddFriends extends StatefulWidget {
   // final FriendModel friendModel;
@@ -84,11 +81,11 @@ class _AddFriendsState extends State<AddFriends> {
       contacts = await FlutterContacts.getContacts(
           withProperties: true, withPhoto: false
       );
-      await Future.delayed(Duration(seconds: 1),(){
+      await Future.delayed(Duration(seconds: 1),() {
         log(contacts!.first.phones.first.number.toString());
         for (var v in contacts!) {
           log(v.phones.first.number.toString());
-          phNo.add(v.phones.first.number.toString());
+          phNo.add(v.phones.toString());
           contact();
         }
       });
@@ -194,6 +191,17 @@ class _AddFriendsState extends State<AddFriends> {
                       ) :
               Column(
                 children: [
+                  // ListView.builder(
+                  //   shrinkWrap: true,
+                  // itemCount: contacts!.length,
+                  // itemBuilder: (_,i) {
+                  //   return Row(
+                  //     children: [
+                  //       Text(contacts![i].phones[0].number.toString()),
+                  //     ],
+                  //   );
+                  //   },
+                  // ),
                /*   searchList.isEmpty ?*/
                   RefreshIndicator(
                     displacement: 500,

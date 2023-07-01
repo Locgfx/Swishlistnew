@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/dashboard/products/products_page.dart';
 import 'package:swishlist/dashboard/search/all_etsy_products.dart';
 import 'package:swishlist/dashboard/search/search.dart';
@@ -248,26 +249,28 @@ class _DashboardState extends State<Dashboard> {
             ),
           ),
         ),
-        body: Stack(
-          children: [
-            PageView(
-              controller: _pageController,
-              onPageChanged: (page) {
-                setState(
-                  () {
-                    pageIndex = page;
-                  },
-                );
-              },
-              children: [
-                ProductsPage(response: widget.response,),
-                // AllEtsyProducts(),
-                Search(),
-                Activities(),
-                Friends(),
-              ],
-            ),
-          ],
+        body: TextFieldUnFocusOnTap(
+          child: Stack(
+            children: [
+              PageView(
+                controller: _pageController,
+                onPageChanged: (page) {
+                  setState(
+                    () {
+                      pageIndex = page;
+                    },
+                  );
+                },
+                children: [
+                  ProductsPage(response: widget.response,),
+                  // AllEtsyProducts(),
+                  Search(),
+                  Activities(),
+                  Friends(),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
