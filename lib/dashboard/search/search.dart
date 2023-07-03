@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/color.dart';
@@ -37,55 +38,58 @@ class _SearchState extends State<Search> {
 
   bool isLoading = false;
   bool loading= false;
-/*
-  List<EtsyLoadMoreModel> matches = <EtsyLoadMoreModel>[];
-  List<EtsyLoadMoreModel> searchList = [];
-  getSearch(val) {
-    final resp = searchEtsyProductApi(search: val);
-    resp.then((value) {
-      searchList.clear();
-      for (var v in value['results']) {
-        searchList.add(EtsyLoadMoreModel.fromJson(v));
-        isLoading = false;
-        print(searchList);
-      }
-    });
-  }
-*/
+  bool searchLoading = false;
+  bool show = false;
+  int searchLength = 0;
+  int searchScroll = 0;
+
 
   List<int> searchId = [];
   List<EtsyListingIdModel> searchListings = [];
   List<EtsyListingIdModel> matches = <EtsyListingIdModel>[];
 
   getSearch() {
-    final resp = searchEtsyProductApi(search: searchController.text,);
-    // searchId.clear();
+    final resp = searchEtsyProductApi(search: searchController.text, page: '0',);
     resp.then((value) {
       searchId.clear();
       setState(() {
+        searchLength = value["results"].length;
         for (var v in value['results']) {
           searchId.add(v['listing_id']);
-
-          isLoading = false;
+          searchLoading = false;
         }
-        print(searchId);
         getSearchId();
-
+      });
+    });
+  }
+  searchLoadMore() {
+    searchScroll =searchScroll+ 25;
+    print(searchController.text);
+    final resp = searchEtsyProductApi(page: searchScroll.toString(),search: searchController.text);
+    resp.then((value) {
+      searchId.clear();
+      setState(() {
+        searchLength = value["results"].length;
+        for (var v in value['results']) {
+          searchId.add(v['listing_id']);
+          searchLoading = false;
+        }
+        getSearchId();
       });
     });
   }
 
   getSearchId() {
-    loading = true;
+    searchLoading = true;
     var resp = getListingByListingIds(listingId: searchId.join(","));
     resp.then((value) {
-      searchListings.clear();
+      // searchListings.clear();
       setState(() {
         for (var v in value['results']) {
           searchListings.add(EtsyListingIdModel.fromJson(v));
           loading = false;
         }
-        loading= false;
+        loading = false;
       });
     });
   }
@@ -151,14 +155,6 @@ class _SearchState extends State<Search> {
                                 });
                               }
                             });*/
-                            if (searchController.text.isNotEmpty) {
-                              getSearch();
-                            } else {
-                              setState(() {
-                                searchListings.clear();
-                                matches.clear();
-                              });
-                            }
 
                           },
                           controller: searchController,
@@ -168,18 +164,29 @@ class _SearchState extends State<Search> {
                             icon:
                             GestureDetector(
                                 onTap: () {
-
-                                 /*   if (searchController.text.isNotEmpty) {
-                                      getSearch();
-                                    } else {
-                                      setState(() {
-                                        searchListings.clear();
-                                        matches.clear();
-                                      });
-                                    }*/
-
+                                  setState(() {
+                                    show = !show;
+                                  });
+                                  if (searchController.text.isNotEmpty) {
+                                    getSearch();
+                                  } else {
+                                    setState(() {
+                                      searchListings.clear();
+                                      matches.clear();
+                                    });
+                                  }
                                 },
-                                child: Image.asset('assets/images/search 03.png',height: 25,)),
+                                child: show ?
+                                GestureDetector(
+                                  onTap: () {
+                                    clearText();
+                                  },
+                                    child: Image.asset('assets/images/Frame 1000002471.png',height: 30,width: 30,)):
+                                Container(
+                                  // color: Colors.red,
+                                    child: Image.asset('assets/images/search 03.png',height: 30,width: 30,))
+
+                            ),
 
                           )
                               .decoration(),
@@ -328,222 +335,166 @@ class _SearchState extends State<Search> {
                         ),
                       ),
                     ) :
-                GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.only(bottom: 150,top: 24),
-                  shrinkWrap: true,
-                  gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10.0,
-                      mainAxisSpacing: 10.0,
-                      mainAxisExtent: 300
-                  ),
-                  itemCount: searchListings.length,
-                  itemBuilder: (_, i) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                EtsyProductDetails(
-                                  productTitle:
-                                  searchListings[i].title.toString(),
-                                  productPrice: searchListings[i]
-                                      .price!
-                                      .amount
-                                      .toString(),
-                                  productDescription: searchListings[i]
-                                      .description
-                                      .toString(),
-                                  productId: searchListings[i]
-                                      .listingId
-                                      .toString(),
-                                  productUrl:
-                                  searchListings[i].url.toString(),
-                                ),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(width: 1,color:  ColorSelect.colorF7E641)
-                        ),
+                    Container(
+                      padding: EdgeInsets.only(top: 16),
+                      height: 500.h,
+                      child: LazyLoadScrollView(
+                        isLoading: isLoading,
+                        scrollDirection: Axis.vertical,
+                        onEndOfPage: () {
+                          if (searchLength >= 25) {
+                            searchLoadMore();
+                          }
+                        },
+                        child: Scrollbar(
+                          child: GridView.builder(
+                            padding: EdgeInsets.only(bottom: 24),
+                            shrinkWrap: true,
+                            gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10.0,
+                                mainAxisSpacing: 10.0,
+                                mainAxisExtent: 300
+                            ),
+                            itemCount: searchListings.length +1 ,
+                            itemBuilder: (_, i) {
+                              if (i < searchListings.length) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            EtsyProductDetails(
+                                              productTitle:
+                                              searchListings[i].title.toString(),
+                                              productPrice: searchListings[i]
+                                                  .price!
+                                                  .amount
+                                                  .toString(),
+                                              productDescription: searchListings[i]
+                                                  .description
+                                                  .toString(),
+                                              productId: searchListings[i]
+                                                  .listingId
+                                                  .toString(),
+                                              productUrl:
+                                              searchListings[i].url.toString(),
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16),
+                                        border: Border.all(width: 1,color:  ColorSelect.colorF7E641)
+                                    ),
 
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 200,
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(16.0),
-                                    topRight: Radius.circular(16.0),
-                                  )
-                              ),
-                              child: CachedNetworkImage(
-                                imageUrl: searchListings[i]
-                                    .images![0]
-                                    .url570xN
-                                    .toString(),
-                                fit: BoxFit.cover,
-                                errorWidget:
-                                    (context, url, error) => Icon(
-                                  Icons.error,
-                                  size: 40,
-                                ),
-                                progressIndicatorBuilder:
-                                    (a, b, c) => Opacity(
-                                  opacity: 0.3,
-                                  child: Shimmer.fromColors(
-                                    baseColor: Colors.black12,
-                                    highlightColor: Colors.white,
-                                    child: Container(
-                                      width: 173,
-                                      height: 129,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: ColorSelect
-                                                  .colorE0E0E0,
-                                              width: 1),
-                                          color: ColorSelect
-                                              .colorFFFFFF,
-                                          borderRadius:
-                                          BorderRadius
-                                              .circular(12)),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 200,
+                                          clipBehavior: Clip.hardEdge,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(16.0),
+                                                topRight: Radius.circular(16.0),
+                                              )
+                                          ),
+                                          child: CachedNetworkImage(
+                                            imageUrl: searchListings[i]
+                                                .images![0]
+                                                .url570xN
+                                                .toString(),
+                                            fit: BoxFit.cover,
+                                            errorWidget:
+                                                (context, url, error) => Icon(
+                                              Icons.error,
+                                              size: 40,
+                                            ),
+                                            progressIndicatorBuilder:
+                                                (a, b, c) => Opacity(
+                                              opacity: 0.3,
+                                              child: Shimmer.fromColors(
+                                                baseColor: Colors.black12,
+                                                highlightColor: Colors.white,
+                                                child: Container(
+                                                  width: 173,
+                                                  height: 129,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: ColorSelect
+                                                              .colorE0E0E0,
+                                                          width: 1),
+                                                      color: ColorSelect
+                                                          .colorFFFFFF,
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(12)),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.all(8),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                searchListings[i]
+                                                    .title
+                                                    .toString(),
+                                                overflow:
+                                                TextOverflow.ellipsis,
+                                                textAlign: TextAlign.left,
+                                                maxLines: 2,
+                                                style: AppTextStyle().textColor29292914w400,
+                                              ),
+                                              const SizedBox(
+                                                height: 8.0,
+                                              ),
+                                              Text(
+                                                ' \$ ${searchListings[i].price!.amount.toString()}',
+                                                overflow:
+                                                TextOverflow.ellipsis,
+                                                style: AppTextStyle()
+                                                    .textColor29292912w500,
+                                              ),
+                                            ],
+                                          ),
+
+                                        )
+                                      ],
+
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.all(8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    searchListings[i]
-                                        .title
-                                        .toString(),
-                                    overflow:
-                                    TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    maxLines: 3,
-                                    style: AppTextStyle()
-                                        .textColor29292912w500,
+                                );
+                              } else if (searchLength >= 25 && searchLoading) {
+                                return Center(
+                                  child: LoadingAnimationWidget
+                                      .staggeredDotsWave(
+                                    size: 70,
+                                    color: ColorSelect.colorF7E641,
                                   ),
-                                  const SizedBox(
-                                    height: 8.0,
+                                );
+                              } else if (searchLength < 25) {
+                                return SizedBox.shrink();
+                              } else {
+                                return Center(
+                                  child: LoadingAnimationWidget
+                                      .staggeredDotsWave(
+                                    size: 70,
+                                    color: ColorSelect.colorF7E641,
                                   ),
-                                  Text(
-                                    ' \$ ${searchListings[i].price!.amount.toString()}',
-                                    overflow:
-                                    TextOverflow.ellipsis,
-                                    style: AppTextStyle()
-                                        .textColor29292912w500,
-                                  ),
-
-                                ],
-                              ),
-
-                            )
-                          ],
-
+                                );
+                              }
+                            },
+                          ),
                         ),
                       ),
-                      // child: Column(
-                      //   crossAxisAlignment:
-                      //       CrossAxisAlignment.start,
-                      //   children: [
-                      //     Container(
-                      //      /* borderRadius:
-                      //           const BorderRadius.only(
-                      //         topLeft: Radius.circular(16.0),
-                      //         topRight: Radius.circular(16.0),
-                      //       ),*/
-                      //       child: CachedNetworkImage(
-                      //         // imageUrl: (baseUrl+haveProducts2[i].photo.toString()),
-                      //         imageUrl: listings[i]
-                      //             .images![0]
-                      //             .url570xN
-                      //             .toString(),
-                      //         fit: BoxFit.cover,
-                      //         errorWidget:
-                      //             (context, url, error) => Icon(
-                      //           Icons.error,
-                      //           size: 40,
-                      //         ),
-                      //         progressIndicatorBuilder:
-                      //             (a, b, c) => Opacity(
-                      //           opacity: 0.3,
-                      //           child: Shimmer.fromColors(
-                      //             baseColor: Colors.black12,
-                      //             highlightColor: Colors.white,
-                      //             child: Container(
-                      //               width: 173,
-                      //               height: 129,
-                      //               decoration: BoxDecoration(
-                      //                   border: Border.all(
-                      //                       color: ColorSelect
-                      //                           .colorE0E0E0,
-                      //                       width: 1),
-                      //                   color: ColorSelect
-                      //                       .colorFFFFFF,
-                      //                   borderRadius:
-                      //                       BorderRadius
-                      //                           .circular(12)),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //   /*   child: SvgPicture.asset(
-                      //      "assets/images/etsy.svg",
-                      //       height: 170,
-                      //       width: double.infinity,
-                      //       fit: BoxFit.cover,
-                      //       ),*/
-                      //     ),
-                      //     Padding(
-                      //       padding: const EdgeInsets.all(8.0),
-                      //       child: Column(
-                      //         crossAxisAlignment:
-                      //             CrossAxisAlignment.start,
-                      //         children: [
-                      //           Text(
-                      //             listings[i]
-                      //                 .title
-                      //                 .toString(),
-                      //             overflow:
-                      //                 TextOverflow.ellipsis,
-                      //             textAlign: TextAlign.left,
-                      //             maxLines: 5,
-                      //             style: AppTextStyle()
-                      //                 .textColor29292912w500,
-                      //           ),
-                      //           const SizedBox(
-                      //             height: 8.0,
-                      //           ),
-                      //           Text(
-                      //             ' \$ ${listings[i].price!.amount.toString()}',
-                      //             overflow:
-                      //                 TextOverflow.ellipsis,
-                      //             style: AppTextStyle()
-                      //                 .textColor29292912w500,
-                      //           ),
-                      //           const SizedBox(
-                      //             height: 8.0,
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                    );
-
-                  },
-                ):
+                    ):
                 Column(crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
@@ -644,7 +595,6 @@ class _SearchState extends State<Search> {
                     )
                   ],
                 ),
-
               ],
             ),
           ),
@@ -764,7 +714,7 @@ class _SearchProductBottomSheet extends State<SearchProductBottomSheet> {
   List<EtsyLoadMoreModel> matches = <EtsyLoadMoreModel>[];
   List<EtsyLoadMoreModel> searchList = [];
   getSearch(val) {
-    final resp = searchEtsyProductApi(search: val, );
+    final resp = searchEtsyProductApi(search: val, page: '', );
     resp.then((value) {
       searchList.clear();
       for (var v in value['results']) {
@@ -776,7 +726,8 @@ class _SearchProductBottomSheet extends State<SearchProductBottomSheet> {
   }
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
+    return
+      GridView.builder(
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       physics: ScrollPhysics(),
@@ -849,6 +800,4 @@ class _SearchProductBottomSheet extends State<SearchProductBottomSheet> {
       },
     );
   }
-
-
 }

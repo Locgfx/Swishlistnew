@@ -47,6 +47,7 @@ Future<dynamic> allEtsyListingImagesApi({
 
 Future<dynamic> searchEtsyProductApi({
   required String search,
+  required String page,
 }) async {
   var headers = {
     'Content-Type': 'application/json',
@@ -54,7 +55,7 @@ Future<dynamic> searchEtsyProductApi({
     // 'Cookie': 'fve=1685077796.0; uaid=f2Zq16_qS6ihIWxrR5qKlfw57oNjZACClAJ7KRhdrVSamJmiZKVkGp7lnV7gEpId7uHv75eRnBrobJhmrKtb6JXioVTLAAA.; user_prefs=Crrq9ofhr2gKykE6JQV6Zy5Y2X9jZACClAJ7biitEq3k6RekpJNXmpOjo5Sap-vupKQDFIKKGEEoXEQsAwA.'
   };
   var request = http.Request('GET', Uri.parse(
-      '$etsyUrl/v3/application/listings/active?limit=50&offset=1&keywords=$search'));
+      '$etsyUrl/v3/application/listings/active?limit=25&offset=$page&keywords=$search'));
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());

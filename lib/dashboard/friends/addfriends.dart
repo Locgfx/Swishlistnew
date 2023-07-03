@@ -2,12 +2,16 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_contacts/fast_contacts.dart';
+// import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/contact.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:flutter/services.dart';
+// import 'package:flutter_contacts/contact.dart';
+// import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/contact_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
@@ -30,8 +34,8 @@ class _AddFriendsState extends State<AddFriends> {
   @override
   void initState() {
     // getContactPermission();
-    getContact();
-
+    // getContact();
+    loadContacts();
     super.initState(
     );
   }
@@ -40,7 +44,7 @@ class _AddFriendsState extends State<AddFriends> {
     searchController.dispose();
     super.dispose();
   }
-  List<Contact>? contacts;
+  // List<Contact>? contacts;
   bool isLoading = true;
   List <String> phNo = [];
   List<ModelContact> friendList = [];
@@ -72,30 +76,65 @@ class _AddFriendsState extends State<AddFriends> {
     );
   }
 
+  List<Contact> _contacts = const [];
+  String? _text;
 
+  bool _isLoading = false;
 
+  final _ctrl = ScrollController();
 
-
-  void getContact() async {
-    if (await FlutterContacts.requestPermission()) {
-      contacts = await FlutterContacts.getContacts(
-          withProperties: true, withPhoto: false
-      );
-      await Future.delayed(Duration(seconds: 1),() {
-        log(contacts!.first.phones.first.number.toString());
-        for (var v in contacts!) {
-          log(v.phones.first.number.toString());
-          phNo.add(v.phones.toString());
-          contact();
+  Future<void> loadContacts() async {
+    try {
+      await Permission.contacts.request();
+      _isLoading = true;
+      if (mounted) setState(() {});
+      final sw = Stopwatch()..start();
+      _contacts = await FastContacts.getAllContacts();
+      for(var v in  _contacts) {
+        for(var q in v.phones) {
+          phNo.add(q.number);
         }
-      });
-      print(phNo);
-      setState(() {});
+      }
+      for(var e in phNo) {
+        e.replaceAll("-", "");
+      }
+      contact();
+      sw.stop();
+      _text =
+      'Contacts: ${_contacts.length}\nTook: ${sw.elapsedMilliseconds}ms';
+    } on PlatformException catch (e) {
+      _text = 'Failed to get contacts:\n${e.details}';
+    } finally {
+      _isLoading = false;
     }
+    if (!mounted) return;
+    setState(() {});
   }
 
-  final TextEditingController _controller = TextEditingController();
 
+  // void getContact() async {
+  //   if (await FlutterContacts.requestPermission()) {
+  //     contacts = await FlutterContacts.getContacts(
+  //         withProperties: true, withPhoto: false
+  //     );
+  //     print(contacts);
+  //     // await Future.delayed(Duration(seconds: 1),() {
+  //     //   log(contacts!.first.phones.first.number.toString());
+  //     //   for (var v in contacts!) {
+  //     //     log(v.phones.first.number.toString());
+  //     //     // phNo.add(v.phones.toString());
+  //     //     // contact();
+  //     //   }
+  //     //
+  //     // });
+  //     // print(phNo);
+  //     // setState(() {});
+  //   }
+  // }
+
+
+
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -182,24 +221,21 @@ class _AddFriendsState extends State<AddFriends> {
                   ),
                 ),
                 SizedBox(height: 16,),
-                (contacts) == null ?
-                Padding(
-                        padding: const EdgeInsets.only(top: 200),
-                        child: LoadingAnimationWidget.inkDrop(
-                          size: 40, color: ColorSelect.colorF7E641,
-                        ),
-                      ) :
+                // (contact) == null ?
+                // Padding(
+                //         padding: const EdgeInsets.only(top: 200),
+                //         child: LoadingAnimationWidget.inkDrop(
+                //           size: 40, color: ColorSelect.colorF7E641,
+                //         ),
+                //       ) :
               Column(
                 children: [
                   // ListView.builder(
                   //   shrinkWrap: true,
-                  // itemCount: contacts!.length,
+                  // itemCount: _contacts.length,
                   // itemBuilder: (_,i) {
-                  //   return Row(
-                  //     children: [
-                  //       Text(contacts![i].phones[0].number.toString()),
-                  //     ],
-                  //   );
+                  //   return  _ContactItem(contact: _contacts[i]);
+                  //   // return Text(_contacts[i].phones.toString());
                   //   },
                   // ),
                /*   searchList.isEmpty ?*/
@@ -407,3 +443,78 @@ class _AddFriendsState extends State<AddFriends> {
   }
 }
 
+class _ContactItem extends StatelessWidget {
+  const _ContactItem({
+    Key? key,
+    required this.contact,
+  }) : super(key: key);
+
+  static final height = 86.0;
+
+  final Contact contact;
+
+  @override
+  Widget build(BuildContext context) {
+    final phones = contact.phones.map((e) => e.number).join(', ');
+    final emails = contact.emails.map((e) => e.address).join(', ');
+    final name = contact.structuredName;
+    final nameStr = name != null
+    ? [
+    if (name.namePrefix.isNotEmpty) name.namePrefix,
+    if (name.givenName.isNotEmpty) name.givenName,
+    if (name.middleName.isNotEmpty) name.middleName,
+    if (name.familyName.isNotEmpty) name.familyName,
+    if (name.nameSuffix.isNotEmpty) name.nameSuffix,
+    ].join(', ')
+        : '';
+    final organization = contact.organization;
+    final organizationStr = organization != null
+    ? [
+    if (organization.company.isNotEmpty) organization.company,
+    if (organization.department.isNotEmpty) organization.department,
+    if (organization.jobDescription.isNotEmpty)
+    organization.jobDescription,
+    ].join(', ')
+        : '';
+
+    return SizedBox(
+    height: height,
+    child: ListTile(
+    title: Text(
+    contact.displayName,
+    maxLines: 1,
+    overflow: TextOverflow.ellipsis,
+    ),
+    subtitle: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+    if (phones.isNotEmpty)
+    Text(
+    phones,
+    maxLines: 1,
+    overflow: TextOverflow.ellipsis,
+    ),
+    // if (emails.isNotEmpty)
+    // Text(
+    // emails,
+    // maxLines: 1,
+    // overflow: TextOverflow.ellipsis,
+    // ),
+    // if (nameStr.isNotEmpty)
+    // Text(
+    // nameStr,
+    // maxLines: 1,
+    // overflow: TextOverflow.ellipsis,
+    // ),
+    // if (organizationStr.isNotEmpty)
+    // Text(
+    // organizationStr,
+    // maxLines: 1,
+    // overflow: TextOverflow.ellipsis,
+    // ),
+    ],
+    ),
+    ),
+    );
+  }
+}

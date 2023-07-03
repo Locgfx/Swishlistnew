@@ -53,7 +53,7 @@ dependencies:
   intl: ^0.18.0
   loading_animation_widget: ^1.2.0+4
   permission_handler: ^10.2.0
-  flutter_contacts: ^1.1.6
+#  flutter_contacts: ^1.1.6
   url_launcher: ^6.1.10
   share_plus: ^6.3.2
   flutter_typeahead: ^3.2.5
@@ -65,6 +65,8 @@ dependencies:
   google_sign_in: ^6.1.4
   animated_text_kit: ^4.2.2
   custom_refresh_indicator: ^2.2.1
+#  contacts_service: ^0.6.3
+  fast_contacts: ^3.0.3
 #  fast_contacts: ^3.0.3
 #  contacts_service: ^0.6.3
 
