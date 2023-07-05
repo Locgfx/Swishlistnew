@@ -288,7 +288,7 @@ class _FriendsState extends State<Friends> {
                                           builder: (context) => FriendProduct(
                                               friendName:friendList[i].friend!.name.toString(),
                                             friendUserName:friendList[i].friend!.name.toString(),
-                                            friendId: friendList[i].friend!.id.toString(),
+                                            friendId: friendList[i].friendUserId.toString(),
                                             friendPhoto: baseUrl+friendList[i].friend!.photo!,
                                             id: friendList[i].id!.toString(),
                                            /* id: searchList[i].id.toString(),*/

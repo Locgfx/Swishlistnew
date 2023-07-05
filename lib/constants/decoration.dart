@@ -42,14 +42,14 @@ class AppTFWithIconDecoration {
   InputDecoration decoration() {
     return InputDecoration(
       suffixIconConstraints: BoxConstraints(
-          maxHeight: 40,maxWidth: 40),
+          maxHeight: 40,maxWidth: 60),
       suffixIcon: Padding(
         padding: const EdgeInsets.only(right: 15.0),
         child: icon
       ),
       hintText: hint,
       hintStyle: AppTextStyle().textColor70707014w400,
-      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16,vertical: 20),
       filled: true,
       fillColor: ColorSelect.colorEDEDF1,
       enabledBorder: OutlineInputBorder(

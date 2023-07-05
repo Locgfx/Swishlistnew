@@ -41,7 +41,7 @@ class _SearchState extends State<Search> {
   bool searchLoading = false;
   bool show = false;
   int searchLength = 0;
-  int searchScroll = 0;
+  int searchScroll = 25;
 
 
   List<int> searchId = [];
@@ -64,7 +64,6 @@ class _SearchState extends State<Search> {
   }
   searchLoadMore() {
     searchScroll =searchScroll+ 25;
-    print(searchController.text);
     final resp = searchEtsyProductApi(page: searchScroll.toString(),search: searchController.text);
     resp.then((value) {
       searchId.clear();
@@ -93,7 +92,7 @@ class _SearchState extends State<Search> {
       });
     });
   }
-
+  FocusNode focus = FocusNode();
   @override
   Widget build(BuildContext context) {
     return TextFieldUnFocusOnTap(
@@ -123,7 +122,8 @@ class _SearchState extends State<Search> {
                   children: [
                     Expanded(
                       child: Text(
-                        "Find your friends, or search products from your favourite shopping sites.",
+                        "Add product name and tap on search icon for search",
+                        // "Find your friends, or search products from your favourite shopping sites.",
                         textAlign: TextAlign.center,
                         style: AppTextStyle().textColor70707012w400,
                       ),
@@ -144,9 +144,13 @@ class _SearchState extends State<Search> {
                     children: [
                       Expanded(
                         child: TextFormField(
+
+                          focusNode: focus,
                           onChanged: (val) {
                           /*  setState(() {
                               if (searchController.text.isNotEmpty) {
+                                // searchListings.clear();
+                                // matches.clear();
                                 getSearch(val);
                               } else {
                                 setState(() {
@@ -157,37 +161,56 @@ class _SearchState extends State<Search> {
                             });*/
 
                           },
+                          onFieldSubmitted: (val) {
+                            if (searchController.text.isNotEmpty) {
+                              searchListings.clear();
+                              matches.clear();
+                              setState(() {
+                                searchLoading? Loading():getSearch();
+
+                              });
+                              getSearch();
+                            } else {
+                              setState(() {
+                                searchListings.clear();
+                                matches.clear();
+                              });
+                            }
+
+                          },
                           controller: searchController,
                           cursorColor: ColorSelect.colorF7E641,
                           decoration: AppTFWithIconDecoration(
                             hint: 'Enter Product Tags',
                             icon:
                             GestureDetector(
-                                onTap: () {
+                              behavior:HitTestBehavior.opaque,
+                              onTap: () {
+                                /*setState(() {
+                                  show = !show;
+                                });*/
+                                if (searchController.text.isNotEmpty) {
+                                  searchListings.clear();
+                                  matches.clear();
                                   setState(() {
-                                    show = !show;
+                                    searchLoading? Loading():getSearch();
+
                                   });
-                                  if (searchController.text.isNotEmpty) {
-                                    getSearch();
-                                  } else {
-                                    setState(() {
-                                      searchListings.clear();
-                                      matches.clear();
-                                    });
-                                  }
-                                },
-                                child: show ?
-                                GestureDetector(
-                                  onTap: () {
-                                    clearText();
-                                  },
-                                    child: Image.asset('assets/images/Frame 1000002471.png',height: 30,width: 30,)):
-                                Container(
+;                                  getSearch();
+                                } else {
+                                  setState(() {
+                                    searchListings.clear();
+                                    matches.clear();
+                                  });
+                                }
+                                // clearText();
+                              },
+                                child: Container(
+                                  padding: EdgeInsets.all(5),
                                   // color: Colors.red,
-                                    child: Image.asset('assets/images/search 03.png',height: 30,width: 30,))
-
-                            ),
-
+                                  child: Image.asset("assets/images/search 03.png"
+                                    /*'assets/images/Frame 1000002471.png'*/,),
+                                )),
                           )
                               .decoration(),
                           //keyboardType: TextInputType.phone,
@@ -348,7 +371,7 @@ class _SearchState extends State<Search> {
                         },
                         child: Scrollbar(
                           child: GridView.builder(
-                            padding: EdgeInsets.only(bottom: 24),
+                            padding: EdgeInsets.only(bottom: 100),
                             shrinkWrap: true,
                             gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
@@ -472,6 +495,17 @@ class _SearchState extends State<Search> {
                                   ),
                                 );
                               } else if (searchLength >= 25 && searchLoading) {
+                                return Align(
+                                  alignment: Alignment.center,
+                                  child: Center(
+                                    child: LoadingAnimationWidget
+                                        .staggeredDotsWave(
+                                      size: 70,
+                                      color: ColorSelect.colorF7E641,
+                                    ),
+                                  ),
+                                );
+                              } else if (searchLength < 25) {
                                 return Center(
                                   child: LoadingAnimationWidget
                                       .staggeredDotsWave(
@@ -479,8 +513,6 @@ class _SearchState extends State<Search> {
                                     color: ColorSelect.colorF7E641,
                                   ),
                                 );
-                              } else if (searchLength < 25) {
-                                return SizedBox.shrink();
                               } else {
                                 return Center(
                                   child: LoadingAnimationWidget

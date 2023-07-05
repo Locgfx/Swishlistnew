@@ -52,7 +52,7 @@ class _FriendProductState extends State<FriendProduct> {
 
   @override
   void initState() {
-    // print(widget.friendId);
+    print(widget.friendId);
     getProducts();
     super.initState();
   }

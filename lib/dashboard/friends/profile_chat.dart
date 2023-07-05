@@ -1,20 +1,17 @@
 
 import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/message_api.dart';
-import 'package:swishlist/constants/globals/shared_prefs.dart';
-import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
-// import '../../models/friends_details_model.dart';
 import '../../models/list_message_model.dart';
-import '../products/widget/product_add_widget.dart';
+import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 class ProfileChatPage extends StatefulWidget {
   final String friendId;
@@ -37,6 +34,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
   @override
   void initState() {
     super.initState();
+    print(widget.friendId);
     // SharedPrefs().getId();
     getMessages();
  /*   focusNode.addListener(() {
@@ -226,6 +224,67 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                 physics: AlwaysScrollableScrollPhysics(),
                 child: Column(
                   children: [
+                //   SizedBox(
+                //     child: StickyGroupedListView<Data, String>(
+                //       elements: listMessages!.data!,
+                //       groupBy: (element) => DateTime.now()
+                //     .difference(
+                //     DateTime.parse(
+                //         element.createdAt.toString()))
+                //     .inMinutes <=
+                //     59
+                //     ? "${DateTime.now().difference(
+                //     DateTime.parse(element.createdAt.toString())).inMinutes} min ago"
+                //     : DateTime.now()
+                //     .difference(DateTime
+                //     .parse(element.createdAt.toString()))
+                //     .inHours <=
+                //     23
+                //     ? "${DateTime.now().difference(
+                //     DateTime.parse(element.createdAt.toString())).inHours} hr ago"
+                //     : "${DateTime.now().difference(
+                //     DateTime.parse(element.createdAt.toString())).inDays} days ago",
+                //     itemBuilder: (context, Data element) =>
+                //     ids == element.sendFromUserId ?
+                //     Align(
+                //       alignment: Alignment.centerRight,
+                //       child: Container(
+                //         margin: EdgeInsets.symmetric(vertical: 12),
+                //         decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(8),
+                //             color: ColorSelect.color343434),
+                //         child: Padding(
+                //           padding: const EdgeInsets.symmetric(
+                //               horizontal: 12, vertical: 8),
+                //           child: Text(
+                //             element.message.toString(),
+                //             style: AppTextStyle().textColorFFFFFF14w400,
+                //           ),
+                //         ),
+                //       ),
+                //     ) :
+                //     Align(
+                //       alignment: Alignment.centerLeft,
+                //       child: Container(
+                //         margin: EdgeInsets.symmetric(vertical: 12),
+                //         decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(8),
+                //             color: ColorSelect.colorECEDF0),
+                //         child: Padding(
+                //           padding: const EdgeInsets.symmetric(
+                //               horizontal: 12, vertical: 8),
+                //           child: Text(
+                //             element.message.toString(),
+                //             style: AppTextStyle().textColor2C2C2C14w500roboto,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                // groupSeparatorBuilder: (dynamic groupByValue) =>
+                //       Text(groupByValue,textAlign: TextAlign.center,),
+                //     order: StickyGroupedListOrder.ASC, // optional
+                // ),
+                //   )
                     GroupedListView<Data,String>(
                       padding: EdgeInsets.only(bottom: 100),
                         order: GroupedListOrder.DESC,
@@ -434,7 +493,11 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                           print(widget.friendId);
                                           print(sendMsgController);
                                           if(value['status'] == true) {
-                                            isLoading ? Loading() : getMessages();
+                                            isLoading ? Center(
+                                            child: LoadingAnimationWidget.inkDrop(
+                                              size: 40, color: ColorSelect.colorF7E641,
+                                            ),
+                                            ) : getMessages();
                                             // Fluttertoast.showToast(msg: value['message']);
                                           } else {
                                             Fluttertoast.showToast(msg: value['message']);

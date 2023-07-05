@@ -92,12 +92,14 @@ class _AddFriendsState extends State<AddFriends> {
       _contacts = await FastContacts.getAllContacts();
       for(var v in  _contacts) {
         for(var q in v.phones) {
-          phNo.add(q.number);
+          var h = q.number.replaceAll("-", "");
+          phNo.add(h);
+          // phNo.add(q.number);
         }
       }
-      for(var e in phNo) {
+      /*for(var e in phNo) {
         e.replaceAll("-", "");
-      }
+      }*/
       contact();
       sw.stop();
       _text =
