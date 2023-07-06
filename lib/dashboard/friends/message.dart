@@ -117,7 +117,7 @@ class _MessagesState extends State<Messages> {
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         ProfileChatPage(
-                                          friendId: msgModel!.data![i].userMessages![0].sendFromUserId.toString(),
+                                          friendId: msgModel!.data![i].userMessages![0].sendToUserId.toString(),
                                           name: msgModel!.data![i].friendProfile!.name.toString(),
                                           friendImage: baseUrl+msgModel!.data![i].friendProfile!.photo.toString(),
                                           selectedItems: [],

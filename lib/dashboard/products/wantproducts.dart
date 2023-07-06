@@ -563,6 +563,7 @@ class _WantProductsState extends State<WantProducts> {
                                     padding: const EdgeInsets.only(top: 16),
                                     child: GestureDetector(
                                       onLongPress: () {
+                                        print(selectedItems);
                                         if (selectedItems.isEmpty) {
                                           setState(() {
                                             selectedItems.add(wantProduct2[i].id!);

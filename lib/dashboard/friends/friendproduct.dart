@@ -209,8 +209,6 @@ class _FriendProductState extends State<FriendProduct> {
                                             ),
                                           ),
                                         ),
-
-
                                       ],
                                     ),
                                   ),

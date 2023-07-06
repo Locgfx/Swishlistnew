@@ -28,6 +28,7 @@ Future<dynamic> getMessageApi() async {
 Future<dynamic> sendMessageApi({
   required String sendUserid,
   required String message,
+  required String productId,
 
 }) async {
   var headers = {
@@ -38,8 +39,10 @@ Future<dynamic> sendMessageApi({
   request.fields.addAll({
     'send_to_user_id': sendUserid,
     'message': message,
+    'product_id': productId,
   });
   request.headers.addAll(headers);
+  print(request.files);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   if(response.statusCode == 200) {

@@ -56,7 +56,7 @@ Future<dynamic> getProductsApi() async{
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   if(response.statusCode == 200) {
-    log(resp.toString());
+    print(resp);
     return resp;
   } else{
     print(resp);

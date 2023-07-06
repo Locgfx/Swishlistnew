@@ -8,10 +8,15 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/message_api.dart';
+import '../../api/user_apis/products_api.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
+import '../../constants/urls.dart';
 import '../../models/list_message_model.dart';
-import 'package:sticky_grouped_list/sticky_grouped_list.dart';
+import '../../models/product_type_model.dart';
+import '../products/productdetail.dart';
+import '../products/widget/product_add_widget.dart';
+
 
 class ProfileChatPage extends StatefulWidget {
   final String friendId;
@@ -35,11 +40,11 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
   void initState() {
     super.initState();
     print(widget.friendId);
-    // SharedPrefs().getId();
+    getWantProduct();
     getMessages();
- /*   focusNode.addListener(() {
+    focusNode.addListener(() {
       setState(() {});
-    });*/
+    });
     // ids = int.parse(SharedPrefs().getId()!);
   }
   final GlobalKey _groupListKey = GlobalKey();
@@ -66,41 +71,36 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
     });
   }
 
-/*
-  FriendDetailsModel friendDetails = FriendDetailsModel(
-      data: Data()
-  );
-
-  getFriendDetails() {
-    isLoading = true;
-    var resp = friendDetailsApi(friendUserId: widget.friendId);
-    resp.then((value) {
-      if(mounted) {
-        if(value['status'] == true) {
-          if(value['message'] == "No Data") {
-            setState(() {
-              isLoading = false;
-            });
-          } else {
-            setState(() {
-              friendDetails = FriendDetailsModel.fromJson(value);
-              isLoading = false;
-            });
-          }
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      }
-    });
-  }
-*/
-
-
   final focusNode = FocusNode();
   final sendMsgController = TextEditingController();
   bool show = false;
+  List<ProductTypeModel> wantProduct = [];
+  List<ProductTypeModel> wantProduct2 = [];
+  List<int> selectedItems = [];
+  int productIds = 0;
+
+  // final List<int> selectedItems;
+  getWantProduct() {
+    isLoading = true;
+    var resp = getProductsApi();
+    resp.then((value) {
+      if (value ['status'] == true) {
+        setState(() {
+          for (var v in value["data"]) {
+            wantProduct.add(ProductTypeModel.fromJson(v));
+          }
+          for (var v in wantProduct){
+            if(v.type! == "want") {
+              wantProduct2.add(v);
+            }
+          }
+          isLoading = false;
+        });
+      } else {
+        isLoading = false;
+      }
+    });
+  }
 
 
   @override
@@ -225,6 +225,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                 child: Column(
                   children: [
                 //   SizedBox(
+                //     height: 600,
                 //     child: StickyGroupedListView<Data, String>(
                 //       elements: listMessages!.data!,
                 //       groupBy: (element) => DateTime.now()
@@ -311,19 +312,51 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                             Text(groupByValue,textAlign: TextAlign.center,),
                         itemBuilder: (context, Data element) =>
                         ids == element.sendFromUserId ?
+                        element.product!.photo!.isNotEmpty ?
                         Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 12),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: ColorSelect.color343434),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 8),
-                              child: Text(
-                                element.message.toString(),
-                                style: AppTextStyle().textColorFFFFFF14w400,
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                            child: Container(
+                              // height:120,
+                              width: 220,
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: ColorSelect.colorECEDF0),
+                              child: Column(
+                                children: [
+                                  CachedNetworkImage(
+                                    imageUrl: element.product!.photo.toString(),
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    progressIndicatorBuilder:  (a,b,c) =>
+                                        Opacity(
+                                          opacity: 0.3,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.black12,
+                                            highlightColor: Colors.white,
+                                            child: Container(
+                                              width: 45,
+                                              height: 45,
+                                              //margin: EdgeInsets.symmetric(horizontal: 24),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  shape: BoxShape.circle
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                  ),
+                                  Text(
+                                    element.product!.name.toString(),
+                                    style: AppTextStyle().textColor2C2C2C14w500roboto,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -344,9 +377,115 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                               ),
                             ),
                           ),
-                        )
-                    ),
-                  ],
+                        ):
+                            //this is for our friend side
+                        element.product!.photo!.isNotEmpty ?
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                            child: Container(
+                              // height:120,
+                              width: 220,
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: ColorSelect.colorECEDF0),
+                              child: Column(
+                                children: [
+                                  CachedNetworkImage(
+                                    imageUrl: element.product!.photo.toString(),
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    progressIndicatorBuilder:  (a,b,c) =>
+                                        Opacity(
+                                          opacity: 0.3,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.black12,
+                                            highlightColor: Colors.white,
+                                            child: Container(
+                                              width: 45,
+                                              height: 45,
+                                              //margin: EdgeInsets.symmetric(horizontal: 24),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  shape: BoxShape.circle
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                  ),
+                                  Text(
+                                    element.product!.name.toString(),
+                                    style: AppTextStyle().textColor2C2C2C14w500roboto,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ) :
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 12),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: ColorSelect.colorECEDF0),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 8),
+                              child: Text(
+                                element.message.toString(),
+                                style: AppTextStyle().textColor2C2C2C14w500roboto,
+                              ),
+                            ),
+                          ),
+                        ),
+
+
+
+
+                        // ids == element.sendFromUserId ?
+                        // Align(
+                        //   alignment: Alignment.centerRight,
+                        //   child: Container(
+                        //     margin: EdgeInsets.symmetric(vertical: 12),
+                        //     decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(8),
+                        //         color: ColorSelect.color343434),
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.symmetric(
+                        //           horizontal: 12, vertical: 8),
+                        //       child: Text(
+                        //         element.message.toString(),
+                        //         style: AppTextStyle().textColorFFFFFF14w400,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ) :
+                        // Align(
+                        //   alignment: Alignment.centerLeft,
+                        //   child: Container(
+                        //     margin: EdgeInsets.symmetric(vertical: 12),
+                        //     decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(8),
+                        //         color: ColorSelect.colorECEDF0),
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.symmetric(
+                        //           horizontal: 12, vertical: 8),
+                        //       child: Text(
+                        //         element.message.toString(),
+                        //         style: AppTextStyle().textColor2C2C2C14w500roboto,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                      ),
+                    ],
                 ),
               ),
             ),
@@ -375,167 +514,693 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                 border: InputBorder.none,
                                 hintText: "Message",
                                 hintStyle: AppTextStyle().textColor70707014w400,
-                                suffixIcon: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        show = !show;
-                                      });
-                                      Timer timer = Timer(Duration(seconds: 2), () {
-                                        setState(() {
-                                          show = false;
-                                        });
-                                      });
-                                      /*focusNode.hasFocus
-                                          ? () {}
-                                          : showModalBottomSheet(
-                                          backgroundColor: Colors.transparent,
-                                          context: context,
-                                          builder: (context) {
-                                            return Container(
-                                              decoration: BoxDecoration(
-                                                color: ColorSelect.colorFFFFFF,
-                                                borderRadius: BorderRadius.vertical(
-                                                  top: Radius.circular(20),
-                                                ),
-                                              ),
-                                              child: SingleChildScrollView(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.symmetric(
-                                                      horizontal: 16),
-                                                  child: Column(
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 8,
-                                                      ),
-                                                      Container(
-                                                        width: 48.w,
-                                                        height: 4.h,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                            BorderRadius.circular(
-                                                                8),
-                                                            color: ColorSelect
-                                                                .colorDCDCDC),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment.center,
-                                                        children: [
-                                                          Text(
-                                                            "Products I Want",
-                                                            style: AppTextStyle()
-                                                                .textColor29292914w500,
-                                                          ),
-                                                          SizedBox(width: 8),
-                                                          Image.asset(
-                                                              "assets/images/directiondown01.png")
-                                                        ],
-                                                      ),
-                                                      SizedBox(height: 16),
-                                                      Container(
-                                                        width: 328.w,
-                                                        height: 52.h,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                            BorderRadius.circular(
-                                                                8),
-                                                            color: ColorSelect
-                                                                .colorEDEDF1),
-                                                        child: Row(
-                                                          children: [
-                                                            SizedBox(
-                                                              width: 16,
-                                                            ),
-                                                            Image.asset(
-                                                              "assets/images/Vectorse.png",
-                                                              color: Colors.black,
-                                                            ),
-                                                            SizedBox(width: 16),
-                                                            //Todo: TextField corrections
-                                                            Expanded(
-                                                              child: TextFormField(
-                                                                onChanged: (v) {setState(() {
-
-                                                                });},
-                                                                // controller: sendMsgController,
-                                                                decoration:
-                                                                InputDecoration(
-                                                                  border:
-                                                                  InputBorder.none,
-                                                                  hintText:
-                                                                  "Search",
+                                suffixIcon: show ? Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: CircularProgressIndicator(
+                                    color: ColorSelect.colorF7E641,
+                                  ),
+                                ):   /*focusNode.hasFocus
+                                          ?*/ Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // added line
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                              GestureDetector(
+                                              onTap: () {
+                                               setState(() {
+                                               show = !show;
+                                               });
+                                               Timer timer = Timer(Duration(seconds: 3), () {
+                                                setState(() {
+                                               show = false;
+                      });
+    });
+                                                FocusManager.instance.primaryFocus?.unfocus();
+                                                if(sendMsgController.text.isNotEmpty) {
+                                                  print(widget.friendId);
+                                                  for (var v in selectedItems) {
+                                                    print(v);
+                                                    sendMessageApi(
+                                                        sendUserid: widget.friendId,
+                                                        message: sendMsgController.text,
+                                                        productId: v.toString()).then((value) async {
+                                                      print(widget.friendId);
+                                                      print(sendMsgController);
+                                                      if(value['status'] == true) {
+                                                        isLoading ? Loading() :getMessages();
+                                                        // Fluttertoast.showToast(msg: value['message']);
+                                                      } else {
+                                                        Fluttertoast.showToast(msg: value['message']);
+                                                      }
+                                                    });
+                                                  }
+                                                }
+                                              },
+                                              child:
+                                              Image.asset('assets/images/sentimage.png')
+                                      ),
+                                              SizedBox(width: 8),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  showModalBottomSheet(
+                                                      backgroundColor: Colors.transparent,
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return StatefulBuilder(
+                                                            builder: (BuildContext context, StateSetter setState) {
+                                                              return Container(
+                                                                decoration: BoxDecoration(
+                                                                  color: ColorSelect.colorFFFFFF,
+                                                                  borderRadius: BorderRadius.vertical(
+                                                                    top: Radius.circular(20),
+                                                                  ),
                                                                 ),
-                                                                // keyboardType:
-                                                                //     TextInputType.text,
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      ProductListWidget(
-                                                          selectedItems:
-                                                          widget.selectedItems),
-                                                    ],
+                                                                child: SingleChildScrollView(
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.symmetric(
+                                                                        horizontal: 16),
+                                                                    child: Column(
+                                                                      children: [
+                                                                        SizedBox(
+                                                                          height: 8,
+                                                                        ),
+                                                                        Container(
+                                                                          width: 48.w,
+                                                                          height: 4.h,
+                                                                          decoration: BoxDecoration(
+                                                                              borderRadius:
+                                                                              BorderRadius.circular(
+                                                                                  8),
+                                                                              color: ColorSelect
+                                                                                  .colorDCDCDC),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height: 20,
+                                                                        ),
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                          MainAxisAlignment.center,
+                                                                          children: [
+                                                                            Row(
+                                                                              children: [
+                                                                                Text(
+                                                                                  "Products I Want",
+                                                                                  style: AppTextStyle()
+                                                                                      .textColor29292914w500,
+                                                                                ),
+                                                                                SizedBox(width: 8),
+                                                                                Image.asset(
+                                                                                    "assets/images/directiondown01.png"),
+                                                                              ],
+                                                                            ),
+                                                                            Spacer(),
+                                                                          /*  selectedItems.isEmpty ? SizedBox():
+                                                                            GestureDetector(
+                                                                                onTap: () {
+                                                                                  setState(() {
+                                                                                    selectedItems.clear();
+                                                                                  });
+
+                                                                                },
+                                                                                child: Icon(Icons.cancel_outlined))*/
+                                                                          ],
+                                                                        ),
+                                                                        SizedBox(height: 16),
+                                                                        // Container(
+                                                                        //   width: 328.w,
+                                                                        //   height: 52.h,
+                                                                        //   decoration: BoxDecoration(
+                                                                        //       borderRadius:
+                                                                        //       BorderRadius.circular(
+                                                                        //           8),
+                                                                        //       color: ColorSelect
+                                                                        //           .colorEDEDF1),
+                                                                        //   child: Row(
+                                                                        //     children: [
+                                                                        //       SizedBox(
+                                                                        //         width: 16,
+                                                                        //       ),
+                                                                        //       Image.asset(
+                                                                        //         "assets/images/Vectorse.png",
+                                                                        //         color: Colors.black,
+                                                                        //       ),
+                                                                        //       SizedBox(width: 16),
+                                                                        //       //Todo: TextField corrections
+                                                                        //       Expanded(
+                                                                        //         child: TextFormField(
+                                                                        //           onChanged: (v) {
+                                                                        //             setState(() {});},
+                                                                        //           // controller: sendMsgController,
+                                                                        //           decoration:
+                                                                        //           InputDecoration(
+                                                                        //             border:
+                                                                        //             InputBorder.none,
+                                                                        //             hintText:
+                                                                        //             "Search",
+                                                                        //           ),
+                                                                        //           // keyboardType:
+                                                                        //           //     TextInputType.text,
+                                                                        //         ),
+                                                                        //       )
+                                                                        //     ],
+                                                                        //   ),
+                                                                        // ),
+                                                                        wantProduct2.isEmpty ?
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(bottom: 80.0,top: 20),
+                                                                          child: Image.asset("assets/images/addproducts2.png",
+                                                                            height: 200,
+                                                                            width: 200,),
+                                                                        ):
+                                                                        SizedBox(
+                                                                          height: 600,
+                                                                          child: ListView.builder(
+                                                                              physics: NeverScrollableScrollPhysics(),
+                                                                              itemCount: wantProduct2.length,
+                                                                              shrinkWrap: true,
+                                                                              scrollDirection: Axis.vertical,
+                                                                              itemBuilder: (context, i) {
+                                                                                return Padding(
+                                                                                  padding: const EdgeInsets.only(top: 16),
+                                                                                  child: GestureDetector(
+                                                                                    onLongPress: () {
+                                                                                      /* print(selectedItems);
+                                                                                    setState(() {
+                                                                                    selectedItems.add(wantProduct2[i].id!);
+                                                                                    // selectedItems.contains(wantProduct2[i].id!);
+                                                                                     });*/
+                                                                                    },
+                                                                                    onTap: () {
+                                                                                      print(selectedItems);
+                                                                                      setState(() {
+                                                                                        selectedItems.add(wantProduct2[i].id!);
+                                                                                        // selectedItems.contains(wantProduct2[i].id!);
+                                                                                      });
+
+
+                                                                                      // Navigator.push(context,
+                                                                                      //     MaterialPageRoute(builder: (context) => ProductDetail(
+                                                                                      //       name: '',
+                                                                                      //       price: '',
+                                                                                      //       link: '',
+                                                                                      //       image: '',
+                                                                                      //       purchaseDate: '',
+                                                                                      //       id: '',
+                                                                                      //       type: ''),
+                                                                                      //     ),
+                                                                                      // );
+                                                                                      /* setState(() {
+                  selectedItems.add(i);
+                  */ /*if (selectedItems.contains(i)) {
+                    selectedItems.remove(i);
+                  } else {
+                    selectedItems.add(i);
+                  }*/ /*
+                  log("hello");
+                  print(selectedItems);
+                });*/
+                                                                                    },
+                                                                                    child: Container(
+                                                                                      color: Colors.transparent,
+                                                                                      child: Column(
+                                                                                        children: [
+                                                                                          Row(
+                                                                                            children: [
+                                                                                              Stack(
+                                                                                                  children: [
+                                                                                                Container(
+                                                                                                  height: 86,
+                                                                                                  width: 86,
+                                                                                                  clipBehavior: Clip.hardEdge,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                    borderRadius: BorderRadius.circular(8),
+                                                                                                    border: Border.all(
+                                                                                                      width: 1,
+                                                                                                      color: selectedItems.contains(wantProduct2[i].id!)
+                                                                                                          ? ColorSelect.colorF7E641
+                                                                                                          : ColorSelect.colorE0E0E0,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  child: Center(
+                                                                                                      child:
+                                                                                                      CachedNetworkImage(
+                                                                                                        // imageUrl: (baseUrl+wantProduct2[i].photo.toString()),
+                                                                                                        imageUrl: wantProduct2[i].photo.toString().contains("https") ?
+                                                                                                        wantProduct2[i].photo.toString() :
+                                                                                                        baseUrl+wantProduct2[i].photo.toString(),
+                                                                                                        fit: BoxFit.cover,
+                                                                                                        errorWidget: (context, url, error) =>
+                                                                                                            Icon(Icons.error,size: 40,),
+                                                                                                        progressIndicatorBuilder:  (a,b,c) =>
+                                                                                                            Opacity(
+                                                                                                              opacity: 0.3,
+                                                                                                              child: Shimmer.fromColors(
+                                                                                                                baseColor: Colors.black12,
+                                                                                                                highlightColor: Colors.white,
+                                                                                                                child: Container(
+                                                                                                                  width: 173,
+                                                                                                                  height: 129,
+                                                                                                                  decoration: BoxDecoration(
+                                                                                                                      border:
+                                                                                                                      Border.all(color: ColorSelect.colorE0E0E0, width: 1),
+                                                                                                                      color: ColorSelect.colorFFFFFF,
+                                                                                                                      borderRadius: BorderRadius.circular(12)),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                      )
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Positioned(
+                                                                                                  bottom: 0,
+                                                                                                  right: 0,
+                                                                                                  child: selectedItems.contains(wantProduct2[i].id!)
+                                                                                                      ? Image.asset(
+                                                                                                    "assets/images/select.png",
+                                                                                                    height: 28,
+                                                                                                    width: 28,
+                                                                                                  )
+                                                                                                      : SizedBox(),
+                                                                                                )
+                                                                                              ]),
+                                                                                              Expanded(
+                                                                                                child: Column(
+                                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                  children: [
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.only(left: 16),
+                                                                                                      child: SizedBox(
+                                                                                                        // width: 230.w,
+                                                                                                        child: Text(
+                                                                                                          wantProduct2[i].name.toString(),
+                                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                                          maxLines: 2,
+                                                                                                          style: AppTextStyle().textColor29292912w400,
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    SizedBox(
+                                                                                                      height: 8,
+                                                                                                    ),
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.only(left: 16),
+                                                                                                      child: Text(
+                                                                                                        '\$ ${wantProduct2[i].price.toString()}',
+                                                                                                        style: AppTextStyle().textColor29292914w500,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    SizedBox(
+                                                                                                      height: 4,
+                                                                                                    ),
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.only(left :16.0),
+                                                                                                      child: selectedItems.contains(wantProduct2[i].id!)
+                                                                                                          ? GestureDetector(
+                                                                                                        onTap: () {
+                                                                                                          setState(() {
+                                                                                                            selectedItems.clear();
+                                                                                                          });
+
+                                                                                                        },
+                                                                                                          child: Icon(Icons.cancel))
+                                                                                                          : SizedBox(),
+                                                                                                    ),
+                                                                                                    // Padding(
+                                                                                                    //   padding: const EdgeInsets.only(left: 16),
+                                                                                                    //   child: Row(
+                                                                                                    //     children: [
+                                                                                                    //       Image.asset("assets/images/image46.png"),
+                                                                                                    //       SizedBox(
+                                                                                                    //         width: 6,
+                                                                                                    //       ),
+                                                                                                    //       Container(
+                                                                                                    //         height: 5,
+                                                                                                    //         width: 5,
+                                                                                                    //         decoration: BoxDecoration(
+                                                                                                    //             shape: BoxShape.circle,
+                                                                                                    //             color: ColorSelect.color707070),
+                                                                                                    //       ),
+                                                                                                    //       SizedBox(
+                                                                                                    //         width: 6,
+                                                                                                    //       ),
+                                                                                                    //       Text(
+                                                                                                    //         "Today",
+                                                                                                    //         style: AppTextStyle().textColor70707012w400,
+                                                                                                    //       ),
+                                                                                                    //     ],
+                                                                                                    //   ),
+                                                                                                    // )
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              }),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
+                                                        );
+                                                      });
+
+                                                },
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(right: 15.0),
+                                                  child: Image.asset("assets/images/shoppingbag.png"),
+                                                ),
+                                              )
+                                            ],
+                                          )
+
+                              //     GestureDetector(
+                              //         onTap: () {
+                              //           setState(() {
+                              //             show = !show;
+                              //           });
+                              //           Timer timer = Timer(Duration(seconds: 2), () {
+                              //             setState(() {
+                              //               show = false;
+                              //             });
+                              //           });
+                                        /*focusNode.hasFocus
+                                            ? () {}
+                                            : showModalBottomSheet(
+                                            backgroundColor: Colors.transparent,
+                                            context: context,
+                                            builder: (context) {
+                                              return Container(
+                                                decoration: BoxDecoration(
+                                                  color: ColorSelect.colorFFFFFF,
+                                                  borderRadius: BorderRadius.vertical(
+                                                    top: Radius.circular(20),
                                                   ),
                                                 ),
-                                              ),
-                                            );
-                                          });*/
-                                      FocusManager.instance.primaryFocus?.unfocus();
-                                      if(sendMsgController.text.isNotEmpty) {
-                                        print(widget.friendId);
-                                        sendMessageApi(
-                                            sendUserid: widget.friendId,
-                                            message: sendMsgController.text).then((value) async {
-                                          print(widget.friendId);
-                                          print(sendMsgController);
-                                          if(value['status'] == true) {
-                                            isLoading ? Center(
-                                            child: LoadingAnimationWidget.inkDrop(
-                                              size: 40, color: ColorSelect.colorF7E641,
-                                            ),
-                                            ) : getMessages();
-                                            // Fluttertoast.showToast(msg: value['message']);
-                                          } else {
-                                            Fluttertoast.showToast(msg: value['message']);
-                                          }
-                                        });
-                                      }
-                                    },
-                                    child: show ? Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: CircularProgressIndicator(
-                                        color: ColorSelect.colorF7E641,
-                                      ),
-                                    ):
-                                    Image.asset('assets/images/sentimage.png')
-                                    /* focusNode.hasFocus
-                                        ? *//*GestureDetector(
-                                        onTap: () {
-                                          FocusManager.instance.primaryFocus?.unfocus();
-                                          if(sendMsgController.text.isNotEmpty) {
-                                            print(widget.friendId);
-                                            sendMessageApi(
-                                                sendUserid: widget.friendId,
-                                                message: sendMsgController.text).then((value) async {
-                                              print(widget.friendId);
-                                              print(sendMsgController);
-                                              if(value['status'] == true) {
-                                                isLoading ? Loading() :getMessages();
-                                                // Fluttertoast.showToast(msg: value['message']);
-                                              } else {
-                                                Fluttertoast.showToast(msg: value['message']);
-                                              }
-                                            });
-                                          }
-                                        },
-                                        child: Image.asset('assets/images/sentimage.png')
-                                    )*/
-                                       /* : Image.asset("assets/images/shoppingbag.png")*/
-                            )
+                                                child: SingleChildScrollView(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.symmetric(
+                                                        horizontal: 16),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 8,
+                                                        ),
+                                                        Container(
+                                                          width: 48.w,
+                                                          height: 4.h,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                              BorderRadius.circular(
+                                                                  8),
+                                                              color: ColorSelect
+                                                                  .colorDCDCDC),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment.center,
+                                                          children: [
+                                                            Text(
+                                                              "Products I Want",
+                                                              style: AppTextStyle()
+                                                                  .textColor29292914w500,
+                                                            ),
+                                                            SizedBox(width: 8),
+                                                            Image.asset(
+                                                                "assets/images/directiondown01.png")
+                                                          ],
+                                                        ),
+                                                        SizedBox(height: 16),
+                                                        Container(
+                                                          width: 328.w,
+                                                          height: 52.h,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                              BorderRadius.circular(
+                                                                  8),
+                                                              color: ColorSelect
+                                                                  .colorEDEDF1),
+                                                          child: Row(
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 16,
+                                                              ),
+                                                              Image.asset(
+                                                                "assets/images/Vectorse.png",
+                                                                color: Colors.black,
+                                                              ),
+                                                              SizedBox(width: 16),
+                                                              //Todo: TextField corrections
+                                                              Expanded(
+                                                                child: TextFormField(
+                                                                  onChanged: (v) {setState(() {
+
+                                                                  });},
+                                                                  // controller: sendMsgController,
+                                                                  decoration:
+                                                                  InputDecoration(
+                                                                    border:
+                                                                    InputBorder.none,
+                                                                    hintText:
+                                                                    "Search",
+                                                                  ),
+                                                                  // keyboardType:
+                                                                  //     TextInputType.text,
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        ProductListWidget(
+                                                            selectedItems:
+                                                            widget.selectedItems),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            });*/
+                              //           FocusManager.instance.primaryFocus?.unfocus();
+                              //           if(sendMsgController.text.isNotEmpty) {
+                              //             print(widget.friendId);
+                              //             sendMessageApi(
+                              //                 sendUserid: widget.friendId,
+                              //                 message: sendMsgController.text).then((value) async {
+                              //               print(widget.friendId);
+                              //               print(sendMsgController);
+                              //               if(value['status'] == true) {
+                              //                 isLoading ? Center(
+                              //                 child: LoadingAnimationWidget.inkDrop(
+                              //                   size: 40, color: ColorSelect.colorF7E641,
+                              //                 ),
+                              //                 ) : getMessages();
+                              //                 // Fluttertoast.showToast(msg: value['message']);
+                              //               } else {
+                              //                 Fluttertoast.showToast(msg: value['message']);
+                              //               }
+                              //             });
+                              //           }
+                              //         },
+                              //         child: show ? Padding(
+                              //           padding: const EdgeInsets.all(10.0),
+                              //           child: CircularProgressIndicator(
+                              //             color: ColorSelect.colorF7E641,
+                              //           ),
+                              //         ):
+                              //         Image.asset('assets/images/sentimage.png')
+                              //        /*  focusNode.hasFocus
+                              //             ? GestureDetector(
+                              //             onTap: () {
+                              //               FocusManager.instance.primaryFocus?.unfocus();
+                              //               if(sendMsgController.text.isNotEmpty) {
+                              //                 print(widget.friendId);
+                              //                 sendMessageApi(
+                              //                     sendUserid: widget.friendId,
+                              //                     message: sendMsgController.text).then((value) async {
+                              //                   print(widget.friendId);
+                              //                   print(sendMsgController);
+                              //                   if(value['status'] == true) {
+                              //                     isLoading ? Loading() :getMessages();
+                              //                     // Fluttertoast.showToast(msg: value['message']);
+                              //                   } else {
+                              //                     Fluttertoast.showToast(msg: value['message']);
+                              //                   }
+                              //                 });
+                              //               }
+                              //             },
+                              //             child: Image.asset('assets/images/sentimage.png')
+                              //         )
+                              //             : Image.asset("assets/images/shoppingbag.png")*/
+                              // )
+                            //     GestureDetector(
+                            //         onTap: () {
+                            //           setState(() {
+                            //             show = !show;
+                            //           });
+                            //           Timer timer = Timer(Duration(seconds: 2), () {
+                            //             setState(() {
+                            //               show = false;
+                            //             });
+                            //           });
+                            //           /*focusNode.hasFocus
+                            //               ? () {}
+                            //               : showModalBottomSheet(
+                            //               backgroundColor: Colors.transparent,
+                            //               context: context,
+                            //               builder: (context) {
+                            //                 return Container(
+                            //                   decoration: BoxDecoration(
+                            //                     color: ColorSelect.colorFFFFFF,
+                            //                     borderRadius: BorderRadius.vertical(
+                            //                       top: Radius.circular(20),
+                            //                     ),
+                            //                   ),
+                            //                   child: SingleChildScrollView(
+                            //                     child: Padding(
+                            //                       padding: const EdgeInsets.symmetric(
+                            //                           horizontal: 16),
+                            //                       child: Column(
+                            //                         children: [
+                            //                           SizedBox(
+                            //                             height: 8,
+                            //                           ),
+                            //                           Container(
+                            //                             width: 48.w,
+                            //                             height: 4.h,
+                            //                             decoration: BoxDecoration(
+                            //                                 borderRadius:
+                            //                                 BorderRadius.circular(
+                            //                                     8),
+                            //                                 color: ColorSelect
+                            //                                     .colorDCDCDC),
+                            //                           ),
+                            //                           SizedBox(
+                            //                             height: 20,
+                            //                           ),
+                            //                           Row(
+                            //                             mainAxisAlignment:
+                            //                             MainAxisAlignment.center,
+                            //                             children: [
+                            //                               Text(
+                            //                                 "Products I Want",
+                            //                                 style: AppTextStyle()
+                            //                                     .textColor29292914w500,
+                            //                               ),
+                            //                               SizedBox(width: 8),
+                            //                               Image.asset(
+                            //                                   "assets/images/directiondown01.png")
+                            //                             ],
+                            //                           ),
+                            //                           SizedBox(height: 16),
+                            //                           Container(
+                            //                             width: 328.w,
+                            //                             height: 52.h,
+                            //                             decoration: BoxDecoration(
+                            //                                 borderRadius:
+                            //                                 BorderRadius.circular(
+                            //                                     8),
+                            //                                 color: ColorSelect
+                            //                                     .colorEDEDF1),
+                            //                             child: Row(
+                            //                               children: [
+                            //                                 SizedBox(
+                            //                                   width: 16,
+                            //                                 ),
+                            //                                 Image.asset(
+                            //                                   "assets/images/Vectorse.png",
+                            //                                   color: Colors.black,
+                            //                                 ),
+                            //                                 SizedBox(width: 16),
+                            //                                 //Todo: TextField corrections
+                            //                                 Expanded(
+                            //                                   child: TextFormField(
+                            //                                     onChanged: (v) {setState(() {
+                            //
+                            //                                     });},
+                            //                                     // controller: sendMsgController,
+                            //                                     decoration:
+                            //                                     InputDecoration(
+                            //                                       border:
+                            //                                       InputBorder.none,
+                            //                                       hintText:
+                            //                                       "Search",
+                            //                                     ),
+                            //                                     // keyboardType:
+                            //                                     //     TextInputType.text,
+                            //                                   ),
+                            //                                 )
+                            //                               ],
+                            //                             ),
+                            //                           ),
+                            //                           ProductListWidget(
+                            //                               selectedItems:
+                            //                               widget.selectedItems),
+                            //                         ],
+                            //                       ),
+                            //                     ),
+                            //                   ),
+                            //                 );
+                            //               });*/
+                            //           FocusManager.instance.primaryFocus?.unfocus();
+                            //           if(sendMsgController.text.isNotEmpty) {
+                            //             print(widget.friendId);
+                            //             sendMessageApi(
+                            //                 sendUserid: widget.friendId,
+                            //                 message: sendMsgController.text).then((value) async {
+                            //               print(widget.friendId);
+                            //               print(sendMsgController);
+                            //               if(value['status'] == true) {
+                            //                 isLoading ? Center(
+                            //                 child: LoadingAnimationWidget.inkDrop(
+                            //                   size: 40, color: ColorSelect.colorF7E641,
+                            //                 ),
+                            //                 ) : getMessages();
+                            //                 // Fluttertoast.showToast(msg: value['message']);
+                            //               } else {
+                            //                 Fluttertoast.showToast(msg: value['message']);
+                            //               }
+                            //             });
+                            //           }
+                            //         },
+                            //         child: show ? Padding(
+                            //           padding: const EdgeInsets.all(10.0),
+                            //           child: CircularProgressIndicator(
+                            //             color: ColorSelect.colorF7E641,
+                            //           ),
+                            //         ):
+                            //         Image.asset('assets/images/sentimage.png')
+                            //        /*  focusNode.hasFocus
+                            //             ? GestureDetector(
+                            //             onTap: () {
+                            //               FocusManager.instance.primaryFocus?.unfocus();
+                            //               if(sendMsgController.text.isNotEmpty) {
+                            //                 print(widget.friendId);
+                            //                 sendMessageApi(
+                            //                     sendUserid: widget.friendId,
+                            //                     message: sendMsgController.text).then((value) async {
+                            //                   print(widget.friendId);
+                            //                   print(sendMsgController);
+                            //                   if(value['status'] == true) {
+                            //                     isLoading ? Loading() :getMessages();
+                            //                     // Fluttertoast.showToast(msg: value['message']);
+                            //                   } else {
+                            //                     Fluttertoast.showToast(msg: value['message']);
+                            //                   }
+                            //                 });
+                            //               }
+                            //             },
+                            //             child: Image.asset('assets/images/sentimage.png')
+                            //         )
+                            //             : Image.asset("assets/images/shoppingbag.png")*/
+                            // )
                     ),
                             keyboardType: TextInputType.text,
                           ),

@@ -367,7 +367,7 @@ class _ChatPageState extends State<ChatPage> {
                                           print(widget.friendId);
                                           sendMessageApi(
                                               sendUserid: widget.friendId,
-                                              message: sendMsgController.text).then((value) async {
+                                              message: sendMsgController.text, productId: '').then((value) async {
                                             print(widget.friendId);
                                             print(sendMsgController);
                                             if(value['status'] == true) {
