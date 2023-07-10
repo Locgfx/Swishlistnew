@@ -7,9 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/intro/intro_page.dart';
 import 'package:swishlist/splash/splash.dart';
 import 'constants/globals/shared_prefs.dart';
-import 'contactstest.dart';
-import 'dashboard/products/productAdded.dart';
-import 'intro/intro_final.dart';
+
 
 
 void main() async {
