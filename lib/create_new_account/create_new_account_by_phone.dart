@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
 import '../api/login_signup_apis/update_profile_api.dart';
+import '../buttons/light_yellow.dart';
 import '../constants/globals/shared_prefs.dart';
 import '../login/login.dart';
 import '../models/login_models.dart';
@@ -28,6 +30,7 @@ class _CreateNewAccountByPhone extends State<CreateNewAccountByPhone> {
   LoginResponse? response;
   File pickedImage = File("");
   final ImagePicker _imgPicker = ImagePicker();
+  bool show = false;
 
   @override
   Widget build(BuildContext context) {
@@ -156,11 +159,19 @@ class _CreateNewAccountByPhone extends State<CreateNewAccountByPhone> {
             SizedBox(
               height: 52.h,
               width: 328.w,
-              child: YellowButtonWithText(
+              child:show ? LoadingLightYellowButton(): YellowButtonWithText(
                   backgroundColor:
                   MaterialStateProperty.all(ColorSelect.colorF7E641),
                   textStyleColor: ColorSelect.color292929,
                   onTap: () {
+                    setState(() {
+                      show = !show;
+                    });
+                    Timer timer = Timer(Duration(seconds: 5), () {
+                      setState(() {
+                        show = false;
+                      });
+                    });
                     createAccountApi(
                       name: updateNameController.text,
                       userName: userNameController.text,
