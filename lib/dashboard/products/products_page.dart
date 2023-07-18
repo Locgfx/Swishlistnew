@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/dashboard/products/productalready.dart';
 import 'package:swishlist/dashboard/products/productdontwant.dart';
@@ -15,6 +16,7 @@ import 'package:swishlist/expanded/member_settings.dart';
 import 'package:swishlist/expanded/user_all_details.dart';
 import 'package:swishlist/expanded/widgets/expanded_section_row_option.dart';
 import '../../api/user_apis/products_api.dart';
+import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/globals.dart';
 import '../../constants/globals/loading.dart';
@@ -24,9 +26,11 @@ import '../../models/product_model.dart';
 import '../../models/product_type_model.dart';
 
 class ProductsPage extends StatefulWidget {
+  final GlobalKey productKey;
   final LoginResponse response;
   const ProductsPage({Key? key, 
     required this.response,
+    required this.productKey
    
   }) : super(key: key);
 
@@ -43,6 +47,7 @@ class _ProductsPageState extends State<ProductsPage> {
   bool showExpandedScreen = false;
   bool isLoading = false;
   int itemCount = 2;
+
 
   @override
   Widget build(BuildContext context) {
@@ -404,7 +409,9 @@ class _ProductsPageState extends State<ProductsPage> {
                   ),
                 ]),
               ),
-              IWantProductListWidget(),
+              IWantProductListWidget(addKey: widget.productKey,
+
+              ),
               SizedBox(
                 height: 68,
               ),
@@ -677,9 +684,13 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
 }
 
 class IWantProductListWidget extends StatefulWidget {
+  final GlobalKey addKey;
    IWantProductListWidget({
+
     Key? key,
-  }) : super(key: key);
+     required this.addKey
+  }) : super(key: key,
+   );
 
   @override
   State<IWantProductListWidget> createState() => _IWantProductListWidgetState();
@@ -695,6 +706,7 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
   GetProductModel ? getProducts;
   List<ProductTypeModel> wantProducts = [];
   List<ProductTypeModel> wantProducts2 = [];
+
 
   getWantProducts() {
     isLoading = true;
@@ -723,7 +735,7 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
   @override
   Widget build(BuildContext context) {
     return isLoading ? DotsLoader() : wantProducts2.isEmpty ?
-    AddProductError(
+    /*AddProductError(
         image: 'assets/images/Asset 1product 1.png',
       tap: () {
         showModalBottomSheet(
@@ -731,9 +743,46 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
             context: context,
             isScrollControlled: true,
             builder: (context) {
-              return ManuallyAddBottomSheetWidget(/*model: widget.model,*/);
+              return ManuallyAddBottomSheetWidget(*//*model: widget.model,*//*);
             });
-      },): SizedBox(
+      },)*/
+    Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 60,right: 60,bottom: 12,top: 20),
+          child: Image.asset('assets/images/Asset 1product 1.png'),
+        ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16,right: 16),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Showcase(
+                  key: widget.addKey,
+                  description: 'Press to add a Product',
+                  child: SizedBox(
+                    height: 50.h,
+                    width: 1.sw,
+                    child: YellowButtonWithIcon(
+                      backgroundColor: MaterialStateProperty.all(ColorSelect.colorF7E641),
+                      textStyleColor: ColorSelect.color292929,
+                      onTap: (){
+    showModalBottomSheet(
+    backgroundColor: Colors.transparent,
+    context: context,
+    isScrollControlled: true,
+    builder: (context) {
+    return ManuallyAddBottomSheetWidget(//*model: widget.model,*//*);
+    );});
+
+                      },
+                      title: "Add Product", buttonIcon: "assets/images/plus.png",),
+                  ),
+                ),
+              ),
+            )
+
+      ],
+    ): SizedBox(
       height: 200,
       child:  Padding(
         padding: const EdgeInsets.only(right: 8.0),

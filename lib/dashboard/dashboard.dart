@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:showcaseview/showcaseview.dart';
+import 'package:swishlist/buttons/show_case_view.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/dashboard/products/products_page.dart';
 import 'package:swishlist/dashboard/search/all_etsy_products.dart';
@@ -25,6 +27,22 @@ class _DashboardState extends State<Dashboard> {
     initialPage: 0,
   );
   int pageIndex = 0;
+  final _one = GlobalKey();
+  final  _second = GlobalKey();
+  final _third = GlobalKey();
+
+
+  startShowCase() {
+    WidgetsBinding.instance.addPostFrameCallback((_)  {
+      ShowCaseWidget.of(context).startShowCase([_one,_second,_third]);
+    });
+  }
+
+  @override
+  void initState() {
+   startShowCase();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -39,6 +57,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return ExitApp(
       child: Scaffold(
+
         extendBody: true,
         bottomNavigationBar: Container(
           padding: EdgeInsets.symmetric(vertical: 20),
@@ -102,50 +121,58 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      selectedIndex = pageIndex = 1;
-                      _pageController.jumpToPage(
-                        pageIndex,
-                      );
-                      pageIndex = 1;
-                    });
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          pageIndex == 1
-                              // ? "assets/images/Etsy Logo.png"
-                              // : "assets/images/Etsy Logo.png",
-                              ? "assets/icons/4xstoreicon.png"
-                              : "assets/icons/4xstoreicon.png",
-                          color: pageIndex == 1
-                              ? Color(0xff292929)
-                              : Color(0xff707070),
-                          height: 24,
-                          width: 24,
-                        ),
-                        SizedBox(height: 8),
-                        Text("Products",
-                            style: AppTextStyle().textColor29292912w500.copyWith(
-                                color: pageIndex == 1
-                                    ? Color(0xff292929)
-                                    : Color(0xff707070))),
-                        SizedBox(height: 6),
-                        Container(
-                          width: 20,
-                          height: 4,
-                          decoration: BoxDecoration(
+                Showcase(
+
+
+                  description: 'Press to fetch the Etsy Products',
+                  key: _second,
+
+
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = pageIndex = 1;
+                        _pageController.jumpToPage(
+                          pageIndex,
+                        );
+                        pageIndex = 1;
+                      });
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            pageIndex == 1
+                                // ? "assets/images/Etsy Logo.png"
+                                // : "assets/images/Etsy Logo.png",
+                                ? "assets/icons/4xstoreicon.png"
+                                : "assets/icons/4xstoreicon.png",
                             color: pageIndex == 1
-                                ? ColorSelect.colorF7E641
-                                : Colors.transparent,
+                                ? Color(0xff292929)
+                                : Color(0xff707070),
+                            height: 24,
+                            width: 24,
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 8),
+                          Text("Products",
+                              style: AppTextStyle().textColor29292912w500.copyWith(
+                                  color: pageIndex == 1
+                                      ? Color(0xff292929)
+                                      : Color(0xff707070))),
+                          SizedBox(height: 6),
+                          Container(
+                            width: 20,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: pageIndex == 1
+                                  ? ColorSelect.colorF7E641
+                                  : Colors.transparent,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -194,54 +221,61 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedIndex = pageIndex = 3;
-                      _pageController.jumpToPage(
-                        pageIndex,
-                      );
-                      pageIndex = 3;
-                    });
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          pageIndex == 3
-                              ? "assets/icons/4xfriendsicon.png"
-                              : "assets/icons/4xfriendsicon.png",
-                          color: pageIndex == 3
-                              ? Color(0xff292929)
-                              : Color(0xff707070),
-                          height: 24,
-                          width: 24,
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          "Friends",
-                          /*AppLoaclizations.of(context)!
-                              .translate("Kids")
-                              .toString(),*/
-                          style: AppTextStyle().textColor29292912w500.copyWith(
-                                color: pageIndex == 3
-                                    ? Color(0xff292929)
-                                    : Color(0xff707070),
-                              ),
-                        ),
-                        SizedBox(height: 6),
-                        Container(
-                          width: 20,
-                          height: 4,
-                          decoration: BoxDecoration(
+                Showcase(
+                  key: _third,
+                  description: 'Press to share the Products with your Friends',
+
+
+
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = pageIndex = 3;
+                        _pageController.jumpToPage(
+                          pageIndex,
+                        );
+                        pageIndex = 3;
+                      });
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            pageIndex == 3
+                                ? "assets/icons/4xfriendsicon.png"
+                                : "assets/icons/4xfriendsicon.png",
                             color: pageIndex == 3
-                                ? ColorSelect.colorF7E641
-                                : Colors.transparent,
+                                ? Color(0xff292929)
+                                : Color(0xff707070),
+                            height: 24,
+                            width: 24,
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 8),
+                          Text(
+                            "Friends",
+                            /*AppLoaclizations.of(context)!
+                                .translate("Kids")
+                                .toString(),*/
+                            style: AppTextStyle().textColor29292912w500.copyWith(
+                                  color: pageIndex == 3
+                                      ? Color(0xff292929)
+                                      : Color(0xff707070),
+                                ),
+                          ),
+                          SizedBox(height: 6),
+                          Container(
+                            width: 20,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: pageIndex == 3
+                                  ? ColorSelect.colorF7E641
+                                  : Colors.transparent,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -262,7 +296,8 @@ class _DashboardState extends State<Dashboard> {
                   );
                 },
                 children: [
-                  ProductsPage(response: widget.response,),
+                  ProductsPage(response: widget.response,
+                  productKey: _one),
                   // AllEtsyProducts(),
                   Search(),
                   Activities(),

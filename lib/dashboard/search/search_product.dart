@@ -4,7 +4,9 @@ import 'package:swishlist/constants/color.dart';
 import '../products/products_page.dart';
 
 class SearchProduct extends StatefulWidget {
-  const SearchProduct({Key? key}) : super(key: key);
+  final GlobalKey searchKey;
+  const SearchProduct({Key? key,
+  required this.searchKey}) : super(key: key);
 
   @override
   State<SearchProduct> createState() => _SearchProductState();
@@ -110,6 +112,7 @@ class _SearchProductState extends State<SearchProduct> {
               SizedBox(
                 height: 220,
                 child: IWantProductListWidget(
+                  addKey: widget.searchKey,
             /*      imageList: imageList,
                   itemNameList: itemNameList,
                   itemPrice: itemPrice,*/

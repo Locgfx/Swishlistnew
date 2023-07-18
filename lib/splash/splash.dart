@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/api/login_signup_apis/login_api.dart';
 import 'package:swishlist/models/login_models.dart';
 import '../constants/globals/shared_prefs.dart';
@@ -54,7 +55,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => Dashboard(response: response,),
+                      builder: (_) => ShowCaseWidget(builder: Builder(builder: (context) => Dashboard(response: response),
+                      )),
                     ),
                   );
                 } else {
