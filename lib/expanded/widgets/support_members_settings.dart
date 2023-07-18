@@ -49,7 +49,18 @@ class SupportMemberSettingWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                "Agreements",
+                "Terms & Conditions",
+                style: AppTextStyle().textColor39393914w500,
+              ),
+              Spacer(),
+              SvgPicture.asset("assets/icons/forwordarrow.svg")
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Text(
+                "Privacy Policy",
                 style: AppTextStyle().textColor39393914w500,
               ),
               Spacer(),

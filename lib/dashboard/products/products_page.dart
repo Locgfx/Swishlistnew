@@ -96,7 +96,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                 backgroundColor: ColorSelect.colorEDEDF1,
                                 progressColor: Colors.black,
                                 center:*/ Container(
-                                margin: EdgeInsets.only(left: 16),
+
+                                margin: EdgeInsets.only(top: 10,right: 10),
                                   height: 50,
                                   width: 50,
                                   clipBehavior: Clip.hardEdge,
@@ -147,7 +148,7 @@ class _ProductsPageState extends State<ProductsPage> {
                             ],
                           ),
                         ),
-                        SizedBox(width: 10),
+                        SizedBox(width: 5),
                         GestureDetector(
                           onTap: () {
                             setState(() {
@@ -157,38 +158,47 @@ class _ProductsPageState extends State<ProductsPage> {
                           },
                           child: Container(
                             color: Colors.transparent,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Row(
                               children: [
-                                Row(
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                    '${SharedPrefs().getName()}',
-                                      // "Michael Scott",
-                                      style:
-                                          AppTextStyle().textColor29292916w500r,
+                                    Row(
+                                      children: [
+                                        Text(
+                                        '${SharedPrefs().getName()}',
+                                          // "Michael Scott",
+                                          style:
+                                              AppTextStyle().textColor29292916w500r,
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        showExpandedScreen
+                                            ? SvgPicture.asset(
+                                                'assets/icons/Vector458.svg')
+                                            : SvgPicture.asset(
+                                                "assets/icons/Vector4581.svg",
+                                              ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      width: 20,
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Text(
+                                       /* '${SharedPrefs().getUsername()}' == 'null' ?
+                                        'Add your Username' :*/
+                                        '${SharedPrefs().getUsername()}',
+                                        // "Micheal139",
+                                        style: AppTextStyle().textColor70707014w400,
+                                      ),
                                     ),
-                                    showExpandedScreen
-                                        ? SvgPicture.asset(
-                                            'assets/icons/Vector458.svg')
-                                        : SvgPicture.asset(
-                                            "assets/icons/Vector4581.svg",
-                                          ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Text(
-                                   /* '${SharedPrefs().getUsername()}' == 'null' ?
-                                    'Add your Username' :*/
-                                    '${SharedPrefs().getUsername()}',
-                                    // "Micheal139",
-                                    style: AppTextStyle().textColor70707014w400,
-                                  ),
-                                ),
+                                SizedBox(width: 180,),
+                                showExpandedScreen ?
+                                Icon(Icons.more_vert) :
+                                Image.asset('assets/images/sentimage.png')
+
                               ],
                             ),
                           ),
@@ -206,8 +216,11 @@ class _ProductsPageState extends State<ProductsPage> {
                             },
                             child: Container(
                               color: Colors.transparent,
-                              padding: EdgeInsets.all(16),
-                              child: Icon(Icons.more_vert),
+                              //padding: EdgeInsets.all(16),
+                              /*child:
+                               Icon(Icons.more_vert) ,
+*/
+
                             ),
                           ),
                       ],
@@ -754,8 +767,13 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
         ),
             Padding(
               padding: const EdgeInsets.only(left: 16,right: 16),
-              child: Align(
-                alignment: Alignment.bottomRight,
+
+
+      child:
+              Positioned(
+                top: 800,
+                bottom: 50,
+
                 child: Showcase(
                   key: widget.addKey,
                   description: 'Press to add a Product',
@@ -766,13 +784,13 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                       backgroundColor: MaterialStateProperty.all(ColorSelect.colorF7E641),
                       textStyleColor: ColorSelect.color292929,
                       onTap: (){
-    showModalBottomSheet(
-    backgroundColor: Colors.transparent,
-    context: context,
-    isScrollControlled: true,
-    builder: (context) {
-    return ManuallyAddBottomSheetWidget(//*model: widget.model,*//*);
-    );});
+                        showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) {
+                              return ManuallyAddBottomSheetWidget(//*model: widget.model,*//*);
+                              );});
 
                       },
                       title: "Add Product", buttonIcon: "assets/images/plus.png",),
