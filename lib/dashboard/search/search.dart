@@ -9,14 +9,12 @@ import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/dashboard/search/all_etsy_products.dart';
-import 'package:swishlist/dashboard/search/search_product.dart';
 
 import '../../api/etsy_apis/all_listing_apis.dart';
 import '../../api/etsy_apis/etsy_listingid_api.dart';
 import '../../constants/decoration.dart';
 import '../../models/etsy_listingid_model.dart';
 import '../../models/etsy_load_more_model.dart';
-import '../../profile_page/add_date_events.dart';
 import 'etsy_products_details.dart';
 
 class Search extends StatefulWidget {
@@ -31,25 +29,28 @@ class _SearchState extends State<Search> {
   void initState() {
     super.initState();
   }
+
   final searchController = TextEditingController();
   void clearText() {
     searchController.clear();
   }
 
   bool isLoading = false;
-  bool loading= false;
+  bool loading = false;
   bool searchLoading = false;
   bool show = false;
   int searchLength = 0;
   int searchScroll = 25;
-
 
   List<int> searchId = [];
   List<EtsyListingIdModel> searchListings = [];
   List<EtsyListingIdModel> matches = <EtsyListingIdModel>[];
 
   getSearch() {
-    final resp = searchEtsyProductApi(search: searchController.text, page: '0',);
+    final resp = searchEtsyProductApi(
+      search: searchController.text,
+      page: '0',
+    );
     resp.then((value) {
       searchId.clear();
       setState(() {
@@ -62,9 +63,11 @@ class _SearchState extends State<Search> {
       });
     });
   }
+
   searchLoadMore() {
-    searchScroll =searchScroll+ 25;
-    final resp = searchEtsyProductApi(page: searchScroll.toString(),search: searchController.text);
+    searchScroll = searchScroll + 25;
+    final resp = searchEtsyProductApi(
+        page: searchScroll.toString(), search: searchController.text);
     resp.then((value) {
       searchId.clear();
       setState(() {
@@ -92,6 +95,7 @@ class _SearchState extends State<Search> {
       });
     });
   }
+
   FocusNode focus = FocusNode();
   @override
   Widget build(BuildContext context) {
@@ -144,10 +148,9 @@ class _SearchState extends State<Search> {
                     children: [
                       Expanded(
                         child: TextFormField(
-
                           focusNode: focus,
                           onChanged: (val) {
-                          /*  setState(() {
+                            /*  setState(() {
                               if (searchController.text.isNotEmpty) {
                                 // searchListings.clear();
                                 // matches.clear();
@@ -159,15 +162,13 @@ class _SearchState extends State<Search> {
                                 });
                               }
                             });*/
-
                           },
                           onFieldSubmitted: (val) {
                             if (searchController.text.isNotEmpty) {
                               searchListings.clear();
                               matches.clear();
                               setState(() {
-                                searchLoading? Loading():getSearch();
-
+                                searchLoading ? Loading() : getSearch();
                               });
                               getSearch();
                             } else {
@@ -176,43 +177,41 @@ class _SearchState extends State<Search> {
                                 matches.clear();
                               });
                             }
-
                           },
                           controller: searchController,
                           cursorColor: ColorSelect.colorF7E641,
                           decoration: AppTFWithIconDecoration(
                             hint: 'Enter Product Tags',
-                            icon:
-                            GestureDetector(
-                              behavior:HitTestBehavior.opaque,
-                              onTap: () {
-                                /*setState(() {
+                            icon: GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () {
+                                  /*setState(() {
                                   show = !show;
                                 });*/
-                                if (searchController.text.isNotEmpty) {
-                                  searchListings.clear();
-                                  matches.clear();
-                                  setState(() {
-                                    searchLoading? Loading():getSearch();
-
-                                  });
-;                                  getSearch();
-                                } else {
-                                  setState(() {
+                                  if (searchController.text.isNotEmpty) {
                                     searchListings.clear();
                                     matches.clear();
-                                  });
-                                }
-                                // clearText();
-                              },
+                                    setState(() {
+                                      searchLoading ? Loading() : getSearch();
+                                    });
+                                    ;
+                                    getSearch();
+                                  } else {
+                                    setState(() {
+                                      searchListings.clear();
+                                      matches.clear();
+                                    });
+                                  }
+                                  // clearText();
+                                },
                                 child: Container(
                                   padding: EdgeInsets.all(5),
                                   // color: Colors.red,
-                                  child: Image.asset("assets/images/search 03.png"
-                                    /*'assets/images/Frame 1000002471.png'*/,),
+                                  child: Image.asset(
+                                    "assets/images/search 03.png" /*'assets/images/Frame 1000002471.png'*/,
+                                  ),
                                 )),
-                          )
-                              .decoration(),
+                          ).decoration(),
                           //keyboardType: TextInputType.phone,
                         ),
                       ),
@@ -347,286 +346,302 @@ class _SearchState extends State<Search> {
                 //   //   ),
                 //   // ),
                 // ),
-                searchController.text.isNotEmpty ?
-                    loading ? Padding(
-                      padding: const EdgeInsets.only(top: 50),
-                      child: Center(
-                        child: LoadingAnimationWidget
-                            .staggeredDotsWave(
-                          size: 70,
-                          color: ColorSelect.colorF7E641,
-                        ),
-                      ),
-                    ) :
-                    Container(
-                      padding: EdgeInsets.only(top: 16),
-                      height: 500.h,
-                      child: LazyLoadScrollView(
-                        isLoading: isLoading,
-                        scrollDirection: Axis.vertical,
-                        onEndOfPage: () {
-                          if (searchLength >= 25) {
-                            searchLoadMore();
-                          }
-                        },
-                        child: Scrollbar(
-                          child: GridView.builder(
-                            padding: EdgeInsets.only(bottom: 100),
-                            shrinkWrap: true,
-                            gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 10.0,
-                                mainAxisSpacing: 10.0,
-                                mainAxisExtent: 300
+                searchController.text.isNotEmpty
+                    ? loading
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 50),
+                            child: Center(
+                              child: LoadingAnimationWidget.staggeredDotsWave(
+                                size: 70,
+                                color: ColorSelect.colorF7E641,
+                              ),
                             ),
-                            itemCount: searchListings.length +1 ,
-                            itemBuilder: (_, i) {
-                              if (i < searchListings.length) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            EtsyProductDetails(
-                                              productTitle:
-                                              searchListings[i].title.toString(),
-                                              productPrice: searchListings[i]
-                                                  .price!
-                                                  .amount
-                                                  .toString(),
-                                              productDescription: searchListings[i]
-                                                  .description
-                                                  .toString(),
-                                              productId: searchListings[i]
-                                                  .listingId
-                                                  .toString(),
-                                              productUrl:
-                                              searchListings[i].url.toString(),
-                                            ),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16),
-                                        border: Border.all(width: 1,color:  ColorSelect.colorF7E641)
-                                    ),
-
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          height: 200,
-                                          clipBehavior: Clip.hardEdge,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(16.0),
-                                                topRight: Radius.circular(16.0),
-                                              )
-                                          ),
-                                          child: CachedNetworkImage(
-                                            imageUrl: searchListings[i]
-                                                .images![0]
-                                                .url570xN
-                                                .toString(),
-                                            fit: BoxFit.cover,
-                                            errorWidget:
-                                                (context, url, error) => Icon(
-                                              Icons.error,
-                                              size: 40,
-                                            ),
-                                            progressIndicatorBuilder:
-                                                (a, b, c) => Opacity(
-                                              opacity: 0.3,
-                                              child: Shimmer.fromColors(
-                                                baseColor: Colors.black12,
-                                                highlightColor: Colors.white,
-                                                child: Container(
-                                                  width: 173,
-                                                  height: 129,
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: ColorSelect
-                                                              .colorE0E0E0,
-                                                          width: 1),
-                                                      color: ColorSelect
-                                                          .colorFFFFFF,
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(12)),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(8),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                searchListings[i]
+                          )
+                        : Container(
+                            padding: EdgeInsets.only(top: 16),
+                            height: 500.h,
+                            child: LazyLoadScrollView(
+                              isLoading: isLoading,
+                              scrollDirection: Axis.vertical,
+                              onEndOfPage: () {
+                                if (searchLength >= 25) {
+                                  searchLoadMore();
+                                }
+                              },
+                              child: Scrollbar(
+                                child: GridView.builder(
+                                  padding: EdgeInsets.only(bottom: 100),
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 10.0,
+                                          mainAxisSpacing: 10.0,
+                                          mainAxisExtent: 300),
+                                  itemCount: searchListings.length + 1,
+                                  itemBuilder: (_, i) {
+                                    if (i < searchListings.length) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EtsyProductDetails(
+                                                productTitle: searchListings[i]
                                                     .title
                                                     .toString(),
-                                                overflow:
-                                                TextOverflow.ellipsis,
-                                                textAlign: TextAlign.left,
-                                                maxLines: 2,
-                                                style: AppTextStyle().textColor29292914w400,
+                                                productPrice: searchListings[i]
+                                                    .price!
+                                                    .amount
+                                                    .toString(),
+                                                productDescription:
+                                                    searchListings[i]
+                                                        .description
+                                                        .toString(),
+                                                productId: searchListings[i]
+                                                    .listingId
+                                                    .toString(),
+                                                productUrl: searchListings[i]
+                                                    .url
+                                                    .toString(),
                                               ),
-                                              const SizedBox(
-                                                height: 8.0,
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color:
+                                                      ColorSelect.colorF7E641)),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                height: 200,
+                                                clipBehavior: Clip.hardEdge,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                  topLeft:
+                                                      Radius.circular(16.0),
+                                                  topRight:
+                                                      Radius.circular(16.0),
+                                                )),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: searchListings[i]
+                                                      .images![0]
+                                                      .url570xN
+                                                      .toString(),
+                                                  fit: BoxFit.cover,
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(
+                                                    Icons.error,
+                                                    size: 40,
+                                                  ),
+                                                  progressIndicatorBuilder:
+                                                      (a, b, c) => Opacity(
+                                                    opacity: 0.3,
+                                                    child: Shimmer.fromColors(
+                                                      baseColor: Colors.black12,
+                                                      highlightColor:
+                                                          Colors.white,
+                                                      child: Container(
+                                                        width: 173,
+                                                        height: 129,
+                                                        decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                                color: ColorSelect
+                                                                    .colorE0E0E0,
+                                                                width: 1),
+                                                            color: ColorSelect
+                                                                .colorFFFFFF,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12)),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
-                                              Text(
-                                                ' \$ ${searchListings[i].price!.amount.toString()}',
-                                                overflow:
-                                                TextOverflow.ellipsis,
-                                                style: AppTextStyle()
-                                                    .textColor29292912w500,
-                                              ),
+                                              Container(
+                                                margin: EdgeInsets.all(8),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      searchListings[i]
+                                                          .title
+                                                          .toString(),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.left,
+                                                      maxLines: 2,
+                                                      style: AppTextStyle()
+                                                          .textColor29292914w400,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 8.0,
+                                                    ),
+                                                    Text(
+                                                      ' USD ${searchListings[i].price!.amount.toString()}',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: AppTextStyle()
+                                                          .textColor29292912w500,
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
                                             ],
                                           ),
-
-                                        )
-                                      ],
-
-                                    ),
-                                  ),
-                                );
-                              } else if (searchLength >= 25 && searchLoading) {
-                                return Align(
-                                  alignment: Alignment.center,
-                                  child: Center(
-                                    child: LoadingAnimationWidget
-                                        .staggeredDotsWave(
-                                      size: 70,
-                                      color: ColorSelect.colorF7E641,
-                                    ),
-                                  ),
-                                );
-                              } else if (searchLength < 25) {
-                                return Center(
-                                  child: LoadingAnimationWidget
-                                      .staggeredDotsWave(
-                                    size: 70,
-                                    color: ColorSelect.colorF7E641,
-                                  ),
-                                );
-                              } else {
-                                return Center(
-                                  child: LoadingAnimationWidget
-                                      .staggeredDotsWave(
-                                    size: 70,
-                                    color: ColorSelect.colorF7E641,
-                                  ),
-                                );
-                              }
-                            },
+                                        ),
+                                      );
+                                    } else if (searchLength >= 25 &&
+                                        searchLoading) {
+                                      return Align(
+                                        alignment: Alignment.center,
+                                        child: Center(
+                                          child: LoadingAnimationWidget
+                                              .staggeredDotsWave(
+                                            size: 70,
+                                            color: ColorSelect.colorF7E641,
+                                          ),
+                                        ),
+                                      );
+                                    } else if (searchLength < 25) {
+                                      return Center(
+                                        child: LoadingAnimationWidget
+                                            .staggeredDotsWave(
+                                          size: 70,
+                                          color: ColorSelect.colorF7E641,
+                                        ),
+                                      );
+                                    } else {
+                                      return Center(
+                                        child: LoadingAnimationWidget
+                                            .staggeredDotsWave(
+                                          size: 70,
+                                          color: ColorSelect.colorF7E641,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                          )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 29,
                           ),
-                        ),
-                      ),
-                    ):
-                Column(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 29,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        /* showModalBottomSheet(
+                          GestureDetector(
+                            onTap: () {
+                              /* showModalBottomSheet(
                         context: context,
                         builder: (context) {
                           return StoreSheet();
                         });*/
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(top: 10, bottom: 10, right: 10),
-                        color: Colors.transparent,
-                        child: Row(
-                          children: [
-                            // Image.asset("assets/images/comboshape.png"),
-                            // SizedBox(
-                            //   width: 10,
-                            // ),
-                            // Text(
-                            //   "Stores",
-                            //   style: AppTextStyle().textColor29292914w500,
-                            // ),
-                            Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Image.asset("assets/images/searchimg.png"),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 26,
-                    ),
-                    // SizedBox(
-                    //   height: 56,
-                    // ),
-                    Text(
-                      "Top Sites",
-                      style: AppTextStyle().textColor766A6A12w400,
-                    ),
-                    SizedBox(
-                      height: 6,
-                    ),
-                    Row(
-                      children: [
-                        // Container(
-                        //   height: 44.h,
-                        //   width: 120.w,
-                        //   decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(8),
-                        //       border: Border.all(
-                        //           color: ColorSelect.colorA3A3A3, width: 1)),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: [
-                        //       Image.asset("assets/images/amazonimg.png"),
-                        //       Text(
-                        //         "Amazon",
-                        //         style: AppTextStyle().textColor29292914w400,
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
-                        // SizedBox(
-                        //   width: 12,
-                        // ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (_) =>
-                                AllEtsyProducts()));
-                          },
-                          child: Container(
-                            height: 44.h,
-                            width: 120.w,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                    color: ColorSelect.colorA3A3A3, width: 1)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset("assets/images/etsyimg.png"),
-                                Text(
-                                  "Etsy",
-                                  style: AppTextStyle().textColor29292914w400,
-                                )
-                              ],
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  top: 10, bottom: 10, right: 10),
+                              color: Colors.transparent,
+                              child: Row(
+                                children: [
+                                  // Image.asset("assets/images/comboshape.png"),
+                                  // SizedBox(
+                                  //   width: 10,
+                                  // ),
+                                  // Text(
+                                  //   "Stores",
+                                  //   style: AppTextStyle().textColor29292914w500,
+                                  // ),
+                                  Spacer(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Image.asset(
+                                        "assets/images/searchimg.png"),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
+                          SizedBox(
+                            height: 26,
+                          ),
+                          // SizedBox(
+                          //   height: 56,
+                          // ),
+                          Text(
+                            "Top Sites",
+                            style: AppTextStyle().textColor766A6A12w400,
+                          ),
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Row(
+                            children: [
+                              // Container(
+                              //   height: 44.h,
+                              //   width: 120.w,
+                              //   decoration: BoxDecoration(
+                              //       borderRadius: BorderRadius.circular(8),
+                              //       border: Border.all(
+                              //           color: ColorSelect.colorA3A3A3, width: 1)),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.center,
+                              //     children: [
+                              //       Image.asset("assets/images/amazonimg.png"),
+                              //       Text(
+                              //         "Amazon",
+                              //         style: AppTextStyle().textColor29292914w400,
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   width: 12,
+                              // ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => AllEtsyProducts()));
+                                },
+                                child: Container(
+                                  height: 44.h,
+                                  width: 120.w,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                          color: ColorSelect.colorA3A3A3,
+                                          width: 1)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset("assets/images/etsyimg.png"),
+                                      Text(
+                                        "Etsy",
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
               ],
             ),
           ),
@@ -730,23 +745,24 @@ class _StoreSheetState extends State<StoreSheet> {
   }
 }
 
-
 class SearchProductBottomSheet extends StatefulWidget {
-  const SearchProductBottomSheet(
-      {Key? key, })
-      : super(key: key);
+  const SearchProductBottomSheet({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<SearchProductBottomSheet> createState() => _SearchProductBottomSheet();
 }
 
 class _SearchProductBottomSheet extends State<SearchProductBottomSheet> {
-
   bool isLoading = false;
   List<EtsyLoadMoreModel> matches = <EtsyLoadMoreModel>[];
   List<EtsyLoadMoreModel> searchList = [];
   getSearch(val) {
-    final resp = searchEtsyProductApi(search: val, page: '', );
+    final resp = searchEtsyProductApi(
+      search: val,
+      page: '',
+    );
     resp.then((value) {
       searchList.clear();
       for (var v in value['results']) {
@@ -756,10 +772,10 @@ class _SearchProductBottomSheet extends State<SearchProductBottomSheet> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    return
-      GridView.builder(
+    return GridView.builder(
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       physics: ScrollPhysics(),
@@ -774,8 +790,7 @@ class _SearchProductBottomSheet extends State<SearchProductBottomSheet> {
         return Column(
           children: [
             GestureDetector(
-              onTap: () {
-              },
+              onTap: () {},
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(
@@ -816,7 +831,8 @@ class _SearchProductBottomSheet extends State<SearchProductBottomSheet> {
                           Text(
                             ' \$ ${searchList[i].price.toString()}',
                             overflow: TextOverflow.ellipsis,
-                            style: AppTextStyle().textColor29292912w500,),
+                            style: AppTextStyle().textColor29292912w500,
+                          ),
                           const SizedBox(
                             height: 8.0,
                           ),

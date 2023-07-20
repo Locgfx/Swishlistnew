@@ -1,19 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:swishlist/constants/urls.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../api/user_apis/products_api.dart';
-import '../../buttons/light_yellow.dart';
 import '../../buttons/red_button.dart';
 import '../../buttons/white_button.dart';
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
-import '../../profile_page/add_date_events.dart';
 
 class ProductDetail extends StatefulWidget {
   final String name;
@@ -24,10 +23,15 @@ class ProductDetail extends StatefulWidget {
   final String id;
   final String type;
   // final String id;
-  const ProductDetail({Key? key,
+  const ProductDetail({
+    Key? key,
     required this.name,
     required this.price,
-    required this.link, required this.image, required this.purchaseDate, required this.id, required this.type,
+    required this.link,
+    required this.image,
+    required this.purchaseDate,
+    required this.id,
+    required this.type,
     // required this.id
   }) : super(key: key);
 
@@ -161,7 +165,7 @@ class _ProductDetailState extends State<ProductDetail> {
             ),
           ),
           SizedBox(
-            width: 32,
+            width: 16,
           ),
           InkWell(
               onTap: () {
@@ -179,94 +183,126 @@ class _ProductDetailState extends State<ProductDetail> {
                               GestureDetector(
                                 onTap: () {
                                   showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) {
-                                        return Container(
-                                          height: 338.h,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  height: 32.h,
-                                                ),
-                                                Text(
-                                                  "Edit title",
-                                                  style: AppTextStyle().textColor3D3D3D24w700,
-                                                ),
-                                                SizedBox(
-                                                  height: 28.h,
-                                                ),
-                                                Container(
-                                                  height: 154.h,
-                                                  width: 328.w,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(8),
-                                                      color: ColorSelect.colorFEFCF6,
-                                                      border: Border.all(color: ColorSelect.colorF7E641)),
-                                                  child: Padding(
-                                                    padding:
-                                                    const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                                                    child: Column(
-                                                      children: [
-                                                        TextFormField(
-                                                        controller:textController,
-                                                          onChanged: (v) {
-
-                                                          },
-                                                          // controller: moviesController,
-                                                          cursorColor: ColorSelect.colorF7E641,
-                                                          decoration: InputDecoration(
-                                                            border: InputBorder.none,
-                                                            focusedBorder: InputBorder.none,
-                                                            enabledBorder: InputBorder.none,
-                                                            errorBorder: InputBorder.none,
-                                                            disabledBorder: InputBorder.none,
-                                                          ), //keyboardType: TextInputType.phone,
-                                                        )
-                                                      ],
-                                                    ),
+                                    context: context,
+                                    builder: (context) {
+                                      return Container(
+                                        height: 338.h,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                height: 32.h,
+                                              ),
+                                              Text(
+                                                "Edit title",
+                                                style: AppTextStyle()
+                                                    .textColor3D3D3D24w700,
+                                              ),
+                                              SizedBox(
+                                                height: 28.h,
+                                              ),
+                                              Container(
+                                                height: 154.h,
+                                                width: 328.w,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    color:
+                                                        ColorSelect.colorFEFCF6,
+                                                    border: Border.all(
+                                                        color: ColorSelect
+                                                            .colorF7E641)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 16),
+                                                  child: Column(
+                                                    children: [
+                                                      TextFormField(
+                                                        controller:
+                                                            textController,
+                                                        onChanged: (v) {},
+                                                        // controller: moviesController,
+                                                        cursorColor: ColorSelect
+                                                            .colorF7E641,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          focusedBorder:
+                                                              InputBorder.none,
+                                                          enabledBorder:
+                                                              InputBorder.none,
+                                                          errorBorder:
+                                                              InputBorder.none,
+                                                          disabledBorder:
+                                                              InputBorder.none,
+                                                        ), //keyboardType: TextInputType.phone,
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  height: 16.h,
-                                                ),
-                                                SizedBox(
-                                                  width: 87.w,
-                                                  height: 48.h,
-                                                  child: YellowButtonWithText(
-                                                      backgroundColor:
-                                                      MaterialStateProperty.all(ColorSelect.colorF7E641),
-                                                      textStyleColor: ColorSelect.color292929,
-                                                      onTap: () {
-                                                        updateProducts(
-                                                            type: widget.type,
-                                                            name: textController.text,
-                                                            link: widget.link,
-                                                            price: widget.price,
-                                                            purchaseDate: widget.purchaseDate,
-                                                            privacyStatus: 'public',
-                                                            photo: '',
-                                                            id: widget.id,
-                                                            photoUrl: widget.image
-                                                        ).then((value) {
-                                                              if(value['status'] == true) {
-                                                                Navigator.of(context)..pop()..pop()..pop();
-                                                                Fluttertoast.showToast(msg: value['message']);
-                                                              } else {
-                                                                Fluttertoast.showToast(msg: value['message']);
-                                                              }
+                                              ),
+                                              SizedBox(
+                                                height: 16.h,
+                                              ),
+                                              SizedBox(
+                                                width: 87.w,
+                                                height: 48.h,
+                                                child: YellowButtonWithText(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(ColorSelect
+                                                                .colorF7E641),
+                                                    textStyleColor:
+                                                        ColorSelect.color292929,
+                                                    onTap: () {
+                                                      updateProducts(
+                                                              type: widget.type,
+                                                              name:
+                                                                  textController
+                                                                      .text,
+                                                              link: widget.link,
+                                                              price:
+                                                                  widget.price,
+                                                              purchaseDate: widget
+                                                                  .purchaseDate,
+                                                              privacyStatus:
+                                                                  'public',
+                                                              photo: '',
+                                                              id: widget.id,
+                                                              photoUrl:
+                                                                  widget.image)
+                                                          .then((value) {
+                                                        if (value['status'] ==
+                                                            true) {
+                                                          Navigator.of(context)
+                                                            ..pop()
+                                                            ..pop()
+                                                            ..pop();
+                                                          Fluttertoast.showToast(
+                                                              msg: value[
+                                                                  'message']);
+                                                        } else {
+                                                          Fluttertoast.showToast(
+                                                              msg: value[
+                                                                  'message']);
                                                         }
-                                                        );
-                                                      },
-                                                      title: 'Save'),
-                                                )
-                                              ],
-                                            ),
+                                                      });
+                                                    },
+                                                    title: 'Save'),
+                                              )
+                                            ],
                                           ),
-                                        );
-                                      },
+                                        ),
+                                      );
+                                    },
                                   );
                                 },
                                 child: Container(
@@ -276,12 +312,15 @@ class _ProductDetailState extends State<ProductDetail> {
                                   child: Row(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(right: 15),
-                                        child: SvgPicture.asset("assets/icons/edittitle.svg"),
+                                        padding:
+                                            const EdgeInsets.only(right: 15),
+                                        child: SvgPicture.asset(
+                                            "assets/icons/edittitle.svg"),
                                       ),
                                       Text(
                                         "Edit title",
-                                        style: AppTextStyle().textColor39393914w500,
+                                        style: AppTextStyle()
+                                            .textColor39393914w500,
                                       )
                                     ],
                                   ),
@@ -290,163 +329,234 @@ class _ProductDetailState extends State<ProductDetail> {
                               SizedBox(
                                 height: 8.h,
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                showDialog(
-                                context: context,
-                                 builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    insetPadding: EdgeInsets.only(left: 20, right: 20),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    elevation: 0,
-                                    backgroundColor: Colors.white,
-                                    content: SizedBox(
-                                      width: 1.sw,
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              "Edit Privacy",
-                                              style: AppTextStyle().textColor29292918w500,
-                                            ),
-                                            SizedBox(
-                                              height: 8.h,
-                                            ),
-                                            Container(
-                                              width: 328.w,
-                                              height: 52.h,
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(8),
-                                                  color: ColorSelect.colorEDEDF1
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(left: 12),
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                        onTap:() {
-                                                          showModalBottomSheet(
-                                                              shape: const RoundedRectangleBorder(
-                                                                borderRadius: BorderRadius.only(
-                                                                    topRight: Radius.circular(20), topLeft: Radius.circular(20)),
-                                                              ),
-                                                              context: context,
-                                                              builder: (context) => PrivacyStatusBottomSheet(
-                                                                onPop: (val) {
-                                                                  setState(() {
-                                                                    privacyController.text = val;
-                                                                  });
-                                                                },
-                                                                privacyStatus: privacyController.text,
-                                                              ));
-                                                        },
-                                                        onChanged: (v) {
-                                                          setState(() {});
-                                                        },
-                                                        controller: privacyController,
-                                                        decoration: InputDecoration(
-                                                            border: InputBorder.none,
-                                                            hintText: "Select privacy",
-                                                            hintStyle: AppTextStyle().textColor70707014w400,
-                                                            suffixIconConstraints: BoxConstraints(maxHeight: 40,maxWidth: 40),
-                                                            suffixIcon: Padding(
-                                                              padding: const EdgeInsets.only(right: 15.0),
-                                                              child: Image.asset('assets/images/down-arrow.png',height: 25,),
-                                                            )
-                                                        ),
-                                                        keyboardType: TextInputType.text,
-                                                        readOnly: true,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(height: 16.h),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: SizedBox(
-                                                    height: 52,
-                                                    child: WhiteButtonWithText(
-                                                        backgroundColor:
-                                                        MaterialStateProperty.all(Colors.white),
-                                                        textStyleColor: ColorSelect.color292929,
-                                                        onTap: () {
-                                                          Navigator.pop(context);
-                                                        },
-                                                        title: 'Cancel'),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 12.w,
-                                                ),
-                                                Expanded(
-                                                  child: SizedBox(
-                                                    height: 52,
-                                                    child:WhiteButtonWithText(
-                                                        backgroundColor:
-                                                        MaterialStateProperty.all(ColorSelect.colorCE5252),
-                                                        textStyleColor: ColorSelect.colorFFFFFF,
-                                                        onTap: () {
-                                                          updateProducts(
-                                                              type: widget.type,
-                                                              name: widget.name,
-                                                              link: widget.link,
-                                                              price: widget.price,
-                                                              purchaseDate: widget.purchaseDate,
-                                                              privacyStatus: privacyController.text,
-                                                              photo: '',
-                                                              id: widget.id,
-                                                              photoUrl: widget.image).then((value) {
-                                                            if(value['status'] == true) {
-                                                              Navigator.of(context)..pop()..pop()..pop();
-                                                              Fluttertoast.showToast(msg: value['message']);
-                                                            } else {
-                                                              Fluttertoast.showToast(msg: value['message']);
-                                                            }
-                                                          }
-                                                          );
-
-                                                        },
-                                                        title: 'Save'),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                 },
-                                );
-                                },
-                                child: Container(
-                                  height: 40.h,
-                                  width: 328.w,
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        height: 32,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 15),
-                                        child:
-                                        SvgPicture.asset("assets/icons/eyeeditprivacy.svg"),
-                                      ),
-                                      Text(
-                                        "Edit privacy",
-                                        style: AppTextStyle().textColor39393914w500,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     showDialog(
+                              //       context: context,
+                              //       builder: (BuildContext context) {
+                              //         return AlertDialog(
+                              //           insetPadding: EdgeInsets.only(
+                              //               left: 20, right: 20),
+                              //           shape: RoundedRectangleBorder(
+                              //             borderRadius:
+                              //                 BorderRadius.circular(12),
+                              //           ),
+                              //           elevation: 0,
+                              //           backgroundColor: Colors.white,
+                              //           content: SizedBox(
+                              //             width: 1.sw,
+                              //             child: SingleChildScrollView(
+                              //               child: Column(
+                              //                 children: [
+                              //                   Text(
+                              //                     "Edit Privacy",
+                              //                     style: AppTextStyle()
+                              //                         .textColor29292918w500,
+                              //                   ),
+                              //                   SizedBox(
+                              //                     height: 8.h,
+                              //                   ),
+                              //                   Container(
+                              //                     width: 328.w,
+                              //                     height: 52.h,
+                              //                     decoration: BoxDecoration(
+                              //                         borderRadius:
+                              //                             BorderRadius.circular(
+                              //                                 8),
+                              //                         color: ColorSelect
+                              //                             .colorEDEDF1),
+                              //                     child: Padding(
+                              //                       padding:
+                              //                           const EdgeInsets.only(
+                              //                               left: 12),
+                              //                       child: Row(
+                              //                         children: [
+                              //                           Expanded(
+                              //                             child: TextFormField(
+                              //                               onTap: () {
+                              //                                 showModalBottomSheet(
+                              //                                     shape:
+                              //                                         const RoundedRectangleBorder(
+                              //                                       borderRadius: BorderRadius.only(
+                              //                                           topRight:
+                              //                                               Radius.circular(
+                              //                                                   20),
+                              //                                           topLeft:
+                              //                                               Radius.circular(20)),
+                              //                                     ),
+                              //                                     context:
+                              //                                         context,
+                              //                                     builder:
+                              //                                         (context) =>
+                              //                                             PrivacyStatusBottomSheet(
+                              //                                               onPop:
+                              //                                                   (val) {
+                              //                                                 setState(() {
+                              //                                                   privacyController.text = val;
+                              //                                                 });
+                              //                                               },
+                              //                                               privacyStatus:
+                              //                                                   privacyController.text,
+                              //                                             ));
+                              //                               },
+                              //                               onChanged: (v) {
+                              //                                 setState(() {});
+                              //                               },
+                              //                               controller:
+                              //                                   privacyController,
+                              //                               decoration:
+                              //                                   InputDecoration(
+                              //                                       border:
+                              //                                           InputBorder
+                              //                                               .none,
+                              //                                       hintText:
+                              //                                           "Select privacy",
+                              //                                       hintStyle:
+                              //                                           AppTextStyle()
+                              //                                               .textColor70707014w400,
+                              //                                       suffixIconConstraints: BoxConstraints(
+                              //                                           maxHeight:
+                              //                                               40,
+                              //                                           maxWidth:
+                              //                                               40),
+                              //                                       suffixIcon:
+                              //                                           Padding(
+                              //                                         padding: const EdgeInsets
+                              //                                                 .only(
+                              //                                             right:
+                              //                                                 15.0),
+                              //                                         child: Image
+                              //                                             .asset(
+                              //                                           'assets/images/down-arrow.png',
+                              //                                           height:
+                              //                                               25,
+                              //                                         ),
+                              //                                       )),
+                              //                               keyboardType:
+                              //                                   TextInputType
+                              //                                       .text,
+                              //                               readOnly: true,
+                              //                             ),
+                              //                           ),
+                              //                         ],
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                   SizedBox(height: 16.h),
+                              //                   Row(
+                              //                     children: [
+                              //                       Expanded(
+                              //                         child: SizedBox(
+                              //                           height: 52,
+                              //                           child:
+                              //                               WhiteButtonWithText(
+                              //                                   backgroundColor:
+                              //                                       MaterialStateProperty
+                              //                                           .all(Colors
+                              //                                               .white),
+                              //                                   textStyleColor:
+                              //                                       ColorSelect
+                              //                                           .color292929,
+                              //                                   onTap: () {
+                              //                                     Navigator.pop(
+                              //                                         context);
+                              //                                   },
+                              //                                   title:
+                              //                                       'Cancel'),
+                              //                         ),
+                              //                       ),
+                              //                       SizedBox(
+                              //                         width: 12.w,
+                              //                       ),
+                              //                       Expanded(
+                              //                         child: SizedBox(
+                              //                           height: 52,
+                              //                           child:
+                              //                               WhiteButtonWithText(
+                              //                                   backgroundColor:
+                              //                                       MaterialStateProperty.all(
+                              //                                           ColorSelect
+                              //                                               .colorCE5252),
+                              //                                   textStyleColor:
+                              //                                       ColorSelect
+                              //                                           .colorFFFFFF,
+                              //                                   onTap: () {
+                              //                                     updateProducts(
+                              //                                             type: widget
+                              //                                                 .type,
+                              //                                             name: widget
+                              //                                                 .name,
+                              //                                             link: widget
+                              //                                                 .link,
+                              //                                             price: widget
+                              //                                                 .price,
+                              //                                             purchaseDate: widget
+                              //                                                 .purchaseDate,
+                              //                                             privacyStatus: privacyController
+                              //                                                 .text,
+                              //                                             photo:
+                              //                                                 '',
+                              //                                             id: widget
+                              //                                                 .id,
+                              //                                             photoUrl: widget
+                              //                                                 .image)
+                              //                                         .then(
+                              //                                             (value) {
+                              //                                       if (value[
+                              //                                               'status'] ==
+                              //                                           true) {
+                              //                                         Navigator.of(
+                              //                                             context)
+                              //                                           ..pop()
+                              //                                           ..pop()
+                              //                                           ..pop();
+                              //                                         Fluttertoast
+                              //                                             .showToast(
+                              //                                                 msg: value['message']);
+                              //                                       } else {
+                              //                                         Fluttertoast
+                              //                                             .showToast(
+                              //                                                 msg: value['message']);
+                              //                                       }
+                              //                                     });
+                              //                                   },
+                              //                                   title: 'Save'),
+                              //                         ),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //             ),
+                              //           ),
+                              //         );
+                              //       },
+                              //     );
+                              //   },
+                              //   child: Container(
+                              //     height: 40.h,
+                              //     width: 328.w,
+                              //     color: Colors.transparent,
+                              //     child: Row(
+                              //       children: [
+                              //         SizedBox(
+                              //           height: 32,
+                              //         ),
+                              //         Padding(
+                              //           padding:
+                              //               const EdgeInsets.only(right: 15),
+                              //           child: SvgPicture.asset(
+                              //               "assets/icons/eyeeditprivacy.svg"),
+                              //         ),
+                              //         Text(
+                              //           "Edit privacy",
+                              //           style: AppTextStyle()
+                              //               .textColor39393914w500,
+                              //         )
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
                               SizedBox(
                                 height: 8.h,
                               ),
@@ -464,12 +574,15 @@ class _ProductDetailState extends State<ProductDetail> {
                                         height: 32,
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(right: 15),
-                                        child: SvgPicture.asset("assets/icons/shareimage.svg"),
+                                        padding:
+                                            const EdgeInsets.only(right: 15),
+                                        child: SvgPicture.asset(
+                                            "assets/icons/shareimage.svg"),
                                       ),
                                       Text(
                                         "Share externally",
-                                        style: AppTextStyle().textColor39393914w500,
+                                        style: AppTextStyle()
+                                            .textColor39393914w500,
                                       )
                                     ],
                                   ),
@@ -484,9 +597,11 @@ class _ProductDetailState extends State<ProductDetail> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          insetPadding: EdgeInsets.only(left: 20, right: 20),
+                                          insetPadding: EdgeInsets.only(
+                                              left: 20, right: 20),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(12),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
                                           ),
                                           elevation: 0,
                                           backgroundColor: Colors.white,
@@ -497,14 +612,16 @@ class _ProductDetailState extends State<ProductDetail> {
                                                 children: [
                                                   Text(
                                                     "Delete this product?",
-                                                    style: AppTextStyle().textColor29292918w500,
+                                                    style: AppTextStyle()
+                                                        .textColor29292918w500,
                                                   ),
                                                   SizedBox(
                                                     height: 8.h,
                                                   ),
                                                   Text(
                                                     "This product with will be permanently deleted",
-                                                    style: AppTextStyle().textcolor82828212w400,
+                                                    style: AppTextStyle()
+                                                        .textcolor82828212w400,
                                                   ),
                                                   SizedBox(
                                                     height: 44.h,
@@ -514,14 +631,21 @@ class _ProductDetailState extends State<ProductDetail> {
                                                       Expanded(
                                                         child: SizedBox(
                                                           height: 52,
-                                                          child: WhiteButtonWithText(
-                                                              backgroundColor:
-                                                              MaterialStateProperty.all(Colors.white),
-                                                              textStyleColor: ColorSelect.color292929,
-                                                              onTap: () {
-                                                                Navigator.pop(context);
-                                                              },
-                                                              title: 'Cancel'),
+                                                          child:
+                                                              WhiteButtonWithText(
+                                                                  backgroundColor:
+                                                                      MaterialStateProperty.all(
+                                                                          Colors
+                                                                              .white),
+                                                                  textStyleColor:
+                                                                      ColorSelect
+                                                                          .color292929,
+                                                                  onTap: () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  title:
+                                                                      'Cancel'),
                                                         ),
                                                       ),
                                                       SizedBox(
@@ -530,21 +654,37 @@ class _ProductDetailState extends State<ProductDetail> {
                                                       Expanded(
                                                         child: SizedBox(
                                                           height: 52,
-                                                          child: RedButtonWithText(
+                                                          child:
+                                                              RedButtonWithText(
                                                             backgroundColor:
-                                                            MaterialStateProperty.all(ColorSelect.colorCE5252),
-                                                            textStyleColor: ColorSelect.colorFFFFFF,
-                                                            image: Image.asset("assets/images/trashdel.png"),
+                                                                MaterialStateProperty
+                                                                    .all(ColorSelect
+                                                                        .colorCE5252),
+                                                            textStyleColor:
+                                                                ColorSelect
+                                                                    .colorFFFFFF,
+                                                            image: Image.asset(
+                                                                "assets/images/trashdel.png"),
                                                             onTap: () {
                                                               deleteProductsApi(
-                                                                  id: widget.id).
-                                                              then((value){
-                                                                if(value['status'] == true) {
-
-                                                                  Navigator.of(context)..pop()..pop();
-                                                                  Fluttertoast.showToast(msg: value['message']);
+                                                                      id: widget
+                                                                          .id)
+                                                                  .then(
+                                                                      (value) {
+                                                                if (value[
+                                                                        'status'] ==
+                                                                    true) {
+                                                                  Navigator.of(
+                                                                      context)
+                                                                    ..pop()
+                                                                    ..pop();
+                                                                  Fluttertoast.showToast(
+                                                                      msg: value[
+                                                                          'message']);
                                                                 } else {
-                                                                  Fluttertoast.showToast(msg: value['message']);
+                                                                  Fluttertoast.showToast(
+                                                                      msg: value[
+                                                                          'message']);
                                                                 }
                                                               });
                                                             },
@@ -572,12 +712,15 @@ class _ProductDetailState extends State<ProductDetail> {
                                         height: 32,
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(right: 15),
-                                        child: SvgPicture.asset("assets/icons/trash1.svg"),
+                                        padding:
+                                            const EdgeInsets.only(right: 15),
+                                        child: SvgPicture.asset(
+                                            "assets/icons/trash1.svg"),
                                       ),
                                       Text(
                                         "Delete",
-                                        style: AppTextStyle().textcolorCE535314w500,
+                                        style: AppTextStyle()
+                                            .textcolorCE535314w500,
                                       )
                                     ],
                                   ),
@@ -591,12 +734,9 @@ class _ProductDetailState extends State<ProductDetail> {
                     });
               },
               child: Container(
-                height: 24,
+                  height: 24,
                   width: 24,
                   child: Image.asset("assets/images/4xdot.png"))),
-          SizedBox(
-            width: 16,
-          ),
         ]),
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
@@ -639,42 +779,52 @@ class _ProductDetailState extends State<ProductDetail> {
               ),
               SizedBox(height: 20.h),
               Container(
-                width: 1.sw,
-                height: 246,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    border:
-                        Border.all(color: ColorSelect.colorE0E0E0, width: 1)),
-                child: CachedNetworkImage(
-                  imageUrl: widget.image,
-                  // imageUrl: (baseUrl+getProducts!.data![i].photo.toString()),
-                  fit: BoxFit.cover,
-                  errorWidget: (context, url, error) =>
-                      Icon(Icons.error,size: 40,),
-                  progressIndicatorBuilder:  (a,b,c) =>
-                      Opacity(
-                        opacity: 0.3,
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.black12,
-                          highlightColor: Colors.white,
-                          child: Container(
-                            width: 1.sw,
-                            height: 246,
-                            decoration: BoxDecoration(
-                                border:
-                                Border.all(color: ColorSelect.colorE0E0E0, width: 1),
-                                color: ColorSelect.colorFFFFFF,
-                                borderRadius: BorderRadius.circular(12)),
-                          ),
+                  width: 1.sw,
+                  height: 246,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border:
+                          Border.all(color: ColorSelect.colorE0E0E0, width: 1)),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.image.toString().contains("https")
+                        ? widget.image
+                        : baseUrl + widget.image,
+
+                    // imageUrl:wantProducts2[i]
+                    //     .photo
+                    //     .toString()
+                    //     .contains("https")
+                    //     ? wantProducts2[i].photo.toString()
+                    //     : baseUrl +
+                    //     wantProducts2[i].photo.toString(),
+                    // imageUrl: (baseUrl+getProducts!.data![i].photo.toString()),
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.error,
+                      size: 40,
+                    ),
+                    progressIndicatorBuilder: (a, b, c) => Opacity(
+                      opacity: 0.3,
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.black12,
+                        highlightColor: Colors.white,
+                        child: Container(
+                          width: 1.sw,
+                          height: 246,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: ColorSelect.colorE0E0E0, width: 1),
+                              color: ColorSelect.colorFFFFFF,
+                              borderRadius: BorderRadius.circular(12)),
                         ),
                       ),
-                )
-              ),
+                    ),
+                  )),
               SizedBox(
                 height: 10.h,
               ),
-             /* Row(
+              /* Row(
                 children: [
                   Text(
                     'Purchase date :  ${widget.purchaseDate}',
@@ -689,7 +839,7 @@ class _ProductDetailState extends State<ProductDetail> {
               SizedBox(
                 height: 10,
               ),
-            /*  Align(
+              /*  Align(
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
                   onTap: () {
@@ -704,7 +854,7 @@ class _ProductDetailState extends State<ProductDetail> {
               ),*/
               GestureDetector(
                 onTap: () {
-                  launchUrlStart(url: widget.link.toString() );
+                  launchUrlStart(url: widget.link.toString());
                 },
                 child: Align(
                   alignment: Alignment.centerLeft,
@@ -712,22 +862,29 @@ class _ProductDetailState extends State<ProductDetail> {
                     height: 52.h,
                     width: 100.w,
                     decoration: BoxDecoration(
-                      color: ColorSelect.colorF7E641,
-                      borderRadius: BorderRadius.circular(8)
-                    ),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                        color: ColorSelect.colorF7E641,
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("View on\n website",
-                          style: AppTextStyle().textColor29292912w400,),
-                        SizedBox(width: 5,),
-                        Image.asset("assets/images/website view icon.png",height: 24,width: 24,)
-
+                        Text(
+                          "View on\n website",
+                          style: AppTextStyle().textColor29292912w400,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Image.asset(
+                          "assets/images/website view icon.png",
+                          height: 24,
+                          width: 24,
+                        )
                       ],
                     ),
                   ),
                 ),
               ),
-           /*   SizedBox(
+              /*   SizedBox(
                 height: 52.h,
                 width: 88.w,
                 child: LightYellowButtonWithText(
@@ -747,5 +904,3 @@ class _ProductDetailState extends State<ProductDetail> {
     );
   }
 }
-
-

@@ -2,15 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
 import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
-import 'package:swishlist/dashboard/products/widget/popmenu.dart';
-import 'package:swishlist/dashboard/products/widget/search_filter.dart';
-import 'package:intl/intl.dart';
+
 import '../../api/user_apis/products_api.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/globals.dart';
@@ -20,7 +17,10 @@ import '../../models/product_type_model.dart';
 
 class ProductAlready extends StatefulWidget {
   // final ProductTypeModel model;
-  const ProductAlready({Key? key, /*required this.model*/}) : super(key: key);
+  const ProductAlready({
+    Key? key,
+    /*required this.model*/
+  }) : super(key: key);
 
   @override
   State<ProductAlready> createState() => _ProductAlreadyState();
@@ -34,6 +34,7 @@ class _ProductAlreadyState extends State<ProductAlready> {
     getHaveProducts();
     super.initState();
   }
+
   bool loading = false;
   bool isLoading = false;
   GetProductModel? getProducts;
@@ -43,24 +44,23 @@ class _ProductAlreadyState extends State<ProductAlready> {
     isLoading = true;
     var resp = getProductsApi();
     resp.then((value) {
-   if(mounted) {
-     if(value['status'] == true) {
-       setState(() {
-         for(var v in value['data']) {
-           haveProducts1.add(ProductTypeModel.fromJson(v));
-         }
-         for (var v in haveProducts1) {
-           if(v.type! == "have") {
-             haveProducts2.add(v);
-
-           }
-         }
-         isLoading = false;
-       });
-     } else {
-       isLoading = false;
-     }
-   }
+      if (mounted) {
+        if (value['status'] == true) {
+          setState(() {
+            for (var v in value['data']) {
+              haveProducts1.add(ProductTypeModel.fromJson(v));
+            }
+            for (var v in haveProducts1) {
+              if (v.type! == "have") {
+                haveProducts2.add(v);
+              }
+            }
+            isLoading = false;
+          });
+        } else {
+          isLoading = false;
+        }
+      }
     });
   }
 
@@ -116,14 +116,13 @@ class _ProductAlreadyState extends State<ProductAlready> {
                     setState(() {
                       loading = true;
                     });
-                    for ( var v in selectedItems) {
-                      deleteProductsApi(
-                          id: v.toString()
-                      ).then((value) async {
+                    for (var v in selectedItems) {
+                      deleteProductsApi(id: v.toString()).then((value) async {
                         print(selectedItems.toString());
-                        if(value['status'] == true) {
+                        if (value['status'] == true) {
                           setState(() {
-                            haveProducts2.removeWhere((element) => element.id == v);
+                            haveProducts2
+                                .removeWhere((element) => element.id == v);
                           });
                           Fluttertoast.showToast(msg: value['message']);
                         } else {
@@ -152,7 +151,7 @@ class _ProductAlreadyState extends State<ProductAlready> {
                   child: Container(
                     width: 36,
                     height: 36,
-                    margin: EdgeInsets.only(right:16,left: 16),
+                    margin: EdgeInsets.only(right: 16, left: 16),
                     color: Colors.transparent,
                     child: Image.asset('assets/images/send1.png'),
                   ),
@@ -190,7 +189,8 @@ class _ProductAlreadyState extends State<ProductAlready> {
                           context: context,
                           isScrollControlled: true,
                           builder: (context) {
-                            return ManuallyAddBottomSheetWidget(/*model: widget.model,*/);
+                            return ManuallyAddBottomSheetWidget(
+                                /*model: widget.model,*/);
                           });
                       /* Navigator.push(
                           context,
@@ -236,253 +236,327 @@ class _ProductAlreadyState extends State<ProductAlready> {
                       topLeft: Radius.circular(24))),
               child: Stack(
                 children: [
-                  isLoading ?Loading():
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              '${haveProducts2.length.toString()} Products',
-                              // "6 Products",
-                              style: AppTextStyle().textColor70707012w500,
-                            ),
-                          ],
-                        ),
-                        haveProducts2.isEmpty ?
-                        AddProductImage(
-                          image: 'assets/images/Asset 1product 1.png',
-                          txt: 'Add Product',
-                          buttonTxt: 'Add Product',
-                          tap: () {  },
-                          buttonIcon: 'assets/images/plus.png',):
-                        ListView.builder(
-                          padding: EdgeInsets.only(bottom: 50),
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: haveProducts2.length,
-                            // itemCount: getProducts!.data!.length,
-                            // itemCount: 6,
-                            shrinkWrap: true,
-                            // scrollDirection: Axis.vertical,
-                            itemBuilder: (context, i) {
-                              return Padding(
-                                padding: const EdgeInsets.only(top: 16),
-                                child: GestureDetector(
-                                  onLongPress: () {
-                                    if (selectedItems.isEmpty) {
-                                      setState(() {
-                                        selectedItems.add(haveProducts2[i].id!);
-                                      });
-                                    }
-                                  },
-                                  onTap: () {
-                                    if (selectedItems.isEmpty) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ProductDetail(
-                                                    name: haveProducts2[i].name.toString(),
-                                                    price:haveProducts2[i].price.toString(),
-                                                    link: haveProducts2[i].link.toString(),
-                                                    image: baseUrl+haveProducts2[i].photo.toString(),
-                                                    purchaseDate: haveProducts2[i].purchasedDate.toString(),
-                                                    id: haveProducts2[i].id.toString(),
-                                                    type: haveProducts2[i].type.toString(),
-                                                  )));
-                                    } else {
-                                      if (selectedItems.contains(haveProducts2[i].id!)) {
-                                        setState(() {
-                                          selectedItems.remove(haveProducts2[i].id!);
-                                        });
-                                      } else {
-                                        setState(() {
-                                          selectedItems.add(haveProducts2[i].id!);
-                                        });
-                                      }
-                                    }
-                                    //log("hello");
-                                    print("hello");
-                                    print(selectedItems);
-                                  },
-                                  child: Container(
-                                    color: Colors.transparent,
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Stack(children: [
-                                              Container(
-                                                height: 86,
-                                                width: 86,
-                                                clipBehavior: Clip.hardEdge,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  border: Border.all(
-                                                    width: 1,
-                                                    color: selectedItems.contains(i)
-                                                        ? ColorSelect.colorF7E641
-                                                        : ColorSelect.colorE0E0E0,
-                                                  ),
-                                                ),
-                                                child: CachedNetworkImage(
-                                                  // imageUrl: (baseUrl+haveProducts2[i].photo.toString()),
-                                                  imageUrl: haveProducts2[i].photo.toString().contains("https") ?
-                                                  haveProducts2[i].photo.toString() :
-                                                  baseUrl+haveProducts2[i].photo.toString(),
-                                                  fit: BoxFit.cover,
-                                                  errorWidget: (context, url, error) =>
-                                                      Icon(Icons.error,size: 40,),
-                                                  progressIndicatorBuilder:  (a,b,c) =>
-                                                      Opacity(
-                                                        opacity: 0.3,
-                                                        child: Shimmer.fromColors(
-                                                          baseColor: Colors.black12,
-                                                          highlightColor: Colors.white,
-                                                          child: Container(
-                                                            width: 173,
-                                                            height: 129,
-                                                            decoration: BoxDecoration(
-                                                                border:
-                                                                Border.all(color: ColorSelect.colorE0E0E0, width: 1),
-                                                                color: ColorSelect.colorFFFFFF,
-                                                                borderRadius: BorderRadius.circular(12)),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                ),
-                                                // child: Center(
-                                                //     child: Image.asset(
-                                                //         "assets/images/image10.png")
-                                                // ),
-                                              ),
-                                              Positioned(
-                                                bottom: 0,
-                                                right: 0,
-                                                child: selectedItems.contains(haveProducts2[i].id!)
-                                                    ? Image.asset(
-                                                        "assets/images/select.png",
-                                                        height: 28,
-                                                        width: 28,
-                                                      )
-                                                    : SizedBox(),
-                                              )
-                                            ]),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 16),
-                                                  child: SizedBox(
-                                                    width: 230.w,
-                                                    child: Text(
-                                                      haveProducts2[i].name.toString(),
-                                                      // getProducts!.data![i].name.toString(),
-                                                      // "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                      style: AppTextStyle()
-                                                          .textColor29292912w400,
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 8,
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 16),
-                                                  child: Text(
-                                                    '\$ ${haveProducts2[i].price.toString()}',
-                                                    // haveProducts2[i].price.toString(),
-                                                    // getProducts!.data![i].price.toString(),
-                                                    // "47.99",
-                                                    style: AppTextStyle()
-                                                        .textColor29292914w500,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 4,
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 16),
-                                                  child: Row(
+                  isLoading
+                      ? Loading()
+                      : SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    '${haveProducts2.length.toString()} Products',
+                                    style: AppTextStyle().textColor70707012w500,
+                                  ),
+                                ],
+                              ),
+                              haveProducts2.isEmpty
+                                  ? AddProductImage(
+                                      image:
+                                          'assets/images/Asset 1product 1.png',
+                                      txt: 'Add Product',
+                                      buttonTxt: 'Add Product',
+                                      tap: () {},
+                                      buttonIcon: 'assets/images/plus.png',
+                                    )
+                                  : ListView.builder(
+                                      padding: EdgeInsets.only(bottom: 50),
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: haveProducts2.length,
+                                      // itemCount: getProducts!.data!.length,
+                                      // itemCount: 6,
+                                      shrinkWrap: true,
+                                      // scrollDirection: Axis.vertical,
+                                      itemBuilder: (context, i) {
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 16),
+                                          child: GestureDetector(
+                                            onLongPress: () {
+                                              if (selectedItems.isEmpty) {
+                                                setState(() {
+                                                  selectedItems.add(
+                                                      haveProducts2[i].id!);
+                                                });
+                                              }
+                                            },
+                                            onTap: () {
+                                              if (selectedItems.isEmpty) {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ProductDetail(
+                                                              name: haveProducts2[
+                                                                      i]
+                                                                  .name
+                                                                  .toString(),
+                                                              price:
+                                                                  haveProducts2[
+                                                                          i]
+                                                                      .price
+                                                                      .toString(),
+                                                              link: haveProducts2[
+                                                                      i]
+                                                                  .link
+                                                                  .toString(),
+                                                              image: baseUrl +
+                                                                  haveProducts2[
+                                                                          i]
+                                                                      .photo
+                                                                      .toString(),
+                                                              purchaseDate:
+                                                                  haveProducts2[
+                                                                          i]
+                                                                      .purchasedDate
+                                                                      .toString(),
+                                                              id: haveProducts2[
+                                                                      i]
+                                                                  .id
+                                                                  .toString(),
+                                                              type: haveProducts2[
+                                                                      i]
+                                                                  .type
+                                                                  .toString(),
+                                                            )));
+                                              } else {
+                                                if (selectedItems.contains(
+                                                    haveProducts2[i].id!)) {
+                                                  setState(() {
+                                                    selectedItems.remove(
+                                                        haveProducts2[i].id!);
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    selectedItems.add(
+                                                        haveProducts2[i].id!);
+                                                  });
+                                                }
+                                              }
+                                            },
+                                            child: Container(
+                                              color: Colors.transparent,
+                                              child: Column(
+                                                children: [
+                                                  Row(
                                                     children: [
-                                                      Image.asset(
-                                                          "assets/images/image46.png"),
-                                                      SizedBox(
-                                                        width: 6,
-                                                      ),
-                                                      Container(
-                                                        height: 5,
-                                                        width: 5,
-                                                        decoration: BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            color: ColorSelect
-                                                                .color707070),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 6,
-                                                      ),
-                                                      Text(
-                                                          DateTime.now()
-                                                              .difference(
-                                                              DateTime.parse(
-                                                                  haveProducts2[i].createdAt.toString()))
-                                                              .inMinutes <=
-                                                              59
-                                                              ? "${DateTime.now().difference(
-                                                              DateTime.parse( haveProducts2[i].createdAt.toString())).inMinutes} min ago"
-                                                              : DateTime.now()
-                                                              .difference(DateTime
-                                                              .parse( haveProducts2[i].createdAt.toString()))
-                                                              .inHours <=
-                                                              23
-                                                              ? "${DateTime.now().difference(
-                                                              DateTime.parse( haveProducts2[i].createdAt.toString())).inHours} hr ago"
-                                                              : "${DateTime.now().difference(
-                                                              DateTime.parse( haveProducts2[i].createdAt.toString())).inDays} days ago"),
-                                                      // Text(
-                                                      //   DateTime.now().difference(DateTime.parse(
-                                                      //       haveProducts2[i].purchasedDate.toString())).
-                                                      //     inMinutes <= 59?
-                                                      //      "${DateTime.now().difference(DateTime.parse(
-                                                      //     haveProducts2[i].purchasedDate.
-                                                      //     toString())).inMinutes} min ago" :
-                                                      //       DateTime.now().difference(
-                                                      //           DateTime.parse(haveProducts2[i].purchasedDate.toString())).inHours
-                                                      //     <= 23? "${DateTime.now().difference(DateTime.parse(
-                                                      //             haveProducts2[i].purchasedDate.toString())).inHours
-                                                      //      } hours ago" :
-                                                      //           "${DateTime.now().difference(DateTime.parse(
-                                                      //             haveProducts2[i].purchasedDate.toString())).inDays} days ago"
-                                                      // ),
-                                                      // Text(
-                                                      //   "Today",
-                                                      //   style: AppTextStyle()
-                                                      //       .textColor70707012w400,
-                                                      // )
+                                                      Stack(children: [
+                                                        Container(
+                                                          height: 86,
+                                                          width: 86,
+                                                          clipBehavior:
+                                                              Clip.hardEdge,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                            border: Border.all(
+                                                              width: 1,
+                                                              color: selectedItems
+                                                                      .contains(
+                                                                          i)
+                                                                  ? ColorSelect
+                                                                      .colorF7E641
+                                                                  : ColorSelect
+                                                                      .colorE0E0E0,
+                                                            ),
+                                                          ),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            // imageUrl: (baseUrl+haveProducts2[i].photo.toString()),
+                                                            imageUrl: haveProducts2[
+                                                                        i]
+                                                                    .photo
+                                                                    .toString()
+                                                                    .contains(
+                                                                        "https")
+                                                                ? haveProducts2[
+                                                                        i]
+                                                                    .photo
+                                                                    .toString()
+                                                                : baseUrl +
+                                                                    haveProducts2[
+                                                                            i]
+                                                                        .photo
+                                                                        .toString(),
+                                                            fit: BoxFit.cover,
+                                                            errorWidget:
+                                                                (context, url,
+                                                                        error) =>
+                                                                    Icon(
+                                                              Icons.error,
+                                                              size: 40,
+                                                            ),
+                                                            progressIndicatorBuilder:
+                                                                (a, b, c) =>
+                                                                    Opacity(
+                                                              opacity: 0.3,
+                                                              child: Shimmer
+                                                                  .fromColors(
+                                                                baseColor: Colors
+                                                                    .black12,
+                                                                highlightColor:
+                                                                    Colors
+                                                                        .white,
+                                                                child:
+                                                                    Container(
+                                                                  width: 173,
+                                                                  height: 129,
+                                                                  decoration: BoxDecoration(
+                                                                      border: Border.all(
+                                                                          color: ColorSelect
+                                                                              .colorE0E0E0,
+                                                                          width:
+                                                                              1),
+                                                                      color: ColorSelect
+                                                                          .colorFFFFFF,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              12)),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          // child: Center(
+                                                          //     child: Image.asset(
+                                                          //         "assets/images/image10.png")
+                                                          // ),
+                                                        ),
+                                                        Positioned(
+                                                          bottom: 0,
+                                                          right: 0,
+                                                          child: selectedItems
+                                                                  .contains(
+                                                                      haveProducts2[
+                                                                              i]
+                                                                          .id!)
+                                                              ? Image.asset(
+                                                                  "assets/images/select.png",
+                                                                  height: 28,
+                                                                  width: 28,
+                                                                )
+                                                              : SizedBox(),
+                                                        )
+                                                      ]),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 16),
+                                                            child: SizedBox(
+                                                              width: 230.w,
+                                                              child: Text(
+                                                                haveProducts2[i]
+                                                                    .name
+                                                                    .toString(),
+                                                                // getProducts!.data![i].name.toString(),
+                                                                // "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                maxLines: 2,
+                                                                style: AppTextStyle()
+                                                                    .textColor29292912w400,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 8,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 16),
+                                                            child: Text(
+                                                              'USD ${haveProducts2[i].price.toString()}',
+                                                              // haveProducts2[i].price.toString(),
+                                                              // getProducts!.data![i].price.toString(),
+                                                              // "47.99",
+                                                              style: AppTextStyle()
+                                                                  .textColor29292914w500,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 4,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 16),
+                                                            child: Row(
+                                                              children: [
+                                                                Image.asset(
+                                                                    "assets/images/image46.png"),
+                                                                SizedBox(
+                                                                  width: 6,
+                                                                ),
+                                                                Container(
+                                                                  height: 5,
+                                                                  width: 5,
+                                                                  decoration: BoxDecoration(
+                                                                      shape: BoxShape
+                                                                          .circle,
+                                                                      color: ColorSelect
+                                                                          .color707070),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 6,
+                                                                ),
+                                                                Text(DateTime.now()
+                                                                            .difference(DateTime.parse(haveProducts2[i]
+                                                                                .createdAt
+                                                                                .toString()))
+                                                                            .inMinutes <=
+                                                                        59
+                                                                    ? "${DateTime.now().difference(DateTime.parse(haveProducts2[i].createdAt.toString())).inMinutes} min ago"
+                                                                    : DateTime.now().difference(DateTime.parse(haveProducts2[i].createdAt.toString())).inHours <=
+                                                                            23
+                                                                        ? "${DateTime.now().difference(DateTime.parse(haveProducts2[i].createdAt.toString())).inHours} hr ago"
+                                                                        : "${DateTime.now().difference(DateTime.parse(haveProducts2[i].createdAt.toString())).inDays} days ago"),
+                                                                // Text(
+                                                                //   DateTime.now().difference(DateTime.parse(
+                                                                //       haveProducts2[i].purchasedDate.toString())).
+                                                                //     inMinutes <= 59?
+                                                                //      "${DateTime.now().difference(DateTime.parse(
+                                                                //     haveProducts2[i].purchasedDate.
+                                                                //     toString())).inMinutes} min ago" :
+                                                                //       DateTime.now().difference(
+                                                                //           DateTime.parse(haveProducts2[i].purchasedDate.toString())).inHours
+                                                                //     <= 23? "${DateTime.now().difference(DateTime.parse(
+                                                                //             haveProducts2[i].purchasedDate.toString())).inHours
+                                                                //      } hours ago" :
+                                                                //           "${DateTime.now().difference(DateTime.parse(
+                                                                //             haveProducts2[i].purchasedDate.toString())).inDays} days ago"
+                                                                // ),
+                                                                // Text(
+                                                                //   "Today",
+                                                                //   style: AppTextStyle()
+                                                                //       .textColor70707012w400,
+                                                                // )
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )
                                                     ],
                                                   ),
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
-                      ],
-                    ),
-                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                            ],
+                          ),
+                        ),
                   if (loading) Loading()
                 ],
               ),

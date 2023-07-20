@@ -9,6 +9,7 @@ import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
 import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
 import 'package:swishlist/models/product_model.dart';
+
 import '../../constants/color.dart';
 import '../../constants/globals/globals.dart';
 import '../../constants/urls.dart';
@@ -16,7 +17,10 @@ import '../../models/product_type_model.dart';
 
 class Productdontwant extends StatefulWidget {
   final bool isUser;
-  const Productdontwant({Key? key, required this.isUser,}) : super(key: key);
+  const Productdontwant({
+    Key? key,
+    required this.isUser,
+  }) : super(key: key);
 
   @override
   State<Productdontwant> createState() => _ProductdontwantState();
@@ -28,6 +32,7 @@ class _ProductdontwantState extends State<Productdontwant> {
     getNotWantProducts();
     super.initState();
   }
+
   List<int> selectedItems = [];
   bool loading = false;
   bool isLoading = false;
@@ -40,13 +45,13 @@ class _ProductdontwantState extends State<Productdontwant> {
     isLoading = true;
     var resp = getProductsApi();
     resp.then((value) {
-      if(value['status'] == true) {
+      if (value['status'] == true) {
         setState(() {
-          for(var v in value["data"]){
+          for (var v in value["data"]) {
             notWantOne.add(ProductTypeModel.fromJson(v));
           }
-          for(var v in notWantOne) {
-            if(v.type! == "dont_want") {
+          for (var v in notWantOne) {
+            if (v.type! == "dont_want") {
               notWantTwo.add(v);
             }
           }
@@ -57,7 +62,6 @@ class _ProductdontwantState extends State<Productdontwant> {
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -91,14 +95,13 @@ class _ProductdontwantState extends State<Productdontwant> {
                     setState(() {
                       loading = true;
                     });
-                    for ( var v in selectedItems) {
-                      deleteProductsApi(
-                          id: v.toString()
-                      ).then((value) async {
+                    for (var v in selectedItems) {
+                      deleteProductsApi(id: v.toString()).then((value) async {
                         print(selectedItems.toString());
-                        if(value['status'] == true) {
+                        if (value['status'] == true) {
                           setState(() {
-                            notWantTwo.removeWhere((element) => element.id == v);
+                            notWantTwo
+                                .removeWhere((element) => element.id == v);
                           });
                           Fluttertoast.showToast(msg: value['message']);
                         } else {
@@ -126,7 +129,7 @@ class _ProductdontwantState extends State<Productdontwant> {
                   child: Container(
                     width: 36,
                     height: 36,
-                    margin: EdgeInsets.only(right:16,left: 16),
+                    margin: EdgeInsets.only(right: 16, left: 16),
                     color: Colors.transparent,
                     child: Image.asset('assets/images/send1.png'),
                   ),
@@ -167,7 +170,8 @@ class _ProductdontwantState extends State<Productdontwant> {
                           isScrollControlled: true,
                           context: context,
                           builder: (context) {
-                            return ManuallyAddBottomSheetWidget(/*model: widget.model,*/);
+                            return ManuallyAddBottomSheetWidget(
+                                /*model: widget.model,*/);
                           });
                     },
                     child: Row(
@@ -201,229 +205,304 @@ class _ProductdontwantState extends State<Productdontwant> {
                       topLeft: Radius.circular(24))),
               child: Stack(
                 children: [
-                  isLoading ? Loading() :SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              "${notWantTwo.length.toString()} Products",
-                              // "6 Products",
-                              style: AppTextStyle().textColor70707012w500,
-                            ),
-                          ],
-                        ),
-                        notWantTwo.isEmpty ?
-                        AddProductImage(
-                          image: 'assets/images/Asset 1product 1.png',
-                          txt: 'Add Product',
-                          buttonTxt: 'Add Product',
-                          tap: () {  },
-                          buttonIcon: 'assets/images/plus.png',):
-                        ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: notWantTwo.length,
-                            // itemCount: 6,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (context, i) {
-                              return Padding(
-                                padding: const EdgeInsets.only(top: 16),
-                                child: GestureDetector(
-                                  onLongPress: () {
-                                    if (selectedItems.isEmpty) {
-                                      setState(() {
-                                        selectedItems.add(notWantTwo[i].id!);
-                                      });
-                                    }
-                                  },
-                                  onTap: () {
-                                    if (selectedItems.isEmpty) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ProductDetail(
-                                                    name: notWantTwo[i].name.toString(),
-                                                    price: notWantTwo[i].price.toString(),
-                                                    link: notWantTwo[i].link.toString(),
-                                                    image: baseUrl+notWantTwo[i].photo.toString(),
-                                                    purchaseDate: notWantTwo[i].purchasedDate.toString(),
-                                                    id: notWantTwo[i].id.toString(),
-                                                    type: notWantTwo[i].type.toString(),
-                                                  )));
-                                    } else {
-                                      if (selectedItems.contains(notWantTwo[i].id!)) {
-                                        setState(() {
-                                          selectedItems.remove(notWantTwo[i].id!);
-                                        });
-                                      } else {
-                                        setState(() {
-                                          selectedItems.add(notWantTwo[i].id!);
-                                        });
-                                      }
-                                    }
-                                    //log("hello");
-                                    print("hello");
-                                    print(selectedItems);
-                                  },
-                                  child: Container(
-                                    color: Colors.transparent,
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Stack(children: [
-                                              Container(
-                                                height: 86,
-                                                width: 86,
-                                                clipBehavior: Clip.hardEdge,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.circular(8),
-                                                  border: Border.all(
-                                                    width: 1,
-                                                    color: selectedItems.contains(notWantTwo[i].id!)
-                                                        ? ColorSelect.colorF7E641
-                                                        : ColorSelect.colorE0E0E0,
-                                                  ),
-                                                ),
-                                                child: CachedNetworkImage(
-                                                  // imageUrl: (baseUrl+notWantTwo[i].photo.toString()),
-                                                  imageUrl: notWantTwo[i].photo.toString().contains("https") ?
-                                                  notWantTwo[i].photo.toString() :
-                                                  baseUrl+notWantTwo[i].photo.toString(),
-                                                  fit: BoxFit.cover,
-                                                  errorWidget: (context, url, error) =>
-                                                      Icon(Icons.error,size: 40,),
-                                                  progressIndicatorBuilder:  (a,b,c) =>
-                                                      Opacity(
-                                                        opacity: 0.3,
-                                                        child: Shimmer.fromColors(
-                                                          baseColor: Colors.black12,
-                                                          highlightColor: Colors.white,
-                                                          child: Container(
-                                                            width: 173,
-                                                            height: 129,
-                                                            decoration: BoxDecoration(
-                                                                border:
-                                                                Border.all(color: ColorSelect.colorE0E0E0, width: 1),
-                                                                color: ColorSelect.colorFFFFFF,
-                                                                borderRadius: BorderRadius.circular(12)),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                ),
-                                                // child: Center(
-                                                //     child: Image.asset(
-                                                //         "assets/images/image10.png")),
-                                              ),
-                                              Positioned(
-                                                bottom: 0,
-                                                right: 0,
-                                                child: selectedItems.contains(notWantTwo[i].id!)
-                                                    ? Image.asset(
-                                                        "assets/images/select.png",
-                                                        height: 28,
-                                                        width: 28,
-                                                      )
-                                                    : SizedBox(),
-                                              )
-                                            ]),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 16),
-                                                  child: SizedBox(
-                                                    width: 230.w,
-                                                    child: Text(
-                                                      notWantTwo[i].name.toString(),
-                                                      // "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                      style: AppTextStyle()
-                                                          .textColor29292912w400,
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 8,
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 16),
-                                                  child: Text(
-                                                    '\$ ${notWantTwo[i].price.toString()}',
-                                                    // notWantTwo[i].price.toString(),
-                                                    // "47.99",
-                                                    style: AppTextStyle()
-                                                        .textColor29292914w500,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 4,
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 16),
-                                                  child: Row(
+                  isLoading
+                      ? Loading()
+                      : SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    "${notWantTwo.length.toString()} Products",
+                                    // "6 Products",
+                                    style: AppTextStyle().textColor70707012w500,
+                                  ),
+                                ],
+                              ),
+                              notWantTwo.isEmpty
+                                  ? AddProductImage(
+                                      image:
+                                          'assets/images/Asset 1product 1.png',
+                                      txt: 'Add Product',
+                                      buttonTxt: 'Add Product',
+                                      tap: () {},
+                                      buttonIcon: 'assets/images/plus.png',
+                                    )
+                                  : ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: notWantTwo.length,
+                                      // itemCount: 6,
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
+                                      itemBuilder: (context, i) {
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 16),
+                                          child: GestureDetector(
+                                            onLongPress: () {
+                                              if (selectedItems.isEmpty) {
+                                                setState(() {
+                                                  selectedItems
+                                                      .add(notWantTwo[i].id!);
+                                                });
+                                              }
+                                            },
+                                            onTap: () {
+                                              if (selectedItems.isEmpty) {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ProductDetail(
+                                                              name: notWantTwo[
+                                                                      i]
+                                                                  .name
+                                                                  .toString(),
+                                                              price: notWantTwo[
+                                                                      i]
+                                                                  .price
+                                                                  .toString(),
+                                                              link: notWantTwo[
+                                                                      i]
+                                                                  .link
+                                                                  .toString(),
+                                                              image: baseUrl +
+                                                                  notWantTwo[i]
+                                                                      .photo
+                                                                      .toString(),
+                                                              purchaseDate:
+                                                                  notWantTwo[i]
+                                                                      .purchasedDate
+                                                                      .toString(),
+                                                              id: notWantTwo[i]
+                                                                  .id
+                                                                  .toString(),
+                                                              type: notWantTwo[
+                                                                      i]
+                                                                  .type
+                                                                  .toString(),
+                                                            )));
+                                              } else {
+                                                if (selectedItems.contains(
+                                                    notWantTwo[i].id!)) {
+                                                  setState(() {
+                                                    selectedItems.remove(
+                                                        notWantTwo[i].id!);
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    selectedItems
+                                                        .add(notWantTwo[i].id!);
+                                                  });
+                                                }
+                                              }
+                                              //log("hello");
+                                              print("hello");
+                                              print(selectedItems);
+                                            },
+                                            child: Container(
+                                              color: Colors.transparent,
+                                              child: Column(
+                                                children: [
+                                                  Row(
                                                     children: [
-                                                      Image.asset(
-                                                          "assets/images/image46.png"),
-                                                      SizedBox(
-                                                        width: 6,
-                                                      ),
-                                                      Container(
-                                                        height: 5,
-                                                        width: 5,
-                                                        decoration: BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            color: ColorSelect
-                                                                .color707070),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 6,
-                                                      ),
-                                                      Text(
-                                                          DateTime.now()
-                                                              .difference(
-                                                              DateTime.parse(
-                                                                  notWantTwo[i].createdAt.toString()))
-                                                              .inMinutes <=
-                                                              59
-                                                              ? "${DateTime.now().difference(
-                                                              DateTime.parse( notWantTwo[i].createdAt.toString())).inMinutes} min ago"
-                                                              : DateTime.now()
-                                                              .difference(DateTime
-                                                              .parse( notWantTwo[i].createdAt.toString()))
-                                                              .inHours <=
-                                                              23
-                                                              ? "${DateTime.now().difference(
-                                                              DateTime.parse( notWantTwo[i].createdAt.toString())).inHours} hr ago"
-                                                              : "${DateTime.now().difference(
-                                                              DateTime.parse( notWantTwo[i].createdAt.toString())).inDays} days ago"),
+                                                      Stack(children: [
+                                                        Container(
+                                                          height: 86,
+                                                          width: 86,
+                                                          clipBehavior:
+                                                              Clip.hardEdge,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                            border: Border.all(
+                                                              width: 1,
+                                                              color: selectedItems
+                                                                      .contains(
+                                                                          notWantTwo[i]
+                                                                              .id!)
+                                                                  ? ColorSelect
+                                                                      .colorF7E641
+                                                                  : ColorSelect
+                                                                      .colorE0E0E0,
+                                                            ),
+                                                          ),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            // imageUrl: (baseUrl+notWantTwo[i].photo.toString()),
+                                                            imageUrl: notWantTwo[
+                                                                        i]
+                                                                    .photo
+                                                                    .toString()
+                                                                    .contains(
+                                                                        "https")
+                                                                ? notWantTwo[i]
+                                                                    .photo
+                                                                    .toString()
+                                                                : baseUrl +
+                                                                    notWantTwo[
+                                                                            i]
+                                                                        .photo
+                                                                        .toString(),
+                                                            fit: BoxFit.cover,
+                                                            errorWidget:
+                                                                (context, url,
+                                                                        error) =>
+                                                                    Icon(
+                                                              Icons.error,
+                                                              size: 40,
+                                                            ),
+                                                            progressIndicatorBuilder:
+                                                                (a, b, c) =>
+                                                                    Opacity(
+                                                              opacity: 0.3,
+                                                              child: Shimmer
+                                                                  .fromColors(
+                                                                baseColor: Colors
+                                                                    .black12,
+                                                                highlightColor:
+                                                                    Colors
+                                                                        .white,
+                                                                child:
+                                                                    Container(
+                                                                  width: 173,
+                                                                  height: 129,
+                                                                  decoration: BoxDecoration(
+                                                                      border: Border.all(
+                                                                          color: ColorSelect
+                                                                              .colorE0E0E0,
+                                                                          width:
+                                                                              1),
+                                                                      color: ColorSelect
+                                                                          .colorFFFFFF,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              12)),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          // child: Center(
+                                                          //     child: Image.asset(
+                                                          //         "assets/images/image10.png")),
+                                                        ),
+                                                        Positioned(
+                                                          bottom: 0,
+                                                          right: 0,
+                                                          child: selectedItems
+                                                                  .contains(
+                                                                      notWantTwo[
+                                                                              i]
+                                                                          .id!)
+                                                              ? Image.asset(
+                                                                  "assets/images/select.png",
+                                                                  height: 28,
+                                                                  width: 28,
+                                                                )
+                                                              : SizedBox(),
+                                                        )
+                                                      ]),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 16),
+                                                            child: SizedBox(
+                                                              width: 230.w,
+                                                              child: Text(
+                                                                notWantTwo[i]
+                                                                    .name
+                                                                    .toString(),
+                                                                // "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                maxLines: 2,
+                                                                style: AppTextStyle()
+                                                                    .textColor29292912w400,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 8,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 16),
+                                                            child: Text(
+                                                              'USD ${notWantTwo[i].price.toString()}',
+                                                              // notWantTwo[i].price.toString(),
+                                                              // "47.99",
+                                                              style: AppTextStyle()
+                                                                  .textColor29292914w500,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 4,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 16),
+                                                            child: Row(
+                                                              children: [
+                                                                Image.asset(
+                                                                    "assets/images/image46.png"),
+                                                                SizedBox(
+                                                                  width: 6,
+                                                                ),
+                                                                Container(
+                                                                  height: 5,
+                                                                  width: 5,
+                                                                  decoration: BoxDecoration(
+                                                                      shape: BoxShape
+                                                                          .circle,
+                                                                      color: ColorSelect
+                                                                          .color707070),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 6,
+                                                                ),
+                                                                Text(DateTime.now()
+                                                                            .difference(DateTime.parse(notWantTwo[i]
+                                                                                .createdAt
+                                                                                .toString()))
+                                                                            .inMinutes <=
+                                                                        59
+                                                                    ? "${DateTime.now().difference(DateTime.parse(notWantTwo[i].createdAt.toString())).inMinutes} min ago"
+                                                                    : DateTime.now().difference(DateTime.parse(notWantTwo[i].createdAt.toString())).inHours <=
+                                                                            23
+                                                                        ? "${DateTime.now().difference(DateTime.parse(notWantTwo[i].createdAt.toString())).inHours} hr ago"
+                                                                        : "${DateTime.now().difference(DateTime.parse(notWantTwo[i].createdAt.toString())).inDays} days ago"),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )
                                                     ],
                                                   ),
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ],
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
-                                  ),
-                                ),
-                              );
-                            },
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                  if(loading) Loading()
+                  if (loading) Loading()
                 ],
               ),
             ),

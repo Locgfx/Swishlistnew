@@ -2,20 +2,20 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/login/widgets/row_create_new_account_widget.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
 import 'package:swishlist/welcome/welcome.dart';
+
 import '../api/login_signup_apis/login_api.dart';
 import '../dashboard/dashboard.dart';
 import '../models/login_models.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key,
+  const Login({
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -34,7 +34,6 @@ class _LoginState extends State<Login> {
     return WillPopScope(
       onWillPop: () async {
         return false;
-
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -47,9 +46,7 @@ class _LoginState extends State<Login> {
                   onPop: () {
                     // Navigator.pop(context);
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context)
-                        => Welcome())
-                    );
+                        MaterialPageRoute(builder: (context) => Welcome()));
                   },
                   title: 'Login',
                 ),
@@ -66,9 +63,10 @@ class _LoginState extends State<Login> {
                     margin: EdgeInsets.symmetric(horizontal: 16),
                     width: 328.w,
                     decoration: BoxDecoration(
-                        color: ColorSelect.colorEDEDF1,
-                        borderRadius: BorderRadius.all(Radius.circular(8),
-                        ),
+                      color: ColorSelect.colorEDEDF1,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8),
+                      ),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20),
@@ -116,65 +114,87 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   height: 52.h,
                   width: 328.w,
-                  child: show ? LoadingLightYellowButton(): LightYellowButtonWithText(
-                    backgroundColor:(phoneEmailController.text.isNotEmpty && passwordController.text.isNotEmpty)
-                            ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                            : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                    textStyleColor:
-                    (phoneEmailController.text.isNotEmpty && passwordController.text.isNotEmpty)
-                            ? Colors.black
-                            : ColorSelect.colorB5B07A,
-                    onTap: () {
-                      setState(() {
-                        show = !show;
-                      });
-                      Timer timer = Timer(Duration(seconds: 2), () {
-                        setState(() {
-                          show = false;
-                        });
-                      });
-                      /*Navigator.pushReplacement(
+                  child: show
+                      ? LoadingLightYellowButton()
+                      : LightYellowButtonWithText(
+                          backgroundColor:
+                              (phoneEmailController.text.isNotEmpty &&
+                                      passwordController.text.isNotEmpty)
+                                  ? MaterialStateProperty.all(
+                                      ColorSelect.colorF7E641)
+                                  : MaterialStateProperty.all(
+                                      ColorSelect.colorFCF5B6),
+                          textStyleColor:
+                              (phoneEmailController.text.isNotEmpty &&
+                                      passwordController.text.isNotEmpty)
+                                  ? Colors.black
+                                  : ColorSelect.colorB5B07A,
+                          onTap: () {
+                            setState(() {
+                              show = !show;
+                            });
+                            Timer timer = Timer(Duration(seconds: 2), () {
+                              setState(() {
+                                show = false;
+                              });
+                            });
+                            /*Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PhoneVerification()));*/
-                      if (phoneEmailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-                      if(_formKey.currentState!.validate()) {
-                       /* setState(() {
+                            if (phoneEmailController.text.isNotEmpty &&
+                                passwordController.text.isNotEmpty) {
+                              if (_formKey.currentState!.validate()) {
+                                /* setState(() {
                           loading = true;
                         });*/
-                        login(
-                            context: context,
-                            email: phoneEmailController.text,
-                            password: passwordController.text,
-                            ).then((value) {
-                              response = value;
-                            if(response?.status != null && response!.status == true) {
-                            SharedPrefs().setLoginTrue();
-                            SharedPrefs().setEmail(phoneEmailController.text);
-                            SharedPrefs().setPassword(passwordController.text);
-                            SharedPrefs().setLoginToken(response!.token);
-                            SharedPrefs().setId(response!.data.id.toString());
-                            SharedPrefs().setName(response!.data.name.toString());
-                            SharedPrefs().setUsername(response!.data.username.toString());
-                            SharedPrefs().setUserPhoto(response!.data.photo.toString());
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ShowCaseWidget(builder: Builder(builder: (context) => Dashboard(response: response! ),
-                                )),
-                              ),
-                            );
-
-                          }
-                        });
-                      } else {
-                          loading = false;
-
-                      }
-                      }
-                    },
-                    title: 'Next'
-                  ),
+                                login(
+                                  context: context,
+                                  email: phoneEmailController.text,
+                                  password: passwordController.text,
+                                ).then((value) {
+                                  response = value;
+                                  if (response?.status != null &&
+                                      response!.status == true) {
+                                    SharedPrefs().setLoginTrue();
+                                    SharedPrefs()
+                                        .setEmail(phoneEmailController.text);
+                                    SharedPrefs()
+                                        .setPassword(passwordController.text);
+                                    SharedPrefs()
+                                        .setLoginToken(response!.token);
+                                    SharedPrefs()
+                                        .setId(response!.data.id.toString());
+                                    SharedPrefs().setName(
+                                        response!.data.name.toString());
+                                    SharedPrefs().setUsername(
+                                        response!.data.username.toString());
+                                    SharedPrefs().setUserPhoto(
+                                        response!.data.photo.toString());
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Dashboard(response: response!),
+                                      ),
+                                    );
+                                    // Navigator.pushReplacement(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (_) => ShowCaseWidget(
+                                    //         builder: Builder(
+                                    //       builder: (context) =>
+                                    //           Dashboard(response: response!),
+                                    //     )),
+                                    //   ),
+                                    // );
+                                  }
+                                });
+                              } else {
+                                loading = false;
+                              }
+                            }
+                          },
+                          title: 'Next'),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 30, bottom: 20),
@@ -185,10 +205,7 @@ class _LoginState extends State<Login> {
                 ),
                 // RowEmailFacebookGoogleWidget(),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 20,
-                      left: 20
-                  ),
+                  padding: const EdgeInsets.only(top: 20, left: 20),
                   child: RowCreateNewAccountWidget(),
                 )
               ],
