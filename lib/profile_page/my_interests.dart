@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/constants/color.dart';
+
 import '../api/user_apis/interest_api.dart';
 import '../buttons/yellow_button.dart';
 import '../expanded/user_all_details.dart';
@@ -12,10 +13,11 @@ import '../models/login_models.dart';
 class MyInterests extends StatefulWidget {
   final LoginResponse response;
   final String id;
-  MyInterests({Key? key,
-      required this.response,
-      required this.id,
-   }) : super(key: key);
+  MyInterests({
+    Key? key,
+    required this.response,
+    required this.id,
+  }) : super(key: key);
 
   @override
   State<MyInterests> createState() => _MyInterestsState();
@@ -68,19 +70,16 @@ class _MyInterestsState extends State<MyInterests> {
 
   List<String>? elements = [''];
   bool isLoading = false;
-  InterestModel? _interest = InterestModel(
-    data: Data(interest: '')
-  );
+  InterestModel? _interest = InterestModel(data: Data(interest: ''));
   getInterest() {
     isLoading = true;
     var resp = getInterestApi();
     resp.then((value) {
-      if (value ['status'] == true) {
+      if (value['status'] == true) {
         setState(() {
           _interest = InterestModel.fromJson(value);
-          elements =  _interest?.data!.interest!.split(",");
-          isLoading= false;
-
+          elements = _interest?.data!.interest!.split(",");
+          isLoading = false;
         });
       } else {
         isLoading = false;
@@ -106,8 +105,16 @@ class _MyInterestsState extends State<MyInterests> {
         ),
         leadingWidth: 40,
         leading: GestureDetector(
+          behavior: HitTestBehavior.translucent,
           onTap: () {
             Navigator.pop(context);
+            // ShowCaseWidget(
+            //   builder: Builder(
+            //     builder: (context) => UserAllDetails(
+            //       response: widget.response,
+            //     ),
+            //   ),
+            // );
           },
           child: Container(
             color: Colors.transparent,
@@ -125,65 +132,67 @@ class _MyInterestsState extends State<MyInterests> {
         width: 1.sw,
         height: 52.h,
         color: Colors.transparent,
-        child:  SingleChildScrollView(
-          child:(_interest!.data!.interest == '') ?
-          YellowButtonWithText(
-            backgroundColor: MaterialStateProperty.all(ColorSelect.colorF7E641),
-            textStyleColor: ColorSelect.color292929,
-            onTap: () {
-                if(tagsList.isNotEmpty) {
-                  postInterest(
-                      interest: tagsList.join(","),
-                   ).then((value) async {
-                    if(value['status'] == true) {
-                      Fluttertoast.showToast(
-                          msg: value['message']);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) =>
-                              UserAllDetails(response: widget.response),
-                          ),
-                      );
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: value['message']);
-                    }
-                  });
-                }
-            },
-            title: 'Save ${tagsList.isNotEmpty && tagsList.length < 11 ? '(${tagsList.length}/10)' : ''}',
-          ) : YellowButtonWithText(
-              backgroundColor: MaterialStateProperty.all(ColorSelect.colorF7E641),
-              textStyleColor: ColorSelect.color292929,
-              onTap: () {
-                if(tagsList.isNotEmpty) {
-                  updateInterest(
-                      userid: _interest!.data!.userId.toString(),
-                      interest: tagsList.join(","),
-                      id: _interest!.data!.id.toString()
-                  ).then((value) async {
-                        if(value['status'] == true) {
-                          // print(_interest!.data!.userId.toString());
-                          // print(tagsList.toString());
-                          // print(_interest!.data!.id.toString());
-                          Fluttertoast.showToast(
-                              msg: value['message']);
-                          Navigator.push(context,
-                            MaterialPageRoute(builder: (_) =>
-                                UserAllDetails(response: widget.response),
-                            ),
-                          );
-                        } else {
-                          Fluttertoast.showToast(
-                              msg: value['message']);
-
-                        }
-
-                  });
-                }
-
-              },
-              title: 'update ${tagsList.isNotEmpty && tagsList.length < 11 ? '(${tagsList.length}/10)' : ''}',)
-        ),
+        child: SingleChildScrollView(
+            child: (_interest!.data!.interest == '')
+                ? YellowButtonWithText(
+                    backgroundColor:
+                        MaterialStateProperty.all(ColorSelect.colorF7E641),
+                    textStyleColor: ColorSelect.color292929,
+                    onTap: () {
+                      if (tagsList.isNotEmpty) {
+                        postInterest(
+                          interest: tagsList.join(","),
+                        ).then((value) async {
+                          if (value['status'] == true) {
+                            Fluttertoast.showToast(msg: value['message']);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    UserAllDetails(response: widget.response),
+                              ),
+                            );
+                          } else {
+                            Fluttertoast.showToast(msg: value['message']);
+                          }
+                        });
+                      }
+                    },
+                    title:
+                        'Save ${tagsList.isNotEmpty && tagsList.length < 11 ? '(${tagsList.length}/10)' : ''}',
+                  )
+                : YellowButtonWithText(
+                    backgroundColor:
+                        MaterialStateProperty.all(ColorSelect.colorF7E641),
+                    textStyleColor: ColorSelect.color292929,
+                    onTap: () {
+                      if (tagsList.isNotEmpty) {
+                        updateInterest(
+                                userid: _interest!.data!.userId.toString(),
+                                interest: tagsList.join(","),
+                                id: _interest!.data!.id.toString())
+                            .then((value) async {
+                          if (value['status'] == true) {
+                            // print(_interest!.data!.userId.toString());
+                            // print(tagsList.toString());
+                            // print(_interest!.data!.id.toString());
+                            Fluttertoast.showToast(msg: value['message']);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    UserAllDetails(response: widget.response),
+                              ),
+                            );
+                          } else {
+                            Fluttertoast.showToast(msg: value['message']);
+                          }
+                        });
+                      }
+                    },
+                    title:
+                        'update ${tagsList.isNotEmpty && tagsList.length < 11 ? '(${tagsList.length}/10)' : ''}',
+                  )),
       ),
       body: Container(
         constraints: BoxConstraints(maxHeight: 1.sh),
@@ -233,8 +242,7 @@ class _MyInterestsState extends State<MyInterests> {
                       print(tagsList);
                     },
                     title: tags[i],
-                    selected: tagsList.contains(tags[i]
-                    ),
+                    selected: tagsList.contains(tags[i]),
                   );
                 },
               ),
@@ -265,8 +273,8 @@ class TagContainer extends StatelessWidget {
       },
       child: Container(
         padding: EdgeInsets.symmetric(
-            horizontal: 4,
-            vertical: 10,
+          horizontal: 4,
+          vertical: 10,
         ),
         decoration: BoxDecoration(
           color: selected ? ColorSelect.colorCBE0FA : Colors.white,

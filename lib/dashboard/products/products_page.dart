@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/dashboard/products/productalready.dart';
 import 'package:swishlist/dashboard/products/productdontwant.dart';
@@ -27,11 +29,13 @@ import '../../models/product_model.dart';
 import '../../models/product_type_model.dart';
 
 class ProductsPage extends StatefulWidget {
-  final GlobalKey productKey;
+  static const PREFERENCES_IS_FIRST_LAUNCH_STRING =
+      "PREFERENCES_IS_FIRST_LAUNCH_STRING";
   final LoginResponse response;
-  const ProductsPage(
-      {Key? key, required this.response, required this.productKey})
-      : super(key: key);
+  const ProductsPage({
+    Key? key,
+    required this.response,
+  }) : super(key: key);
 
   @override
   State<ProductsPage> createState() => _ProductsPageState();
@@ -42,6 +46,40 @@ class _ProductsPageState extends State<ProductsPage> {
   bool showExpandedScreen = false;
   bool isLoading = false;
   int itemCount = 2;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey _first = GlobalKey();
+  final GlobalKey _second = GlobalKey();
+  final GlobalKey _third = GlobalKey();
+  final GlobalKey _fourth = GlobalKey();
+  final GlobalKey _fifth = GlobalKey();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _isFirstLaunch().then((result) {
+        if (result) {
+          ShowCaseWidget.of(context)
+              .startShowCase([_first, _second, _third, _fourth, _fifth]);
+        }
+      });
+    });
+    super.initState();
+  }
+
+  Future<bool> _isFirstLaunch() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    bool isFirstLaunch = sharedPreferences
+            .getBool(ProductsPage.PREFERENCES_IS_FIRST_LAUNCH_STRING) ??
+        true;
+
+    if (isFirstLaunch) {
+      sharedPreferences.setBool(
+          ProductsPage.PREFERENCES_IS_FIRST_LAUNCH_STRING, false);
+    }
+
+    return isFirstLaunch;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -230,19 +268,29 @@ class _ProductsPageState extends State<ProductsPage> {
                                         child: Icon(Icons.more_vert),
                                       ),
                                     )
-                                  : GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () {
-                                        setState(() {
-                                          Share.share('Check Out SwishList');
-                                        });
-                                      },
-                                      child: Container(
-                                        height: 48,
-                                        width: 48,
-                                        padding: EdgeInsets.only(right: 16),
-                                        child: Image.asset(
-                                          'assets/images/send1.png',
+                                  : Showcase(
+                                      key: _first,
+                                      description:
+                                          'This button is used for Share profile with others',
+                                      child: GestureDetector(
+                                        behavior: HitTestBehavior.translucent,
+                                        onTap: () {
+                                          setState(() {
+                                            Share.share('Check Out SwishList');
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 8.0),
+                                          child: Container(
+                                            // color: Colors.red,
+                                            height: 48,
+                                            width: 48,
+                                            padding: EdgeInsets.all(8),
+                                            child: Image.asset(
+                                              'assets/images/send1.png',
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     )
@@ -364,8 +412,12 @@ class _ProductsPageState extends State<ProductsPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => UserAllDetails(
-                                        response: widget.response,
+                                      builder: (_) => ShowCaseWidget(
+                                        builder: Builder(
+                                          builder: (context) => UserAllDetails(
+                                            response: widget.response,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   );
@@ -425,30 +477,35 @@ class _ProductsPageState extends State<ProductsPage> {
                         SizedBox(
                           width: 16,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (context) {
-                                  return ManuallyAddBottomSheetWidget(
-                                      /*model: widget.model,*/);
-                                });
-                          },
-                          child: Container(
-                            height: 36,
-                            width: 36,
-                            decoration: BoxDecoration(
-                                color: ColorSelect.colorF7E641,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(child: Icon(Icons.add)),
+                        Showcase(
+                          targetPadding: EdgeInsets.all(8),
+                          key: _third,
+                          description: "this is for add products manually",
+                          child: GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (context) {
+                                    return ManuallyAddBottomSheetWidget(
+                                        /*model: widget.model,*/);
+                                  });
+                            },
+                            child: Container(
+                              height: 36,
+                              width: 36,
+                              decoration: BoxDecoration(
+                                  color: ColorSelect.colorF7E641,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Center(child: Icon(Icons.add)),
+                            ),
                           ),
                         ),
                       ]),
                     ),
                     IWantProductListWidget(
-                      addKey: widget.productKey,
+                      second: _second,
                     ),
                     SizedBox(
                       height: 68,
@@ -742,8 +799,8 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
 }
 
 class IWantProductListWidget extends StatefulWidget {
-  final GlobalKey addKey;
-  IWantProductListWidget({Key? key, required this.addKey})
+  final GlobalKey second;
+  IWantProductListWidget({Key? key, required this.second})
       : super(
           key: key,
         );
@@ -812,31 +869,35 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                         left: 60, right: 60, bottom: 12, top: 20),
                     child: Image.asset('assets/images/Asset 1product 1.png'),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: Positioned(
-                      top: 800,
-                      bottom: 50,
-                      child: SizedBox(
-                        height: 50.h,
-                        width: 1.sw,
-                        child: YellowButtonWithIcon(
-                          backgroundColor: MaterialStateProperty.all(
-                              ColorSelect.colorF7E641),
-                          textStyleColor: ColorSelect.color292929,
-                          onTap: () {
-                            showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (context) {
-                                  return ManuallyAddBottomSheetWidget(
-                                      //*model: widget.model,*//*);
-                                      );
-                                });
-                          },
-                          title: "Add Product",
-                          buttonIcon: "assets/images/plus.png",
+                  Showcase(
+                    key: widget.second,
+                    description: "this is for add products manually",
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 16),
+                      child: Positioned(
+                        top: 800,
+                        bottom: 50,
+                        child: SizedBox(
+                          height: 50.h,
+                          width: 1.sw,
+                          child: YellowButtonWithIcon(
+                            backgroundColor: MaterialStateProperty.all(
+                                ColorSelect.colorF7E641),
+                            textStyleColor: ColorSelect.color292929,
+                            onTap: () {
+                              showModalBottomSheet(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (context) {
+                                    return ManuallyAddBottomSheetWidget(
+                                        //*model: widget.model,*//*);
+                                        );
+                                  });
+                            },
+                            title: "Add Product",
+                            buttonIcon: "assets/images/plus.png",
+                          ),
                         ),
                       ),
                     ),

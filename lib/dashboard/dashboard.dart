@@ -25,9 +25,6 @@ class _DashboardState extends State<Dashboard> {
     initialPage: 0,
   );
   int pageIndex = 0;
-  final _one = GlobalKey();
-  final _second = GlobalKey();
-  final _third = GlobalKey();
 
   @override
   void initState() {
@@ -278,14 +275,26 @@ class _DashboardState extends State<Dashboard> {
                   ShowCaseWidget(
                     builder: Builder(
                       builder: (context) => ProductsPage(
-                          response: widget.response, productKey: _one),
+                        response: widget.response,
+                      ),
                     ),
                   ),
                   // ProductsPage(response: widget.response, productKey: _one),
                   // AllEtsyProducts(),
-                  Search(),
+                  // Search(),
+                  ShowCaseWidget(
+                    builder: Builder(
+                      builder: (context) => Search(),
+                    ),
+                  ),
                   Activities(),
-                  Friends(),
+                  ShowCaseWidget(
+                    builder: Builder(
+                      builder: (context) => Friends(),
+                    ),
+                  ),
+
+                  // Friends(),
                 ],
               ),
             ],

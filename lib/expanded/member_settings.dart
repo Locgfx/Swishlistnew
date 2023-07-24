@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/dashboard/dashboard.dart';
 import 'package:swishlist/expanded/user_all_details.dart';
 
@@ -112,8 +113,12 @@ class _MemberSettingsState extends State<MemberSettings> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => UserAllDetails(
-                                  response: widget.response,
+                                builder: (_) => ShowCaseWidget(
+                                  builder: Builder(
+                                    builder: (context) => UserAllDetails(
+                                      response: widget.response,
+                                    ),
+                                  ),
                                 ),
                               ),
                             );

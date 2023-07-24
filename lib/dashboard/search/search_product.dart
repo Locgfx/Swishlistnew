@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:swishlist/constants/color.dart';
+
 import '../products/products_page.dart';
 
 class SearchProduct extends StatefulWidget {
   final GlobalKey searchKey;
-  const SearchProduct({Key? key,
-  required this.searchKey}) : super(key: key);
+  const SearchProduct({Key? key, required this.searchKey}) : super(key: key);
 
   @override
   State<SearchProduct> createState() => _SearchProductState();
@@ -112,8 +112,8 @@ class _SearchProductState extends State<SearchProduct> {
               SizedBox(
                 height: 220,
                 child: IWantProductListWidget(
-                  addKey: widget.searchKey,
-            /*      imageList: imageList,
+                  second: widget.searchKey,
+                  /*      imageList: imageList,
                   itemNameList: itemNameList,
                   itemPrice: itemPrice,*/
                 ),
@@ -213,54 +213,54 @@ class _SearchProductState extends State<SearchProduct> {
                 height: 12,
               ),
               ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: 3,
-                  shrinkWrap: true,
-                  itemBuilder: (context, i) {
-                    return Column(
-                      children: [
-                        Row(
-                          children: [
-                            Column(
-                              children: [
-                                CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: Colors.grey,
-                                  backgroundImage: AssetImage(
-                                      'assets/images/Rectangle3194.png'),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "Jan Levinson",
-                                  style: AppTextStyle().textColor29292914w500,
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "JanLev23X0",
-                                  style: AppTextStyle().textColor70707014w400,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 22,
-                        )
-                      ],
-                    );
-                  },
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 3,
+                shrinkWrap: true,
+                itemBuilder: (context, i) {
+                  return Column(
+                    children: [
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Colors.grey,
+                                backgroundImage: AssetImage(
+                                    'assets/images/Rectangle3194.png'),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Jan Levinson",
+                                style: AppTextStyle().textColor29292914w500,
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "JanLev23X0",
+                                style: AppTextStyle().textColor70707014w400,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 22,
+                      )
+                    ],
+                  );
+                },
               )
             ],
           ),

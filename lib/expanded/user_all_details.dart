@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/expanded/widgets/Profile_data_and_all_uesr_data.dart';
 import 'package:swishlist/expanded/widgets/user_image_row.dart';
@@ -12,6 +14,7 @@ import 'package:swishlist/profile_page/pets.dart';
 import 'package:swishlist/profile_page/profile.dart';
 import 'package:swishlist/profile_page/sizes_and_weights.dart';
 import 'package:swishlist/profile_page/widgets/popup_menu_widget.dart';
+
 import '../api/user_apis/interest_api.dart';
 import '../constants/globals/shared_prefs.dart';
 import '../login/login.dart';
@@ -20,10 +23,11 @@ import '../models/login_models.dart';
 import 'member_settings.dart';
 
 class UserAllDetails extends StatefulWidget {
+  static const userrun = "userrun";
   final LoginResponse response;
-  const UserAllDetails({Key? key,
-      required this.response,
-
+  const UserAllDetails({
+    Key? key,
+    required this.response,
   }) : super(key: key);
 
   @override
@@ -35,6 +39,26 @@ class _UserAllDetailsState extends State<UserAllDetails> {
   void initState() {
     getInterest();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _isFirstLaunch().then((result) {
+        if (result) {
+          ShowCaseWidget.of(context).startShowCase(
+              [_zero, _first, _second, _third, _fourth, _fifth, _sixth]);
+        }
+      });
+    });
+  }
+
+  Future<bool> _isFirstLaunch() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    bool isFirstLaunch =
+        sharedPreferences.getBool(UserAllDetails.userrun) ?? true;
+
+    if (isFirstLaunch) {
+      sharedPreferences.setBool(UserAllDetails.userrun, false);
+    }
+
+    return isFirstLaunch;
   }
 
   List<String>? elements = [''];
@@ -44,17 +68,26 @@ class _UserAllDetailsState extends State<UserAllDetails> {
     isLoading = true;
     var resp = getInterestApi();
     resp.then((value) {
-      if (value ['status'] == true) {
+      if (value['status'] == true) {
         setState(() {
           _interest = InterestModel.fromJson(value);
-         elements =  _interest?.data!.interest!.split(",");
-          isLoading= false;
+          elements = _interest?.data!.interest!.split(",");
+          isLoading = false;
         });
       } else {
         isLoading = false;
       }
     });
   }
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey _zero = GlobalKey();
+  final GlobalKey _first = GlobalKey();
+  final GlobalKey _second = GlobalKey();
+  final GlobalKey _third = GlobalKey();
+  final GlobalKey _fourth = GlobalKey();
+  final GlobalKey _fifth = GlobalKey();
+  final GlobalKey _sixth = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +113,12 @@ class _UserAllDetailsState extends State<UserAllDetails> {
               child: InkWell(
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MemberSettings(response: widget.response,)));
-                  
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MemberSettings(
+                                response: widget.response,
+                              )));
                 },
                 child: SvgPicture.asset(
                   "assets/icons/arrowback.svg",
@@ -90,76 +126,91 @@ class _UserAllDetailsState extends State<UserAllDetails> {
               ),
             ),
             actions: [
-              Popupmen(menuList: [
-                PopupMenuItem(
-                  child: ListTile(
-                    title: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Account()));
-                      },
-                      child: Text(
-                        'Account',
-                        style: AppTextStyle().textColor39393914w500,
-                      ),
-                    ),
-                  ),
-                ),
-                // PopupMenuItem(
-                //   child: ListTile(
-                //     title: InkWell(
-                //       onTap: () {
-                //         Navigator.push(context,
-                //             MaterialPageRoute(builder: (context) => Privacy()));
-                //       },
-                //       child: Text(
-                //         'Privacy',
-                //         style: AppTextStyle().textColor39393914w500,
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                PopupMenuItem(
-                  child: GestureDetector(
-                    onTap: () {
-                      SharedPrefs().setLoginFalse();
-                      // SharedPrefs().clearPrefs();
-                      // logoutApi().then((value) {
-                      //   if(value['status'] == true) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => Login(),
-                            ),
-                          );
-                    },
+              Showcase(
+                key: _zero,
+                description: "Account Details",
+                child: Popupmen(menuList: [
+                  PopupMenuItem(
                     child: ListTile(
-                      title: Text(
-                        'Log out',
-                        style: AppTextStyle().textColor39393914w500,
+                      title: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Account()));
+                        },
+                        child: Text(
+                          'Account',
+                          style: AppTextStyle().textColor39393914w500,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ], icon: SvgPicture.asset('assets/icons/more-vertical.svg'))
+                  // PopupMenuItem(
+                  //   child: ListTile(
+                  //     title: InkWell(
+                  //       onTap: () {
+                  //         Navigator.push(context,
+                  //             MaterialPageRoute(builder: (context) => Privacy()));
+                  //       },
+                  //       child: Text(
+                  //         'Privacy',
+                  //         style: AppTextStyle().textColor39393914w500,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  PopupMenuItem(
+                    child: GestureDetector(
+                      onTap: () {
+                        SharedPrefs().setLoginFalse();
+                        // SharedPrefs().clearPrefs();
+                        // logoutApi().then((value) {
+                        //   if(value['status'] == true) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => Login(),
+                          ),
+                        );
+                      },
+                      child: ListTile(
+                        title: Text(
+                          'Log out',
+                          style: AppTextStyle().textColor39393914w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ], icon: SvgPicture.asset('assets/icons/more-vertical.svg')),
+              )
             ],
           ),
-          body:/* isLoading ? Loading():*/ SingleChildScrollView(
+          body: /* isLoading ? Loading():*/ SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  UserImageRowWidget(response: widget.response,),
+                  UserImageRowWidget(
+                    response: widget.response,
+                  ),
                   SizedBox(
                     height: 20.h,
                   ),
-                  GestureDetector(
+                  Showcase(
+                    key: _first,
+                    description: "Edit Interest",
+                    targetPadding: EdgeInsets.all(12),
+                    child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) =>
-                                MyInterests(response: widget.response, id: _interest!.data!.id.toString(),)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyInterests(
+                                      response: widget.response,
+                                      id: _interest!.data!.id.toString(),
+                                    )));
                         print(_interest!.data!.id);
                       },
                       child: Container(
@@ -173,12 +224,12 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                             Spacer(),
                             Padding(
                                 padding: const EdgeInsets.only(right: 20),
-                                child:
-                                    SvgPicture.asset("assets/icons/Vectoredit.svg")
-                            ),
+                                child: SvgPicture.asset(
+                                    "assets/icons/Vectoredit.svg")),
                           ],
                         ),
                       ),
+                    ),
                   ),
                   SizedBox(
                     height: 20.h,
@@ -193,15 +244,17 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                   // // ),
                   // _interest!.data!.interest!.isEmpty ?
                   // Text('hi'):
-                   isLoading == true ?
-                       // SizedBox()
-                   Text(
-                     "Add Your Interest",
-                     style: AppTextStyle().textColor29292914w400,
-                   ):
-                    Wrap(
-                       children: elements!.map((e) => chipBox(name:e)).toList(),
-                     ),
+                  isLoading == true
+                      ?
+                      // SizedBox()
+                      Text(
+                          "Add Your Interest",
+                          style: AppTextStyle().textColor29292914w400,
+                        )
+                      : Wrap(
+                          children:
+                              elements!.map((e) => chipBox(name: e)).toList(),
+                        ),
                   // SizedBox(height: 10.h,),
                   // InterestRow2Widget(),
                   // SizedBox(height: 10.h,),
@@ -209,63 +262,101 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                   SizedBox(
                     height: 30.h,
                   ),
-                  InkWell(
-                     highlightColor: Colors.transparent,
-                     splashColor: Colors.transparent,
-                     onTap: () {
-                      Navigator.push(context,
-                           MaterialPageRoute(builder: (context) => UserProfile()));
-                    },
-                    child: ProfileRowWidget(),
+                  Showcase(
+                    key: _second,
+                    description: "Manage Your profile",
+                    targetPadding: EdgeInsets.all(12),
+                    child: InkWell(
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UserProfile()));
+                      },
+                      child: ProfileRowWidget(),
+                    ),
                   ),
                   SizedBox(
                     height: 20.h,
                   ),
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                      SizeAndWeights(response: widget.response,)));
-                    },
-                      child: SizeAndWeightRowWidget()),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  InkWell(
-                     highlightColor: Colors.transparent,
-                     splashColor: Colors.transparent,   onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Favorites()));
-                    },
-                    child: FavoritesRowWidget(),
+                  Showcase(
+                    key: _third,
+                    description: "Manage your Sizes and Weights",
+                    targetPadding: EdgeInsets.all(12),
+                    child: InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => SizeAndWeights(
+                                        response: widget.response,
+                                      )));
+                        },
+                        child: SizeAndWeightRowWidget()),
                   ),
                   SizedBox(
                     height: 20.h,
                   ),
-                  InkWell(
-                     highlightColor: Colors.transparent,
-                     splashColor: Colors.transparent,
-                     onTap: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(
-                          builder: (context) => Pets(),
-                        )
-                      );
-                    },
-                    child: PetsRowWidget(),
+                  Showcase(
+                    key: _fourth,
+                    description: "Manage your Favourites",
+                    targetPadding: EdgeInsets.all(12),
+                    child: InkWell(
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Favorites()));
+                      },
+                      child: FavoritesRowWidget(),
+                    ),
                   ),
                   SizedBox(
                     height: 20.h,
                   ),
-                  InkWell(
-                     highlightColor: Colors.transparent,
-                     splashColor: Colors.transparent,
-                     onTap: () {
-                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => DateAndEvents()));
-                       },
-                    child: DateAndEventsRowWidget(),
+                  Showcase(
+                    key: _fifth,
+                    description: "Manage Your Pets",
+                    targetPadding: EdgeInsets.all(12),
+                    child: InkWell(
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Pets(),
+                            ));
+                      },
+                      child: PetsRowWidget(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Showcase(
+                    key: _sixth,
+                    description: "Manage Your Date And Events",
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DateAndEvents()));
+                        },
+                        child: DateAndEventsRowWidget(),
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -276,19 +367,20 @@ class _UserAllDetailsState extends State<UserAllDetails> {
       ],
     );
   }
+
   Container chipBox({required String name}) {
     return Container(
-          margin: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(48),
-              ),
-              color: ColorSelect.colorCBE0FA),
-          padding: EdgeInsets.all(10),
-          child: Text(name,
-            style: AppTextStyle().textColor29292914w400,
+      margin: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(48),
           ),
-        );
+          color: ColorSelect.colorCBE0FA),
+      padding: EdgeInsets.all(10),
+      child: Text(
+        name,
+        style: AppTextStyle().textColor29292914w400,
+      ),
+    );
   }
 }
-

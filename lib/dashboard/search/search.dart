@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/constants/globals/loading.dart';
@@ -18,6 +20,7 @@ import '../../models/etsy_load_more_model.dart';
 import 'etsy_products_details.dart';
 
 class Search extends StatefulWidget {
+  static const searchRun = "searchrun";
   const Search({Key? key}) : super(key: key);
 
   @override
@@ -28,6 +31,13 @@ class _SearchState extends State<Search> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _isFirstLaunch().then((result) {
+        if (result) {
+          ShowCaseWidget.of(context).startShowCase([_first]);
+        }
+      });
+    });
   }
 
   final searchController = TextEditingController();
@@ -96,6 +106,20 @@ class _SearchState extends State<Search> {
     });
   }
 
+  final GlobalKey _first = GlobalKey();
+  final GlobalKey _second = GlobalKey();
+
+  Future<bool> _isFirstLaunch() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    bool isFirstLaunch = sharedPreferences.getBool(Search.searchRun) ?? true;
+
+    if (isFirstLaunch) {
+      sharedPreferences.setBool(Search.searchRun, false);
+    }
+
+    return isFirstLaunch;
+  }
+
   FocusNode focus = FocusNode();
   @override
   Widget build(BuildContext context) {
@@ -122,100 +146,106 @@ class _SearchState extends State<Search> {
                   ],
                 ),
                 SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        "Add product name and tap on search icon for search",
-                        // "Find your friends, or search products from your favourite shopping sites.",
-                        textAlign: TextAlign.center,
-                        style: AppTextStyle().textColor70707012w400,
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 28),
-                Container(
-                  width: 1.sw,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    // color: ColorSelect.colorF7E641,
-                    borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(20),
-                        bottomLeft: Radius.circular(20)),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: focus,
-                          onChanged: (val) {
-                            /*  setState(() {
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: Text(
+                //         "Add product name and tap on search icon for search",
+                //         // "Find your friends, or search products from your favourite shopping sites.",
+                //         textAlign: TextAlign.center,
+                //         style: AppTextStyle().textColor70707012w400,
+                //       ),
+                //     )
+                //   ],
+                // ),
+                SizedBox(height: 18),
+                Showcase(
+                  targetPadding: EdgeInsets.all(8),
+                  descriptionPadding: EdgeInsets.all(10),
+                  key: _first,
+                  description: "Tap icon for search products",
+                  child: Container(
+                    width: 1.sw,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      // color: ColorSelect.colorF7E641,
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(20)),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            focusNode: focus,
+                            onChanged: (val) {
+                              /*  setState(() {
+                                if (searchController.text.isNotEmpty) {
+                                  // searchListings.clear();
+                                  // matches.clear();
+                                  getSearch(val);
+                                } else {
+                                  setState(() {
+                                    searchListings.clear();
+                                    matches.clear();
+                                  });
+                                }
+                              });*/
+                            },
+                            onFieldSubmitted: (val) {
                               if (searchController.text.isNotEmpty) {
-                                // searchListings.clear();
-                                // matches.clear();
-                                getSearch(val);
+                                searchListings.clear();
+                                matches.clear();
+                                setState(() {
+                                  searchLoading ? Loading() : getSearch();
+                                });
+                                getSearch();
                               } else {
                                 setState(() {
                                   searchListings.clear();
                                   matches.clear();
                                 });
                               }
-                            });*/
-                          },
-                          onFieldSubmitted: (val) {
-                            if (searchController.text.isNotEmpty) {
-                              searchListings.clear();
-                              matches.clear();
-                              setState(() {
-                                searchLoading ? Loading() : getSearch();
-                              });
-                              getSearch();
-                            } else {
-                              setState(() {
-                                searchListings.clear();
-                                matches.clear();
-                              });
-                            }
-                          },
-                          controller: searchController,
-                          cursorColor: ColorSelect.colorF7E641,
-                          decoration: AppTFWithIconDecoration(
-                            hint: 'Enter Product Tags',
-                            icon: GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                onTap: () {
-                                  /*setState(() {
-                                  show = !show;
-                                });*/
-                                  if (searchController.text.isNotEmpty) {
-                                    searchListings.clear();
-                                    matches.clear();
-                                    setState(() {
-                                      searchLoading ? Loading() : getSearch();
-                                    });
-                                    ;
-                                    getSearch();
-                                  } else {
-                                    setState(() {
+                            },
+                            controller: searchController,
+                            cursorColor: ColorSelect.colorF7E641,
+                            decoration: AppTFWithIconDecoration(
+                              hint: 'Search Products',
+                              icon: GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  onTap: () {
+                                    /*setState(() {
+                                    show = !show;
+                                  });*/
+                                    if (searchController.text.isNotEmpty) {
                                       searchListings.clear();
                                       matches.clear();
-                                    });
-                                  }
-                                  // clearText();
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(5),
-                                  // color: Colors.red,
-                                  child: Image.asset(
-                                    "assets/images/search 03.png" /*'assets/images/Frame 1000002471.png'*/,
-                                  ),
-                                )),
-                          ).decoration(),
-                          //keyboardType: TextInputType.phone,
+                                      setState(() {
+                                        searchLoading ? Loading() : getSearch();
+                                      });
+                                      ;
+                                      getSearch();
+                                    } else {
+                                      setState(() {
+                                        searchListings.clear();
+                                        matches.clear();
+                                      });
+                                    }
+                                    // clearText();
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(5),
+                                    // color: Colors.red,
+                                    child: Image.asset(
+                                      "assets/images/search 03.png" /*'assets/images/Frame 1000002471.png'*/,
+                                    ),
+                                  )),
+                            ).decoration(),
+                            //keyboardType: TextInputType.phone,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 // InkWell(
