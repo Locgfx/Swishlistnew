@@ -1,13 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/login/login.dart';
-import '../api/social_signin/google_signin.dart';
+
 import '../signup/signup_with_email.dart';
 import '../signup/signup_with_phone.dart';
 
@@ -63,7 +60,7 @@ class _WelcomeState extends State<Welcome> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
                   onTap: () {
@@ -75,13 +72,14 @@ class _WelcomeState extends State<Welcome> {
                     );
                   },
                   child: Container(
-                    height: 48,
-                    width: 120,
+                    height: 60,
+                    width: 240,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         border: Border.all(
                             width: 1, color: ColorSelect.colorA3A3A3)),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 20),
@@ -100,34 +98,33 @@ class _WelcomeState extends State<Welcome> {
                     ),
                   ),
                 ),
-                Container(
-                    height: 48,
-                    width: 120,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        border: Border.all(
-                            width: 1, color: ColorSelect.colorA3A3A3)),
-                    child: SvgPicture.asset("assets/icons/logos_facebook.svg",
-                        height: 20, width: 20, fit: BoxFit.scaleDown)),
-                GestureDetector(
-                  onTap: () async {
-                    final auth = await GoogleSignInClass().googleLogin();
-                    log(auth.idToken.toString());
-                  },
-                  child: Container(
-                      height: 48,
-                      width: 120,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          border: Border.all(
-                              width: 1, color: ColorSelect.colorA3A3A3)),
-                      child: SvgPicture.asset(
-                          "assets/icons/flat-color-icons_google.svg",
-                          height: 20,
-                          width: 20,
-                          fit: BoxFit.scaleDown)
-                  ),
-                ),
+                // Container(
+                //     height: 48,
+                //     width: 120,
+                //     decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.all(Radius.circular(8)),
+                //         border: Border.all(
+                //             width: 1, color: ColorSelect.colorA3A3A3)),
+                //     child: SvgPicture.asset("assets/icons/logos_facebook.svg",
+                //         height: 20, width: 20, fit: BoxFit.scaleDown)),
+                // GestureDetector(
+                //   onTap: () async {
+                //     final auth = await GoogleSignInClass().googleLogin();
+                //     log(auth.idToken.toString());
+                //   },
+                //   child: Container(
+                //       height: 48,
+                //       width: 120,
+                //       decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.all(Radius.circular(8)),
+                //           border: Border.all(
+                //               width: 1, color: ColorSelect.colorA3A3A3)),
+                //       child: SvgPicture.asset(
+                //           "assets/icons/flat-color-icons_google.svg",
+                //           height: 20,
+                //           width: 20,
+                //           fit: BoxFit.scaleDown)),
+                // ),
               ],
             ),
             GestureDetector(
@@ -144,29 +141,27 @@ class _WelcomeState extends State<Welcome> {
                 child: Row(
                   children: [
                     Padding(
-                        padding: const EdgeInsets.only(left: 30, top: 40),
-                        child: RichText(
-                            text: TextSpan(
-                                text: 'Already a member?',
-                                style: AppTextStyle().textColor29292914w500,
-                                children: <TextSpan>[
-                              TextSpan(
-                                  text: ' Log in',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                                ],
+                      padding: const EdgeInsets.only(left: 30, top: 40),
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Already a member?',
+                          style: AppTextStyle().textColor29292914w500,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' Log in',
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
+                          ],
                         ),
+                      ),
                     ),
                     SizedBox(
                       width: 5.w,
                     ),
                     Padding(
-                        padding: const EdgeInsets.only(top: 40),
-                        child: SvgPicture.asset("assets/icons/Polygon16.svg",
-                            height: 20, width: 20, fit: BoxFit.scaleDown
-                        ),
+                      padding: const EdgeInsets.only(top: 40),
+                      child: SvgPicture.asset("assets/icons/Polygon16.svg",
+                          height: 20, width: 20, fit: BoxFit.scaleDown),
                     ),
                   ],
                 ),
