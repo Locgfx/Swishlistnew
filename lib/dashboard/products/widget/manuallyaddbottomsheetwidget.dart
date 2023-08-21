@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../buttons/light_yellow.dart';
 import '../../../constants/color.dart';
+import '../../search/all_etsy_products.dart';
 import '../manuallyadd.dart';
 import '../productAdded.dart';
 import 'link_product_add.dart';
@@ -125,36 +126,76 @@ class _ManuallyAddBottomSheetWidgetState
                     SizedBox(
                       height: 16,
                     ),
-                    SizedBox(
-                      height: 52.h,
-                      width: 88.w,
-                      child: LightYellowButtonWithText(
-                          backgroundColor:
-                              (productLinkController.text.isNotEmpty)
-                                  ? MaterialStateProperty.all(
-                                      ColorSelect.colorF7E641)
-                                  : MaterialStateProperty.all(
-                                      ColorSelect.colorFCF5B6),
-                          textStyleColor:
-                              (productLinkController.text.isNotEmpty)
-                                  ? Colors.black
-                                  : ColorSelect.colorB5B07A,
+                    Row(
+                      children: [
+                        SizedBox(
+                          height: 52.h,
+                          width: 88.w,
+                          child: LightYellowButtonWithText(
+                              backgroundColor:
+                                  (productLinkController.text.isNotEmpty)
+                                      ? MaterialStateProperty.all(
+                                          ColorSelect.colorF7E641)
+                                      : MaterialStateProperty.all(
+                                          ColorSelect.colorFCF5B6),
+                              textStyleColor:
+                                  (productLinkController.text.isNotEmpty)
+                                      ? Colors.black
+                                      : ColorSelect.colorB5B07A,
+                              onTap: () {
+                                /* Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProductAdded(name: '', price: '', productImage: ''),
+                                    ),
+                                );*/
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LinkProductAdd(
+                                              productLink:
+                                                  productLinkController.text,
+                                            )));
+                              },
+                              title: 'Add'),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "or",
+                          style: AppTextStyle().textColor70707012w400,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        GestureDetector(
                           onTap: () {
-                            /* Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProductAdded(name: '', price: '', productImage: ''),
-                                ),
-                            );*/
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LinkProductAdd(
-                                          productLink:
-                                              productLinkController.text,
-                                        )));
+                                    builder: (_) => AllEtsyProducts()));
                           },
-                          title: 'Add'),
+                          child: Container(
+                            height: 50.h,
+                            width: 120.w,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                    color: ColorSelect.colorA3A3A3, width: 1)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset("assets/images/etsyimg.png"),
+                                Text(
+                                  "Etsy",
+                                  style: AppTextStyle().textColor29292914w400,
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                     SizedBox(
                       height: 32,

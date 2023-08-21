@@ -217,37 +217,28 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                   builder: (context) => ManuallyAdd(
                                                       /*model: widget.model,*/)));
                                         },
-                                        child: Container(
-                                          width: 138.w,
-                                          height: 44.h,
-                                          margin: EdgeInsets.only(right: 16),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Add manually",
-                                                style: AppTextStyle()
-                                                    .textcolor27272714w500,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Add manually",
+                                              style: AppTextStyle()
+                                                  .textcolor27272714w500,
+                                            ),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 7),
+                                              child: SvgPicture.asset(
+                                                "assets/icons/Vector175.svg",
                                               ),
-                                              SizedBox(
-                                                width: 4,
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 7),
-                                                child: SvgPicture.asset(
-                                                  "assets/icons/Vector175.svg",
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       SizedBox(

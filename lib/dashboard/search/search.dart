@@ -140,7 +140,7 @@ class _SearchState extends State<Search> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Search & add",
+                      "Search and Add",
                       style: AppTextStyle().textColor29292924w700,
                     ),
                   ],

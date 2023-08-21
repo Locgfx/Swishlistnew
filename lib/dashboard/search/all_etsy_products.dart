@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/etsy_apis/all_listing_apis.dart';
 import 'package:swishlist/constants/globals/globals.dart';
@@ -16,6 +17,7 @@ import '../../models/etsy_listingid_model.dart';
 import 'etsy_products_details.dart';
 
 class AllEtsyProducts extends StatefulWidget {
+  static const etsyrun = "etsyrun";
   const AllEtsyProducts({Key? key}) : super(key: key);
 
   @override
@@ -27,6 +29,28 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
   void initState() {
     getAllListing();
     super.initState();
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _isFirstLaunch().then((result) {
+    //     if (result) {
+    //       ShowCaseWidget.of(context).startShowCase([
+    //         _first,
+    //       ]);
+    //     }
+    //   });
+    // });
+  }
+
+  final GlobalKey _first = GlobalKey();
+  Future<bool> _isFirstLaunch() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    bool isFirstLaunch =
+        sharedPreferences.getBool(AllEtsyProducts.etsyrun) ?? true;
+
+    if (isFirstLaunch) {
+      sharedPreferences.setBool(AllEtsyProducts.etsyrun, false);
+    }
+
+    return isFirstLaunch;
   }
 
   bool isLoading = false;
@@ -585,7 +609,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                       controller: searchController,
                       cursorColor: ColorSelect.colorF7E641,
                       decoration: AppTFWithIconDecoration(
-                        hint: 'Enter product and tap search icon',
+                        hint: 'Search Product',
                         icon: GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () {

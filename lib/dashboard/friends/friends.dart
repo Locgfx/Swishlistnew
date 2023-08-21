@@ -11,6 +11,7 @@ import '../../constants/decoration.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/add_friend_model.dart';
+import '../../models/friend_notification_model.dart';
 import '../../models/friends_model.dart';
 import 'addfriends.dart';
 import 'friendproduct.dart';
@@ -32,6 +33,7 @@ class _FriendsState extends State<Friends> {
   @override
   void initState() {
     getFriends();
+    getFriendNotifications();
     super.initState();
     focusNode = FocusNode();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -100,6 +102,28 @@ class _FriendsState extends State<Friends> {
   final GlobalKey _fourth = GlobalKey();
   final GlobalKey _fifth = GlobalKey();
 
+  List<FriendNotificationModel> friendNotification = [];
+  getFriendNotifications() {
+    isLoading = true;
+    var resp = getFriendNotificationApi();
+    resp.then((value) {
+      if (mounted) {
+        if (value['status'] == true) {
+          setState(() {
+            for (var v in value['data']) {
+              friendNotification.add(FriendNotificationModel.fromJson(v));
+            }
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,7 +161,7 @@ class _FriendsState extends State<Friends> {
                             targetPadding: EdgeInsets.all(8),
                             descriptionPadding: EdgeInsets.all(10),
                             key: _first,
-                            description: "search friends by name",
+                            description: "Search friends by name",
                             child: GestureDetector(
                               // behavior: HitTestBehavior.translucent,
                               onTap: () {
@@ -195,7 +219,7 @@ class _FriendsState extends State<Friends> {
                           Showcase(
                             targetPadding: EdgeInsets.all(8),
                             key: _third,
-                            description: "send messages to your friend",
+                            description: "Send Messages to your friend",
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -222,7 +246,7 @@ class _FriendsState extends State<Friends> {
                           Showcase(
                             targetPadding: EdgeInsets.all(8),
                             key: _fourth,
-                            description: "friend notifications",
+                            description: "Notifications",
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -231,14 +255,36 @@ class _FriendsState extends State<Friends> {
                                         builder: (context) =>
                                             FriendNotification()));
                               },
-                              child: Container(
-                                  color: Colors.transparent,
-                                  height: 24,
-                                  width: 24,
-                                  child: Image.asset(
-                                    "assets/images/notification-pngrepo-com.png",
-                                    color: ColorSelect.color292929,
-                                  )),
+                              child: friendNotification.isEmpty
+                                  ? Container(
+                                      color: Colors.transparent,
+                                      height: 24,
+                                      width: 24,
+                                      child: Image.asset(
+                                        "assets/images/notification-pngrepo-com.png",
+                                        color: ColorSelect.color292929,
+                                      ))
+                                  : Stack(
+                                      children: [
+                                        Container(
+                                            color: Colors.transparent,
+                                            height: 24,
+                                            width: 24,
+                                            child: Image.asset(
+                                              "assets/images/notification-pngrepo-com.png",
+                                              color: ColorSelect.color292929,
+                                            )),
+                                        Positioned(
+                                            right: 0,
+                                            child: Container(
+                                              height: 12,
+                                              width: 12,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.red,
+                                                  shape: BoxShape.circle),
+                                            ))
+                                      ],
+                                    ),
                             ),
                           )
                         ],

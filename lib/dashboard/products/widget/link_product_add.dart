@@ -380,7 +380,7 @@ class _LinkProductAddState extends State<LinkProductAdd> {
                             },
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "Current Date",
+                              hintText: "Purchase date or ideal Purchase date",
                               hintStyle: AppTextStyle().textColor70707014w400,
                               suffixIcon:
                                   Image.asset("assets/images/calendarimg.png"),
