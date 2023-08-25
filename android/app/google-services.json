@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "67971639557-731kjfn5ud31f5aaq3370iqbondcdiiv.apps.googleusercontent.com",
+          "client_id": "67971639557-1ir4s96aeusk09dkqu3m9m0bgpc6must.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.locgfx.swishlist",
-            "certificate_hash": "27d1e7de0ccf5cd9c851704caad42bfe6a07ad1f"
+            "certificate_hash": "23b5ccb9a86e1d536a8676e260caced125b7be72"
           }
         },
         {

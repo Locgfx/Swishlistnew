@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -17,6 +16,7 @@ import 'package:swishlist/expanded/manage_family_members.dart';
 import 'package:swishlist/expanded/member_settings.dart';
 import 'package:swishlist/expanded/user_all_details.dart';
 import 'package:swishlist/expanded/widgets/expanded_section_row_option.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../api/user_apis/products_api.dart';
 import '../../buttons/yellow_button.dart';
@@ -100,7 +100,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 child: Column(
                   children: [
                     Stack(
-                      clipBehavior: Clip.none,
+                      // clipBehavior: Clip.none,
                       children: [
                         Positioned(
                             top: 250,
@@ -276,10 +276,22 @@ class _ProductsPageState extends State<ProductsPage> {
                                       description: 'Share profile with others',
                                       child: GestureDetector(
                                         behavior: HitTestBehavior.translucent,
-                                        onTap: () {
-                                          setState(() {
-                                            Share.share('Check Out SwishList');
-                                          });
+                                        onTap: () async {
+                                          final url = Uri.parse(
+                                            'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share',
+                                          );
+                                          if (await canLaunchUrl(url)) {
+                                            launchUrl(url);
+                                          } else {
+                                            // ignore: avoid_print
+                                            print("Can't launch $url");
+                                          }
+                                          // final Uri url = Uri.parse(
+                                          //     'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share');
+                                          // if (!await launchUrl(url)) {
+                                          //   throw Exception(
+                                          //       'Could not launch $_url');
+                                          // }
                                         },
                                         child: Padding(
                                           padding:
@@ -924,36 +936,38 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                   Showcase(
                     key: widget.second,
                     description: "this is for add products manually",
-                    child: Padding(
+                    child:
+                        // Positioned(
+                        //   top: 800,
+                        //   bottom: 50,
+                        //   child:
+                        Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: Positioned(
-                        top: 800,
-                        bottom: 50,
-                        child: SizedBox(
-                          height: 50.h,
-                          width: 1.sw,
-                          child: YellowButtonWithIcon(
-                            backgroundColor: MaterialStateProperty.all(
-                                ColorSelect.colorF7E641),
-                            textStyleColor: ColorSelect.color292929,
-                            onTap: () {
-                              showModalBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  isScrollControlled: true,
-                                  builder: (context) {
-                                    return ManuallyAddBottomSheetWidget(
-                                        //*model: widget.model,*//*);
-                                        );
-                                  });
-                            },
-                            title: "Add Product",
-                            buttonIcon: "assets/images/plus.png",
-                          ),
+                      child: SizedBox(
+                        height: 50.h,
+                        width: 1.sw,
+                        child: YellowButtonWithIcon(
+                          backgroundColor: MaterialStateProperty.all(
+                              ColorSelect.colorF7E641),
+                          textStyleColor: ColorSelect.color292929,
+                          onTap: () {
+                            showModalBottomSheet(
+                                backgroundColor: Colors.transparent,
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (context) {
+                                  return ManuallyAddBottomSheetWidget(
+                                      //*model: widget.model,*//*);
+                                      );
+                                });
+                          },
+                          title: "Add Product",
+                          buttonIcon: "assets/images/plus.png",
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  // )
                 ],
               )
             : SizedBox(

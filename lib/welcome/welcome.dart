@@ -73,7 +73,7 @@ class _WelcomeState extends State<Welcome> {
                   },
                   child: Container(
                     height: 60,
-                    width: 240,
+                    width: 200,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         border: Border.all(
@@ -82,7 +82,7 @@ class _WelcomeState extends State<Welcome> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 20),
+                          padding: const EdgeInsets.only(left: 0),
                           child: SvgPicture.asset(
                             "assets/icons/gmail.svg",
                           ),

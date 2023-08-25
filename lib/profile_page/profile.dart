@@ -37,6 +37,7 @@ class _UserProfileState extends State<UserProfile> {
   @override
   void initState() {
     getProfile();
+    print(profile!.data!.name!.toString());
     super.initState();
   }
 
@@ -54,9 +55,13 @@ class _UserProfileState extends State<UserProfile> {
       workAddress: '',
       privacyStatus: '',
       createdAt: '',
-      updatedAt: '',
-      deletedAt: '',
-      user: User(photo: '${SharedPrefs().getUserPhoto()}'),
+      user: User(
+          name: '',
+          username: '',
+          email: '',
+          phone: '',
+          type: '',
+          photo: '${SharedPrefs().getUserPhoto()}'),
     ),
   );
 
@@ -89,16 +94,16 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   void fields() {
-    nameController.text = profile!.data!.name!.toString() ?? '';
-    genderController.text = profile!.data!.gender!.toString() ?? '';
-    dobFormat = profile!.data!.dob.toString() ?? '';
-    occupationController.text = profile!.data!.occupation!.toString() ?? '';
-    relationStatus.text = profile!.data!.relationStatus!.toString() ?? '';
-    emailController.text = profile!.data!.email!.toString() ?? '';
-    phoneController.text = profile!.data!.phone!.toString() ?? '';
-    alternateNo.text = profile!.data!.alternatePhone!.toString() ?? '';
-    homeController.text = profile!.data!.homeAddress!.toString() ?? '';
-    workController.text = profile!.data!.workAddress!.toString() ?? '';
+    nameController.text = profile!.data!.name ?? '';
+    genderController.text = profile!.data!.gender ?? '';
+    dobFormat = profile!.data!.dob ?? '';
+    occupationController.text = profile!.data!.occupation ?? '';
+    relationStatus.text = profile!.data!.relationStatus ?? '';
+    emailController.text = profile!.data!.email ?? '';
+    phoneController.text = profile!.data!.phone ?? '';
+    alternateNo.text = profile!.data!.alternatePhone ?? '';
+    homeController.text = profile!.data!.homeAddress ?? '';
+    workController.text = profile!.data!.workAddress ?? '';
   }
 
   double dou = 00;
@@ -140,7 +145,6 @@ class _UserProfileState extends State<UserProfile> {
         profile!.data!.workAddress != '') {
       pro.add('work_address');
     }
-
     percent = ((pro.length / 10) * 100).toString().split(".").first;
     dou = (pro.length / 10);
   }
@@ -400,14 +404,18 @@ class _UserProfileState extends State<UserProfile> {
                                 Spacer(),
                                 genderController.text.isEmpty
                                     ? Text(
-                                        profile!.data!.gender!.toString() == ''
+                                        profile!.data!.gender.toString() ==
+                                                    '' ||
+                                                profile!.data!.gender == null
                                             ? '+ Add'
-                                            : profile!.data!.gender!.toString(),
-                                        style: profile!.data!.gender! == ''
-                                            ? AppTextStyle()
-                                                .textColorD5574514w500
-                                            : AppTextStyle()
-                                                .textColor29292914w400,
+                                            : profile!.data!.gender.toString(),
+                                        style:
+                                            profile!.data!.gender.toString() ==
+                                                    ''
+                                                ? AppTextStyle()
+                                                    .textColorD5574514w500
+                                                : AppTextStyle()
+                                                    .textColor29292914w400,
                                       )
                                     : Text(
                                         genderController.text,
@@ -490,10 +498,11 @@ class _UserProfileState extends State<UserProfile> {
                                 Spacer(),
                                 dobController.text.isEmpty
                                     ? Text(
-                                        profile!.data!.dob!.toString() == ''
+                                        profile!.data!.dob.toString() == '' ||
+                                                profile!.data!.dob == null
                                             ? '+ Add'
-                                            : profile!.data!.dob!.toString(),
-                                        style: profile!.data!.dob! == ''
+                                            : profile!.data!.dob.toString(),
+                                        style: profile!.data!.dob == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
@@ -556,12 +565,13 @@ class _UserProfileState extends State<UserProfile> {
                               Spacer(),
                               occupationController.text.isEmpty
                                   ? Text(
-                                      profile!.data!.occupation!.toString() ==
-                                              ''
+                                      profile!.data!.occupation.toString() ==
+                                                  '' ||
+                                              profile!.data!.occupation == null
                                           ? '+ Add'
-                                          : profile!.data!.occupation!
+                                          : profile!.data!.occupation
                                               .toString(),
-                                      style: profile!.data!.occupation! == ''
+                                      style: profile!.data!.occupation == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -619,14 +629,15 @@ class _UserProfileState extends State<UserProfile> {
                               ),
                               relationStatus.text.isEmpty
                                   ? Text(
-                                      profile!.data!.relationStatus!
-                                                  .toString() ==
-                                              ''
+                                      profile!.data!.relationStatus
+                                                      .toString() ==
+                                                  '' ||
+                                              profile!.data!.relationStatus ==
+                                                  null
                                           ? '+ Add'
-                                          : profile!.data!.relationStatus!
+                                          : profile!.data!.relationStatus
                                               .toString(),
-                                      style: profile!.data!.relationStatus! ==
-                                              ''
+                                      style: profile!.data!.relationStatus == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -689,12 +700,13 @@ class _UserProfileState extends State<UserProfile> {
                               emailController.text.isEmpty
                                   ? Text(
                                       profile!.data!.user!.email.toString() ==
-                                              ''
+                                                  '' ||
+                                              profile!.data!.email == null
                                           ? "+ Add"
                                           : profile!.data!.user!.email
                                               .toString(),
                                       // '${SharedPrefs().getEmail()}',
-                                      style: profile!.data!.email! == ''
+                                      style: profile!.data!.email == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -748,13 +760,14 @@ class _UserProfileState extends State<UserProfile> {
                               Spacer(),
                               phoneController.text.isEmpty
                                   ? Text(
-                                      profile!.data!.phone.toString() == ''
+                                      profile!.data!.phone.toString() == '' ||
+                                              profile!.data!.photo == null
                                           ? '+ Add'
                                           : profile!.data!.phone.toString(),
                                       // profile!.data!.user!.phone.toString() == ''?
                                       // '+ Add' :
                                       // profile!.data!.user!.phone.toString(),
-                                      style: profile!.data!.phone! == ''
+                                      style: profile!.data!.phone == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -808,14 +821,15 @@ class _UserProfileState extends State<UserProfile> {
                               Spacer(),
                               alternateNo.text.isEmpty
                                   ? Text(
-                                      profile!.data!.alternatePhone!
-                                                  .toString() ==
-                                              ''
+                                      profile!.data!.alternatePhone
+                                                      .toString() ==
+                                                  '' ||
+                                              profile!.data!.alternatePhone ==
+                                                  null
                                           ? '+ Add'
-                                          : profile!.data!.alternatePhone!
+                                          : profile!.data!.alternatePhone
                                               .toString(),
-                                      style: profile!.data!.alternatePhone! ==
-                                              ''
+                                      style: profile!.data!.alternatePhone == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -879,13 +893,14 @@ class _UserProfileState extends State<UserProfile> {
                               children: [
                                 homeController.text.isEmpty
                                     ? Text(
-                                        profile!.data!.homeAddress!
-                                                    .toString() ==
-                                                ''
+                                        profile!.data!.homeAddress.toString() ==
+                                                    '' ||
+                                                profile!.data!.homeAddress ==
+                                                    null
                                             ? '+ Add'
-                                            : profile!.data!.homeAddress!
+                                            : profile!.data!.homeAddress
                                                 .toString(),
-                                        style: profile!.data!.homeAddress! == ''
+                                        style: profile!.data!.homeAddress == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
@@ -946,12 +961,13 @@ class _UserProfileState extends State<UserProfile> {
                               SizedBox(width: 5.w),
                               workController.text.isEmpty
                                   ? Text(
-                                      profile!.data!.workAddress!.toString() ==
-                                              ''
+                                      profile!.data!.workAddress.toString() ==
+                                                  '' ||
+                                              profile!.data!.workAddress == null
                                           ? '+ Add'
-                                          : profile!.data!.workAddress!
+                                          : profile!.data!.workAddress
                                               .toString(),
-                                      style: profile!.data!.workAddress! == ''
+                                      style: profile!.data!.workAddress == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -1571,42 +1587,42 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
                 ),
               ),
               SizedBox(height: 20),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => Privacy(),
-                    ),
-                  );
-                },
-                child: Container(
-                  color: Colors.transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Visible to",
-                        style: AppTextStyle().textColor70707014w400,
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Image.asset("assets/images/image46.png"),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Text(
-                        'Everyone',
-                        style: AppTextStyle().textColor29292914w400,
-                      ),
-                      SizedBox(width: 10.w),
-                      Image.asset("assets/images/Vector176.png")
-                    ],
-                  ),
-                ),
-              )
+              // GestureDetector(
+              //   onTap: () {
+              //     Navigator.pop(context);
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (_) => Privacy(),
+              //       ),
+              //     );
+              //   },
+              //   child: Container(
+              //     color: Colors.transparent,
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.end,
+              //       children: [
+              //         Text(
+              //           "Visible to",
+              //           style: AppTextStyle().textColor70707014w400,
+              //         ),
+              //         SizedBox(
+              //           width: 5.w,
+              //         ),
+              //         Image.asset("assets/images/image46.png"),
+              //         SizedBox(
+              //           width: 5.w,
+              //         ),
+              //         Text(
+              //           'Everyone',
+              //           style: AppTextStyle().textColor29292914w400,
+              //         ),
+              //         SizedBox(width: 10.w),
+              //         Image.asset("assets/images/Vector176.png")
+              //       ],
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),

@@ -9,7 +9,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/color.dart';
 import '../models/login_models.dart';
-import '../profile_page/privacy.dart';
 import 'notifications.dart';
 
 class MemberSettings extends StatefulWidget {
@@ -81,7 +80,7 @@ class _MemberSettingsState extends State<MemberSettings> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 30.0),
                     child: Text(
-                      "Settings",
+                      "",
                       style: AppTextStyle().textColor1A1A1A28w700,
                       textAlign: TextAlign.center,
                     ),
@@ -149,32 +148,32 @@ class _MemberSettingsState extends State<MemberSettings> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => Privacy(),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            color: Colors.transparent,
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Privacy",
-                                  style: AppTextStyle().textColor39393914w500,
-                                ),
-                                Spacer(),
-                                SvgPicture.asset(
-                                    "assets/icons/forwordarrow.svg")
-                              ],
-                            ),
-                          ),
-                        )
+                        // SizedBox(height: 20),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (_) => Privacy(),
+                        //       ),
+                        //     );
+                        //   },
+                        //   child: Container(
+                        //     padding: EdgeInsets.symmetric(vertical: 5),
+                        //     color: Colors.transparent,
+                        //     child: Row(
+                        //       children: [
+                        //         Text(
+                        //           "Privacy",
+                        //           style: AppTextStyle().textColor39393914w500,
+                        //         ),
+                        //         Spacer(),
+                        //         SvgPicture.asset(
+                        //             "assets/icons/forwordarrow.svg")
+                        //       ],
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                   ),
@@ -230,7 +229,7 @@ class _MemberSettingsState extends State<MemberSettings> {
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              Share.share('Check out SwishList on AppStore');
+                              Share.share('http://bitly.ws/SFso');
                             });
                           },
                           child: Container(
@@ -288,41 +287,50 @@ class _MemberSettingsState extends State<MemberSettings> {
                           ],
                         ),
                         SizedBox(height: 20),
-                        GestureDetector(
+                        InkWell(
                           onTap: () async {
-                            const url =
-                                'https://swishlist.godaddysites.com/terms-of-service';
-                            if (await canLaunch(url)) {
-                              await launch(url,
-                                  forceWebView: true, enableJavaScript: true);
-                            } else {
-                              throw 'Could not launch $url';
+                            final Uri url = Uri.parse(
+                                'https://swishlist.godaddysites.com/terms-of-service');
+                            if (!await launchUrl(url)) {
+                              throw Exception('Could not launch $_url');
                             }
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Terms & Conditions",
-                                style: AppTextStyle().textColor39393914w500,
-                              ),
-                              Spacer(),
-                              SvgPicture.asset("assets/icons/forwordarrow.svg")
-                            ],
+                          // onTap: () async {
+                          //   const url =
+                          //       'https://swishlist.godaddysites.com/terms-of-service';
+                          //   if (await canLaunch(url)) {
+                          //     await launch(url,
+                          //         forceWebView: true, enableJavaScript: true);
+                          //   } else {
+                          //     throw 'Could not launch $url';
+                          //   }
+                          // },
+                          child: Container(
+                            height: 20,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Terms & Conditions",
+                                  style: AppTextStyle().textColor39393914w500,
+                                ),
+                                Spacer(),
+                                SvgPicture.asset(
+                                    "assets/icons/forwordarrow.svg")
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(height: 20),
                         GestureDetector(
                           onTap: () async {
-                            const url =
-                                'https://swishlist.godaddysites.com/privacy-policy';
-                            if (await canLaunch(url)) {
-                              await launch(url,
-                                  forceWebView: true, enableJavaScript: true);
-                            } else {
-                              throw 'Could not launch $url';
+                            final Uri url = Uri.parse(
+                                'https://swishlist.godaddysites.com/privacy-policy');
+                            if (!await launchUrl(url)) {
+                              throw Exception('Could not launch $_url');
                             }
                           },
                           child: Container(
+                            height: 20,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

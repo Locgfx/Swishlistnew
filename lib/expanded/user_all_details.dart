@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/expanded/widgets/Profile_data_and_all_uesr_data.dart';
@@ -23,7 +22,7 @@ import '../models/login_models.dart';
 import 'member_settings.dart';
 
 class UserAllDetails extends StatefulWidget {
-  static const userrun = "userrun";
+  // static const userrun = "userrun";
   final LoginResponse response;
   const UserAllDetails({
     Key? key,
@@ -39,27 +38,27 @@ class _UserAllDetailsState extends State<UserAllDetails> {
   void initState() {
     getInterest();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _isFirstLaunch().then((result) {
-        if (result) {
-          ShowCaseWidget.of(context).startShowCase(
-              [_zero, _first, _second, _third, _fourth, _fifth, _sixth]);
-        }
-      });
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _isFirstLaunch().then((result) {
+    //     if (result) {
+    //       ShowCaseWidget.of(context).startShowCase(
+    //           [_zero, _first, _second, _third, _fourth, _fifth, _sixth]);
+    //     }
+    //   });
+    // });
   }
 
-  Future<bool> _isFirstLaunch() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    bool isFirstLaunch =
-        sharedPreferences.getBool(UserAllDetails.userrun) ?? true;
-
-    if (isFirstLaunch) {
-      sharedPreferences.setBool(UserAllDetails.userrun, false);
-    }
-
-    return isFirstLaunch;
-  }
+  // Future<bool> _isFirstLaunch() async {
+  //   final sharedPreferences = await SharedPreferences.getInstance();
+  //   bool isFirstLaunch =
+  //       sharedPreferences.getBool(UserAllDetails.userrun) ?? true;
+  //
+  //   if (isFirstLaunch) {
+  //     sharedPreferences.setBool(UserAllDetails.userrun, false);
+  //   }
+  //
+  //   return isFirstLaunch;
+  // }
 
   List<String>? elements = [''];
   bool isLoading = false;
@@ -73,6 +72,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
           _interest = InterestModel.fromJson(value);
           elements = _interest?.data!.interest!.split(",");
           isLoading = false;
+          // print(_interest);
         });
       } else {
         isLoading = false;
@@ -112,7 +112,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
               padding: const EdgeInsets.only(left: 20),
               child: InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -126,92 +126,103 @@ class _UserAllDetailsState extends State<UserAllDetails> {
               ),
             ),
             actions: [
-              Showcase(
-                key: _zero,
-                description: "Account Details",
-                child: Popupmen(menuList: [
-                  PopupMenuItem(
-                    child: ListTile(
-                      title: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Account()));
-                        },
-                        child: Text(
-                          'Account',
-                          style: AppTextStyle().textColor39393914w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                  // PopupMenuItem(
-                  //   child: ListTile(
-                  //     title: InkWell(
-                  //       onTap: () {
-                  //         Navigator.push(context,
-                  //             MaterialPageRoute(builder: (context) => Privacy()));
-                  //       },
-                  //       child: Text(
-                  //         'Privacy',
-                  //         style: AppTextStyle().textColor39393914w500,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  PopupMenuItem(
-                    child: GestureDetector(
+              Popupmen(menuList: [
+                PopupMenuItem(
+                  child: ListTile(
+                    title: InkWell(
                       onTap: () {
-                        SharedPrefs().setLoginFalse();
-                        // SharedPrefs().clearPrefs();
-                        // logoutApi().then((value) {
-                        //   if(value['status'] == true) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => Login(),
-                          ),
-                        );
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Account()));
                       },
-                      child: ListTile(
-                        title: Text(
-                          'Log out',
-                          style: AppTextStyle().textColor39393914w500,
-                        ),
+                      child: Text(
+                        'Account',
+                        style: AppTextStyle().textColor39393914w500,
                       ),
                     ),
                   ),
-                ], icon: SvgPicture.asset('assets/icons/more-vertical.svg')),
-              )
+                ),
+                // PopupMenuItem(
+                //   child: ListTile(
+                //     title: InkWell(
+                //       onTap: () {
+                //         Navigator.push(context,
+                //             MaterialPageRoute(builder: (context) => Privacy()));
+                //       },
+                //       child: Text(
+                //         'Privacy',
+                //         style: AppTextStyle().textColor39393914w500,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                PopupMenuItem(
+                  child: GestureDetector(
+                    onTap: () {
+                      SharedPrefs().setLoginFalse();
+                      // SharedPrefs().clearPrefs();
+                      // logoutApi().then((value) {
+                      //   if(value['status'] == true) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => Login(),
+                        ),
+                      );
+                    },
+                    child: ListTile(
+                      title: Text(
+                        'Log out',
+                        style: AppTextStyle().textColor39393914w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ], icon: SvgPicture.asset('assets/icons/more-vertical.svg'))
             ],
           ),
-          body: /* isLoading ? Loading():*/ SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, bottom: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  UserImageRowWidget(
-                    response: widget.response,
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Showcase(
-                    key: _first,
-                    description: "Edit Interest",
-                    targetPadding: EdgeInsets.all(12),
-                    child: GestureDetector(
+          body: /* isLoading ? Loading():*/ RefreshIndicator(
+            displacement: 500,
+            backgroundColor: Colors.white,
+            color: ColorSelect.colorF7E641,
+            strokeWidth: 3,
+            onRefresh: () {
+              setState(() {
+                isLoading = true;
+              });
+              return getInterest();
+            },
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, bottom: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    UserImageRowWidget(
+                      response: widget.response,
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    GestureDetector(
+                      behavior: HitTestBehavior.translucent,
                       onTap: () {
+                        ShowCaseWidget(
+                          builder: Builder(
+                            builder: (context) => UserAllDetails(
+                              response: widget.response,
+                            ),
+                          ),
+                        );
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MyInterests(
                                       response: widget.response,
-                                      id: _interest!.data!.id.toString(),
+                                      // id: _interest!.data!.id.toString(),
                                     )));
-                        print(_interest!.data!.id);
+                        // print(_interest!.data!.id);
                       },
                       child: Container(
                         padding: EdgeInsets.all(8),
@@ -224,49 +235,53 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                             Spacer(),
                             Padding(
                                 padding: const EdgeInsets.only(right: 20),
-                                child: SvgPicture.asset(
-                                    "assets/icons/Vectoredit.svg")),
+                                child: Container(
+                                  padding: EdgeInsets.all(6),
+                                  height: 32,
+                                  width: 32,
+                                  // color: Colors.redAccent,
+                                  child: SvgPicture.asset(
+                                      "assets/icons/Vectoredit.svg"),
+                                )),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  //InterestRow1Widget(),
-                  // Builder(
-                  //   builder: (BuildContext context) {
-                  //     return  Wrap(
-                  //           children: interest!.data!.interest!.map((context) => chipBox(name:context)).toList(),
-                  //         );
-                  // //   },
-                  // // ),
-                  // _interest!.data!.interest!.isEmpty ?
-                  // Text('hi'):
-                  isLoading == true
-                      ?
-                      // SizedBox()
-                      Text(
-                          "Add Your Interest",
-                          style: AppTextStyle().textColor29292914w400,
-                        )
-                      : Wrap(
-                          children:
-                              elements!.map((e) => chipBox(name: e)).toList(),
-                        ),
-                  // SizedBox(height: 10.h,),
-                  // InterestRow2Widget(),
-                  // SizedBox(height: 10.h,),
-                  // InterestRow3Widget(),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  Showcase(
-                    key: _second,
-                    description: "Manage Your profile",
-                    targetPadding: EdgeInsets.all(12),
-                    child: InkWell(
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    //InterestRow1Widget(),
+                    // Builder(
+                    //   builder: (BuildContext context) {
+                    //     return  Wrap(
+                    //           children: interest!.data!.interest!.map((context) => chipBox(name:context)).toList(),
+                    //         );
+                    // //   },
+                    // // ),
+                    // elements!.isEmpty
+                    // _interest!.data!.interest!.isEmpty
+                    //     ?
+                    // Text('hi'):
+                    // isLoading == true
+                    //     ?
+                    //
+                    // SizedBox()
+                    // Text(
+                    //   "Add Your Interest",
+                    //   style: AppTextStyle().textColor29292914w400,
+                    // ),
+                    // :
+                    Wrap(
+                      children: elements!.map((e) => chipBox(name: e)).toList(),
+                    ),
+                    // SizedBox(height: 10.h,),
+                    // InterestRow2Widget(),
+                    // SizedBox(height: 10.h,),
+                    // InterestRow3Widget(),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    InkWell(
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
                       onTap: () {
@@ -277,15 +292,10 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                       },
                       child: ProfileRowWidget(),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Showcase(
-                    key: _third,
-                    description: "Manage your Sizes and Weights",
-                    targetPadding: EdgeInsets.all(12),
-                    child: InkWell(
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    InkWell(
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         onTap: () {
@@ -297,15 +307,10 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                       )));
                         },
                         child: SizeAndWeightRowWidget()),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Showcase(
-                    key: _fourth,
-                    description: "Manage your Favourites",
-                    targetPadding: EdgeInsets.all(12),
-                    child: InkWell(
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    InkWell(
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
                       onTap: () {
@@ -316,15 +321,10 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                       },
                       child: FavoritesRowWidget(),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Showcase(
-                    key: _fifth,
-                    description: "Manage Your Pets",
-                    targetPadding: EdgeInsets.all(12),
-                    child: InkWell(
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    InkWell(
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
                       onTap: () {
@@ -336,29 +336,22 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                       },
                       child: PetsRowWidget(),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Showcase(
-                    key: _sixth,
-                    description: "Manage Your Date And Events",
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DateAndEvents()));
-                        },
-                        child: DateAndEventsRowWidget(),
-                      ),
+                    SizedBox(
+                      height: 20.h,
                     ),
-                  )
-                ],
+                    InkWell(
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DateAndEvents()));
+                      },
+                      child: DateAndEventsRowWidget(),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

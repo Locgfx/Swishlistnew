@@ -3,8 +3,6 @@ import 'package:fast_contacts/fast_contacts.dart';
 // import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_contacts/flutter_contacts.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
@@ -176,53 +174,53 @@ class _AddFriendsState extends State<AddFriends> {
                       SizedBox(
                         height: 16,
                       ),
-                      Container(
-                        width: 328.w,
-                        height: 52.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: ColorSelect.colorEDEDF1,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 16,
-                            ),
-                            Image.asset("assets/images/Vectorse.png"),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            /* Expanded(
-                        child: TextFormField(
-                          controller: searchController,
-                          onChanged: (val) {
-                            for (var v in friendList) {
-                              if(v.name! == val) {
-                                if(searchList.contains(v)) {
-                                } else {
-                                  searchList.add(v);
-                                }
-                              }
-                            }
-                            setState(() {
-                              if(searchController.text.isEmpty) {
-                                searchList.clear();
-                              }
-                              print(searchList);
-                            });
-                          },
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Search friend name"),
-                          keyboardType: TextInputType.text,
-                        ),
-                      )*/
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
+                      // Container(
+                      //   width: 328.w,
+                      //   height: 52.h,
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(8),
+                      //     color: ColorSelect.colorEDEDF1,
+                      //   ),
+                      //   child: Row(
+                      //     children: [
+                      //       SizedBox(
+                      //         width: 16,
+                      //       ),
+                      //       Image.asset("assets/images/Vectorse.png"),
+                      //       SizedBox(
+                      //         width: 16,
+                      //       ),
+                      //       /* Expanded(
+                      //   child: TextFormField(
+                      //     controller: searchController,
+                      //     onChanged: (val) {
+                      //       for (var v in friendList) {
+                      //         if(v.name! == val) {
+                      //           if(searchList.contains(v)) {
+                      //           } else {
+                      //             searchList.add(v);
+                      //           }
+                      //         }
+                      //       }
+                      //       setState(() {
+                      //         if(searchController.text.isEmpty) {
+                      //           searchList.clear();
+                      //         }
+                      //         print(searchList);
+                      //       });
+                      //     },
+                      //     decoration: InputDecoration(
+                      //         border: InputBorder.none,
+                      //         hintText: "Search friend name"),
+                      //     keyboardType: TextInputType.text,
+                      //   ),
+                      // )*/
+                      //     ],
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 16,
+                      // ),
                       // (contact) == null ?
                       // Padding(
                       //         padding: const EdgeInsets.only(top: 200),
@@ -253,8 +251,10 @@ class _AddFriendsState extends State<AddFriends> {
                               return contact();
                             },
                             child: ListView.builder(
+                                padding: EdgeInsets.only(bottom: 36),
                                 shrinkWrap: true,
                                 itemCount: friendList.length,
+                                physics: ScrollPhysics(),
                                 // physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, i) {
                                   return ListTile(

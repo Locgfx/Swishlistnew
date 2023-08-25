@@ -12,11 +12,11 @@ import '../models/login_models.dart';
 
 class MyInterests extends StatefulWidget {
   final LoginResponse response;
-  final String id;
+  // final String id;
   MyInterests({
     Key? key,
     required this.response,
-    required this.id,
+    // required this.id,
   }) : super(key: key);
 
   @override
@@ -177,13 +177,13 @@ class _MyInterestsState extends State<MyInterests> {
                             // print(tagsList.toString());
                             // print(_interest!.data!.id.toString());
                             Fluttertoast.showToast(msg: value['message']);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    UserAllDetails(response: widget.response),
-                              ),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (_) =>
+                            //         UserAllDetails(response: widget.response),
+                            //   ),
+                            // );
                           } else {
                             Fluttertoast.showToast(msg: value['message']);
                           }
