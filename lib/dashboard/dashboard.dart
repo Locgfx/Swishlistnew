@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/dashboard/products/products_page.dart';
 import 'package:swishlist/dashboard/search/search.dart';
@@ -274,11 +275,34 @@ class _DashboardState extends State<Dashboard> {
                   );
                 },
                 children: [
-                  ProductsPage(response: widget.response, productKey: _one),
+                  ShowCaseWidget(
+                    builder: Builder(
+                      builder: (context) => ProductsPage(
+                        response: widget.response,
+                      ),
+                    ),
+                  ),
+                  // ProductsPage(response: widget.response, productKey: _one),
                   // AllEtsyProducts(),
-                  Search(),
+                  // Search(),
+                  ShowCaseWidget(
+                    builder: Builder(
+                      builder: (context) => Search(),
+                    ),
+                  ),
                   Activities(),
-                  Friends(),
+                  ShowCaseWidget(
+                    builder: Builder(
+                      builder: (context) => Friends(),
+                    ),
+                  ),
+                  // ProductsPage(
+                  //   response: widget.response,
+                  // ),
+                  // // AllEtsyProducts(),
+                  // Search(),
+                  // Activities(),
+                  // Friends(),
                 ],
               ),
             ],
