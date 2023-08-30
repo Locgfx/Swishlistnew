@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:swishlist/profile_page/privacy.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../constants/color.dart';
 
 class NameEditDialogWidget extends StatelessWidget {
   final String title;
   final Widget addTextField;
   const NameEditDialogWidget({
-    Key? key, required this.title, required this.addTextField,
+    Key? key,
+    required this.title,
+    required this.addTextField,
   }) : super(key: key);
 
   @override
@@ -38,45 +40,45 @@ class NameEditDialogWidget extends StatelessWidget {
               //   //keyboardType: TextInputType.phone,
               // ),
               SizedBox(height: 20.h),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => Privacy(),
-                    ),
-                  );
-                },
-                child: Container(
-                  color: Colors.transparent,
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Visible to",
-                        style: AppTextStyle().textColor70707014w400,
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Image.asset("assets/images/image46.png"),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Text(
-                        'Everyone',
-                        style: AppTextStyle().textColor29292914w400,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset("assets/images/Vector176.png")
-                    ],
-                  ),
-                ),
-              )
+              // GestureDetector(
+              //   onTap: () {
+              //     Navigator.pop(context);
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (_) => Privacy(),
+              //       ),
+              //     );
+              //   },
+              //   child: Container(
+              //     color: Colors.transparent,
+              //     padding: const EdgeInsets.only(top: 20),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.end,
+              //       children: [
+              //         Text(
+              //           "Visible to",
+              //           style: AppTextStyle().textColor70707014w400,
+              //         ),
+              //         SizedBox(
+              //           width: 5.w,
+              //         ),
+              //         Image.asset("assets/images/image46.png"),
+              //         SizedBox(
+              //           width: 5.w,
+              //         ),
+              //         Text(
+              //           'Everyone',
+              //           style: AppTextStyle().textColor29292914w400,
+              //         ),
+              //         SizedBox(
+              //           width: 10.w,
+              //         ),
+              //         Image.asset("assets/images/Vector176.png")
+              //       ],
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),

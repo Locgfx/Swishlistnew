@@ -2969,44 +2969,44 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                   ),
                 ),
                 SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => Privacy(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Visible to",
-                          style: AppTextStyle().textColor70707014w400,
-                        ),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        Image.asset("assets/images/image46.png"),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        Text(
-                          'Everyone',
-                          style: AppTextStyle().textColor29292914w400,
-                        ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Image.asset("assets/images/Vector176.png")
-                      ],
-                    ),
-                  ),
-                )
+                // GestureDetector(
+                //   onTap: () {
+                //     Navigator.pop(context);
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (_) => Privacy(),
+                //       ),
+                //     );
+                //   },
+                //   child: Container(
+                //     color: Colors.transparent,
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.end,
+                //       children: [
+                //         Text(
+                //           "Visible to",
+                //           style: AppTextStyle().textColor70707014w400,
+                //         ),
+                //         SizedBox(
+                //           width: 5.w,
+                //         ),
+                //         Image.asset("assets/images/image46.png"),
+                //         SizedBox(
+                //           width: 5.w,
+                //         ),
+                //         Text(
+                //           'Everyone',
+                //           style: AppTextStyle().textColor29292914w400,
+                //         ),
+                //         SizedBox(
+                //           width: 10.w,
+                //         ),
+                //         Image.asset("assets/images/Vector176.png")
+                //       ],
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),

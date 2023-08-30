@@ -4,10 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:swishlist/dashboard/dashboard.dart';
 import 'package:swishlist/expanded/user_all_details.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/color.dart';
 import '../models/login_models.dart';
-import '../profile_page/privacy.dart';
 import 'notifications.dart';
 
 class MemberSettings extends StatefulWidget {
@@ -22,6 +22,8 @@ class MemberSettings extends StatefulWidget {
 }
 
 class _MemberSettingsState extends State<MemberSettings> {
+  final Uri _url =
+      Uri.parse('https://swishlist.godaddysites.com/privacy-policy');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,31 +137,31 @@ class _MemberSettingsState extends State<MemberSettings> {
                           ),
                         ),
                         SizedBox(height: 20),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => Privacy(),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            color: Colors.transparent,
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Privacy",
-                                  style: AppTextStyle().textColor39393914w500,
-                                ),
-                                Spacer(),
-                                SvgPicture.asset(
-                                    "assets/icons/forwordarrow.svg")
-                              ],
-                            ),
-                          ),
-                        )
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (_) => Privacy(),
+                        //       ),
+                        //     );
+                        //   },
+                        //   child: Container(
+                        //     padding: EdgeInsets.symmetric(vertical: 5),
+                        //     color: Colors.transparent,
+                        //     child: Row(
+                        //       children: [
+                        //         Text(
+                        //           "Privacy",
+                        //           style: AppTextStyle().textColor39393914w500,
+                        //         ),
+                        //         Spacer(),
+                        //         SvgPicture.asset(
+                        //             "assets/icons/forwordarrow.svg")
+                        //       ],
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                   ),
@@ -273,26 +275,44 @@ class _MemberSettingsState extends State<MemberSettings> {
                           ],
                         ),
                         SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Text(
-                              "Terms & Conditions",
-                              style: AppTextStyle().textColor39393914w500,
-                            ),
-                            Spacer(),
-                            SvgPicture.asset("assets/icons/forwordarrow.svg")
-                          ],
+                        GestureDetector(
+                          onTap: () async {
+                            final Uri url = Uri.parse(
+                                'https://swishlist.godaddysites.com/terms-of-service');
+                            if (!await launchUrl(url)) {
+                              throw Exception('Could not launch $_url');
+                            }
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                "Terms & Conditions",
+                                style: AppTextStyle().textColor39393914w500,
+                              ),
+                              Spacer(),
+                              SvgPicture.asset("assets/icons/forwordarrow.svg")
+                            ],
+                          ),
                         ),
                         SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Text(
-                              "Privacy Policy",
-                              style: AppTextStyle().textColor39393914w500,
-                            ),
-                            Spacer(),
-                            SvgPicture.asset("assets/icons/forwordarrow.svg")
-                          ],
+                        GestureDetector(
+                          onTap: () async {
+                            final Uri url = Uri.parse(
+                                'https://swishlist.godaddysites.com/privacy-policy');
+                            if (!await launchUrl(url)) {
+                              throw Exception('Could not launch $_url');
+                            }
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                "Privacy Policy",
+                                style: AppTextStyle().textColor39393914w500,
+                              ),
+                              Spacer(),
+                              SvgPicture.asset("assets/icons/forwordarrow.svg")
+                            ],
+                          ),
                         )
                       ],
                     ),

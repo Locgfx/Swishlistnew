@@ -262,6 +262,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_animated_cards:
+    dependency: "direct main"
+    description:
+      name: flutter_animated_cards
+      sha256: "2589470b4c34db0667b58f15b8b5a28f3fdc60f25a6bbacd1f1a7eef0ee88dbe"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   flutter_blurhash:
     dependency: transitive
     description:

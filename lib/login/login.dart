@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
@@ -53,7 +54,7 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.only(top: 80),
                   child: Text(
-                    "Welcome back buddy!",
+                    "Welcome back",
                     style: AppTextStyle().textColor29292924w700,
                   ),
                 ),
@@ -191,6 +192,8 @@ class _LoginState extends State<Login> {
                                 });
                               } else {
                                 loading = false;
+                                Fluttertoast.showToast(
+                                    msg: "Login Failed Please Try Again");
                               }
                             }
                           },

@@ -1,5 +1,5 @@
+import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/profile_page/pets.dart';
-import 'dart:io';
+
 import '../../constants/color.dart';
 import '../api/user_apis/pets_api.dart';
 
@@ -30,7 +30,7 @@ class _AddPetsState extends State<AddPets> {
   File pickedImage = File("");
   final ImagePicker _imgPicker = ImagePicker();
   String networkImage = '';
-  String dateFormat ='';
+  String dateFormat = '';
 
   clearImage() {
     setState(() {
@@ -62,8 +62,7 @@ class _AddPetsState extends State<AddPets> {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Image.asset('assets/images/Vector190.png')
-          ),
+              child: Image.asset('assets/images/Vector190.png')),
         ),
       ),
       backgroundColor: Colors.white,
@@ -87,7 +86,9 @@ class _AddPetsState extends State<AddPets> {
                 //   "Fill the details of product you own already.",
                 //   style: AppTextStyle().textColor70707014w400,
                 // ),
-                SizedBox(height: 28,),
+                SizedBox(
+                  height: 28,
+                ),
                 Stack(
                   children: [
                     Container(
@@ -100,73 +101,75 @@ class _AddPetsState extends State<AddPets> {
                           color: ColorSelect.colorA3A3A3,
                         ),
                       ),
-                      child:  pickedImage.path.isEmpty ? Center(
-                        child: GestureDetector(
-                            onTap: () async {
-                              XFile? v = await _imgPicker.pickImage(
-                                  source: ImageSource.gallery
-                              );
-                              if (v != null) {
-                                setState(() {
-                                  pickedImage = File(v.path);
-                                },);
-                              }
-                              print(pickedImage);
-                            },
-                            child:  Container(
-                              height: 44.h,
-                              width: 144.w,
+                      child: pickedImage.path.isEmpty
+                          ? Center(
+                              child: GestureDetector(
+                                  onTap: () async {
+                                    XFile? v = await _imgPicker.pickImage(
+                                        source: ImageSource.gallery);
+                                    if (v != null) {
+                                      setState(
+                                        () {
+                                          pickedImage = File(v.path);
+                                        },
+                                      );
+                                    }
+                                    print(pickedImage);
+                                  },
+                                  child: Container(
+                                    height: 44.h,
+                                    width: 144.w,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: ColorSelect.colorA3A3A3,
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Row(
+                                        children: [
+                                          SizedBox(width: 24),
+                                          Image.asset(
+                                              "assets/images/image-add.png"),
+                                          SizedBox(width: 10),
+                                          Text("Add image")
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                            )
+                          : Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorSelect.colorA3A3A3,
-                                ),
                               ),
-                              child: Center(
-                                child: Row(
-                                  children: [
-                                    SizedBox(width: 24),
-                                    Image.asset("assets/images/image-add.png"),
-                                    SizedBox(width: 10),
-                                    Text("Add image")
-                                  ],
-                                ),
+                              clipBehavior: Clip.hardEdge,
+                              child: Image.file(
+                                pickedImage,
+                                width: 1.sw,
+                                height: 420,
+                                fit: BoxFit.cover,
                               ),
-                            )
-
-                        ),
-                      ): Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        clipBehavior: Clip.hardEdge,
-                        child: Image.file(
-                          pickedImage,
-                          width: 1.sw,
-                          height: 420,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                            ),
                     ),
                     Positioned(
                       top: 10,
                       right: 10,
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           clearImage();
-                          setState(() {
-                          });
+                          setState(() {});
                         },
                         child: AnimatedContainer(
                           duration: Duration(microseconds: 300),
-                          height: pickedImage.path.isEmpty ?0:32,
-                          width: pickedImage.path.isEmpty ?0:32,
+                          height: pickedImage.path.isEmpty ? 0 : 32,
+                          width: pickedImage.path.isEmpty ? 0 : 32,
                           decoration: BoxDecoration(
                               color: ColorSelect.colorF7E641,
                               shape: BoxShape.circle,
-                              image: DecorationImage(image: AssetImage('assets/icons/iconcross.png'))
-                          ),
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/icons/iconcross.png'))),
                         ),
                       ),
                     ),
@@ -177,8 +180,8 @@ class _AddPetsState extends State<AddPets> {
                   width: 328.w,
                   height: 52.h,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: ColorSelect.colorEDEDF1,
+                    borderRadius: BorderRadius.circular(8),
+                    color: ColorSelect.colorEDEDF1,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12),
@@ -194,8 +197,8 @@ class _AddPetsState extends State<AddPets> {
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Name of the pet",
-                                hintStyle: AppTextStyle().textColor70707014w400
-                            ),
+                                hintStyle:
+                                    AppTextStyle().textColor70707014w400),
                           ),
                         ),
                       ],
@@ -208,23 +211,22 @@ class _AddPetsState extends State<AddPets> {
                   height: 52.h,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: ColorSelect.colorEDEDF1
-                  ),
+                      color: ColorSelect.colorEDEDF1),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12),
                     child: Row(
                       children: [
                         Expanded(
                           child: TextFormField(
-                            onTap:() {},
+                            onTap: () {},
                             onChanged: (v) {
                               setState(() {});
                             },
                             controller: typeController,
                             decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Type of the pet",
-                                hintStyle: AppTextStyle().textColor70707014w400,
+                              border: InputBorder.none,
+                              hintText: "Type of the pet",
+                              hintStyle: AppTextStyle().textColor70707014w400,
                             ),
                             keyboardType: TextInputType.text,
                             // readOnly: true,
@@ -248,15 +250,14 @@ class _AddPetsState extends State<AddPets> {
                         Expanded(
                           child: TextFormField(
                             onChanged: (v) {
-                              setState(() {
-                              });
+                              setState(() {});
                             },
                             controller: originController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Origin",
-                                hintStyle: AppTextStyle().textColor70707014w400,
+                              border: InputBorder.none,
+                              hintText: "Origin",
+                              hintStyle: AppTextStyle().textColor70707014w400,
                             ),
                             // readOnly: true,
                             onTap: () {},
@@ -267,105 +268,104 @@ class _AddPetsState extends State<AddPets> {
                   ),
                 ),
                 SizedBox(height: 12),
-                Container(
-                  width: 328.w,
-                  height: 52.h,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: ColorSelect.colorEDEDF1
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            onChanged: (v) {
-                              setState(() {
-                              });
-                            },
-                            controller: privacyController,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Privacy Status",
-                                hintStyle: AppTextStyle().textColor70707014w400,
-                                suffixIconConstraints: BoxConstraints(maxHeight: 40,maxWidth: 40),
-                                suffixIcon: Padding(
-                                  padding: const EdgeInsets.only(right: 15.0),
-                                  child: Image.asset('assets/images/down-arrow.png',height: 25,),
-                                )
-                            ),
-                            keyboardType: TextInputType.text,
-                            readOnly: true,
-                            onTap: () {
-                              // _privacyStatusBottomSheet();
-                              showModalBottomSheet(
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20), topLeft: Radius.circular(20)),
-                                  ),
-                                  context: context,
-                                  builder: (context) => PrivacyStatusBottomSheet(
-                                    onPop: (val) {
-                                      setState(() {
-                                        privacyController.text = val;
-                                      });
-                                    },
-                                    privacyStatus: privacyController.text,
-                                  ));
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Container(
+                //   width: 328.w,
+                //   height: 52.h,
+                //   decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(8),
+                //       color: ColorSelect.colorEDEDF1
+                //   ),
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(left: 12),
+                //     child: Row(
+                //       children: [
+                //         Expanded(
+                //           child: TextFormField(
+                //             onChanged: (v) {
+                //               setState(() {
+                //               });
+                //             },
+                //             controller: privacyController,
+                //             decoration: InputDecoration(
+                //                 border: InputBorder.none,
+                //                 hintText: "Privacy Status",
+                //                 hintStyle: AppTextStyle().textColor70707014w400,
+                //                 suffixIconConstraints: BoxConstraints(maxHeight: 40,maxWidth: 40),
+                //                 suffixIcon: Padding(
+                //                   padding: const EdgeInsets.only(right: 15.0),
+                //                   child: Image.asset('assets/images/down-arrow.png',height: 25,),
+                //                 )
+                //             ),
+                //             keyboardType: TextInputType.text,
+                //             readOnly: true,
+                //             onTap: () {
+                //               // _privacyStatusBottomSheet();
+                //               showModalBottomSheet(
+                //                   shape: const RoundedRectangleBorder(
+                //                     borderRadius: BorderRadius.only(
+                //                         topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+                //                   ),
+                //                   context: context,
+                //                   builder: (context) => PrivacyStatusBottomSheet(
+                //                     onPop: (val) {
+                //                       setState(() {
+                //                         privacyController.text = val;
+                //                       });
+                //                     },
+                //                     privacyStatus: privacyController.text,
+                //                   ));
+                //             },
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 56),
                 SizedBox(
                   width: 328.w,
                   height: 52.h,
                   child: /*isLoading ?
                   LoadingLightYellowButton():*/
-                  LightYellowButtonWithText(
+                      LightYellowButtonWithText(
                     onTap: () {
-                      if(formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) {
                         setState(() {
                           isLoading = true;
                         });
-                        if (networkImage.isNotEmpty ||
-                            pickedImage.isAbsolute) {
+                        if (networkImage.isNotEmpty || pickedImage.isAbsolute) {
                           postPetsApi(
                             name: nameController.text,
                             type: typeController.text,
                             origin: originController.text,
-                            privacyStatus: privacyController.text,
-                            photo: pickedImage.isAbsolute
-                                ?  pickedImage.path
-                                : '',).then((value) async {
-                            if(value['status'] == true ) {
-                              SharedPrefs().setPets('100 %');
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>Pets()));
-                              Fluttertoast.showToast(
-                                  msg:value['message']);
-                            } else {
-                              Fluttertoast.showToast(
-                                  msg:value['message']);
-                            }},
+                            privacyStatus: "public",
+                            photo:
+                                pickedImage.isAbsolute ? pickedImage.path : '',
+                          ).then(
+                            (value) async {
+                              if (value['status'] == true) {
+                                SharedPrefs().setPets('100 %');
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (_) => Pets()));
+                                Fluttertoast.showToast(msg: value['message']);
+                              } else {
+                                Fluttertoast.showToast(msg: value['message']);
+                              }
+                            },
                           );
                         }
                       }
                     },
-                    backgroundColor:(
-                        nameController.text.isNotEmpty &&
-                            typeController.text.isNotEmpty ||
-                            originController.text.isNotEmpty
-                    ) ? MaterialStateProperty.all(ColorSelect.colorF7E641)
+                    backgroundColor: (nameController.text.isNotEmpty &&
+                                typeController.text.isNotEmpty ||
+                            originController.text.isNotEmpty)
+                        ? MaterialStateProperty.all(ColorSelect.colorF7E641)
                         : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
                     textStyleColor: nameController.text.isNotEmpty &&
-                        typeController.text.isNotEmpty ||
-                        originController.text.isNotEmpty ?
-                    Colors.black :
-                    ColorSelect.colorB5B07A,
+                                typeController.text.isNotEmpty ||
+                            originController.text.isNotEmpty
+                        ? Colors.black
+                        : ColorSelect.colorB5B07A,
                     title: 'Add',
                   ),
                 ),
@@ -378,8 +378,6 @@ class _AddPetsState extends State<AddPets> {
     );
   }
 }
-
-
 
 class PetTypeBottomSheet extends StatefulWidget {
   final String puppyType;
@@ -437,13 +435,15 @@ class _PetTypeBottomSheet extends State<PetTypeBottomSheet> {
                       width: 78.w,
                       decoration: BoxDecoration(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 0 ? ColorSelect.colorF7E641 : Colors.transparent,
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: _gIndex == 0
+                            ? ColorSelect.colorF7E641
+                            : Colors.transparent,
                       ),
                       child: Center(
                           child: Text(
-                            'Puppy',
-                          )),
+                        'Puppy',
+                      )),
                     ),
                   ),
                   SizedBox(
@@ -460,13 +460,15 @@ class _PetTypeBottomSheet extends State<PetTypeBottomSheet> {
                       width: 78.w,
                       decoration: BoxDecoration(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 1 ? ColorSelect.colorF7E641 : Colors.transparent,
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: _gIndex == 1
+                            ? ColorSelect.colorF7E641
+                            : Colors.transparent,
                       ),
                       child: Center(
-                          child: Text(
-                            'Dog',
-                          ),
+                        child: Text(
+                          'Dog',
+                        ),
                       ),
                     ),
                   ),
@@ -484,13 +486,15 @@ class _PetTypeBottomSheet extends State<PetTypeBottomSheet> {
                       width: 78.w,
                       decoration: BoxDecoration(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 2 ? ColorSelect.colorF7E641 : Colors.transparent,
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: _gIndex == 2
+                            ? ColorSelect.colorF7E641
+                            : Colors.transparent,
                       ),
                       child: Center(
-                          child: Text(
-                            'Cat',
-                          ),
+                        child: Text(
+                          'Cat',
+                        ),
                       ),
                     ),
                   ),
@@ -518,7 +522,6 @@ class _PetTypeBottomSheet extends State<PetTypeBottomSheet> {
     super.initState();
   }
 }
-
 
 class PetOriginBottomSheet extends StatefulWidget {
   final String puppyOrigin;
@@ -576,15 +579,15 @@ class _PetOriginBottomSheet extends State<PetOriginBottomSheet> {
                       width: 78.w,
                       decoration: BoxDecoration(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 0 ?
-                        ColorSelect.colorF7E641 :
-                        Colors.transparent,
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: _gIndex == 0
+                            ? ColorSelect.colorF7E641
+                            : Colors.transparent,
                       ),
                       child: Center(
-                          child: Text(
-                            'American',
-                          ),
+                        child: Text(
+                          'American',
+                        ),
                       ),
                     ),
                   ),
@@ -602,13 +605,15 @@ class _PetOriginBottomSheet extends State<PetOriginBottomSheet> {
                       width: 78.w,
                       decoration: BoxDecoration(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 1 ? ColorSelect.colorF7E641 : Colors.transparent,
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: _gIndex == 1
+                            ? ColorSelect.colorF7E641
+                            : Colors.transparent,
                       ),
                       child: Center(
-                          child: Text(
-                            'chinese',
-                          ),
+                        child: Text(
+                          'chinese',
+                        ),
                       ),
                     ),
                   ),
@@ -626,13 +631,15 @@ class _PetOriginBottomSheet extends State<PetOriginBottomSheet> {
                       width: 78.w,
                       decoration: BoxDecoration(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 2 ? ColorSelect.colorF7E641 : Colors.transparent,
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: _gIndex == 2
+                            ? ColorSelect.colorF7E641
+                            : Colors.transparent,
                       ),
                       child: Center(
-                          child: Text(
-                            'Indian',
-                          ),
+                        child: Text(
+                          'Indian',
+                        ),
                       ),
                     ),
                   ),
@@ -660,7 +667,6 @@ class _PetOriginBottomSheet extends State<PetOriginBottomSheet> {
     super.initState();
   }
 }
-
 
 class PrivacyStatusBottomSheet extends StatefulWidget {
   final String privacyStatus;
@@ -717,13 +723,15 @@ class _PrivacyStatusBottomSheet extends State<PrivacyStatusBottomSheet> {
                       width: 78.w,
                       decoration: BoxDecoration(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 0 ? ColorSelect.colorF7E641 : Colors.transparent,
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: _gIndex == 0
+                            ? ColorSelect.colorF7E641
+                            : Colors.transparent,
                       ),
                       child: Center(
-                          child: Text(
-                            'private',
-                          ),
+                        child: Text(
+                          'private',
+                        ),
                       ),
                     ),
                   ),
@@ -741,13 +749,15 @@ class _PrivacyStatusBottomSheet extends State<PrivacyStatusBottomSheet> {
                       width: 78.w,
                       decoration: BoxDecoration(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 1 ? ColorSelect.colorF7E641 : Colors.transparent,
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: _gIndex == 1
+                            ? ColorSelect.colorF7E641
+                            : Colors.transparent,
                       ),
                       child: Center(
-                          child: Text(
-                            'friend',
-                          ),
+                        child: Text(
+                          'friend',
+                        ),
                       ),
                     ),
                   ),
@@ -765,13 +775,15 @@ class _PrivacyStatusBottomSheet extends State<PrivacyStatusBottomSheet> {
                       width: 78.w,
                       decoration: BoxDecoration(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 2 ? ColorSelect.colorF7E641 : Colors.transparent,
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: _gIndex == 2
+                            ? ColorSelect.colorF7E641
+                            : Colors.transparent,
                       ),
                       child: Center(
-                          child: Text(
-                            'public',
-                          ),
+                        child: Text(
+                          'public',
+                        ),
                       ),
                     ),
                   ),
@@ -799,4 +811,3 @@ class _PrivacyStatusBottomSheet extends State<PrivacyStatusBottomSheet> {
     super.initState();
   }
 }
-

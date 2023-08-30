@@ -1,8 +1,8 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../constants/color.dart';
 
 class IntroFinal extends StatefulWidget {
@@ -22,7 +22,6 @@ class _IntroFinalState extends State<IntroFinal> with TickerProviderStateMixin {
   late Animation<double> _animation1;
   late Animation<double> _animation2;
   late Animation<double> _animation3;
-
 
   @override
   void dispose() {
@@ -74,7 +73,7 @@ class _IntroFinalState extends State<IntroFinal> with TickerProviderStateMixin {
     );
     _animation3 = Tween<double>(
       begin: 0,
-      end: 3,
+      end: 4,
     ).animate(
       CurvedAnimation(
         parent: animationController3,
@@ -90,8 +89,15 @@ class _IntroFinalState extends State<IntroFinal> with TickerProviderStateMixin {
         curve: Curves.fastOutSlowIn,
       ),
     );
+
     //animationController.forward();
   }
+
+  late AnimationController animationContro =
+      AnimationController(vsync: this, duration: const Duration(seconds: 10))
+        ..repeat(reverse: true);
+  late Animation<double> animate =
+      CurvedAnimation(parent: animationContro, curve: Curves.fastOutSlowIn);
 
   @override
   Widget build(BuildContext context) {
@@ -150,15 +156,15 @@ class _IntroFinalState extends State<IntroFinal> with TickerProviderStateMixin {
             ),
             SizedBox(height: 10),
             FadeTransition(
-              opacity: _animation3,
-              child: ScaleTransition(
-                scale: _animation,
-                child: AnimatedDefaultTextStyle(
-                    child: Text('Swishing!'),
-                    style: AppTextStyle().textColorF7E64150w700,
-                    duration: Duration(seconds: 3)),
-              )
-              /*ScaleTransition(
+                opacity: _animation3,
+                child: ScaleTransition(
+                  scale: animate,
+                  child: AnimatedDefaultTextStyle(
+                      child: Text('Swishing!'),
+                      style: AppTextStyle().textColorF7E64150w700,
+                      duration: Duration(seconds: 40)),
+                )
+                /*ScaleTransition(
                 scale: _animation,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20),
@@ -170,9 +176,9 @@ class _IntroFinalState extends State<IntroFinal> with TickerProviderStateMixin {
                   ),
                 ),
               ),*/
-            ),
+                ),
 
-         /*   TweenAnimationBuilder(
+            /*   TweenAnimationBuilder(
               tween: Tween<double>(begin: 1,end: 30),
               duration: Duration(seconds: 5), builder: (BuildContext context, double value, Widget? child) {
                 return Text("jiknn",
@@ -180,7 +186,6 @@ class _IntroFinalState extends State<IntroFinal> with TickerProviderStateMixin {
                   fontSize: value,
                   )); },
             ),*/
-
 
             /*_scale(),*/
             Spacer(),
