@@ -1,19 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
+
 import '../api/login_signup_apis/signup_api.dart';
 import 'email_verfication.dart';
 
 class SignUpWithEmail extends StatefulWidget {
   const SignUpWithEmail({
-    Key? key,}) : super(key: key);
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<SignUpWithEmail> createState() => _SignUpWithEmailState();
@@ -22,17 +23,17 @@ class SignUpWithEmail extends StatefulWidget {
 class _SignUpWithEmailState extends State<SignUpWithEmail> {
   bool _passwordVisible = false;
   bool isChecked = false;
-  GlobalKey<FormState>  formKey = GlobalKey<FormState>();
-  TextEditingController emailController  = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool loading = false;
-
 
   @override
   void initState() {
     _passwordVisible = false;
     super.initState();
   }
+
   bool show = false;
   @override
   Widget build(BuildContext context) {
@@ -100,60 +101,64 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                 SizedBox(
                   height: 52.h,
                   width: 328.w,
-                  child: show ? LoadingLightYellowButton(): LightYellowButtonWithText(
-                    backgroundColor: isChecked
-                        ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                        : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                    textStyleColor:
-                        isChecked ? Colors.black : ColorSelect.colorB5B07A,
-                    onTap: () {
-                      setState(() {
-                        show = !show;
-                      });
-                      Timer timer = Timer(Duration(seconds: 2), () {
-                        setState(() {
-                          show = false;
-                        });
-                      });
+                  child: show
+                      ? LoadingLightYellowButton()
+                      : LightYellowButtonWithText(
+                          backgroundColor: isChecked
+                              ? MaterialStateProperty.all(
+                                  ColorSelect.colorF7E641)
+                              : MaterialStateProperty.all(
+                                  ColorSelect.colorFCF5B6),
+                          textStyleColor: isChecked
+                              ? Colors.black
+                              : ColorSelect.colorB5B07A,
+                          onTap: () {
+                            setState(() {
+                              show = !show;
+                            });
+                            Timer timer = Timer(Duration(seconds: 2), () {
+                              setState(() {
+                                show = false;
+                              });
+                            });
 
-                      if (isChecked) {
-                        // SharedPrefs().setPassword(passwordController.text);
-                        // print(passwordController.text);
-                        if(formKey.currentState!.validate() ) {
-                          signUpApi(
-                            context: context,
-                            emailPhone:emailController.text,
-                            password: passwordController.text,
-
-                          ).then((value) async {
-                            if( value['status'] == true) {
+                            if (isChecked) {
                               // SharedPrefs().setPassword(passwordController.text);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EmailVerification(
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                  ),
-                                ),
-                              );
-                              print(passwordController.text);
-                              Fluttertoast.showToast(
-                                  msg: 'Your OTP is ${value['data']['otp']}');
+                              // print(passwordController.text);
+                              if (formKey.currentState!.validate()) {
+                                signUpApi(
+                                  context: context,
+                                  emailPhone: emailController.text,
+                                  password: passwordController.text,
+                                ).then((value) async {
+                                  if (value['status'] == true) {
+                                    // SharedPrefs().setPassword(passwordController.text);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EmailVerification(
+                                          email: emailController.text,
+                                          password: passwordController.text,
+                                        ),
+                                      ),
+                                    );
+                                    print(passwordController.text);
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            'Your OTP is ${value['data']['otp']}');
 
-                              // SharedPrefs().setPassword(passwordController.toString());
-                              // print(SharedPrefs().setPassword(passwordController.toString()));
-
-                            } else {
-                              Fluttertoast.showToast(
-                                  msg:value['message']);
+                                    // SharedPrefs().setPassword(passwordController.toString());
+                                    // print(SharedPrefs().setPassword(passwordController.toString()));
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: value['message']);
+                                  }
+                                });
+                              }
                             }
-                          });
-                        }
-                      }
-                    },
-                    title: 'Next',
-                  ),
+                          },
+                          title: 'Next',
+                        ),
                 ),
                 SizedBox(height: 50),
               ],

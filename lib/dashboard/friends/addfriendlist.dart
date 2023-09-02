@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 
-
 class AddFriendList extends StatefulWidget {
-  // final FriendModel friendModel;
-  const AddFriendList({Key? key,
- /*   required this.friendModel*/}) : super(key: key);
+  const AddFriendList({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AddFriendList> createState() => _AddFriendListState();
@@ -54,14 +54,18 @@ class _AddFriendListState extends State<AddFriendList> {
                     color: ColorSelect.colorEDEDF1),
                 child: Row(
                   children: [
-                    SizedBox(width: 16,),
+                    SizedBox(
+                      width: 16,
+                    ),
                     Image.asset("assets/images/Vectorse.png"),
-                    SizedBox(width: 16,),
+                    SizedBox(
+                      width: 16,
+                    ),
                     Expanded(
                       child: TextFormField(
                         decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Search product, username and more",
+                          border: InputBorder.none,
+                          hintText: "Search product, username and more",
                         ),
                         keyboardType: TextInputType.text,
                       ),
@@ -117,9 +121,7 @@ class _AddFriendListState extends State<AddFriendList> {
                                     ColorSelect.colorF7E641),
                                 textStyleColor: ColorSelect.color292929,
                                 title: 'Add',
-                                onTap: () {
-
-                                },
+                                onTap: () {},
                               ),
                             )
                           ],

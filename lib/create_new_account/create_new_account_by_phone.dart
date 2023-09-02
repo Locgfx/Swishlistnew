@@ -224,45 +224,6 @@ class _CreateNewAccountByPhone extends State<CreateNewAccountByPhone> {
                                       "Account Failed to create check your details");
                             }
                           });
-                          // print(updateNameController.text);
-                          // print(userNameController.text);
-                          // print(emailController.text);
-                          // print(widget.phoneNo);
-                          // if(updateNameController.text.isNotEmpty) {
-                          //   updateProfile(
-                          //     context: context,
-                          //     name: updateNameController.text,
-                          //     userName: userNameController.text,
-                          //     photo:  pickedImage.isAbsolute
-                          //         ?  pickedImage.path
-                          //         : '',
-                          //     email: emailController.text,
-                          //     phone: widget.phoneNo,
-                          //   ).then((value) async {
-                          //     response = value;
-                          //     if(response?.status != null &&
-                          //         response!.status == true) {
-                          //       print(response);
-                          //       Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //           builder: (_) => Login(),
-                          //         ),
-                          //       );
-                          //       Fluttertoast.showToast(msg: "Account Successfully Created");
-                          //       SharedPrefs().setUserPhoto(pickedImage.toString());
-                          //       SharedPrefs().setName(updateNameController.toString());
-                          //       SharedPrefs().setUsername(userNameController.toString());
-                          //       print(pickedImage.toString());
-                          //       print(updateNameController.text);
-                          //
-                          //     } else{
-                          //       Fluttertoast.showToast(msg: "Account Failed to create check your details");
-                          //
-                          //     }
-                          //   }
-                          //   );
-                          // }
                         },
                         title: 'Create Account'),
               ),
