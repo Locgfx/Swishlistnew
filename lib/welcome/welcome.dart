@@ -1,13 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/login/login.dart';
 
-import '../api/social_signin/google_signin.dart';
+import '../buttons/third_party_buttons/google_signin_button.dart';
 import '../signup/signup_with_email.dart';
 import '../signup/signup_with_phone.dart';
 
@@ -29,7 +28,12 @@ class _WelcomeState extends State<Welcome> {
             SizedBox(
               height: 100.h,
             ),
-            Center(child: Image.asset('assets/images/image225.png')),
+            Center(
+                child: Image.asset(
+              'assets/icons/welcomelogo.png',
+              height: 140,
+              width: 140,
+            )),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Text(
@@ -109,28 +113,55 @@ class _WelcomeState extends State<Welcome> {
                             width: 1, color: ColorSelect.colorA3A3A3)),
                     child: SvgPicture.asset("assets/icons/logos_facebook.svg",
                         height: 20, width: 20, fit: BoxFit.scaleDown)),
-                GestureDetector(
-                  onTap: () async {
-                    final auth = await GoogleSignInClass().googleLogin();
-                    log(auth.idToken.toString());
-                  },
-                  child: Container(
-                      height: 48,
-                      width: 120,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          border: Border.all(
-                              width: 1, color: ColorSelect.colorA3A3A3)),
-                      child: SvgPicture.asset(
-                          "assets/icons/flat-color-icons_google.svg",
-                          height: 20,
-                          width: 20,
-                          fit: BoxFit.scaleDown)),
-                ),
+                GoogleSigninButton()
+                // GestureDetector(
+                //   onTap: () async {
+                //     final auth = await GoogleSignInClass().googleLogin();
+                //     log(auth.idToken.toString());
+                //   },
+                //   child: Container(
+                //       height: 48,
+                //       width: 120,
+                //       decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.all(Radius.circular(8)),
+                //           border: Border.all(
+                //               width: 1, color: ColorSelect.colorA3A3A3)),
+                //       child: SvgPicture.asset(
+                //           "assets/icons/flat-color-icons_google.svg",
+                //           height: 20,
+                //           width: 20,
+                //           fit: BoxFit.scaleDown)),
+                // ),
               ],
             ),
-
-            // Text(,dl)
+            SizedBox(height: 16),
+            GestureDetector(
+              onTap: () async {
+                // var _prefs = await SharedPreferences.getInstance();
+                final credential = await SignInWithApple.getAppleIDCredential(
+                  scopes: [
+                    AppleIDAuthorizationScopes.email,
+                    AppleIDAuthorizationScopes.fullName,
+                  ],
+                );
+                // print(credential);
+                print(credential.identityToken);
+                print(credential.authorizationCode);
+                print(credential.userIdentifier);
+                print(credential.email);
+                print(credential.familyName);
+                print(credential.givenName);
+              },
+              child: Container(
+                  height: 48,
+                  width: 120,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      border:
+                          Border.all(width: 1, color: ColorSelect.colorA3A3A3)),
+                  child: Image.asset("assets/icons/applelogo.png",
+                      height: 20, width: 20, fit: BoxFit.scaleDown)),
+            ),
             GestureDetector(
               onTap: () {
                 Navigator.pushReplacement(

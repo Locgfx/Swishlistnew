@@ -8,6 +8,7 @@ import 'package:swishlist/api/login_signup_apis/signup_api.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
+
 import '../buttons/white_button.dart';
 import '../constants/globals/globals.dart';
 import '../constants/globals/shared_prefs.dart';
@@ -17,7 +18,9 @@ import '../models/login_models.dart';
 class EmailVerification extends StatefulWidget {
   final String email;
   final String password;
-  const EmailVerification({Key? key, required this.email, required this.password}) : super(key: key);
+  const EmailVerification(
+      {Key? key, required this.email, required this.password})
+      : super(key: key);
 
   @override
   State<EmailVerification> createState() => _EmailVerificationState();
@@ -39,47 +42,52 @@ class _EmailVerificationState extends State<EmailVerification> {
               SizedBox(
                 height: 52.h,
                 width: 328.w,
-                child: show ? LoadingLightYellowButton(): LightYellowButtonWithText(
-                  backgroundColor: otpController.text.length == 4
-                      ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                      : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                  textStyleColor: otpController.text.length == 4
-                      ? Colors.black
-                      : ColorSelect.colorB5B07A,
-                  onTap: () {
-                    setState(() {
-                      show = !show;
-                    });
-                    Timer timer = Timer(Duration(seconds: 2), () {
-                      setState(() {
-                        show = false;
-                      });
-                    });
-                    if (otpController.text.length == 4) {
-                      verifyOtp(
-                        context: context,
-                        otp: otpController.text,
-                        email: widget.email,
-                        password: widget.password,
-                      ).then((value)async {
-                        response = value;
-                        if(response?.status != null && response!.status == true) {
-                          print(response);
-                          print(widget.password);
-                          SharedPrefs().setLoginToken(response!.token);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => CreateNewAccountWithEmail(email: widget.email,),
-                            ),
-                          );
-                        }
-                      });
-
-                    }
-                  },
-                  title: 'Submit',
-                ),
+                child: show
+                    ? LoadingLightYellowButton()
+                    : LightYellowButtonWithText(
+                        backgroundColor: otpController.text.length == 4
+                            ? MaterialStateProperty.all(ColorSelect.colorF7E641)
+                            : MaterialStateProperty.all(
+                                ColorSelect.colorFCF5B6),
+                        textStyleColor: otpController.text.length == 4
+                            ? Colors.black
+                            : ColorSelect.colorB5B07A,
+                        onTap: () {
+                          setState(() {
+                            show = !show;
+                          });
+                          Timer timer = Timer(Duration(seconds: 2), () {
+                            setState(() {
+                              show = false;
+                            });
+                          });
+                          if (otpController.text.length == 4) {
+                            verifyOtp(
+                              context: context,
+                              otp: otpController.text,
+                              email: widget.email,
+                              password: widget.password,
+                            ).then((value) async {
+                              response = value;
+                              if (response?.status != null &&
+                                  response!.status == true) {
+                                print(response);
+                                print(widget.password);
+                                SharedPrefs().setLoginToken(response!.token);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => CreateNewAccountWithEmail(
+                                      email: widget.email,
+                                    ),
+                                  ),
+                                );
+                              }
+                            });
+                          }
+                        },
+                        title: 'Submit',
+                      ),
               ),
               SizedBox(
                 height: 20,
@@ -92,25 +100,23 @@ class _EmailVerificationState extends State<EmailVerification> {
                   textStyleColor: ColorSelect.color292929,
                   onTap: () {
                     resendOtp(
-                        context: context,
-                        emailPhone:widget.email,
-                      ).then((value) async {
-                        if( value['status'] == true) {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => CreateNewAccount(
-                          //     ),
-                          //   ),
-                          // );
-                          Fluttertoast.showToast(
-                              msg: 'Your OTP is ${value['data']['otp']}');
-                        } else {
-                          Fluttertoast.showToast(
-                              msg:value['message']);
-                        }
-                      });
-
+                      context: context,
+                      emailPhone: widget.email,
+                    ).then((value) async {
+                      if (value['status'] == true) {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => CreateNewAccount(
+                        //     ),
+                        //   ),
+                        // );
+                        Fluttertoast.showToast(
+                            msg: 'Your OTP is ${value['data']['otp']}');
+                      } else {
+                        Fluttertoast.showToast(msg: value['message']);
+                      }
+                    });
                   },
                   title: 'Resent OTP',
                 ),

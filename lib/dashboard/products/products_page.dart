@@ -1290,7 +1290,21 @@ class _ProductsPageState extends State<ProductsPage> {
                                           BoxDecoration(shape: BoxShape.circle),
                                       child: CachedNetworkImage(
                                         imageUrl:
-                                            '$baseUrl${SharedPrefs().getUserPhoto()}',
+                                            // haveProducts2[i]
+                                            //     .photo
+                                            //     .toString()
+                                            //     .contains("https")
+                                            //     ? haveProducts2[i].photo.toString()
+                                            //     : baseUrl +
+                                            //     haveProducts2[i].photo.toString(),
+                                            SharedPrefs()
+                                                    .getUserPhoto()
+                                                    .toString()
+                                                    .contains('https')
+                                                ? SharedPrefs()
+                                                    .getUserPhoto()
+                                                    .toString()
+                                                : '$baseUrl${SharedPrefs().getUserPhoto()}',
                                         fit: BoxFit.cover,
                                         errorWidget: (context, url, error) =>
                                             Icon(Icons.error),
@@ -1352,6 +1366,15 @@ class _ProductsPageState extends State<ProductsPage> {
                                             children: [
                                               Text(
                                                 '${SharedPrefs().getName()}',
+                                                // SharedPrefs()
+                                                //         .getName()
+                                                //         .toString()
+                                                //         .isEmpty
+                                                //     ? 'user'
+                                                //     : SharedPrefs()
+                                                //         .getName()
+                                                //         .toString(),
+
                                                 // "Michael Scott",
                                                 style: AppTextStyle()
                                                     .textColor29292916w500r,
