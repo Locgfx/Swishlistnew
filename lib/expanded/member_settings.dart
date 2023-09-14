@@ -51,6 +51,11 @@ class _MemberSettingsState extends State<MemberSettings> {
                   padding: const EdgeInsets.only(left: 20),
                   child: SvgPicture.asset("assets/icons/arrowback.svg"),
                 )),
+            title: Text(
+              "Settings",
+              style: AppTextStyle().textColor29292916w500,
+            ),
+            centerTitle: false,
           ),
           body: SingleChildScrollView(
             child: Stack(

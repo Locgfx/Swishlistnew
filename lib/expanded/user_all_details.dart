@@ -68,10 +68,11 @@ class _UserAllDetailsState extends State<UserAllDetails> {
             elevation: 0,
             centerTitle: false,
             title: Text(
+              "Account",
               // '${SharedPrefs().getName()}',
               // '${SharedPrefs().getUsername()}' == "null" ?
               // "Please Add Your Username" :
-              '${SharedPrefs().getUsername()}',
+              // '${SharedPrefs().getUsername()}',
               // "MichieMaster34",
               style: AppTextStyle().textColor29292916w500,
             ),
@@ -103,7 +104,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                             MaterialPageRoute(builder: (context) => Account()));
                       },
                       child: Text(
-                        'Account',
+                        'Delete Account',
                         style: AppTextStyle().textColor39393914w500,
                       ),
                     ),

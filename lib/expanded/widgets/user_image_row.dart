@@ -5,6 +5,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/models/login_models.dart';
+
 import '../../constants/color.dart';
 import '../../constants/globals/shared_prefs.dart';
 
@@ -27,25 +28,21 @@ class _UserImageRowWidgetState extends State<UserImageRowWidget> {
   // final String bh=  percent* 10;
 
   double dou = 00;
-  List <String> per = [];
+  List<String> per = [];
 
-  _sharedPrefs(){
-    if(SharedPrefs().getPPercent() == '100 %') {
+  _sharedPrefs() {
+    if (SharedPrefs().getPPercent() == '100 %') {
       per.add('profile');
     }
-    if(SharedPrefs().getSetSize() == '100 %') {
+    if (SharedPrefs().getSetSize() == '100 %') {
       per.add('Size');
-
     }
-    if(SharedPrefs().getFavourites() == '100 %') {
+    if (SharedPrefs().getFavourites() == '100 %') {
       per.add('favourites');
-
     }
-    percent = ((per.length / 3)*100).toString().split(".").first ;
+    percent = ((per.length / 3) * 100).toString().split(".").first;
     dou = (per.length / 3);
   }
-
-
 
   @override
   void initState() {
@@ -66,38 +63,37 @@ class _UserImageRowWidgetState extends State<UserImageRowWidget> {
               percent: dou,
               backgroundColor: ColorSelect.colorEDEDF1,
               progressColor: Colors.black,
-              center:Container(
+              center: Container(
                 height: 40,
                 width: 40,
                 clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle),
                 child: CachedNetworkImage(
-                 /* imageUrl: baseUrl+widget.response.data.photo.toString(),*/
+                  /* imageUrl: baseUrl+widget.response.data.photo.toString(),*/
                   imageUrl: /* widget.response.data.photo.isEmpty ?*/
-                  '$baseUrl${SharedPrefs().getUserPhoto()}',
-                  /*baseUrl+widget.response.data.photo.toString(),*/
+                      // '$baseUrl${SharedPrefs().getUserPhoto()}',
+                      /*baseUrl+widget.response.data.photo.toString(),*/
+                      SharedPrefs().getUserPhoto().toString().contains('https')
+                          ? SharedPrefs().getUserPhoto().toString()
+                          : '$baseUrl${SharedPrefs().getUserPhoto()}',
                   fit: BoxFit.cover,
-                  errorWidget: (context, url, error) =>
-                      Icon(Icons.error,),
-                  progressIndicatorBuilder:  (a,b,c) =>
-                      Opacity(
-                        opacity: 0.3,
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.black12,
-                          highlightColor: Colors.white,
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            //margin: EdgeInsets.symmetric(horizontal: 24),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle
-                            ),
-                          ),
-                        ),
+                  errorWidget: (context, url, error) => Icon(
+                    Icons.error,
+                  ),
+                  progressIndicatorBuilder: (a, b, c) => Opacity(
+                    opacity: 0.3,
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.black12,
+                      highlightColor: Colors.white,
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        //margin: EdgeInsets.symmetric(horizontal: 24),
+                        decoration: BoxDecoration(
+                            color: Colors.white, shape: BoxShape.circle),
                       ),
+                    ),
+                  ),
                 ),
               ),
               // center: Image.asset('assets/images/Rectangle1072.png'),

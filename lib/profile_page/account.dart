@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/profile_page/profile.dart';
+
 import '../api/user_apis/delete_account_api.dart';
 import '../api/user_apis/profile_apis.dart';
 import '../buttons/red_button.dart';
@@ -15,7 +15,6 @@ import '../models/profile_model.dart';
 import 'change_password.dart';
 import 'delete_account.dart';
 
-
 class Account extends StatefulWidget {
   const Account({Key? key}) : super(key: key);
 
@@ -24,21 +23,20 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-
-
   @override
   void initState() {
     getProfile();
     super.initState();
   }
+
   bool isLoading = false;
   // ProfileModel? profile;
   ProfileModel profile = ProfileModel();
   getProfile() {
     isLoading = true;
     var resp = getProfileDetails();
-    resp.then((value){
-      if (value['status']== true) {
+    resp.then((value) {
+      if (value['status'] == true) {
         setState(() {
           profile = ProfileModel.fromJson(value);
           isLoading = false;
@@ -59,27 +57,27 @@ class _AccountState extends State<Account> {
         elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-          Text(
-            "Account",
-            style: AppTextStyle().textColor29292916w500,
-          ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => UserProfile(),
-                    ),
-                  );
-                },
-                child: Container(
-                  padding: EdgeInsets.only(left: 3,right: 3),
+          children: [
+            Text(
+              "Delete Account",
+              style: AppTextStyle().textColor29292916w500,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => UserProfile(),
+                  ),
+                );
+              },
+              child: Container(
+                  padding: EdgeInsets.only(left: 3, right: 3),
                   height: 24,
                   width: 24,
                   // color: Colors.red,
-                    child: SvgPicture.asset("assets/icons/Vectoredit.svg")),
-              ),
-        ],
+                  child: SvgPicture.asset("assets/icons/Vectoredit.svg")),
+            ),
+          ],
         ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
@@ -91,150 +89,158 @@ class _AccountState extends State<Account> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: isLoading ? Loading() :Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 40.h,
-            ),
-            Row(
-              children: [
-                Text(
-                  "Username",
-                  style: AppTextStyle().textColor70707014w400,
-                ),
-                Spacer(),
-                Text(
-                  profile.data!.user!.username!.toString() == "null" ?
-                  "Add Your Username" :
-                  profile.data!.user!.username!.toString(),
-                  style: AppTextStyle().textColor29292914w400,
-                ),
-                /*SizedBox(
-                  width: 10.w,
-                ),
-                Image.asset("assets/images/Vector175.png"),*/
-              ],
-            ),
-            SizedBox(
-              height: 40.h,
-            ),
-            Row(
-              children: [
-                Text(
-                  "Email",
-                  style: AppTextStyle().textColor70707014w400,
-                ),
-                Spacer(),
-                Text(
-                  profile.data!.user!.email!.toString() == "null" ?
-                  "Add your email" :
-                  profile.data!.user!.email!.toString(),
-                  style: AppTextStyle().textColor29292914w400,
-                ),
-                /*SizedBox(
-                  width: 10.w,
-                ),
-                Image.asset("assets/images/Vector175.png"),*/
-              ],
-            ),
-            SizedBox(
-              height: 40.h,
-            ),
-            Row(
-              children: [
-                Text(
-                  "Phone",
-                  style: AppTextStyle().textColor70707014w400,
-                ),
-                Spacer(),
-                Text(
-                  profile.data!.user!.phone!.toString() == "null" ?
-                  "Add your phone no" :
-                  profile.data!.user!.phone!.toString(),
-                  // "+18397840844",
-                  style: AppTextStyle().textColor29292914w400,
-                ),
-                /*SizedBox(
-                  width: 10.w,
-                ),
-                Image.asset("assets/images/Vector175.png"),*/
-              ],
-            ),
-            SizedBox(
-              height: 40.h,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) =>ChangePassword()));
-              },
-              child: Row(
+      body: isLoading
+          ? Loading()
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
                 children: [
-                  Text(
-                    "Change Password",
-                    style: AppTextStyle().textColor70707014w400,
+                  SizedBox(
+                    height: 40.h,
                   ),
+                  Row(
+                    children: [
+                      Text(
+                        "Username",
+                        style: AppTextStyle().textColor70707014w400,
+                      ),
+                      Spacer(),
+                      Text(
+                        profile.data!.user!.username!.toString() == "null"
+                            ? "Add Your Username"
+                            : profile.data!.user!.username!.toString(),
+                        style: AppTextStyle().textColor29292914w400,
+                      ),
+                      /*SizedBox(
+                  width: 10.w,
+                ),
+                Image.asset("assets/images/Vector175.png"),*/
+                    ],
+                  ),
+                  SizedBox(
+                    height: 40.h,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Email",
+                        style: AppTextStyle().textColor70707014w400,
+                      ),
+                      Spacer(),
+                      Text(
+                        profile.data!.user!.email!.toString() == "null"
+                            ? "Add your email"
+                            : profile.data!.user!.email!.toString(),
+                        style: AppTextStyle().textColor29292914w400,
+                      ),
+                      /*SizedBox(
+                  width: 10.w,
+                ),
+                Image.asset("assets/images/Vector175.png"),*/
+                    ],
+                  ),
+                  SizedBox(
+                    height: 40.h,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Phone",
+                        style: AppTextStyle().textColor70707014w400,
+                      ),
+                      Spacer(),
+                      Text(
+                        profile.data!.user!.phone!.toString() == "null"
+                            ? "Add your phone no"
+                            : profile.data!.user!.phone!.toString(),
+                        // "+18397840844",
+                        style: AppTextStyle().textColor29292914w400,
+                      ),
+                      /*SizedBox(
+                  width: 10.w,
+                ),
+                Image.asset("assets/images/Vector175.png"),*/
+                    ],
+                  ),
+                  SizedBox(
+                    height: 40.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChangePassword()));
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Change Password",
+                          style: AppTextStyle().textColor70707014w400,
+                        ),
+                        Spacer(),
+                        Image.asset("assets/images/Vector175.png"),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40.h,
+                  ),
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       "Google",
+                  //       style: AppTextStyle().textColor70707014w400,
+                  //     ),
+                  //     Spacer(),
+                  //     Image.asset("assets/images/Vector175.png"),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 40.h,
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       "Contacts syncing",
+                  //       style: AppTextStyle().textColor70707014w400,
+                  //     ),
+                  //     Spacer(),
+                  //     Image.asset("assets/images/Vector175.png"),
+                  //   ],
+                  // ),
                   Spacer(),
-                  Image.asset("assets/images/Vector175.png"),
+                  Text(
+                    "On deleting the account it will permanently delete all your app data",
+                    style: AppTextStyle().textColor29292914w400,
+                  ),
+                  SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 34),
+                    child: SizedBox(
+                      height: 52.h,
+                      width: 328.w,
+                      child: RedTextWhiteButtonWithText(
+                        title: 'Erase All Data',
+                        textStyleColor: ColorSelect.colorC33C3C,
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return DeleteAccountDialog();
+                              });
+                        },
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.white),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
-            SizedBox(
-              height: 40.h,
-            ),
-            // Row(
-            //   children: [
-            //     Text(
-            //       "Google",
-            //       style: AppTextStyle().textColor70707014w400,
-            //     ),
-            //     Spacer(),
-            //     Image.asset("assets/images/Vector175.png"),
-            //   ],
-            // ),
-            // SizedBox(
-            //   height: 40.h,
-            // ),
-            // Row(
-            //   children: [
-            //     Text(
-            //       "Contacts syncing",
-            //       style: AppTextStyle().textColor70707014w400,
-            //     ),
-            //     Spacer(),
-            //     Image.asset("assets/images/Vector175.png"),
-            //   ],
-            // ),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 34),
-              child: SizedBox(
-                height: 52.h,
-                width: 328.w,
-                child: RedTextWhiteButtonWithText(
-                  title: 'Delete Account',
-                  textStyleColor: ColorSelect.colorC33C3C,
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return DeleteAccountDialog();
-                        });
-                  },
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }
-
-
 
 class DeleteAccountDialog extends StatefulWidget {
   const DeleteAccountDialog({
@@ -281,7 +287,7 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
                       height: 52,
                       child: WhiteButtonWithText(
                           backgroundColor:
-                          MaterialStateProperty.all(Colors.white),
+                              MaterialStateProperty.all(Colors.white),
                           textStyleColor: ColorSelect.color292929,
                           onTap: () {
                             Navigator.pop(context);
@@ -292,7 +298,7 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
                                       builder: (context) =>
                                           ResetPasswordViaPhone()));*/
                           },
-                          title: 'Cancel'),
+                          title: 'No'),
                     ),
                   ),
                   SizedBox(
@@ -303,13 +309,14 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
                       height: 52,
                       child: RedButtonWithText(
                         backgroundColor:
-                        MaterialStateProperty.all(ColorSelect.colorCE5252),
+                            MaterialStateProperty.all(ColorSelect.colorCE5252),
                         textStyleColor: ColorSelect.colorFFFFFF,
-                        image: Image.asset("assets/images/trashdel.png"),
                         onTap: () {
                           deleteAccountApi().then((value) async {
-                            if(value['status']  == true  /*&&
-                              response!.status == true*/) {
+                            if (value['status'] ==
+                                    true /*&&
+                              response!.status == true*/
+                                ) {
                               Fluttertoast.showToast(
                                   msg: 'Your OTP is ${value['data']['otp']}');
                               Navigator.push(
@@ -320,14 +327,12 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
                               );
                               // print(pickedImage.toString());
                               // print(updateNameController.text);
-                            } else{
-                              Fluttertoast.showToast(msg:value['message']);
+                            } else {
+                              Fluttertoast.showToast(msg: value['message']);
                             }
-                          }
-                          );
-
+                          });
                         },
-                        title: 'Delete',
+                        title: 'Yes, Delete',
                       ),
                     ),
                   ),

@@ -1142,11 +1142,14 @@
 //   }
 // }
 
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -1160,7 +1163,6 @@ import 'package:swishlist/expanded/manage_family_members.dart';
 import 'package:swishlist/expanded/member_settings.dart';
 import 'package:swishlist/expanded/user_all_details.dart';
 import 'package:swishlist/expanded/widgets/expanded_section_row_option.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../api/user_apis/products_api.dart';
 import '../../buttons/yellow_button.dart';
@@ -1444,21 +1446,32 @@ class _ProductsPageState extends State<ProductsPage> {
                                       child: GestureDetector(
                                         behavior: HitTestBehavior.translucent,
                                         onTap: () async {
-                                          final url = Uri.parse(
-                                            'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share',
-                                          );
-                                          if (await canLaunchUrl(url)) {
-                                            launchUrl(url);
+                                          if (Platform.isIOS) {
+                                            setState(() {
+                                              Share.share(
+                                                  'https://apps.apple.com/us/app/swishlist/id6447429473');
+                                            });
                                           } else {
-                                            // ignore: avoid_print
-                                            print("Can't launch $url");
+                                            setState(() {
+                                              Share.share(
+                                                  'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share');
+                                            });
                                           }
-                                          // final Uri url = Uri.parse(
-                                          //     'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share');
-                                          // if (!await launchUrl(url)) {
-                                          //   throw Exception(
-                                          //       'Could not launch $_url');
+                                          // final url = Uri.parse(
+                                          //   'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share',
+                                          // );
+                                          // if (await canLaunchUrl(url)) {
+                                          //   launchUrl(url);
+                                          // } else {
+                                          //   // ignore: avoid_print
+                                          //   print("Can't launch $url");
                                           // }
+                                          // // final Uri url = Uri.parse(
+                                          // //     'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share');
+                                          // // if (!await launchUrl(url)) {
+                                          // //   throw Exception(
+                                          // //       'Could not launch $_url');
+                                          // // }
                                         },
                                         child: Padding(
                                           padding:

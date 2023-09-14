@@ -7,14 +7,14 @@ class RedButtonWithText extends StatelessWidget {
   final Color textStyleColor;
   final Function onTap;
   final String title;
-  final Image image;
+  final Widget? image;
   const RedButtonWithText(
       {Key? key,
       required this.backgroundColor,
       required this.textStyleColor,
       required this.onTap,
       required this.title,
-      required this.image})
+      this.image})
       : super(key: key);
 
   @override
@@ -36,7 +36,7 @@ class RedButtonWithText extends StatelessWidget {
           SizedBox(
             height: 40,
           ),
-          image,
+          image ?? SizedBox(),
           SizedBox(
             width: 5,
           ),
