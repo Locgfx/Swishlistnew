@@ -24,7 +24,7 @@ Future<dynamic> getProfileDetails() async {
     return resp;
   }
 }
-
+// jnhjnhjkn
 
 Future<dynamic> updateProfile({
   required String name,
@@ -40,7 +40,7 @@ Future<dynamic> updateProfile({
   required String privacyStatus,
   required String id,
   required String photo,
-
+//sssssss
 }) async {
   var headers = {
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
