@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,10 +7,13 @@ import 'package:share_plus/share_plus.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/expanded/link_members_account.dart';
+
 import '../buttons/grey_border_button.dart';
 
 class AddFamilyMember extends StatefulWidget {
-  const AddFamilyMember({Key? key,}) : super(key: key);
+  const AddFamilyMember({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AddFamilyMember> createState() => _AddFamilyMemberState();
@@ -92,9 +97,20 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                   textStyleColor: ColorSelect.color292929,
                   title: 'No, invite them to SwishList',
                   onTap: () {
-                    setState(() {
-                      Share.share('Check Out SwishList');
-                    });
+                    if (Platform.isIOS) {
+                      setState(() {
+                        Share.share(
+                            'https://apps.apple.com/us/app/swishlist/id6447429473');
+                      });
+                    } else {
+                      setState(() {
+                        Share.share(
+                            'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share');
+                      });
+                    }
+                    // setState(() {
+                    //   // Share.share('Check Out SwishList');
+                    // });
                   },
                 ),
               ),

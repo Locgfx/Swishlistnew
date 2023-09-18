@@ -24,7 +24,8 @@ class AppBarWidget extends StatelessWidget {
         ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
-          child: InkWell(
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () {
               onPop();
             },

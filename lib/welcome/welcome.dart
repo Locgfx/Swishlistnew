@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/login/login.dart';
@@ -73,16 +70,16 @@ class _WelcomeState extends State<Welcome> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => SignUpWithEmail(),
-                        ),
-                      );
-                    },
-                    child: Expanded(
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => SignUpWithEmail(),
+                          ),
+                        );
+                      },
                       child: Container(
                         height: 48,
                         width: 120,
@@ -148,54 +145,54 @@ class _WelcomeState extends State<Welcome> {
                 ],
               ),
               SizedBox(height: 16),
-              Platform.isIOS
-                  ? GestureDetector(
-                      onTap: () async {
-                        // var _prefs = await SharedPreferences.getInstance();
-                        final credential =
-                            await SignInWithApple.getAppleIDCredential(
-                          scopes: [
-                            AppleIDAuthorizationScopes.email,
-                            AppleIDAuthorizationScopes.fullName,
-                          ],
-                        );
-                        // print(credential);
-                        print(credential.identityToken);
-                        print(credential.authorizationCode);
-                        print(credential.userIdentifier);
-                        print(credential.email);
-                        print(credential.familyName);
-                        print(credential.givenName);
-
-                        // getAppleValidateToken(
-                        //     authorizedCode: '', token: '', name: '', email: '');
-                      },
-                      child: Container(
-                          height: 48,
-                          width: 1.sw,
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                              border: Border.all(
-                                  width: 1, color: ColorSelect.colorA3A3A3)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                  "assets/icons/icons8-apple-logo-50 1.png",
-                                  height: 20,
-                                  width: 20,
-                                  fit: BoxFit.scaleDown),
-                              SizedBox(width: 6),
-                              Text(
-                                'Sign in with Apple',
-                                style: AppTextStyle().textColor00000014w400,
-                              ),
-                            ],
-                          )),
-                    )
-                  : SizedBox.shrink(),
+              // Platform.isIOS
+              //     ? GestureDetector(
+              //         onTap: () async {
+              //           // var _prefs = await SharedPreferences.getInstance();
+              //           final credential =
+              //               await SignInWithApple.getAppleIDCredential(
+              //             scopes: [
+              //               AppleIDAuthorizationScopes.email,
+              //               AppleIDAuthorizationScopes.fullName,
+              //             ],
+              //           );
+              //           // print(credential);
+              //           print(credential.identityToken);
+              //           print(credential.authorizationCode);
+              //           print(credential.userIdentifier);
+              //           print(credential.email);
+              //           print(credential.familyName);
+              //           print(credential.givenName);
+              //
+              //           // getAppleValidateToken(
+              //           //     authorizedCode: '', token: '', name: '', email: '');
+              //         },
+              //         child: Container(
+              //             height: 48,
+              //             width: 1.sw,
+              //             padding: EdgeInsets.all(8),
+              //             decoration: BoxDecoration(
+              //                 borderRadius:
+              //                     BorderRadius.all(Radius.circular(8)),
+              //                 border: Border.all(
+              //                     width: 1, color: ColorSelect.colorA3A3A3)),
+              //             child: Row(
+              //               mainAxisAlignment: MainAxisAlignment.center,
+              //               children: [
+              //                 Image.asset(
+              //                     "assets/icons/icons8-apple-logo-50 1.png",
+              //                     height: 20,
+              //                     width: 20,
+              //                     fit: BoxFit.scaleDown),
+              //                 SizedBox(width: 6),
+              //                 Text(
+              //                   'Sign in with Apple',
+              //                   style: AppTextStyle().textColor00000014w400,
+              //                 ),
+              //               ],
+              //             )),
+              //       )
+              //     : SizedBox.shrink(),
               GestureDetector(
                 onTap: () {
                   Navigator.pushReplacement(
