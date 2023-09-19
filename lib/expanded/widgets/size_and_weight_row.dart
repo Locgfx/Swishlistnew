@@ -27,7 +27,11 @@ class _SizeAndWeightRowWidgetState extends State<SizeAndWeightRowWidget> {
   //     sizePercent = ((per.length / 1) * 100).toString().split(".").first;
   //     dou = (per.length / 1);
   //   }
-  // }
+  // }''
+
+  String? completePercent;
+  double parsedPercent = 0.0;
+  double normalizedPercent = 0.0;
 
   bool isLoading = false;
   SizesAndWeightModel? sizeWeight = SizesAndWeightModel(
@@ -72,14 +76,16 @@ class _SizeAndWeightRowWidgetState extends State<SizeAndWeightRowWidget> {
 
   @override
   Widget build(BuildContext context) {
+    completePercent = sizeWeight?.data?.completePercent;
+    parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
+    normalizedPercent = parsedPercent / 100.0;
     return Row(
       children: [
         CircularPercentIndicator(
           circularStrokeCap: CircularStrokeCap.round,
           radius: 40.w,
           lineWidth: 2.w,
-          percent:
-             ,
+          percent: normalizedPercent,
           backgroundColor: Color(0xff576ACC).withOpacity(0.28),
           center: Image.asset('assets/images/zoomin.png'),
           progressColor: ColorSelect.color576ACC,

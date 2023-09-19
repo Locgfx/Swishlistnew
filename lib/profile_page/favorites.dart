@@ -172,8 +172,15 @@ class _FavoritesState extends State<Favorites> {
 
   bool index1 = false;
 
+  String? completePercent;
+  double parsedPercent = 0.0;
+  double normalizedPercent = 0.0;
+
   @override
   Widget build(BuildContext context) {
+    completePercent = favourites?.data?.completePercent;
+    parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
+    normalizedPercent = parsedPercent / 100.0;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -309,7 +316,7 @@ class _FavoritesState extends State<Favorites> {
                     width: 1.sw,
                     padding: EdgeInsets.zero,
                     lineHeight: 8.0,
-                    percent: (fav.length / 15),
+                    percent: normalizedPercent,
                     backgroundColor: Color(0xffD55745).withOpacity(0.28),
                     progressColor: ColorSelect.colorD55745,
                   ),

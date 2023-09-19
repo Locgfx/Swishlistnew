@@ -6,6 +6,7 @@ import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/login/login.dart';
+
 import '../api/login_signup_apis/reset_password_api.dart';
 import '../signup/widgets/text_term_widget.dart';
 
@@ -25,7 +26,21 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
   final otpController = TextEditingController();
   final newPassController = TextEditingController();
   final conPassController = TextEditingController();
-  final  _form = GlobalKey<FormState>();
+  final _form = GlobalKey<FormState>();
+
+  bool _obscureText = true;
+  bool _obscureText2 = true;
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
+  void _toggle2() {
+    setState(() {
+      _obscureText2 = !_obscureText2;
+    });
+  }
 
   int currentStep = 0;
   List<Step> getSteps() {
@@ -41,15 +56,12 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
           width: 270.w,
           decoration: BoxDecoration(
               color: ColorSelect.colorEDEDF1,
-              borderRadius:
-              BorderRadius.all(Radius.circular(8))),
+              borderRadius: BorderRadius.all(Radius.circular(8))),
           child: Padding(
             padding: const EdgeInsets.only(left: 20),
             child: TextFormField(
               onChanged: (v) {
-                setState(() {
-
-                });
+                setState(() {});
               },
               // validator: (value) {
               //   setState(() {
@@ -66,8 +78,7 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
               // keyboardType: TextInputType.emailAddress,
               controller: emailController,
               decoration: InputDecoration(
-                  contentPadding:
-                  EdgeInsets.symmetric(vertical: 24),
+                  contentPadding: EdgeInsets.symmetric(vertical: 24),
                   border: InputBorder.none,
                   hintText: "email"),
               // keyboardType: TextInputType.phone,
@@ -83,7 +94,7 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
           style: AppTextStyle().textColor29292918w500u,
         ),
         content: Column(
-          children:  [
+          children: [
             Text(
               "Click on the verification link sent to ${SharedPrefs().getEmail()}.Link will be valid for 30 Minutes.",
               style: AppTextStyle().textColor70707014w400,
@@ -137,7 +148,7 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
         content: Form(
           key: _form,
           child: Column(
-            children:  [
+            children: [
               Row(
                 children: [
                   Expanded(
@@ -155,15 +166,16 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
                           decoration: BoxDecoration(
                               color: ColorSelect.colorEDEDF1,
                               borderRadius:
-                              BorderRadius.all(Radius.circular(8))),
+                                  BorderRadius.all(Radius.circular(8))),
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextFormField(
+                              obscureText: _obscureText,
                               onChanged: (v) {
                                 setState(() {});
                               },
-                              validator: (val){
-                                if(val!.isEmpty) {
+                              validator: (val) {
+                                if (val!.isEmpty) {
                                   return 'Empty';
                                 }
                                 return null;
@@ -171,18 +183,22 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
                               controller: newPassController,
                               decoration: InputDecoration(
                                 contentPadding:
-                                EdgeInsets.symmetric(vertical: 24),
+                                    EdgeInsets.symmetric(vertical: 24),
                                 border: InputBorder.none,
                                 hintText: "Enter new password",
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    // Based on passwordVisible state choose the icon
-                                    _passwordVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Colors.grey,
+                                suffixIcon: InkWell(
+                                  onTap: _toggle,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 14),
+                                    child: Image(
+                                        image: AssetImage(_obscureText
+                                            ? 'assets/icons/eye-disable.png'
+                                            : 'assets/icons/eye.png')),
                                   ),
-                                  onPressed: () {},
+                                ),
+                                suffixIconConstraints: BoxConstraints(
+                                  maxHeight: 40,
+                                  maxWidth: 40,
                                 ),
                               ),
                             ),
@@ -194,18 +210,19 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
                           decoration: BoxDecoration(
                               color: ColorSelect.colorEDEDF1,
                               borderRadius:
-                              BorderRadius.all(Radius.circular(8))),
+                                  BorderRadius.all(Radius.circular(8))),
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: TextFormField(
+                              obscureText: _obscureText2,
                               onChanged: (v) {
                                 setState(() {});
                               },
-                              validator: (val){
-                                if(val!.isEmpty) {
+                              validator: (val) {
+                                if (val!.isEmpty) {
                                   return 'Empty';
                                 }
-                                if(val != newPassController.text) {
+                                if (val != newPassController.text) {
                                   return 'Not Match';
                                 }
                                 return null;
@@ -213,18 +230,22 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
                               controller: conPassController,
                               decoration: InputDecoration(
                                 contentPadding:
-                                EdgeInsets.symmetric(vertical: 24),
+                                    EdgeInsets.symmetric(vertical: 24),
                                 border: InputBorder.none,
                                 hintText: "Re Enter new password",
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    // Based on passwordVisible state choose the icon
-                                    _passwordVisible1
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Colors.grey,
+                                suffixIcon: InkWell(
+                                  onTap: _toggle2,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 14),
+                                    child: Image(
+                                        image: AssetImage(_obscureText2
+                                            ? 'assets/icons/eye-disable.png'
+                                            : 'assets/icons/eye.png')),
                                   ),
-                                  onPressed: () {},
+                                ),
+                                suffixIconConstraints: BoxConstraints(
+                                  maxHeight: 40,
+                                  maxWidth: 40,
                                 ),
                               ),
                             ),
@@ -238,13 +259,13 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
                   ),
                 ],
               ),
-
             ],
           ),
         ),
       ),
     ];
   }
+
   @override
   Widget build(BuildContext context) {
     return TextFieldUnFocusOnTap(
@@ -261,190 +282,234 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
               ),
               Theme(
                 data: Theme.of(context).copyWith(
-                    colorScheme: Theme.of(context)
-                        .colorScheme
-                        .copyWith(onSurface: ColorSelect.colorF7E641,
+                    colorScheme: Theme.of(context).colorScheme.copyWith(
+                        onSurface: ColorSelect.colorF7E641,
                         primary: ColorSelect.colorF7E641)),
                 child: Stepper(
-                  controlsBuilder: (BuildContext context, ControlsDetails details) {
+                  controlsBuilder:
+                      (BuildContext context, ControlsDetails details) {
                     final _isLastStep = currentStep == getSteps().length - 1;
                     return Row(
                       children: [
-                    currentStep == 0 ?
-                        Container(
-                          height: 50.h,
-                          width: 96.w,
-                          margin: const EdgeInsets.only(top: 15),
-                          child: ElevatedButton(
-                            child: Text(
-                              "Next",style: TextStyle(
-                              color:
-                              (emailController.text.isNotEmpty)
-                                  ? Colors.black
-                                  : ColorSelect.colorB5B07A,
-                            ),),
-                            style: ButtonStyle(
-                              elevation: MaterialStateProperty.all<double>(0),
-                              backgroundColor: (emailController.text.isNotEmpty)
-                                  ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                                  : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            ),
-                            onPressed: () {
-                              if(emailController.text.isNotEmpty) {
-                                // details.onStepContinue!();
-                                resetPassGenerateOtpApi(
-                                    emailPhone: emailController.text)
-                                    .then((value)async {
-                                  if( value['status'] == true) {
-                                    SharedPrefs().setEmail(emailController.text);
-                                    details.onStepContinue!();
-                                    Fluttertoast.showToast(
-                                        msg: 'Your OTP is ${value['data']['otp']}');
-                                  } else {
-                                    Fluttertoast.showToast(
-                                        msg:value['message']);
-                                  }
-                                });
-                              }
-                            },
-                            // onPressed: details.onStepContinue,
-                          ),
-                        )
-                        :SizedBox(),
-                        currentStep == 1 ?
-                        Container(
-                          height: 50.h,
-                          width: 130.w,
-                          margin: const EdgeInsets.only(top: 15),
-                          child: ElevatedButton(
-                            child: Text(
-                              "Verify Otp",style: TextStyle(
-                              color:
-                              (emailController.text.isNotEmpty)
-                                  ? Colors.black
-                                  : ColorSelect.colorB5B07A,
-                            ),),
-                            style: ButtonStyle(
-                              elevation: MaterialStateProperty.all<double>(0),
-                              backgroundColor: (emailController.text.isNotEmpty)
-                                  ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                                  : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            ),
-                            // onPressed: details.onStepContinue,
-                            onPressed: () {
-                              if(otpController.text.length == 4) {
-                                details.onStepContinue!();
-
-                              }
-                            },
-                          ),
-
-                        ):SizedBox(),
-                        currentStep == 2 ?
-                        Container(
-                          height: 50.h,
-                          width: 96.w,
-                          margin: const EdgeInsets.only(top: 15),
-                          child: ElevatedButton(
-                            child: Text(
-                              "Login",style: TextStyle(
-                              color:
-                              (conPassController.text.isNotEmpty)
-                                  ? Colors.black
-                                  : ColorSelect.colorB5B07A,
-                            ),
-                            ),
-                            style: ButtonStyle(
-                              elevation: MaterialStateProperty.all<double>(0),
-                              backgroundColor: (/*newPassController.text.isNotEmpty ||*/ conPassController.text.isNotEmpty)
-                                  ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                                  : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                )
-                              ),
-                            ),
-                            onPressed: () {
-                              if(_form.currentState!.validate()) {
-                                resetPassValidateOtpApi(
-                                    emailPhone: emailController.text,
-                                    otp: otpController.text,
-                                    password:conPassController.text ).then((value) {
-                                  if( value['status'] == true) {
-                                    Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                                        Login()));
-                                    // details.onStepContinue!();
-                                    Fluttertoast.showToast(
-                                        msg:value['message']);
-
-                                  } else {
-                                    Fluttertoast.showToast(
-                                        msg:value['message']);
-                                  }
-                                });
-                              }
-
-                            },
-                            // onPressed: details.onStepContinue,
-                          ),
-
-                        ) :
-                        SizedBox(width: 12,),
-                        currentStep  ==  1 ?
-                        // if (currentStep != 0)
-                        Expanded(
-                          child: Container(
-                            height: 50.h,
-                            margin: const EdgeInsets.only(top: 15),
-                            child: ElevatedButton(
-                              child: Text(
-                                'Resend 30s',style: TextStyle(
-                                color:
-                                (emailController.text.isNotEmpty)
-                                    ? Colors.black
-                                    : ColorSelect.colorB5B07A,
-                              ),), style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              side: BorderSide(width:1, color:ColorSelect.colorA3A3A3),
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)
-                              ),
-                            ),
-                              onPressed: () {
-                                if(emailController.text.isNotEmpty) {
-                                  // details.onStepContinue!();
-                                  resetPassGenerateOtpApi(
-                                      emailPhone: emailController.text)
-                                      .then((value)async {
-                                    if( value['status'] == true) {
-                                      SharedPrefs().setPhone(emailController.text);
+                        currentStep == 0
+                            ? Container(
+                                height: 50.h,
+                                width: 96.w,
+                                margin: const EdgeInsets.only(top: 15),
+                                child: ElevatedButton(
+                                  child: Text(
+                                    "Next",
+                                    style: TextStyle(
+                                      color: (emailController.text.isNotEmpty)
+                                          ? Colors.black
+                                          : ColorSelect.colorB5B07A,
+                                    ),
+                                  ),
+                                  style: ButtonStyle(
+                                    elevation:
+                                        MaterialStateProperty.all<double>(0),
+                                    backgroundColor:
+                                        (emailController.text.isNotEmpty)
+                                            ? MaterialStateProperty.all(
+                                                ColorSelect.colorF7E641)
+                                            : MaterialStateProperty.all(
+                                                ColorSelect.colorFCF5B6),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      if (currentStep <
+                                          (getSteps().length - 1)) {
+                                        setState(() {
+                                          currentStep += 1;
+                                        });
+                                      }
+                                    });
+                                    if (emailController.text.isNotEmpty) {
                                       // details.onStepContinue!();
-                                      Fluttertoast.showToast(
-                                          msg: 'Your OTP is ${value['data']['otp']}');
-                                    } else {
-                                      Fluttertoast.showToast(
-                                          msg:value['message']);
+                                      resetPassGenerateOtpApi(
+                                              emailPhone: emailController.text)
+                                          .then((value) async {
+                                        if (value['status'] == true) {
+                                          SharedPrefs()
+                                              .setEmail(emailController.text);
+                                          details.onStepContinue!();
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  'Your OTP is ${value['data']['otp']}');
+                                        } else {
+                                          Fluttertoast.showToast(
+                                              msg: value['message']);
+                                        }
+                                      });
                                     }
-                                  });
-                                }
-                              },
-                              // onPressed: details.onStepContinue,
-                            ),
-                          ),):
-                        SizedBox(),
-
+                                  },
+                                  // onPressed: details.onStepContinue,
+                                ),
+                              )
+                            : SizedBox(),
+                        currentStep == 1
+                            ? Container(
+                                height: 50.h,
+                                width: 130.w,
+                                margin: const EdgeInsets.only(top: 15),
+                                child: ElevatedButton(
+                                  child: Text(
+                                    "Verify Otp",
+                                    style: TextStyle(
+                                      color: (emailController.text.isNotEmpty)
+                                          ? Colors.black
+                                          : ColorSelect.colorB5B07A,
+                                    ),
+                                  ),
+                                  style: ButtonStyle(
+                                    elevation:
+                                        MaterialStateProperty.all<double>(0),
+                                    backgroundColor:
+                                        (emailController.text.isNotEmpty)
+                                            ? MaterialStateProperty.all(
+                                                ColorSelect.colorF7E641)
+                                            : MaterialStateProperty.all(
+                                                ColorSelect.colorFCF5B6),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                  ),
+                                  // onPressed: details.onStepContinue,
+                                  onPressed: () {
+                                    setState(() {
+                                      if (currentStep <
+                                          (getSteps().length - 2)) {
+                                        setState(() {
+                                          currentStep += 2;
+                                        });
+                                      }
+                                    });
+                                    if (otpController.text.length == 4) {
+                                      details.onStepContinue!();
+                                    }
+                                  },
+                                ),
+                              )
+                            : SizedBox(),
+                        currentStep == 2
+                            ? Container(
+                                height: 50.h,
+                                width: 96.w,
+                                margin: const EdgeInsets.only(top: 15),
+                                child: ElevatedButton(
+                                  child: Text(
+                                    "Login",
+                                    style: TextStyle(
+                                      color: (conPassController.text.isNotEmpty)
+                                          ? Colors.black
+                                          : ColorSelect.colorB5B07A,
+                                    ),
+                                  ),
+                                  style: ButtonStyle(
+                                    elevation:
+                                        MaterialStateProperty.all<double>(0),
+                                    backgroundColor:
+                                        (/*newPassController.text.isNotEmpty ||*/ conPassController
+                                                .text.isNotEmpty)
+                                            ? MaterialStateProperty.all(
+                                                ColorSelect.colorF7E641)
+                                            : MaterialStateProperty.all(
+                                                ColorSelect.colorFCF5B6),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    )),
+                                  ),
+                                  onPressed: () {
+                                    if (_form.currentState!.validate()) {
+                                      resetPassValidateOtpApi(
+                                              emailPhone: emailController.text,
+                                              otp: otpController.text,
+                                              password: conPassController.text)
+                                          .then((value) {
+                                        if (value['status'] == true) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => Login()));
+                                          // details.onStepContinue!();
+                                          Fluttertoast.showToast(
+                                              msg: value['message']);
+                                        } else {
+                                          Fluttertoast.showToast(
+                                              msg: value['message']);
+                                        }
+                                      });
+                                    }
+                                  },
+                                  // onPressed: details.onStepContinue,
+                                ),
+                              )
+                            : SizedBox(
+                                width: 12,
+                              ),
+                        currentStep == 1
+                            ?
+                            // if (currentStep != 0)
+                            Expanded(
+                                child: Container(
+                                  height: 50.h,
+                                  margin: const EdgeInsets.only(top: 15),
+                                  child: ElevatedButton(
+                                    child: Text(
+                                      'Resend 30s',
+                                      style: TextStyle(
+                                        color: (emailController.text.isNotEmpty)
+                                            ? Colors.black
+                                            : ColorSelect.colorB5B07A,
+                                      ),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.transparent,
+                                      side: BorderSide(
+                                          width: 1,
+                                          color: ColorSelect.colorA3A3A3),
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                    ),
+                                    onPressed: () {
+                                      if (emailController.text.isNotEmpty) {
+                                        // details.onStepContinue!();
+                                        resetPassGenerateOtpApi(
+                                                emailPhone:
+                                                    emailController.text)
+                                            .then((value) async {
+                                          if (value['status'] == true) {
+                                            SharedPrefs()
+                                                .setPhone(emailController.text);
+                                            // details.onStepContinue!();
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    'Your OTP is ${value['data']['otp']}');
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg: value['message']);
+                                          }
+                                        });
+                                      }
+                                    },
+                                    // onPressed: details.onStepContinue,
+                                  ),
+                                ),
+                              )
+                            : SizedBox(),
                       ],
                     );
                   },
@@ -453,8 +518,8 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
                   onStepCancel: () => currentStep == 0
                       ? null
                       : setState(() {
-                    currentStep -= 1;
-                  }),
+                          currentStep -= 1;
+                        }),
                   onStepContinue: () {
                     bool isLastStep = (currentStep == getSteps().length - 1);
                     if (isLastStep) {
@@ -465,13 +530,13 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
                       });
                     }
                   },
-                  onStepTapped: (step) {
-                    if(step>currentStep){
-                      setState((){
-                        currentStep=step;
-                      });
-                    }
-                  },
+                  // onStepTapped: (step) {
+                  //   if (step > currentStep) {
+                  //     setState(() {
+                  //       currentStep = step;
+                  //     });
+                  //   }
+                  // },
                   /* => setState(() {
                     currentStep = step;
                   }),*/
@@ -816,7 +881,6 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
     //   ),
     // );
   }
-
 }
 
 class ContainerWithTick extends StatelessWidget {
@@ -831,16 +895,15 @@ class ContainerWithTick extends StatelessWidget {
       width: 23,
       margin: EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
-        color: ColorSelect.colorF7E641,
-        shape: BoxShape.circle,
-        border: Border.all(
           color: ColorSelect.colorF7E641,
-          width: 2,
-        ),
-        image: DecorationImage(
-            image: AssetImage('assets/icons/icontick.png'),
-        fit: BoxFit.cover)
-      ),
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: ColorSelect.colorF7E641,
+            width: 2,
+          ),
+          image: DecorationImage(
+              image: AssetImage('assets/icons/icontick.png'),
+              fit: BoxFit.cover)),
     );
   }
 }
@@ -857,12 +920,12 @@ class ContainerWithoutTick extends StatelessWidget {
       width: 23,
       margin: EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
-          // color: ColorSelect.colorF7E641,
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: ColorSelect.colorF7E641,
-            width: 2,
-          ),
+        // color: ColorSelect.colorF7E641,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: ColorSelect.colorF7E641,
+          width: 2,
+        ),
       ),
     );
   }

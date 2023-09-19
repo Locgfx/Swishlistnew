@@ -91,13 +91,17 @@ class _FavoritesRowWidgetState extends State<FavoritesRowWidget> {
   var favPercent = "";
   List<String> per = [];
 
-  _sharedPrefs() {
-    if (SharedPrefs().getFavourites() == '100 %') {
-      per.add('profile');
-      favPercent = ((per.length / 1) * 100).toString().split(".").first;
-      dou = (per.length / 1);
-    }
-  }
+  String? completePercent;
+  double parsedPercent = 0.0;
+  double normalizedPercent = 0.0;
+
+  // _sharedPrefs() {
+  //   if (SharedPrefs().getFavourites() == '100 %') {
+  //     per.add('profile');
+  //     favPercent = ((per.length / 1) * 100).toString().split(".").first;
+  //     dou = (per.length / 1);
+  //   }
+  // }
 
   bool isLoading = false;
   FavouritesModel? favourites = FavouritesModel(
@@ -156,13 +160,16 @@ class _FavoritesRowWidgetState extends State<FavoritesRowWidget> {
 
   @override
   Widget build(BuildContext context) {
+    completePercent = favourites?.data?.completePercent;
+    parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
+    normalizedPercent = parsedPercent / 100.0;
     return Row(
       children: [
         CircularPercentIndicator(
           circularStrokeCap: CircularStrokeCap.round,
           radius: 40.w,
           lineWidth: 2.w,
-          percent: dou,
+          percent: normalizedPercent,
           backgroundColor: Color(0xffD55745).withOpacity(0.28),
           center: Image.asset('assets/images/Subtract.png'),
           progressColor: ColorSelect.colorD55745,

@@ -102,8 +102,15 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
   final formKey = GlobalKey<FormState>();
   bool showInput = false;
 
+  String? completePercent;
+  double parsedPercent = 0.0;
+  double normalizedPercent = 0.0;
+
   @override
   Widget build(BuildContext context) {
+    completePercent = sizeWeight?.data?.completePercent;
+    parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
+    normalizedPercent = parsedPercent / 100.0;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -222,7 +229,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                       width: 1.sw,
                       padding: EdgeInsets.zero,
                       lineHeight: 8.0,
-                      percent: (siz.length / 4),
+                      percent: normalizedPercent,
                       backgroundColor: Color(0xff576ACC).withOpacity(0.28),
                       progressColor: ColorSelect.color576ACC,
                     ),

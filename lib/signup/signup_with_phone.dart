@@ -6,6 +6,7 @@ import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/signup/phone_verfication.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
+
 import '../api/login_signup_apis/signup_api.dart';
 import '../buttons/light_yellow.dart';
 
@@ -17,10 +18,17 @@ class SignUpWithPhone extends StatefulWidget {
 }
 
 class _SignUpWithPhoneState extends State<SignUpWithPhone> {
+  bool _obscureText = true;
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   bool isChecked = false;
   String countryvalue = "1";
   TextEditingController phoneNoController = TextEditingController();
-  final passwordController =  TextEditingController();
+  final passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool loading = false;
   @override
@@ -97,32 +105,34 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                     textStyleColor:
                         isChecked ? Colors.black : ColorSelect.colorB5B07A,
                     onTap: () {
-                     if(isChecked) {
-                       if(_formKey.currentState!.validate()) {
-                         signUpApi(
-                           context: context,
-                           emailPhone:phoneNoController.text,
-                           password: passwordController.text,
-                           // password: '',
-                         ).then((value) async {
-                           if( value['status'] == true) {
-                             Navigator.push(context,
-                               MaterialPageRoute(
-                                 builder: (context) => PhoneVerification(
-                                   phoneNO: phoneNoController.text,
-                                   password: passwordController.text,
-                                 ),
-                               ),
-                             );
-                             Fluttertoast.showToast(
-                                 msg: 'Your OTP is ${value['data']['otp']}');
-                           } else {
-                             Fluttertoast.showToast(
-                                 msg:'Already register try with another account');
-                           }
-                         });
-                       }
-                     }
+                      if (isChecked) {
+                        if (_formKey.currentState!.validate()) {
+                          signUpApi(
+                            context: context,
+                            emailPhone: phoneNoController.text,
+                            password: passwordController.text,
+                            // password: '',
+                          ).then((value) async {
+                            if (value['status'] == true) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PhoneVerification(
+                                    phoneNO: phoneNoController.text,
+                                    password: passwordController.text,
+                                  ),
+                                ),
+                              );
+                              Fluttertoast.showToast(
+                                  msg: 'Your OTP is ${value['data']['otp']}');
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg:
+                                      'Already register try with another account');
+                            }
+                          });
+                        }
+                      }
                     },
                     // title: 'Next',
                   ),
@@ -236,18 +246,19 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                           child: SizedBox(
                             width: 150.w,
                             child: TextFormField(
-                              controller:phoneNoController ,
+                              controller: phoneNoController,
                               onChanged: (val) {
-                              setState(() {
-                                if (phoneNoController.text.trim().length ==
-                                    10) {
-                                  FocusScope.of(context).unfocus();
-                                }
-                              });
+                                setState(() {
+                                  if (phoneNoController.text.trim().length ==
+                                      10) {
+                                    FocusScope.of(context).unfocus();
+                                  }
+                                });
                               },
-                                keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(vertical: 24),
+                                contentPadding:
+                                    EdgeInsets.symmetric(vertical: 24),
                                 border: InputBorder.none,
                                 hintText: "Phone Number",
                               ),
@@ -258,25 +269,40 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                       ],
                     ),
                   ),
-
-
                   Padding(
                     padding: const EdgeInsets.only(top: 12),
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 16),
                       width: 328.w,
                       decoration: BoxDecoration(
-                          color: ColorSelect.colorEDEDF1,
-                          borderRadius: BorderRadius.all(Radius.circular(8),
-                          ),
+                        color: ColorSelect.colorEDEDF1,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8),
                         ),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: TextFormField(
+                          obscureText: _obscureText,
                           controller: passwordController,
                           decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(vertical: 24),
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 24),
                               border: InputBorder.none,
+                              suffixIcon: InkWell(
+                                onTap: _toggle,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 14),
+                                  child: Image(
+                                      image: AssetImage(_obscureText
+                                          ? 'assets/icons/eye-disable.png'
+                                          : 'assets/icons/eye.png')),
+                                ),
+                              ),
+                              suffixIconConstraints: BoxConstraints(
+                                maxHeight: 40,
+                                maxWidth: 40,
+                              ),
                               hintText: "Password"),
                           keyboardType: TextInputType.emailAddress,
                         ),

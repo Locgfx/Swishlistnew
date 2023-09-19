@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
@@ -10,11 +8,13 @@ import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/expanded/request_sent.dart';
 import 'package:swishlist/models/search_model.dart';
+
 import '../api/user_apis/family_apis.dart';
 import '../api/user_apis/family_member_search_api.dart';
 
 class LinkMembersAccount extends StatefulWidget {
-  const LinkMembersAccount({Key? key,
+  const LinkMembersAccount({
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -22,8 +22,6 @@ class LinkMembersAccount extends StatefulWidget {
 }
 
 class _LinkMembersAccountState extends State<LinkMembersAccount> {
-
-
   SearchModel model = SearchModel();
   List<SearchModel> searchModel = [];
   final searchController = TextEditingController();
@@ -52,7 +50,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
   }
 
   String _selectedText = 'father';
-  final TextEditingController _typeAheadController = TextEditingController();
+  final TextEditingController emailPhoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,44 +59,47 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
       bottomNavigationBar: Container(
         height: 52.h,
         margin: EdgeInsets.symmetric(horizontal: 16, vertical: 25),
-        child:  isLoading ? Center(
-          child: LoadingAnimationWidget.waveDots(
-            size: 40,
-            color: ColorSelect.colorF7E641,
-          ),
-        ):LightYellowButtonWithText(
-          backgroundColor:(
-              searchController.text.isNotEmpty &&
-              _selectedText.isNotEmpty
-          ) ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-              : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-          textStyleColor: (
-              searchController.text.isNotEmpty &&
-                  _selectedText.isNotEmpty
-          ) ?  Colors.black :
-               ColorSelect.colorB5B07A,
-          onTap: () {
-            print(memberId.text);
-            if(searchController.text.isNotEmpty ) {
-              postFamilyMemberApi(
-                  familyMemberId: memberId.text,
-                  relation: _selectedText,
-                  status: 'accepted',
-                  privacy: privacyStatus.text,
-                  ).then((value) async {
-                    if(value['status'] == true) {
-                      Navigator.push(context,
-                          MaterialPageRoute(
-                              builder: (context) => RequestSent(name: searchController.text,)));
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: value['message']);
-                    }
-              });
-            }
-          },
-          title: 'Add Family Member',
-        ),
+        child: isLoading
+            ? Center(
+                child: LoadingAnimationWidget.waveDots(
+                  size: 40,
+                  color: ColorSelect.colorF7E641,
+                ),
+              )
+            : LightYellowButtonWithText(
+                backgroundColor: (emailPhoneController.text.isNotEmpty &&
+                        _selectedText.isNotEmpty)
+                    ? MaterialStateProperty.all(ColorSelect.colorF7E641)
+                    : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
+                textStyleColor: (emailPhoneController.text.isNotEmpty &&
+                        _selectedText.isNotEmpty)
+                    ? Colors.black
+                    : ColorSelect.colorB5B07A,
+                onTap: () {
+                  print(memberId.text);
+                  if (emailPhoneController.text.isNotEmpty) {
+                    postFamilyMemberApi(
+                      relation: _selectedText,
+                      status: 'requested',
+                      privacy: "public",
+                      familyMemberMail: emailPhoneController.text,
+                    ).then((value) async {
+                      if (value['status'] == true) {
+                        Fluttertoast.showToast(msg: value['message']);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RequestSent(
+                                      name: emailPhoneController.text,
+                                    )));
+                      } else {
+                        Fluttertoast.showToast(msg: value['message']);
+                      }
+                    });
+                  }
+                },
+                title: 'Add Family Member',
+              ),
       ),
       body: TextFieldUnFocusOnTap(
         child: SingleChildScrollView(
@@ -139,73 +140,100 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
                 style: AppTextStyle().textColor70707012w400,
               ),
               SizedBox(height: 60),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                height: 52.h,
-                decoration: BoxDecoration(
-                color: ColorSelect.colorEDEDF1,
-                borderRadius: BorderRadius.all(Radius.circular(8))),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: TypeAheadField(
-                    hideSuggestionsOnKeyboardHide: true,
-                    animationStart: 0,
-                    animationDuration: Duration.zero,
-                    textFieldConfiguration: TextFieldConfiguration(
-                      onSubmitted: (v) {
-                        setState(() {
-                          searchModel.clear();
-                        });
-                      },
-                      onChanged: (val) {
-                        if(val.length >=4){
-                          getSearch(val);
-                        } else {
-                          setState(() {
-                            searchModel.clear();
-                            matches.clear();
-                          });
-                        }
-                        },
-                      controller: searchController,
-                        autofocus: true,
-                        style: TextStyle(fontSize: 15),
-                        decoration: InputDecoration(
-                          hintText: 'Enter Full Name',
-                            border: InputBorder.none
-                        ),
+              Padding(
+                padding: const EdgeInsets.only(top: 0),
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  width: 328.w,
+                  decoration: BoxDecoration(
+                    color: ColorSelect.colorEDEDF1,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
                     ),
-                    suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                      color: ColorSelect.colorEDEDF1,
-                    ),
-                    suggestionsCallback: (pattern) async {
-                      print(searchController.text);
-                      matches.addAll(searchModel);
-                      matches.retainWhere((s){
-                        return s.name!.toLowerCase().contains(pattern.toLowerCase());
-                      });
-                      return matches;
-                    },
-                    itemBuilder: (context,SearchModel i) {
-                      return Container(
-                        padding: EdgeInsets.all(10),
-                        child:Text(i.name.toString()),
-                      );
-                    },
-                      onSuggestionSelected: (SearchModel suggestion) {
-                      print(suggestion);
-                      setState(() {
-                        searchController.clear();
-                        searchController.text = suggestion.name!;
-                        memberId.text = suggestion.userId!.toString();
-                        privacyStatus.text = suggestion.privacyStatus!;
-                        searchModel.clear();
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: TextFormField(
+                      onChanged: (v) {
+                        setState(() {});
                       },
-                      );
-                    },
+                      controller: emailPhoneController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(vertical: 24),
+                        border: InputBorder.none,
+                        hintText: "Enter phone number/email",
+                      ),
+                    ),
                   ),
                 ),
               ),
+              // Container(
+              //   margin: EdgeInsets.symmetric(horizontal: 16),
+              //   height: 52.h,
+              //   decoration: BoxDecoration(
+              //   color: ColorSelect.colorEDEDF1,
+              //   borderRadius: BorderRadius.all(Radius.circular(8))),
+              //   child: Padding(
+              //     padding: const EdgeInsets.only(left: 20.0),
+              //     child: TypeAheadField(
+              //       hideSuggestionsOnKeyboardHide: true,
+              //       animationStart: 0,
+              //       animationDuration: Duration.zero,
+              //       textFieldConfiguration: TextFieldConfiguration(
+              //         onSubmitted: (v) {
+              //           setState(() {
+              //             searchModel.clear();
+              //           });
+              //         },
+              //         onChanged: (val) {
+              //           if(val.length >=4){
+              //             getSearch(val);
+              //           } else {
+              //             setState(() {
+              //               searchModel.clear();
+              //               matches.clear();
+              //             });
+              //           }
+              //           },
+              //         controller: searchController,
+              //           autofocus: true,
+              //           style: TextStyle(fontSize: 15),
+              //           decoration: InputDecoration(
+              //             hintText: 'Enter Full Name',
+              //               border: InputBorder.none
+              //           ),
+              //       ),
+              //       suggestionsBoxDecoration: SuggestionsBoxDecoration(
+              //         color: ColorSelect.colorEDEDF1,
+              //       ),
+              //       suggestionsCallback: (pattern) async {
+              //         print(searchController.text);
+              //         matches.addAll(searchModel);
+              //         matches.retainWhere((s){
+              //           return s.name!.toLowerCase().contains(pattern.toLowerCase());
+              //         });
+              //         return matches;
+              //       },
+              //       itemBuilder: (context,SearchModel i) {
+              //         return Container(
+              //           padding: EdgeInsets.all(10),
+              //           child:Text(i.name.toString()),
+              //         );
+              //       },
+              //         onSuggestionSelected: (SearchModel suggestion) {
+              //         print(suggestion);
+              //         setState(() {
+              //           searchController.clear();
+              //           searchController.text = suggestion.name!;
+              //           memberId.text = suggestion.userId!.toString();
+              //           privacyStatus.text = suggestion.privacyStatus!;
+              //           searchModel.clear();
+              //         },
+              //         );
+              //       },
+              //     ),
+              //   ),
+              // ),
 
               SizedBox(height: 20.h),
               Container(
@@ -233,7 +261,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
                     elevation: 0,
                     underline: SizedBox(),
                     value: _selectedText,
-                    items: <String> [
+                    items: <String>[
                       'father',
                       'mother',
                       'brother',

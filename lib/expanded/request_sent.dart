@@ -1,14 +1,12 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
+
 import '../constants/color.dart';
 
 class RequestSent extends StatefulWidget {
-  final String  name;
-  const RequestSent({Key? key,
-    required this.name
-  }) : super(key: key);
+  final String name;
+  const RequestSent({Key? key, required this.name}) : super(key: key);
 
   @override
   State<RequestSent> createState() => _RequestSentState();
@@ -112,12 +110,12 @@ class _RequestSentState extends State<RequestSent> {
                         ),
                         child: Row(
                           children: [
-                            CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Colors.grey,
-                              backgroundImage:
-                                  AssetImage('assets/images/Rectangle319.png'),
-                            ),
+                            // CircleAvatar(
+                            //   radius: 20,
+                            //   backgroundColor: Colors.grey,
+                            //   backgroundImage:
+                            //       AssetImage('assets/images/Rectangle319.png'),
+                            // ),
                             SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

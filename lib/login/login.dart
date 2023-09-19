@@ -24,6 +24,13 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool _obscureText = true;
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   final phoneEmailController = TextEditingController();
   final passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -96,11 +103,26 @@ class _LoginState extends State<Login> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: TextFormField(
+                        obscureText: _obscureText,
                         onChanged: (v) {
                           setState(() {});
                         },
                         controller: passwordController,
                         decoration: InputDecoration(
+                          suffixIcon: InkWell(
+                            onTap: _toggle,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 14),
+                              child: Image(
+                                  image: AssetImage(_obscureText
+                                      ? 'assets/icons/eye-disable.png'
+                                      : 'assets/icons/eye.png')),
+                            ),
+                          ),
+                          suffixIconConstraints: BoxConstraints(
+                            maxHeight: 40,
+                            maxWidth: 40,
+                          ),
                           contentPadding: EdgeInsets.symmetric(vertical: 24),
                           border: InputBorder.none,
                           hintText: "Password",
