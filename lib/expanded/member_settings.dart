@@ -6,7 +6,6 @@ import 'package:swishlist/expanded/user_all_details.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/color.dart';
-import '../dashboard/dashboard.dart';
 import '../models/login_models.dart';
 import 'notifications.dart';
 
@@ -39,13 +38,13 @@ class _MemberSettingsState extends State<MemberSettings> {
             leadingWidth: 40,
             leading: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Dashboard(
-                                response: widget.response,
-                              )));
-                  // Navigator.pop(context);
+                  // Navigator.pushReplacement(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => Dashboard(
+                  //               response: widget.response,
+                  //             )));
+                  Navigator.pop(context);
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20),

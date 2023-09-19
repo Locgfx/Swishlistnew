@@ -50,8 +50,6 @@ class _FavoritesState extends State<Favorites> {
     hotels: '',
     privacyStatus: '',
     createdAt: '',
-    updatedAt: '',
-    deletedAt: '',
   ));
   List<String> fav = [];
   double dou = 00;
@@ -139,23 +137,21 @@ class _FavoritesState extends State<Favorites> {
   }
 
   void fields() {
-    carController.text = favourites!.data!.cars!.toString() ?? '';
-    bikesController.text = favourites!.data!.bikes!.toString() ?? '';
-    moviesController.text = favourites!.data!.movies!.toString() ?? '';
-    showsController.text = favourites!.data!.shows!.toString() ?? '';
-    foodController.text = favourites!.data!.foods!.toString() ?? '';
-    gadgetsController.text = favourites!.data!.gadgets!.toString() ?? '';
-    superheroesController.text =
-        favourites!.data!.superheroes!.toString() ?? '';
-    actorController.text = favourites!.data!.actors!.toString() ?? '';
-    actressController.text = favourites!.data!.actresses!.toString() ?? '';
-    singersController.text = favourites!.data!.singers!.toString() ?? '';
-    playersController.text = favourites!.data!.players!.toString() ?? '';
-    citiesController.text = favourites!.data!.cities!.toString() ?? '';
-    countriesController.text = favourites!.data!.countries!.toString() ?? '';
-    restaurantsController.text =
-        favourites!.data!.restaurants!.toString() ?? '';
-    hotelsController.text = favourites!.data!.hotels!.toString() ?? '';
+    carController.text = favourites!.data!.cars ?? '';
+    bikesController.text = favourites!.data!.bikes ?? '';
+    moviesController.text = favourites!.data!.movies ?? '';
+    showsController.text = favourites!.data!.shows ?? '';
+    foodController.text = favourites!.data!.foods ?? '';
+    gadgetsController.text = favourites!.data!.gadgets ?? '';
+    superheroesController.text = favourites!.data!.superheroes ?? '';
+    actorController.text = favourites!.data!.actors ?? '';
+    actressController.text = favourites!.data!.actresses ?? '';
+    singersController.text = favourites!.data!.singers ?? '';
+    playersController.text = favourites!.data!.players ?? '';
+    citiesController.text = favourites!.data!.cities ?? '';
+    countriesController.text = favourites!.data!.countries ?? '';
+    restaurantsController.text = favourites!.data!.restaurants ?? '';
+    hotelsController.text = favourites!.data!.hotels ?? '';
   }
 
   final carController = TextEditingController();
@@ -185,6 +181,7 @@ class _FavoritesState extends State<Favorites> {
         title: Row(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 100),
@@ -198,10 +195,32 @@ class _FavoritesState extends State<Favorites> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 80),
-                  child: Text(
-                    percent.isEmpty ? '0% Completed' : "$percent% completed",
-                    style: AppTextStyle().textColor70707012w400,
-                  ),
+                  child: isLoading
+                      ? SizedBox()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              favourites!.data!.completePercent.toString() ==
+                                          "" ||
+                                      favourites!.data!.completePercent == null
+                                  ? "0"
+                                  : favourites!.data!.completePercent
+                                      .toString()
+                                      .split(".")
+                                      .first,
+                              // sizeWeight!.data!.completePercent
+                              //     .toString()
+                              //     .split(".")
+                              //     .first,
+                              style: AppTextStyle().textColor70707012w400,
+                            ),
+                            Text(
+                              "%  Percent",
+                              style: AppTextStyle().textColor70707012w400,
+                            )
+                          ],
+                        ),
                 )
               ],
             ),
@@ -211,6 +230,64 @@ class _FavoritesState extends State<Favorites> {
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
+            (favourites!.data!.hotels.toString() == '')
+                ? postFavouriteApi(
+                        car: carController.text,
+                        bike: bikesController.text,
+                        movies: moviesController.text,
+                        shows: showsController.text,
+                        food: foodController.text,
+                        gadgets: gadgetsController.text,
+                        superheroes: superheroesController.text,
+                        actors: actorController.text,
+                        singer: singersController.text,
+                        actress: actressController.text,
+                        player: playersController.text,
+                        cities: citiesController.text,
+                        countries: countriesController.text,
+                        restaurants: restaurantsController.text,
+                        hotels: hotelsController.text,
+                        privacy: 'public')
+                    .then((value) async {
+                    if (value['status'] == true) {
+                      SharedPrefs().setFavourites('100 %');
+
+                      Navigator.pop(context);
+                      // setState(() {
+                      //   isLoading ? Loading() : getFavourites();
+                      // });
+                    } else {}
+                  })
+                : updateFavouriteApi(
+                        car: carController.text,
+                        bike: bikesController.text,
+                        movies: moviesController.text,
+                        shows: showsController.text,
+                        food: foodController.text,
+                        gadgets: gadgetsController.text,
+                        superheroes: superheroesController.text,
+                        actors: actorController.text,
+                        singer: singersController.text,
+                        actress: actressController.text,
+                        player: playersController.text,
+                        cities: citiesController.text,
+                        countries: countriesController.text,
+                        restaurants: restaurantsController.text,
+                        hotels: hotelsController.text,
+                        privacy: 'public',
+                        id: favourites!.data!.id.toString())
+                    .then((value) async {
+                    if (value['status'] == true) {
+                      setState(() {
+                        // isLoading ? Loading() : getFavourites();
+                      });
+                      // Navigator.pop(context);
+
+                      Fluttertoast.showToast(msg: value['message']);
+                    } else {
+                      Fluttertoast.showToast(msg: 'please update all fields');
+                    }
+                  });
           },
           child: Container(
             color: Colors.transparent,
@@ -288,10 +365,11 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               carController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.cars!.toString() == ""
+                                      favourites!.data!.cars.toString() == "" ||
+                                              favourites!.data!.cars == null
                                           ? "+ Add"
-                                          : favourites!.data!.cars!.toString(),
-                                      style: favourites!.data!.cars! == ''
+                                          : favourites!.data!.cars.toString(),
+                                      style: favourites!.data!.cars == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -349,10 +427,12 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               bikesController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.bikes!.toString() == ""
+                                      favourites!.data!.bikes.toString() ==
+                                                  "" ||
+                                              favourites!.data!.bikes == null
                                           ? "+ Add"
-                                          : favourites!.data!.bikes!.toString(),
-                                      style: favourites!.data!.bikes! == ''
+                                          : favourites!.data!.bikes.toString(),
+                                      style: favourites!.data!.bikes == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -410,11 +490,12 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               moviesController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.movies!.toString() == ""
-                                          ? '+ Add'
-                                          : favourites!.data!.movies!
-                                              .toString(),
-                                      style: favourites!.data!.movies! == ''
+                                      favourites!.data!.movies.toString() ==
+                                                  "" ||
+                                              favourites!.data!.movies == null
+                                          ? "+ Add"
+                                          : favourites!.data!.movies.toString(),
+                                      style: favourites!.data!.movies == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -475,10 +556,12 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               showsController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.shows!.toString() == ""
+                                      favourites!.data!.shows.toString() ==
+                                                  "" ||
+                                              favourites!.data!.shows == null
                                           ? "+ Add"
-                                          : favourites!.data!.shows!.toString(),
-                                      style: favourites!.data!.shows! == ''
+                                          : favourites!.data!.shows.toString(),
+                                      style: favourites!.data!.shows == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -539,10 +622,12 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               foodController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.foods!.toString() == ""
+                                      favourites!.data!.foods.toString() ==
+                                                  "" ||
+                                              favourites!.data!.foods == null
                                           ? "+ Add"
-                                          : favourites!.data!.foods!.toString(),
-                                      style: favourites!.data!.foods! == ''
+                                          : favourites!.data!.foods.toString(),
+                                      style: favourites!.data!.foods == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -602,12 +687,13 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               gadgetsController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.gadgets!.toString() ==
-                                              ""
-                                          ? '+ Add'
-                                          : favourites!.data!.gadgets!
+                                      favourites!.data!.gadgets.toString() ==
+                                                  "" ||
+                                              favourites!.data!.gadgets == null
+                                          ? "+ Add"
+                                          : favourites!.data!.gadgets
                                               .toString(),
-                                      style: favourites!.data!.gadgets! == ''
+                                      style: favourites!.data!.gadgets == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -673,17 +759,20 @@ class _FavoritesState extends State<Favorites> {
                                 superheroesController.text.isEmpty
                                     ? Text(
                                         // "Deadpool",
-                                        favourites!.data!.superheroes!
-                                                    .toString() ==
-                                                ''
-                                            ? '+ Add'
-                                            : favourites!.data!.superheroes!
+                                        favourites!.data!.superheroes
+                                                        .toString() ==
+                                                    "" ||
+                                                favourites!.data!.superheroes ==
+                                                    null
+                                            ? "+ Add"
+                                            : favourites!.data!.superheroes
                                                 .toString(),
-                                        style: favourites!.data!.cars! == ''
-                                            ? AppTextStyle()
-                                                .textColorD5574514w500
-                                            : AppTextStyle()
-                                                .textColor29292914w400,
+                                        style:
+                                            favourites!.data!.superheroes == ''
+                                                ? AppTextStyle()
+                                                    .textColorD5574514w500
+                                                : AppTextStyle()
+                                                    .textColor29292914w400,
                                       )
                                     : Text(
                                         superheroesController.text,
@@ -732,11 +821,12 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               actorController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.actors!.toString() == ""
+                                      favourites!.data!.actors.toString() ==
+                                                  "" ||
+                                              favourites!.data!.actors == null
                                           ? "+ Add"
-                                          : favourites!.data!.actors!
-                                              .toString(),
-                                      style: favourites!.data!.actors! == ''
+                                          : favourites!.data!.actors.toString(),
+                                      style: favourites!.data!.actors == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -791,12 +881,14 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               actressController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.actresses!.toString() ==
-                                              ""
+                                      favourites!.data!.actresses.toString() ==
+                                                  "" ||
+                                              favourites!.data!.actresses ==
+                                                  null
                                           ? "+ Add"
-                                          : favourites!.data!.actresses!
+                                          : favourites!.data!.actresses
                                               .toString(),
-                                      style: favourites!.data!.actresses! == ''
+                                      style: favourites!.data!.actresses == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -851,12 +943,13 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               singersController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.singers!.toString() ==
-                                              ""
+                                      favourites!.data!.singers.toString() ==
+                                                  "" ||
+                                              favourites!.data!.singers == null
                                           ? "+ Add"
-                                          : favourites!.data!.singers!
+                                          : favourites!.data!.singers
                                               .toString(),
-                                      style: favourites!.data!.singers! == ''
+                                      style: favourites!.data!.singers == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -909,12 +1002,13 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               playersController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.players!.toString() ==
-                                              ""
+                                      favourites!.data!.players.toString() ==
+                                                  "" ||
+                                              favourites!.data!.players == null
                                           ? "+ Add"
-                                          : favourites!.data!.players!
+                                          : favourites!.data!.players
                                               .toString(),
-                                      style: favourites!.data!.players! == ''
+                                      style: favourites!.data!.players == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -976,11 +1070,12 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               citiesController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.cities!.toString() == ""
+                                      favourites!.data!.cities.toString() ==
+                                                  "" ||
+                                              favourites!.data!.cities == null
                                           ? "+ Add"
-                                          : favourites!.data!.cities!
-                                              .toString(),
-                                      style: favourites!.data!.cities! == ''
+                                          : favourites!.data!.cities.toString(),
+                                      style: favourites!.data!.cities == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -1037,12 +1132,14 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               countriesController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.countries!.toString() ==
-                                              ""
+                                      favourites!.data!.countries.toString() ==
+                                                  "" ||
+                                              favourites!.data!.countries ==
+                                                  null
                                           ? "+ Add"
-                                          : favourites!.data!.countries!
+                                          : favourites!.data!.countries
                                               .toString(),
-                                      style: favourites!.data!.countries! == ''
+                                      style: favourites!.data!.countries == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -1099,14 +1196,15 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               restaurantsController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.restaurants!
-                                                  .toString() ==
-                                              ""
+                                      favourites!.data!.restaurants
+                                                      .toString() ==
+                                                  "" ||
+                                              favourites!.data!.restaurants ==
+                                                  null
                                           ? "+ Add"
-                                          : favourites!.data!.restaurants!
+                                          : favourites!.data!.restaurants
                                               .toString(),
-                                      style: favourites!.data!.restaurants! ==
-                                              ''
+                                      style: favourites!.data!.restaurants == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -1163,11 +1261,12 @@ class _FavoritesState extends State<Favorites> {
                               Spacer(),
                               hotelsController.text.isEmpty
                                   ? Text(
-                                      favourites!.data!.hotels!.toString() == ""
+                                      favourites!.data!.hotels.toString() ==
+                                                  "" ||
+                                              favourites!.data!.hotels == null
                                           ? "+ Add"
-                                          : favourites!.data!.hotels!
-                                              .toString(),
-                                      style: favourites!.data!.hotels! == ''
+                                          : favourites!.data!.hotels.toString(),
+                                      style: favourites!.data!.hotels == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,

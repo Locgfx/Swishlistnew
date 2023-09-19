@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/expanded/widgets/Profile_data_and_all_uesr_data.dart';
+import 'package:swishlist/expanded/widgets/size_and_weight_row.dart';
 import 'package:swishlist/expanded/widgets/user_image_row.dart';
 import 'package:swishlist/profile_page/account.dart';
 import 'package:swishlist/profile_page/date_and_events.dart';
@@ -10,7 +11,6 @@ import 'package:swishlist/profile_page/favorites.dart';
 import 'package:swishlist/profile_page/my_interests.dart';
 import 'package:swishlist/profile_page/pets.dart';
 import 'package:swishlist/profile_page/profile.dart';
-import 'package:swishlist/profile_page/sizes_and_weights.dart';
 import 'package:swishlist/profile_page/widgets/popup_menu_widget.dart';
 
 import '../api/user_apis/interest_api.dart';
@@ -18,7 +18,7 @@ import '../constants/globals/shared_prefs.dart';
 import '../login/login.dart';
 import '../models/interest_model.dart';
 import '../models/login_models.dart';
-import 'member_settings.dart';
+import '../profile_page/sizes_and_weights.dart';
 
 class UserAllDetails extends StatefulWidget {
   final LoginResponse response;
@@ -82,12 +82,12 @@ class _UserAllDetailsState extends State<UserAllDetails> {
               child: InkWell(
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MemberSettings(
-                                response: widget.response,
-                              )));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => MemberSettings(
+                  //               response: widget.response,
+                  //             )));
                 },
                 child: SvgPicture.asset(
                   "assets/icons/arrowback.svg",

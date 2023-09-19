@@ -19,14 +19,14 @@ class RedTextWhiteButtonWithText extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-          elevation: MaterialStateProperty.all<double>(0),
-          backgroundColor: backgroundColor,
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  side: BorderSide(width: 1, color: ColorSelect.colorC33C3C),
-              ),
+        elevation: MaterialStateProperty.all<double>(0),
+        backgroundColor: backgroundColor,
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: BorderSide(width: 1, color: ColorSelect.colorC33C3C),
           ),
+        ),
       ),
       onPressed: () {
         onTap();

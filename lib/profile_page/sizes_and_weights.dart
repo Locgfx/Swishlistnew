@@ -66,10 +66,10 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
   }
 
   void fields() {
-    waistController.text = sizeWeight!.data!.waist.toString() ?? '';
-    shirtController.text = sizeWeight!.data!.shirt.toString() ?? '';
-    shoesController.text = sizeWeight!.data!.shoes.toString() ?? '';
-    bedController.text = sizeWeight!.data!.bed.toString() ?? '';
+    waistController.text = sizeWeight!.data!.waist ?? '';
+    shirtController.text = sizeWeight!.data!.shirt ?? '';
+    shoesController.text = sizeWeight!.data!.shoes ?? '';
+    bedController.text = sizeWeight!.data!.bed ?? '';
   }
 
   List<String> siz = [];
@@ -111,6 +111,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
           title: Row(
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(right: 100),
@@ -124,11 +125,33 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 150),
-                    child: Text(
-                      percent.isEmpty ? '0% completed' : "$percent% completed",
-                      // "60% Completed",
-                      style: AppTextStyle().textColor70707012w400,
-                    ),
+                    child: isLoading
+                        ? SizedBox()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                sizeWeight!.data!.completePercent.toString() ==
+                                            "" ||
+                                        sizeWeight!.data!.completePercent ==
+                                            null
+                                    ? "0"
+                                    : sizeWeight!.data!.completePercent
+                                        .toString()
+                                        .split(".")
+                                        .first,
+                                // sizeWeight!.data!.completePercent
+                                //     .toString()
+                                //     .split(".")
+                                //     .first,
+                                style: AppTextStyle().textColor70707012w400,
+                              ),
+                              Text(
+                                "%  Percent",
+                                style: AppTextStyle().textColor70707012w400,
+                              )
+                            ],
+                          ),
                   )
                 ],
               ),
@@ -139,6 +162,43 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
             child: GestureDetector(
               onTap: () {
                 Navigator.pop(context);
+                (sizeWeight!.data!.waist.toString() == '')
+                    ? postSizeAndWeightApi(
+                            waist: waistController.text,
+                            shirt: shirtController.text,
+                            shoes: shoesController.text,
+                            bed: bedController.text,
+                            privacy: 'public')
+                        .then((value) async {
+                        if (value['status'] == true) {
+                          SharedPrefs().setSize('100 %');
+                          // setState(() {
+                          //   isLoading ? Loading(): getSizedWeight();
+                          // });
+                          Navigator.pop(context);
+                          Fluttertoast.showToast(msg: value['message']);
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "Please fill all details fields");
+                        }
+                      })
+                    : updateSizeAndWeightApi(
+                            waist: waistController.text,
+                            shirt: shirtController.text,
+                            shoes: shoesController.text,
+                            bed: bedController.text,
+                            privacy: 'public',
+                            id: sizeWeight!.data!.id.toString())
+                        .then((value) {
+                        if (value['status'] == true) {
+                          // SharedPrefs().setSize('100 %');
+                          // Fluttertoast.showToast(msg: value['message']);
+                        } else {
+                          // Fluttertoast.showToast(
+                          //     msg: 'please update all fields');
+                        }
+                      });
+
                 // Navigator.push(
                 //     context,
                 //     MaterialPageRoute(
@@ -216,18 +276,19 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                             waistController.text,
                                           )
                                         : Text(
-                                            sizeWeight!.data!.waist!
-                                                        .toString() ==
-                                                    ''
-                                                ? '+ Add'
-                                                : sizeWeight!.data!.waist!
+                                            sizeWeight!.data!.waist
+                                                            .toString() ==
+                                                        "" ||
+                                                    sizeWeight!.data!.waist ==
+                                                        null
+                                                ? "+ Add"
+                                                : sizeWeight!.data!.waist
                                                     .toString(),
-                                            style:
-                                                sizeWeight!.data!.waist! == ''
-                                                    ? AppTextStyle()
-                                                        .textColorD5574514w500
-                                                    : AppTextStyle()
-                                                        .textColor29292914w400,
+                                            style: sizeWeight!.data!.waist == ''
+                                                ? AppTextStyle()
+                                                    .textColorD5574514w500
+                                                : AppTextStyle()
+                                                    .textColor29292914w400,
                                           ),
                                     // SizedBox(
                                     //   width: 5.w,
@@ -278,18 +339,19 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                                 .textColor29292914w400,
                                           )
                                         : Text(
-                                            sizeWeight!.data!.shirt!
-                                                        .toString() ==
-                                                    ''
-                                                ? '+ Add'
-                                                : sizeWeight!.data!.shirt!
+                                            sizeWeight!.data!.shirt
+                                                            .toString() ==
+                                                        "" ||
+                                                    sizeWeight!.data!.shirt ==
+                                                        null
+                                                ? "+ Add"
+                                                : sizeWeight!.data!.shirt
                                                     .toString(),
-                                            style:
-                                                sizeWeight!.data!.shirt! == ''
-                                                    ? AppTextStyle()
-                                                        .textColorD5574514w500
-                                                    : AppTextStyle()
-                                                        .textColor29292914w400,
+                                            style: sizeWeight!.data!.shirt == ''
+                                                ? AppTextStyle()
+                                                    .textColorD5574514w500
+                                                : AppTextStyle()
+                                                    .textColor29292914w400,
                                           ),
                                     // SizedBox(
                                     //   width: 5.w,
@@ -343,18 +405,19 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                                 .textColor29292914w400,
                                           )
                                         : Text(
-                                            sizeWeight!.data!.shoes!
-                                                        .toString() ==
-                                                    ''
-                                                ? '+ Add'
-                                                : sizeWeight!.data!.shoes!
+                                            sizeWeight!.data!.shoes
+                                                            .toString() ==
+                                                        "" ||
+                                                    sizeWeight!.data!.shoes ==
+                                                        null
+                                                ? "+ Add"
+                                                : sizeWeight!.data!.shoes
                                                     .toString(),
-                                            style:
-                                                sizeWeight!.data!.shoes! == ''
-                                                    ? AppTextStyle()
-                                                        .textColorD5574514w500
-                                                    : AppTextStyle()
-                                                        .textColor29292914w400,
+                                            style: sizeWeight!.data!.shoes == ''
+                                                ? AppTextStyle()
+                                                    .textColorD5574514w500
+                                                : AppTextStyle()
+                                                    .textColor29292914w400,
                                           ),
                                     // Image.asset("assets/images/information2.png"),
                                     // SizedBox(
@@ -409,12 +472,14 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                                 .textColor29292914w400,
                                           )
                                         : Text(
-                                            sizeWeight!.data!.bed!.toString() ==
-                                                    ''
-                                                ? '+ Add'
-                                                : sizeWeight!.data!.bed!
+                                            sizeWeight!.data!.bed.toString() ==
+                                                        "" ||
+                                                    sizeWeight!.data!.bed ==
+                                                        null
+                                                ? "+ Add"
+                                                : sizeWeight!.data!.bed
                                                     .toString(),
-                                            style: sizeWeight!.data!.bed! == ''
+                                            style: sizeWeight!.data!.bed == ''
                                                 ? AppTextStyle()
                                                     .textColorD5574514w500
                                                 : AppTextStyle()

@@ -4,10 +4,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 
+import '../../api/user_apis/favourites_api.dart';
 import '../../constants/color.dart';
+import '../../models/favourites_model.dart';
 
 class ProfileRowWidget extends StatefulWidget {
-   ProfileRowWidget({
+  ProfileRowWidget({
     Key? key,
   }) : super(key: key);
 
@@ -19,21 +21,21 @@ class _ProfileRowWidgetState extends State<ProfileRowWidget> {
   double dou = 00;
   var percent = "";
   // String per = '';
-  List <String> per = [];
+  List<String> per = [];
 
   _sharedPrefs() {
-    if(SharedPrefs().getPPercent() == '100 %') {
+    if (SharedPrefs().getPPercent() == '100 %') {
       per.add('profile');
-      percent = ((per.length / 1)*100).toString().split(".").first ;
+      percent = ((per.length / 1) * 100).toString().split(".").first;
       dou = (per.length / 1);
     }
   }
+
   @override
   void initState() {
     _sharedPrefs();
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,77 +59,10 @@ class _ProfileRowWidgetState extends State<ProfileRowWidget> {
               "Profile",
               style: AppTextStyle().textColor29292914w400,
             ),
-            Text(percent.isEmpty ?
-                  "update your profile":
-                 '${SharedPrefs().getPPercent()}',
-              style: AppTextStyle().textColor70707012w400,
-            )
-          ],
-        ),
-        Spacer(),
-        Padding(
-          padding: const EdgeInsets.only(right: 27),
-          child: SvgPicture.asset("assets/icons/forwordarrow.svg"),
-        )
-      ],
-    );
-  }
-}
-
-class SizeAndWeightRowWidget extends StatefulWidget {
-   SizeAndWeightRowWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<SizeAndWeightRowWidget> createState() => _SizeAndWeightRowWidgetState();
-}
-
-class _SizeAndWeightRowWidgetState extends State<SizeAndWeightRowWidget> {
-  double dou = 00;
-  var sizePercent = "";
-  List <String> per = [];
-
-  _sharedPrefs() {
-    if(SharedPrefs().getSetSize() == '100 %') {
-      per.add('profile');
-      sizePercent = ((per.length / 1)*100).toString().split(".").first ;
-      dou = (per.length / 1);
-    }
-  }
-
-  @override
-  void initState() {
-    _sharedPrefs();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CircularPercentIndicator(
-          circularStrokeCap: CircularStrokeCap.round,
-          radius: 40.w,
-          lineWidth: 2.w,
-          percent:dou,
-          backgroundColor: Color(0xff576ACC).withOpacity(0.28),
-          center: Image.asset('assets/images/zoomin.png'),
-          progressColor: ColorSelect.color576ACC,
-        ),
-        SizedBox(width: 10.w),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
             Text(
-              "Sizes and weights",
-              style: AppTextStyle().textColor29292914w400,
-            ),
-            Text(
-              '${SharedPrefs().getSetSize()}' == "null" ?
-              "update your sizes and weights" :
-              '${SharedPrefs().getSetSize()}',
-              // 'h',
+              percent.isEmpty
+                  ? "update your profile"
+                  : '${SharedPrefs().getPPercent()}',
               style: AppTextStyle().textColor70707012w400,
             )
           ],
@@ -154,19 +89,68 @@ class FavoritesRowWidget extends StatefulWidget {
 class _FavoritesRowWidgetState extends State<FavoritesRowWidget> {
   double dou = 00;
   var favPercent = "";
-  List <String> per = [];
+  List<String> per = [];
 
   _sharedPrefs() {
-    if(SharedPrefs().getFavourites() == '100 %') {
+    if (SharedPrefs().getFavourites() == '100 %') {
       per.add('profile');
-      favPercent = ((per.length / 1)*100).toString().split(".").first ;
+      favPercent = ((per.length / 1) * 100).toString().split(".").first;
       dou = (per.length / 1);
     }
   }
 
+  bool isLoading = false;
+  FavouritesModel? favourites = FavouritesModel(
+      data: Data(
+    // id: '',
+    // userId: '',
+    cars: '',
+    bikes: '',
+    movies: '',
+    shows: '',
+    foods: '',
+    gadgets: '',
+    superheroes: '',
+    actors: '',
+    actresses: '',
+    singers: '',
+    players: '',
+    cities: '',
+    countries: '',
+    restaurants: '',
+    hotels: '',
+    privacyStatus: '',
+    createdAt: '',
+  ));
+  getFavourites() {
+    isLoading = true;
+    var resp = getFavouritesApi();
+    resp.then((value) {
+      print(value);
+      if (mounted) {
+        if (value['status'] == true) {
+          if (value['message'] == "No Favourites") {
+            setState(() {
+              isLoading = false;
+            });
+          } else {
+            setState(() {
+              favourites = FavouritesModel.fromJson(value);
+              isLoading = false;
+            });
+          }
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
+    });
+  }
+
   @override
   void initState() {
-    _sharedPrefs();
+    getFavourites();
     super.initState();
   }
 
@@ -191,13 +175,31 @@ class _FavoritesRowWidgetState extends State<FavoritesRowWidget> {
               "Favourites",
               style: AppTextStyle().textColor29292914w400,
             ),
-            Text(
-                '${SharedPrefs().getFavourites()}' == "null" ?
-                 "update your favourites" :
-                '${SharedPrefs().getFavourites()}',
-              // "8%",
-              style: AppTextStyle().textColor70707012w400,
-            )
+            isLoading
+                ? SizedBox()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        favourites!.data!.completePercent.toString() == "" ||
+                                favourites!.data!.completePercent == null
+                            ? "0"
+                            : favourites!.data!.completePercent
+                                .toString()
+                                .split(".")
+                                .first,
+                        // sizeWeight!.data!.completePercent
+                        //     .toString()
+                        //     .split(".")
+                        //     .first,
+                        style: AppTextStyle().textColor70707012w400,
+                      ),
+                      Text(
+                        "%  Percent",
+                        style: AppTextStyle().textColor70707012w400,
+                      )
+                    ],
+                  ),
           ],
         ),
         Spacer(),
@@ -219,8 +221,6 @@ class PetsRowWidget extends StatefulWidget {
 }
 
 class _PetsRowWidgetState extends State<PetsRowWidget> {
-
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -279,7 +279,6 @@ class DateAndEventsRowWidget extends StatelessWidget {
               "Dates and Events",
               style: AppTextStyle().textColor29292914w400,
             ),
-
           ],
         ),
         Spacer(),
