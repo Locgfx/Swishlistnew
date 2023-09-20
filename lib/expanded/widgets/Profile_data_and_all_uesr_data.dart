@@ -2,80 +2,87 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:swishlist/constants/globals/shared_prefs.dart';
 
 import '../../api/user_apis/favourites_api.dart';
 import '../../constants/color.dart';
 import '../../models/favourites_model.dart';
 
-class ProfileRowWidget extends StatefulWidget {
-  ProfileRowWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<ProfileRowWidget> createState() => _ProfileRowWidgetState();
-}
-
-class _ProfileRowWidgetState extends State<ProfileRowWidget> {
-  double dou = 00;
-  var percent = "";
-  // String per = '';
-  List<String> per = [];
-
-  _sharedPrefs() {
-    if (SharedPrefs().getPPercent() == '100 %') {
-      per.add('profile');
-      percent = ((per.length / 1) * 100).toString().split(".").first;
-      dou = (per.length / 1);
-    }
-  }
-
-  @override
-  void initState() {
-    _sharedPrefs();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CircularPercentIndicator(
-          circularStrokeCap: CircularStrokeCap.round,
-          radius: 40.w,
-          lineWidth: 2.w,
-          percent: dou,
-          // percent: .12,
-          backgroundColor: Color(0xff66D340).withOpacity(0.28),
-          center: Image.asset('assets/images/userimg.png'),
-          progressColor: ColorSelect.color66D340,
-        ),
-        SizedBox(width: 10.w),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Profile",
-              style: AppTextStyle().textColor29292914w400,
-            ),
-            Text(
-              percent.isEmpty
-                  ? "update your profile"
-                  : '${SharedPrefs().getPPercent()}',
-              style: AppTextStyle().textColor70707012w400,
-            )
-          ],
-        ),
-        Spacer(),
-        Padding(
-          padding: const EdgeInsets.only(right: 27),
-          child: SvgPicture.asset("assets/icons/forwordarrow.svg"),
-        )
-      ],
-    );
-  }
-}
+// class ProfileRowWidget extends StatefulWidget {
+//   ProfileRowWidget({
+//     Key? key,
+//   }) : super(key: key);
+//
+//   @override
+//   State<ProfileRowWidget> createState() => _ProfileRowWidgetState();
+// }
+//
+// class _ProfileRowWidgetState extends State<ProfileRowWidget> {
+//   double dou = 00;
+//   var percent = "";
+//   // String per = '';
+//   List<String> per = [];
+//
+//   _sharedPrefs() {
+//     if (SharedPrefs().getPPercent() == '100 %') {
+//       per.add('profile');
+//       percent = ((per.length / 1) * 100).toString().split(".").first;
+//       dou = (per.length / 1);
+//     }
+//   }
+//
+//   @override
+//   void initState() {
+//     _sharedPrefs();
+//     super.initState();
+//   }
+//
+//   String? completePercent;
+//   double parsedPercent = 0.0;
+//   double normalizedPercent = 0.0;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     completePercent = profile?.data?.completePercent;
+//     parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
+//     normalizedPercent = parsedPercent / 100.0;
+//
+//     return Row(
+//       children: [
+//         CircularPercentIndicator(
+//           circularStrokeCap: CircularStrokeCap.round,
+//           radius: 40.w,
+//           lineWidth: 2.w,
+//           percent: dou,
+//           // percent: .12,
+//           backgroundColor: Color(0xff66D340).withOpacity(0.28),
+//           center: Image.asset('assets/images/userimg.png'),
+//           progressColor: ColorSelect.color66D340,
+//         ),
+//         SizedBox(width: 10.w),
+//         Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Text(
+//               "Profile",
+//               style: AppTextStyle().textColor29292914w400,
+//             ),
+//             Text(
+//               percent.isEmpty
+//                   ? "update your profile"
+//                   : '${SharedPrefs().getPPercent()}',
+//               style: AppTextStyle().textColor70707012w400,
+//             )
+//           ],
+//         ),
+//         Spacer(),
+//         Padding(
+//           padding: const EdgeInsets.only(right: 27),
+//           child: SvgPicture.asset("assets/icons/forwordarrow.svg"),
+//         )
+//       ],
+//     );
+//   }
+// }
 
 class FavoritesRowWidget extends StatefulWidget {
   const FavoritesRowWidget({

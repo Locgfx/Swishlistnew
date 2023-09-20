@@ -326,16 +326,17 @@ class _FavoritesState extends State<Favorites> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: 40.h,
+                          height: 20.h,
                         ),
                         Text(
                           "Things",
                           style: AppTextStyle().textColor29292914w600,
                         ),
                         SizedBox(
-                          height: 20.h,
+                          height: 10.h,
                         ),
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -352,6 +353,9 @@ class _FavoritesState extends State<Favorites> {
                                       }
                                       print(carController);
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: carController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -363,42 +367,46 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Cars",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              carController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.cars.toString() == "" ||
-                                              favourites!.data!.cars == null
-                                          ? "+ Add"
-                                          : favourites!.data!.cars.toString(),
-                                      style: favourites!.data!.cars == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      carController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    )
-                              // Image.asset("assets/images/information3.png"),
-                              // SizedBox(
-                              //   width: 20.w,
-                              // ),
-                              // Image.asset("assets/images/Vector175.png"),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Cars",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                carController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.cars.toString() ==
+                                                    "" ||
+                                                favourites!.data!.cars == null
+                                            ? "+ Add"
+                                            : favourites!.data!.cars.toString(),
+                                        style: favourites!.data!.cars == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                      )
+                                    : Text(
+                                        carController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      )
+                                // Image.asset("assets/images/information3.png"),
+                                // SizedBox(
+                                //   width: 20.w,
+                                // ),
+                                // Image.asset("assets/images/Vector175.png"),
+                              ],
+                            ),
                           ),
                           // child: CarRowWidget(favourites: favourites!,)
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
+                        //
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -414,6 +422,9 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: bikesController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -425,43 +436,47 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Bikes",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              bikesController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.bikes.toString() ==
-                                                  "" ||
-                                              favourites!.data!.bikes == null
-                                          ? "+ Add"
-                                          : favourites!.data!.bikes.toString(),
-                                      style: favourites!.data!.bikes == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      bikesController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ),
-                              // Image.asset("assets/images/information3.png"),
-                              // SizedBox(
-                              //   width: 20.w,
-                              // ),
-                              // Image.asset("assets/images/Vector175.png"),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Bikes",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                bikesController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.bikes.toString() ==
+                                                    "" ||
+                                                favourites!.data!.bikes == null
+                                            ? "+ Add"
+                                            : favourites!.data!.bikes
+                                                .toString(),
+                                        style: favourites!.data!.bikes == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                      )
+                                    : Text(
+                                        bikesController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      ),
+                                // Image.asset("assets/images/information3.png"),
+                                // SizedBox(
+                                //   width: 20.w,
+                                // ),
+                                // Image.asset("assets/images/Vector175.png"),
+                              ],
+                            ),
                           ),
                           // child: BikesRowWidget(favourites: favourites!,),
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
+
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -477,6 +492,9 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: moviesController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -488,46 +506,49 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Movies",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              moviesController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.movies.toString() ==
-                                                  "" ||
-                                              favourites!.data!.movies == null
-                                          ? "+ Add"
-                                          : favourites!.data!.movies.toString(),
-                                      style: favourites!.data!.movies == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      moviesController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    )
-                              // SizedBox(
-                              //   width: 5.w,
-                              // ),
-                              // // Image.asset("assets/images/image46.png"),
-                              // SizedBox(
-                              //   width: 20.w,
-                              // ),
-                              // Image.asset("assets/images/Vector175.png"),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Movies",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                moviesController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.movies.toString() ==
+                                                    "" ||
+                                                favourites!.data!.movies == null
+                                            ? "+ Add"
+                                            : favourites!.data!.movies
+                                                .toString(),
+                                        style: favourites!.data!.movies == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                      )
+                                    : Text(
+                                        moviesController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      )
+                                // SizedBox(
+                                //   width: 5.w,
+                                // ),
+                                // // Image.asset("assets/images/image46.png"),
+                                // SizedBox(
+                                //   width: 20.w,
+                                // ),
+                                // Image.asset("assets/images/Vector175.png"),
+                              ],
+                            ),
                           ),
                           // child: MoviesWidget(favourites: favourites!),
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -543,6 +564,9 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: showsController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -554,46 +578,50 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Shows",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              showsController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.shows.toString() ==
-                                                  "" ||
-                                              favourites!.data!.shows == null
-                                          ? "+ Add"
-                                          : favourites!.data!.shows.toString(),
-                                      style: favourites!.data!.shows == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      showsController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ),
-                              // SizedBox(
-                              //   width: 5.w,
-                              // ),
-                              // // Image.asset("assets/images/image46.png"),
-                              // SizedBox(
-                              //   width: 20.w,
-                              // ),
-                              // Image.asset("assets/images/Vector175.png"),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Shows",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                showsController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.shows.toString() ==
+                                                    "" ||
+                                                favourites!.data!.shows == null
+                                            ? "+ Add"
+                                            : favourites!.data!.shows
+                                                .toString(),
+                                        style: favourites!.data!.shows == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                      )
+                                    : Text(
+                                        showsController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      ),
+                                // SizedBox(
+                                //   width: 5.w,
+                                // ),
+                                // // Image.asset("assets/images/image46.png"),
+                                // SizedBox(
+                                //   width: 20.w,
+                                // ),
+                                // Image.asset("assets/images/Vector175.png"),
+                              ],
+                            ),
                           ),
                           // child: ShowsRowWidget(favourites: favourites!,),
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
+
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -609,6 +637,9 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: foodController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -620,45 +651,49 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Food",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              foodController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.foods.toString() ==
-                                                  "" ||
-                                              favourites!.data!.foods == null
-                                          ? "+ Add"
-                                          : favourites!.data!.foods.toString(),
-                                      style: favourites!.data!.foods == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      foodController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ), // SizedBox(
-                              //   width: 5.w,
-                              // ),
-                              // // Image.asset("assets/images/image46.png"),
-                              // SizedBox(
-                              //   width: 20.w,
-                              // ),
-                              // Image.asset("assets/images/Vector175.png"),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Food",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                foodController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.foods.toString() ==
+                                                    "" ||
+                                                favourites!.data!.foods == null
+                                            ? "+ Add"
+                                            : favourites!.data!.foods
+                                                .toString(),
+                                        style: favourites!.data!.foods == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                      )
+                                    : Text(
+                                        foodController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      ), // SizedBox(
+                                //   width: 5.w,
+                                // ),
+                                // // Image.asset("assets/images/image46.png"),
+                                // SizedBox(
+                                //   width: 20.w,
+                                // ),
+                                // Image.asset("assets/images/Vector175.png"),
+                              ],
+                            ),
                           ),
                           // child: FoodRowWidget(favourites: favourites!,)
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
+
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -674,6 +709,9 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: gadgetsController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -685,51 +723,57 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Gadgets",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              gadgetsController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.gadgets.toString() ==
-                                                  "" ||
-                                              favourites!.data!.gadgets == null
-                                          ? "+ Add"
-                                          : favourites!.data!.gadgets
-                                              .toString(),
-                                      style: favourites!.data!.gadgets == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      gadgetsController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    )
-                              // Image.asset("assets/images/information3.png"),
-                              // SizedBox(
-                              //   width: 20.w,
-                              // ),
-                              // Image.asset("assets/images/Vector175.png"),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Gadgets",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                gadgetsController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.gadgets.toString() ==
+                                                    "" ||
+                                                favourites!.data!.gadgets ==
+                                                    null
+                                            ? "+ Add"
+                                            : favourites!.data!.gadgets
+                                                .toString(),
+                                        style: favourites!.data!.gadgets == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                      )
+                                    : Text(
+                                        gadgetsController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      )
+                                // Image.asset("assets/images/information3.png"),
+                                // SizedBox(
+                                //   width: 20.w,
+                                // ),
+                                // Image.asset("assets/images/Vector175.png"),
+                              ],
+                            ),
                           ),
                           // child: GadgetsRowWidget(favourites: favourites!),
                         ),
                         SizedBox(
-                          height: 40.h,
+                          height: 15.h,
                         ),
                         Text(
                           "People",
                           style: AppTextStyle().textColor29292914w600,
                         ),
                         SizedBox(
-                          height: 20.h,
+                          height: 10.h,
                         ),
                         GestureDetector(
+                            behavior: HitTestBehavior.translucent,
                             onTap: () {
                               showDialog(
                                 context: context,
@@ -745,6 +789,9 @@ class _FavoritesState extends State<Favorites> {
                                           });
                                         }
                                       },
+                                      onEditingComplete: () {
+                                        Navigator.pop(context);
+                                      },
                                       controller: superheroesController,
                                       cursorColor: ColorSelect.colorF7E641,
                                       decoration: AppTFDecoration(
@@ -756,43 +803,46 @@ class _FavoritesState extends State<Favorites> {
                                 },
                               );
                             },
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Superheroes",
-                                  style: AppTextStyle().textColor70707014w400,
-                                ),
-                                Spacer(),
-                                superheroesController.text.isEmpty
-                                    ? Text(
-                                        // "Deadpool",
-                                        favourites!.data!.superheroes
-                                                        .toString() ==
-                                                    "" ||
-                                                favourites!.data!.superheroes ==
-                                                    null
-                                            ? "+ Add"
-                                            : favourites!.data!.superheroes
-                                                .toString(),
-                                        style:
-                                            favourites!.data!.superheroes == ''
-                                                ? AppTextStyle()
-                                                    .textColorD5574514w500
-                                                : AppTextStyle()
-                                                    .textColor29292914w400,
-                                      )
-                                    : Text(
-                                        superheroesController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      ),
-                              ],
+                            child: Container(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Superheroes",
+                                    style: AppTextStyle().textColor70707014w400,
+                                  ),
+                                  Spacer(),
+                                  superheroesController.text.isEmpty
+                                      ? Text(
+                                          // "Deadpool",
+                                          favourites!.data!.superheroes
+                                                          .toString() ==
+                                                      "" ||
+                                                  favourites!
+                                                          .data!.superheroes ==
+                                                      null
+                                              ? "+ Add"
+                                              : favourites!.data!.superheroes
+                                                  .toString(),
+                                          style:
+                                              favourites!.data!.superheroes ==
+                                                      ''
+                                                  ? AppTextStyle()
+                                                      .textColorD5574514w500
+                                                  : AppTextStyle()
+                                                      .textColor29292914w400,
+                                        )
+                                      : Text(
+                                          superheroesController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                ],
+                              ),
                             )),
                         // child: SuperherosRowWidget(favourites: favourites!)),
-                        SizedBox(
-                          height: 20.h,
-                        ),
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -808,6 +858,9 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: actorController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -819,40 +872,44 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Actors",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              actorController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.actors.toString() ==
-                                                  "" ||
-                                              favourites!.data!.actors == null
-                                          ? "+ Add"
-                                          : favourites!.data!.actors.toString(),
-                                      style: favourites!.data!.actors == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                      // "+ Add",
-                                      // style: AppTextStyle().textColorD5574514w500,
-                                    )
-                                  : Text(
-                                      actorController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Actors",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                actorController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.actors.toString() ==
+                                                    "" ||
+                                                favourites!.data!.actors == null
+                                            ? "+ Add"
+                                            : favourites!.data!.actors
+                                                .toString(),
+                                        style: favourites!.data!.actors == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                        // "+ Add",
+                                        // style: AppTextStyle().textColorD5574514w500,
+                                      )
+                                    : Text(
+                                        actorController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      ),
+                              ],
+                            ),
                           ),
                           // child: ActorsRowWidget(favourites: favourites!),
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
+
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -868,6 +925,9 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: actressController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -879,42 +939,46 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Actresses",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              actressController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.actresses.toString() ==
-                                                  "" ||
-                                              favourites!.data!.actresses ==
-                                                  null
-                                          ? "+ Add"
-                                          : favourites!.data!.actresses
-                                              .toString(),
-                                      style: favourites!.data!.actresses == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                      // "+ Add",
-                                      // style: AppTextStyle().textColorD5574514w500,
-                                    )
-                                  : Text(
-                                      actressController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Actresses",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                actressController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.actresses
+                                                        .toString() ==
+                                                    "" ||
+                                                favourites!.data!.actresses ==
+                                                    null
+                                            ? "+ Add"
+                                            : favourites!.data!.actresses
+                                                .toString(),
+                                        style: favourites!.data!.actresses == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                        // "+ Add",
+                                        // style: AppTextStyle().textColorD5574514w500,
+                                      )
+                                    : Text(
+                                        actressController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      ),
+                              ],
+                            ),
                           ),
                           // child: ActressesRowWidget(favourites: favourites!),
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
+
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -931,6 +995,9 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
                                         AppTFDecoration(hint: 'Singers Name')
@@ -941,39 +1008,43 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Singers",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              singersController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.singers.toString() ==
-                                                  "" ||
-                                              favourites!.data!.singers == null
-                                          ? "+ Add"
-                                          : favourites!.data!.singers
-                                              .toString(),
-                                      style: favourites!.data!.singers == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      singersController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Singers",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                singersController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.singers.toString() ==
+                                                    "" ||
+                                                favourites!.data!.singers ==
+                                                    null
+                                            ? "+ Add"
+                                            : favourites!.data!.singers
+                                                .toString(),
+                                        style: favourites!.data!.singers == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                      )
+                                    : Text(
+                                        singersController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      ),
+                              ],
+                            ),
                           ),
                           // child: SingersRowWidget(favourites: favourites!),
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
+
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -989,6 +1060,9 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: playersController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -1000,48 +1074,54 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Players",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              playersController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.players.toString() ==
-                                                  "" ||
-                                              favourites!.data!.players == null
-                                          ? "+ Add"
-                                          : favourites!.data!.players
-                                              .toString(),
-                                      style: favourites!.data!.players == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                      // "+ Add",
-                                      // style: AppTextStyle().textColorD5574514w500,
-                                    )
-                                  : Text(
-                                      playersController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Players",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                playersController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.players.toString() ==
+                                                    "" ||
+                                                favourites!.data!.players ==
+                                                    null
+                                            ? "+ Add"
+                                            : favourites!.data!.players
+                                                .toString(),
+                                        style: favourites!.data!.players == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                        // "+ Add",
+                                        // style: AppTextStyle().textColorD5574514w500,
+                                      )
+                                    : Text(
+                                        playersController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      ),
+                              ],
+                            ),
                           ),
                           // child: PlayersRowWidget(favourites: favourites!),
                         ),
                         SizedBox(
-                          height: 40.h,
+                          height: 10.h,
                         ),
                         Text(
                           "Places",
                           style: AppTextStyle().textColor29292914w600,
                         ),
                         SizedBox(
-                          height: 20.h,
+                          height: 10.h,
                         ),
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -1057,6 +1137,10 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
+
                                     controller: citiesController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -1068,42 +1152,46 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Cities",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              citiesController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.cities.toString() ==
-                                                  "" ||
-                                              favourites!.data!.cities == null
-                                          ? "+ Add"
-                                          : favourites!.data!.cities.toString(),
-                                      style: favourites!.data!.cities == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      citiesController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ),
-                              // Text(
-                              //   "+ Add",
-                              //   style: AppTextStyle().textColorD5574514w500,
-                              // ),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Cities",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                citiesController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.cities.toString() ==
+                                                    "" ||
+                                                favourites!.data!.cities == null
+                                            ? "+ Add"
+                                            : favourites!.data!.cities
+                                                .toString(),
+                                        style: favourites!.data!.cities == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                      )
+                                    : Text(
+                                        citiesController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      ),
+                                // Text(
+                                //   "+ Add",
+                                //   style: AppTextStyle().textColorD5574514w500,
+                                // ),
+                              ],
+                            ),
                           ),
                           // child: CitiesRowWidget(favourites: favourites!,),
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
+
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -1120,6 +1208,10 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
+
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
                                         AppTFDecoration(hint: 'Countries Name')
@@ -1130,44 +1222,48 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Countries",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              countriesController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.countries.toString() ==
-                                                  "" ||
-                                              favourites!.data!.countries ==
-                                                  null
-                                          ? "+ Add"
-                                          : favourites!.data!.countries
-                                              .toString(),
-                                      style: favourites!.data!.countries == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      countriesController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ),
-                              // Text(
-                              //   "+ Add",
-                              //   style: AppTextStyle().textColorD5574514w500,
-                              // ),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Countries",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                countriesController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.countries
+                                                        .toString() ==
+                                                    "" ||
+                                                favourites!.data!.countries ==
+                                                    null
+                                            ? "+ Add"
+                                            : favourites!.data!.countries
+                                                .toString(),
+                                        style: favourites!.data!.countries == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                      )
+                                    : Text(
+                                        countriesController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      ),
+                                // Text(
+                                //   "+ Add",
+                                //   style: AppTextStyle().textColorD5574514w500,
+                                // ),
+                              ],
+                            ),
                           ),
                           // child: CountriesRowWidget(favourites: favourites!,)
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
+
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -1183,6 +1279,10 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
+
                                     controller: restaurantsController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -1194,45 +1294,49 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Restaurants",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              restaurantsController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.restaurants
-                                                      .toString() ==
-                                                  "" ||
-                                              favourites!.data!.restaurants ==
-                                                  null
-                                          ? "+ Add"
-                                          : favourites!.data!.restaurants
-                                              .toString(),
-                                      style: favourites!.data!.restaurants == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      restaurantsController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    )
-                              // Text(
-                              //   "+ Add",
-                              //   style: AppTextStyle().textColorD5574514w500,
-                              // ),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Restaurants",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                restaurantsController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.restaurants
+                                                        .toString() ==
+                                                    "" ||
+                                                favourites!.data!.restaurants ==
+                                                    null
+                                            ? "+ Add"
+                                            : favourites!.data!.restaurants
+                                                .toString(),
+                                        style:
+                                            favourites!.data!.restaurants == ''
+                                                ? AppTextStyle()
+                                                    .textColorD5574514w500
+                                                : AppTextStyle()
+                                                    .textColor29292914w400,
+                                      )
+                                    : Text(
+                                        restaurantsController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      )
+                                // Text(
+                                //   "+ Add",
+                                //   style: AppTextStyle().textColorD5574514w500,
+                                // ),
+                              ],
+                            ),
                           ),
                           // child: RestaurantsRowWidget(favourites: favourites!,)
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
+
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -1248,6 +1352,9 @@ class _FavoritesState extends State<Favorites> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: hotelsController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -1259,174 +1366,95 @@ class _FavoritesState extends State<Favorites> {
                               },
                             );
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                "Hotels",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              hotelsController.text.isEmpty
-                                  ? Text(
-                                      favourites!.data!.hotels.toString() ==
-                                                  "" ||
-                                              favourites!.data!.hotels == null
-                                          ? "+ Add"
-                                          : favourites!.data!.hotels.toString(),
-                                      style: favourites!.data!.hotels == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      hotelsController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ),
-                              // Text(
-                              //   "+ Add",
-                              //   style: AppTextStyle().textColorD5574514w500,
-                              // ),
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Hotels",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                hotelsController.text.isEmpty
+                                    ? Text(
+                                        favourites!.data!.hotels.toString() ==
+                                                    "" ||
+                                                favourites!.data!.hotels == null
+                                            ? "+ Add"
+                                            : favourites!.data!.hotels
+                                                .toString(),
+                                        style: favourites!.data!.hotels == ''
+                                            ? AppTextStyle()
+                                                .textColorD5574514w500
+                                            : AppTextStyle()
+                                                .textColor29292914w400,
+                                      )
+                                    : Text(
+                                        hotelsController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      ),
+                                // Text(
+                                //   "+ Add",
+                                //   style: AppTextStyle().textColorD5574514w500,
+                                // ),
+                              ],
+                            ),
                           ),
                           // child: HotelRowWidget(favourites: favourites!,),
                         ),
                         SizedBox(
-                          height: 40.h,
+                          height: 20.h,
                         ),
                         (favourites!.data!.hotels.toString() == '')
                             ? LightYellowButtonWithText(
-                                backgroundColor: (carController
-                                            .text.isNotEmpty &&
-                                        bikesController.text.isNotEmpty &&
-                                        moviesController.text.isNotEmpty &&
-                                        showsController.text.isNotEmpty &&
-                                        foodController.text.isNotEmpty &&
-                                        gadgetsController.text.isNotEmpty &&
-                                        superheroesController.text.isNotEmpty &&
-                                        actorController.text.isNotEmpty &&
-                                        singersController.text.isNotEmpty &&
-                                        actressController.text.isNotEmpty &&
-                                        playersController.text.isNotEmpty &&
-                                        citiesController.text.isNotEmpty &&
-                                        countriesController.text.isNotEmpty &&
-                                        restaurantsController.text.isNotEmpty &&
-                                        hotelsController.text.isNotEmpty)
-                                    ? MaterialStateProperty.all(
-                                        ColorSelect.colorF7E641)
-                                    : MaterialStateProperty.all(
-                                        ColorSelect.colorFCF5B6),
-                                textStyleColor: (carController
-                                            .text.isNotEmpty &&
-                                        bikesController.text.isNotEmpty &&
-                                        moviesController.text.isNotEmpty &&
-                                        showsController.text.isNotEmpty &&
-                                        foodController.text.isNotEmpty &&
-                                        gadgetsController.text.isNotEmpty &&
-                                        superheroesController.text.isNotEmpty &&
-                                        actorController.text.isNotEmpty &&
-                                        singersController.text.isNotEmpty &&
-                                        actressController.text.isNotEmpty &&
-                                        playersController.text.isNotEmpty &&
-                                        citiesController.text.isNotEmpty &&
-                                        countriesController.text.isNotEmpty &&
-                                        restaurantsController.text.isNotEmpty &&
-                                        hotelsController.text.isNotEmpty)
-                                    ? Colors.black
-                                    : ColorSelect.colorB5B07A,
+                                size: 15,
+                                backgroundColor: MaterialStateProperty.all(
+                                    ColorSelect.colorF7E641),
+                                textStyleColor: Colors.black,
                                 onTap: () {
-                                  if (carController.text.isNotEmpty &&
-                                      bikesController.text.isNotEmpty &&
-                                      moviesController.text.isNotEmpty &&
-                                      showsController.text.isNotEmpty &&
-                                      foodController.text.isNotEmpty &&
-                                      gadgetsController.text.isNotEmpty &&
-                                      superheroesController.text.isNotEmpty &&
-                                      actorController.text.isNotEmpty &&
-                                      singersController.text.isNotEmpty &&
-                                      actressController.text.isNotEmpty &&
-                                      playersController.text.isNotEmpty &&
-                                      citiesController.text.isNotEmpty &&
-                                      countriesController.text.isNotEmpty &&
-                                      restaurantsController.text.isNotEmpty &&
-                                      hotelsController.text.isNotEmpty) {
-                                    postFavouriteApi(
-                                            car: carController.text,
-                                            bike: bikesController.text,
-                                            movies: moviesController.text,
-                                            shows: showsController.text,
-                                            food: foodController.text,
-                                            gadgets: gadgetsController.text,
-                                            superheroes:
-                                                superheroesController.text,
-                                            actors: actorController.text,
-                                            singer: singersController.text,
-                                            actress: actressController.text,
-                                            player: playersController.text,
-                                            cities: citiesController.text,
-                                            countries: countriesController.text,
-                                            restaurants:
-                                                restaurantsController.text,
-                                            hotels: hotelsController.text,
-                                            privacy: 'public')
-                                        .then((value) async {
-                                      if (value['status'] == true) {
-                                        SharedPrefs().setFavourites('100 %');
+                                  postFavouriteApi(
+                                          car: carController.text,
+                                          bike: bikesController.text,
+                                          movies: moviesController.text,
+                                          shows: showsController.text,
+                                          food: foodController.text,
+                                          gadgets: gadgetsController.text,
+                                          superheroes:
+                                              superheroesController.text,
+                                          actors: actorController.text,
+                                          singer: singersController.text,
+                                          actress: actressController.text,
+                                          player: playersController.text,
+                                          cities: citiesController.text,
+                                          countries: countriesController.text,
+                                          restaurants:
+                                              restaurantsController.text,
+                                          hotels: hotelsController.text,
+                                          privacy: 'public')
+                                      .then((value) async {
+                                    if (value['status'] == true) {
+                                      SharedPrefs().setFavourites('100 %');
 
-                                        Navigator.pop(context);
-                                        // setState(() {
-                                        //   isLoading ? Loading() : getFavourites();
-                                        // });
-                                        Fluttertoast.showToast(
-                                            msg: value['message']);
-                                      } else {
-                                        Fluttertoast.showToast(
-                                            msg:
-                                                'please fill all details field' /*value['message']*/);
-                                      }
-                                    });
-                                  }
+                                      Navigator.pop(context);
+                                      // setState(() {
+                                      //   isLoading ? Loading() : getFavourites();
+                                      // });
+                                      Fluttertoast.showToast(
+                                          msg: value['message']);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg:
+                                              'please fill all details field' /*value['message']*/);
+                                    }
+                                  });
                                 },
                                 title: 'Add')
                             : LightYellowButtonWithText(
-                                backgroundColor: (carController
-                                            .text.isNotEmpty &&
-                                        bikesController.text.isNotEmpty &&
-                                        moviesController.text.isNotEmpty &&
-                                        showsController.text.isNotEmpty &&
-                                        foodController.text.isNotEmpty &&
-                                        gadgetsController.text.isNotEmpty &&
-                                        superheroesController.text.isNotEmpty &&
-                                        actorController.text.isNotEmpty &&
-                                        singersController.text.isNotEmpty &&
-                                        actressController.text.isNotEmpty &&
-                                        playersController.text.isNotEmpty &&
-                                        citiesController.text.isNotEmpty &&
-                                        countriesController.text.isNotEmpty &&
-                                        restaurantsController.text.isNotEmpty &&
-                                        hotelsController.text.isNotEmpty)
-                                    ? MaterialStateProperty.all(
-                                        ColorSelect.colorF7E641)
-                                    : MaterialStateProperty.all(
-                                        ColorSelect.colorFCF5B6),
-                                textStyleColor: (carController
-                                            .text.isNotEmpty &&
-                                        bikesController.text.isNotEmpty &&
-                                        moviesController.text.isNotEmpty &&
-                                        showsController.text.isNotEmpty &&
-                                        foodController.text.isNotEmpty &&
-                                        gadgetsController.text.isNotEmpty &&
-                                        superheroesController.text.isNotEmpty &&
-                                        actorController.text.isNotEmpty &&
-                                        singersController.text.isNotEmpty &&
-                                        actressController.text.isNotEmpty &&
-                                        playersController.text.isNotEmpty &&
-                                        citiesController.text.isNotEmpty &&
-                                        countriesController.text.isNotEmpty &&
-                                        restaurantsController.text.isNotEmpty &&
-                                        hotelsController.text.isNotEmpty)
-                                    ? Colors.black
-                                    : ColorSelect.colorB5B07A,
+                                size: 15,
+                                backgroundColor: MaterialStateProperty.all(
+                                    ColorSelect.colorF7E641),
+                                textStyleColor: Colors.black,
                                 onTap: () {
                                   updateFavouriteApi(
                                           car: carController.text,
@@ -1465,7 +1493,7 @@ class _FavoritesState extends State<Favorites> {
                                 },
                                 title: 'Update'),
                         SizedBox(
-                          height: 20.h,
+                          height: 40.h,
                         ),
                       ],
                     ),

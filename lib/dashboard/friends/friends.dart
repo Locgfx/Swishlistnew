@@ -5,11 +5,9 @@ import 'package:swishlist/constants/globals/globals.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
-import '../../constants/decoration.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/add_friend_model.dart';
-import '../../models/friends_model.dart';
 import 'addfriends.dart';
 import 'friendproduct.dart';
 import 'friends_notifications.dart';
@@ -39,18 +37,21 @@ class _FriendsState extends State<Friends> {
 
   bool isLoading = false;
   bool showSearch = false;
-  FriendModel? friendsModels;
+  // FriendModel? friendsModels;
+  FriendModel friendList = FriendModel();
+
   getFriends() {
     isLoading = true;
-    friendList.clear();
+    // friendList.clear();
     var resp = getFriendsApi();
     resp.then((value) {
       if (mounted) {
         if (value['status'] == true) {
           setState(() {
-            for (var v in value) {
-              friendList.add(ModelFriend.fromJson(v));
-            }
+            friendList = FriendModel.fromJson(value);
+            // for (var v in value) {
+            //   friendList.add(ModelFriend.fromJson(v));
+            // }
             isLoading = false;
           });
         } else {
@@ -67,8 +68,8 @@ class _FriendsState extends State<Friends> {
   late FocusNode focusNode;
   final searchController = TextEditingController();
 
-  List<ModelFriend> searchList = [];
-  List<ModelFriend> friendList = [];
+  // List<ModelFriend> searchList = [];
+  // List<ModelFriend> friendList = [];
 
   @override
   void dispose() {
@@ -201,52 +202,52 @@ class _FriendsState extends State<Friends> {
                       SizedBox(
                         height: 32,
                       ),
-                      showSearch
-                          ? Container(
-                              color: Colors.transparent,
-                              child: TextFormField(
-                                onChanged: (val) {
-                                  print(friendList);
-                                  print(searchController.text);
-                                  print(friendList[0].friend!.name);
-                                  for (var v in friendList) {
-                                    if (v.friend!.name! == val) {
-                                      if (searchList.contains(v)) {
-                                      } else {
-                                        searchList.add(v);
-                                      }
-                                    }
-                                  }
-                                  final suggestions = friendList
-                                      .where((element) =>
-                                          element.friend!.name ==
-                                          searchController.text)
-                                      .toList();
-                                  print(suggestions);
-                                  setState(() {
-                                    searchList = suggestions;
-                                    print(searchList);
-                                    if (searchController.text.isEmpty) {
-                                      searchList.clear();
-                                    }
-                                  });
-                                },
-                                controller: searchController,
-                                cursorColor: ColorSelect.colorF7E641,
-                                decoration:
-                                    AppTFDecoration(hint: 'Enter Friend Name')
-                                        .decoration(),
-                                //keyboardType: TextInputType.phone,
-                              ),
-                            )
-                          : SizedBox(),
+                      // showSearch
+                      //     ? Container(
+                      //         color: Colors.transparent,
+                      //         child: TextFormField(
+                      //           onChanged: (val) {
+                      //             print(friendList);
+                      //             print(searchController.text);
+                      //             print(friendList[0].friend!.name);
+                      //             for (var v in friendList) {
+                      //               if (v.friend!.name! == val) {
+                      //                 if (searchList.contains(v)) {
+                      //                 } else {
+                      //                   searchList.add(v);
+                      //                 }
+                      //               }
+                      //             }
+                      //             final suggestions = friendList
+                      //                 .where((element) =>
+                      //                     element.friend!.name ==
+                      //                     searchController.text)
+                      //                 .toList();
+                      //             print(suggestions);
+                      //             setState(() {
+                      //               searchList = suggestions;
+                      //               print(searchList);
+                      //               if (searchController.text.isEmpty) {
+                      //                 searchList.clear();
+                      //               }
+                      //             });
+                      //           },
+                      //           controller: searchController,
+                      //           cursorColor: ColorSelect.colorF7E641,
+                      //           decoration:
+                      //               AppTFDecoration(hint: 'Enter Friend Name')
+                      //                   .decoration(),
+                      //           //keyboardType: TextInputType.phone,
+                      //         ),
+                      //       )
+                      //     : SizedBox(),
                       SizedBox(
                         height: 20,
                       ),
                       Row(
                         children: [
                           Text(
-                            "${friendList.length.toString()} Friends",
+                            "${friendList.data!.length.toString()} Friends",
                             // "24",
                             style: AppTextStyle().textColor70707012w500,
                           ),
@@ -256,7 +257,7 @@ class _FriendsState extends State<Friends> {
                       SizedBox(
                         height: 14,
                       ),
-                      friendList.isEmpty
+                      friendList.data!.isEmpty
                           ? AddProductImage(
                               image: 'assets/images/addfriends.png',
                               txt:
@@ -270,295 +271,268 @@ class _FriendsState extends State<Friends> {
                               },
                               buttonIcon: 'assets/images/4xuseradd.png',
                             )
-                          : searchList.isEmpty
-                              ? RefreshIndicator(
-                                  displacement: 500,
-                                  backgroundColor: Colors.white,
-                                  color: ColorSelect.colorF7E641,
-                                  strokeWidth: 3,
-                                  onRefresh: () {
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                    return getFriends();
-                                  },
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.only(bottom: 200.0),
-                                    child: ListView.separated(
-                                      padding: EdgeInsets.zero,
-                                      // itemCount: 4,
-                                      itemCount: friendList.length,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, i) {
-                                        return Column(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        FriendProduct(
-                                                      friendName: friendList[i]
-                                                          .friend!
-                                                          .name
-                                                          .toString(),
-                                                      friendUserName:
-                                                          friendList[i]
-                                                              .friend!
-                                                              .name
-                                                              .toString(),
-                                                      friendId: friendList[i]
-                                                          .friendUserId
-                                                          .toString(),
-                                                      friendPhoto: baseUrl +
-                                                          friendList[i]
-                                                              .friend!
-                                                              .photo!,
-                                                      id: friendList[i]
-                                                          .id!
-                                                          .toString(),
-                                                      /* id: searchList[i].id.toString(),*/
+                          : Padding(
+                              padding: const EdgeInsets.only(bottom: 200.0),
+                              child: ListView.separated(
+                                padding: EdgeInsets.zero,
+                                // itemCount: 4,
+                                itemCount: friendList.data!.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, i) {
+                                  return Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FriendProduct(
+                                                friendName: friendList
+                                                    .data![i].friend!.name
+                                                    .toString(),
+                                                friendUserName: friendList
+                                                    .data![i].friend!.name
+                                                    .toString(),
+                                                friendId: friendList
+                                                    .data![i].friendUserId
+                                                    .toString(),
+                                                friendPhoto: baseUrl +
+                                                    friendList.data![i].friend!
+                                                        .photo!,
+                                                id: friendList.data![i].id!
+                                                    .toString(),
+                                                /* id: searchList[i].id.toString(),*/
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          color: Colors.transparent,
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                height: 50,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.grey.shade200,
+                                                ),
+                                                clipBehavior: Clip.hardEdge,
+                                                child: CachedNetworkImage(
+                                                  imageUrl: baseUrl +
+                                                      friendList.data![i]
+                                                          .friend!.photo!,
+                                                  fit: BoxFit.cover,
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(Icons.error),
+                                                  progressIndicatorBuilder:
+                                                      (a, b, c) => Opacity(
+                                                    opacity: 0.3,
+                                                    child: Shimmer.fromColors(
+                                                      baseColor: Colors.black12,
+                                                      highlightColor:
+                                                          Colors.white,
+                                                      child: Container(
+                                                        width: 50,
+                                                        height: 50,
+                                                        //margin: EdgeInsets.symmetric(horizontal: 24),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                shape: BoxShape
+                                                                    .circle),
+                                                      ),
                                                     ),
                                                   ),
-                                                );
-                                              },
-                                              child: Container(
-                                                color: Colors.transparent,
-                                                child: Row(
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 8,
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Container(
-                                                      height: 50,
-                                                      width: 50,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: Colors
-                                                            .grey.shade200,
-                                                      ),
-                                                      clipBehavior:
-                                                          Clip.hardEdge,
-                                                      child: CachedNetworkImage(
-                                                        imageUrl: baseUrl +
-                                                            friendList[i]
-                                                                .friend!
-                                                                .photo!,
-                                                        fit: BoxFit.cover,
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Icon(Icons.error),
-                                                        progressIndicatorBuilder:
-                                                            (a, b, c) =>
-                                                                Opacity(
-                                                          opacity: 0.3,
-                                                          child: Shimmer
-                                                              .fromColors(
-                                                            baseColor:
-                                                                Colors.black12,
-                                                            highlightColor:
-                                                                Colors.white,
-                                                            child: Container(
-                                                              width: 50,
-                                                              height: 50,
-                                                              //margin: EdgeInsets.symmetric(horizontal: 24),
-                                                              decoration: BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  shape: BoxShape
-                                                                      .circle),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
+                                                    Text(
+                                                      friendList.data![i]
+                                                          .friend!.name!,
+                                                      // "Andy Bernard",
+                                                      style: AppTextStyle()
+                                                          .textColor29292914w500,
                                                     ),
-                                                    SizedBox(
-                                                      width: 8,
-                                                    ),
-                                                    Expanded(
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            friendList[i]
-                                                                .friend!
-                                                                .name!,
-                                                            // "Andy Bernard",
-                                                            style: AppTextStyle()
-                                                                .textColor29292914w500,
-                                                          ),
-                                                          SizedBox(height: 4),
-                                                          Text(
-                                                            friendList[i]
-                                                                .friend!
-                                                                .username!,
-                                                            // "AndyAngie3260",
-                                                            style: AppTextStyle()
-                                                                .textColor70707014w400,
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
+                                                    SizedBox(height: 4),
+                                                    Text(
+                                                      friendList.data![i]
+                                                          .friend!.username!,
+                                                      // "AndyAngie3260",
+                                                      style: AppTextStyle()
+                                                          .textColor70707014w400,
+                                                    )
                                                   ],
                                                 ),
                                               ),
-                                            )
-                                          ],
-                                        );
-                                      },
-                                      separatorBuilder:
-                                          (BuildContext context, int index) {
-                                        return SizedBox(
-                                          height: 16,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.only(bottom: 200.0),
-                                  child: ListView.separated(
-                                    padding: EdgeInsets.zero,
-                                    // itemCount: 4,
-                                    itemCount: searchList.length,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, i) {
-                                      return Column(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          FriendProduct(
-                                                            friendName:
-                                                                searchList[i]
-                                                                    .friend!
-                                                                    .name
-                                                                    .toString(),
-                                                            friendUserName:
-                                                                searchList[i]
-                                                                    .friend!
-                                                                    .name
-                                                                    .toString(),
-                                                            friendId:
-                                                                searchList[i]
-                                                                    .friend!
-                                                                    .id
-                                                                    .toString(),
-                                                            friendPhoto:
-                                                                baseUrl +
-                                                                    friendList[
-                                                                            i]
-                                                                        .friend!
-                                                                        .photo!,
-                                                            id: friendList[i]
-                                                                .id!
-                                                                .toString(),
-                                                            // id: searchList[i].id.toString(),
-                                                          )));
-                                            },
-                                            onLongPress: () {},
-                                            child: Container(
-                                              color: Colors.transparent,
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    height: 50,
-                                                    width: 50,
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color:
-                                                          Colors.grey.shade200,
-                                                    ),
-                                                    clipBehavior: Clip.hardEdge,
-                                                    child: CachedNetworkImage(
-                                                      imageUrl: baseUrl +
-                                                          searchList[i]
-                                                              .friend!
-                                                              .photo!,
-                                                      fit: BoxFit.cover,
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          Icon(Icons.error),
-                                                      progressIndicatorBuilder:
-                                                          (a, b, c) => Opacity(
-                                                        opacity: 0.3,
-                                                        child:
-                                                            Shimmer.fromColors(
-                                                          baseColor:
-                                                              Colors.black12,
-                                                          highlightColor:
-                                                              Colors.white,
-                                                          child: Container(
-                                                            width: 50,
-                                                            height: 50,
-                                                            //margin: EdgeInsets.symmetric(horizontal: 24),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    shape: BoxShape
-                                                                        .circle),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  // CircleAvatar(
-                                                  //   radius: 24,
-                                                  //   backgroundColor: Colors.grey,
-                                                  //   backgroundImage:
-                                                  //       NetworkImage(model.data[i].user.photo),
-                                                  // ),
-                                                  SizedBox(
-                                                    width: 8,
-                                                  ),
-                                                  Expanded(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          searchList[i]
-                                                              .friend!
-                                                              .name!,
-                                                          // "Andy Bernard",
-                                                          style: AppTextStyle()
-                                                              .textColor29292914w500,
-                                                        ),
-                                                        SizedBox(height: 4),
-                                                        Text(
-                                                          searchList[i]
-                                                              .friend!
-                                                              .username!,
-                                                          // "AndyAngie3260",
-                                                          style: AppTextStyle()
-                                                              .textColor70707014w400,
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return SizedBox(
-                                        height: 16,
-                                      );
-                                    },
-                                  ),
-                                )
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return SizedBox(
+                                    height: 16,
+                                  );
+                                },
+                              ),
+                            )
+                      // : Padding(
+                      //     padding: const EdgeInsets.only(bottom: 200.0),
+                      //     child: ListView.separated(
+                      //       padding: EdgeInsets.zero,
+                      //       // itemCount: 4,
+                      //       itemCount: searchList.length,
+                      //       physics: NeverScrollableScrollPhysics(),
+                      //       shrinkWrap: true,
+                      //       itemBuilder: (context, i) {
+                      //         return Column(
+                      //           children: [
+                      //             GestureDetector(
+                      //               onTap: () {
+                      //                 Navigator.push(
+                      //                     context,
+                      //                     MaterialPageRoute(
+                      //                         builder: (context) =>
+                      //                             FriendProduct(
+                      //                               friendName:
+                      //                                   searchList[i]
+                      //                                       .friend!
+                      //                                       .name
+                      //                                       .toString(),
+                      //                               friendUserName:
+                      //                                   searchList[i]
+                      //                                       .friend!
+                      //                                       .name
+                      //                                       .toString(),
+                      //                               friendId:
+                      //                                   searchList[i]
+                      //                                       .friend!
+                      //                                       .id
+                      //                                       .toString(),
+                      //                               friendPhoto:
+                      //                                   baseUrl +
+                      //                                       friendList[
+                      //                                               i]
+                      //                                           .friend!
+                      //                                           .photo!,
+                      //                               id: friendList[i]
+                      //                                   .id!
+                      //                                   .toString(),
+                      //                               // id: searchList[i].id.toString(),
+                      //                             )));
+                      //               },
+                      //               onLongPress: () {},
+                      //               child: Container(
+                      //                 color: Colors.transparent,
+                      //                 child: Row(
+                      //                   children: [
+                      //                     Container(
+                      //                       height: 50,
+                      //                       width: 50,
+                      //                       decoration: BoxDecoration(
+                      //                         shape: BoxShape.circle,
+                      //                         color:
+                      //                             Colors.grey.shade200,
+                      //                       ),
+                      //                       clipBehavior: Clip.hardEdge,
+                      //                       child: CachedNetworkImage(
+                      //                         imageUrl: baseUrl +
+                      //                             searchList[i]
+                      //                                 .friend!
+                      //                                 .photo!,
+                      //                         fit: BoxFit.cover,
+                      //                         errorWidget: (context,
+                      //                                 url, error) =>
+                      //                             Icon(Icons.error),
+                      //                         progressIndicatorBuilder:
+                      //                             (a, b, c) => Opacity(
+                      //                           opacity: 0.3,
+                      //                           child:
+                      //                               Shimmer.fromColors(
+                      //                             baseColor:
+                      //                                 Colors.black12,
+                      //                             highlightColor:
+                      //                                 Colors.white,
+                      //                             child: Container(
+                      //                               width: 50,
+                      //                               height: 50,
+                      //                               //margin: EdgeInsets.symmetric(horizontal: 24),
+                      //                               decoration:
+                      //                                   BoxDecoration(
+                      //                                       color: Colors
+                      //                                           .white,
+                      //                                       shape: BoxShape
+                      //                                           .circle),
+                      //                             ),
+                      //                           ),
+                      //                         ),
+                      //                       ),
+                      //                     ),
+                      //                     // CircleAvatar(
+                      //                     //   radius: 24,
+                      //                     //   backgroundColor: Colors.grey,
+                      //                     //   backgroundImage:
+                      //                     //       NetworkImage(model.data[i].user.photo),
+                      //                     // ),
+                      //                     SizedBox(
+                      //                       width: 8,
+                      //                     ),
+                      //                     Expanded(
+                      //                       child: Column(
+                      //                         crossAxisAlignment:
+                      //                             CrossAxisAlignment
+                      //                                 .start,
+                      //                         children: [
+                      //                           Text(
+                      //                             searchList[i]
+                      //                                 .friend!
+                      //                                 .name!,
+                      //                             // "Andy Bernard",
+                      //                             style: AppTextStyle()
+                      //                                 .textColor29292914w500,
+                      //                           ),
+                      //                           SizedBox(height: 4),
+                      //                           Text(
+                      //                             searchList[i]
+                      //                                 .friend!
+                      //                                 .username!,
+                      //                             // "AndyAngie3260",
+                      //                             style: AppTextStyle()
+                      //                                 .textColor70707014w400,
+                      //                           )
+                      //                         ],
+                      //                       ),
+                      //                     ),
+                      //                   ],
+                      //                 ),
+                      //               ),
+                      //             )
+                      //           ],
+                      //         );
+                      //       },
+                      //       separatorBuilder:
+                      //           (BuildContext context, int index) {
+                      //         return SizedBox(
+                      //           height: 16,
+                      //         );
+                      //       },
+                      //     ),
+                      //   )
                     ],
                   ),
                 ),

@@ -83,7 +83,8 @@ class _AddFriendsState extends State<AddFriends> {
       _contacts = await FastContacts.getAllContacts();
       for (var v in _contacts) {
         for (var q in v.phones) {
-          var h = q.number.replaceAll("-", "");
+          var h = q.number.replaceAll('-', '').replaceAll(" ", "");
+
           phNo.add(h);
           // phNo.add(q.number);
         }
@@ -185,106 +186,106 @@ class _AddFriendsState extends State<AddFriends> {
                               });
                               return contact();
                             },
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: friendList.length,
-                                // physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, i) {
-                                  return ListTile(
-                                      leading: Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.grey.shade200,
-                                        ),
-                                        clipBehavior: Clip.hardEdge,
-                                        child: CachedNetworkImage(
-                                          imageUrl: baseUrl +
-                                              friendList[i].photo.toString(),
-                                          // imageUrl: baseUrl+contactModel.data![i].photo.toString(),
-                                          fit: BoxFit.cover,
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
-                                          progressIndicatorBuilder: (a, b, c) =>
-                                              Opacity(
-                                            opacity: 0.3,
-                                            child: Shimmer.fromColors(
-                                              baseColor: Colors.black12,
-                                              highlightColor: Colors.white,
-                                              child: Container(
-                                                width: 50,
-                                                height: 50,
-                                                //margin: EdgeInsets.symmetric(horizontal: 24),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    shape: BoxShape.circle),
-                                              ),
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              itemCount: friendList.length,
+                              // physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, i) {
+                                return ListTile(
+                                    leading: Container(
+                                      height: 50,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.grey.shade200,
+                                      ),
+                                      clipBehavior: Clip.hardEdge,
+                                      child: CachedNetworkImage(
+                                        imageUrl: baseUrl +
+                                            friendList[i].photo.toString(),
+                                        // imageUrl: baseUrl+contactModel.data![i].photo.toString(),
+                                        fit: BoxFit.cover,
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                        progressIndicatorBuilder: (a, b, c) =>
+                                            Opacity(
+                                          opacity: 0.3,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.black12,
+                                            highlightColor: Colors.white,
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              //margin: EdgeInsets.symmetric(horizontal: 24),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  shape: BoxShape.circle),
                                             ),
                                           ),
                                         ),
                                       ),
-                                      title: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                friendList[i].name.toString(),
-                                              ),
-                                              Text(friendList[i]
-                                                  .phone
-                                                  .toString()),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 10),
-                                            child: SizedBox(
-                                              width: 70,
-                                              height: 36,
-                                              child: YellowButtonWithText(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        ColorSelect
-                                                            .colorF7E641),
-                                                textStyleColor:
-                                                    ColorSelect.color292929,
-                                                title: 'Add',
-                                                onTap: () {
-                                                  addFriendApi(
-                                                          friendsId:
-                                                              friendList[i]
-                                                                  .id
-                                                                  .toString(),
-                                                          status: 'requested')
-                                                      .then((value) {
-                                                    print(value);
-                                                    if (value['status'] ==
-                                                        true) {
-                                                      setState(() {
-                                                        Fluttertoast.showToast(
-                                                            msg: value[
-                                                                'message']);
-                                                      });
-                                                    } else {
+                                    ),
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              friendList[i].name.toString(),
+                                            ),
+                                            Text(
+                                                friendList[i].phone.toString()),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: SizedBox(
+                                            width: 70,
+                                            height: 36,
+                                            child: YellowButtonWithText(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      ColorSelect.colorF7E641),
+                                              textStyleColor:
+                                                  ColorSelect.color292929,
+                                              title: 'Add',
+                                              onTap: () {
+                                                addFriendApi(
+                                                        friendsId: friendList[i]
+                                                            .id
+                                                            .toString(),
+                                                        status: 'requested')
+                                                    .then((value) {
+                                                  print(value);
+                                                  if (value['status'] == true) {
+                                                    setState(() {
                                                       Fluttertoast.showToast(
                                                           msg:
                                                               value['message']);
-                                                    }
-                                                  });
-                                                },
-                                              ),
+                                                    });
+                                                  } else {
+                                                    Fluttertoast.showToast(
+                                                        msg: value['message']);
+                                                  }
+                                                });
+                                              },
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                      // subtitle: Text(num),
-                                      onTap: () {});
-                                }),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    // subtitle: Text(num),
+                                    onTap: () {});
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) => SizedBox(
+                                height: 10,
+                              ),
+                            ),
                           )
                         ],
                       )

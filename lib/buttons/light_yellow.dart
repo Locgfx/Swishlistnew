@@ -7,12 +7,15 @@ class LightYellowButtonWithText extends StatefulWidget {
   final Color textStyleColor;
   final Function onTap;
   final String title;
-  const LightYellowButtonWithText({
+  final double? size;
+
+  LightYellowButtonWithText({
     Key? key,
     required this.backgroundColor,
     required this.textStyleColor,
     required this.onTap,
     required this.title,
+    this.size,
   }) : super(key: key);
 
   @override
@@ -36,19 +39,20 @@ class _LightYellowButtonWithTextState extends State<LightYellowButtonWithText> {
       onPressed: () {
         widget.onTap();
       },
-      child: Center(
-        child: Text(
-          widget.title,
-          style: AppTextStyle().textColorB5B07A14w500.copyWith(
-                color: widget.textStyleColor,
-              ), //TextStyle(fontSize: 16, color: textStyleColor),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: widget.size ?? 0),
+        child: Center(
+          child: Text(
+            widget.title,
+            style: AppTextStyle().textColorB5B07A14w500.copyWith(
+                  color: widget.textStyleColor,
+                ), //TextStyle(fontSize: 16, color: textStyleColor),
+          ),
         ),
       ),
     );
   }
 }
-
-
 
 class LoadingLightYellowButton extends StatefulWidget {
   const LoadingLightYellowButton({
@@ -73,8 +77,7 @@ class _LoadingLightYellowButtonState extends State<LoadingLightYellowButton> {
           ),
         ),
       ),
-      onPressed: () {
-      },
+      onPressed: () {},
       child: Center(
         child: LoadingAnimationWidget.waveDots(
           size: 40,

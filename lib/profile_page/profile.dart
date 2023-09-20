@@ -23,7 +23,7 @@ import '../constants/globals/loading.dart';
 import 'favourite_add_widgets/car_edit_dialog.dart';
 
 class UserProfile extends StatefulWidget {
-  const UserProfile({Key? key}) : super(key: key);
+  UserProfile({Key? key}) : super(key: key);
   @override
   State<UserProfile> createState() => _UserProfileState();
 }
@@ -166,8 +166,15 @@ class _UserProfileState extends State<UserProfile> {
   String dobFormat = '';
   // GlobalKey<FormState>  formKey = GlobalKey<FormState>();
 
+  String? completePercent;
+  double parsedPercent = 0.0;
+  double normalizedPercent = 0.0;
+
   @override
   Widget build(BuildContext context) {
+    completePercent = profile?.data?.completePercent;
+    parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
+    normalizedPercent = parsedPercent / 100.0;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -196,18 +203,19 @@ class _UserProfileState extends State<UserProfile> {
           child: InkWell(
             onTap: () {
               Navigator.pop(context);
-              (profile!.data!.completePercent.toString() == '' ||
-                      profile!.data!.name.toString() == '' ||
-                      profile!.data!.email.toString() == '' ||
-                      profile!.data!.workAddress.toString() == '' ||
-                      profile!.data!.homeAddress.toString() == '' ||
-                      profile!.data!.completePercent.toString() == '' ||
-                      profile!.data!.alternatePhone.toString() == '' ||
-                      profile!.data!.relationStatus.toString() == '' ||
-                      profile!.data!.gender.toString() == '' ||
-                      profile!.data!.dob.toString() == '' ||
-                      profile!.data!.occupation.toString() == '' ||
-                      profile!.data!.phone.toString() == '')
+              profile!.data!.toString().isEmpty
+                  // (profile!.data!.completePercent.toString() == '' ||
+                  //         profile!.data!.name.toString() == '' ||
+                  //         profile!.data!.email.toString() == '' ||
+                  //         profile!.data!.workAddress.toString() == '' ||
+                  //         profile!.data!.homeAddress.toString() == '' ||
+                  //         profile!.data!.completePercent.toString() == '' ||
+                  //         profile!.data!.alternatePhone.toString() == '' ||
+                  //         profile!.data!.relationStatus.toString() == '' ||
+                  //         profile!.data!.gender.toString() == '' ||
+                  //         profile!.data!.dob.toString() == '' ||
+                  //         profile!.data!.occupation.toString() == '' ||
+                  //         profile!.data!.phone.toString() == '')
                   ? postProfile(
                       name: nameController.text,
                       gender: genderController.text,
@@ -244,7 +252,7 @@ class _UserProfileState extends State<UserProfile> {
                           homeAddress: homeController.text,
                           workAddress: workController.text,
                           privacyStatus: 'public',
-                          id: profile!.data!.user!.id.toString(),
+                          id: profile!.data!.id.toString(),
                           photo: pickedImage.isAbsolute ? pickedImage.path : '')
                       .then((value) {
                       print(pickedImage);
@@ -277,7 +285,7 @@ class _UserProfileState extends State<UserProfile> {
                     width: 1.sw,
                     padding: EdgeInsets.zero,
                     lineHeight: 8.0,
-                    percent: (pro.length / 10),
+                    percent: normalizedPercent,
                     backgroundColor: Color(0xff66D340).withOpacity(0.28),
                     progressColor: ColorSelect.color66D340,
                   ),
@@ -389,6 +397,9 @@ class _UserProfileState extends State<UserProfile> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: nameController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration: AppTFDecoration(hint: 'Name')
@@ -445,6 +456,7 @@ class _UserProfileState extends State<UserProfile> {
                                       setState(() {});
                                       if (!pro.contains("gender")) {
                                         setState(() {
+                                          Navigator.pop(context);
                                           pro.add('gender');
                                         });
                                       }
@@ -516,6 +528,9 @@ class _UserProfileState extends State<UserProfile> {
                                           pro.add('dob');
                                         });
                                       }
+                                    },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
                                     },
                                     controller: dobController,
                                     cursorColor: ColorSelect.colorF7E641,
@@ -606,6 +621,9 @@ class _UserProfileState extends State<UserProfile> {
                                           pro.add('occupation');
                                         });
                                       }
+                                    },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
                                     },
                                     controller: occupationController,
                                     cursorColor: ColorSelect.colorF7E641,
@@ -742,6 +760,9 @@ class _UserProfileState extends State<UserProfile> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: emailController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration: AppTFDecoration(hint: 'Email')
@@ -801,6 +822,9 @@ class _UserProfileState extends State<UserProfile> {
                                           pro.add('phone');
                                         });
                                       }
+                                    },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
                                     },
                                     controller: phoneController,
                                     cursorColor: ColorSelect.colorF7E641,
@@ -862,6 +886,9 @@ class _UserProfileState extends State<UserProfile> {
                                           pro.add('alternate_phone');
                                         });
                                       }
+                                    },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
                                     },
                                     controller: alternateNo,
                                     cursorColor: ColorSelect.colorF7E641,
@@ -938,6 +965,9 @@ class _UserProfileState extends State<UserProfile> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: homeController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -1001,6 +1031,9 @@ class _UserProfileState extends State<UserProfile> {
                                         });
                                       }
                                     },
+                                    onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },
                                     controller: workController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -1051,35 +1084,10 @@ class _UserProfileState extends State<UserProfile> {
                             padding: const EdgeInsets.only(bottom: 16),
                             child: (profile!.data!.occupation.toString() == '')
                                 ? LightYellowButtonWithText(
-                                    backgroundColor: (nameController
-                                                .text.isNotEmpty &&
-                                            genderController.text.isNotEmpty &&
-                                            dobFormat.isNotEmpty &&
-                                            occupationController
-                                                .text.isNotEmpty &&
-                                            relationStatus.text.isNotEmpty &&
-                                            emailController.text.isNotEmpty &&
-                                            phoneController.text.isNotEmpty &&
-                                            alternateNo.text.isNotEmpty &&
-                                            homeController.text.isNotEmpty &&
-                                            workController.text.isNotEmpty)
-                                        ? MaterialStateProperty.all(
-                                            ColorSelect.colorF7E641)
-                                        : MaterialStateProperty.all(
-                                            ColorSelect.colorFCF5B6),
-                                    textStyleColor: (nameController.text.isNotEmpty &&
-                                            genderController.text.isNotEmpty &&
-                                            dobFormat.isNotEmpty &&
-                                            occupationController
-                                                .text.isNotEmpty &&
-                                            relationStatus.text.isNotEmpty &&
-                                            emailController.text.isNotEmpty &&
-                                            phoneController.text.isNotEmpty &&
-                                            alternateNo.text.isNotEmpty &&
-                                            homeController.text.isNotEmpty &&
-                                            workController.text.isNotEmpty)
-                                        ? Colors.black
-                                        : ColorSelect.colorB5B07A,
+                                    size: 16,
+                                    backgroundColor: MaterialStateProperty.all(
+                                        ColorSelect.colorF7E641),
+                                    textStyleColor: Colors.black,
                                     onTap: () {
                                       postProfile(
                                         name: nameController.text,
@@ -1112,34 +1120,10 @@ class _UserProfileState extends State<UserProfile> {
                                     },
                                     title: 'Add')
                                 : LightYellowButtonWithText(
-                                    backgroundColor: (nameController
-                                                .text.isNotEmpty &&
-                                            genderController.text.isNotEmpty &&
-                                            dobFormat.isNotEmpty &&
-                                            occupationController
-                                                .text.isNotEmpty &&
-                                            relationStatus.text.isNotEmpty &&
-                                            emailController.text.isNotEmpty &&
-                                            phoneController.text.isNotEmpty &&
-                                            alternateNo.text.isNotEmpty &&
-                                            homeController.text.isNotEmpty &&
-                                            workController.text.isNotEmpty)
-                                        ? MaterialStateProperty.all(
-                                            ColorSelect.colorF7E641)
-                                        : MaterialStateProperty.all(
-                                            ColorSelect.colorFCF5B6),
-                                    textStyleColor: (nameController.text.isNotEmpty &&
-                                            genderController.text.isNotEmpty &&
-                                            dobFormat.isNotEmpty &&
-                                            occupationController.text.isNotEmpty &&
-                                            relationStatus.text.isNotEmpty &&
-                                            emailController.text.isNotEmpty &&
-                                            phoneController.text.isNotEmpty &&
-                                            alternateNo.text.isNotEmpty &&
-                                            homeController.text.isNotEmpty &&
-                                            workController.text.isNotEmpty)
-                                        ? Colors.black
-                                        : ColorSelect.colorB5B07A,
+                                    size: 15,
+                                    backgroundColor: MaterialStateProperty.all(
+                                        ColorSelect.colorF7E641),
+                                    textStyleColor: Colors.black,
                                     onTap: () {
                                       updateProfile(
                                               name: nameController.text,
@@ -1155,8 +1139,7 @@ class _UserProfileState extends State<UserProfile> {
                                               homeAddress: homeController.text,
                                               workAddress: workController.text,
                                               privacyStatus: 'public',
-                                              id: profile!.data!.user!.id
-                                                  .toString(),
+                                              id: profile!.data!.id.toString(),
                                               photo: pickedImage.isAbsolute
                                                   ? pickedImage.path
                                                   : '')

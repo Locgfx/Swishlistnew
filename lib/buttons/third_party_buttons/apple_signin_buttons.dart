@@ -35,9 +35,8 @@ class AppleLoginButton extends StatelessWidget {
             SharedPrefs().setName(response!.data.name.toString());
             SharedPrefs().setUsername(response!.data.username.toString());
             SharedPrefs().setUserPhoto(response!.data.photo.toString());
-            print('hjnbjb${SharedPrefs().setLoginTrue().toString()}');
             SharedPrefs().setEmail(response!.data.email.toString());
-            SharedPrefs().setPassword(response!.token);
+            SharedPrefs().setPassword(credential.authorizationCode);
             SharedPrefs().setLoginToken(response!.token);
             SharedPrefs().setId(response!.data.id.toString());
             Navigator.of(context).pushReplacement(

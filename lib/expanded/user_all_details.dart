@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/expanded/widgets/Profile_data_and_all_uesr_data.dart';
+import 'package:swishlist/expanded/widgets/profile_row_widget.dart';
 import 'package:swishlist/expanded/widgets/size_and_weight_row.dart';
 import 'package:swishlist/expanded/widgets/user_image_row.dart';
 import 'package:swishlist/profile_page/account.dart';
@@ -149,8 +150,9 @@ class _UserAllDetailsState extends State<UserAllDetails> {
               ], icon: SvgPicture.asset('assets/icons/more-vertical.svg'))
             ],
           ),
-          body: /* isLoading ? Loading():*/ SingleChildScrollView(
-            physics: ScrollPhysics(),
+          body: /* isLoading ? Loading():*/
+              SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 20),
               child: Column(
@@ -163,6 +165,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                     height: 20.h,
                   ),
                   GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
                       Navigator.push(
                           context,
@@ -174,7 +177,8 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                       print(_interest!.data!.id);
                     },
                     child: Container(
-                      padding: EdgeInsets.all(8),
+                      // color: Colors.redAccent,
+                      padding: EdgeInsets.all(12),
                       child: Row(
                         children: [
                           Text(
@@ -205,6 +209,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                   // Text('hi'):
                   isLoading == true
                       ?
+
                       // SizedBox()
                       Text(
                           "Add Your Interest",

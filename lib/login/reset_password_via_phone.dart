@@ -6,6 +6,7 @@ import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
 
 import '../api/login_signup_apis/reset_password_api.dart';
+import '../constants/globals/globals.dart';
 import '../constants/globals/shared_prefs.dart';
 import 'login.dart';
 
@@ -165,12 +166,12 @@ class _ResetPasswordViaPhoneState extends State<ResetPasswordViaPhone> {
                               onChanged: (v) {
                                 setState(() {});
                               },
-                              validator: (val) {
-                                if (val!.isEmpty) {
-                                  return 'Empty';
-                                }
-                                return null;
-                              },
+                              // validator: (val) {
+                              //   if (val!.isEmpty) {
+                              //     return 'Empty';
+                              //   }
+                              //   return null;
+                              // },
                               controller: passController,
                               decoration: InputDecoration(
                                 contentPadding:
@@ -209,15 +210,15 @@ class _ResetPasswordViaPhoneState extends State<ResetPasswordViaPhone> {
                               onChanged: (v) {
                                 setState(() {});
                               },
-                              validator: (val) {
-                                if (val!.isEmpty) {
-                                  return 'Empty';
-                                }
-                                if (val != passController.text) {
-                                  return 'Not Match';
-                                }
-                                return null;
-                              },
+                              // validator: (val) {
+                              //   if (val!.isEmpty) {
+                              //     return 'Empty';
+                              //   }
+                              //   if (val != passController.text) {
+                              //     return 'Not Match';
+                              //   }
+                              //   return null;
+                              // },
                               controller: conPassController,
                               decoration: InputDecoration(
                                 contentPadding:
@@ -452,6 +453,9 @@ class _ResetPasswordViaPhoneState extends State<ResetPasswordViaPhone> {
                                             msg: value['message']);
                                       }
                                     });
+                                  } else {
+                                    Globals().showErrorMessage(
+                                        context, 'Passwords not matched.');
                                   }
                                 },
                                 // onPressed: details.onStepContinue,

@@ -248,9 +248,10 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                 style: AppTextStyle().textColor29292914w600,
                               ),
                               SizedBox(
-                                height: 20.h,
+                                height: 10.h,
                               ),
-                              InkWell(
+                              GestureDetector(
+                                behavior: HitTestBehavior.translucent,
                                 onTap: () {
                                   showDialog(
                                     context: context,
@@ -258,6 +259,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                       return WaistDialog(
                                         onPop: (val) {
                                           setState(() {
+                                            Navigator.pop(context);
                                             waistController.text = val;
                                           });
                                           if (!siz.contains('waist')) {
@@ -270,48 +272,50 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                     },
                                   );
                                 },
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Waist",
-                                      style:
-                                          AppTextStyle().textColor70707014w400,
-                                    ),
-                                    Spacer(),
-                                    waistController.text.isNotEmpty
-                                        ? Text(
-                                            waistController.text,
-                                          )
-                                        : Text(
-                                            sizeWeight!.data!.waist
-                                                            .toString() ==
-                                                        "" ||
-                                                    sizeWeight!.data!.waist ==
-                                                        null
-                                                ? "+ Add"
-                                                : sizeWeight!.data!.waist
-                                                    .toString(),
-                                            style: sizeWeight!.data!.waist == ''
-                                                ? AppTextStyle()
-                                                    .textColorD5574514w500
-                                                : AppTextStyle()
-                                                    .textColor29292914w400,
-                                          ),
-                                    // SizedBox(
-                                    //   width: 5.w,
-                                    // ),
-                                    // Image.asset("assets/images/image46.png"),
-                                    // SizedBox(
-                                    //   width: 20.w,
-                                    // ),
-                                    // Image.asset("assets/images/Vector175.png"),
-                                  ],
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Waist",
+                                        style: AppTextStyle()
+                                            .textColor70707014w400,
+                                      ),
+                                      Spacer(),
+                                      waistController.text.isNotEmpty
+                                          ? Text(
+                                              waistController.text,
+                                            )
+                                          : Text(
+                                              sizeWeight!.data!.waist
+                                                              .toString() ==
+                                                          "" ||
+                                                      sizeWeight!.data!.waist ==
+                                                          null
+                                                  ? "+ Add"
+                                                  : sizeWeight!.data!.waist
+                                                      .toString(),
+                                              style: sizeWeight!.data!.waist ==
+                                                      ''
+                                                  ? AppTextStyle()
+                                                      .textColorD5574514w500
+                                                  : AppTextStyle()
+                                                      .textColor29292914w400,
+                                            ),
+                                      // SizedBox(
+                                      //   width: 5.w,
+                                      // ),
+                                      // Image.asset("assets/images/image46.png"),
+                                      // SizedBox(
+                                      //   width: 20.w,
+                                      // ),
+                                      // Image.asset("assets/images/Vector175.png"),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              InkWell(
+                              GestureDetector(
+                                behavior: HitTestBehavior.translucent,
                                 onTap: () {
                                   showDialog(
                                     context: context,
@@ -319,6 +323,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                       return ShirtDialog(
                                         onPop: (val) {
                                           setState(() {
+                                            Navigator.pop(context);
                                             shirtController.text = val;
                                           });
                                           if (!siz.contains('shirt')) {
@@ -331,50 +336,52 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                     },
                                   );
                                 },
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Shirt",
-                                      style:
-                                          AppTextStyle().textColor70707014w400,
-                                    ),
-                                    Spacer(),
-                                    shirtController.text.isNotEmpty
-                                        ? Text(
-                                            shirtController.text,
-                                            style: AppTextStyle()
-                                                .textColor29292914w400,
-                                          )
-                                        : Text(
-                                            sizeWeight!.data!.shirt
-                                                            .toString() ==
-                                                        "" ||
-                                                    sizeWeight!.data!.shirt ==
-                                                        null
-                                                ? "+ Add"
-                                                : sizeWeight!.data!.shirt
-                                                    .toString(),
-                                            style: sizeWeight!.data!.shirt == ''
-                                                ? AppTextStyle()
-                                                    .textColorD5574514w500
-                                                : AppTextStyle()
-                                                    .textColor29292914w400,
-                                          ),
-                                    // SizedBox(
-                                    //   width: 5.w,
-                                    // ),
-                                    // Image.asset("assets/images/image461.png"),
-                                    // SizedBox(
-                                    //   width: 20.w,
-                                    // ),
-                                    // Image.asset("assets/images/Vector175.png"),
-                                  ],
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Shirt",
+                                        style: AppTextStyle()
+                                            .textColor70707014w400,
+                                      ),
+                                      Spacer(),
+                                      shirtController.text.isNotEmpty
+                                          ? Text(
+                                              shirtController.text,
+                                              style: AppTextStyle()
+                                                  .textColor29292914w400,
+                                            )
+                                          : Text(
+                                              sizeWeight!.data!.shirt
+                                                              .toString() ==
+                                                          "" ||
+                                                      sizeWeight!.data!.shirt ==
+                                                          null
+                                                  ? "+ Add"
+                                                  : sizeWeight!.data!.shirt
+                                                      .toString(),
+                                              style: sizeWeight!.data!.shirt ==
+                                                      ''
+                                                  ? AppTextStyle()
+                                                      .textColorD5574514w500
+                                                  : AppTextStyle()
+                                                      .textColor29292914w400,
+                                            ),
+                                      // SizedBox(
+                                      //   width: 5.w,
+                                      // ),
+                                      // Image.asset("assets/images/image461.png"),
+                                      // SizedBox(
+                                      //   width: 20.w,
+                                      // ),
+                                      // Image.asset("assets/images/Vector175.png"),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
                               GestureDetector(
+                                behavior: HitTestBehavior.translucent,
                                 onTap: () {
                                   showDialog(
                                     context: context,
@@ -382,6 +389,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                       return ShoesDialog(
                                         onPop: (val) {
                                           setState(() {
+                                            Navigator.pop(context);
                                             shoesController.text = val;
                                           });
                                           if (!siz.contains('shoes')) {
@@ -394,44 +402,48 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                     },
                                   );
                                 },
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Shoes",
-                                      style:
-                                          AppTextStyle().textColor70707014w400,
-                                    ),
-                                    Spacer(),
-                                    SizedBox(
-                                      width: 5.w,
-                                    ),
-                                    shoesController.text.isNotEmpty
-                                        ? Text(
-                                            shoesController.text,
-                                            style: AppTextStyle()
-                                                .textColor29292914w400,
-                                          )
-                                        : Text(
-                                            sizeWeight!.data!.shoes
-                                                            .toString() ==
-                                                        "" ||
-                                                    sizeWeight!.data!.shoes ==
-                                                        null
-                                                ? "+ Add"
-                                                : sizeWeight!.data!.shoes
-                                                    .toString(),
-                                            style: sizeWeight!.data!.shoes == ''
-                                                ? AppTextStyle()
-                                                    .textColorD5574514w500
-                                                : AppTextStyle()
-                                                    .textColor29292914w400,
-                                          ),
-                                    // Image.asset("assets/images/information2.png"),
-                                    // SizedBox(
-                                    //   width: 20.w,
-                                    // ),
-                                    // Image.asset("assets/images/Vector175.png"),
-                                  ],
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 14),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Shoes",
+                                        style: AppTextStyle()
+                                            .textColor70707014w400,
+                                      ),
+                                      Spacer(),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      shoesController.text.isNotEmpty
+                                          ? Text(
+                                              shoesController.text,
+                                              style: AppTextStyle()
+                                                  .textColor29292914w400,
+                                            )
+                                          : Text(
+                                              sizeWeight!.data!.shoes
+                                                              .toString() ==
+                                                          "" ||
+                                                      sizeWeight!.data!.shoes ==
+                                                          null
+                                                  ? "+ Add"
+                                                  : sizeWeight!.data!.shoes
+                                                      .toString(),
+                                              style: sizeWeight!.data!.shoes ==
+                                                      ''
+                                                  ? AppTextStyle()
+                                                      .textColorD5574514w500
+                                                  : AppTextStyle()
+                                                      .textColor29292914w400,
+                                            ),
+                                      // Image.asset("assets/images/information2.png"),
+                                      // SizedBox(
+                                      //   width: 20.w,
+                                      // ),
+                                      // Image.asset("assets/images/Vector175.png"),
+                                    ],
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -445,6 +457,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                 height: 20.h,
                               ),
                               GestureDetector(
+                                behavior: HitTestBehavior.translucent,
                                 onTap: () {
                                   showDialog(
                                     context: context,
@@ -452,6 +465,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                       return BedsDialog(
                                         onPop: (val) {
                                           setState(() {
+                                            Navigator.pop(context);
                                             bedController.text = val;
                                           });
                                           if (!siz.contains('bed')) {
@@ -511,25 +525,16 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                     Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 16, right: 16, bottom: 16),
+                          left: 16, right: 16, bottom: 40),
                       child: sizeWeight!.data!.bed.toString() == ''
                           ? LightYellowButtonWithText(
-                              backgroundColor:
-                                  (waistController.text.isNotEmpty &&
-                                          shirtController.text.isNotEmpty &&
-                                          shoesController.text.isNotEmpty &&
-                                          bedController.text.isNotEmpty)
-                                      ? MaterialStateProperty.all(
-                                          ColorSelect.colorF7E641)
-                                      : MaterialStateProperty.all(
-                                          ColorSelect.colorFCF5B6),
-                              textStyleColor:
-                                  (waistController.text.isNotEmpty &&
-                                          shirtController.text.isNotEmpty &&
-                                          shoesController.text.isNotEmpty &&
-                                          bedController.text.isNotEmpty)
-                                      ? Colors.black
-                                      : ColorSelect.colorB5B07A,
+                              size: 16,
+                              backgroundColor: MaterialStateProperty.all(
+                                  ColorSelect.colorF7E641),
+                              //         :
+                              // MaterialStateProperty.all(
+                              //     ColorSelect.colorFCF5B6),
+                              textStyleColor: Colors.black,
                               onTap: () {
                                 if (formKey.currentState!.validate()) {
                                   postSizeAndWeightApi(
@@ -557,22 +562,18 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                               },
                               title: 'Save')
                           : LightYellowButtonWithText(
-                              backgroundColor: (waistController
-                                          .text.isNotEmpty &&
-                                      shirtController.text.isNotEmpty &&
-                                      shoesController.text.isNotEmpty &&
-                                      bedController.text.isNotEmpty)
-                                  ? MaterialStateProperty.all(
-                                      ColorSelect.colorF7E641)
-                                  : MaterialStateProperty.all(
-                                      ColorSelect.colorFCF5B6),
-                              textStyleColor:
-                                  (waistController.text.isNotEmpty &&
-                                          shirtController.text.isNotEmpty &&
-                                          shoesController.text.isNotEmpty &&
-                                          bedController.text.isNotEmpty)
-                                      ? Colors.black
-                                      : ColorSelect.colorB5B07A,
+                              size: 16,
+                              backgroundColor:
+                                  // (waistController.text.isNotEmpty &&
+                                  //         shirtController.text.isNotEmpty &&
+                                  //         shoesController.text.isNotEmpty &&
+                                  //         bedController.text.isNotEmpty)
+                                  MaterialStateProperty.all(
+                                      ColorSelect.colorF7E641),
+                              //     :
+                              // MaterialStateProperty.all(
+                              //     ColorSelect.colorFCF5B6),
+                              textStyleColor: Colors.black,
                               onTap: () {
                                 if (formKey.currentState!.validate()) {
                                   updateSizeAndWeightApi(
