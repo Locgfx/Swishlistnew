@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/api/login_signup_apis/login_api.dart';
 import 'package:swishlist/models/login_models.dart';
 
+import '../api/user_apis/auth_user_api.dart';
 import '../constants/globals/shared_prefs.dart';
 import '../dashboard/dashboard.dart';
 import '../intro/intro_page.dart';
@@ -31,12 +32,15 @@ class _SplashScreenState extends State<SplashScreen> {
     bool loginBool;
     bool firstRun;
     bool signLogin;
+    bool googleLoginBool;
     Future.delayed(Duration(seconds: 3), () {
       firstRun = SharedPrefs().getFirstRun() ?? false;
       loginBool = SharedPrefs().getLogin() ?? false;
       signLogin = SharedPrefs().getSignLogin() ?? false;
+      googleLoginBool = SharedPrefs().getGoogleLogin() ?? false;
       if (firstRun) {
         if (loginBool) {
+          print('login');
           LoginResponse response;
           login(
             context: context,
@@ -55,29 +59,60 @@ class _SplashScreenState extends State<SplashScreen> {
                   builder: (context) => Dashboard(response: response),
                 ),
               );
-              // Navigator.pushReplacement(
+            } else if (googleLoginBool) {
+              LoginResponse response;
+              authUserApi().then((value) async {
+                response = value;
+                if (response.status == true) {
+                  // SharedPrefs().setLoginToken(response.token);
+
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => Dashboard(response: response),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => Login(),
+                    ),
+                  );
+                }
+              });
+
+              // print('hbcjdbjcbjdcd');
+              // Navigator.push(
               //   context,
               //   MaterialPageRoute(
-              //     builder: (_) => ShowCaseWidget(builder: Builder(builder: (context) => Dashboard(response: response),
-              //     )),
+              //     builder: (_) => Login(),
               //   ),
               // );
-            } else {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => Login(),
-                ),
-              );
             }
           });
-        } else {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => Login(),
-              ));
         }
+        // if (googleLoginBool) {
+        //   LoginResponse response;
+        //   authUserApi().then((value) async {
+        //     response = value;
+        //     if (response.status == true) {
+        //       // SharedPrefs().setLoginToken(response.token);
+        //
+        //       Navigator.of(context).pushReplacement(
+        //         MaterialPageRoute(
+        //           builder: (context) => Dashboard(response: response),
+        //         ),
+        //       );
+        //     } else {
+        //       Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //           builder: (_) => Login(),
+        //         ),
+        //       );
+        //     }
+        //   });
+        // }
       } else {
         SharedPrefs.setFirstRunDone();
         Navigator.push(

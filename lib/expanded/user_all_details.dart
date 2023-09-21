@@ -58,6 +58,21 @@ class _UserAllDetailsState extends State<UserAllDetails> {
     });
   }
 
+  Future<void> _handleRefresh() async {
+    getInterest();
+    // Implement your refresh logic here.
+    // For example, fetch new data from an API or update some data.
+    // You can use async/await for asynchronous operations.
+
+    // For demonstration purposes, let's delay for 2 seconds.
+    await Future.delayed(Duration(seconds: 2));
+
+    // Once the refresh operation is complete, call setState to rebuild the UI.
+    setState(() {
+      // Update your data or UI state as needed.
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -151,149 +166,160 @@ class _UserAllDetailsState extends State<UserAllDetails> {
             ],
           ),
           body: /* isLoading ? Loading():*/
-              SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, bottom: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  UserImageRowWidget(
-                    response: widget.response,
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MyInterests(
-                                    response: widget.response,
-                                    id: _interest!.data!.id.toString(),
-                                  )));
-                      print(_interest!.data!.id);
-                    },
-                    child: Container(
-                      // color: Colors.redAccent,
-                      padding: EdgeInsets.all(12),
-                      child: Row(
-                        children: [
-                          Text(
-                            "My Interests",
-                            style: AppTextStyle().textColor29292914w600,
-                          ),
-                          Spacer(),
-                          Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: SvgPicture.asset(
-                                  "assets/icons/Vectoredit.svg")),
-                        ],
+              RefreshIndicator(
+            backgroundColor: Colors.white,
+            color: ColorSelect.colorF7E641,
+            strokeWidth: 3,
+            onRefresh: _handleRefresh,
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, bottom: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    UserImageRowWidget(
+                      response: widget.response,
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyInterests(
+                                      response: widget.response,
+                                      // id: _interest!.data!.id.toString(),
+                                    )));
+                        print(_interest!.data!.id);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          children: [
+                            Text(
+                              "My Interests",
+                              style: AppTextStyle().textColor29292914w600,
+                            ),
+                            Spacer(),
+                            Padding(
+                                padding: const EdgeInsets.only(right: 20),
+                                child: SvgPicture.asset(
+                                    "assets/icons/Vectoredit.svg")),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  //InterestRow1Widget(),
-                  // Builder(
-                  //   builder: (BuildContext context) {
-                  //     return  Wrap(
-                  //           children: interest!.data!.interest!.map((context) => chipBox(name:context)).toList(),
-                  //         );
-                  // //   },
-                  // // ),
-                  // _interest!.data!.interest!.isEmpty ?
-                  // Text('hi'):
-                  isLoading == true
-                      ?
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    //InterestRow1Widget(),
+                    // Builder(
+                    //   builder: (BuildContext context) {
+                    //     return  Wrap(
+                    //           children: interest!.data!.interest!.map((context) => chipBox(name:context)).toList(),
+                    //         );
+                    // //   },
+                    // // ),
+                    // _interest!.data!.interest!.isEmpty ?
+                    // Text('hi'):
+                    isLoading == true
+                        ?
 
-                      // SizedBox()
-                      Text(
-                          "Add Your Interest",
-                          style: AppTextStyle().textColor29292914w400,
-                        )
-                      : Wrap(
-                          children:
-                              elements!.map((e) => chipBox(name: e)).toList(),
-                        ),
-                  // SizedBox(height: 10.h,),
-                  // InterestRow2Widget(),
-                  // SizedBox(height: 10.h,),
-                  // InterestRow3Widget(),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserProfile()));
-                    },
-                    child: ProfileRowWidget(),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  InkWell(
+                        // SizedBox()
+                        Text(
+                            "Add Your Interest",
+                            style: AppTextStyle().textColor29292914w400,
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(right: 2.0),
+                            child: Wrap(
+                              children: elements!
+                                  .map((e) => chipBox(name: e))
+                                  .toList(),
+                            ),
+                          ),
+                    // SizedBox(height: 10.h,),
+                    // InterestRow2Widget(),
+                    // SizedBox(height: 10.h,),
+                    // InterestRow3Widget(),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    InkWell(
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => SizeAndWeights(
-                                      response: widget.response,
-                                    )));
+                                builder: (context) => UserProfile()));
                       },
-                      child: SizeAndWeightRowWidget()),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Favorites()));
-                    },
-                    child: FavoritesRowWidget(),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Pets(),
-                          ));
-                    },
-                    child: PetsRowWidget(),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DateAndEvents()));
-                    },
-                    child: DateAndEventsRowWidget(),
-                  )
-                ],
+                      child: ProfileRowWidget(),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => SizeAndWeights(
+                                        response: widget.response,
+                                      )));
+                        },
+                        child: SizeAndWeightRowWidget()),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    InkWell(
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Favorites()));
+                      },
+                      child: FavoritesRowWidget(),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    InkWell(
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Pets(),
+                            ));
+                      },
+                      child: PetsRowWidget(),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    InkWell(
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DateAndEvents()));
+                      },
+                      child: DateAndEventsRowWidget(),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

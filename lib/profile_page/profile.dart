@@ -190,11 +190,31 @@ class _UserProfileState extends State<UserProfile> {
             SizedBox(
               height: 5.h,
             ),
-            Text(
-              percent.isEmpty ? '0% Completed' : "$percent% completed",
-              // "60% Completed",
-              style: AppTextStyle().textColor70707012w400,
-            )
+            isLoading
+                ? SizedBox()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        profile!.data!.completePercent.toString() == "" ||
+                                profile!.data!.completePercent == null
+                            ? "0"
+                            : profile!.data!.completePercent
+                                .toString()
+                                .split(".")
+                                .first,
+                        // sizeWeight!.data!.completePercent
+                        //     .toString()
+                        //     .split(".")
+                        //     .first,
+                        style: AppTextStyle().textColor70707012w400,
+                      ),
+                      Text(
+                        "%  Percent",
+                        style: AppTextStyle().textColor70707012w400,
+                      )
+                    ],
+                  ),
           ],
         ),
         leadingWidth: 40,
@@ -327,10 +347,21 @@ class _UserProfileState extends State<UserProfile> {
                                         ),
                                         clipBehavior: Clip.hardEdge,
                                         child: CachedNetworkImage(
-                                          imageUrl: /* baseUrl+profile!.data!.user!.photo! == '' ?
+                                          imageUrl: baseUrl +
+                                              profile!.data!.user!.photo
+                                                  .toString(),
+                                          /* baseUrl+profile!.data!.user!.photo! == '' ?
                               'add photo' :*/
-                                              '$baseUrl${SharedPrefs().getUserPhoto()}',
+                                          // '$baseUrl${SharedPrefs().getUserPhoto()}',
                                           // baseUrl+profile!.data!.user!.photo.toString(),
+                                          // SharedPrefs()
+                                          //         .getUserPhoto()
+                                          //         .toString()
+                                          //         .contains('https')
+                                          //     ? SharedPrefs()
+                                          //         .getUserPhoto()
+                                          //         .toString()
+                                          //     : '$baseUrl${SharedPrefs().getUserPhoto()}',
                                           fit: BoxFit.cover,
                                           errorWidget: (context, url, error) =>
                                               Icon(
@@ -383,6 +414,7 @@ class _UserProfileState extends State<UserProfile> {
                         SizedBox(height: 40.h),
                         GestureDetector(
                           onTap: () {
+                            // print(profile!.data!.user!.photo.toString());
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -522,7 +554,6 @@ class _UserProfileState extends State<UserProfile> {
                                   addTextField: TextFormField(
                                     onChanged: (v) {
                                       setState(() {});
-                                      setState(() {});
                                       if (!pro.contains('dob')) {
                                         setState(() {
                                           pro.add('dob');
@@ -545,6 +576,7 @@ class _UserProfileState extends State<UserProfile> {
                                             context: context,
                                             builder: (_) => DatePickerWidget(
                                               onPop: (date) {
+                                                setState(() {});
                                                 dobController.text =
                                                     DateFormat.yMMMd()
                                                         .format(date);
@@ -1108,7 +1140,7 @@ class _UserProfileState extends State<UserProfile> {
                                         (value) async {
                                           if (value['status'] == true) {
                                             SharedPrefs().setPPercent('100 %');
-                                            Navigator.pop(context);
+                                            // Navigator.pop(context);
                                             Fluttertoast.showToast(
                                                 msg: value['message']);
                                           } else {
@@ -1146,7 +1178,7 @@ class _UserProfileState extends State<UserProfile> {
                                           .then((value) {
                                         print(pickedImage);
                                         if (value['status'] == true) {
-                                          Navigator.pop(context);
+                                          // Navigator.pop(context);
                                           // setState(() {
                                           //   // isLoading ? Loading() :getProfile();
                                           // });

@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/models/login_models.dart';
 
+import '../../api/user_apis/profile_apis.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/shared_prefs.dart';
+import '../../models/profile_model.dart';
 
 class UserImageRowWidget extends StatefulWidget {
   final LoginResponse response;
@@ -22,7 +25,6 @@ class UserImageRowWidget extends StatefulWidget {
 
 class _UserImageRowWidgetState extends State<UserImageRowWidget> {
   var percent = "";
-  bool profile = false;
   bool size = false;
   bool favourite = false;
   // final String bh=  percent* 10;
@@ -47,7 +49,40 @@ class _UserImageRowWidgetState extends State<UserImageRowWidget> {
   @override
   void initState() {
     _sharedPrefs();
+    getProfile();
     super.initState();
+  }
+
+  String? completePercent;
+  double parsedPercent = 0.0;
+  double normalizedPercent = 0.0;
+
+  ProfileModel? com = ProfileModel(data: Data(completePercent: ''));
+  bool loading = false;
+  getProfile() {
+    loading = true;
+    var resp = getProfileDetails();
+    resp.then((value) {
+      print(value);
+      if (mounted) {
+        if (value['status'] == true) {
+          if (value['message'] == "No Profile") {
+            setState(() {
+              loading = false;
+            });
+          } else {
+            setState(() {
+              com = ProfileModel.fromJson(value);
+              loading = false;
+            });
+          }
+        } else {
+          setState(() {
+            loading = false;
+          });
+        }
+      }
+    });
   }
 
   @override
@@ -116,21 +151,44 @@ class _UserImageRowWidgetState extends State<UserImageRowWidget> {
               ],
             ),
             SizedBox(height: 10.h),
-            Container(
-              // height: 30,
-              // width: 120.w,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: ColorSelect.colorF8F1AA,
-                  borderRadius: BorderRadius.all(Radius.circular(80))),
-              child: Center(
-                child: Text(
-                  // 'percent'
-                  "$percent% completed",
-                  style: AppTextStyle().textColor70707014w400,
-                ),
-              ),
-            ),
+            loading
+                ? LoadingAnimationWidget.staggeredDotsWave(
+                    size: 30,
+                    color: ColorSelect.colorF7E641,
+                  )
+                : Container(
+                    // height: 30,
+                    // width: 120.w,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: ColorSelect.colorF8F1AA,
+                        borderRadius: BorderRadius.all(Radius.circular(80))),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            com!.data!.completePercent.toString() == "" ||
+                                    com!.data!.completePercent == null
+                                ? "0"
+                                : com!.data!.completePercent
+                                    .toString()
+                                    .split(".")
+                                    .first,
+                            // sizeWeight!.data!.completePercent
+                            //     .toString()
+                            //     .split(".")
+                            //     .first,
+                            style: AppTextStyle().textColor70707012w400,
+                          ),
+                          Text(
+                            "%  Percent",
+                            style: AppTextStyle().textColor70707012w400,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
           ],
         ),
       ],

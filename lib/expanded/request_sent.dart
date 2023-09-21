@@ -74,14 +74,14 @@ class _RequestSentState extends State<RequestSent> {
                       Padding(
                         padding: const EdgeInsets.only(top: 180),
                         child: Text(
-                          "Family Member added",
+                          "Request Sent",
                           style: AppTextStyle().textColor29292924w700,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Text(
-                          "Once this person accepts your request, you will\nbe notified.",
+                          "Once this person accepts your request, he will be added in \nyour family list",
                           textAlign: TextAlign.center,
                           style: AppTextStyle().textColor70707012w400,
                         ),
@@ -126,7 +126,7 @@ class _RequestSentState extends State<RequestSent> {
                                 ),
                                 SizedBox(height: 8),
                                 Text(
-                                  "Successfully Added",
+                                  "Request Sent",
                                   style: AppTextStyle().textColor3EA55514w400,
                                 )
                               ],

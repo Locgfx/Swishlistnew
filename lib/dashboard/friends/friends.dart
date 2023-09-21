@@ -8,6 +8,7 @@ import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/add_friend_model.dart';
+import '../../models/friend_notification_model.dart';
 import 'addfriends.dart';
 import 'friendproduct.dart';
 import 'friends_notifications.dart';
@@ -30,6 +31,7 @@ class _FriendsState extends State<Friends> {
   @override
   void initState() {
     getFriends();
+    getFriendNotifications();
     super.initState();
     focusNode = FocusNode();
     // searchList = widget.searchList;
@@ -60,6 +62,30 @@ class _FriendsState extends State<Friends> {
           });
 
           // isLoading = false;
+        }
+      }
+    });
+  }
+
+  List<FriendNotificationModel> friendNotification = [];
+  // FriendNotificationModel? friendNotification;
+  bool loading = false;
+  getFriendNotifications() {
+    isLoading = true;
+    var resp = getFriendNotificationApi();
+    resp.then((value) {
+      if (mounted) {
+        if (value['status'] == true) {
+          setState(() {
+            for (var v in value['data']) {
+              friendNotification.add(FriendNotificationModel.fromJson(v));
+            }
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
         }
       }
     });
@@ -188,14 +214,46 @@ class _FriendsState extends State<Friends> {
                                       builder: (context) =>
                                           FriendNotification()));
                             },
-                            child: Container(
-                                color: Colors.transparent,
-                                height: 24,
-                                width: 24,
-                                child: Image.asset(
-                                  "assets/images/notification-pngrepo-com.png",
-                                  color: ColorSelect.color292929,
-                                )),
+                            child: friendNotification.isNotEmpty
+                                ? Container(
+                                    color: Colors.transparent,
+                                    height: 24,
+                                    width: 24,
+                                    child: Stack(
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/notification-pngrepo-com.png",
+                                          color: ColorSelect.color292929,
+                                        ),
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          child: Container(
+                                            height: 6,
+                                            width: 6,
+                                            decoration: BoxDecoration(
+                                                color: Colors.redAccent,
+                                                shape: BoxShape.circle),
+                                          ),
+                                        )
+                                      ],
+                                    ))
+                                : Container(
+                                    color: Colors.transparent,
+                                    height: 24,
+                                    width: 24,
+                                    child: Image.asset(
+                                      "assets/images/notification-pngrepo-com.png",
+                                      color: ColorSelect.color292929,
+                                    )),
+                            // child: Container(
+                            //     color: Colors.transparent,
+                            //     height: 24,
+                            //     width: 24,
+                            //     child: Image.asset(
+                            //       "assets/images/notification-pngrepo-com.png",
+                            //       color: ColorSelect.color292929,
+                            //     )),
                           )
                         ],
                       ),

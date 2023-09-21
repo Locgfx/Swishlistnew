@@ -32,6 +32,7 @@ class _ProfileRowWidgetState extends State<ProfileRowWidget> {
   @override
   void initState() {
     _sharedPrefs();
+    getProfile();
     super.initState();
   }
 
@@ -115,12 +116,31 @@ class _ProfileRowWidgetState extends State<ProfileRowWidget> {
               "Profile",
               style: AppTextStyle().textColor29292914w400,
             ),
-            Text(
-              percent.isEmpty
-                  ? "update your profile"
-                  : '${SharedPrefs().getPPercent()}',
-              style: AppTextStyle().textColor70707012w400,
-            )
+            isLoading
+                ? SizedBox()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        profile!.data!.completePercent.toString() == "" ||
+                                profile!.data!.completePercent == null
+                            ? "0"
+                            : profile!.data!.completePercent
+                                .toString()
+                                .split(".")
+                                .first,
+                        // sizeWeight!.data!.completePercent
+                        //     .toString()
+                        //     .split(".")
+                        //     .first,
+                        style: AppTextStyle().textColor70707012w400,
+                      ),
+                      Text(
+                        "%  Percent",
+                        style: AppTextStyle().textColor70707012w400,
+                      )
+                    ],
+                  ),
           ],
         ),
         Spacer(),

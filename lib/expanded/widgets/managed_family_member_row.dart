@@ -13,6 +13,7 @@ class UserRowWidget extends StatelessWidget {
   final String id;
   final Function() tap;
   final Widget? widget;
+  final Widget? widget2;
   const UserRowWidget({
     Key? key,
     required this.familyName,
@@ -20,7 +21,9 @@ class UserRowWidget extends StatelessWidget {
     required this.familyPhoto,
     required this.familyRelation,
     this.widget,
-    required this.id, required this.tap,
+    required this.id,
+    required this.tap,
+    this.widget2,
   }) : super(key: key);
 
   @override
@@ -42,25 +45,21 @@ class UserRowWidget extends StatelessWidget {
                   imageUrl: familyPhoto,
                   // imageUrl: baseUrl+familyModel2[i].familyMemberUser!.photo.toString(),
                   fit: BoxFit.cover,
-                  errorWidget: (context, url, error) =>
-                      Icon(Icons.error),
-                  progressIndicatorBuilder: (a,b,c) =>
-                      Opacity(
-                        opacity: 0.3,
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.black12,
-                          highlightColor: Colors.white,
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            //margin: EdgeInsets.symmetric(horizontal: 24),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle
-                            ),
-                          ),
-                        ),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  progressIndicatorBuilder: (a, b, c) => Opacity(
+                    opacity: 0.3,
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.black12,
+                      highlightColor: Colors.white,
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        //margin: EdgeInsets.symmetric(horizontal: 24),
+                        decoration: BoxDecoration(
+                            color: Colors.white, shape: BoxShape.circle),
                       ),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(
@@ -80,16 +79,20 @@ class UserRowWidget extends StatelessWidget {
                         width: 20.w,
                       ),
                       Container(
-                        height: 30.h,
-                        width: 50.w,
+                        // height: 30.h,
+                        // width: 50.w,
                         decoration: BoxDecoration(
                             color: ColorSelect.colorF6E3DB,
-                            borderRadius: BorderRadius.all(Radius.circular(80))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(80))),
                         child: Center(
-                          child: Text(
-                            familyRelation,
-                            // " Wife",
-                            style: AppTextStyle().textColor29292912w400,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              familyRelation,
+                              // " Wife",
+                              style: AppTextStyle().textColor29292912w400,
+                            ),
                           ),
                         ),
                       )
@@ -105,27 +108,14 @@ class UserRowWidget extends StatelessWidget {
                   )
                 ],
               ),
-              
             ],
           ),
         ),
-        
 
         // Spacer(),
-        Padding(
-          padding: const EdgeInsets.only(right: 16),
-          child: widget
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 0),
-          child: GestureDetector(
-            onTap: tap,
-            child: SizedBox(
-                height: 42,
-                width: 42,
-                child: Image.asset("assets/images/del.png",color: ColorSelect.colorD55745,)),
-          ),
-        ),
+        Padding(padding: const EdgeInsets.only(right: 16), child: widget),
+
+        Padding(padding: const EdgeInsets.only(right: 0), child: widget2),
       ],
     );
   }

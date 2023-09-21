@@ -7,7 +7,11 @@ import 'package:swishlist/constants/color.dart';
 class DatePickerWidget extends StatefulWidget {
   final int maximumDate;
   final Function(DateTime) onPop;
-  const DatePickerWidget({Key? key, required this.onPop, required this.maximumDate, }) : super(key: key);
+  const DatePickerWidget({
+    Key? key,
+    required this.onPop,
+    required this.maximumDate,
+  }) : super(key: key);
 
   @override
   State<DatePickerWidget> createState() => _DatePickerWidgetState();
@@ -54,6 +58,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
               ),
               SizedBox(height: 16),
               YellowButtonWithText(
+                size: 16,
                 backgroundColor:
                     MaterialStateProperty.all(ColorSelect.colorF7E641),
                 textStyleColor: ColorSelect.color292929,
@@ -73,5 +78,3 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     );
   }
 }
-
-
