@@ -1140,7 +1140,7 @@ class _UserProfileState extends State<UserProfile> {
                                         (value) async {
                                           if (value['status'] == true) {
                                             SharedPrefs().setPPercent('100 %');
-                                            // Navigator.pop(context);
+                                            Navigator.pop(context);
                                             Fluttertoast.showToast(
                                                 msg: value['message']);
                                           } else {
@@ -1178,7 +1178,7 @@ class _UserProfileState extends State<UserProfile> {
                                           .then((value) {
                                         print(pickedImage);
                                         if (value['status'] == true) {
-                                          // Navigator.pop(context);
+                                          Navigator.pop(context);
                                           // setState(() {
                                           //   // isLoading ? Loading() :getProfile();
                                           // });

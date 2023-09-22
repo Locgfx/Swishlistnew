@@ -3,9 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPrefs {
   String login = 'login';
   String googleLogin = 'googleLogin';
+  String appleLogin = 'appleLogin';
   String signLogin = 'signLogin';
   String token = 'token';
   String gToken = 'gtoken';
+  String aToken = 'atoken';
   String emailKey = 'email';
   String passwordKey = 'password';
   String name = 'name';
@@ -98,6 +100,14 @@ class SharedPrefs {
     return _prefs?.getString(gToken);
   }
 
+  Future setAppleToken(String googleToken) async {
+    return await _prefs?.setString(aToken, googleToken);
+  }
+
+  String? getAppleToken() {
+    return _prefs?.getString(aToken);
+  }
+
   String? getUsername() {
     return _prefs?.getString(username);
   }
@@ -150,8 +160,24 @@ class SharedPrefs {
     return _prefs?.getBool(googleLogin);
   }
 
+  bool? getAppleLogin() {
+    return _prefs?.getBool(appleLogin);
+  }
+
+  Future setAppleTrue() async {
+    return await _prefs?.setBool(appleLogin, true);
+  }
+
+  Future setAppleLoginFalse() async {
+    return await _prefs?.setBool(appleLogin, false);
+  }
+
   Future setGoogleTrue() async {
     return await _prefs?.setBool(googleLogin, true);
+  }
+
+  Future setGoogleLoginFalse() async {
+    return await _prefs?.setBool(googleLogin, false);
   }
 
   bool? getFirstRun() {
@@ -168,6 +194,10 @@ class SharedPrefs {
 
   static Future setFirstRunDone() async {
     return await _prefs?.setBool(firstRun, true);
+  }
+
+  Future setGoogleFalse() async {
+    return await _prefs?.setBool(googleLogin, false);
   }
 
   Future setLoginFalse() async {

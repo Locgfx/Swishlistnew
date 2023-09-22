@@ -67,6 +67,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                     selectedDate;
                   });
                   Navigator.pop(context);
+                  Navigator.pop(context);
                   print(selectedDate);
                 },
                 title: 'OK',

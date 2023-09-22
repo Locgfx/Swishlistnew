@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -186,7 +185,7 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                     ),
                     SizedBox(height: 22),
                     SizedBox(
-                      height: 36,
+                      height: 60,
                       child: YellowButtonWithText(
                         backgroundColor:
                             MaterialStateProperty.all(ColorSelect.colorF7E641),
@@ -209,47 +208,47 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => ManuallyAdd(
-                                                      /*model: widget.model,*/)));
-                                        },
-                                        child: Container(
-                                          width: 138.w,
-                                          height: 44.h,
-                                          margin: EdgeInsets.only(right: 16),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Add manually",
-                                                style: AppTextStyle()
-                                                    .textcolor27272714w500,
-                                              ),
-                                              SizedBox(
-                                                width: 4,
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 7),
-                                                child: SvgPicture.asset(
-                                                  "assets/icons/Vector175.svg",
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                                      // GestureDetector(
+                                      //   onTap: () {
+                                      //     Navigator.push(
+                                      //         context,
+                                      //         MaterialPageRoute(
+                                      //             builder: (context) => ManuallyAdd(
+                                      //                 /*model: widget.model,*/)));
+                                      //   },
+                                      //   child: Container(
+                                      //     width: 138.w,
+                                      //     height: 44.h,
+                                      //     margin: EdgeInsets.only(right: 16),
+                                      //     decoration: BoxDecoration(
+                                      //         color: Colors.white,
+                                      //         borderRadius:
+                                      //             BorderRadius.circular(8)),
+                                      //     child: Row(
+                                      //       mainAxisAlignment:
+                                      //           MainAxisAlignment.center,
+                                      //       children: [
+                                      //         Text(
+                                      //           "Add manually",
+                                      //           style: AppTextStyle()
+                                      //               .textcolor27272714w500,
+                                      //         ),
+                                      //         SizedBox(
+                                      //           width: 4,
+                                      //         ),
+                                      //         Padding(
+                                      //           padding:
+                                      //               const EdgeInsets.symmetric(
+                                      //                   horizontal: 10,
+                                      //                   vertical: 7),
+                                      //           child: SvgPicture.asset(
+                                      //             "assets/icons/Vector175.svg",
+                                      //           ),
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       SizedBox(
                                         height: 20,
                                       ),

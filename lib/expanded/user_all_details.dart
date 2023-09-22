@@ -144,6 +144,9 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                   child: GestureDetector(
                     onTap: () {
                       SharedPrefs().setLoginFalse();
+                      SharedPrefs().setAppleLoginFalse();
+                      SharedPrefs().setGoogleLoginFalse();
+
                       // SharedPrefs().clearPrefs();
                       // logoutApi().then((value) {
                       //   if(value['status'] == true) {

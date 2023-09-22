@@ -495,15 +495,10 @@ class _WantProductsState extends State<WantProducts> {
                               });
                         },
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(
-                              width: 10,
-                            ),
+                            SizedBox(width: 10),
                             Icon(Icons.add),
-                            SizedBox(
-                              width: 9,
-                            ),
+                            SizedBox(width: 9),
                             Text(
                               "Add",
                               style: AppTextStyle().textColor29292914w500,

@@ -5,11 +5,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:swishlist/api/user_apis/event_date_api.dart';
 import 'package:swishlist/constants/color.dart';
-import 'package:swishlist/profile_page/add_date_events.dart';
 import 'package:swishlist/profile_page/widgets/date_picker.dart';
 
 import '../buttons/light_yellow.dart';
 import '../constants/globals/loading.dart';
+import '../models/DateModel.dart';
 import '../models/date_and_events_model.dart';
 
 class DateAndEvents extends StatefulWidget {
@@ -28,11 +28,10 @@ class _DateAndEventsState extends State<DateAndEvents> {
   }
 
   bool isLoading = false;
-  List<Data> event2 = [];
   EventModel? event;
   EventModel? eventUpcoming;
 
-  List<Data> eventUpcoming2 = [];
+  List<DateModel> eventUpcoming2 = [];
   List<int> selectedItems = [];
 
   // getAllEvent() {
@@ -65,6 +64,26 @@ class _DateAndEventsState extends State<DateAndEvents> {
       if (value['status'] == true) {
         setState(() {
           eventUpcoming = EventModel.fromJson(value);
+
+          for (var v in value['data']) {
+            eventUpcoming2.add(DateModel.fromJson(v));
+          }
+
+          // eventUpcoming2.removeWhere((element) => element.date)
+
+          // for (var v in eventUpcoming2) {
+          //   eventUpcoming2.removeWhere((element) => element.date.)
+          //   // if (DateTime.parse("${v.date}}").isBefore(DateTime.now())) {
+          //   //   eventUpcoming2.remove(v);
+          //   //   print("check" + eventUpcoming2.length.toString());
+          //   // }
+          // }
+
+          // for(var v in eventUpcoming!.data!) {
+          //
+          //
+          //
+          // }
           // eventUpcoming!.data!.removeWhere((date) => date == DateTime.now());
 
           // for (var v in upcomingO) {
@@ -290,94 +309,94 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                 ),
                                               ),
                                               SizedBox(height: 12),
-                                              Container(
-                                                width: 328.w,
-                                                height: 52.h,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                    color: ColorSelect
-                                                        .colorEDEDF1),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 12),
-                                                  child: Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: TextFormField(
-                                                          onTap: () {
-                                                            showModalBottomSheet(
-                                                                shape:
-                                                                    const RoundedRectangleBorder(
-                                                                  borderRadius: BorderRadius.only(
-                                                                      topRight:
-                                                                          Radius.circular(
-                                                                              20),
-                                                                      topLeft: Radius
-                                                                          .circular(
-                                                                              20)),
-                                                                ),
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) =>
-                                                                        EventTypeBottomSheet(
-                                                                          eventType:
-                                                                              typeController.text,
-                                                                          onPop:
-                                                                              (val) {
-                                                                            setState(() {
-                                                                              typeController.text = val;
-                                                                            });
-                                                                          },
-                                                                        ));
-                                                          },
-                                                          onChanged: (v) {
-                                                            setState(() {});
-                                                          },
-                                                          controller:
-                                                              typeController,
-                                                          decoration:
-                                                              InputDecoration(
-                                                                  border:
-                                                                      InputBorder
-                                                                          .none,
-                                                                  hintText:
-                                                                      "Type of the Event",
-                                                                  hintStyle:
-                                                                      AppTextStyle()
-                                                                          .textColor70707014w400,
-                                                                  suffixIconConstraints:
-                                                                      BoxConstraints(
-                                                                          maxHeight:
-                                                                              40,
-                                                                          maxWidth:
-                                                                              40),
-                                                                  suffixIcon:
-                                                                      Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        right:
-                                                                            15.0),
-                                                                    child: Image
-                                                                        .asset(
-                                                                      'assets/images/down-arrow.png',
-                                                                      height:
-                                                                          25,
-                                                                    ),
-                                                                  )),
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .text,
-                                                          readOnly: true,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
+                                              // Container(
+                                              //   width: 328.w,
+                                              //   height: 52.h,
+                                              //   decoration: BoxDecoration(
+                                              //       borderRadius:
+                                              //           BorderRadius.circular(
+                                              //               8),
+                                              //       color: ColorSelect
+                                              //           .colorEDEDF1),
+                                              //   child: Padding(
+                                              //     padding:
+                                              //         const EdgeInsets.only(
+                                              //             left: 12),
+                                              //     child: Row(
+                                              //       children: [
+                                              //         Expanded(
+                                              //           child: TextFormField(
+                                              //             onTap: () {
+                                              //               showModalBottomSheet(
+                                              //                   shape:
+                                              //                       const RoundedRectangleBorder(
+                                              //                     borderRadius: BorderRadius.only(
+                                              //                         topRight:
+                                              //                             Radius.circular(
+                                              //                                 20),
+                                              //                         topLeft: Radius
+                                              //                             .circular(
+                                              //                                 20)),
+                                              //                   ),
+                                              //                   context:
+                                              //                       context,
+                                              //                   builder:
+                                              //                       (context) =>
+                                              //                           EventTypeBottomSheet(
+                                              //                             eventType:
+                                              //                                 typeController.text,
+                                              //                             onPop:
+                                              //                                 (val) {
+                                              //                               setState(() {
+                                              //                                 typeController.text = val;
+                                              //                               });
+                                              //                             },
+                                              //                           ));
+                                              //             },
+                                              //             onChanged: (v) {
+                                              //               setState(() {});
+                                              //             },
+                                              //             controller:
+                                              //                 typeController,
+                                              //             decoration:
+                                              //                 InputDecoration(
+                                              //                     border:
+                                              //                         InputBorder
+                                              //                             .none,
+                                              //                     hintText:
+                                              //                         "Type of the Event",
+                                              //                     hintStyle:
+                                              //                         AppTextStyle()
+                                              //                             .textColor70707014w400,
+                                              //                     suffixIconConstraints:
+                                              //                         BoxConstraints(
+                                              //                             maxHeight:
+                                              //                                 40,
+                                              //                             maxWidth:
+                                              //                                 40),
+                                              //                     suffixIcon:
+                                              //                         Padding(
+                                              //                       padding: const EdgeInsets
+                                              //                               .only(
+                                              //                           right:
+                                              //                               15.0),
+                                              //                       child: Image
+                                              //                           .asset(
+                                              //                         'assets/images/down-arrow.png',
+                                              //                         height:
+                                              //                             25,
+                                              //                       ),
+                                              //                     )),
+                                              //             keyboardType:
+                                              //                 TextInputType
+                                              //                     .text,
+                                              //             readOnly: true,
+                                              //           ),
+                                              //         ),
+                                              //       ],
+                                              //     ),
+                                              //   ),
+                                              // ),
                                               SizedBox(height: 12),
                                               Container(
                                                 width: 328.w,
@@ -452,9 +471,9 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                               ),
                                               SizedBox(height: 30),
                                               LightYellowButtonWithText(
+                                                size: 16,
                                                 onTap: () {
-                                                  if (nameController.text.isNotEmpty &&
-                                                      typeController
+                                                  if (nameController
                                                           .text.isNotEmpty &&
                                                       dateController
                                                           .text.isNotEmpty) {
@@ -462,8 +481,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                             name: nameController
                                                                 .text,
                                                             date: dateFormat,
-                                                            type: typeController
-                                                                .text,
+                                                            type: "all",
                                                             privacy: 'public')
                                                         .then((value) async {
                                                       if (value['status'] ==
@@ -481,11 +499,21 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                     });
                                                   }
                                                 },
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
+                                                backgroundColor: (nameController
+                                                            .text.isNotEmpty &&
+                                                        dateController
+                                                            .text.isNotEmpty)
+                                                    ? MaterialStateProperty.all(
+                                                        ColorSelect.colorF7E641)
+                                                    : MaterialStateProperty.all(
                                                         ColorSelect
-                                                            .colorF7E641),
-                                                textStyleColor: Colors.black,
+                                                            .colorFCF5B6),
+                                                textStyleColor: (nameController
+                                                            .text.isNotEmpty &&
+                                                        dateController
+                                                            .text.isNotEmpty)
+                                                    ? Colors.black
+                                                    : ColorSelect.colorB5B07A,
                                                 title: 'save',
                                               ),
                                               SizedBox(height: 24)
@@ -532,7 +560,52 @@ class _DateAndEventsState extends State<DateAndEvents> {
                         //       )
                         //     :
                         ListView.separated(
-                          padding: EdgeInsets.only(bottom: 30),
+                          padding: EdgeInsets.all(0),
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: eventUpcoming2.length,
+                          // itemCount: 6,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, i) {
+                            return GestureDetector(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        eventUpcoming2[i].name.toString(),
+                                        style: AppTextStyle()
+                                            .textColor70707014w400,
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        eventUpcoming2[i].date.toString(),
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) =>
+                              SizedBox(
+                            height: 16,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        Text(
+                          "All",
+                          style: AppTextStyle().textColor29292914w600,
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        ListView.separated(
+                          padding: EdgeInsets.all(0),
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: eventUpcoming!.data!.length,
                           // itemCount: 6,
@@ -566,16 +639,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                             height: 16,
                           ),
                         ),
-                        SizedBox(
-                          height: 40.h,
-                        ),
-                        Text(
-                          "All",
-                          style: AppTextStyle().textColor29292914w600,
-                        ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
+
                         // event!.data!.isEmpty
                         //     ? Center(
                         //         child: Column(

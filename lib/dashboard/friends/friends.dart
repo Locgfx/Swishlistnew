@@ -136,35 +136,35 @@ class _FriendsState extends State<Friends> {
                             style: AppTextStyle().textColor29292924w700,
                           ),
                           Spacer(),
-                          GestureDetector(
-                            // behavior: HitTestBehavior.translucent,
-                            onTap: () {
-                              setState(() {
-                                showSearch = !showSearch;
-                              });
-                            },
-                            child: showSearch
-                                ? Container(
-                                    color: Colors.transparent,
-                                    height: 24,
-                                    width: 24,
-                                    child: Image.asset(
-                                      "assets/images/Frame 1000002471.png",
-                                      fit: BoxFit.cover,
-                                      // color: ColorSelect.color292929,
-                                    ),
-                                  )
-                                : Container(
-                                    color: Colors.transparent,
-                                    height: 24,
-                                    width: 24,
-                                    child: Image.asset(
-                                      "assets/images/search 03.png",
-                                      fit: BoxFit.cover,
-                                      color: ColorSelect.color292929,
-                                    ),
-                                  ),
-                          ),
+                          // GestureDetector(
+                          //   // behavior: HitTestBehavior.translucent,
+                          //   onTap: () {
+                          //     setState(() {
+                          //       showSearch = !showSearch;
+                          //     });
+                          //   },
+                          //   child: showSearch
+                          //       ? Container(
+                          //           color: Colors.transparent,
+                          //           height: 24,
+                          //           width: 24,
+                          //           child: Image.asset(
+                          //             "assets/images/Frame 1000002471.png",
+                          //             fit: BoxFit.cover,
+                          //             // color: ColorSelect.color292929,
+                          //           ),
+                          //         )
+                          //       : Container(
+                          //           color: Colors.transparent,
+                          //           height: 24,
+                          //           width: 24,
+                          //           child: Image.asset(
+                          //             "assets/images/search 03.png",
+                          //             fit: BoxFit.cover,
+                          //             color: ColorSelect.color292929,
+                          //           ),
+                          //         ),
+                          // ),
                           SizedBox(width: 16),
                           GestureDetector(
                             onTap: () {

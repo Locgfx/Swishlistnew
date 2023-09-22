@@ -285,6 +285,8 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                       waistController.text.isNotEmpty
                                           ? Text(
                                               waistController.text,
+                                              style: AppTextStyle()
+                                                  .textColor29292914w400,
                                             )
                                           : Text(
                                               sizeWeight!.data!.waist
@@ -545,6 +547,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                           privacy: 'public')
                                       .then((value) async {
                                     if (value['status'] == true) {
+                                      Navigator.pop(context);
                                       SharedPrefs().setSize('100 %');
                                       // setState(() {
                                       //   isLoading ? Loading(): getSizedWeight();
@@ -585,6 +588,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                           id: sizeWeight!.data!.id.toString())
                                       .then((value) {
                                     if (value['status'] == true) {
+                                      Navigator.pop(context);
                                       // SharedPrefs().setSize('100 %');
                                       Fluttertoast.showToast(
                                           msg: value['message']);

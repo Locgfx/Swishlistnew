@@ -1478,6 +1478,7 @@ class _FavoritesState extends State<Favorites> {
                                           id: favourites!.data!.id.toString())
                                       .then((value) async {
                                     if (value['status'] == true) {
+                                      Navigator.pop(context);
                                       setState(() {
                                         // isLoading ? Loading() : getFavourites();
                                       });

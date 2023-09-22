@@ -26,12 +26,15 @@ class AppleLoginButton extends StatelessWidget {
           ],
         );
 
+        print(credential.authorizationCode);
+
         final resp =
             getAppleValidateToken(authorizedCode: credential.authorizationCode);
         resp.then((value) {
           response = value;
           if (response?.status != null && response!.status == true) {
-            SharedPrefs().setLoginTrue();
+            SharedPrefs().setAppleToken(credential.authorizationCode);
+            SharedPrefs().setAppleTrue();
             SharedPrefs().setName(response!.data.name.toString());
             SharedPrefs().setUsername(response!.data.username.toString());
             SharedPrefs().setUserPhoto(response!.data.photo.toString());
