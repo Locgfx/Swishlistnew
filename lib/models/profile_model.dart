@@ -2,7 +2,7 @@ class ProfileModel {
   int? code;
   bool? status;
   String? message;
-  Data? data;
+  ProfileData? data;
 
   ProfileModel({this.code, this.status, this.message, this.data});
 
@@ -15,7 +15,7 @@ class ProfileModel {
       // data = Data.fromJson({
       //
       // });
-      data = Data(
+      data = ProfileData(
           name: '',
           gender: '',
           dob: '',
@@ -30,7 +30,7 @@ class ProfileModel {
           createdAt: '',
           updatedAt: '',
           deletedAt: '',
-          user: User(
+          user: ProfileUser(
             name: '',
             username: '',
             phone: '',
@@ -40,10 +40,10 @@ class ProfileModel {
           ));
     } else if (json['data'] == null) {
       print('kkk');
-      data = Data.fromJson({});
+      data = ProfileData.fromJson({});
     } else {
       print('mdkmc');
-      data = Data.fromJson(json['data']);
+      data = ProfileData.fromJson(json['data']);
     }
     // data = json ['data'] == [] ? null :json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
@@ -60,7 +60,7 @@ class ProfileModel {
   }
 }
 
-class Data {
+class ProfileData {
   int? id;
   int? userId;
   String? name;
@@ -78,9 +78,9 @@ class Data {
   String? createdAt;
   String? updatedAt;
   String? deletedAt;
-  User? user;
+  ProfileUser? user;
 
-  Data(
+  ProfileData(
       {this.id,
       this.userId,
       this.name,
@@ -100,7 +100,7 @@ class Data {
       this.deletedAt,
       this.user});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  ProfileData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     name = json['name'];
@@ -116,7 +116,7 @@ class Data {
     privacyStatus = json['privacy_status'];
     completePercent = json['complete_percent'];
     deletedAt = json['deleted_at'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? new ProfileUser.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -143,7 +143,7 @@ class Data {
   }
 }
 
-class User {
+class ProfileUser {
   int? id;
   String? name;
   String? username;
@@ -152,7 +152,7 @@ class User {
   String? photo;
   String? type;
 
-  User(
+  ProfileUser(
       {this.id,
       this.name,
       this.username,
@@ -161,7 +161,7 @@ class User {
       this.photo,
       this.type});
 
-  User.fromJson(Map<String, dynamic> json) {
+  ProfileUser.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     username = json['username'].toString();

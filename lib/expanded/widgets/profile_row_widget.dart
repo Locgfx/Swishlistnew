@@ -41,7 +41,7 @@ class _ProfileRowWidgetState extends State<ProfileRowWidget> {
   double normalizedPercent = 0.0;
 
   ProfileModel? profile = ProfileModel(
-    data: Data(
+    data: ProfileData(
       name: '',
       gender: '',
       dob: '',
@@ -55,7 +55,7 @@ class _ProfileRowWidgetState extends State<ProfileRowWidget> {
       privacyStatus: '',
       createdAt: '',
       completePercent: '',
-      user: User(
+      user: ProfileUser(
           name: '',
           username: '',
           email: '',

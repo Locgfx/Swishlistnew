@@ -57,7 +57,7 @@ class _UserImageRowWidgetState extends State<UserImageRowWidget> {
   double parsedPercent = 0.0;
   double normalizedPercent = 0.0;
 
-  ProfileModel? com = ProfileModel(data: Data(completePercent: ''));
+  ProfileModel? com = ProfileModel(data: ProfileData(completePercent: ''));
   bool loading = false;
   getProfile() {
     loading = true;

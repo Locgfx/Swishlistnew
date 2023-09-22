@@ -129,7 +129,7 @@ class SizesAndWeightModel {
   int? code;
   bool? status;
   String? message;
-  Data? data;
+  SizeData? data;
 
   SizesAndWeightModel({this.code, this.status, this.message, this.data});
 
@@ -137,7 +137,7 @@ class SizesAndWeightModel {
     code = json['code'];
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? new SizeData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -152,7 +152,7 @@ class SizesAndWeightModel {
   }
 }
 
-class Data {
+class SizeData {
   int? id;
   int? userId;
   String? waist;
@@ -164,7 +164,7 @@ class Data {
   String? createdAt;
   User? user;
 
-  Data(
+  SizeData(
       {this.id,
       this.userId,
       this.waist,
@@ -176,7 +176,7 @@ class Data {
       this.createdAt,
       this.user});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  SizeData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     waist = json['waist'];

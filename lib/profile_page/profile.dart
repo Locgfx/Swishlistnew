@@ -42,7 +42,7 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   ProfileModel? profile = ProfileModel(
-    data: Data(
+    data: ProfileData(
       name: '',
       gender: '',
       dob: '',
@@ -56,7 +56,7 @@ class _UserProfileState extends State<UserProfile> {
       privacyStatus: '',
       createdAt: '',
       completePercent: '',
-      user: User(
+      user: ProfileUser(
           name: '',
           username: '',
           email: '',

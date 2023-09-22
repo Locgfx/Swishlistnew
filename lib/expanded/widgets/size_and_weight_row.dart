@@ -35,7 +35,7 @@ class _SizeAndWeightRowWidgetState extends State<SizeAndWeightRowWidget> {
 
   bool isLoading = false;
   SizesAndWeightModel? sizeWeight = SizesAndWeightModel(
-      data: Data(
+      data: SizeData(
     waist: '',
     shirt: '',
     shoes: '',

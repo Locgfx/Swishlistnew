@@ -30,7 +30,7 @@ class _FavoritesState extends State<Favorites> {
 
   bool isLoading = false;
   FavouritesModel? favourites = FavouritesModel(
-      data: Data(
+      data: FavouriteData(
     // id: '',
     // userId: '',
     cars: '',

@@ -31,7 +31,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
 
   bool isLoading = false;
   SizesAndWeightModel? sizeWeight = SizesAndWeightModel(
-      data: Data(
+      data: SizeData(
     waist: '',
     shirt: '',
     shoes: '',
@@ -552,7 +552,6 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                       // setState(() {
                                       //   isLoading ? Loading(): getSizedWeight();
                                       // });
-                                      Navigator.pop(context);
                                       Fluttertoast.showToast(
                                           msg: value['message']);
                                     } else {

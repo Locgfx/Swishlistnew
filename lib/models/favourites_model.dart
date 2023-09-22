@@ -177,7 +177,7 @@ class FavouritesModel {
   int? code;
   bool? status;
   String? message;
-  Data? data;
+  FavouriteData? data;
 
   FavouritesModel({this.code, this.status, this.message, this.data});
 
@@ -185,7 +185,8 @@ class FavouritesModel {
     code = json['code'];
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data =
+        json['data'] != null ? new FavouriteData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -200,7 +201,7 @@ class FavouritesModel {
   }
 }
 
-class Data {
+class FavouriteData {
   int? id;
   int? userId;
   String? cars;
@@ -221,9 +222,9 @@ class Data {
   String? privacyStatus;
   String? completePercent;
   String? createdAt;
-  User? user;
+  FavouriteUser? user;
 
-  Data(
+  FavouriteData(
       {this.id,
       this.userId,
       this.cars,
@@ -246,7 +247,7 @@ class Data {
       this.createdAt,
       this.user});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  FavouriteData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     cars = json['cars'];
@@ -267,7 +268,8 @@ class Data {
     privacyStatus = json['privacy_status'];
     completePercent = json['complete_percent'];
     createdAt = json['created_at'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user =
+        json['user'] != null ? new FavouriteUser.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -299,7 +301,7 @@ class Data {
   }
 }
 
-class User {
+class FavouriteUser {
   int? id;
   String? name;
   String? username;
@@ -308,7 +310,7 @@ class User {
   String? photo;
   String? type;
 
-  User(
+  FavouriteUser(
       {this.id,
       this.name,
       this.username,
@@ -317,7 +319,7 @@ class User {
       this.photo,
       this.type});
 
-  User.fromJson(Map<String, dynamic> json) {
+  FavouriteUser.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     username = json['username'];

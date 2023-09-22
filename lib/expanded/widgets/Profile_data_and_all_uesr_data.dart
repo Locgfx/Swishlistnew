@@ -112,7 +112,7 @@ class _FavoritesRowWidgetState extends State<FavoritesRowWidget> {
 
   bool isLoading = false;
   FavouritesModel? favourites = FavouritesModel(
-      data: Data(
+      data: FavouriteData(
     // id: '',
     // userId: '',
     cars: '',
