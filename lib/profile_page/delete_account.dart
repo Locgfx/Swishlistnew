@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+
 import '../api/user_apis/delete_account_api.dart';
 import '../buttons/light_yellow.dart';
-import '../buttons/white_button.dart';
 import '../constants/color.dart';
 import '../constants/globals/globals.dart';
 import '../login/login.dart';
@@ -23,6 +24,40 @@ class _DeleteAccountState extends State<DeleteAccount> {
   bool loading = false;
 
   bool show = false;
+
+  Timer? _timer;
+  int _start = 60;
+
+  @override
+  void initState() {
+    _startTimer();
+    super.initState();
+  }
+
+  _startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFieldUnFocusOnTap(
@@ -34,73 +69,113 @@ class _DeleteAccountState extends State<DeleteAccount> {
               SizedBox(
                 height: 52.h,
                 width: 328.w,
-                child: show ? LoadingLightYellowButton(): LightYellowButtonWithText(
-                  backgroundColor: otpController.text.length == 4
-                      ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                      : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                  textStyleColor: otpController.text.length == 4
-                      ? Colors.black
-                      : ColorSelect.colorB5B07A,
-                  onTap: () {
-                    setState(() {
-                      show = !show;
-                    });
-                    Timer timer = Timer(Duration(seconds: 2), () {
-                      setState(() {
-                        show = false;
-                      });
-                    });
-                    if (otpController.text.length == 4) {
-                        deleteAccountOtpApi(otp: otpController.text
-                        ).then((value)async {
-                          Fluttertoast.showToast(msg: value['message']);
-                          if(value['status'] == true) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => Login(),
-                              ),
-                            );
-                          } else {
-                            Fluttertoast.showToast(msg: value['message']);
+                child: show
+                    ? LoadingLightYellowButton()
+                    : LightYellowButtonWithText(
+                        backgroundColor: otpController.text.length == 4
+                            ? MaterialStateProperty.all(ColorSelect.colorF7E641)
+                            : MaterialStateProperty.all(
+                                ColorSelect.colorFCF5B6),
+                        textStyleColor: otpController.text.length == 4
+                            ? Colors.black
+                            : ColorSelect.colorB5B07A,
+                        onTap: () {
+                          setState(() {
+                            show = !show;
+                          });
+                          Timer timer = Timer(Duration(seconds: 2), () {
+                            setState(() {
+                              show = false;
+                            });
+                          });
+                          if (otpController.text.length == 4) {
+                            deleteAccountOtpApi(otp: otpController.text)
+                                .then((value) async {
+                              Fluttertoast.showToast(msg: value['message']);
+                              if (value['status'] == true) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => Login(),
+                                  ),
+                                );
+                              } else {
+                                Fluttertoast.showToast(msg: value['message']);
+                              }
+                            });
                           }
-                        });
-
-                      }
-
-                    },
-                  title: 'Submit',
-                ),
+                        },
+                        title: 'Submit',
+                      ),
               ),
               SizedBox(
                 height: 20,
               ),
-              SizedBox(
-                height: 52.h,
-                width: 328.w,
-                child: WhiteButtonWithText(
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
-                  textStyleColor: ColorSelect.color292929,
-                  onTap: () {
-                    deleteAccountApi().then((value) async {
-                      if(value['status']  == true  /*&&
-                              response!.status == true*/) {
-                        Fluttertoast.showToast(
-                            msg: 'Your OTP is ${value['data']['otp']}');
+              GestureDetector(
+                onTap: _start == 0
+                    ? () {
+                        setState(() {
+                          _start = 60;
+                        });
+                        _startTimer();
+                        deleteAccountApi().then((value) async {
+                          if (value['status'] ==
+                                  true /*&&
+                              response!.status == true*/
+                              ) {
+                            Fluttertoast.showToast(
+                                msg: 'Your OTP is ${value['data']['otp']}');
 
-                        // print(pickedImage.toString());
-                        // print(updateNameController.text);
-                      } else{
-                        Fluttertoast.showToast(msg:value['message']);
+                            // print(pickedImage.toString());
+                            // print(updateNameController.text);
+                          } else {
+                            Fluttertoast.showToast(msg: value['message']);
+                          }
+                        });
                       }
-                    }
-                    );
-
-                  },
-                  title: 'Resent OTP',
+                    : () {},
+                child: Container(
+                  height: 52.h,
+                  width: 328.w,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        width: 1,
+                        color: ColorSelect.colorA3A3A3,
+                      )),
+                  child: Center(
+                    child: Text(
+                      'Resend ${_start}s',
+                      style: AppTextStyle().textColor29292914w500,
+                    ),
+                  ),
                 ),
               ),
-
+              // SizedBox(
+              //   height: 52.h,
+              //   width: 328.w,
+              //   child: WhiteButtonWithText(
+              //     backgroundColor: MaterialStateProperty.all(Colors.white),
+              //     textStyleColor: ColorSelect.color292929,
+              //     onTap: () {
+              //       deleteAccountApi().then((value) async {
+              //         if (value['status'] ==
+              //                 true /*&&
+              //                 response!.status == true*/
+              //             ) {
+              //           Fluttertoast.showToast(
+              //               msg: 'Your OTP is ${value['data']['otp']}');
+              //
+              //           // print(pickedImage.toString());
+              //           // print(updateNameController.text);
+              //         } else {
+              //           Fluttertoast.showToast(msg: value['message']);
+              //         }
+              //       });
+              //     },
+              //     title: 'Resent OTP',
+              //   ),
+              // ),
               SizedBox(height: 50),
             ],
           ),
@@ -165,4 +240,3 @@ class _DeleteAccountState extends State<DeleteAccount> {
     );
   }
 }
-

@@ -490,7 +490,7 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                             } else {
                                                               Fluttertoast.showToast(
                                                                   msg: value[
-                                                                      'message']);
+                                                                      'please enter all products details']);
                                                             }
                                                           });
                                                         },

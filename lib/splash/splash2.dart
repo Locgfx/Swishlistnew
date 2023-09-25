@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:swishlist/api/login_signup_apis/login_api.dart';
 import 'package:swishlist/models/login_models.dart';
 
 import '../api/user_apis/auth_user_api.dart';
@@ -41,29 +40,30 @@ class _SplashScreenState extends State<SplashScreen> {
       googleLoginBool = SharedPrefs().getGoogleLogin() ?? false;
       appleLoginBool = SharedPrefs().getAppleLogin() ?? false;
       if (firstRun) {
+        // if (loginBool) {
+        //   print('login');
+        //   LoginResponse response;
+        //   login(
+        //     context: context,
+        //     email: SharedPrefs().getEmail()!,
+        //     password: SharedPrefs().getPassword()!,
+        //   ).then((value) async {
+        //     response = value;
+        //     if (response.status == true) {
+        //       SharedPrefs().setLoginTrue();
+        //       SharedPrefs().setLoginToken(response.token);
+        //       print(response.token);
+        //       SharedPrefs().setId(response.data.id.toString());
+        //       print(response.data.id.toString());
+        //       Navigator.of(context).pushReplacement(
+        //         MaterialPageRoute(
+        //           builder: (context) => Dashboard(response: response),
+        //         ),
+        //       );
+        //     }
+        //   });
+        // }
         if (loginBool) {
-          print('login');
-          LoginResponse response;
-          login(
-            context: context,
-            email: SharedPrefs().getEmail()!,
-            password: SharedPrefs().getPassword()!,
-          ).then((value) async {
-            response = value;
-            if (response.status == true) {
-              SharedPrefs().setLoginTrue();
-              SharedPrefs().setLoginToken(response.token);
-              print(response.token);
-              SharedPrefs().setId(response.data.id.toString());
-              print(response.data.id.toString());
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => Dashboard(response: response),
-                ),
-              );
-            }
-          });
-        } else if (googleLoginBool) {
           LoginResponse response;
           authUserApi().then((value) async {
             response = value;
@@ -77,21 +77,23 @@ class _SplashScreenState extends State<SplashScreen> {
               );
             }
           });
-        } else if (appleLoginBool) {
-          LoginResponse response;
-          authUserApi().then((value) async {
-            response = value;
-            if (response.status == true) {
-              // SharedPrefs().setLoginToken(response.token);
-
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => Dashboard(response: response),
-                ),
-              );
-            }
-          });
-        } else {
+        }
+        // else if (appleLoginBool) {
+        //   LoginResponse response;
+        //   authUserApi().then((value) async {
+        //     response = value;
+        //     if (response.status == true) {
+        //       // SharedPrefs().setLoginToken(response.token);
+        //
+        //       Navigator.of(context).pushReplacement(
+        //         MaterialPageRoute(
+        //           builder: (context) => Dashboard(response: response),
+        //         ),
+        //       );
+        //     }
+        //   });
+        // }
+        else {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(

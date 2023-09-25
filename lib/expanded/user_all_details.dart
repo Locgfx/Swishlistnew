@@ -1,11 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/expanded/widgets/Profile_data_and_all_uesr_data.dart';
-import 'package:swishlist/expanded/widgets/profile_row_widget.dart';
-import 'package:swishlist/expanded/widgets/user_image_row.dart';
 import 'package:swishlist/profile_page/account.dart';
 import 'package:swishlist/profile_page/date_and_events.dart';
 import 'package:swishlist/profile_page/favorites.dart';
@@ -14,12 +15,17 @@ import 'package:swishlist/profile_page/pets.dart';
 import 'package:swishlist/profile_page/profile.dart';
 import 'package:swishlist/profile_page/widgets/popup_menu_widget.dart';
 
+import '../api/user_apis/favourites_api.dart';
 import '../api/user_apis/interest_api.dart';
+import '../api/user_apis/profile_apis.dart';
 import '../api/user_apis/sizes_and_weight_api.dart';
 import '../constants/globals/shared_prefs.dart';
+import '../constants/urls.dart';
 import '../login/login.dart';
+import '../models/favourites_model.dart';
 import '../models/interest_model.dart';
 import '../models/login_models.dart';
+import '../models/profile_model.dart';
 import '../models/sizes_and_weight_model.dart';
 import '../profile_page/sizes_and_weights.dart';
 
@@ -39,12 +45,15 @@ class _UserAllDetailsState extends State<UserAllDetails> {
   void initState() {
     getInterest();
     getSizedWeight();
+    getFavourites();
+    getProfile();
     super.initState();
   }
 
   List<String>? elements = [''];
   bool isLoading = false;
-  InterestModel? _interest;
+  InterestModel _interest = InterestModel(data: Data(interest: ''));
+  // InterestModel? _interest;
   getInterest() {
     isLoading = true;
     var resp = getInterestApi();
@@ -52,7 +61,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
       if (value['status'] == true) {
         setState(() {
           _interest = InterestModel.fromJson(value);
-          elements = _interest?.data!.interest!.split(",");
+          elements = _interest.data!.interest!.split(",");
           isLoading = false;
         });
       } else {
@@ -63,6 +72,10 @@ class _UserAllDetailsState extends State<UserAllDetails> {
 
   Future<void> _handleRefresh() async {
     getInterest();
+    getSizedWeight();
+    getFavourites();
+    getProfile();
+
     // Implement your refresh logic here.
     // For example, fetch new data from an API or update some data.
     // You can use async/await for asynchronous operations.
@@ -125,11 +138,138 @@ class _UserAllDetailsState extends State<UserAllDetails> {
     });
   }
 
+  //---------------------------_Favourite_______________________________
+
+  String? FavcompletePercent;
+  double FavparsedPercent = 0.0;
+  double FavnormalizedPercent = 0.0;
+
+  // _sharedPrefs() {
+  //   if (SharedPrefs().getFavourites() == '100 %') {
+  //     per.add('profile');
+  //     favPercent = ((per.length / 1) * 100).toString().split(".").first;
+  //     dou = (per.length / 1);
+  //   }
+  // }
+
+  FavouritesModel? favourites = FavouritesModel(
+      data: FavouriteData(
+    // id: '',
+    // userId: '',
+    cars: '',
+    bikes: '',
+    movies: '',
+    shows: '',
+    foods: '',
+    gadgets: '',
+    superheroes: '',
+    actors: '',
+    actresses: '',
+    singers: '',
+    players: '',
+    cities: '',
+    countries: '',
+    restaurants: '',
+    hotels: '',
+    privacyStatus: '',
+    createdAt: '',
+  ));
+  getFavourites() {
+    isLoading = true;
+    var resp = getFavouritesApi();
+    resp.then((value) {
+      print(value);
+      if (mounted) {
+        if (value['status'] == true) {
+          if (value['message'] == "No Favourites") {
+            setState(() {
+              isLoading = false;
+            });
+          } else {
+            setState(() {
+              favourites = FavouritesModel.fromJson(value);
+              isLoading = false;
+            });
+          }
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
+    });
+  }
+  //------------------------Profile Model -=--------------------------//
+
+  String? proCompletePercent;
+  double proParsedPercent = 0.0;
+  double proNormalizedPercent = 0.0;
+
+  ProfileModel? profile = ProfileModel(
+    data: ProfileData(
+      name: '',
+      gender: '',
+      dob: '',
+      occupation: '',
+      relationStatus: '',
+      email: '',
+      phone: '',
+      alternatePhone: '',
+      homeAddress: '',
+      workAddress: '',
+      privacyStatus: '',
+      createdAt: '',
+      completePercent: '',
+      user: ProfileUser(
+          name: '',
+          username: '',
+          email: '',
+          phone: '',
+          type: '',
+          photo: '${SharedPrefs().getUserPhoto()}'),
+    ),
+  );
+
+  getProfile() {
+    isLoading = true;
+    var resp = getProfileDetails();
+    resp.then((value) {
+      print(value);
+      if (mounted) {
+        if (value['status'] == true) {
+          if (value['message'] == "No Profile") {
+            setState(() {
+              isLoading = false;
+            });
+          } else {
+            setState(() {
+              profile = ProfileModel.fromJson(value);
+              isLoading = false;
+            });
+          }
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     completePercent = sizeWeight?.data?.completePercent;
     parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
     normalizedPercent = parsedPercent / 100.0;
+
+    FavcompletePercent = favourites?.data?.completePercent;
+    FavparsedPercent = double.tryParse(FavcompletePercent ?? '0') ?? 0.0;
+    FavnormalizedPercent = FavparsedPercent / 100.0;
+
+    proCompletePercent = profile?.data?.completePercent;
+    proParsedPercent = double.tryParse(proCompletePercent ?? '0') ?? 0.0;
+    proNormalizedPercent = proParsedPercent / 100.0;
+
     return Stack(
       children: [
         Scaffold(
@@ -169,7 +309,8 @@ class _UserAllDetailsState extends State<UserAllDetails> {
               Popupmen(menuList: [
                 PopupMenuItem(
                   child: ListTile(
-                    title: InkWell(
+                    title: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Account()));
@@ -199,8 +340,8 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                   child: GestureDetector(
                     onTap: () {
                       SharedPrefs().setLoginFalse();
-                      SharedPrefs().setAppleLoginFalse();
-                      SharedPrefs().setGoogleLoginFalse();
+                      // SharedPrefs().setAppleLoginFalse();
+                      // SharedPrefs().setGoogleLoginFalse();
 
                       // SharedPrefs().clearPrefs();
                       // logoutApi().then((value) {
@@ -236,8 +377,153 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    UserImageRowWidget(
-                      response: widget.response,
+                    // UserImageRowWidget(
+                    //   response: widget.response,
+                    // ),
+                    Row(
+                      children: [
+                        Stack(
+                          children: [
+                            // CircularPercentIndicator(
+                            //   circularStrokeCap: CircularStrokeCap.round,
+                            //   radius: 40.0,
+                            //   lineWidth: 5.0,
+                            //   percent: dou,
+                            //   backgroundColor: ColorSelect.colorEDEDF1,
+                            //   progressColor: Colors.black,
+                            //   center:
+                            Container(
+                              height: 40,
+                              width: 40,
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                              child: CachedNetworkImage(
+                                /* imageUrl: baseUrl+widget.response.data.photo.toString(),*/
+                                imageUrl:
+                                    // '${SharedPrefs().getUserPhoto()}'.isEmpty
+                                    //     ? widget.response.data.photo.toString()
+                                    //     : '${SharedPrefs().getUserPhoto()}',
+                                    profile!.data!.user!.photo
+                                            .toString()
+                                            .contains("https")
+                                        ? profile!.data!.user!.photo.toString()
+                                        : baseUrl +
+                                            profile!.data!.user!.photo
+                                                .toString(),
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) => Opacity(
+                                  opacity: 0.3,
+                                  child: Shimmer.fromColors(
+                                    baseColor: Colors.black12,
+                                    highlightColor: Colors.white,
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      //margin: EdgeInsets.symmetric(horizontal: 24),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle),
+                                    ),
+                                  ),
+                                ),
+                                progressIndicatorBuilder: (a, b, c) => Opacity(
+                                  opacity: 0.3,
+                                  child: Shimmer.fromColors(
+                                    baseColor: Colors.black12,
+                                    highlightColor: Colors.white,
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      //margin: EdgeInsets.symmetric(horizontal: 24),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // center: Image.asset('assets/images/Rectangle1072.png'),
+                            // ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 20.w,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  '${SharedPrefs().getName()}'.isEmpty
+                                      ? widget.response.data.name.toString()
+                                      : '${SharedPrefs().getName()}',
+
+                                  // widget.response.data.name.toString(),
+                                  // '${SharedPrefs().getName()}',
+                                  // "Michael Scott",
+                                  style: AppTextStyle().textColor29292916w500,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10.h),
+                            isLoading
+                                ? LoadingAnimationWidget.staggeredDotsWave(
+                                    size: 30,
+                                    color: ColorSelect.colorF7E641,
+                                  )
+                                : GestureDetector(
+                                    onTap: () {
+                                      print(profile!.data!.completePercent
+                                          .toString());
+                                    },
+                                    child: Container(
+                                      // height: 30,
+                                      // width: 120.w,
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          color: ColorSelect.colorF8F1AA,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(80))),
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              profile!.data!.completePercent
+                                                              .toString() ==
+                                                          "" ||
+                                                      profile!.data!
+                                                              .completePercent ==
+                                                          null
+                                                  ? "0"
+                                                  : profile!
+                                                      .data!.completePercent
+                                                      .toString()
+                                                      .split(".")
+                                                      .first,
+                                              // sizeWeight!.data!.completePercent
+                                              //     .toString()
+                                              //     .split(".")
+                                              //     .first,
+                                              style: AppTextStyle()
+                                                  .textColor70707012w400,
+                                            ),
+                                            Text(
+                                              "%  Percent",
+                                              style: AppTextStyle()
+                                                  .textColor70707012w400,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                          ],
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 20.h,
@@ -252,7 +538,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                       response: widget.response,
                                       // id: _interest!.data!.id.toString(),
                                     )));
-                        print(_interest!.data!.id);
+                        // print(_interest!.data!.id);
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 10),
@@ -316,7 +602,70 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                             MaterialPageRoute(
                                 builder: (context) => UserProfile()));
                       },
-                      child: ProfileRowWidget(),
+                      child: Row(
+                        children: [
+                          CircularPercentIndicator(
+                            circularStrokeCap: CircularStrokeCap.round,
+                            radius: 40.w,
+                            lineWidth: 2.w,
+                            percent: proNormalizedPercent,
+                            // percent: .12,
+                            backgroundColor:
+                                Color(0xff66D340).withOpacity(0.28),
+                            center: Image.asset('assets/images/userimg.png'),
+                            progressColor: ColorSelect.color66D340,
+                          ),
+                          SizedBox(width: 10.w),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Profile",
+                                style: AppTextStyle().textColor29292914w400,
+                              ),
+                              isLoading
+                                  ? SizedBox()
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          profile!.data!.completePercent
+                                                          .toString() ==
+                                                      "" ||
+                                                  profile!.data!
+                                                          .completePercent ==
+                                                      null
+                                              ? "0"
+                                              : profile!.data!.completePercent
+                                                  .toString()
+                                                  .split(".")
+                                                  .first,
+                                          // sizeWeight!.data!.completePercent
+                                          //     .toString()
+                                          //     .split(".")
+                                          //     .first,
+                                          style: AppTextStyle()
+                                              .textColor70707012w400,
+                                        ),
+                                        Text(
+                                          "%  Percent",
+                                          style: AppTextStyle()
+                                              .textColor70707012w400,
+                                        )
+                                      ],
+                                    ),
+                            ],
+                          ),
+                          Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 27),
+                            child: SvgPicture.asset(
+                                "assets/icons/forwordarrow.svg"),
+                          )
+                        ],
+                      ),
+                      // child: ProfileRowWidget(),
                     ),
                     SizedBox(
                       height: 20.h,
@@ -407,7 +756,69 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                             MaterialPageRoute(
                                 builder: (context) => Favorites()));
                       },
-                      child: FavoritesRowWidget(),
+                      child: Row(
+                        children: [
+                          CircularPercentIndicator(
+                            circularStrokeCap: CircularStrokeCap.round,
+                            radius: 40.w,
+                            lineWidth: 2.w,
+                            percent: FavnormalizedPercent,
+                            backgroundColor:
+                                Color(0xffD55745).withOpacity(0.28),
+                            center: Image.asset('assets/images/Subtract.png'),
+                            progressColor: ColorSelect.colorD55745,
+                          ),
+                          SizedBox(width: 10.w),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Favourites",
+                                style: AppTextStyle().textColor29292914w400,
+                              ),
+                              isLoading
+                                  ? SizedBox()
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          favourites!.data!.completePercent
+                                                          .toString() ==
+                                                      "" ||
+                                                  favourites!.data!
+                                                          .completePercent ==
+                                                      null
+                                              ? "0"
+                                              : favourites!
+                                                  .data!.completePercent
+                                                  .toString()
+                                                  .split(".")
+                                                  .first,
+                                          // sizeWeight!.data!.completePercent
+                                          //     .toString()
+                                          //     .split(".")
+                                          //     .first,
+                                          style: AppTextStyle()
+                                              .textColor70707012w400,
+                                        ),
+                                        Text(
+                                          "%  Percent",
+                                          style: AppTextStyle()
+                                              .textColor70707012w400,
+                                        )
+                                      ],
+                                    ),
+                            ],
+                          ),
+                          Spacer(),
+                          Padding(
+                              padding: const EdgeInsets.only(right: 27),
+                              child: SvgPicture.asset(
+                                  "assets/icons/forwordarrow.svg"))
+                        ],
+                      ),
+                      // child: FavoritesRowWidget(),
                     ),
                     SizedBox(
                       height: 20.h,

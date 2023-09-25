@@ -61,7 +61,8 @@
 //               );
 //             }
 //           });
-//         }  if (googleLoginBool) {
+//         }
+//         if (googleLoginBool) {
 //           LoginResponse response;
 //           authUserApi().then((value) async {
 //             response = value;
@@ -83,7 +84,6 @@
 //             ),
 //           );
 //         }
-//
 //       } else {
 //         SharedPrefs.setFirstRunDone();
 //         Navigator.push(

@@ -104,13 +104,13 @@ class ProfileData {
     id = json['id'];
     userId = json['user_id'];
     name = json['name'];
-    gender = json['gender'].toString();
+    gender = json['gender'];
     dob = json['dob'];
     occupation = json['occupation'];
     relationStatus = json['relation_status'];
     email = json['email'];
     phone = json['phone'];
-    alternatePhone = json['alternate_phone'].toString();
+    alternatePhone = json['alternate_phone'];
     homeAddress = json['home_address'];
     workAddress = json['work_address'];
     privacyStatus = json['privacy_status'];

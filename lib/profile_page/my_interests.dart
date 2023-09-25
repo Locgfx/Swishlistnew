@@ -69,7 +69,7 @@ class _MyInterestsState extends State<MyInterests> {
 
   List<String>? elements = [''];
   bool isLoading = false;
-  InterestModel? _interest = InterestModel(data: Data(interest: ''));
+  InterestModel _interest = InterestModel(data: Data(interest: ''));
   getInterest() {
     isLoading = true;
     var resp = getInterestApi();
@@ -77,7 +77,7 @@ class _MyInterestsState extends State<MyInterests> {
       if (value['status'] == true) {
         setState(() {
           _interest = InterestModel.fromJson(value);
-          elements = _interest?.data!.interest!.split(",");
+          elements = _interest.data!.interest!.split(",");
           isLoading = false;
         });
       } else {

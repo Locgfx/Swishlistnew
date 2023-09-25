@@ -1,5 +1,3 @@
-
-
 class InterestModel {
   int? code;
   bool? status;
@@ -12,16 +10,29 @@ class InterestModel {
     code = json['code'];
     status = json['status'];
     message = json['message'];
-    if(json['data'].runtimeType == List<dynamic> ) {
+    if (json['data'].runtimeType == List<dynamic>) {
       print('v');
-      data = Data.fromJson({});
-    } else if(json['data'] == null){
+      // data = Data.fromJson({
+      //
+      // });
+      data = Data(interest: '');
+    } else if (json['data'] == null) {
       print('kkk');
       data = Data.fromJson({});
-    } else{
+    } else {
       print('mdkmc');
       data = Data.fromJson(json['data']);
     }
+    // if (json['data'].runtimeType == List<dynamic>) {
+    //   print('v');
+    //   data = Data.fromJson({});
+    // } else if (json['data'] == null) {
+    //   print('kkk');
+    //   data = Data.fromJson({});
+    // } else {
+    //   print('mdkmc');
+    //   data = Data.fromJson(json['data']);
+    // }
     // data = json['data'] != null ?  Data.fromJson(json['data']) : null;
     // data = json['data'] == [] ? null : json['data'] != null   ? Data.fromJson(json['data']) : null;
   }
@@ -50,13 +61,13 @@ class Data {
 
   Data(
       {this.id,
-        this.userId,
-        this.interest,
-        this.privacyStatus,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt,
-        this.user});
+      this.userId,
+      this.interest,
+      this.privacyStatus,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.user});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -96,12 +107,12 @@ class User {
 
   User(
       {this.id,
-        this.name,
-        this.username,
-        this.phone,
-        this.email,
-        this.photo,
-        this.type});
+      this.name,
+      this.username,
+      this.phone,
+      this.email,
+      this.photo,
+      this.type});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -125,5 +136,3 @@ class User {
     return data;
   }
 }
-
-

@@ -57,12 +57,13 @@ class _UserProfileState extends State<UserProfile> {
       createdAt: '',
       completePercent: '',
       user: ProfileUser(
-          name: '',
-          username: '',
-          email: '',
-          phone: '',
-          type: '',
-          photo: '${SharedPrefs().getUserPhoto()}'),
+        name: '',
+        username: '',
+        email: '',
+        phone: '',
+        type: '',
+        photo: '',
+      ),
     ),
   );
 
@@ -102,7 +103,7 @@ class _UserProfileState extends State<UserProfile> {
     relationStatus.text = profile!.data!.relationStatus ?? '';
     emailController.text = profile!.data!.email ?? '';
     phoneController.text = profile!.data!.phone ?? '';
-    alternateNo.text = profile!.data!.alternatePhone ?? '';
+    // alternateNo.text = profile!.data!.alternatePhone ?? '';
     homeController.text = profile!.data!.homeAddress ?? '';
     workController.text = profile!.data!.workAddress ?? '';
   }
@@ -170,6 +171,8 @@ class _UserProfileState extends State<UserProfile> {
   double parsedPercent = 0.0;
   double normalizedPercent = 0.0;
 
+  ProfileModel? response;
+
   @override
   Widget build(BuildContext context) {
     completePercent = profile?.data?.completePercent;
@@ -223,20 +226,20 @@ class _UserProfileState extends State<UserProfile> {
           child: InkWell(
             onTap: () {
               Navigator.pop(context);
-              profile!.data!.toString().isEmpty
-                  // (profile!.data!.completePercent.toString() == '' ||
-                  //         profile!.data!.name.toString() == '' ||
-                  //         profile!.data!.email.toString() == '' ||
-                  //         profile!.data!.workAddress.toString() == '' ||
-                  //         profile!.data!.homeAddress.toString() == '' ||
-                  //         profile!.data!.completePercent.toString() == '' ||
-                  //         profile!.data!.alternatePhone.toString() == '' ||
-                  //         profile!.data!.relationStatus.toString() == '' ||
-                  //         profile!.data!.gender.toString() == '' ||
-                  //         profile!.data!.dob.toString() == '' ||
-                  //         profile!.data!.occupation.toString() == '' ||
-                  //         profile!.data!.phone.toString() == '')
-                  ? postProfile(
+              // profile!.data!.toString().isEmpty
+              // (profile!.data!.completePercent.toString() == '' ||
+              //         profile!.data!.name.toString() == '' ||
+              //         profile!.data!.email.toString() == '' ||
+              //         profile!.data!.workAddress.toString() == '' ||
+              //         profile!.data!.homeAddress.toString() == '' ||
+              //         profile!.data!.completePercent.toString() == '' ||
+              //         profile!.data!.alternatePhone.toString() == '' ||
+              //         profile!.data!.relationStatus.toString() == '' ||
+              //         profile!.data!.gender.toString() == '' ||
+              //         profile!.data!.dob.toString() == '' ||
+              //         profile!.data!.occupation.toString() == '' ||
+              //         profile!.data!.phone.toString() == '')
+              updateProfile(
                       name: nameController.text,
                       gender: genderController.text,
                       dob: dobFormat,
@@ -248,44 +251,20 @@ class _UserProfileState extends State<UserProfile> {
                       homeAddress: homeController.text,
                       workAddress: workController.text,
                       privacyStatus: 'public',
-                      photo: pickedImage.isAbsolute ? pickedImage.path : '',
-                    ).then(
-                      (value) async {
-                        if (value['status'] == true) {
-                          SharedPrefs().setPPercent('100 %');
-                          Navigator.pop(context);
-                          Fluttertoast.showToast(msg: value['message']);
-                        } else {
-                          Fluttertoast.showToast(msg: value['message']);
-                        }
-                      },
-                    )
-                  : updateProfile(
-                          name: nameController.text,
-                          gender: genderController.text,
-                          dob: dobFormat,
-                          occupation: occupationController.text,
-                          relationStatus: relationStatus.text,
-                          email: emailController.text,
-                          phone: phoneController.text,
-                          alternateNo: alternateNo.text,
-                          homeAddress: homeController.text,
-                          workAddress: workController.text,
-                          privacyStatus: 'public',
-                          id: profile!.data!.id.toString(),
-                          photo: pickedImage.isAbsolute ? pickedImage.path : '')
-                      .then((value) {
-                      print(pickedImage);
-                      if (value['status'] == true) {
-                        Navigator.pop(context);
-                        // setState(() {
-                        //   // isLoading ? Loading() :getProfile();
-                        // });
-                        Fluttertoast.showToast(msg: value['message']);
-                      } else {
-                        Fluttertoast.showToast(msg: value['message']);
-                      }
-                    });
+                      id: profile!.data!.id.toString(),
+                      photo: pickedImage.isAbsolute ? pickedImage.path : '')
+                  .then((value) {
+                print(pickedImage);
+                if (value['status'] == true) {
+                  Navigator.pop(context);
+                  // setState(() {
+                  //   // isLoading ? Loading() :getProfile();
+                  // });
+                  Fluttertoast.showToast(msg: value['message']);
+                } else {
+                  Fluttertoast.showToast(msg: value['message']);
+                }
+              });
             },
             child: SvgPicture.asset(
               "assets/icons/arrowback.svg",
@@ -364,10 +343,8 @@ class _UserProfileState extends State<UserProfile> {
                                           //     : '$baseUrl${SharedPrefs().getUserPhoto()}',
                                           fit: BoxFit.cover,
                                           errorWidget: (context, url, error) =>
-                                              Icon(
-                                            Icons.error,
-                                            size: 40,
-                                          ),
+                                              Image.asset(
+                                                  "assets/icons/userico.jpg"),
                                           progressIndicatorBuilder: (a, b, c) =>
                                               Opacity(
                                             opacity: 0.3,
@@ -936,7 +913,7 @@ class _UserProfileState extends State<UserProfile> {
                           child: Row(
                             children: [
                               Text(
-                                "Alternate phone no",
+                                "Alternate Phone no",
                                 style: AppTextStyle().textColor70707014w400,
                               ),
                               Spacer(),
@@ -950,6 +927,9 @@ class _UserProfileState extends State<UserProfile> {
                                           ? '+ Add'
                                           : profile!.data!.alternatePhone
                                               .toString(),
+                                      // profile!.data!.user!.phone.toString() == ''?
+                                      // '+ Add' :
+                                      // profile!.data!.user!.phone.toString(),
                                       style: profile!.data!.alternatePhone == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
@@ -962,8 +942,73 @@ class _UserProfileState extends State<UserProfile> {
                                     )
                             ],
                           ),
-                          // child: AlternatePhoneRowWidget(profile:profile!),
+                          // child: PhoneRowWidget(profile:profile!),
                         ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     showDialog(
+                        //       context: context,
+                        //       builder: (BuildContext context) {
+                        //         return NameEditDialogWidget(
+                        //           title: 'Alternate phone no',
+                        //           addTextField: TextFormField(
+                        //             keyboardType: TextInputType.number,
+                        //             onChanged: (v) {
+                        //               setState(() {});
+                        //               if (!pro.contains("alternate_phone")) {
+                        //                 setState(() {
+                        //                   pro.add('alternate_phone');
+                        //                 });
+                        //               }
+                        //             },
+                        //             onEditingComplete: () {
+                        //               Navigator.pop(context);
+                        //             },
+                        //             controller: alternateNo,
+                        //             cursorColor: ColorSelect.colorF7E641,
+                        //             decoration: AppTFDecoration(
+                        //                     hint: 'Alternate phone no')
+                        //                 .decoration(),
+                        //             //keyboardType: TextInputType.phone,
+                        //           ),
+                        //         );
+                        //       },
+                        //     );
+                        //   },
+                        //   child: Row(
+                        //     children: [
+                        //       Text(
+                        //         "Alternate phone no",
+                        //         style: AppTextStyle().textColor70707014w400,
+                        //       ),
+                        //       Spacer(),
+                        //       alternateNo.text.isEmpty
+                        //           ? Text(
+                        //               profile!.data!.alternatePhone
+                        //                               .toString() ==
+                        //                           '' ||
+                        //                       profile!.data!.alternatePhone ==
+                        //                           null
+                        //                   ? '+ Add'
+                        //                   : profile!.data!.alternatePhone
+                        //                       .toString(),
+                        //               style: profile!.data!.alternatePhone == ''
+                        //                   ? AppTextStyle().textColorD5574514w500
+                        //                   : AppTextStyle()
+                        //                       .textColor29292914w400,
+                        //             )
+                        //           : Text(
+                        //               alternateNo.text,
+                        //               style:
+                        //                   AppTextStyle().textColor29292914w400,
+                        //             )
+                        //     ],
+                        //   ),
+                        //   // child: AlternatePhoneRowWidget(profile:profile!),
+                        // ),
                         SizedBox(
                           height: 40.h,
                         ),
@@ -1114,44 +1159,46 @@ class _UserProfileState extends State<UserProfile> {
                         SizedBox(height: 30),
                         Padding(
                             padding: const EdgeInsets.only(bottom: 16),
-                            child: (profile!.data!.occupation.toString() == '')
-                                ? LightYellowButtonWithText(
-                                    size: 16,
-                                    backgroundColor: MaterialStateProperty.all(
-                                        ColorSelect.colorF7E641),
-                                    textStyleColor: Colors.black,
-                                    onTap: () {
-                                      postProfile(
-                                        name: nameController.text,
-                                        gender: genderController.text,
-                                        dob: dobFormat,
-                                        occupation: occupationController.text,
-                                        relationStatus: relationStatus.text,
-                                        email: emailController.text,
-                                        phone: phoneController.text,
-                                        alternateNo: alternateNo.text,
-                                        homeAddress: homeController.text,
-                                        workAddress: workController.text,
-                                        privacyStatus: 'public',
-                                        photo: pickedImage.isAbsolute
-                                            ? pickedImage.path
-                                            : '',
-                                      ).then(
-                                        (value) async {
-                                          if (value['status'] == true) {
-                                            SharedPrefs().setPPercent('100 %');
-                                            Navigator.pop(context);
-                                            Fluttertoast.showToast(
-                                                msg: value['message']);
-                                          } else {
-                                            Fluttertoast.showToast(
-                                                msg: value['message']);
-                                          }
-                                        },
-                                      );
-                                    },
-                                    title: 'Add')
-                                : LightYellowButtonWithText(
+                            child:
+                                // child: (profile!.data!.occupation.toString() == '')
+                                //     ? LightYellowButtonWithText(
+                                //         size: 16,
+                                //         backgroundColor: MaterialStateProperty.all(
+                                //             ColorSelect.colorF7E641),
+                                //         textStyleColor: Colors.black,
+                                //         onTap: () {
+                                //           postProfile(
+                                //             name: nameController.text,
+                                //             gender: genderController.text,
+                                //             dob: dobFormat,
+                                //             occupation: occupationController.text,
+                                //             relationStatus: relationStatus.text,
+                                //             email: emailController.text,
+                                //             phone: phoneController.text,
+                                //             alternateNo: alternateNo.text,
+                                //             homeAddress: homeController.text,
+                                //             workAddress: workController.text,
+                                //             privacyStatus: 'public',
+                                //             photo: pickedImage.isAbsolute
+                                //                 ? pickedImage.path
+                                //                 : '',
+                                //           ).then(
+                                //             (value) async {
+                                //               if (value['status'] == true) {
+                                //                 SharedPrefs().setPPercent('100 %');
+                                //                 Navigator.pop(context);
+                                //                 Fluttertoast.showToast(
+                                //                     msg: value['message']);
+                                //               } else {
+                                //                 Fluttertoast.showToast(
+                                //                     msg: value['message']);
+                                //               }
+                                //             },
+                                //           );
+                                //         },
+                                //         title: 'Add')
+                                //     :
+                                LightYellowButtonWithText(
                                     size: 15,
                                     backgroundColor: MaterialStateProperty.all(
                                         ColorSelect.colorF7E641),
@@ -1178,6 +1225,10 @@ class _UserProfileState extends State<UserProfile> {
                                           .then((value) {
                                         print(pickedImage);
                                         if (value['status'] == true) {
+                                          SharedPrefs()
+                                              .setName(nameController.text);
+                                          SharedPrefs()
+                                              .setEmail(emailController.text);
                                           Navigator.pop(context);
                                           // setState(() {
                                           //   // isLoading ? Loading() :getProfile();

@@ -1,9 +1,5 @@
+import 'dart:io';
 
-
-
-import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,24 +7,22 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
-import 'package:swishlist/dashboard/dashboard.dart';
 import 'package:swishlist/dashboard/products/productAdded.dart';
-import 'package:swishlist/models/product_model.dart';
 import 'package:swishlist/models/product_type_model.dart';
-import 'dart:io';
+
 import '../../api/user_apis/products_api.dart';
 import '../../constants/color.dart';
-import '../../models/ProductStoreMode.dart';
-import '../../models/login_models.dart';
-import '../../profile_page/privacy.dart';
 import '../../profile_page/widgets/date_picker.dart';
 
 class ManuallyAdd extends StatefulWidget {
   final ProductTypeModel? model;
 
   // final LoginResponse response;
-  const ManuallyAdd({Key? key,
-    this.model, /*required this.response*/}) : super(key: key);
+  const ManuallyAdd({
+    Key? key,
+    this.model,
+    /*required this.response*/
+  }) : super(key: key);
 
   @override
   State<ManuallyAdd> createState() => _ManuallyAddState();
@@ -47,7 +41,7 @@ class _ManuallyAddState extends State<ManuallyAdd> {
   File pickedImage = File("");
   final ImagePicker _imgPicker = ImagePicker();
   String networkImage = '';
-  String dateFormat ='';
+  String dateFormat = '';
 
   clearImage() {
     setState(() {
@@ -60,10 +54,6 @@ class _ManuallyAddState extends State<ManuallyAdd> {
     clearImage();
     super.initState();
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +75,7 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                 Navigator.of(context).popUntil((_) => count++ >= 3);
                 // Navigator.pop(context);
               },
-              child: Image.asset('assets/images/Vector190.png')
-          ),
+              child: Image.asset('assets/images/Vector190.png')),
         ),
       ),
       backgroundColor: Colors.white,
@@ -105,78 +94,84 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                   "Enter product details",
                   style: AppTextStyle().textColor29292924w700,
                 ),
-                SizedBox(height: 8,),
+                SizedBox(
+                  height: 8,
+                ),
                 Text(
                   "Fill the details of product you own already.",
                   style: AppTextStyle().textColor70707014w400,
                 ),
-                SizedBox(height: 28,),
+                SizedBox(
+                  height: 28,
+                ),
                 Stack(
                   children: [
                     Container(
                       height: 246.h,
                       width: 328.w,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                              width: 1,
-                              color: ColorSelect.colorA3A3A3,
-                          ),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          width: 1,
+                          color: ColorSelect.colorA3A3A3,
+                        ),
                       ),
-                      child:  pickedImage.path.isEmpty ? Center(
-                        child: GestureDetector(
-                            onTap: () async {
-                              XFile? v = await _imgPicker.pickImage(
-                                  source: ImageSource.gallery
-                              );
-                              if (v != null) {
-                                setState(() {
-                                  pickedImage = File(v.path);
-                                },);
-                              }
-                              print(pickedImage);
-                            },
-                            child:  Container(
-                              height: 44.h,
-                              width: 144.w,
+                      child: pickedImage.path.isEmpty
+                          ? Center(
+                              child: GestureDetector(
+                                  onTap: () async {
+                                    XFile? v = await _imgPicker.pickImage(
+                                        source: ImageSource.gallery);
+                                    if (v != null) {
+                                      setState(
+                                        () {
+                                          pickedImage = File(v.path);
+                                        },
+                                      );
+                                    }
+                                    print(pickedImage);
+                                  },
+                                  child: Container(
+                                    height: 44.h,
+                                    width: 144.w,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: ColorSelect.colorA3A3A3,
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Row(
+                                        children: [
+                                          SizedBox(width: 24),
+                                          Image.asset(
+                                              "assets/images/image-add.png"),
+                                          SizedBox(width: 10),
+                                          Text("Add image")
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                            )
+                          : Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorSelect.colorA3A3A3,
-                                ),
                               ),
-                              child: Center(
-                                child: Row(
-                                  children: [
-                                    SizedBox(width: 24),
-                                    Image.asset("assets/images/image-add.png"),
-                                    SizedBox(width: 10),
-                                    Text("Add image")
-                                  ],
-                                ),
+                              clipBehavior: Clip.hardEdge,
+                              child: Image.file(
+                                pickedImage,
+                                width: 1.sw,
+                                height: 420,
+                                fit: BoxFit.cover,
                               ),
-                            )
-
-                        ),
-                      ): Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        clipBehavior: Clip.hardEdge,
-                        child: Image.file(
-                          pickedImage,
-                          width: 1.sw,
-                          height: 420,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                            ),
                     ),
-                     Positioned(
+                    Positioned(
                       top: 10,
                       right: 10,
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           clearImage();
                           setState(() {
                             // pickedImage = '' as String;
@@ -184,13 +179,14 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                         },
                         child: AnimatedContainer(
                           duration: Duration(microseconds: 300),
-                          height: pickedImage.path.isEmpty ?0:32,
-                          width: pickedImage.path.isEmpty ?0:32,
+                          height: pickedImage.path.isEmpty ? 0 : 32,
+                          width: pickedImage.path.isEmpty ? 0 : 32,
                           decoration: BoxDecoration(
                               color: ColorSelect.colorF7E641,
                               shape: BoxShape.circle,
-                              image: DecorationImage(image: AssetImage('assets/icons/iconcross.png'))
-                          ),
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/icons/iconcross.png'))),
                         ),
                       ),
                     ),
@@ -217,8 +213,8 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Title of the product*",
-                                hintStyle: AppTextStyle().textColor70707014w400
-                            ),
+                                hintStyle:
+                                    AppTextStyle().textColor70707014w400),
                           ),
                         ),
                       ],
@@ -231,8 +227,7 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                   height: 52.h,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: ColorSelect.colorEDEDF1
-                  ),
+                      color: ColorSelect.colorEDEDF1),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12),
                     child: Row(
@@ -246,7 +241,8 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Product Link",
-                                hintStyle: AppTextStyle().textColor70707014w400),
+                                hintStyle:
+                                    AppTextStyle().textColor70707014w400),
                             keyboardType: TextInputType.text,
                           ),
                         ),
@@ -268,16 +264,15 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                         Expanded(
                           child: TextFormField(
                             onChanged: (v) {
-                              setState(() {
-                              });
+                              setState(() {});
                             },
                             controller: priceController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Price",
-                                hintStyle: AppTextStyle().textColor70707014w400
-                            ),
+                                hintStyle:
+                                    AppTextStyle().textColor70707014w400),
                           ),
                         ),
                       ],
@@ -298,33 +293,33 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                         Expanded(
                           child: TextFormField(
                             onChanged: (v) {
-                              setState(() {
-                              });
+                              setState(() {});
                             },
                             controller: productTypeController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Type",
-                                hintStyle: AppTextStyle().textColor70707014w400
-                            ),
+                                hintStyle:
+                                    AppTextStyle().textColor70707014w400),
                             onTap: () {
                               showModalBottomSheet(
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+                                        topRight: Radius.circular(20),
+                                        topLeft: Radius.circular(20)),
                                   ),
                                   context: context,
                                   builder: (context) => ProductTypeBottomSheet(
-                                    productType: productTypeController.text,
-                                    onPop: (val) {
-                                      setState(() {
-                                        productTypeController.text = val;
-                                      });
-                                    },
-                                  ));
+                                        productType: productTypeController.text,
+                                        onPop: (val) {
+                                          setState(() {
+                                            productTypeController.text = val;
+                                          });
+                                        },
+                                      ));
                             },
-                            readOnly:true,
+                            readOnly: true,
                           ),
                         ),
                       ],
@@ -337,8 +332,7 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                   height: 52.h,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: ColorSelect.colorEDEDF1
-                  ),
+                      color: ColorSelect.colorEDEDF1),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12),
                     child: Row(
@@ -346,31 +340,33 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                         Expanded(
                           child: TextFormField(
                             onChanged: (v) {
-                              setState(() {
-
-                              });
+                              setState(() {});
                             },
                             controller: dateController,
                             keyboardType: TextInputType.text,
                             readOnly: true,
-                            onTap: ()  {
-                             setState(() async {
-                               DateTime? pickedDate = await showDialog(
-                                 context: context,
-                                 builder: (_) => DatePickerWidget(onPop: (date) {
-                                   dateController.text=DateFormat.yMMMd().format(date);
-                                   dateFormat = DateFormat('yyyy-MM-dd').format(date) ;
-                                 }, maximumDate: 2023,
-                                 ),
-                               );
-                             });
+                            onTap: () {
+                              setState(() async {
+                                DateTime? pickedDate = await showDialog(
+                                  context: context,
+                                  builder: (_) => DatePickerWidget(
+                                    onPop: (date) {
+                                      dateController.text =
+                                          DateFormat.yMMMd().format(date);
+                                      dateFormat =
+                                          DateFormat('yyyy-MM-dd').format(date);
+                                    },
+                                    maximumDate: 2023,
+                                  ),
+                                );
+                              });
                             },
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Date Purchased",
                                 hintStyle: AppTextStyle().textColor70707014w400,
-                                suffixIcon:
-                                Image.asset("assets/images/calendarimg.png")),
+                                suffixIcon: Image.asset(
+                                    "assets/images/calendarimg.png")),
                           ),
                         ),
                       ],
@@ -381,62 +377,71 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                 SizedBox(
                   width: 328.w,
                   height: 52.h,
-                  child:  isLoading ? Center(
-                    child: LoadingAnimationWidget.waveDots(
-                      size: 40,
-                      color: ColorSelect.colorF7E641,
-                    ),
-                  ):
-                  LightYellowButtonWithText(
-                    onTap: () {
-                      if(formKey.currentState!.validate()) {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        if (networkImage.isNotEmpty ||
-                            pickedImage.isAbsolute) {
-                            productStoreApi(
-                                type: productTypeController.text,
-                                name: titleController.text,
-                                link: productLinkController.text,
-                                price: priceController.text,
-                                purchaseDate: dateFormat,
-                                privacyStatus: 'public',
-                                photo: pickedImage.isAbsolute
-                                    ?  pickedImage.path
-                                    : '').then((value) async {
-                            if(value['status'] == true) {
+                  child: isLoading
+                      ? Center(
+                          child: LoadingAnimationWidget.waveDots(
+                            size: 40,
+                            color: ColorSelect.colorF7E641,
+                          ),
+                        )
+                      : LightYellowButtonWithText(
+                          onTap: () {
+                            if (formKey.currentState!.validate()) {
                               setState(() {
-                                isLoading = false;
+                                isLoading = true;
                               });
-                              Navigator.push(context, MaterialPageRoute(builder: (_) =>ProductAdded(
-                                name: titleController.text,
-                                price: priceController.text,
-                                productImage: pickedImage.toString(),
-                                )));
-                              Fluttertoast.showToast(
-                                  msg:value['message']);
-                            } else {
-                              Fluttertoast.showToast(
-                                  msg:value['message']);
-                            }},
-                            );
-                        }
-                      }
-                    },
-                    backgroundColor:(
-                        titleController.text.isNotEmpty &&
-                        productLinkController.text.isNotEmpty ||
-                        priceController.text.isNotEmpty
-                      ) ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                        : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                    textStyleColor: titleController.text.isNotEmpty &&
-                        productLinkController.text.isNotEmpty ||
-                        priceController.text.isNotEmpty ?
-                      Colors.black :
-                      ColorSelect.colorB5B07A,
-                    title: 'Add',
-                  ),
+                              if (networkImage.isNotEmpty ||
+                                  pickedImage.isAbsolute) {
+                                productStoreApi(
+                                        type: productTypeController.text,
+                                        name: titleController.text,
+                                        link: productLinkController.text,
+                                        price: priceController.text,
+                                        purchaseDate: dateFormat,
+                                        privacyStatus: 'public',
+                                        photo: pickedImage.isAbsolute
+                                            ? pickedImage.path
+                                            : '')
+                                    .then(
+                                  (value) async {
+                                    if (value['status'] == true) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => ProductAdded(
+                                                    name: titleController.text,
+                                                    price: priceController.text,
+                                                    productImage:
+                                                        pickedImage.toString(),
+                                                  )));
+                                      Fluttertoast.showToast(
+                                          msg: value['message']);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: value['message']);
+                                    }
+                                  },
+                                );
+                              }
+                            }
+                          },
+                          backgroundColor: (titleController.text.isNotEmpty &&
+                                      productLinkController.text.isNotEmpty ||
+                                  priceController.text.isNotEmpty)
+                              ? MaterialStateProperty.all(
+                                  ColorSelect.colorF7E641)
+                              : MaterialStateProperty.all(
+                                  ColorSelect.colorFCF5B6),
+                          textStyleColor: titleController.text.isNotEmpty &&
+                                      productLinkController.text.isNotEmpty ||
+                                  priceController.text.isNotEmpty
+                              ? Colors.black
+                              : ColorSelect.colorB5B07A,
+                          title: 'Add',
+                        ),
                 ),
                 SizedBox(height: 24)
               ],
@@ -447,8 +452,6 @@ class _ManuallyAddState extends State<ManuallyAdd> {
     );
   }
 }
-
-
 
 class ProductTypeBottomSheet extends StatefulWidget {
   final String productType;
@@ -506,13 +509,15 @@ class _ProductTypeBottomSheet extends State<ProductTypeBottomSheet> {
                       width: 78.w,
                       decoration: BoxDecoration(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 0 ? ColorSelect.colorF7E641 : Colors.transparent,
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: _gIndex == 0
+                            ? ColorSelect.colorF7E641
+                            : Colors.transparent,
                       ),
                       child: Center(
                           child: Text(
-                            'have',
-                          )),
+                        'have',
+                      )),
                     ),
                   ),
                   SizedBox(
@@ -529,13 +534,15 @@ class _ProductTypeBottomSheet extends State<ProductTypeBottomSheet> {
                       width: 78.w,
                       decoration: BoxDecoration(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 1 ? ColorSelect.colorF7E641 : Colors.transparent,
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: _gIndex == 1
+                            ? ColorSelect.colorF7E641
+                            : Colors.transparent,
                       ),
                       child: Center(
                           child: Text(
-                            'dont want',
-                          )),
+                        'dont want',
+                      )),
                     ),
                   ),
                   SizedBox(
@@ -552,16 +559,16 @@ class _ProductTypeBottomSheet extends State<ProductTypeBottomSheet> {
                       width: 78.w,
                       decoration: BoxDecoration(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        color: _gIndex == 2 ? ColorSelect.colorF7E641 : Colors.transparent,
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: _gIndex == 2
+                            ? ColorSelect.colorF7E641
+                            : Colors.transparent,
                       ),
                       child: Center(
-                          child: Text(
-                            'want'
-                          ),
-                        ),
+                        child: Text('want'),
                       ),
                     ),
+                  ),
                   SizedBox(
                     height: 20.h,
                   )

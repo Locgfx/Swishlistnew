@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/buttons/white_button.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/login/reset_password_via_email.dart';
-import 'package:swishlist/login/reset_password_via_phone.dart';
 
 import '../../signup/signup_with_email.dart';
 
@@ -65,30 +64,30 @@ class RowCreateNewAccountWidget extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            "Select reset method",
-                            style: AppTextStyle().textColor70707014w400,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            height: 52.h,
-                            width: 328.w,
-                            child: WhiteButtonWithText(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.white),
-                                textStyleColor: ColorSelect.color292929,
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ResetPasswordViaPhone()));
-                                },
-                                title: 'Phone'),
-                          ),
+                          // Text(
+                          //   "Select reset method",
+                          //   style: AppTextStyle().textColor70707014w400,
+                          // ),
+                          // SizedBox(
+                          //   height: 20,
+                          // ),
+                          // SizedBox(
+                          //   height: 52.h,
+                          //   width: 328.w,
+                          //   child: WhiteButtonWithText(
+                          //       backgroundColor:
+                          //           MaterialStateProperty.all(Colors.white),
+                          //       textStyleColor: ColorSelect.color292929,
+                          //       onTap: () {
+                          //         Navigator.pop(context);
+                          //         Navigator.push(
+                          //             context,
+                          //             MaterialPageRoute(
+                          //                 builder: (context) =>
+                          //                     ResetPasswordViaPhone()));
+                          //       },
+                          //       title: 'Phone'),
+                          // ),
                           SizedBox(
                             height: 20,
                           ),
@@ -111,7 +110,7 @@ class RowCreateNewAccountWidget extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 40,
                           ),
                         ],
                       ),

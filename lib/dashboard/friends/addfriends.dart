@@ -172,118 +172,156 @@ class _AddFriendsState extends State<AddFriends> {
                       ),
                       Column(
                         children: [
-                          RefreshIndicator(
-                            displacement: 500,
-                            backgroundColor: Colors.white,
-                            color: ColorSelect.colorF7E641,
-                            strokeWidth: 3,
-                            onRefresh: () {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              return contact();
-                            },
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              itemCount: friendList.length,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, i) {
-                                return ListTile(
-                                    leading: Container(
-                                      height: 50,
-                                      width: 50,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.grey.shade200,
-                                      ),
-                                      clipBehavior: Clip.hardEdge,
-                                      child: CachedNetworkImage(
-                                        imageUrl: baseUrl +
-                                            friendList[i].photo.toString(),
-                                        // imageUrl: baseUrl+contactModel.data![i].photo.toString(),
-                                        fit: BoxFit.cover,
-                                        errorWidget: (context, url, error) =>
-                                            Icon(Icons.error),
-                                        progressIndicatorBuilder: (a, b, c) =>
-                                            Opacity(
-                                          opacity: 0.3,
-                                          child: Shimmer.fromColors(
-                                            baseColor: Colors.black12,
-                                            highlightColor: Colors.white,
-                                            child: Container(
-                                              width: 50,
-                                              height: 50,
-                                              //margin: EdgeInsets.symmetric(horizontal: 24),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                          friendList.isEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 40.0),
+                                  child: Center(
+                                    child: Column(
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              friendList[i].name.toString(),
-                                            ),
-                                            Text(
-                                                friendList[i].phone.toString()),
-                                          ],
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 30.0),
+                                          child: Image.asset(
+                                              "assets/images/addfriends.png"),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 10),
-                                          child: SizedBox(
-                                            width: 70,
-                                            height: 36,
-                                            child: YellowButtonWithText(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                                      ColorSelect.colorF7E641),
-                                              textStyleColor:
-                                                  ColorSelect.color292929,
-                                              title: 'Add',
-                                              onTap: () {
-                                                addFriendApi(
-                                                        friendsId: friendList[i]
-                                                            .id
-                                                            .toString(),
-                                                        status: 'requested')
-                                                    .then((value) {
-                                                  print(value);
-                                                  if (value['status'] == true) {
-                                                    setState(() {
-                                                      Fluttertoast.showToast(
-                                                          msg:
-                                                              value['message']);
-                                                    });
-                                                  } else {
-                                                    Fluttertoast.showToast(
-                                                        msg: value['message']);
-                                                  }
-                                                });
-                                              },
-                                            ),
+                                          padding: const EdgeInsets.only(
+                                              left: 66, right: 66, top: 24),
+                                          child: Text(
+                                            "No swishlist user found in your contact",
+                                            style: AppTextStyle()
+                                                .roboto29292914w500,
+                                            textAlign: TextAlign.center,
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
-                                    // subtitle: Text(num),
-                                    onTap: () {});
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) => SizedBox(
-                                height: 10,
-                              ),
-                            ),
-                          )
+                                  ),
+                                )
+                              : RefreshIndicator(
+                                  displacement: 500,
+                                  backgroundColor: Colors.white,
+                                  color: ColorSelect.colorF7E641,
+                                  strokeWidth: 3,
+                                  onRefresh: () {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    return contact();
+                                  },
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount: friendList.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, i) {
+                                      return ListTile(
+                                          leading: Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.grey.shade200,
+                                            ),
+                                            clipBehavior: Clip.hardEdge,
+                                            child: CachedNetworkImage(
+                                              imageUrl: baseUrl +
+                                                  friendList[i]
+                                                      .photo
+                                                      .toString(),
+                                              // imageUrl: baseUrl+contactModel.data![i].photo.toString(),
+                                              fit: BoxFit.cover,
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
+                                              progressIndicatorBuilder:
+                                                  (a, b, c) => Opacity(
+                                                opacity: 0.3,
+                                                child: Shimmer.fromColors(
+                                                  baseColor: Colors.black12,
+                                                  highlightColor: Colors.white,
+                                                  child: Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    //margin: EdgeInsets.symmetric(horizontal: 24),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        shape: BoxShape.circle),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          title: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    friendList[i]
+                                                        .name
+                                                        .toString(),
+                                                  ),
+                                                  Text(friendList[i]
+                                                      .phone
+                                                      .toString()),
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10),
+                                                child: SizedBox(
+                                                  width: 70,
+                                                  height: 36,
+                                                  child: YellowButtonWithText(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(ColorSelect
+                                                                .colorF7E641),
+                                                    textStyleColor:
+                                                        ColorSelect.color292929,
+                                                    title: 'Add',
+                                                    onTap: () {
+                                                      addFriendApi(
+                                                              friendsId:
+                                                                  friendList[i]
+                                                                      .id
+                                                                      .toString(),
+                                                              status:
+                                                                  'requested')
+                                                          .then((value) {
+                                                        print(value);
+                                                        if (value['status'] ==
+                                                            true) {
+                                                          setState(() {
+                                                            Fluttertoast.showToast(
+                                                                msg: value[
+                                                                    'message']);
+                                                          });
+                                                        } else {
+                                                          Fluttertoast.showToast(
+                                                              msg: value[
+                                                                  'message']);
+                                                        }
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          // subtitle: Text(num),
+                                          onTap: () {});
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) =>
+                                            SizedBox(
+                                      height: 10,
+                                    ),
+                                  ),
+                                )
                         ],
                       )
                     ],

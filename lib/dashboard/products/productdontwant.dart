@@ -11,7 +11,6 @@ import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget
 import 'package:swishlist/models/product_model.dart';
 
 import '../../constants/color.dart';
-import '../../constants/globals/globals.dart';
 import '../../constants/urls.dart';
 import '../../models/product_type_model.dart';
 
@@ -220,14 +219,27 @@ class _ProductdontwantState extends State<Productdontwant> {
                                 ],
                               ),
                               notWantTwo.isEmpty
-                                  ? AddProductImage(
-                                      image:
-                                          'assets/images/Asset 1product 1.png',
-                                      txt: 'Add Product',
-                                      buttonTxt: 'Add Product',
-                                      tap: () {},
-                                      buttonIcon: 'assets/images/plus.png',
-                                    )
+                                  ? Center(
+                                      child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 30.0),
+                                          child: Image.asset(
+                                              'assets/images/Asset 1product 1.png'),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 66, right: 66, top: 24),
+                                          child: Text(
+                                            "No products yet",
+                                            style: AppTextStyle()
+                                                .roboto29292914w500,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ],
+                                    ))
                                   : ListView.builder(
                                       physics: NeverScrollableScrollPhysics(),
                                       itemCount: notWantTwo.length,

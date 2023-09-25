@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,6 +20,59 @@ class ResetPasswordViaEmail extends StatefulWidget {
 }
 
 class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
+  Timer? _timer;
+  int _start = 60;
+
+  @override
+  void initState() {
+    _startTimer();
+    super.initState();
+  }
+
+  _startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  // int _remainingTime = 60; // Initial time in seconds
+  // Timer? _timer;
+  //
+  // void startTimer() {
+  //   const oneSec = Duration(seconds: 1);
+  //   _timer = Timer.periodic(
+  //     oneSec,
+  //     (Timer timer) {
+  //       if (_remainingTime == 0) {
+  //         // Timer has completed, you can do something here (e.g., enable the Resend OTP button)
+  //         timer.cancel();
+  //       } else {
+  //         setState(() {
+  //           _remainingTime--;
+  //         });
+  //       }
+  //     },
+  //   );
+  // }
+
   final bool _passwordVisible = false;
   final bool _passwordVisible1 = false;
   bool tickOne = false;
@@ -324,9 +379,9 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
                                   onPressed: () {
                                     setState(() {
                                       if (currentStep <
-                                          (getSteps().length - 1)) {
+                                          (getSteps().length - 0)) {
                                         setState(() {
-                                          currentStep += 1;
+                                          currentStep += 0;
                                         });
                                       }
                                     });
@@ -462,50 +517,93 @@ class _ResetPasswordViaEmailState extends State<ResetPasswordViaEmail> {
                             ?
                             // if (currentStep != 0)
                             Expanded(
-                                child: Container(
-                                  height: 50.h,
-                                  margin: const EdgeInsets.only(top: 15),
-                                  child: ElevatedButton(
-                                    child: Text(
-                                      'Resend 30s',
-                                      style: TextStyle(
-                                        color: (emailController.text.isNotEmpty)
-                                            ? Colors.black
-                                            : ColorSelect.colorB5B07A,
+                                child: GestureDetector(
+                                  onTap: _start == 0
+                                      ? () {
+                                          setState(() {
+                                            _start = 60;
+                                          });
+                                          _startTimer();
+                                          if (emailController.text.isNotEmpty) {
+                                            // details.onStepContinue!();
+                                            resetPassGenerateOtpApi(
+                                                    emailPhone:
+                                                        emailController.text)
+                                                .then((value) async {
+                                              if (value['status'] == true) {
+                                                SharedPrefs().setPhone(
+                                                    emailController.text);
+                                                // details.onStepContinue!();
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        'Your OTP is ${value['data']['otp']}');
+                                              } else {
+                                                Fluttertoast.showToast(
+                                                    msg: value['message']);
+                                              }
+                                            });
+                                          }
+                                        }
+                                      : () {},
+                                  child: Container(
+                                    height: 50.h,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          width: 1,
+                                          color: ColorSelect.colorA3A3A3,
+                                        )),
+                                    margin: const EdgeInsets.only(top: 15),
+                                    child: Center(
+                                      child: Text(
+                                        'Resend ${_start}s',
+                                        style: TextStyle(color: Colors.black),
                                       ),
                                     ),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.transparent,
-                                      side: BorderSide(
-                                          width: 1,
-                                          color: ColorSelect.colorA3A3A3),
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
-                                    ),
-                                    onPressed: () {
-                                      if (emailController.text.isNotEmpty) {
-                                        // details.onStepContinue!();
-                                        resetPassGenerateOtpApi(
-                                                emailPhone:
-                                                    emailController.text)
-                                            .then((value) async {
-                                          if (value['status'] == true) {
-                                            SharedPrefs()
-                                                .setPhone(emailController.text);
-                                            // details.onStepContinue!();
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                    'Your OTP is ${value['data']['otp']}');
-                                          } else {
-                                            Fluttertoast.showToast(
-                                                msg: value['message']);
-                                          }
-                                        });
-                                      }
-                                    },
-                                    // onPressed: details.onStepContinue,
+                                    // child: ElevatedButton(
+                                    //   child: Text(
+                                    //     'Resend ${_start}s',
+                                    //     style: TextStyle(
+                                    //       color:
+                                    //           (emailController.text.isNotEmpty)
+                                    //               ? Colors.black
+                                    //               : ColorSelect.colorB5B07A,
+                                    //     ),
+                                    //   ),
+                                    //   style: ElevatedButton.styleFrom(
+                                    //     backgroundColor: Colors.transparent,
+                                    //     side: BorderSide(
+                                    //         width: 1,
+                                    //         color: ColorSelect.colorA3A3A3),
+                                    //     elevation: 0,
+                                    //     shape: RoundedRectangleBorder(
+                                    //         borderRadius:
+                                    //             BorderRadius.circular(8)),
+                                    //   ),
+                                    //   onPressed: () {
+                                    //     setState(() {});
+                                    //     // if (emailController.text.isNotEmpty) {
+                                    //     //   // details.onStepContinue!();
+                                    //     //   resetPassGenerateOtpApi(
+                                    //     //           emailPhone:
+                                    //     //               emailController.text)
+                                    //     //       .then((value) async {
+                                    //     //     if (value['status'] == true) {
+                                    //     //       SharedPrefs().setPhone(
+                                    //     //           emailController.text);
+                                    //     //       // details.onStepContinue!();
+                                    //     //       Fluttertoast.showToast(
+                                    //     //           msg:
+                                    //     //               'Your OTP is ${value['data']['otp']}');
+                                    //     //     } else {
+                                    //     //       Fluttertoast.showToast(
+                                    //     //           msg: value['message']);
+                                    //     //     }
+                                    //     //   });
+                                    //     // }
+                                    //   },
+                                    //   // onPressed: details.onStepContinue,
+                                    // ),
                                   ),
                                 ),
                               )

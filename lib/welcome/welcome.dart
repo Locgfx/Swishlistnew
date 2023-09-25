@@ -10,7 +10,6 @@ import 'package:swishlist/login/login.dart';
 import '../buttons/third_party_buttons/apple_signin_buttons.dart';
 import '../buttons/third_party_buttons/google_signin_button.dart';
 import '../signup/signup_with_email.dart';
-import '../signup/signup_with_phone.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -58,9 +57,9 @@ class _WelcomeState extends State<Welcome> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignUpWithPhone()));
+                                builder: (context) => SignUpWithEmail()));
                       },
-                      title: 'Signup with Phone'),
+                      title: 'Signup with email'),
                 ),
               ),
               Padding(
@@ -73,43 +72,43 @@ class _WelcomeState extends State<Welcome> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => SignUpWithEmail(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: 48,
-                        width: 120,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            border: Border.all(
-                                width: 1, color: ColorSelect.colorA3A3A3)),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20),
-                              child: SvgPicture.asset(
-                                "assets/icons/gmail.svg",
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                'Email',
-                                style: AppTextStyle().textColor00000014w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (_) => SignUpWithEmail(),
+                  //         ),
+                  //       );
+                  //     },
+                  //     child: Container(
+                  //       height: 48,
+                  //       width: 120,
+                  //       decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //           border: Border.all(
+                  //               width: 1, color: ColorSelect.colorA3A3A3)),
+                  //       child: Row(
+                  //         children: [
+                  //           Padding(
+                  //             padding: const EdgeInsets.only(left: 20),
+                  //             child: SvgPicture.asset(
+                  //               "assets/icons/gmail.svg",
+                  //             ),
+                  //           ),
+                  //           Padding(
+                  //             padding: const EdgeInsets.only(left: 5),
+                  //             child: Text(
+                  //               'Email',
+                  //               style: AppTextStyle().textColor00000014w400,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(width: 6),
                   Expanded(
                     child: Container(

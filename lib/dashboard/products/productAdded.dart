@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/buttons/grey_border_button.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/color.dart';
 
+import '../../constants/urls.dart';
 import 'manuallyadd.dart';
 
 class ProductAdded extends StatefulWidget {
@@ -96,9 +99,14 @@ class _ProductAddedState extends State<ProductAdded> {
                       ),
                     ),
                   ),
-                  Text(
-                    'New Product Added',
-                    style: AppTextStyle().textColor29292924w700,
+                  GestureDetector(
+                    onTap: () {
+                      print(widget.productImage.toString());
+                    },
+                    child: Text(
+                      'New Product Added',
+                      style: AppTextStyle().textColor29292924w700,
+                    ),
                   ),
                   SizedBox(height: 8),
                   Text(
@@ -108,6 +116,8 @@ class _ProductAddedState extends State<ProductAdded> {
                   SizedBox(height: 40),
                   Container(
                     width: 1.sw,
+                    height: 200,
+                    clipBehavior: Clip.hardEdge,
                     margin: EdgeInsets.symmetric(horizontal: 45),
                     padding: EdgeInsets.symmetric(vertical: 27),
                     decoration: BoxDecoration(
@@ -128,33 +138,33 @@ class _ProductAddedState extends State<ProductAdded> {
                     //   height: 420,
                     //   fit: BoxFit.cover,
                     // ),
-                    // child: CachedNetworkImage(
-                    //   // imageUrl: (baseUrl+haveProducts2[i].photo.toString()),
-                    //   imageUrl: widget.productImage.toString().contains("https")
-                    //       ? widget.productImage
-                    //       : baseUrl2 + widget.productImage,
-                    //   fit: BoxFit.cover,
-                    //   errorWidget: (context, url, error) => Icon(
-                    //     Icons.error,
-                    //     size: 40,
-                    //   ),
-                    //   progressIndicatorBuilder: (a, b, c) => Opacity(
-                    //     opacity: 0.3,
-                    //     child: Shimmer.fromColors(
-                    //       baseColor: Colors.black12,
-                    //       highlightColor: Colors.white,
-                    //       child: Container(
-                    //         width: 1.sw,
-                    //         // height: 129,
-                    //         decoration: BoxDecoration(
-                    //             border: Border.all(
-                    //                 color: ColorSelect.colorE0E0E0, width: 1),
-                    //             color: ColorSelect.colorFFFFFF,
-                    //             borderRadius: BorderRadius.circular(12)),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                    child: CachedNetworkImage(
+                      // imageUrl: (baseUrl+haveProducts2[i].photo.toString()),
+                      imageUrl: widget.productImage.toString().contains("https")
+                          ? widget.productImage
+                          : baseUrl + widget.productImage,
+                      fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => Icon(
+                        Icons.error,
+                        size: 40,
+                      ),
+                      progressIndicatorBuilder: (a, b, c) => Opacity(
+                        opacity: 0.3,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.black12,
+                          highlightColor: Colors.white,
+                          child: Container(
+                            width: 1.sw,
+                            // height: 129,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: ColorSelect.colorE0E0E0, width: 1),
+                                color: ColorSelect.colorFFFFFF,
+                                borderRadius: BorderRadius.circular(12)),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(height: 16),
                   Container(
@@ -170,7 +180,7 @@ class _ProductAddedState extends State<ProductAdded> {
                     margin: EdgeInsets.symmetric(horizontal: 45),
                     width: 1.sw,
                     child: Text(
-                      widget.price,
+                      '\$${widget.price}',
                       style: AppTextStyle().roboto32323216w600,
                     ),
                   ),

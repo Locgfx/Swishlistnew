@@ -180,20 +180,20 @@ class _LoginState extends State<Login> {
                                   if (response?.status != null &&
                                       response!.status == true) {
                                     SharedPrefs().setLoginTrue();
-                                    SharedPrefs()
-                                        .setEmail(phoneEmailController.text);
+                                    // SharedPrefs()
+                                    //     .setEmail(phoneEmailController.text);
                                     SharedPrefs()
                                         .setPassword(passwordController.text);
                                     SharedPrefs()
                                         .setLoginToken(response!.token);
                                     SharedPrefs()
                                         .setId(response!.data.id.toString());
-                                    SharedPrefs().setName(
-                                        response!.data.name.toString());
-                                    SharedPrefs().setUsername(
-                                        response!.data.username.toString());
-                                    SharedPrefs().setUserPhoto(
-                                        response!.data.photo.toString());
+                                    // SharedPrefs().setName(
+                                    //     response!.data.name.toString());
+                                    // SharedPrefs().setUsername(
+                                    //     response!.data.username.toString());
+                                    // SharedPrefs().setUserPhoto(
+                                    //     response!.data.photo.toString());
                                     Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                         builder: (context) =>

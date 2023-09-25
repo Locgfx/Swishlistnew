@@ -532,16 +532,16 @@ class _DateAndEventsState extends State<DateAndEvents> {
                             style: AppTextStyle().textColorBA54DE14w500,
                           ),
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
-                        Text(
-                          "Upcoming",
-                          style: AppTextStyle().textColor29292914w600,
-                        ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
+                        // SizedBox(
+                        //   height: 20.h,
+                        // ),
+                        // Text(
+                        //   "Upcoming",
+                        //   style: AppTextStyle().textColor29292914w600,
+                        // ),
+                        // SizedBox(
+                        //   height: 20.h,
+                        // ),
                         // eventUpcoming!.data!.isEmpty
                         //     ? Center(
                         //         child: Column(
@@ -559,41 +559,41 @@ class _DateAndEventsState extends State<DateAndEvents> {
                         //         ),
                         //       )
                         //     :
-                        ListView.separated(
-                          padding: EdgeInsets.all(0),
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: eventUpcoming2.length,
-                          // itemCount: 6,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (context, i) {
-                            return GestureDetector(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        eventUpcoming2[i].name.toString(),
-                                        style: AppTextStyle()
-                                            .textColor70707014w400,
-                                      ),
-                                      Spacer(),
-                                      Text(
-                                        eventUpcoming2[i].date.toString(),
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) =>
-                              SizedBox(
-                            height: 16,
-                          ),
-                        ),
+                        // ListView.separated(
+                        //   padding: EdgeInsets.all(0),
+                        //   physics: NeverScrollableScrollPhysics(),
+                        //   itemCount: eventUpcoming2.length,
+                        //   // itemCount: 6,
+                        //   shrinkWrap: true,
+                        //   scrollDirection: Axis.vertical,
+                        //   itemBuilder: (context, i) {
+                        //     return GestureDetector(
+                        //       child: Column(
+                        //         children: [
+                        //           Row(
+                        //             children: [
+                        //               Text(
+                        //                 eventUpcoming2[i].name.toString(),
+                        //                 style: AppTextStyle()
+                        //                     .textColor70707014w400,
+                        //               ),
+                        //               Spacer(),
+                        //               Text(
+                        //                 eventUpcoming2[i].date.toString(),
+                        //                 style: AppTextStyle()
+                        //                     .textColor29292914w400,
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     );
+                        //   },
+                        //   separatorBuilder: (BuildContext context, int index) =>
+                        //       SizedBox(
+                        //     height: 16,
+                        //   ),
+                        // ),
                         SizedBox(
                           height: 20.h,
                         ),
@@ -604,40 +604,52 @@ class _DateAndEventsState extends State<DateAndEvents> {
                         SizedBox(
                           height: 20.h,
                         ),
-                        ListView.separated(
-                          padding: EdgeInsets.all(0),
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: eventUpcoming!.data!.length,
-                          // itemCount: 6,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (context, i) {
-                            return GestureDetector(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        eventUpcoming!.data![i].name.toString(),
-                                        style: AppTextStyle()
-                                            .textColor70707014w400,
-                                      ),
-                                      Spacer(),
-                                      Text(
-                                        eventUpcoming!.data![i].date.toString(),
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      ),
-                                    ],
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            eventUpcoming!.data!.isEmpty
+                                ? Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("No events yet"))
+                                : ListView.separated(
+                                    padding: EdgeInsets.all(0),
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: eventUpcoming!.data!.length,
+                                    // itemCount: 6,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    itemBuilder: (context, i) {
+                                      return GestureDetector(
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  eventUpcoming!.data![i].name
+                                                      .toString(),
+                                                  style: AppTextStyle()
+                                                      .textColor70707014w400,
+                                                ),
+                                                Spacer(),
+                                                Text(
+                                                  eventUpcoming!.data![i].date
+                                                      .toString(),
+                                                  style: AppTextStyle()
+                                                      .textColor29292914w400,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) =>
+                                            SizedBox(
+                                      height: 16,
+                                    ),
                                   ),
-                                ],
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) =>
-                              SizedBox(
-                            height: 16,
-                          ),
+                          ],
                         ),
 
                         // event!.data!.isEmpty

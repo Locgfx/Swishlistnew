@@ -1,10 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'package:http/http.dart'as http;
+
+import 'package:http/http.dart' as http;
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/constants/urls.dart';
 
-Future <dynamic> productStoreApi({
+import '../../models/ProductStoreMode.dart';
+
+Future<dynamic> productStoreApi({
   required String type,
   required String name,
   required String link,
@@ -13,9 +15,7 @@ Future <dynamic> productStoreApi({
   required String privacyStatus,
   required String photo,
 }) async {
-  var headers = {
-    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
-  };
+  var headers = {'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'};
   var request = http.MultipartRequest(
       'POST', Uri.parse('$baseUrl/api/user/product/store'));
   request.fields.addAll({
@@ -34,6 +34,27 @@ Future <dynamic> productStoreApi({
   var resp = jsonDecode(await response.stream.bytesToString());
   if (response.statusCode == 200) {
     print(resp);
+    return ProductStoreModel.fromJson(resp);
+    // return resp;
+  } else {
+    print(resp);
+    print(response.statusCode);
+    print(response.reasonPhrase);
+    return ProductStoreModel.fromJson(resp);
+  }
+}
+
+Future<dynamic> getProductsApi() async {
+  var headers = {'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'};
+  var request = http.Request('POST', Uri.parse('$baseUrl/api/user/product'));
+  request.bodyFields = {};
+  request.headers.addAll(headers);
+  print(headers);
+  print(request.bodyFields);
+  http.StreamedResponse response = await request.send();
+  var resp = jsonDecode(await response.stream.bytesToString());
+  if (response.statusCode == 200) {
+    print(resp);
     return resp;
   } else {
     print(resp);
@@ -42,30 +63,6 @@ Future <dynamic> productStoreApi({
     return resp;
   }
 }
-
-
-Future<dynamic> getProductsApi() async{
-  var headers = {
-    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
-  };
-  var request = http.Request('POST', Uri.parse('$baseUrl/api/user/product'));
-  request.bodyFields = {};
-  request.headers.addAll(headers);
-  print(headers);
-  print(request.bodyFields);
-  http.StreamedResponse response = await request.send();
-  var resp = jsonDecode(await response.stream.bytesToString());
-  if(response.statusCode == 200) {
-    print(resp);
-    return resp;
-  } else{
-    print(resp);
-    print(response.statusCode);
-    print(response.reasonPhrase);
-    return resp;
-  }
-}
-
 
 Future<dynamic> deleteProductsApi({
   required String id,
@@ -74,14 +71,15 @@ Future<dynamic> deleteProductsApi({
     'Content-Type': 'application/x-www-form-urlencoded',
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
-  var request = http.Request('POST', Uri.parse('$baseUrl/api/user/product/delete'));
+  var request =
+      http.Request('POST', Uri.parse('$baseUrl/api/user/product/delete'));
   request.bodyFields = {
     'id': id,
   };
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
-  if(response.statusCode == 200) {
+  if (response.statusCode == 200) {
     print(resp);
     return resp;
   } else {
@@ -90,7 +88,6 @@ Future<dynamic> deleteProductsApi({
     print(response.statusCode);
   }
 }
-
 
 Future<dynamic> updateProducts({
   required String type,
@@ -102,14 +99,12 @@ Future<dynamic> updateProducts({
   required String photo,
   required String id,
   required String photoUrl,
-
 }) async {
-  var headers = {
-    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
-  };
-  var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/api/user/product/update'));
+  var headers = {'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'};
+  var request = http.MultipartRequest(
+      'POST', Uri.parse('$baseUrl/api/user/product/update'));
   request.fields.addAll({
-    'type':type,
+    'type': type,
     'name': name,
     'link': link,
     'price': price,
@@ -119,13 +114,13 @@ Future<dynamic> updateProducts({
     'photo_url': photoUrl,
   });
   if (photo != '') {
-    request.files.add(await http.MultipartFile.fromPath('photo',photo));
+    request.files.add(await http.MultipartFile.fromPath('photo', photo));
   }
   // request.files.add(await http.MultipartFile.fromPath('photo', photo));
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
-  if(response.statusCode == 200) {
+  if (response.statusCode == 200) {
     print(resp);
     return resp;
   } else {

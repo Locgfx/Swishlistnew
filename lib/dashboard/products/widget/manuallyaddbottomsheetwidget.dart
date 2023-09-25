@@ -438,7 +438,7 @@ class _ManuallyAddBottomSheetWidgetState
                               child: TextFormField(
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Amazon or Etsy link"),
+                                    hintText: "Add Product link"),
                                 keyboardType: TextInputType.text,
                                 controller: productLinkController,
                                 onChanged: (v) {

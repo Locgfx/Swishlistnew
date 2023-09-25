@@ -26,12 +26,13 @@ class GoogleSigninButton extends StatelessWidget {
         resp.then((value) {
           response = value;
           if (response?.status != null && response!.status == true) {
-            SharedPrefs().setGoogleTrue();
+            SharedPrefs().setLoginTrue();
+            // SharedPrefs().setGoogleTrue();
             SharedPrefs().setGoogleToken(auth.idToken!);
             SharedPrefs().setName(response!.data.name.toString());
-            SharedPrefs().setUsername(response!.data.username.toString());
+            // SharedPrefs().setUsername(response!.data.username.toString());
             SharedPrefs().setUserPhoto(response!.data.photo.toString());
-            SharedPrefs().setEmail(response!.data.email.toString());
+            // SharedPrefs().setEmail(response!.data.email.toString());
             SharedPrefs().setPassword(response!.token);
             SharedPrefs().setLoginToken(response!.token);
             SharedPrefs().setId(response!.data.id.toString());
