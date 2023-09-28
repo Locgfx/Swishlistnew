@@ -57,19 +57,38 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                 ),
               ),
               SizedBox(height: 16),
-              YellowButtonWithText(
-                size: 16,
-                backgroundColor:
-                    MaterialStateProperty.all(ColorSelect.colorF7E641),
-                textStyleColor: ColorSelect.color292929,
-                onTap: () {
-                  setState(() {
-                    selectedDate;
-                  });
-                  Navigator.pop(context);
-                  print(selectedDate);
-                },
-                title: 'OK',
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  YellowButtonWithText(
+                    size: 16,
+                    backgroundColor:
+                        MaterialStateProperty.all(ColorSelect.colorF7E641),
+                    textStyleColor: ColorSelect.color292929,
+                    onTap: () {
+                      setState(() {
+                        selectedDate;
+                      });
+                      Navigator.pop(context);
+                      print(selectedDate);
+                    },
+                    title: 'OK',
+                  ),
+                  YellowButtonWithText(
+                    size: 16,
+                    backgroundColor:
+                        MaterialStateProperty.all(ColorSelect.colorF7E641),
+                    textStyleColor: ColorSelect.color292929,
+                    onTap: () {
+                      setState(() {
+                        selectedDate;
+                      });
+                      Navigator.pop(context);
+                      print(selectedDate);
+                    },
+                    title: 'Cancel',
+                  )
+                ],
               )
             ],
           ),
@@ -78,3 +97,90 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     );
   }
 }
+
+//
+// class DatePick extends StatefulWidget {
+//   const DatePick({Key? key}) : super(key: key);
+//
+//   @override
+//   State<DatePick> createState() => _DatePickState();
+// }
+//
+// class _DatePickState extends State<DatePick> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return AlertDialog(
+//       backgroundColor: Colors.transparent,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(12),
+//       ),
+//       insetPadding: EdgeInsets.all(16),
+//       contentPadding: EdgeInsets.zero,
+//       content: Container(
+//         width: 1.sw,
+//         padding: EdgeInsets.all(20),
+//         decoration: BoxDecoration(
+//           color: Colors.white,
+//           borderRadius: BorderRadius.circular(12),
+//         ),
+//         child: SingleChildScrollView(
+//           child: Column(
+//             children: [
+//               SizedBox(
+//                 width: 1.sw,
+//                 height: 200,
+//                 child: CupertinoDatePicker(
+//                   dateOrder: DatePickerDateOrder.ymd,
+//                   mode: CupertinoDatePickerMode.date,
+//                   minimumYear: 1950,
+//                   maximumYear: widget.maximumDate,
+//                   onDateTimeChanged: (val) {
+//                     setState(() {
+//                       selectedDate = val;
+//                       widget.onPop(selectedDate);
+//                     });
+//                     // tempPickedDate = dateTime
+//                   },
+//                 ),
+//               ),
+//               SizedBox(height: 16),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                 children: [
+//                   YellowButtonWithText(
+//                     size: 16,
+//                     backgroundColor:
+//                     MaterialStateProperty.all(ColorSelect.colorF7E641),
+//                     textStyleColor: ColorSelect.color292929,
+//                     onTap: () {
+//                       setState(() {
+//                         selectedDate;
+//                       });
+//                       Navigator.pop(context);
+//                       print(selectedDate);
+//                     },
+//                     title: 'OK',
+//                   ),
+//                   YellowButtonWithText(
+//                     size: 16,
+//                     backgroundColor:
+//                     MaterialStateProperty.all(ColorSelect.colorF7E641),
+//                     textStyleColor: ColorSelect.color292929,
+//                     onTap: () {
+//                       setState(() {
+//                         selectedDate;
+//                       });
+//                       Navigator.pop(context);
+//                       print(selectedDate);
+//                     },
+//                     title: 'Cancel',
+//                   )
+//                 ],
+//               )
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

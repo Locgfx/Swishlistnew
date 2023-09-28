@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,7 +15,6 @@ import '../../../buttons/light_yellow.dart';
 import '../../../constants/color.dart';
 import '../../../models/ProductStoreMode.dart';
 import '../../../models/product_type_model.dart';
-import '../../../profile_page/widgets/date_picker.dart';
 import '../manuallyadd.dart';
 import '../productAdded.dart';
 
@@ -219,6 +219,9 @@ class _LinkProductAddState extends State<LinkProductAdd> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(20),
+                              ],
                               onChanged: (v) {
                                 setState(() {});
                               },
@@ -413,18 +416,39 @@ class _LinkProductAddState extends State<LinkProductAdd> {
                               readOnly: true,
                               onTap: () {
                                 setState(() async {
-                                  DateTime? pickedDate = await showDialog(
+                                  var datePicked = await showRoundedDatePicker(
+                                    height: 250,
                                     context: context,
-                                    builder: (_) => DatePickerWidget(
-                                      onPop: (date) {
-                                        dateController.text =
-                                            DateFormat.yMMMd().format(date);
-                                        dateFormat = DateFormat('yyyy-MM-dd')
-                                            .format(date);
-                                      },
-                                      maximumDate: 2023,
+                                    styleDatePicker:
+                                        MaterialRoundedDatePickerStyle(
+                                      paddingDatePicker:
+                                          EdgeInsets.only(left: 10, right: 10),
+                                      textStyleButtonPositive: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                      textStyleButtonNegative: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
                                     ),
+                                    theme: ThemeData(
+                                        primarySwatch: Colors.yellow,
+                                        textTheme: TextTheme()),
+                                    initialDate: DateTime.now(),
+                                    firstDate:
+                                        DateTime(DateTime.now().year - 10),
+                                    lastDate:
+                                        DateTime(DateTime.now().year + 10),
+                                    borderRadius: 16,
                                   );
+
+                                  setState(() {
+                                    dateController.text =
+                                        DateFormat.yMMMd().format(datePicked!);
+                                    dateFormat = DateFormat('yyyy-MM-dd')
+                                        .format(datePicked);
+                                  });
                                 });
                               },
                               decoration: InputDecoration(
@@ -442,81 +466,97 @@ class _LinkProductAddState extends State<LinkProductAdd> {
                     ),
                   ),
                   SizedBox(height: 56),
-                  SizedBox(
-                    width: 328.w,
-                    height: 52.h,
-                    child: show
-                        ? LoadingLightYellowButton()
-                        : LightYellowButtonWithText(
-                            onTap: () {
-                              setState(() {
-                                show = !show;
-                              });
-                              Timer timer = Timer(Duration(seconds: 4), () {
-                                setState(() {
-                                  show = false;
-                                });
-                              });
-                              if (formKey.currentState!.validate()) {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                if (networkImage.isNotEmpty ||
-                                    pickedImage.isAbsolute) {
-                                  productStoreApi(
-                                          type: productTypeController.text,
-                                          name: titleController.text,
-                                          link: widget.productLink.toString(),
-                                          price: priceController.text,
-                                          purchaseDate: dateFormat,
-                                          privacyStatus: 'public',
-                                          photo: pickedImage.isAbsolute
-                                              ? pickedImage.path
-                                              : '')
-                                      .then(
-                                    (value) async {
-                                      respStore = value;
-                                      if (respStore!.status == true) {
-                                        setState(() {
-                                          isLoading = false;
-                                        });
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) => ProductAdded(
-                                                name: titleController.text,
-                                                price: priceController.text,
-                                                productImage: respStore!
-                                                    .data!.photo
-                                                    .toString()),
-                                          ),
-                                        );
-                                        Fluttertoast.showToast(
-                                            msg: respStore!.message.toString());
-                                      } else {
-                                        Fluttertoast.showToast(
-                                            msg: respStore!.message.toString());
-                                      }
-                                    },
-                                  );
-                                }
-                              }
-                            },
-                            backgroundColor: (titleController.text.isNotEmpty &&
-                                        productLinkController.text.isNotEmpty ||
-                                    priceController.text.isNotEmpty)
-                                ? MaterialStateProperty.all(
-                                    ColorSelect.colorF7E641)
-                                : MaterialStateProperty.all(
-                                    ColorSelect.colorFCF5B6),
-                            textStyleColor: titleController.text.isNotEmpty &&
-                                        productLinkController.text.isNotEmpty ||
-                                    priceController.text.isNotEmpty
-                                ? Colors.black
-                                : ColorSelect.colorB5B07A,
-                            title: 'Add',
+                  titleController.text.isEmpty ||
+                          priceController.text.isEmpty ||
+                          productTypeController.text.isEmpty ||
+                          dateController.text.isEmpty
+                      ? SizedBox(
+                          width: 328.w,
+                          height: 52.h,
+                          child: LightYellowButtonWithText(
+                            onTap: () {},
+                            backgroundColor: MaterialStateProperty.all(
+                                ColorSelect.colorFCF5B6),
+                            textStyleColor: ColorSelect.colorB5B07A,
+                            title: 'Please Add All Details',
                           ),
-                  ),
+                        )
+                      : SizedBox(
+                          width: 328.w,
+                          height: 52.h,
+                          child: show
+                              ? LoadingLightYellowButton()
+                              : LightYellowButtonWithText(
+                                  onTap: () {
+                                    setState(() {
+                                      show = !show;
+                                    });
+                                    Timer timer =
+                                        Timer(Duration(seconds: 4), () {
+                                      setState(() {
+                                        show = false;
+                                      });
+                                    });
+                                    if (formKey.currentState!.validate()) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      if (networkImage.isNotEmpty ||
+                                          pickedImage.isAbsolute) {
+                                        productStoreApi(
+                                                type:
+                                                    productTypeController.text,
+                                                name: titleController.text,
+                                                link: widget.productLink
+                                                    .toString(),
+                                                price: priceController.text,
+                                                purchaseDate: dateFormat,
+                                                privacyStatus: 'public',
+                                                photo: pickedImage.isAbsolute
+                                                    ? pickedImage.path
+                                                    : '')
+                                            .then(
+                                          (value) async {
+                                            respStore = value;
+                                            if (respStore!.status == true) {
+                                              setState(() {
+                                                isLoading = false;
+                                              });
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) => ProductAdded(
+                                                      name:
+                                                          titleController.text,
+                                                      price:
+                                                          priceController.text,
+                                                      productImage: respStore!
+                                                          .data!.photo
+                                                          .toString()),
+                                                ),
+                                              );
+                                              Fluttertoast.showToast(
+                                                  msg: respStore!.message
+                                                      .toString());
+                                            } else {
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      'Please enter product image');
+                                            }
+                                          },
+                                        );
+                                      }
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: 'Please enter product image');
+                                    }
+                                  },
+                                  backgroundColor: MaterialStateProperty.all(
+                                      ColorSelect.colorF7E641),
+                                  textStyleColor: Colors.black,
+                                  title: 'Add',
+                                ),
+                        ),
                   SizedBox(height: 40)
                 ],
               ),

@@ -131,6 +131,7 @@ class _PetsState extends State<Pets> {
                 return getPets();
               },
               child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
                 child: Column(
                   children: [
                     Stack(

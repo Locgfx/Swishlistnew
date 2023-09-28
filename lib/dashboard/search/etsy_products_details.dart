@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 
@@ -13,7 +15,6 @@ import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../models/etsy_image_model.dart';
 import '../../models/etsy_load_more_model.dart';
-import '../../profile_page/widgets/date_picker.dart';
 import '../products/manuallyadd.dart';
 
 class EtsyProductDetails extends StatefulWidget {
@@ -80,6 +81,21 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
             ),
           ],
         ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Share.share(widget.productUrl);
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 16),
+              child: Image.asset(
+                "assets/images/Vectorsend.png",
+                height: 24,
+                width: 20,
+              ),
+            ),
+          ),
+        ],
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
           child: InkWell(
@@ -197,176 +213,103 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                             context: context,
                             isScrollControlled: true,
                             builder: (context) {
-                              return Container(
-                                padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context)
-                                        .viewInsets
-                                        .bottom),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      // GestureDetector(
-                                      //   onTap: () {
-                                      //     Navigator.push(
-                                      //         context,
-                                      //         MaterialPageRoute(
-                                      //             builder: (context) => ManuallyAdd(
-                                      //                 /*model: widget.model,*/)));
-                                      //   },
-                                      //   child: Container(
-                                      //     width: 138.w,
-                                      //     height: 44.h,
-                                      //     margin: EdgeInsets.only(right: 16),
-                                      //     decoration: BoxDecoration(
-                                      //         color: Colors.white,
-                                      //         borderRadius:
-                                      //             BorderRadius.circular(8)),
-                                      //     child: Row(
-                                      //       mainAxisAlignment:
-                                      //           MainAxisAlignment.center,
-                                      //       children: [
-                                      //         Text(
-                                      //           "Add manually",
-                                      //           style: AppTextStyle()
-                                      //               .textcolor27272714w500,
-                                      //         ),
-                                      //         SizedBox(
-                                      //           width: 4,
-                                      //         ),
-                                      //         Padding(
-                                      //           padding:
-                                      //               const EdgeInsets.symmetric(
-                                      //                   horizontal: 10,
-                                      //                   vertical: 7),
-                                      //           child: SvgPicture.asset(
-                                      //             "assets/icons/Vector175.svg",
-                                      //           ),
-                                      //         ),
-                                      //       ],
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Container(
-                                        width: 1.sw,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
+                              return StatefulBuilder(
+                                  builder: (context, StateSetter setState) {
+                                return Container(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        // GestureDetector(
+                                        //   onTap: () {
+                                        //     Navigator.push(
+                                        //         context,
+                                        //         MaterialPageRoute(
+                                        //             builder: (context) => ManuallyAdd(
+                                        //                 /*model: widget.model,*/)));
+                                        //   },
+                                        //   child: Container(
+                                        //     width: 138.w,
+                                        //     height: 44.h,
+                                        //     margin: EdgeInsets.only(right: 16),
+                                        //     decoration: BoxDecoration(
+                                        //         color: Colors.white,
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(8)),
+                                        //     child: Row(
+                                        //       mainAxisAlignment:
+                                        //           MainAxisAlignment.center,
+                                        //       children: [
+                                        //         Text(
+                                        //           "Add manually",
+                                        //           style: AppTextStyle()
+                                        //               .textcolor27272714w500,
+                                        //         ),
+                                        //         SizedBox(
+                                        //           width: 4,
+                                        //         ),
+                                        //         Padding(
+                                        //           padding:
+                                        //               const EdgeInsets.symmetric(
+                                        //                   horizontal: 10,
+                                        //                   vertical: 7),
+                                        //           child: SvgPicture.asset(
+                                        //             "assets/icons/Vector175.svg",
+                                        //           ),
+                                        //         ),
+                                        //       ],
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        SizedBox(
+                                          height: 20,
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                height: 32,
-                                              ),
-                                              Text(
-                                                "Select Details",
-                                                style: AppTextStyle()
-                                                    .textColor29292924w700,
-                                                // style: AppTextStyle().textColor70707012w400,
-                                              ),
-                                              SizedBox(
-                                                height: 8,
-                                              ),
-                                              // Text(
-                                              //   "Paste an amazon or etsy URL link to add a wanted product.",
-                                              //   style: AppTextStyle().textColor70707012w400,
-                                              // ),
-                                              SizedBox(
-                                                height: 28,
-                                              ),
-                                              Container(
-                                                width: 328.w,
-                                                height: 52.h,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                    color: ColorSelect
-                                                        .colorEDEDF1),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 12),
-                                                  child: Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: TextFormField(
-                                                          onChanged: (v) {
-                                                            setState(() {});
-                                                          },
-                                                          controller:
-                                                              dateController,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .text,
-                                                          readOnly: true,
-                                                          onTap: () {
-                                                            setState(() async {
-                                                              DateTime?
-                                                                  pickedDate =
-                                                                  await showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder: (_) =>
-                                                                    DatePickerWidget(
-                                                                  onPop:
-                                                                      (date) {
-                                                                    dateController
-                                                                        .text = DateFormat
-                                                                            .yMMMd()
-                                                                        .format(
-                                                                            date);
-                                                                    dateFormat = DateFormat(
-                                                                            'yyyy-MM-dd')
-                                                                        .format(
-                                                                            date);
-                                                                  },
-                                                                  maximumDate:
-                                                                      2023,
-                                                                ),
-                                                              );
-                                                            });
-                                                          },
-                                                          decoration: InputDecoration(
-                                                              border:
-                                                                  InputBorder
-                                                                      .none,
-                                                              hintText:
-                                                                  "Ideal Purchased date or Purchase date",
-                                                              hintStyle:
-                                                                  AppTextStyle()
-                                                                      .textColor70707014w400,
-                                                              suffixIcon:
-                                                                  Image.asset(
-                                                                      "assets/images/calendarimg.png")),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
+                                        Container(
+                                          width: 1.sw,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  height: 20,
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                height: 16,
-                                              ),
-                                              Container(
-                                                width: 328.w,
-                                                height: 52.h,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                    color: ColorSelect
-                                                        .colorEDEDF1),
-                                                child: Padding(
+                                                Text(
+                                                  "Select Details",
+                                                  style: AppTextStyle()
+                                                      .textColor29292916w500,
+                                                  // style: AppTextStyle().textColor70707012w400,
+                                                ),
+
+                                                // Text(
+                                                //   "Paste an amazon or etsy URL link to add a wanted product.",
+                                                //   style: AppTextStyle().textColor70707012w400,
+                                                // ),
+                                                SizedBox(
+                                                  height: 16,
+                                                ),
+                                                Container(
+                                                  width: 328.w,
+                                                  height: 48.h,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                      color: ColorSelect
+                                                          .colorEDEDF1),
+                                                  child: Padding(
                                                     padding:
                                                         const EdgeInsets.only(
                                                             left: 12),
@@ -378,135 +321,264 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                               setState(() {});
                                                             },
                                                             controller:
-                                                                productTypeController,
+                                                                dateController,
                                                             keyboardType:
                                                                 TextInputType
                                                                     .text,
-                                                            decoration:
-                                                                InputDecoration(
-                                                                    border:
-                                                                        InputBorder
-                                                                            .none,
-                                                                    hintText:
-                                                                        "Type",
-                                                                    hintStyle:
-                                                                        AppTextStyle()
-                                                                            .textColor70707014w400,
-                                                                    suffixIconConstraints: BoxConstraints(
-                                                                        maxHeight:
-                                                                            40,
-                                                                        maxWidth:
-                                                                            40),
-                                                                    suffixIcon:
-                                                                        Padding(
-                                                                      padding: const EdgeInsets
-                                                                              .only(
-                                                                          right:
-                                                                              15.0),
-                                                                      child: Image
-                                                                          .asset(
-                                                                        'assets/images/down-arrow.png',
-                                                                        height:
-                                                                            25,
-                                                                      ),
-                                                                    )),
+                                                            readOnly: true,
                                                             onTap: () {
-                                                              showModalBottomSheet(
-                                                                  shape:
-                                                                      const RoundedRectangleBorder(
-                                                                    borderRadius: BorderRadius.only(
-                                                                        topRight:
-                                                                            Radius.circular(
-                                                                                20),
-                                                                        topLeft:
-                                                                            Radius.circular(20)),
-                                                                  ),
+                                                              setState(
+                                                                  () async {
+                                                                var datePicked =
+                                                                    await showRoundedDatePicker(
+                                                                  height: 250,
                                                                   context:
                                                                       context,
-                                                                  builder:
-                                                                      (context) =>
-                                                                          ProductTypeBottomSheet(
-                                                                            productType:
-                                                                                productTypeController.text,
-                                                                            onPop:
-                                                                                (val) {
-                                                                              setState(() {
-                                                                                productTypeController.text = val;
-                                                                              });
-                                                                            },
-                                                                          ));
+                                                                  styleDatePicker:
+                                                                      MaterialRoundedDatePickerStyle(
+                                                                    paddingDatePicker: EdgeInsets.only(
+                                                                        left:
+                                                                            10,
+                                                                        right:
+                                                                            10),
+                                                                    textStyleButtonPositive:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                    textStyleButtonNegative:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                  ),
+                                                                  theme: ThemeData(
+                                                                      primarySwatch:
+                                                                          Colors
+                                                                              .yellow,
+                                                                      textTheme:
+                                                                          TextTheme()),
+                                                                  initialDate:
+                                                                      DateTime
+                                                                          .now(),
+                                                                  firstDate: DateTime(
+                                                                      DateTime.now()
+                                                                              .year -
+                                                                          10),
+                                                                  lastDate: DateTime(
+                                                                      DateTime.now()
+                                                                              .year +
+                                                                          10),
+                                                                  borderRadius:
+                                                                      16,
+                                                                );
+
+                                                                setState(() {
+                                                                  dateController
+                                                                      .text = DateFormat
+                                                                          .yMMMd()
+                                                                      .format(
+                                                                          datePicked!);
+                                                                  dateFormat = DateFormat(
+                                                                          'yyyy-MM-dd')
+                                                                      .format(
+                                                                          datePicked);
+                                                                });
+                                                              });
                                                             },
-                                                            readOnly: true,
+                                                            decoration: InputDecoration(
+                                                                border:
+                                                                    InputBorder
+                                                                        .none,
+                                                                hintText:
+                                                                    "Ideal Purchased date or Purchase date",
+                                                                hintStyle:
+                                                                    AppTextStyle()
+                                                                        .textColor70707014w400,
+                                                                suffixIcon:
+                                                                    Image.asset(
+                                                                        "assets/images/calendarimg.png")),
                                                           ),
-                                                        ),
+                                                        )
                                                       ],
-                                                    )),
-                                              ),
-                                              SizedBox(
-                                                height: 16,
-                                              ),
-                                              SizedBox(
-                                                height: 52.h,
-                                                width: 88.w,
-                                                child:
-                                                    LightYellowButtonWithText(
-                                                        backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all(ColorSelect
-                                                                    .colorF7E641),
-                                                        textStyleColor:
-                                                            ColorSelect
-                                                                .color292929,
-                                                        onTap: () {
-                                                          etsyStoreApi(
-                                                            type:
-                                                                productTypeController
-                                                                    .text,
-                                                            name: widget
-                                                                .productTitle,
-                                                            link: widget
-                                                                .productUrl,
-                                                            price: widget
-                                                                .productPrice,
-                                                            purchaseDate:
-                                                                dateFormat,
-                                                            status: 'public',
-                                                            photoUrl: imageModel!
-                                                                .results![0]
-                                                                .urlFullxfull
-                                                                .toString(),
-                                                            photo: '',
-                                                          ).then((value) {
-                                                            if (value[
-                                                                    'status'] ==
-                                                                true) {
-                                                              Navigator.of(
-                                                                  context)
-                                                                ..pop()
-                                                                ..pop();
-                                                              Fluttertoast.showToast(
-                                                                  msg: value[
-                                                                      'message']);
-                                                            } else {
-                                                              Fluttertoast.showToast(
-                                                                  msg: value[
-                                                                      'please enter all products details']);
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 16,
+                                                ),
+                                                Container(
+                                                  width: 328.w,
+                                                  height: 48.h,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                      color: ColorSelect
+                                                          .colorEDEDF1),
+                                                  child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 12),
+                                                      child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child:
+                                                                TextFormField(
+                                                              onChanged: (v) {
+                                                                setState(() {});
+                                                              },
+                                                              controller:
+                                                                  productTypeController,
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .text,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                      border: InputBorder
+                                                                          .none,
+                                                                      hintText:
+                                                                          "Type",
+                                                                      hintStyle:
+                                                                          AppTextStyle()
+                                                                              .textColor70707014w400,
+                                                                      suffixIconConstraints: BoxConstraints(
+                                                                          maxHeight:
+                                                                              40,
+                                                                          maxWidth:
+                                                                              40),
+                                                                      suffixIcon:
+                                                                          Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.only(right: 15.0),
+                                                                        child: Image
+                                                                            .asset(
+                                                                          'assets/images/down-arrow.png',
+                                                                          height:
+                                                                              25,
+                                                                        ),
+                                                                      )),
+                                                              onTap: () {
+                                                                showModalBottomSheet(
+                                                                    shape:
+                                                                        const RoundedRectangleBorder(
+                                                                      borderRadius: BorderRadius.only(
+                                                                          topRight: Radius.circular(
+                                                                              20),
+                                                                          topLeft:
+                                                                              Radius.circular(20)),
+                                                                    ),
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (context) =>
+                                                                            ProductTypeBottomSheet(
+                                                                              productType: productTypeController.text,
+                                                                              onPop: (val) {
+                                                                                setState(() {
+                                                                                  productTypeController.text = val;
+                                                                                });
+                                                                              },
+                                                                            ));
+                                                              },
+                                                              readOnly: true,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
+                                                SizedBox(
+                                                  height: 16,
+                                                ),
+                                                SizedBox(
+                                                  height: 40.h,
+                                                  width: 88.w,
+                                                  child:
+                                                      LightYellowButtonWithText(
+                                                          backgroundColor: (productTypeController
+                                                                      .text
+                                                                      .isNotEmpty &&
+                                                                  dateController
+                                                                      .text
+                                                                      .isNotEmpty)
+                                                              ? MaterialStateProperty
+                                                                  .all(ColorSelect
+                                                                      .colorF7E641)
+                                                              : MaterialStateProperty
+                                                                  .all(ColorSelect
+                                                                      .colorFCF5B6),
+                                                          textStyleColor: (productTypeController
+                                                                      .text
+                                                                      .isNotEmpty &&
+                                                                  dateController
+                                                                      .text
+                                                                      .isNotEmpty)
+                                                              ? Colors.black
+                                                              : ColorSelect
+                                                                  .colorB5B07A,
+                                                          onTap: () {
+                                                            if (productTypeController
+                                                                    .text
+                                                                    .isNotEmpty &&
+                                                                dateController
+                                                                    .text
+                                                                    .isNotEmpty) {
+                                                              etsyStoreApi(
+                                                                type:
+                                                                    productTypeController
+                                                                        .text,
+                                                                name: widget
+                                                                    .productTitle,
+                                                                link: widget
+                                                                    .productUrl,
+                                                                price: widget
+                                                                    .productPrice,
+                                                                purchaseDate:
+                                                                    dateFormat,
+                                                                status:
+                                                                    'public',
+                                                                photoUrl: imageModel!
+                                                                    .results![0]
+                                                                    .urlFullxfull
+                                                                    .toString(),
+                                                                photo: '',
+                                                              ).then((value) {
+                                                                if (value[
+                                                                        'status'] ==
+                                                                    true) {
+                                                                  Navigator.of(
+                                                                      context)
+                                                                    ..pop()
+                                                                    ..pop();
+                                                                  Fluttertoast.showToast(
+                                                                      msg: value[
+                                                                          'message']);
+                                                                } else {
+                                                                  Fluttertoast.showToast(
+                                                                      msg: value[
+                                                                          'please enter all products details']);
+                                                                }
+                                                              });
                                                             }
-                                                          });
-                                                        },
-                                                        title: 'Add'),
-                                              ),
-                                              SizedBox(
-                                                height: 32,
-                                              )
-                                            ],
+                                                          },
+                                                          title: 'Add'),
+                                                ),
+                                                SizedBox(
+                                                  height: 32,
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              });
                             },
                           );
                         },

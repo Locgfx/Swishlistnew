@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:swishlist/api/user_apis/event_date_api.dart';
 import 'package:swishlist/constants/color.dart';
-import 'package:swishlist/profile_page/widgets/date_picker.dart';
 
 import '../buttons/light_yellow.dart';
 import '../constants/globals/loading.dart';
@@ -29,7 +29,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
 
   bool isLoading = false;
   EventModel? event;
-  EventModel? eventUpcoming;
+  // EventModel? eventUpcoming;
 
   List<DateModel> eventUpcoming2 = [];
   List<int> selectedItems = [];
@@ -54,30 +54,55 @@ class _DateAndEventsState extends State<DateAndEvents> {
   //   });
   // }
 
+  Future<void> _handleRefresh() async {
+    getUpcomingEvent();
+
+    // Implement your refresh logic here.
+    // For example, fetch new data from an API or update some data.
+    // You can use async/await for asynchronous operations.
+
+    // For demonstration purposes, let's delay for 2 seconds.
+    await Future.delayed(Duration(seconds: 2));
+
+    // Once the refresh operation is complete, call setState to rebuild the UI.
+    setState(() {
+      // Update your data or UI state as needed.
+    });
+  }
+
   // ModelEvent
   // List<ModelEvent> eventUp = [];
   DateTime currentDateTime = DateTime.now();
+  List<DateModel> eventUpcoming = [];
+  // final filteredItems = eventUpcoming2.where((item) => item.dateTime.isAfter(now)).toList();
   getUpcomingEvent() {
     isLoading = true;
     var resp = getDateAndEventApi();
     resp.then((value) {
+      eventUpcoming2.clear();
+      eventUpcoming.clear();
+
       if (value['status'] == true) {
         setState(() {
-          eventUpcoming = EventModel.fromJson(value);
+          // eventUpcoming = EventModel.fromJson(value);
+          for (var q in value['data']) {
+            eventUpcoming.add(DateModel.fromJson(q));
+          }
 
           for (var v in value['data']) {
             eventUpcoming2.add(DateModel.fromJson(v));
           }
+          eventUpcoming2.removeWhere((element) =>
+              DateTime.parse("${element.date}").isBefore(DateTime.now()
+                  // DateTime(
+                  //     DateTime.now().year,
+                  //     DateTime.now().month,
+                  //     DateTime.now().day,
+                  //     DateTime.now().hour,
+                  //     60)
+                  ));
 
           // eventUpcoming2.removeWhere((element) => element.date)
-
-          // for (var v in eventUpcoming2) {
-          //   eventUpcoming2.removeWhere((element) => element.date.)
-          //   // if (DateTime.parse("${v.date}}").isBefore(DateTime.now())) {
-          //   //   eventUpcoming2.remove(v);
-          //   //   print("check" + eventUpcoming2.length.toString());
-          //   // }
-          // }
 
           // for(var v in eventUpcoming!.data!) {
           //
@@ -113,9 +138,14 @@ class _DateAndEventsState extends State<DateAndEvents> {
   final dateController = TextEditingController();
   String dateFormat = '';
 
+  DateTime? selectedDate;
+
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final viewInsets = mediaQuery.viewInsets;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -155,10 +185,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                               .then((value) async {
                             print(selectedItems.toString());
                             if (value['status'] == true) {
-                              setState(() {
-                                event!.data!
-                                    .removeWhere((element) => element.id == v);
-                              });
+                              setState(() {});
                               Fluttertoast.showToast(msg: value['message']);
                             } else {
                               Fluttertoast.showToast(msg: value['message']);
@@ -166,7 +193,6 @@ class _DateAndEventsState extends State<DateAndEvents> {
                             setState(
                               () {
                                 isLoading = false;
-                                selectedItems.clear();
                               },
                             );
                           });
@@ -196,72 +222,78 @@ class _DateAndEventsState extends State<DateAndEvents> {
       backgroundColor: Colors.white,
       body: isLoading
           ? Loading()
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      Container(
-                        height: 8.h,
-                        width: 360.w,
-                        decoration: BoxDecoration(
-                            color: ColorSelect.colorBA54DE,
-                            borderRadius: BorderRadius.all(Radius.circular(0))),
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            height: 8.h,
-                            width: 216.w,
-                            decoration: BoxDecoration(
-                                color: ColorSelect.colorBA54DE,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(12),
-                                    bottomRight: Radius.circular(0))),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          : RefreshIndicator(
+              backgroundColor: Colors.white,
+              color: ColorSelect.colorF7E641,
+              strokeWidth: 3,
+              onRefresh: _handleRefresh,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    Stack(
                       children: [
-                        SizedBox(
-                          height: 20.h,
+                        Container(
+                          height: 8.h,
+                          width: 360.w,
+                          decoration: BoxDecoration(
+                              color: ColorSelect.colorBA54DE,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(0))),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  insetPadding:
-                                      EdgeInsets.only(left: 20, right: 20),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  elevation: 0,
-                                  backgroundColor: Colors.white,
-                                  content: SizedBox(
-                                    width: 1.sw,
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Column(
+                        Row(
+                          children: [
+                            Container(
+                              height: 8.h,
+                              width: 216.w,
+                              decoration: BoxDecoration(
+                                  color: ColorSelect.colorBA54DE,
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12),
+                                      bottomRight: Radius.circular(0))),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(
+                                      builder: (context, StateSetter setState) {
+                                    return AlertDialog(
+                                      insetPadding:
+                                          EdgeInsets.only(left: 38, right: 38),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      elevation: 0,
+                                      backgroundColor: Colors.white,
+                                      content: SizedBox(
+                                        width: 1.sw,
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 "Enter details",
                                                 style: AppTextStyle()
-                                                    .textColor29292924w700,
+                                                    .textColor29292916w500,
                                               ),
                                               SizedBox(
-                                                height: 25,
+                                                height: 16,
                                               ),
                                               // Text(
                                               //   "Fill the details of product you own already.",
@@ -270,7 +302,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
 
                                               Container(
                                                 width: 328.w,
-                                                height: 52.h,
+                                                height: 40.h,
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(8),
@@ -309,98 +341,11 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                 ),
                                               ),
                                               SizedBox(height: 12),
-                                              // Container(
-                                              //   width: 328.w,
-                                              //   height: 52.h,
-                                              //   decoration: BoxDecoration(
-                                              //       borderRadius:
-                                              //           BorderRadius.circular(
-                                              //               8),
-                                              //       color: ColorSelect
-                                              //           .colorEDEDF1),
-                                              //   child: Padding(
-                                              //     padding:
-                                              //         const EdgeInsets.only(
-                                              //             left: 12),
-                                              //     child: Row(
-                                              //       children: [
-                                              //         Expanded(
-                                              //           child: TextFormField(
-                                              //             onTap: () {
-                                              //               showModalBottomSheet(
-                                              //                   shape:
-                                              //                       const RoundedRectangleBorder(
-                                              //                     borderRadius: BorderRadius.only(
-                                              //                         topRight:
-                                              //                             Radius.circular(
-                                              //                                 20),
-                                              //                         topLeft: Radius
-                                              //                             .circular(
-                                              //                                 20)),
-                                              //                   ),
-                                              //                   context:
-                                              //                       context,
-                                              //                   builder:
-                                              //                       (context) =>
-                                              //                           EventTypeBottomSheet(
-                                              //                             eventType:
-                                              //                                 typeController.text,
-                                              //                             onPop:
-                                              //                                 (val) {
-                                              //                               setState(() {
-                                              //                                 typeController.text = val;
-                                              //                               });
-                                              //                             },
-                                              //                           ));
-                                              //             },
-                                              //             onChanged: (v) {
-                                              //               setState(() {});
-                                              //             },
-                                              //             controller:
-                                              //                 typeController,
-                                              //             decoration:
-                                              //                 InputDecoration(
-                                              //                     border:
-                                              //                         InputBorder
-                                              //                             .none,
-                                              //                     hintText:
-                                              //                         "Type of the Event",
-                                              //                     hintStyle:
-                                              //                         AppTextStyle()
-                                              //                             .textColor70707014w400,
-                                              //                     suffixIconConstraints:
-                                              //                         BoxConstraints(
-                                              //                             maxHeight:
-                                              //                                 40,
-                                              //                             maxWidth:
-                                              //                                 40),
-                                              //                     suffixIcon:
-                                              //                         Padding(
-                                              //                       padding: const EdgeInsets
-                                              //                               .only(
-                                              //                           right:
-                                              //                               15.0),
-                                              //                       child: Image
-                                              //                           .asset(
-                                              //                         'assets/images/down-arrow.png',
-                                              //                         height:
-                                              //                             25,
-                                              //                       ),
-                                              //                     )),
-                                              //             keyboardType:
-                                              //                 TextInputType
-                                              //                     .text,
-                                              //             readOnly: true,
-                                              //           ),
-                                              //         ),
-                                              //       ],
-                                              //     ),
-                                              //   ),
-                                              // ),
-                                              SizedBox(height: 12),
+
+                                              SizedBox(height: 8),
                                               Container(
                                                 width: 328.w,
-                                                height: 52.h,
+                                                height: 40.h,
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -424,31 +369,62 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                               TextInputType
                                                                   .text,
                                                           readOnly: true,
-                                                          onTap: () {
-                                                            setState(() async {
-                                                              DateTime?
-                                                                  pickedDate =
-                                                                  await showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder: (_) =>
-                                                                    DatePickerWidget(
-                                                                  onPop:
-                                                                      (date) {
-                                                                    dateController
-                                                                        .text = DateFormat
-                                                                            .yMMMd()
-                                                                        .format(
-                                                                            date);
-                                                                    dateFormat = DateFormat(
-                                                                            'yyyy-MM-dd')
-                                                                        .format(
-                                                                            date);
-                                                                  },
-                                                                  maximumDate:
-                                                                      2030,
+                                                          onTap: () async {
+                                                            var datePicked =
+                                                                await showRoundedDatePicker(
+                                                              height: 250,
+                                                              context: context,
+                                                              styleDatePicker:
+                                                                  MaterialRoundedDatePickerStyle(
+                                                                paddingDatePicker:
+                                                                    EdgeInsets.only(
+                                                                        left:
+                                                                            10,
+                                                                        right:
+                                                                            10),
+                                                                textStyleButtonPositive:
+                                                                    TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Colors
+                                                                      .black,
                                                                 ),
-                                                              );
+                                                                textStyleButtonNegative:
+                                                                    TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                              theme: ThemeData(
+                                                                  primarySwatch:
+                                                                      Colors
+                                                                          .yellow,
+                                                                  textTheme:
+                                                                      TextTheme()),
+                                                              initialDate:
+                                                                  DateTime
+                                                                      .now(),
+                                                              firstDate: DateTime(
+                                                                  DateTime.now()
+                                                                          .year -
+                                                                      10),
+                                                              lastDate: DateTime(
+                                                                  DateTime.now()
+                                                                          .year +
+                                                                      10),
+                                                              borderRadius: 16,
+                                                            );
+
+                                                            setState(() {
+                                                              dateController
+                                                                  .text = DateFormat
+                                                                      .yMMMd()
+                                                                  .format(
+                                                                      datePicked!);
+                                                              dateFormat = DateFormat(
+                                                                      'yyyy-MM-dd')
+                                                                  .format(
+                                                                      datePicked);
                                                             });
                                                           },
                                                           decoration: InputDecoration(
@@ -469,9 +445,9 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(height: 30),
+                                              SizedBox(height: 22),
                                               LightYellowButtonWithText(
-                                                size: 16,
+                                                size: 14,
                                                 onTap: () {
                                                   if (nameController
                                                           .text.isNotEmpty &&
@@ -514,231 +490,355 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                             .text.isNotEmpty)
                                                     ? Colors.black
                                                     : ColorSelect.colorB5B07A,
-                                                title: 'save',
+                                                title: 'Save',
                                               ),
-                                              SizedBox(height: 24)
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  });
+                                },
+                              );
+                            },
+                            child: Text(
+                              '+ Add Events',
+                              style: AppTextStyle().textColorBA54DE14w500,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          Text(
+                            "Upcoming",
+                            style: AppTextStyle().textColor29292914w600,
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          eventUpcoming2.isEmpty
+                              ? Center(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      /*      Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                          SizedBox(height: 5),*/
+                                      Text("No Upcoming Dates yet")
+                                    ],
+                                  ),
+                                )
+                              : ListView.separated(
+                                  padding: EdgeInsets.all(0),
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: eventUpcoming2.length,
+                                  // itemCount: 6,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  itemBuilder: (context, i) {
+                                    return GestureDetector(
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                eventUpcoming2[i]
+                                                    .name
+                                                    .toString(),
+                                                style: AppTextStyle()
+                                                    .textColor70707014w400,
+                                              ),
+                                              Spacer(),
+                                              Text(
+                                                eventUpcoming2[i]
+                                                    .date
+                                                    .toString(),
+                                                style: AppTextStyle()
+                                                    .textColor29292914w400,
+                                              ),
                                             ],
                                           ),
                                         ],
                                       ),
-                                    ),
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          SizedBox(
+                                    height: 16,
                                   ),
-                                );
-                              },
-                            );
-                          },
-                          child: Text(
-                            '+ Add Events',
-                            style: AppTextStyle().textColorBA54DE14w500,
-                          ),
-                        ),
-                        // SizedBox(
-                        //   height: 20.h,
-                        // ),
-                        // Text(
-                        //   "Upcoming",
-                        //   style: AppTextStyle().textColor29292914w600,
-                        // ),
-                        // SizedBox(
-                        //   height: 20.h,
-                        // ),
-                        // eventUpcoming!.data!.isEmpty
-                        //     ? Center(
-                        //         child: Column(
-                        //           crossAxisAlignment: CrossAxisAlignment.center,
-                        //           mainAxisAlignment: MainAxisAlignment.center,
-                        //           children: [
-                        //             /*      Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                        // SizedBox(height: 5),*/
-                        //             Text(
-                        //               'No Dates Added Yet',
-                        //               style:
-                        //                   AppTextStyle().textColor29292914w500,
-                        //             )
-                        //           ],
-                        //         ),
-                        //       )
-                        //     :
-                        // ListView.separated(
-                        //   padding: EdgeInsets.all(0),
-                        //   physics: NeverScrollableScrollPhysics(),
-                        //   itemCount: eventUpcoming2.length,
-                        //   // itemCount: 6,
-                        //   shrinkWrap: true,
-                        //   scrollDirection: Axis.vertical,
-                        //   itemBuilder: (context, i) {
-                        //     return GestureDetector(
-                        //       child: Column(
-                        //         children: [
-                        //           Row(
-                        //             children: [
-                        //               Text(
-                        //                 eventUpcoming2[i].name.toString(),
-                        //                 style: AppTextStyle()
-                        //                     .textColor70707014w400,
-                        //               ),
-                        //               Spacer(),
-                        //               Text(
-                        //                 eventUpcoming2[i].date.toString(),
-                        //                 style: AppTextStyle()
-                        //                     .textColor29292914w400,
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     );
-                        //   },
-                        //   separatorBuilder: (BuildContext context, int index) =>
-                        //       SizedBox(
-                        //     height: 16,
-                        //   ),
-                        // ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
-                        Text(
-                          "All",
-                          style: AppTextStyle().textColor29292914w600,
-                        ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            eventUpcoming!.data!.isEmpty
-                                ? Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text("No events yet"))
-                                : ListView.separated(
-                                    padding: EdgeInsets.all(0),
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: eventUpcoming!.data!.length,
-                                    // itemCount: 6,
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    itemBuilder: (context, i) {
-                                      return GestureDetector(
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  eventUpcoming!.data![i].name
-                                                      .toString(),
-                                                  style: AppTextStyle()
-                                                      .textColor70707014w400,
-                                                ),
-                                                Spacer(),
-                                                Text(
-                                                  eventUpcoming!.data![i].date
-                                                      .toString(),
-                                                  style: AppTextStyle()
-                                                      .textColor29292914w400,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) =>
-                                            SizedBox(
-                                      height: 16,
-                                    ),
-                                  ),
-                          ],
-                        ),
+                                ),
 
-                        // event!.data!.isEmpty
-                        //     ? Center(
-                        //         child: Column(
-                        //           crossAxisAlignment: CrossAxisAlignment.center,
-                        //           mainAxisAlignment: MainAxisAlignment.center,
-                        //           children: [
-                        //             /*   Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                        // // Image.asset("assets/images/delivery.png",height: 100,),
-                        // SizedBox(height: 5),*/
-                        //             Text(
-                        //               'No Dates Added Yet',
-                        //               style:
-                        //                   AppTextStyle().textColor29292914w500,
-                        //             ),
-                        //             SizedBox(height: 30),
-                        //           ],
-                        //         ),
-                        //       )
-                        //     : ListView.separated(
-                        //         padding: EdgeInsets.only(bottom: 30),
-                        //         physics: NeverScrollableScrollPhysics(),
-                        //         itemCount: event!.data!.length,
-                        //         shrinkWrap: true,
-                        //         scrollDirection: Axis.vertical,
-                        //         itemBuilder: (context, i) {
-                        //           return GestureDetector(
-                        //             onLongPress: () {
-                        //               if (selectedItems.isEmpty) {
-                        //                 setState(() {
-                        //                   selectedItems
-                        //                       .add(event!.data![i].id!);
-                        //                 });
-                        //               }
-                        //             },
-                        //             onTap: () {
-                        //               if (selectedItems
-                        //                   .contains(event!.data![i].id!)) {
-                        //                 setState(() {
-                        //                   selectedItems
-                        //                       .remove(event!.data![i].id!);
-                        //                 });
-                        //               } else {
-                        //                 setState(() {
-                        //                   selectedItems
-                        //                       .add(event!.data![i].id!);
-                        //                 });
-                        //               }
-                        //             },
-                        //             child: Column(
-                        //               children: [
-                        //                 Row(
-                        //                   children: [
-                        //                     Text(
-                        //                       event!.data![i].name.toString(),
-                        //                       style: selectedItems.contains(
-                        //                               event!.data![i].id!)
-                        //                           ? AppTextStyle()
-                        //                               .textColorD5574514w500
-                        //                           : AppTextStyle()
-                        //                               .textColor70707014w400,
-                        //                     ),
-                        //                     Spacer(),
-                        //                     Text(
-                        //                       event!.data![i].date.toString(),
-                        //                       style: selectedItems.contains(
-                        //                               event!.data![i].id!)
-                        //                           ? AppTextStyle()
-                        //                               .textColorD5574514w500
-                        //                           : AppTextStyle()
-                        //                               .textColor29292914w400,
-                        //                     ),
-                        //                   ],
-                        //                 ),
-                        //               ],
-                        //             ),
-                        //           );
-                        //         },
-                        //         separatorBuilder:
-                        //             (BuildContext context, int index) =>
-                        //                 SizedBox(
-                        //           height: 16,
-                        //         ),
-                        //       ),
-                      ],
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          Text(
+                            "All",
+                            style: AppTextStyle().textColor29292914w600,
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              eventUpcoming.isEmpty
+                                  ? Center(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          /*      Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                                          SizedBox(height: 5),*/
+                                          Text("No events yet")
+                                        ],
+                                      ),
+                                    )
+                                  : ListView.separated(
+                                      padding: EdgeInsets.all(0),
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: eventUpcoming.length,
+                                      // itemCount: 6,
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
+                                      itemBuilder: (context, i) {
+                                        return GestureDetector(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color: Colors.yellow),
+                                              color:
+                                                  Colors.grey.withOpacity(0.02),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            'Event : ',
+                                                            style: AppTextStyle()
+                                                                .textColor29292914w600,
+                                                          ),
+                                                          Text(
+                                                            eventUpcoming[i]
+                                                                .name
+                                                                .toString(),
+                                                            style: AppTextStyle()
+                                                                .textColor29292914w400,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            'Date : ',
+                                                            style: AppTextStyle()
+                                                                .textColor29292914w600,
+                                                          ),
+                                                          Text(
+                                                            eventUpcoming[i]
+                                                                .date
+                                                                .toString(),
+                                                            style: AppTextStyle()
+                                                                .textColor29292914w400,
+                                                          ),
+                                                        ],
+                                                      ),
+
+                                                      // Row(
+                                                      //   children: [
+                                                      //     Text(
+                                                      //       eventUpcoming!
+                                                      //           .data![i].name
+                                                      //           .toString(),
+                                                      //       style: AppTextStyle()
+                                                      //           .textColor70707014w400,
+                                                      //     ),
+                                                      //     Spacer(),
+                                                      //     Text(
+                                                      //       eventUpcoming!
+                                                      //           .data![i].date
+                                                      //           .toString(),
+                                                      //       style: AppTextStyle()
+                                                      //           .textColor29292914w400,
+                                                      //     ),
+                                                      //   ],
+                                                      // ),
+                                                    ],
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        isLoading = true;
+                                                      });
+                                                      deleteEventAndDate(
+                                                              id: eventUpcoming[
+                                                                      i]
+                                                                  .id
+                                                                  .toString())
+                                                          .then((value) async {
+                                                        print(selectedItems
+                                                            .toString());
+                                                        if (value['status'] ==
+                                                            true) {
+                                                          setState(() {
+                                                            isLoading
+                                                                ? Loading()
+                                                                : getUpcomingEvent();
+                                                          });
+                                                          Fluttertoast.showToast(
+                                                              msg: value[
+                                                                  'message']);
+                                                        } else {
+                                                          Fluttertoast.showToast(
+                                                              msg: value[
+                                                                  'message']);
+                                                        }
+
+                                                        setState(() {
+                                                          isLoading = false;
+                                                        });
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                            "Delete",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .redAccent),
+                                                          ),
+                                                        )),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      separatorBuilder:
+                                          (BuildContext context, int index) =>
+                                              SizedBox(
+                                        height: 16,
+                                      ),
+                                    ),
+                            ],
+                          ),
+
+                          // event!.data!.isEmpty
+                          //     ? Center(
+                          //         child: Column(
+                          //           crossAxisAlignment: CrossAxisAlignment.center,
+                          //           mainAxisAlignment: MainAxisAlignment.center,
+                          //           children: [
+                          //             /*   Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                          // // Image.asset("assets/images/delivery.png",height: 100,),
+                          // SizedBox(height: 5),*/
+                          //             Text(
+                          //               'No Dates Added Yet',
+                          //               style:
+                          //                   AppTextStyle().textColor29292914w500,
+                          //             ),
+                          //             SizedBox(height: 30),
+                          //           ],
+                          //         ),
+                          //       )
+                          //     : ListView.separated(
+                          //         padding: EdgeInsets.only(bottom: 30),
+                          //         physics: NeverScrollableScrollPhysics(),
+                          //         itemCount: event!.data!.length,
+                          //         shrinkWrap: true,
+                          //         scrollDirection: Axis.vertical,
+                          //         itemBuilder: (context, i) {
+                          //           return GestureDetector(
+                          //             onLongPress: () {
+                          //               if (selectedItems.isEmpty) {
+                          //                 setState(() {
+                          //                   selectedItems
+                          //                       .add(event!.data![i].id!);
+                          //                 });
+                          //               }
+                          //             },
+                          //             onTap: () {
+                          //               if (selectedItems
+                          //                   .contains(event!.data![i].id!)) {
+                          //                 setState(() {
+                          //                   selectedItems
+                          //                       .remove(event!.data![i].id!);
+                          //                 });
+                          //               } else {
+                          //                 setState(() {
+                          //                   selectedItems
+                          //                       .add(event!.data![i].id!);
+                          //                 });
+                          //               }
+                          //             },
+                          //             child: Column(
+                          //               children: [
+                          //                 Row(
+                          //                   children: [
+                          //                     Text(
+                          //                       event!.data![i].name.toString(),
+                          //                       style: selectedItems.contains(
+                          //                               event!.data![i].id!)
+                          //                           ? AppTextStyle()
+                          //                               .textColorD5574514w500
+                          //                           : AppTextStyle()
+                          //                               .textColor70707014w400,
+                          //                     ),
+                          //                     Spacer(),
+                          //                     Text(
+                          //                       event!.data![i].date.toString(),
+                          //                       style: selectedItems.contains(
+                          //                               event!.data![i].id!)
+                          //                           ? AppTextStyle()
+                          //                               .textColorD5574514w500
+                          //                           : AppTextStyle()
+                          //                               .textColor29292914w400,
+                          //                     ),
+                          //                   ],
+                          //                 ),
+                          //               ],
+                          //             ),
+                          //           );
+                          //         },
+                          //         separatorBuilder:
+                          //             (BuildContext context, int index) =>
+                          //                 SizedBox(
+                          //           height: 16,
+                          //         ),
+                          //       ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
     );

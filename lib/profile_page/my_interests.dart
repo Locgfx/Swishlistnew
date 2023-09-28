@@ -186,7 +186,7 @@ class _MyInterestsState extends State<MyInterests> {
                       }
                     },
                     title:
-                        'update ${tagsList.isNotEmpty && tagsList.length < 11 ? '(${tagsList.length}/10)' : ''}',
+                        'Update ${tagsList.isNotEmpty && tagsList.length < 11 ? '(${tagsList.length}/10)' : ''}',
                   )),
       ),
       body: Container(

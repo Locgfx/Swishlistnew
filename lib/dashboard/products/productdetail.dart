@@ -227,7 +227,9 @@ class _ProductDetailState extends State<ProductDetail> {
                                                       TextFormField(
                                                         controller:
                                                             textController,
-                                                        onChanged: (v) {},
+                                                        onChanged: (v) {
+                                                          setState(() {});
+                                                        },
                                                         // controller: moviesController,
                                                         cursorColor: ColorSelect
                                                             .colorF7E641,

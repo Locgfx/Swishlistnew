@@ -71,6 +71,10 @@ dependencies:
   showcaseview: ^2.0.3
   flutter_scratcher: ^2.4.3
   sign_in_with_apple: ^5.0.0
+  flutter_holo_date_picker: ^1.1.2+1
+  flutter_rounded_date_picker: ^3.0.4
+
+
 
 
 

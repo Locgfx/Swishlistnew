@@ -268,6 +268,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                             });
                                           }
                                         },
+                                        title: 'waist',
                                       );
                                     },
                                   );
@@ -608,7 +609,9 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
 
 class WaistDialog extends StatefulWidget {
   final Function(String) onPop;
-  const WaistDialog({Key? key, required this.onPop}) : super(key: key);
+  final String title;
+  const WaistDialog({Key? key, required this.onPop, required this.title})
+      : super(key: key);
 
   @override
   State<WaistDialog> createState() => _WaistDialogState();
@@ -646,7 +649,7 @@ class _WaistDialogState extends State<WaistDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Waist Size',
+                widget.title,
                 style: AppTextStyle().textColor29292914w500,
               ),
               SizedBox(height: 10),
@@ -778,7 +781,7 @@ class _ShirtDialogState extends State<ShirtDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Waist Size',
+                'Shirt Size',
                 style: AppTextStyle().textColor29292914w500,
               ),
               SizedBox(height: 10),
@@ -904,7 +907,7 @@ class _ShoesDialogState extends State<ShoesDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Waist Size',
+                'Shoes Size',
                 style: AppTextStyle().textColor29292914w500,
               ),
               SizedBox(height: 10),
@@ -1023,7 +1026,7 @@ class _BedsDialogState extends State<BedsDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Waist Size',
+                'Bed Size',
                 style: AppTextStyle().textColor29292914w500,
               ),
               SizedBox(height: 10),

@@ -422,11 +422,11 @@ class _ManuallyAddBottomSheetWidgetState
                       style: AppTextStyle().textColor70707012w400,
                     ),
                     SizedBox(
-                      height: 28,
+                      height: 16,
                     ),
                     Container(
                       width: 328.w,
-                      height: 52.h,
+                      height: 40.h,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: ColorSelect.colorEDEDF1),
@@ -455,37 +455,50 @@ class _ManuallyAddBottomSheetWidgetState
                     ),
                     Row(
                       children: [
-                        SizedBox(
-                          height: 52.h,
-                          width: 88.w,
-                          child: LightYellowButtonWithText(
-                              backgroundColor:
-                                  (productLinkController.text.isNotEmpty)
-                                      ? MaterialStateProperty.all(
-                                          ColorSelect.colorF7E641)
-                                      : MaterialStateProperty.all(
-                                          ColorSelect.colorFCF5B6),
-                              textStyleColor:
-                                  (productLinkController.text.isNotEmpty)
-                                      ? Colors.black
-                                      : ColorSelect.colorB5B07A,
-                              onTap: () {
-                                /* Navigator.pushReplacement(
+                        productLinkController.text.isNotEmpty
+                            ? SizedBox(
+                                height: 40.h,
+                                width: 88.w,
+                                child: LightYellowButtonWithText(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        ColorSelect.colorF7E641),
+                                    textStyleColor: Colors.black,
+                                    onTap: () {
+                                      /* Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => ProductAdded(name: '', price: '', productImage: ''),
                                     ),
                                 );*/
-                                Navigator.push(
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LinkProductAdd(
+                                                    productLink:
+                                                        productLinkController
+                                                            .text,
+                                                  )));
+                                    },
+                                    title: 'Add'),
+                              )
+                            : SizedBox(
+                                height: 40.h,
+                                width: 88.w,
+                                child: LightYellowButtonWithText(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        ColorSelect.colorFCF5B6),
+                                    textStyleColor: ColorSelect.colorB5B07A,
+                                    onTap: () {
+                                      /* Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => LinkProductAdd(
-                                              productLink:
-                                                  productLinkController.text,
-                                            )));
-                              },
-                              title: 'Add'),
-                        ),
+                                        builder: (context) => ProductAdded(name: '', price: '', productImage: ''),
+                                    ),
+                                );*/
+                                    },
+                                    title: 'Add'),
+                              ),
                         SizedBox(
                           width: 10,
                         ),
@@ -504,7 +517,7 @@ class _ManuallyAddBottomSheetWidgetState
                                     builder: (_) => AllEtsyProducts()));
                           },
                           child: Container(
-                            height: 50.h,
+                            height: 40.h,
                             width: 120.w,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
@@ -525,7 +538,7 @@ class _ManuallyAddBottomSheetWidgetState
                       ],
                     ),
                     SizedBox(
-                      height: 32,
+                      height: 40,
                     )
                   ],
                 ),

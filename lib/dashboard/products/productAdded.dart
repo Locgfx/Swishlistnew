@@ -115,22 +115,14 @@ class _ProductAddedState extends State<ProductAdded> {
                   ),
                   SizedBox(height: 40),
                   Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16),
                     width: 1.sw,
                     height: 200,
                     clipBehavior: Clip.hardEdge,
-                    margin: EdgeInsets.symmetric(horizontal: 45),
-                    padding: EdgeInsets.symmetric(vertical: 27),
+
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.08),
-                          offset: Offset(12, 12),
-                          spreadRadius: 0,
-                          blurRadius: 60,
-                        ),
-                      ],
                     ),
                     // child: Image.file(
                     //   File(widget.productImage),
@@ -170,18 +162,36 @@ class _ProductAddedState extends State<ProductAdded> {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 45),
                     width: 1.sw,
-                    child: Text(
-                      widget.name,
-                      style: AppTextStyle().textColor29292914w400,
+                    child: Row(
+                      children: [
+                        Text(
+                          'Product name :',
+                          style: AppTextStyle().textColor29292914w400,
+                        ),
+                        Text(
+                          '  ${widget.name}',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: AppTextStyle().roboto32323216w600,
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 8),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 45),
                     width: 1.sw,
-                    child: Text(
-                      '\$${widget.price}',
-                      style: AppTextStyle().roboto32323216w600,
+                    child: Row(
+                      children: [
+                        Text(
+                          'Price:',
+                          style: AppTextStyle().textColor29292914w400,
+                        ),
+                        Text(
+                          '  \$${widget.price}',
+                          style: AppTextStyle().roboto32323216w600,
+                        ),
+                      ],
                     ),
                   ),
                 ],
