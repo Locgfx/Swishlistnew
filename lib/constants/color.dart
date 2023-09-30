@@ -317,6 +317,13 @@ class AppTextStyle {
           fontSize: 14.sp,
           fontWeight: FontWeight.w400,
           color: ColorSelect.colorFFFFFF));
+
+  TextStyle textColorBlack14w400 = GoogleFonts.roboto(
+      textStyle: TextStyle(
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w400,
+          color: ColorSelect.color0D0D0F));
+
   TextStyle textColor8F8F8F10w400 = GoogleFonts.inter(
       textStyle: TextStyle(
           fontSize: 10.sp,

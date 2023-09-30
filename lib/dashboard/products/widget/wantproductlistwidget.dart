@@ -4,25 +4,20 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../buttons/light_yellow.dart';
 import '../../../constants/color.dart';
-import '../../../models/login_models.dart';
 import '../productAdded.dart';
 
 class WantProductBottomSheetWidget extends StatefulWidget {
-
-
-
   const WantProductBottomSheetWidget({
     Key? key,
-
   }) : super(key: key);
 
   @override
-  State<WantProductBottomSheetWidget> createState() => _WantProductBottomSheetWidgetState();
+  State<WantProductBottomSheetWidget> createState() =>
+      _WantProductBottomSheetWidgetState();
 }
 
-class _WantProductBottomSheetWidgetState extends State<WantProductBottomSheetWidget> {
-
-
+class _WantProductBottomSheetWidgetState
+    extends State<WantProductBottomSheetWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -123,7 +118,11 @@ class _WantProductBottomSheetWidgetState extends State<WantProductBottomSheetWid
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ProductAdded(name: '', price: '', productImage: '',)));
+                                    builder: (context) => ProductAdded(
+                                          name: '',
+                                          price: '',
+                                          productImage: '',
+                                        )));
                           },
                           title: 'Add'),
                     ),

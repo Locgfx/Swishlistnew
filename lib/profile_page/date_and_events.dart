@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,6 +35,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
 
   List<DateModel> eventUpcoming2 = [];
   List<int> selectedItems = [];
+  bool show = false;
 
   // getAllEvent() {
   //   isLoading = true;
@@ -81,7 +84,6 @@ class _DateAndEventsState extends State<DateAndEvents> {
     resp.then((value) {
       eventUpcoming2.clear();
       eventUpcoming.clear();
-
       if (value['status'] == true) {
         setState(() {
           // eventUpcoming = EventModel.fromJson(value);
@@ -129,6 +131,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
         });
       } else {
         isLoading = false;
+        setState(() {});
       }
     });
   }
@@ -686,7 +689,14 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                   GestureDetector(
                                                     onTap: () {
                                                       setState(() {
-                                                        isLoading = true;
+                                                        show = !show;
+                                                      });
+                                                      Timer timer = Timer(
+                                                          Duration(seconds: 2),
+                                                          () {
+                                                        setState(() {
+                                                          show = false;
+                                                        });
                                                       });
                                                       deleteEventAndDate(
                                                               id: eventUpcoming[
@@ -698,11 +708,10 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                             .toString());
                                                         if (value['status'] ==
                                                             true) {
-                                                          setState(() {
-                                                            isLoading
-                                                                ? Loading()
-                                                                : getUpcomingEvent();
-                                                          });
+                                                          isLoading
+                                                              ? Loading()
+                                                              : getUpcomingEvent();
+
                                                           Fluttertoast.showToast(
                                                               msg: value[
                                                                   'message']);
@@ -717,24 +726,36 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                         });
                                                       });
                                                     },
-                                                    child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(12),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                            "Delete",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .redAccent),
-                                                          ),
-                                                        )),
+                                                    child: show
+                                                        ? Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(4.0),
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                              color:
+                                                                  Colors.yellow,
+                                                            ),
+                                                          )
+                                                        : Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12),
+                                                            ),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Text(
+                                                                "Delete",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .redAccent),
+                                                              ),
+                                                            )),
                                                   ),
                                                 ],
                                               ),

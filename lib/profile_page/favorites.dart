@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -344,6 +345,10 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Car',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
+
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!fav.contains("cars")) {
@@ -414,6 +419,10 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Bike',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
+
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!fav.contains("bikes")) {
@@ -484,6 +493,10 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Movies',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
+
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!fav.contains("movies")) {
@@ -556,6 +569,10 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Show',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
+
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!fav.contains("shows")) {
@@ -629,6 +646,10 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Food',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
+
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!fav.contains("foods")) {
@@ -701,6 +722,10 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Gadgets',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
+
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!fav.contains("gadgets")) {
@@ -781,6 +806,10 @@ class _FavoritesState extends State<Favorites> {
                                   return NameEditDialogWidget(
                                     title: 'SuperHeroes',
                                     addTextField: TextFormField(
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(25),
+                                      ],
+
                                       onChanged: (v) {
                                         setState(() {});
                                         if (!fav.contains("superheroes")) {
@@ -850,6 +879,10 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Actors',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
+
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!fav.contains("actors")) {
@@ -917,6 +950,10 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Actress',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
+
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!fav.contains("actresses")) {
@@ -986,6 +1023,10 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Singers',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
+
                                     controller: singersController,
                                     onChanged: (v) {
                                       setState(() {});
@@ -1052,6 +1093,9 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Players',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!fav.contains("players")) {
@@ -1129,6 +1173,9 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Cities',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!fav.contains("cities")) {
@@ -1199,6 +1246,9 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Countries',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
                                     controller: countriesController,
                                     onChanged: (v) {
                                       setState(() {});
@@ -1271,6 +1321,9 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Restaurant',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!fav.contains("restaurants")) {
@@ -1344,6 +1397,9 @@ class _FavoritesState extends State<Favorites> {
                                 return NameEditDialogWidget(
                                   title: 'Hotel',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!fav.contains("hotels")) {

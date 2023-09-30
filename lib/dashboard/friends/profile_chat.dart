@@ -1,12 +1,13 @@
 import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/message_api.dart';
+
 import '../../api/user_apis/products_api.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
@@ -14,8 +15,6 @@ import '../../constants/globals/shared_prefs.dart';
 import '../../constants/urls.dart';
 import '../../models/list_message_model.dart';
 import '../../models/product_type_model.dart';
-import '../products/productdetail.dart';
-import '../products/widget/product_add_widget.dart';
 
 class ProfileChatPage extends StatefulWidget {
   final String friendId;
@@ -286,133 +285,166 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                           // ),
                           //   )
                           GroupedListView<Data, String>(
-                            padding: EdgeInsets.only(bottom: 100),
-                            order: GroupedListOrder.DESC,
-                            shrinkWrap: true,
-                            elements: listMessages!.data!,
-                            groupBy: (element) => DateTime.now()
-                                        .difference(DateTime.parse(
-                                            element.createdAt.toString()))
-                                        .inMinutes <=
-                                    59
-                                ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inMinutes} min ago"
-                                : DateTime.now()
-                                            .difference(DateTime.parse(
-                                                element.createdAt.toString()))
-                                            .inHours <=
-                                        23
-                                    ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inHours} hr ago"
-                                    : "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inDays} days ago",
-                            groupSeparatorBuilder: (String groupByValue) =>
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Text(
-                              groupByValue,
-                              style: TextStyle(fontWeight: FontWeight.w700),
-                              textAlign: TextAlign.center,
-                            ),
-                                ),
-                            itemBuilder: (context, Data element)  {
-                              print(ids);
-                              return
-                                element.product!.photo!.isEmpty ? Align(
-                                alignment: ids == element.sendFromUserId ? Alignment.centerRight:Alignment.centerLeft,
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(vertical: 12),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color:  ids == element.sendFromUserId ? ColorSelect.color343434:ColorSelect.colorECEDF0),
-                                  child: Padding(
+                              padding: EdgeInsets.only(bottom: 100),
+                              order: GroupedListOrder.DESC,
+                              shrinkWrap: true,
+                              elements: listMessages!.data!,
+                              groupBy: (element) => DateTime.now()
+                                          .difference(DateTime.parse(
+                                              element.createdAt.toString()))
+                                          .inMinutes <=
+                                      59
+                                  ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inMinutes} min ago"
+                                  : DateTime.now()
+                                              .difference(DateTime.parse(
+                                                  element.createdAt.toString()))
+                                              .inHours <=
+                                          23
+                                      ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inHours} hr ago"
+                                      : "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inDays} days ago",
+                              groupSeparatorBuilder: (String groupByValue) =>
+                                  Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 8),
+                                        vertical: 8.0),
                                     child: Text(
-                                      element.message.toString(),
-                                      style: AppTextStyle().textColorFFFFFF14w400,
+                                      groupByValue,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
-                                ),
-                              ) :
-                                Align(
-                                    alignment: ids == element.sendFromUserId ? Alignment.centerRight:Alignment.centerLeft,
-                                    child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 8),
-                              child: Container(
-                              // height:120,
-                              width: 220,
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.circular(8),
-                              color: ids == element.sendFromUserId ? ColorSelect.color343434:ColorSelect.colorECEDF0
-                              ),
-                              child: Column(
-                              children: [
-                              CachedNetworkImage(
-                              imageUrl: element
-                                  .product!.photo
-                                  .toString(),
-                              fit: BoxFit.cover,
-                              errorWidget:
-                              (context, url, error) =>
-                              Icon(Icons.error),
-                              progressIndicatorBuilder:
-                              (a, b, c) => Opacity(
-                              opacity: 0.3,
-                              child: Shimmer.fromColors(
-                              baseColor: Colors.black12,
-                              highlightColor:
-                              Colors.white,
-                              child: Container(
-                              width: 45,
-                              height: 45,
-                              //margin: EdgeInsets.symmetric(horizontal: 24),
-                              decoration:
-                              BoxDecoration(
-                              color: Colors
-                                  .white,
-                              shape: BoxShape
-                                  .circle),
-                              ),
-                              ),
-                              ),
-                              ),
-                                SizedBox(height: 10,),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      element.product!.name
-                                          .toString(),
-                                      style: TextStyle(color:ids == element.sendFromUserId ? Colors.white: Colors.black),
-                                      maxLines: 4,
-                                      overflow:
-                                      TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ),
-                                Container(height: 2,color: Colors.white,),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      element.message
-                                          .toString(),
-                                      style: TextStyle(color:ids == element.sendFromUserId ? Colors.white: Colors.black),
-                                      maxLines: 4,
-                                      overflow:
-                                      TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ),
-                                      ],
-                              ),
-                                ),
-                              ),);
-                            }
-                          ),
+                              itemBuilder: (context, Data element) {
+                                print(ids);
+                                return element.product!.photo!.isEmpty
+                                    ? Align(
+                                        alignment: ids == element.sendFromUserId
+                                            ? Alignment.centerRight
+                                            : Alignment.centerLeft,
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 12),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              color: ids ==
+                                                      element.sendFromUserId
+                                                  ? ColorSelect.color343434
+                                                  : ColorSelect.colorECEDF0),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12, vertical: 8),
+                                            child: Text(
+                                              element.message.toString(),
+                                              style: AppTextStyle()
+                                                  .textColorFFFFFF14w400,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Align(
+                                        alignment: ids == element.sendFromUserId
+                                            ? Alignment.centerRight
+                                            : Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 8),
+                                          child: Container(
+                                            // height:120,
+                                            width: 220,
+                                            clipBehavior: Clip.hardEdge,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                color: ids ==
+                                                        element.sendFromUserId
+                                                    ? ColorSelect.color343434
+                                                    : ColorSelect.colorECEDF0),
+                                            child: Column(
+                                              children: [
+                                                CachedNetworkImage(
+                                                  imageUrl: element
+                                                      .product!.photo
+                                                      .toString(),
+                                                  fit: BoxFit.cover,
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(Icons.error),
+                                                  progressIndicatorBuilder:
+                                                      (a, b, c) => Opacity(
+                                                    opacity: 0.3,
+                                                    child: Shimmer.fromColors(
+                                                      baseColor: Colors.black12,
+                                                      highlightColor:
+                                                          Colors.white,
+                                                      child: Container(
+                                                        width: 45,
+                                                        height: 45,
+                                                        //margin: EdgeInsets.symmetric(horizontal: 24),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                shape: BoxShape
+                                                                    .circle),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      element.product!.name
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          color: ids ==
+                                                                  element
+                                                                      .sendFromUserId
+                                                              ? Colors.white
+                                                              : Colors.black),
+                                                      maxLines: 4,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 2,
+                                                  color: Colors.white,
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      element.message
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          color: ids ==
+                                                                  element
+                                                                      .sendFromUserId
+                                                              ? Colors.white
+                                                              : Colors.black),
+                                                      maxLines: 4,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                              }),
                         ],
                       ),
                     ),
@@ -453,7 +485,8 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                           AppTextStyle().textColor70707014w400,
                                       suffixIcon: show
                                           ? Padding(
-                                              padding: const EdgeInsets.all(10.0),
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
                                               child: CircularProgressIndicator(
                                                 color: ColorSelect.colorF7E641,
                                               ),
@@ -467,55 +500,60 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                               children: [
                                                 GestureDetector(
                                                     onTap: () {
-                                                     if(sendMsgController.text.isNotEmpty) {
-                                                       setState(() {
-                                                         show = !show;
-                                                       });
-                                                       Timer timer = Timer(
-                                                           Duration(seconds: 3),
-                                                               () {
-                                                             setState(() {
-                                                               show = false;
-                                                             });
-                                                           });
-                                                       FocusManager
-                                                           .instance.primaryFocus
-                                                           ?.unfocus();
-                                                       if (sendMsgController
-                                                           .text.isNotEmpty) {
-                                                         print(widget.friendId);
-                                                         sendMessageApi(
-                                                             sendUserid: widget
-                                                                 .friendId,
-                                                             message:
-                                                             sendMsgController
-                                                                 .text,
-                                                             productId: productIds.toString())
-                                                             .then(
-                                                                 (value) async {
-                                                               print(
-                                                                   widget.friendId);
-                                                               print(
-                                                                   sendMsgController);
-                                                               if (value['status'] ==
-                                                                   true) {
-                                                                 isLoading
-                                                                     ? Loading()
-                                                                     : getMessages();
-                                                                 // Fluttertoast.showToast(msg: value['message']);
-                                                               } else {
-                                                                 Fluttertoast.showToast(
-                                                                     msg: value[
-                                                                     'message']);
-                                                               }
-                                                             });
-
-                                                       }
-                                                     } else {
-                                                       Fluttertoast.showToast(
-                                                           msg: "Please Add your msg");
-
-                                                     }
+                                                      if (sendMsgController
+                                                          .text.isNotEmpty) {
+                                                        setState(() {
+                                                          show = !show;
+                                                        });
+                                                        Timer timer = Timer(
+                                                            Duration(
+                                                                seconds: 3),
+                                                            () {
+                                                          setState(() {
+                                                            show = false;
+                                                          });
+                                                        });
+                                                        FocusManager.instance
+                                                            .primaryFocus
+                                                            ?.unfocus();
+                                                        if (sendMsgController
+                                                            .text.isNotEmpty) {
+                                                          print(
+                                                              widget.friendId);
+                                                          sendMessageApi(
+                                                                  sendUserid: widget
+                                                                      .friendId,
+                                                                  message:
+                                                                      sendMsgController
+                                                                          .text,
+                                                                  productId:
+                                                                      productIds
+                                                                          .toString())
+                                                              .then(
+                                                                  (value) async {
+                                                            print(widget
+                                                                .friendId);
+                                                            print(
+                                                                sendMsgController);
+                                                            if (value[
+                                                                    'status'] ==
+                                                                true) {
+                                                              isLoading
+                                                                  ? Loading()
+                                                                  : getMessages();
+                                                              // Fluttertoast.showToast(msg: value['message']);
+                                                            } else {
+                                                              Fluttertoast.showToast(
+                                                                  msg: value[
+                                                                      'message']);
+                                                            }
+                                                          });
+                                                        }
+                                                      } else {
+                                                        Fluttertoast.showToast(
+                                                            msg:
+                                                                "Please Add your msg");
+                                                      }
                                                     },
                                                     child: Image.asset(
                                                         'assets/images/sentimage.png')),
@@ -547,7 +585,8 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                               ),
                                                               child:
                                                                   SingleChildScrollView(
-                                                                    physics: NeverScrollableScrollPhysics(),
+                                                                physics:
+                                                                    NeverScrollableScrollPhysics(),
                                                                 child: Padding(
                                                                   padding: const EdgeInsets
                                                                           .symmetric(
@@ -556,7 +595,8 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                   child: Column(
                                                                     children: [
                                                                       SizedBox(
-                                                                        height: 8,
+                                                                        height:
+                                                                            8,
                                                                       ),
                                                                       Container(
                                                                         width:
@@ -564,10 +604,9 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                         height:
                                                                             4.h,
                                                                         decoration: BoxDecoration(
-                                                                            borderRadius: BorderRadius.circular(
-                                                                                8),
-                                                                            color:
-                                                                                ColorSelect.colorDCDCDC),
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(8),
+                                                                            color: ColorSelect.colorDCDCDC),
                                                                       ),
                                                                       SizedBox(
                                                                         height:
@@ -575,8 +614,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                       ),
                                                                       Row(
                                                                         mainAxisAlignment:
-                                                                            MainAxisAlignment
-                                                                                .center,
+                                                                            MainAxisAlignment.center,
                                                                         children: [
                                                                           Row(
                                                                             children: [
@@ -596,140 +634,137 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                       wantProduct2
                                                                               .isEmpty
                                                                           ? Padding(
-                                                                              padding:
-                                                                                  const EdgeInsets.only(bottom: 80.0, top: 20),
-                                                                              child:
-                                                                                  Image.asset(
+                                                                              padding: const EdgeInsets.only(bottom: 80.0, top: 20),
+                                                                              child: Image.asset(
                                                                                 "assets/images/addproducts2.png",
                                                                                 height: 200,
                                                                                 width: 200,
                                                                               ),
                                                                             )
                                                                           : Container(
-                                                                        height: 600,
-                                                                            child: ListView.builder(
-                                                                        physics: ScrollPhysics(),
-                                                                                itemCount: wantProduct2.length,
-                                                                                shrinkWrap: true,
-                                                                                scrollDirection: Axis.vertical,
-                                                                                itemBuilder: (context, i) {
-                                                                                  print(wantProduct2.length);
-                                                                                  return Padding(
-                                                                                    padding: const EdgeInsets.only(top: 16),
-                                                                                    child: GestureDetector(
-                                                                                      onTap: () {
-                                                                                        print(selectedItems);
-                                                                                        // selectedItems.add(wantProduct2[i].id!);
-                                                                                        productIds= wantProduct2[i].id!;
-                                                                                        Navigator.pop(context);
-
-                                                                                      },
-                                                                                      child: Container(
-                                                                                        color: Colors.transparent,
-                                                                                        child: Column(
-                                                                                          children: [
-                                                                                            Row(
-                                                                                              children: [
-                                                                                                Stack(children: [
-                                                                                                  Container(
-                                                                                                    height: 86,
-                                                                                                    width: 86,
-                                                                                                    clipBehavior: Clip.hardEdge,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                      borderRadius: BorderRadius.circular(8),
-                                                                                                      border: Border.all(
-                                                                                                        width: 1,
-                                                                                                        color: selectedItems.contains(wantProduct2[i].id!) ? ColorSelect.colorF7E641 : ColorSelect.colorE0E0E0,
+                                                                              height: 600,
+                                                                              child: ListView.builder(
+                                                                                  physics: ScrollPhysics(),
+                                                                                  itemCount: wantProduct2.length,
+                                                                                  shrinkWrap: true,
+                                                                                  scrollDirection: Axis.vertical,
+                                                                                  itemBuilder: (context, i) {
+                                                                                    print(wantProduct2.length);
+                                                                                    return Padding(
+                                                                                      padding: const EdgeInsets.only(top: 16),
+                                                                                      child: GestureDetector(
+                                                                                        onTap: () {
+                                                                                          print(selectedItems);
+                                                                                          // selectedItems.add(wantProduct2[i].id!);
+                                                                                          productIds = wantProduct2[i].id!;
+                                                                                          Navigator.pop(context);
+                                                                                        },
+                                                                                        child: Container(
+                                                                                          color: Colors.transparent,
+                                                                                          child: Column(
+                                                                                            children: [
+                                                                                              Row(
+                                                                                                children: [
+                                                                                                  Stack(children: [
+                                                                                                    Container(
+                                                                                                      height: 86,
+                                                                                                      width: 86,
+                                                                                                      clipBehavior: Clip.hardEdge,
+                                                                                                      decoration: BoxDecoration(
+                                                                                                        borderRadius: BorderRadius.circular(8),
+                                                                                                        border: Border.all(
+                                                                                                          width: 1,
+                                                                                                          color: selectedItems.contains(wantProduct2[i].id!) ? ColorSelect.colorF7E641 : ColorSelect.colorE0E0E0,
+                                                                                                        ),
                                                                                                       ),
+                                                                                                      child: Center(
+                                                                                                          child: CachedNetworkImage(
+                                                                                                        // imageUrl: (baseUrl+wantProduct2[i].photo.toString()),
+                                                                                                        imageUrl: wantProduct2[i].photo.toString().contains("https") ? wantProduct2[i].photo.toString() : baseUrl + wantProduct2[i].photo.toString(),
+                                                                                                        fit: BoxFit.cover,
+                                                                                                        errorWidget: (context, url, error) => Icon(
+                                                                                                          Icons.error,
+                                                                                                          size: 40,
+                                                                                                        ),
+                                                                                                        progressIndicatorBuilder: (a, b, c) => Opacity(
+                                                                                                          opacity: 0.3,
+                                                                                                          child: Shimmer.fromColors(
+                                                                                                            baseColor: Colors.black12,
+                                                                                                            highlightColor: Colors.white,
+                                                                                                            child: Container(
+                                                                                                              width: 173,
+                                                                                                              height: 129,
+                                                                                                              decoration: BoxDecoration(border: Border.all(color: ColorSelect.colorE0E0E0, width: 1), color: ColorSelect.colorFFFFFF, borderRadius: BorderRadius.circular(12)),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      )),
                                                                                                     ),
-                                                                                                    child: Center(
-                                                                                                        child: CachedNetworkImage(
-                                                                                                      // imageUrl: (baseUrl+wantProduct2[i].photo.toString()),
-                                                                                                      imageUrl: wantProduct2[i].photo.toString().contains("https") ? wantProduct2[i].photo.toString() : baseUrl + wantProduct2[i].photo.toString(),
-                                                                                                      fit: BoxFit.cover,
-                                                                                                      errorWidget: (context, url, error) => Icon(
-                                                                                                        Icons.error,
-                                                                                                        size: 40,
-                                                                                                      ),
-                                                                                                      progressIndicatorBuilder: (a, b, c) => Opacity(
-                                                                                                        opacity: 0.3,
-                                                                                                        child: Shimmer.fromColors(
-                                                                                                          baseColor: Colors.black12,
-                                                                                                          highlightColor: Colors.white,
-                                                                                                          child: Container(
-                                                                                                            width: 173,
-                                                                                                            height: 129,
-                                                                                                            decoration: BoxDecoration(border: Border.all(color: ColorSelect.colorE0E0E0, width: 1), color: ColorSelect.colorFFFFFF, borderRadius: BorderRadius.circular(12)),
+                                                                                                    Positioned(
+                                                                                                      bottom: 0,
+                                                                                                      right: 0,
+                                                                                                      child: selectedItems.contains(wantProduct2[i].id!)
+                                                                                                          ? Image.asset(
+                                                                                                              "assets/images/select.png",
+                                                                                                              height: 28,
+                                                                                                              width: 28,
+                                                                                                            )
+                                                                                                          : SizedBox(),
+                                                                                                    )
+                                                                                                  ]),
+                                                                                                  Expanded(
+                                                                                                    child: Column(
+                                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                      children: [
+                                                                                                        Padding(
+                                                                                                          padding: const EdgeInsets.only(left: 16),
+                                                                                                          child: SizedBox(
+                                                                                                            // width: 230.w,
+                                                                                                            child: Text(
+                                                                                                              wantProduct2[i].name.toString(),
+                                                                                                              overflow: TextOverflow.ellipsis,
+                                                                                                              maxLines: 2,
+                                                                                                              style: AppTextStyle().textColor29292912w400,
+                                                                                                            ),
                                                                                                           ),
                                                                                                         ),
-                                                                                                      ),
-                                                                                                    )),
-                                                                                                  ),
-                                                                                                  Positioned(
-                                                                                                    bottom: 0,
-                                                                                                    right: 0,
-                                                                                                    child: selectedItems.contains(wantProduct2[i].id!)
-                                                                                                        ? Image.asset(
-                                                                                                            "assets/images/select.png",
-                                                                                                            height: 28,
-                                                                                                            width: 28,
-                                                                                                          )
-                                                                                                        : SizedBox(),
-                                                                                                  )
-                                                                                                ]),
-                                                                                                Expanded(
-                                                                                                  child: Column(
-                                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                    children: [
-                                                                                                      Padding(
-                                                                                                        padding: const EdgeInsets.only(left: 16),
-                                                                                                        child: SizedBox(
-                                                                                                          // width: 230.w,
+                                                                                                        SizedBox(
+                                                                                                          height: 8,
+                                                                                                        ),
+                                                                                                        Padding(
+                                                                                                          padding: const EdgeInsets.only(left: 16),
                                                                                                           child: Text(
-                                                                                                            wantProduct2[i].name.toString(),
-                                                                                                            overflow: TextOverflow.ellipsis,
-                                                                                                            maxLines: 2,
-                                                                                                            style: AppTextStyle().textColor29292912w400,
+                                                                                                            '\$ ${wantProduct2[i].price.toString()}',
+                                                                                                            style: AppTextStyle().textColor29292914w500,
                                                                                                           ),
                                                                                                         ),
-                                                                                                      ),
-                                                                                                      SizedBox(
-                                                                                                        height: 8,
-                                                                                                      ),
-                                                                                                      Padding(
-                                                                                                        padding: const EdgeInsets.only(left: 16),
-                                                                                                        child: Text(
-                                                                                                          '\$ ${wantProduct2[i].price.toString()}',
-                                                                                                          style: AppTextStyle().textColor29292914w500,
+                                                                                                        SizedBox(
+                                                                                                          height: 4,
                                                                                                         ),
-                                                                                                      ),
-                                                                                                      SizedBox(
-                                                                                                        height: 4,
-                                                                                                      ),
-                                                                                                      Padding(
-                                                                                                        padding: const EdgeInsets.only(left: 16.0),
-                                                                                                        child: selectedItems.contains(wantProduct2[i].id!)
-                                                                                                            ? GestureDetector(
-                                                                                                                onTap: () {
-                                                                                                                  setState(() {
-                                                                                                                    selectedItems.clear();
-                                                                                                                  });
-                                                                                                                },
-                                                                                                                child: Icon(Icons.cancel))
-                                                                                                            : SizedBox(),
-                                                                                                      ),
-                                                                                                    ],
+                                                                                                        Padding(
+                                                                                                          padding: const EdgeInsets.only(left: 16.0),
+                                                                                                          child: selectedItems.contains(wantProduct2[i].id!)
+                                                                                                              ? GestureDetector(
+                                                                                                                  onTap: () {
+                                                                                                                    setState(() {
+                                                                                                                      selectedItems.clear();
+                                                                                                                    });
+                                                                                                                  },
+                                                                                                                  child: Icon(Icons.cancel))
+                                                                                                              : SizedBox(),
+                                                                                                        ),
+                                                                                                      ],
+                                                                                                    ),
                                                                                                   ),
-                                                                                                ),
-                                                                                              ],
-                                                                                            ),
-                                                                                          ],
+                                                                                                ],
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
                                                                                         ),
                                                                                       ),
-                                                                                    ),
-                                                                                  );
-                                                                                }),
-                                                                          ),
+                                                                                    );
+                                                                                  }),
+                                                                            ),
                                                                     ],
                                                                   ),
                                                                 ),
@@ -747,8 +782,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                   ),
                                                 )
                                               ],
-                                            )
-                                      ),
+                                            )),
                                   keyboardType: TextInputType.text,
                                 ),
                               )

@@ -3,6 +3,7 @@ import 'package:fast_contacts/fast_contacts.dart';
 // import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
@@ -145,6 +146,11 @@ class _AddFriendsState extends State<AddFriends> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
                     children: [
+                      Container(
+                        width: 1.sw,
+                        height: 2,
+                        color: Colors.grey.withOpacity(0.40),
+                      ),
                       SizedBox(
                         height: 16,
                       ),

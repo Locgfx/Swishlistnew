@@ -6,15 +6,16 @@ import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../models/friends_details_model.dart';
 
-class FSizesAndWeights extends StatefulWidget {
+class FamilySizesAndWeights extends StatefulWidget {
   final String friendId;
-  const FSizesAndWeights({Key? key, required this.friendId}) : super(key: key);
+  const FamilySizesAndWeights({Key? key, required this.friendId})
+      : super(key: key);
 
   @override
-  State<FSizesAndWeights> createState() => _FSizesAndWeightsState();
+  State<FamilySizesAndWeights> createState() => _FamilySizesAndWeightsState();
 }
 
-class _FSizesAndWeightsState extends State<FSizesAndWeights> {
+class _FamilySizesAndWeightsState extends State<FamilySizesAndWeights> {
   @override
   void initState() {
     getFriendDetails();

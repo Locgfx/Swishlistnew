@@ -73,6 +73,9 @@ dependencies:
   sign_in_with_apple: ^5.0.0
   flutter_holo_date_picker: ^1.1.2+1
   flutter_rounded_date_picker: ^3.0.4
+  firebase_messaging: ^14.6.8
+  flutter_local_notifications: ^9.0.1
+#  flutter_local_notifications: ^15.1.1
 
 
 

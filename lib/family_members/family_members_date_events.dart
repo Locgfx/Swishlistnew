@@ -6,15 +6,16 @@ import 'package:swishlist/models/friends_details_model.dart';
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 
-class FDatesAndEvents extends StatefulWidget {
+class FamilyDatesAndEvents extends StatefulWidget {
   final String friendId;
-  const FDatesAndEvents({Key? key, required this.friendId}) : super(key: key);
+  const FamilyDatesAndEvents({Key? key, required this.friendId})
+      : super(key: key);
 
   @override
-  State<FDatesAndEvents> createState() => _FDatesAndEventsState();
+  State<FamilyDatesAndEvents> createState() => _FamilyDatesAndEventsState();
 }
 
-class _FDatesAndEventsState extends State<FDatesAndEvents> {
+class _FamilyDatesAndEventsState extends State<FamilyDatesAndEvents> {
   List upcomingDetails = ['Event Name'];
   List allDetails = [
     'Birthday',

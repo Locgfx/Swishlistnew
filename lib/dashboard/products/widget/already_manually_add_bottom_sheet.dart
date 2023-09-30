@@ -336,20 +336,20 @@ import '../manuallyadd.dart';
 import '../productAdded.dart';
 import 'link_product_add.dart';
 
-class ManuallyAddBottomSheetWidget extends StatefulWidget {
+class ManuallyAlreadyAddBottomSheetWidget extends StatefulWidget {
   final String productType;
-  ManuallyAddBottomSheetWidget({
+  ManuallyAlreadyAddBottomSheetWidget({
     Key? key,
     required this.productType,
   }) : super(key: key);
 
   @override
-  State<ManuallyAddBottomSheetWidget> createState() =>
-      _ManuallyAddBottomSheetWidgetState();
+  State<ManuallyAlreadyAddBottomSheetWidget> createState() =>
+      _ManuallyAlreadyAddBottomSheetWidgetState();
 }
 
-class _ManuallyAddBottomSheetWidgetState
-    extends State<ManuallyAddBottomSheetWidget> {
+class _ManuallyAlreadyAddBottomSheetWidgetState
+    extends State<ManuallyAlreadyAddBottomSheetWidget> {
   final productLinkController = TextEditingController();
 
   final form = GlobalKey<FormState>();
@@ -444,12 +444,12 @@ class _ManuallyAddBottomSheetWidgetState
                               Expanded(
                                 child: TextFormField(
                                   validator: (website) {
-                                    String pattern = 'https';
+                                    String pattern = 'http';
                                     RegExp regExp = RegExp(pattern);
                                     if (website!.isEmpty) {
                                       return "Please enter your website";
                                     } else if (!(regExp.hasMatch(website))) {
-                                      return "Website Url must be started from www";
+                                      return "Please enter a valid url";
                                     } else {
                                       return null;
                                     }
@@ -488,12 +488,10 @@ class _ManuallyAddBottomSheetWidgetState
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      LinkProductAdd(
+                                                      LinkAlreadyProductAdd(
                                                         productLink:
                                                             productLinkController
                                                                 .text,
-                                                        productType:
-                                                            widget.productType,
                                                       )));
                                         }
                                         /* Navigator.pushReplacement(

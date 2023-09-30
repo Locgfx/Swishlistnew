@@ -1,4 +1,3 @@
-
 class FriendDetailsModel {
   int? code;
   bool? status;
@@ -10,13 +9,13 @@ class FriendDetailsModel {
     code = json['code'];
     status = json['status'];
     message = json['message'];
-    if(json['data'].runtimeType == List<dynamic> ) {
+    if (json['data'].runtimeType == List<dynamic>) {
       print('v');
       data = Data.fromJson({});
-    } else if(json['data'] == null) {
+    } else if (json['data'] == null) {
       print('kkk');
       data = Data.fromJson({});
-    } else{
+    } else {
       print('mdkmc');
       data = Data.fromJson(json['data']);
     }
@@ -52,31 +51,32 @@ class Data {
   List<EventDate>? eventDate;
   List<Family>? family;
 
-  Data({this.id,
-        this.name,
-        this.username,
-        this.phone,
-        this.email,
-        this.photo,
-        this.type,
-        this.profile,
-        this.sizeWeight,
-        this.interest,
-        this.favourite,
-        this.pets,
-        this.eventDate,
-        this.family});
+  Data(
+      {this.id,
+      this.name,
+      this.username,
+      this.phone,
+      this.email,
+      this.photo,
+      this.type,
+      this.profile,
+      this.sizeWeight,
+      this.interest,
+      this.favourite,
+      this.pets,
+      this.eventDate,
+      this.family});
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    username = json['username'].toString();
-    phone = json['phone'].toString();
+    username = json['username'];
+    phone = json['phone'];
     email = json['email'];
-    photo = json['photo'].toString();
+    photo = json['photo'];
     type = json['type'];
     profile = json['profile'] != null
-        ? new Profile.fromJson(json['profile']) :
-          Profile(
+        ? new Profile.fromJson(json['profile'])
+        : Profile(
             name: '',
             photo: '',
             gender: '',
@@ -84,7 +84,7 @@ class Data {
             occupation: '',
             relationStatus: '',
             email: '',
-            phone:'',
+            phone: '',
             alternatePhone: '',
             homeAddress: '',
             workAddress: '',
@@ -93,7 +93,12 @@ class Data {
           );
     sizeWeight = json['sizeWeight'] != null
         ? new SizeWeight.fromJson(json['sizeWeight'])
-        : SizeWeight(waist: '',shirt: '',bed: '',shoes: '',);
+        : SizeWeight(
+            waist: '',
+            shirt: '',
+            bed: '',
+            shoes: '',
+          );
     interest = json['interest'] != null
         ? new Interest.fromJson(json['interest'])
         : null;
@@ -176,20 +181,20 @@ class Profile {
 
   Profile(
       {this.id,
-        this.userId,
-        this.name,
-        this.photo,
-        this.gender,
-        this.dob,
-        this.occupation,
-        this.relationStatus,
-        this.email,
-        this.phone,
-        this.alternatePhone,
-        this.homeAddress,
-        this.workAddress,
-        this.privacyStatus,
-        this.createdAt});
+      this.userId,
+      this.name,
+      this.photo,
+      this.gender,
+      this.dob,
+      this.occupation,
+      this.relationStatus,
+      this.email,
+      this.phone,
+      this.alternatePhone,
+      this.homeAddress,
+      this.workAddress,
+      this.privacyStatus,
+      this.createdAt});
 
   Profile.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -242,13 +247,13 @@ class SizeWeight {
 
   SizeWeight(
       {this.id,
-        this.userId,
-        this.waist,
-        this.shirt,
-        this.shoes,
-        this.bed,
-        this.privacyStatus,
-        this.createdAt});
+      this.userId,
+      this.waist,
+      this.shirt,
+      this.shoes,
+      this.bed,
+      this.privacyStatus,
+      this.createdAt});
 
   SizeWeight.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -284,10 +289,10 @@ class Interest {
 
   Interest(
       {this.id,
-        this.userId,
-        this.interest,
-        this.privacyStatus,
-        this.createdAt});
+      this.userId,
+      this.interest,
+      this.privacyStatus,
+      this.createdAt});
 
   Interest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -331,24 +336,24 @@ class Favourite {
 
   Favourite(
       {this.id,
-        this.userId,
-        this.cars,
-        this.bikes,
-        this.movies,
-        this.shows,
-        this.foods,
-        this.gadgets,
-        this.superheroes,
-        this.actors,
-        this.actresses,
-        this.singers,
-        this.players,
-        this.cities,
-        this.countries,
-        this.restaurants,
-        this.hotels,
-        this.privacyStatus,
-        this.createdAt});
+      this.userId,
+      this.cars,
+      this.bikes,
+      this.movies,
+      this.shows,
+      this.foods,
+      this.gadgets,
+      this.superheroes,
+      this.actors,
+      this.actresses,
+      this.singers,
+      this.players,
+      this.cities,
+      this.countries,
+      this.restaurants,
+      this.hotels,
+      this.privacyStatus,
+      this.createdAt});
 
   Favourite.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -409,13 +414,13 @@ class Pets {
 
   Pets(
       {this.id,
-        this.userId,
-        this.name,
-        this.type,
-        this.origin,
-        this.photo,
-        this.privacyStatus,
-        this.createdAt});
+      this.userId,
+      this.name,
+      this.type,
+      this.origin,
+      this.photo,
+      this.privacyStatus,
+      this.createdAt});
 
   Pets.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -453,12 +458,12 @@ class EventDate {
 
   EventDate(
       {this.id,
-        this.userId,
-        this.name,
-        this.date,
-        this.type,
-        this.privacyStatus,
-        this.createdAt});
+      this.userId,
+      this.name,
+      this.date,
+      this.type,
+      this.privacyStatus,
+      this.createdAt});
 
   EventDate.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -494,12 +499,12 @@ class Family {
 
   Family(
       {this.id,
-        this.userId,
-        this.familyMemberUserId,
-        this.relation,
-        this.status,
-        this.privacyStatus,
-        this.createdAt});
+      this.userId,
+      this.familyMemberUserId,
+      this.relation,
+      this.status,
+      this.privacyStatus,
+      this.createdAt});
 
   Family.fromJson(Map<String, dynamic> json) {
     id = json['id'];

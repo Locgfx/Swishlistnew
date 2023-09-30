@@ -189,7 +189,8 @@ class _ProductAlreadyState extends State<ProductAlready> {
                           isScrollControlled: true,
                           builder: (context) {
                             return ManuallyAddBottomSheetWidget(
-                                /*model: widget.model,*/);
+                              productType: 'have', /*model: widget.model,*/
+                            );
                           });
                       /* Navigator.push(
                           context,

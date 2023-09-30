@@ -170,7 +170,8 @@ class _ProductdontwantState extends State<Productdontwant> {
                           context: context,
                           builder: (context) {
                             return ManuallyAddBottomSheetWidget(
-                                /*model: widget.model,*/);
+                              productType: 'dont_want', /*model: widget.model,*/
+                            );
                           });
                     },
                     child: Row(

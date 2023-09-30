@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/dashboard/products/products_page.dart';
-import 'package:swishlist/dashboard/search/search.dart';
+import 'package:swishlist/dashboard/search/home_etsy_products.dart';
 
 import '../constants/color.dart';
 import '../models/login_models.dart';
@@ -285,11 +285,12 @@ class _DashboardState extends State<Dashboard> {
                   // ProductsPage(response: widget.response, productKey: _one),
                   // AllEtsyProducts(),
                   // Search(),
-                  ShowCaseWidget(
-                    builder: Builder(
-                      builder: (context) => Search(),
-                    ),
-                  ),
+                  HomeEtsyProducts(),
+                  // ShowCaseWidget(
+                  //   builder: Builder(
+                  //     builder: (context) => Search(),
+                  //   ),
+                  // ),
                   Activities(),
                   ShowCaseWidget(
                     builder: Builder(

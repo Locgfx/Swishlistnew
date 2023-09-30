@@ -162,27 +162,27 @@ class _AccountState extends State<Account> {
                 Image.asset("assets/images/Vector175.png"),*/
                     ],
                   ),
-                  SizedBox(
-                    height: 40.h,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ChangePassword()));
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          "Change Password",
-                          style: AppTextStyle().textColor70707014w400,
-                        ),
-                        Spacer(),
-                        Image.asset("assets/images/Vector175.png"),
-                      ],
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 40.h,
+                  // ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     Navigator.pushReplacement(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //             builder: (context) => ChangePassword()));
+                  //   },
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //         "Change Password",
+                  //         style: AppTextStyle().textColor70707014w400,
+                  //       ),
+                  //       Spacer(),
+                  //       Image.asset("assets/images/Vector175.png"),
+                  //     ],
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 40.h,
                   ),

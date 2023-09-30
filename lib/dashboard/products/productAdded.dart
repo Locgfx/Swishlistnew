@@ -39,6 +39,7 @@ class _ProductAddedState extends State<ProductAdded> {
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height: 52,
@@ -162,16 +163,30 @@ class _ProductAddedState extends State<ProductAdded> {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 45),
                     width: 1.sw,
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Product name :',
-                          style: AppTextStyle().textColor29292914w400,
+                        Row(
+                          children: [
+                            Text(
+                              'Product name :',
+                              style: AppTextStyle().textColor29292914w400,
+                            ),
+                            // Text(
+                            //   '  ${widget.name}',
+                            //   overflow: TextOverflow.ellipsis,
+                            //   maxLines: 5,
+                            //   style: AppTextStyle().roboto32323216w600,
+                            // ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
                         ),
                         Text(
-                          '  ${widget.name}',
+                          '${widget.name}',
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
+                          maxLines: 5,
                           style: AppTextStyle().roboto32323216w600,
                         ),
                       ],

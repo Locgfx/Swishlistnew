@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -398,6 +399,9 @@ class _UserProfileState extends State<UserProfile> {
                                 return NameEditDialogWidget(
                                   title: 'Name',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!pro.contains("name")) {
@@ -623,6 +627,9 @@ class _UserProfileState extends State<UserProfile> {
                                 return NameEditDialogWidget(
                                   title: 'Occupation',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!pro.contains("occupation")) {
@@ -761,6 +768,9 @@ class _UserProfileState extends State<UserProfile> {
                                 return NameEditDialogWidget(
                                   title: 'Email',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(25),
+                                    ],
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!pro.contains("email")) {
@@ -823,6 +833,9 @@ class _UserProfileState extends State<UserProfile> {
                                 return NameEditDialogWidget(
                                   title: 'phone no',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(10),
+                                    ],
                                     keyboardType: TextInputType.number,
                                     onChanged: (v) {
                                       setState(() {});
@@ -887,6 +900,9 @@ class _UserProfileState extends State<UserProfile> {
                                 return NameEditDialogWidget(
                                   title: 'Alternate phone no',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(10),
+                                    ],
                                     keyboardType: TextInputType.number,
                                     onChanged: (v) {
                                       setState(() {});
@@ -1034,6 +1050,9 @@ class _UserProfileState extends State<UserProfile> {
                                 return NameEditDialogWidget(
                                   title: 'Home Address',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(50),
+                                    ],
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!pro.contains("home_address")) {
@@ -1062,6 +1081,8 @@ class _UserProfileState extends State<UserProfile> {
                               children: [
                                 homeController.text.isEmpty
                                     ? Text(
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                         profile!.data!.homeAddress.toString() ==
                                                     '' ||
                                                 profile!.data!.homeAddress ==
@@ -1076,6 +1097,8 @@ class _UserProfileState extends State<UserProfile> {
                                                 .textColor29292914w400,
                                       )
                                     : Text(
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                         homeController.text,
                                         style: AppTextStyle()
                                             .textColor29292914w400,
@@ -1100,6 +1123,9 @@ class _UserProfileState extends State<UserProfile> {
                                 return NameEditDialogWidget(
                                   title: 'Work Address',
                                   addTextField: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(50),
+                                    ],
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!pro.contains("work_address")) {
@@ -1131,31 +1157,33 @@ class _UserProfileState extends State<UserProfile> {
                               ),
                               Spacer(),
                               SizedBox(width: 5.w),
-                              workController.text.isEmpty
-                                  ? Text(
-                                      profile!.data!.workAddress.toString() ==
-                                                  '' ||
-                                              profile!.data!.workAddress == null
-                                          ? '+ Add'
-                                          : profile!.data!.workAddress
-                                              .toString(),
-                                      style: profile!.data!.workAddress == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      workController.text,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    )
+
                               // Image.asset("assets/images/information1.png"),
                               // SizedBox(width: 20.w),
                               // SvgPicture.asset("assets/icons/forwordarrow.svg")
                             ],
                           ),
+
                           // child: WorkRowWidget(profile:profile!),
                         ),
+                        workController.text.isEmpty
+                            ? Text(
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                profile!.data!.workAddress.toString() == '' ||
+                                        profile!.data!.workAddress == null
+                                    ? '+ Add'
+                                    : profile!.data!.workAddress.toString(),
+                                style: profile!.data!.workAddress == ''
+                                    ? AppTextStyle().textColorD5574514w500
+                                    : AppTextStyle().textColor29292914w400,
+                              )
+                            : Text(
+                                workController.text,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextStyle().textColor29292914w400,
+                              ),
                         SizedBox(height: 30),
                         Padding(
                             padding: const EdgeInsets.only(bottom: 16),

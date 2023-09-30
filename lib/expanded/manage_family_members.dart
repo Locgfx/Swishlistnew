@@ -9,6 +9,7 @@ import 'package:swishlist/expanded/widgets/managed_family_member_row.dart';
 import '../api/notifications/meber_notifiction_aapi.dart';
 import '../api/user_apis/family_apis.dart';
 import '../constants/globals/loading.dart';
+import '../family_members/family_members_profile.dart';
 import '../models/notification_models/member_index_model.dart';
 import '../models/notification_models/member_notification_models.dart';
 
@@ -302,97 +303,114 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                           itemBuilder: (context, i) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 20),
-                              child: UserRowWidget(
-                                widget2: GestureDetector(
-                                  onTap: () {
-                                    deleteFamilyMembers(
-                                            id: familyA[i].id.toString())
-                                        .then((value) => {
-                                              if (value['status'] == true)
-                                                {
-                                                  setState(() {
-                                                    isLoading
-                                                        ? Loading()
-                                                        : getAcceptMember();
-                                                  }),
-                                                  Fluttertoast.showToast(
-                                                      msg: value['message']),
-                                                }
-                                              else
-                                                {
-                                                  Fluttertoast.showToast(
-                                                      msg: value['message']),
-                                                }
-                                            });
-                                    // familyMemberUpdateApi(
-                                    //         status: 'rejected',
-                                    //         id: familyIndex!.data![0].id
-                                    //             .toString())
-                                    //     .then((value) async {
-                                    //   if (value['status'] == true) {
-                                    //     // SharedPrefs().setPassword(passwordController.text);
-                                    //     // Navigator.push(
-                                    //     //   context,
-                                    //     //   MaterialPageRoute(
-                                    //     //     builder: (context) => EmailVerification(
-                                    //     //       email: emailController.text,
-                                    //     //       password: passwordController.text,
-                                    //     //     ),
-                                    //     //   ),
-                                    //     // );
-                                    //     Fluttertoast.showToast(
-                                    //         msg: value['message']);
-                                    //
-                                    //     // SharedPrefs().setPassword(passwordController.toString());
-                                    //     // print(SharedPrefs().setPassword(passwordController.toString()));
-                                    //   } else {
-                                    //     Fluttertoast.showToast(
-                                    //         msg: value['message']);
-                                    //   }
-                                    // });
-                                  },
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        color:
-                                            Colors.redAccent.withOpacity(0.65),
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => FamilyMemberDetails(
+                                        friendId: familyA[i]
+                                            .familyMemberUser!
+                                            .id
+                                            .toString(),
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Delete"),
-                                      )),
-                                ),
-                                familyName: familyA[i]
-                                    .familyMemberUser!
-                                    .name
-                                    .toString(),
-                                familyUsername: familyA[i]
-                                    .familyMemberUser!
-                                    .email
-                                    .toString(),
-                                familyPhoto: baseUrl +
-                                    familyA[i]
-                                        .familyMemberUser!
-                                        .username
-                                        .toString(),
-                                familyRelation: familyA[i].status.toString(),
-                                id: familyA[i].id.toString(),
-                                tap: () {
-                                  // deleteFamilyMembers(id: familyModel2[i].id.toString())
-                                  //     .then((value) => {
-                                  //           if (value['status'] == true)
-                                  //             {
-                                  //               setState(() {
-                                  //                 isLoading ? Loading() : getFamilyMember();
-                                  //               }),
-                                  //               Fluttertoast.showToast(msg: value['message']),
-                                  //             }
-                                  //           else
-                                  //             {
-                                  //               Fluttertoast.showToast(msg: value['message']),
-                                  //             }
-                                  //         });
+                                    ),
+                                  );
                                 },
+                                child: UserRowWidget(
+                                  widget2: GestureDetector(
+                                    onTap: () {
+                                      deleteFamilyMembers(
+                                              id: familyA[i].id.toString())
+                                          .then((value) => {
+                                                if (value['status'] == true)
+                                                  {
+                                                    setState(() {
+                                                      isLoading
+                                                          ? Loading()
+                                                          : getAcceptMember();
+                                                    }),
+                                                    Fluttertoast.showToast(
+                                                        msg: value['message']),
+                                                  }
+                                                else
+                                                  {
+                                                    Fluttertoast.showToast(
+                                                        msg: value['message']),
+                                                  }
+                                              });
+                                      // familyMemberUpdateApi(
+                                      //         status: 'rejected',
+                                      //         id: familyIndex!.data![0].id
+                                      //             .toString())
+                                      //     .then((value) async {
+                                      //   if (value['status'] == true) {
+                                      //     // SharedPrefs().setPassword(passwordController.text);
+                                      //     // Navigator.push(
+                                      //     //   context,
+                                      //     //   MaterialPageRoute(
+                                      //     //     builder: (context) => EmailVerification(
+                                      //     //       email: emailController.text,
+                                      //     //       password: passwordController.text,
+                                      //     //     ),
+                                      //     //   ),
+                                      //     // );
+                                      //     Fluttertoast.showToast(
+                                      //         msg: value['message']);
+                                      //
+                                      //     // SharedPrefs().setPassword(passwordController.toString());
+                                      //     // print(SharedPrefs().setPassword(passwordController.toString()));
+                                      //   } else {
+                                      //     Fluttertoast.showToast(
+                                      //         msg: value['message']);
+                                      //   }
+                                      // });
+                                    },
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          color: Colors.redAccent
+                                              .withOpacity(0.65),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text("Delete"),
+                                        )),
+                                  ),
+                                  familyName: familyA[i]
+                                      .familyMemberUser!
+                                      .name
+                                      .toString(),
+                                  familyUsername: familyA[i]
+                                      .familyMemberUser!
+                                      .email
+                                      .toString(),
+                                  familyPhoto: baseUrl +
+                                      familyA[i]
+                                          .familyMemberUser!
+                                          .username
+                                          .toString(),
+                                  familyRelation: familyA[i].status.toString(),
+                                  id: familyA[i].id.toString(),
+                                  tap: () {
+                                    // deleteFamilyMembers(id: familyModel2[i].id.toString())
+                                    //     .then((value) => {
+                                    //           if (value['status'] == true)
+                                    //             {
+                                    //               setState(() {
+                                    //                 isLoading ? Loading() : getFamilyMember();
+                                    //               }),
+                                    //               Fluttertoast.showToast(msg: value['message']),
+                                    //             }
+                                    //           else
+                                    //             {
+                                    //               Fluttertoast.showToast(msg: value['message']),
+                                    //             }
+                                    //         });
+                                  },
+                                ),
                               ),
                             );
                           },

@@ -9,15 +9,15 @@ import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../models/friends_details_model.dart';
 
-class FPets extends StatefulWidget {
+class FamilyMembersPets extends StatefulWidget {
   final String friendId;
-  const FPets({Key? key, required this.friendId}) : super(key: key);
+  const FamilyMembersPets({Key? key, required this.friendId}) : super(key: key);
 
   @override
-  State<FPets> createState() => _FPetsState();
+  State<FamilyMembersPets> createState() => _FamilyMembersPetsState();
 }
 
-class _FPetsState extends State<FPets> {
+class _FamilyMembersPetsState extends State<FamilyMembersPets> {
   @override
   void initState() {
     getFriendPets();

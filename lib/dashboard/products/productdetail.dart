@@ -676,8 +676,21 @@ class _ProductDetailState extends State<ProductDetail> {
                                                                 if (value[
                                                                         'status'] ==
                                                                     true) {
+                                                                  // Navigator
+                                                                  //     .push(
+                                                                  //   context,
+                                                                  //   MaterialPageRoute(
+                                                                  //     builder:
+                                                                  //         (context) =>
+                                                                  //             WantProducts(
+                                                                  //       isUser:
+                                                                  //           true,
+                                                                  //     ),
+                                                                  //   ),
+                                                                  // );
                                                                   Navigator.of(
                                                                       context)
+                                                                    ..pop()
                                                                     ..pop()
                                                                     ..pop();
                                                                   Fluttertoast.showToast(
@@ -754,6 +767,7 @@ class _ProductDetailState extends State<ProductDetail> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height: 16.h,

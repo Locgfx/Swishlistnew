@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,32 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     setPage();
+    initializeFirebaseService();
     // startTime();
+  }
+
+  String _fcmToken = '';
+  Future<void> initializeFirebaseService() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    String firebaseAppToken = await messaging.getToken(
+          vapidKey:
+              "BNBIPSYT_iCs6OeciJS8R3l4vouFWut_AldR16nowfLEgWdHh11q5_NDsRVRZtY4fYLqcvk4vu8B4Lzc_7GSnGk",
+        ) ??
+        '';
+    if (!mounted) {
+      _fcmToken = firebaseAppToken;
+    } else {
+      setState(() {
+        _fcmToken = firebaseAppToken;
+      });
+    }
+
+    // var prefs = await SharedPreferences.getInstance();
+    // prefs.setString(Keys().fcmToken, _fcmToken);
+    print('Firebase token: $firebaseAppToken');
+    print(_fcmToken);
+    //NotificationTokenApi().get();
   }
 
   setPage() {

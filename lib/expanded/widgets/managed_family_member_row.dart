@@ -78,24 +78,24 @@ class UserRowWidget extends StatelessWidget {
                       SizedBox(
                         width: 20.w,
                       ),
-                      Container(
-                        // height: 30.h,
-                        // width: 50.w,
-                        decoration: BoxDecoration(
-                            color: ColorSelect.colorF6E3DB,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(80))),
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              familyRelation,
-                              // " Wife",
-                              style: AppTextStyle().textColor29292912w400,
-                            ),
-                          ),
-                        ),
-                      )
+                      // Container(
+                      //   // height: 30.h,
+                      //   // width: 50.w,
+                      //   decoration: BoxDecoration(
+                      //       color: ColorSelect.colorF6E3DB,
+                      //       borderRadius:
+                      //           BorderRadius.all(Radius.circular(80))),
+                      //   child: Center(
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.all(8.0),
+                      //       child: Text(
+                      //         familyRelation,
+                      //         // " Wife",
+                      //         style: AppTextStyle().textColor29292912w400,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
                   SizedBox(

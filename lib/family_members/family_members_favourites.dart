@@ -6,15 +6,16 @@ import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../models/friends_details_model.dart';
 
-class FFavourites extends StatefulWidget {
+class FamilyMemberFavourites extends StatefulWidget {
   final String friendId;
-  const FFavourites({Key? key, required this.friendId}) : super(key: key);
+  const FamilyMemberFavourites({Key? key, required this.friendId})
+      : super(key: key);
 
   @override
-  State<FFavourites> createState() => _FFavouritesState();
+  State<FamilyMemberFavourites> createState() => _FamilyMemberFavouritesState();
 }
 
-class _FFavouritesState extends State<FFavourites> {
+class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
   List thingsDetails = [
     'Colors',
     'Sports',

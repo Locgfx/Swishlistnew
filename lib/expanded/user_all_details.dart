@@ -27,6 +27,7 @@ import '../models/interest_model.dart';
 import '../models/login_models.dart';
 import '../models/profile_model.dart';
 import '../models/sizes_and_weight_model.dart';
+import '../profile_page/change_password.dart';
 import '../profile_page/sizes_and_weights.dart';
 
 class UserAllDetails extends StatefulWidget {
@@ -312,11 +313,28 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                     title: GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        Navigator.push(context,
+                        Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) => Account()));
                       },
                       child: Text(
                         'Delete Account',
+                        style: AppTextStyle().textColor39393914w500,
+                      ),
+                    ),
+                  ),
+                ),
+                PopupMenuItem(
+                  child: ListTile(
+                    title: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResetPasswordViaEmail()));
+                      },
+                      child: Text(
+                        'Change Password',
                         style: AppTextStyle().textColor39393914w500,
                       ),
                     ),
@@ -411,21 +429,8 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                             profile!.data!.user!.photo
                                                 .toString(),
                                 fit: BoxFit.cover,
-                                errorWidget: (context, url, error) => Opacity(
-                                  opacity: 0.3,
-                                  child: Shimmer.fromColors(
-                                    baseColor: Colors.black12,
-                                    highlightColor: Colors.white,
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      //margin: EdgeInsets.symmetric(horizontal: 24),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle),
-                                    ),
-                                  ),
-                                ),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset("assets/icons/userico.jpg"),
                                 progressIndicatorBuilder: (a, b, c) => Opacity(
                                   opacity: 0.3,
                                   child: Shimmer.fromColors(
@@ -455,16 +460,62 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                           children: [
                             Row(
                               children: [
-                                Text(
-                                  '${SharedPrefs().getName()}'.isEmpty
-                                      ? widget.response.data.name.toString()
-                                      : '${SharedPrefs().getName()}',
+                                profile!.data!.name.toString() == "" ||
+                                        profile!.data!.name == null
+                                    ? Text(
+                                        "User",
 
-                                  // widget.response.data.name.toString(),
-                                  // '${SharedPrefs().getName()}',
-                                  // "Michael Scott",
-                                  style: AppTextStyle().textColor29292916w500,
-                                ),
+                                        // '${SharedPrefs().getName()}'
+                                        //         .isEmpty
+                                        //     ? 'user'
+                                        //     : '${SharedPrefs().getName()}',
+                                        // '${SharedPrefs().getName()}'
+                                        //         .isEmpty
+                                        //     ? widget.response.data.name
+                                        //         .toString()
+                                        //     :
+                                        // '${SharedPrefs().getName().}',
+                                        // profile!.data!.name.toString(),
+                                        // '${SharedPrefs().getName()}',
+                                        // SharedPrefs()
+                                        //         .getName()
+                                        //         .toString()
+                                        //         .isEmpty
+                                        //     ? 'user'
+                                        //     : SharedPrefs()
+                                        //         .getName()
+                                        //         .toString(),
+
+                                        style: AppTextStyle()
+                                            .textColor29292916w500r,
+                                      )
+                                    : Text(
+                                        profile!.data!.name.toString(),
+
+                                        // '${SharedPrefs().getName()}'
+                                        //         .isEmpty
+                                        //     ? 'user'
+                                        //     : '${SharedPrefs().getName()}',
+                                        // '${SharedPrefs().getName()}'
+                                        //         .isEmpty
+                                        //     ? widget.response.data.name
+                                        //         .toString()
+                                        //     :
+                                        // '${SharedPrefs().getName().}',
+                                        // profile!.data!.name.toString(),
+                                        // '${SharedPrefs().getName()}',
+                                        // SharedPrefs()
+                                        //         .getName()
+                                        //         .toString()
+                                        //         .isEmpty
+                                        //     ? 'user'
+                                        //     : SharedPrefs()
+                                        //         .getName()
+                                        //         .toString(),
+
+                                        style: AppTextStyle()
+                                            .textColor29292916w500r,
+                                      ),
                               ],
                             ),
                             SizedBox(height: 10.h),

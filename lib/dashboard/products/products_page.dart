@@ -14,6 +14,7 @@ import 'package:swishlist/dashboard/products/productalready.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
 import 'package:swishlist/dashboard/products/productdontwant.dart';
 import 'package:swishlist/dashboard/products/wantproducts.dart';
+import 'package:swishlist/dashboard/products/widget/already_manually_add_bottom_sheet.dart';
 import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
 import 'package:swishlist/expanded/add_family_member.dart';
 import 'package:swishlist/expanded/manage_family_members.dart';
@@ -27,7 +28,6 @@ import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/globals.dart';
 import '../../constants/globals/loading.dart';
-import '../../constants/globals/shared_prefs.dart';
 import '../../models/login_models.dart';
 import '../../models/product_model.dart';
 import '../../models/product_type_model.dart';
@@ -49,6 +49,8 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
+  LoginResponse? response;
+
   bool showBox = true;
   bool showExpandedScreen = false;
   bool isLoading = false;
@@ -87,7 +89,7 @@ class _ProductsPageState extends State<ProductsPage> {
       _isFirstLaunch().then((result) {
         if (result) {
           ShowCaseWidget.of(context)
-              .startShowCase([_first, _second, _third, _fourth, _fifth]);
+              .startShowCase([_first, _third, _fourth, _fifth]);
         }
       });
     });
@@ -292,12 +294,17 @@ class _ProductsPageState extends State<ProductsPage> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    print(SharedPrefs()
-                                        .getUserPhoto()
-                                        .toString());
-                                    setState(() {
-                                      showBox = true;
-                                    });
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => UserAllDetails(
+                                          response: widget.response,
+                                        ),
+                                      ),
+                                    );
+                                    // setState(() {
+                                    //   showBox = true;
+                                    // });
                                   },
                                   child: Stack(
                                     alignment: Alignment.center,
@@ -364,7 +371,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                           //     : '$baseUrl${SharedPrefs().getUserPhoto()}',
                                           fit: BoxFit.cover,
                                           errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
+                                              Image.asset(
+                                                  "assets/icons/userico.jpg"),
                                           progressIndicatorBuilder: (a, b, c) =>
                                               Opacity(
                                             opacity: 0.3,
@@ -421,28 +429,66 @@ class _ProductsPageState extends State<ProductsPage> {
                                           children: [
                                             Row(
                                               children: [
-                                                Text(
-                                                  // '${SharedPrefs().getName()}'
-                                                  //         .isEmpty
-                                                  //     ? widget.response.data.name
-                                                  //         .toString()
-                                                  //     :
-                                                  '${SharedPrefs().getName()}',
-                                                  // profile!.data!.name.toString(),
-                                                  // '${SharedPrefs().getName()}',
-                                                  // SharedPrefs()
-                                                  //         .getName()
-                                                  //         .toString()
-                                                  //         .isEmpty
-                                                  //     ? 'user'
-                                                  //     : SharedPrefs()
-                                                  //         .getName()
-                                                  //         .toString(),
+                                                profile!.data!.name
+                                                                .toString() ==
+                                                            "" ||
+                                                        profile!.data!.name ==
+                                                            null
+                                                    ? Text(
+                                                        "User",
 
-                                                  // "Michael Scott",
-                                                  style: AppTextStyle()
-                                                      .textColor29292916w500r,
-                                                ),
+                                                        // '${SharedPrefs().getName()}'
+                                                        //         .isEmpty
+                                                        //     ? 'user'
+                                                        //     : '${SharedPrefs().getName()}',
+                                                        // '${SharedPrefs().getName()}'
+                                                        //         .isEmpty
+                                                        //     ? widget.response.data.name
+                                                        //         .toString()
+                                                        //     :
+                                                        // '${SharedPrefs().getName().}',
+                                                        // profile!.data!.name.toString(),
+                                                        // '${SharedPrefs().getName()}',
+                                                        // SharedPrefs()
+                                                        //         .getName()
+                                                        //         .toString()
+                                                        //         .isEmpty
+                                                        //     ? 'user'
+                                                        //     : SharedPrefs()
+                                                        //         .getName()
+                                                        //         .toString(),
+
+                                                        style: AppTextStyle()
+                                                            .textColor29292916w500r,
+                                                      )
+                                                    : Text(
+                                                        profile!.data!.name
+                                                            .toString(),
+
+                                                        // '${SharedPrefs().getName()}'
+                                                        //         .isEmpty
+                                                        //     ? 'user'
+                                                        //     : '${SharedPrefs().getName()}',
+                                                        // '${SharedPrefs().getName()}'
+                                                        //         .isEmpty
+                                                        //     ? widget.response.data.name
+                                                        //         .toString()
+                                                        //     :
+                                                        // '${SharedPrefs().getName().}',
+                                                        // profile!.data!.name.toString(),
+                                                        // '${SharedPrefs().getName()}',
+                                                        // SharedPrefs()
+                                                        //         .getName()
+                                                        //         .toString()
+                                                        //         .isEmpty
+                                                        //     ? 'user'
+                                                        //     : SharedPrefs()
+                                                        //         .getName()
+                                                        //         .toString(),
+
+                                                        style: AppTextStyle()
+                                                            .textColor29292916w500r,
+                                                      ),
                                                 SizedBox(
                                                   width: 15,
                                                 ),
@@ -490,73 +536,74 @@ class _ProductsPageState extends State<ProductsPage> {
                                   ),
                                 ),
                                 Spacer(),
-                                showExpandedScreen
-                                    ? GestureDetector(
-                                        behavior: HitTestBehavior.translucent,
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (_) => MemberSettings(
-                                                response: widget.response,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(16),
-                                          child: Icon(Icons.more_vert),
+                                // showExpandedScreen
+                                //     ? GestureDetector(
+                                //         behavior: HitTestBehavior.translucent,
+                                //         onTap: () {
+                                //           Navigator.push(
+                                //             context,
+                                //             MaterialPageRoute(
+                                //               builder: (_) => UserAllDetails(
+                                //                 response: widget.response,
+                                //               ),
+                                //             ),
+                                //           );
+                                //         },
+                                //         child: Container(
+                                //           color: Colors.redAccent,
+                                //           padding: EdgeInsets.all(16),
+                                //           child: Icon(Icons.more_vert),
+                                //         ),
+                                //       )
+                                //     :
+                                Showcase(
+                                  key: _first,
+                                  description: 'Share profile with others',
+                                  child: GestureDetector(
+                                    behavior: HitTestBehavior.translucent,
+                                    onTap: () async {
+                                      if (Platform.isIOS) {
+                                        setState(() {
+                                          Share.share(
+                                              'https://apps.apple.com/us/app/swishlist/id6447429473');
+                                        });
+                                      } else {
+                                        setState(() {
+                                          Share.share(
+                                              'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share');
+                                        });
+                                      }
+                                      // final url = Uri.parse(
+                                      //   'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share',
+                                      // );
+                                      // if (await canLaunchUrl(url)) {
+                                      //   launchUrl(url);
+                                      // } else {
+                                      //   // ignore: avoid_print
+                                      //   print("Can't launch $url");
+                                      // }
+                                      // // final Uri url = Uri.parse(
+                                      // //     'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share');
+                                      // // if (!await launchUrl(url)) {
+                                      // //   throw Exception(
+                                      // //       'Could not launch $_url');
+                                      // // }
+                                    },
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 8.0),
+                                      child: Container(
+                                        // color: Colors.red,
+                                        height: 48,
+                                        width: 48,
+                                        padding: EdgeInsets.all(8),
+                                        child: Image.asset(
+                                          'assets/images/send1.png',
                                         ),
-                                      )
-                                    : Showcase(
-                                        key: _first,
-                                        description:
-                                            'Share profile with others',
-                                        child: GestureDetector(
-                                          behavior: HitTestBehavior.translucent,
-                                          onTap: () async {
-                                            if (Platform.isIOS) {
-                                              setState(() {
-                                                Share.share(
-                                                    'https://apps.apple.com/us/app/swishlist/id6447429473');
-                                              });
-                                            } else {
-                                              setState(() {
-                                                Share.share(
-                                                    'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share');
-                                              });
-                                            }
-                                            // final url = Uri.parse(
-                                            //   'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share',
-                                            // );
-                                            // if (await canLaunchUrl(url)) {
-                                            //   launchUrl(url);
-                                            // } else {
-                                            //   // ignore: avoid_print
-                                            //   print("Can't launch $url");
-                                            // }
-                                            // // final Uri url = Uri.parse(
-                                            // //     'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share');
-                                            // // if (!await launchUrl(url)) {
-                                            // //   throw Exception(
-                                            // //       'Could not launch $_url');
-                                            // // }
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 8.0),
-                                            child: Container(
-                                              // color: Colors.red,
-                                              height: 48,
-                                              width: 48,
-                                              padding: EdgeInsets.all(8),
-                                              child: Image.asset(
-                                                'assets/images/send1.png',
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
+                                      ),
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -572,13 +619,13 @@ class _ProductsPageState extends State<ProductsPage> {
                             color: Colors.white,
                           ),
                           padding:
-                              EdgeInsets.only(left: 16, top: 20, bottom: 20),
+                              EdgeInsets.only(left: 16, top: 0, bottom: 20),
                           margin: EdgeInsets.only(top: 10),
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
-                                OptionRowFamily(),
-                                SizedBox(height: 20),
+                                // OptionRowFamily(),
+                                SizedBox(height: 10),
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.push(
@@ -796,7 +843,7 @@ class _ProductsPageState extends State<ProductsPage> {
                           Showcase(
                             targetPadding: EdgeInsets.all(8),
                             key: _third,
-                            description: "this is for add products manually",
+                            description: "This is for add products manually",
                             child: GestureDetector(
                               onTap: () {
                                 showModalBottomSheet(
@@ -805,7 +852,9 @@ class _ProductsPageState extends State<ProductsPage> {
                                     isScrollControlled: true,
                                     builder: (context) {
                                       return ManuallyAddBottomSheetWidget(
-                                          /*model: widget.model,*/);
+                                        productType:
+                                            'want', /*model: widget.model,*/
+                                      );
                                     });
                               },
                               child: Container(
@@ -834,43 +883,33 @@ class _ProductsPageState extends State<ProductsPage> {
                                       child: Image.asset(
                                           'assets/images/Asset 1product 1.png'),
                                     ),
-                                    Showcase(
-                                      key: _second,
-                                      description:
-                                          "this is for add products manually",
-                                      child:
-                                          // Positioned(
-                                          //   top: 800,
-                                          //   bottom: 50,
-                                          //   child:
-                                          Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 16, right: 16),
-                                        child: SizedBox(
-                                          height: 50.h,
-                                          width: 1.sw,
-                                          child: YellowButtonWithIcon(
-                                            backgroundColor:
-                                                MaterialStateProperty.all(
-                                                    ColorSelect.colorF7E641),
-                                            textStyleColor:
-                                                ColorSelect.color292929,
-                                            onTap: () {
-                                              showModalBottomSheet(
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  context: context,
-                                                  isScrollControlled: true,
-                                                  builder: (context) {
-                                                    return ManuallyAddBottomSheetWidget(
-                                                        //*model: widget.model,*//*);
-                                                        );
-                                                  });
-                                            },
-                                            title: "Add Product",
-                                            buttonIcon:
-                                                "assets/images/plus.png",
-                                          ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: SizedBox(
+                                        height: 50.h,
+                                        width: 1.sw,
+                                        child: YellowButtonWithIcon(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  ColorSelect.colorF7E641),
+                                          textStyleColor:
+                                              ColorSelect.color292929,
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                context: context,
+                                                isScrollControlled: true,
+                                                builder: (context) {
+                                                  return ManuallyAddBottomSheetWidget(
+                                                    productType: 'want',
+                                                    //*model: widget.model,*//*);
+                                                  );
+                                                });
+                                          },
+                                          title: "Add Product",
+                                          buttonIcon: "assets/images/plus.png",
                                         ),
                                       ),
                                     ),
@@ -1100,7 +1139,9 @@ class _ProductsPageState extends State<ProductsPage> {
                                   isScrollControlled: true,
                                   builder: (context) {
                                     return ManuallyAddBottomSheetWidget(
-                                        /*model: widget.model,*/);
+                                      productType:
+                                          'dont_want', /*model: widget.model,*/
+                                    );
                                   });
                             },
                             child: Container(
@@ -1126,7 +1167,9 @@ class _ProductsPageState extends State<ProductsPage> {
                                         isScrollControlled: true,
                                         builder: (context) {
                                           return ManuallyAddBottomSheetWidget(
-                                              /*model: widget.model,*/);
+                                            productType:
+                                                'dont_want', /*model: widget.model,*/
+                                          );
                                         });
                                   },
                                 )
@@ -1344,7 +1387,9 @@ class _ProductsPageState extends State<ProductsPage> {
                                     context: context,
                                     isScrollControlled: true,
                                     builder: (context) {
-                                      return ManuallyAddBottomSheetWidget();
+                                      return ManuallyAlreadyAddBottomSheetWidget(
+                                        productType: 'have',
+                                      );
                                     });
                               },
                               child: Container(
@@ -1371,7 +1416,9 @@ class _ProductsPageState extends State<ProductsPage> {
                                         isScrollControlled: true,
                                         builder: (context) {
                                           return ManuallyAddBottomSheetWidget(
-                                              /*model: widget.model,*/);
+                                            productType:
+                                                'have', /*model: widget.model,*/
+                                          );
                                         });
                                   },
                                 )
@@ -1621,8 +1668,9 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
                       context: context,
                       isScrollControlled: true,
                       builder: (context) {
-                        return ManuallyAddBottomSheetWidget(
-                            /*model: widget.model,*/);
+                        return ManuallyAlreadyAddBottomSheetWidget(
+                          productType: 'have', /*model: widget.model,*/
+                        );
                       });
                 },
               )
@@ -1850,8 +1898,9 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                                 isScrollControlled: true,
                                 builder: (context) {
                                   return ManuallyAddBottomSheetWidget(
-                                      //*model: widget.model,*//*);
-                                      );
+                                    productType: 'want',
+                                    //*model: widget.model,*//*);
+                                  );
                                 });
                           },
                           title: "Add Product",
@@ -2071,7 +2120,8 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
                       isScrollControlled: true,
                       builder: (context) {
                         return ManuallyAddBottomSheetWidget(
-                            /*model: widget.model,*/);
+                          productType: 'dont_want', /*model: widget.model,*/
+                        );
                       });
                 },
               )
