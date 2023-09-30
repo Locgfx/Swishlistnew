@@ -2,12 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:swishlist/buttons/grey_border_button.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/color.dart';
 
 import '../../constants/urls.dart';
-import 'manuallyadd.dart';
 
 class ProductAdded extends StatefulWidget {
   final String name;
@@ -56,19 +54,19 @@ class _ProductAddedState extends State<ProductAdded> {
                   title: 'Home',
                 ),
               ),
-              SizedBox(height: 12),
-              SizedBox(
-                height: 52,
-                child: GreyBorderButtonWithText(
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
-                  textStyleColor: Colors.black,
-                  onTap: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (_) => ManuallyAdd()));
-                  },
-                  title: '+ Add more',
-                ),
-              ),
+              SizedBox(height: 20),
+              // SizedBox(
+              //   height: 52,
+              //   child: GreyBorderButtonWithText(
+              //     backgroundColor: MaterialStateProperty.all(Colors.white),
+              //     textStyleColor: Colors.black,
+              //     onTap: () {
+              //       Navigator.pushReplacement(context,
+              //           MaterialPageRoute(builder: (_) => ManuallyAdd()));
+              //     },
+              //     title: '+ Add more',
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -110,10 +108,10 @@ class _ProductAddedState extends State<ProductAdded> {
                     ),
                   ),
                   SizedBox(height: 8),
-                  Text(
-                    'to products you want.',
-                    style: AppTextStyle().textColor29292914w400,
-                  ),
+                  // Text(
+                  //   'to products you want.',
+                  //   style: AppTextStyle().textColor29292914w400,
+                  // ),
                   SizedBox(height: 40),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 16),

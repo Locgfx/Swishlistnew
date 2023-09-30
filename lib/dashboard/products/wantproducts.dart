@@ -6,17 +6,21 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/products_api.dart';
+import 'package:swishlist/dashboard/dashboard.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
 import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
 
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
+import '../../models/login_models.dart';
 import '../../models/product_type_model.dart';
 
 class WantProducts extends StatefulWidget {
+  final LoginResponse response;
   final bool isUser;
-  const WantProducts({Key? key, required this.isUser}) : super(key: key);
+  const WantProducts({Key? key, required this.isUser, required this.response})
+      : super(key: key);
 
   @override
   State<WantProducts> createState() => _WantProductsState();
@@ -446,7 +450,13 @@ class _WantProductsState extends State<WantProducts> {
         leading: InkWell(
           onTap: () {
             selectedItems.isEmpty
-                ? Navigator.pop(context)
+                ? Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Dashboard(
+                              response: widget.response,
+                            )))
+                // ? Navigator.pop(context)
                 : setState(() {
                     selectedItems.clear();
                   });
@@ -595,11 +605,13 @@ class _WantProductsState extends State<WantProducts> {
                                             },
                                             onTap: () {
                                               if (selectedItems.isEmpty) {
-                                                Navigator.push(
+                                                Navigator.pushReplacement(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             ProductDetail(
+                                                              response: widget
+                                                                  .response,
                                                               name: wantProduct2[
                                                                       i]
                                                                   .name

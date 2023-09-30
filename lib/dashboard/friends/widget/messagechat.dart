@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/api/user_apis/message_api.dart';
+import 'package:swishlist/models/login_models.dart';
+
 import '../../../constants/color.dart';
 import '../../products/widget/product_add_widget.dart';
 
 class MessageChatWidget extends StatefulWidget {
+  final LoginResponse response;
   final String friendId;
   const MessageChatWidget({
     Key? key,
     required this.selectedItems,
     required this.friendId,
+    required this.response,
   }) : super(key: key);
 
   final List<int> selectedItems;
@@ -31,7 +35,6 @@ class _MessageChatWidgetState extends State<MessageChatWidget> {
   }
 
   final sendMsgController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +71,10 @@ class _MessageChatWidgetState extends State<MessageChatWidget> {
                                   builder: (context) {
                                     return Container(
                                       decoration: BoxDecoration(
-                                          color: ColorSelect.colorFFFFFF,
-                                          borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(20),
-                                          ),
+                                        color: ColorSelect.colorFFFFFF,
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(20),
+                                        ),
                                       ),
                                       child: SingleChildScrollView(
                                         child: Padding(
@@ -132,17 +135,16 @@ class _MessageChatWidgetState extends State<MessageChatWidget> {
                                                     //Todo: TextField corrections
                                                     Expanded(
                                                       child: TextFormField(
-                                                        onChanged: (v) {setState(() {
-
-                                                        });},
+                                                        onChanged: (v) {
+                                                          setState(() {});
+                                                        },
                                                         // controller: sendMsgController,
                                                         decoration:
                                                             InputDecoration(
-                                                                border:
-                                                                InputBorder.none,
-                                                                hintText:
-                                                                    "Search",
-                                                            ),
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText: "Search",
+                                                        ),
                                                         // keyboardType:
                                                         //     TextInputType.text,
                                                       ),
@@ -151,6 +153,7 @@ class _MessageChatWidgetState extends State<MessageChatWidget> {
                                                 ),
                                               ),
                                               ProductListWidget(
+                                                  response: widget.response,
                                                   selectedItems:
                                                       widget.selectedItems),
                                             ],
@@ -162,23 +165,28 @@ class _MessageChatWidgetState extends State<MessageChatWidget> {
                         },
                         child: focusNode.hasFocus
                             ? GestureDetector(
-                            onTap: () {
-                              if(sendMsgController.text.isNotEmpty) {
-                                print(widget.friendId);
-                                sendMessageApi(
-                                    sendUserid: widget.friendId,
-                                    message: sendMsgController.text, productId: '').then((value) async {
-                                  print(widget.friendId);
-                                  print(sendMsgController);
-                                      if(value['status'] == true) {
-                                        Fluttertoast.showToast(msg: value['message']);
+                                onTap: () {
+                                  if (sendMsgController.text.isNotEmpty) {
+                                    print(widget.friendId);
+                                    sendMessageApi(
+                                            sendUserid: widget.friendId,
+                                            message: sendMsgController.text,
+                                            productId: '')
+                                        .then((value) async {
+                                      print(widget.friendId);
+                                      print(sendMsgController);
+                                      if (value['status'] == true) {
+                                        Fluttertoast.showToast(
+                                            msg: value['message']);
                                       } else {
-                                        Fluttertoast.showToast(msg: value['message']);
+                                        Fluttertoast.showToast(
+                                            msg: value['message']);
                                       }
-                                });
-                              }
-                            },
-                            child: Image.asset('assets/images/sentimage.png'))
+                                    });
+                                  }
+                                },
+                                child:
+                                    Image.asset('assets/images/sentimage.png'))
                             : Image.asset("assets/images/shoppingbag.png"))),
                 keyboardType: TextInputType.text,
               ),

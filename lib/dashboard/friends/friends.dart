@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/globals.dart';
+import 'package:swishlist/models/login_models.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
@@ -15,9 +16,11 @@ import 'friends_notifications.dart';
 import 'message.dart';
 
 class Friends extends StatefulWidget {
+  final LoginResponse response;
   // final FriendModel friendId;
   const Friends({
     Key? key,
+    required this.response,
     // required this.friendId,
     // required this.searchList,
   }) : super(key: key);
@@ -347,6 +350,7 @@ class _FriendsState extends State<Friends> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   FriendProduct(
+                                                response: widget.response,
                                                 friendName: friendList
                                                     .data![i].friend!.name
                                                     .toString(),

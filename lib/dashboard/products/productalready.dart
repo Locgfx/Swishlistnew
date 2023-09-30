@@ -7,6 +7,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
 import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
+import 'package:swishlist/models/login_models.dart';
 
 import '../../api/user_apis/products_api.dart';
 import '../../constants/color.dart';
@@ -16,8 +17,10 @@ import '../../models/product_type_model.dart';
 
 class ProductAlready extends StatefulWidget {
   // final ProductTypeModel model;
+  final LoginResponse response;
   const ProductAlready({
     Key? key,
+    required this.response,
     /*required this.model*/
   }) : super(key: key);
 
@@ -299,6 +302,8 @@ class _ProductAlreadyState extends State<ProductAlready> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             ProductDetail(
+                                                              response: widget
+                                                                  .response,
                                                               name: haveProducts2[
                                                                       i]
                                                                   .name

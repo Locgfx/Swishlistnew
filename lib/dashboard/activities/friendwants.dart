@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:swishlist/models/login_models.dart';
+
 import '../../constants/color.dart';
 import '../products/widget/popmenu.dart';
 import '../products/widget/product_add_widget.dart';
 
 class FriendWants extends StatefulWidget {
-  const FriendWants({Key? key}) : super(key: key);
+  final LoginResponse response;
+  const FriendWants({Key? key, required this.response}) : super(key: key);
 
   @override
   State<FriendWants> createState() => _FriendWantsState();
@@ -33,7 +36,9 @@ class _FriendWantsState extends State<FriendWants> {
                 child: Image.asset("assets/images/filter06.png")),
           ),
           //MyOptionsDialog(),
-          MyOptionsDialoglist(onTap: () {  },),
+          MyOptionsDialoglist(
+            onTap: () {},
+          ),
           SizedBox(width: 16),
         ]),
         leading: Padding(
@@ -41,7 +46,8 @@ class _FriendWantsState extends State<FriendWants> {
           child: InkWell(
               onTap: () {
                 Navigator.pop(context);
-              }, child: Image.asset('assets/images/Vector190.png')),
+              },
+              child: Image.asset('assets/images/Vector190.png')),
         ),
       ),
       body: SingleChildScrollView(
@@ -81,7 +87,10 @@ class _FriendWantsState extends State<FriendWants> {
                       ),
                     ],
                   ),
-                  ProductListWidget(selectedItems: selectedItems),
+                  ProductListWidget(
+                    selectedItems: selectedItems,
+                    response: widget.response,
+                  ),
                 ],
               ),
             ),

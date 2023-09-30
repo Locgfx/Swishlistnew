@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:swishlist/constants/color.dart';
+import 'package:swishlist/models/login_models.dart';
 
 import '../products/products_page.dart';
 
 class SearchProduct extends StatefulWidget {
   final GlobalKey searchKey;
-  const SearchProduct({Key? key, required this.searchKey}) : super(key: key);
+  final LoginResponse response;
+  const SearchProduct(
+      {Key? key, required this.searchKey, required this.response})
+      : super(key: key);
 
   @override
   State<SearchProduct> createState() => _SearchProductState();
@@ -113,6 +117,7 @@ class _SearchProductState extends State<SearchProduct> {
                 height: 220,
                 child: IWantProductListWidget(
                   second: widget.searchKey,
+                  response: widget.response,
 
                   /*      imageList: imageList,
                   itemNameList: itemNameList,

@@ -291,10 +291,14 @@ class _DashboardState extends State<Dashboard> {
                   //     builder: (context) => Search(),
                   //   ),
                   // ),
-                  Activities(),
+                  Activities(
+                    response: widget.response,
+                  ),
                   ShowCaseWidget(
                     builder: Builder(
-                      builder: (context) => Friends(),
+                      builder: (context) => Friends(
+                        response: widget.response,
+                      ),
                     ),
                   ),
                   // ProductsPage(

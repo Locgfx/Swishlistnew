@@ -682,7 +682,9 @@ class _ProductsPageState extends State<ProductsPage> {
                                       MaterialPageRoute(
                                         builder: (_) => ShowCaseWidget(
                                           builder: Builder(
-                                              builder: (context) => Friends()),
+                                              builder: (context) => Friends(
+                                                    response: widget.response,
+                                                  )),
                                         ),
                                       ),
                                     );
@@ -830,6 +832,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                   MaterialPageRoute(
                                       builder: (context) => WantProducts(
                                             isUser: true,
+                                            response: widget.response,
                                           )));
                             },
                             child: Text(
@@ -942,6 +945,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                                         MaterialPageRoute(
                                                             builder: (context) =>
                                                                 ProductDetail(
+                                                                  response: widget
+                                                                      .response,
                                                                   name: wantProducts2[
                                                                           i]
                                                                       .name
@@ -1117,6 +1122,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Productdontwant(
+                                    response: widget.response,
                                     isUser: true,
                                     // model:widget.model ,
                                   ),
@@ -1199,6 +1205,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                                         MaterialPageRoute(
                                                             builder: (context) =>
                                                                 ProductDetail(
+                                                                  response: widget
+                                                                      .response,
                                                                   name: notWant2[
                                                                           i]
                                                                       .name
@@ -1369,8 +1377,9 @@ class _ProductsPageState extends State<ProductsPage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            ProductAlready()));
+                                        builder: (context) => ProductAlready(
+                                              response: widget.response,
+                                            )));
                               },
                               child: Text(
                                 "View all",
@@ -1448,6 +1457,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                                         MaterialPageRoute(
                                                             builder: (context) =>
                                                                 ProductDetail(
+                                                                  response: widget
+                                                                      .response,
                                                                   name: haveProducts2[
                                                                           i]
                                                                       .name
@@ -1609,8 +1620,10 @@ class _ProductsPageState extends State<ProductsPage> {
 
 //
 class AlreadyProductListWidget extends StatefulWidget {
+  final LoginResponse response;
   const AlreadyProductListWidget({
     Key? key,
+    required this.response,
   }) : super(key: key);
 
   @override
@@ -1698,6 +1711,7 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ProductDetail(
+                                                response: widget.response,
                                                 name: haveProducts2[i]
                                                     .name
                                                     .toString(),
@@ -1816,8 +1830,10 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
 }
 
 class IWantProductListWidget extends StatefulWidget {
+  final LoginResponse response;
   final GlobalKey second;
-  IWantProductListWidget({Key? key, required this.second})
+  IWantProductListWidget(
+      {Key? key, required this.second, required this.response})
       : super(
           key: key,
         );
@@ -1936,6 +1952,7 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ProductDetail(
+                                                response: widget.response,
                                                 name: wantProducts2[i]
                                                     .name
                                                     .toString(),
@@ -2063,8 +2080,10 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
 }
 
 class NotWantProductListWidget extends StatefulWidget {
+  final LoginResponse response;
   const NotWantProductListWidget({
     Key? key,
+    required this.response,
   }) : super(key: key);
 
   @override
@@ -2149,6 +2168,7 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ProductDetail(
+                                                response: widget.response,
                                                 name:
                                                     notWant2[i].name.toString(),
                                                 price:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
+import 'package:swishlist/models/login_models.dart';
 
 import '../../api/user_apis/activities_api.dart';
 import '../../api/user_apis/activity_store_model.dart';
@@ -13,7 +14,8 @@ import '../../models/activity1_model.dart';
 import 'friendwants.dart';
 
 class Activities extends StatefulWidget {
-  const Activities({Key? key}) : super(key: key);
+  final LoginResponse response;
+  const Activities({Key? key, required this.response}) : super(key: key);
 
   @override
   State<Activities> createState() => _ActivitiesState();
@@ -124,7 +126,10 @@ class _ActivitiesState extends State<Activities> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      FriendWants()));
+                                                      FriendWants(
+                                                        response:
+                                                            widget.response,
+                                                      )));
                                         },
                                         child: Container(
                                           color: Colors.transparent,

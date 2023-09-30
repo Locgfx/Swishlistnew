@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/urls.dart';
+import 'package:swishlist/dashboard/products/wantproducts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../api/user_apis/products_api.dart';
@@ -13,6 +14,7 @@ import '../../buttons/red_button.dart';
 import '../../buttons/white_button.dart';
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
+import '../../models/login_models.dart';
 
 class ProductDetail extends StatefulWidget {
   final String name;
@@ -22,6 +24,7 @@ class ProductDetail extends StatefulWidget {
   final String purchaseDate;
   final String id;
   final String type;
+  final LoginResponse response;
   // final String id;
   const ProductDetail({
     Key? key,
@@ -32,6 +35,7 @@ class ProductDetail extends StatefulWidget {
     required this.purchaseDate,
     required this.id,
     required this.type,
+    required this.response,
     // required this.id
   }) : super(key: key);
 
@@ -676,23 +680,25 @@ class _ProductDetailState extends State<ProductDetail> {
                                                                 if (value[
                                                                         'status'] ==
                                                                     true) {
-                                                                  // Navigator
-                                                                  //     .push(
-                                                                  //   context,
-                                                                  //   MaterialPageRoute(
-                                                                  //     builder:
-                                                                  //         (context) =>
-                                                                  //             WantProducts(
-                                                                  //       isUser:
-                                                                  //           true,
-                                                                  //     ),
-                                                                  //   ),
-                                                                  // );
-                                                                  Navigator.of(
-                                                                      context)
-                                                                    ..pop()
-                                                                    ..pop()
-                                                                    ..pop();
+                                                                  Navigator
+                                                                      .pushReplacement(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              WantProducts(
+                                                                        isUser:
+                                                                            true,
+                                                                        response:
+                                                                            widget.response,
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                  // Navigator.of(
+                                                                  //     context)
+                                                                  //   ..pop()
+                                                                  //   ..pop()
+                                                                  //   ..pop();
                                                                   Fluttertoast.showToast(
                                                                       msg: value[
                                                                           'message']);

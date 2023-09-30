@@ -1,16 +1,17 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swishlist/models/login_models.dart';
 
 import '../../../constants/color.dart';
 import '../productdetail.dart';
 
 class ProductListWidget extends StatelessWidget {
+  final LoginResponse response;
   const ProductListWidget({
     Key? key,
     required this.selectedItems,
+    required this.response,
   }) : super(key: key);
 
   final List<int> selectedItems;
@@ -27,8 +28,19 @@ class ProductListWidget extends StatelessWidget {
             padding: const EdgeInsets.only(top: 16),
             child: GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProductDetail(name: '', price: '', link: '', image: '', purchaseDate: '', id: '', type: '',)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProductDetail(
+                              name: '',
+                              price: '',
+                              link: '',
+                              image: '',
+                              purchaseDate: '',
+                              id: '',
+                              type: '',
+                              response: response,
+                            )));
                 log("hello");
                 print("hello");
                 print(selectedItems);
@@ -125,7 +137,8 @@ class ProductListWidget extends StatelessWidget {
                                     ),
                                     Text(
                                       "Today",
-                                      style: AppTextStyle().textColor70707012w400,
+                                      style:
+                                          AppTextStyle().textColor70707012w400,
                                     )
                                   ],
                                 ),

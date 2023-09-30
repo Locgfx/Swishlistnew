@@ -8,6 +8,7 @@ import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/dashboard/friends/profile_chat.dart';
 import 'package:swishlist/dashboard/friends/widget/appbar_icon.dart';
 import 'package:swishlist/models/friend_product_model.dart';
+import 'package:swishlist/models/login_models.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/globals/globals.dart';
@@ -21,6 +22,7 @@ import 'friend_profile.dart';
 import 'friends_notifications.dart';
 
 class FriendProduct extends StatefulWidget {
+  final LoginResponse response;
   final String friendName;
   final String friendUserName;
   final String friendId;
@@ -34,6 +36,7 @@ class FriendProduct extends StatefulWidget {
     required this.friendId,
     required this.friendPhoto,
     required this.id,
+    required this.response,
   }) : super(key: key);
 
   @override
@@ -379,6 +382,7 @@ class _FriendProductState extends State<FriendProduct> {
                                       builder: (_) => FriendWantProducts(
                                         friendId: widget.friendId,
                                         friendName: widget.friendName,
+                                        response: widget.response,
                                       ),
                                     ),
                                   );
@@ -440,6 +444,8 @@ class _FriendProductState extends State<FriendProduct> {
                                                     MaterialPageRoute(
                                                       builder: (context) =>
                                                           FriendWantProducts(
+                                                        response:
+                                                            widget.response,
                                                         friendId:
                                                             widget.friendId,
                                                         friendName:
@@ -569,6 +575,7 @@ class _FriendProductState extends State<FriendProduct> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => FriendDonWantProducts(
+                                        response: widget.response,
                                         friendId: widget.friendId,
                                         friendName: widget.friendName,
                                       ),
@@ -643,6 +650,8 @@ class _FriendProductState extends State<FriendProduct> {
                                                           MaterialPageRoute(
                                                             builder: (context) =>
                                                                 FriendDonWantProducts(
+                                                              response: widget
+                                                                  .response,
                                                               friendId: widget
                                                                   .friendId,
                                                               friendName: widget
@@ -787,6 +796,7 @@ class _FriendProductState extends State<FriendProduct> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => FriendHaveProducts(
+                                        response: widget.response,
                                         friendId: widget.friendId,
                                         friendName: widget.friendName,
                                       ),
@@ -860,6 +870,8 @@ class _FriendProductState extends State<FriendProduct> {
                                                           MaterialPageRoute(
                                                             builder: (context) =>
                                                                 FriendHaveProducts(
+                                                              response: widget
+                                                                  .response,
                                                               friendId: widget
                                                                   .friendId,
                                                               friendName: widget

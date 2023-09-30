@@ -8,6 +8,7 @@ import 'package:swishlist/api/user_apis/products_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
 import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
+import 'package:swishlist/models/login_models.dart';
 import 'package:swishlist/models/product_model.dart';
 
 import '../../constants/color.dart';
@@ -16,9 +17,11 @@ import '../../models/product_type_model.dart';
 
 class Productdontwant extends StatefulWidget {
   final bool isUser;
+  final LoginResponse response;
   const Productdontwant({
     Key? key,
     required this.isUser,
+    required this.response,
   }) : super(key: key);
 
   @override
@@ -31,6 +34,8 @@ class _ProductdontwantState extends State<Productdontwant> {
     getNotWantProducts();
     super.initState();
   }
+
+  LoginResponse? response;
 
   List<int> selectedItems = [];
   bool loading = false;
@@ -267,6 +272,8 @@ class _ProductdontwantState extends State<Productdontwant> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             ProductDetail(
+                                                              response: widget
+                                                                  .response,
                                                               name: notWantTwo[
                                                                       i]
                                                                   .name

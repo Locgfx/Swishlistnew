@@ -444,7 +444,7 @@ class _ManuallyAddBottomSheetWidgetState
                               Expanded(
                                 child: TextFormField(
                                   validator: (website) {
-                                    String pattern = 'https';
+                                    String pattern = 'http';
                                     RegExp regExp = RegExp(pattern);
                                     if (website!.isEmpty) {
                                       return "Please enter your website";
