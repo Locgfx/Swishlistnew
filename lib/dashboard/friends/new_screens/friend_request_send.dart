@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 
-import '../constants/color.dart';
+import '../../../constants/color.dart';
 
-class RequestSent extends StatefulWidget {
+class FriendRequestSent extends StatefulWidget {
   final String name;
-  const RequestSent({Key? key, required this.name}) : super(key: key);
+  const FriendRequestSent({Key? key, required this.name}) : super(key: key);
 
   @override
-  State<RequestSent> createState() => _RequestSentState();
+  State<FriendRequestSent> createState() => _FriendRequestSentState();
 }
 
-class _RequestSentState extends State<RequestSent> {
+class _FriendRequestSentState extends State<FriendRequestSent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +24,7 @@ class _RequestSentState extends State<RequestSent> {
           backgroundColor: MaterialStateProperty.all(ColorSelect.colorF7E641),
           textStyleColor: ColorSelect.color292929,
           onTap: () {
-            int count = 0;
-            Navigator.of(context).popUntil((_) => count++ >= 3);
+            Navigator.pop(context);
           },
           title: 'Done',
         ),
@@ -81,7 +80,7 @@ class _RequestSentState extends State<RequestSent> {
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Text(
-                          "Once this person accepts your request, he will be added",
+                          "Once this person accepts your request, he will be added in your friend list",
                           textAlign: TextAlign.center,
                           style: AppTextStyle().textColor70707012w400,
                         ),

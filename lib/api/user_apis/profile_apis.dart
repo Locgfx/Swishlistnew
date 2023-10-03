@@ -65,7 +65,7 @@ Future<dynamic> updateProfile({
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   if (response.statusCode == 200) {
-    print;
+    print(resp);
     return resp;
   } else {
     print(resp);

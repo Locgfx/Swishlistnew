@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/constants/globals/loading.dart';
-import 'package:swishlist/models/friends_details_model.dart';
 
-import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
+import '../api/family_member_apis/family_details_api.dart';
+import '../models/new_models/family_details_models.dart';
 
 class FamilyDatesAndEvents extends StatefulWidget {
   final String friendId;
@@ -31,23 +31,23 @@ class _FamilyDatesAndEventsState extends State<FamilyDatesAndEvents> {
 
   bool isLoading = false;
   // FriendDetailsModel? friendDetails;
-  FriendDetailsModel? friendDetails1;
+  FamilyDetailsModel? familyEventDetails;
   List<EventDate> eventListAll = [];
   List<EventDate> eventListUp = [];
 
   getAllFriendEventDetails() {
     isLoading = true;
-    var resp = friendDetailsApi(friendUserId: widget.friendId);
+    var resp = getFamilyDetailsApi(familyMemberId: widget.friendId);
     resp.then((value) {
       if (value['status'] == true) {
         setState(() {
-          friendDetails1 = FriendDetailsModel.fromJson(value);
-          for (var v in friendDetails1!.data!.eventDate!) {
+          familyEventDetails = FamilyDetailsModel.fromJson(value);
+          for (var v in familyEventDetails!.data!.eventDate!) {
             if (v.type == "all") {
               eventListAll.add(v);
             }
           }
-          for (var q in friendDetails1!.data!.eventDate!) {
+          for (var q in familyEventDetails!.data!.eventDate!) {
             eventListUp.add(q);
           }
           eventListUp.removeWhere((element) =>
@@ -168,7 +168,7 @@ class _FamilyDatesAndEventsState extends State<FamilyDatesAndEvents> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      friendDetails1!.data!.eventDate!.isEmpty
+                      familyEventDetails!.data!.eventDate!.isEmpty
                           ? Center(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,

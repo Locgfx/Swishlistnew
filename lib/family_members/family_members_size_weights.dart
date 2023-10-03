@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 
-import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
-import '../../models/friends_details_model.dart';
+import '../api/family_member_apis/family_details_api.dart';
+import '../models/new_models/family_details_models.dart';
 
 class FamilySizesAndWeights extends StatefulWidget {
   final String friendId;
@@ -18,13 +18,13 @@ class FamilySizesAndWeights extends StatefulWidget {
 class _FamilySizesAndWeightsState extends State<FamilySizesAndWeights> {
   @override
   void initState() {
-    getFriendDetails();
+    getFamilySizeDetails();
     super.initState();
   }
 
   bool isLoading = false;
 
-  FriendDetailsModel? friendDetails = FriendDetailsModel(
+  FamilyDetailsModel? familyDetails = FamilyDetailsModel(
       data: Data(
           sizeWeight: SizeWeight(
     shirt: '',
@@ -33,9 +33,9 @@ class _FamilySizesAndWeightsState extends State<FamilySizesAndWeights> {
     bed: '',
   )));
 
-  getFriendDetails() {
+  getFamilySizeDetails() {
     isLoading = true;
-    var resp = friendDetailsApi(friendUserId: widget.friendId);
+    var resp = getFamilyDetailsApi(familyMemberId: widget.friendId);
     resp.then((value) {
       if (mounted) {
         if (value['status'] == true) {
@@ -45,7 +45,7 @@ class _FamilySizesAndWeightsState extends State<FamilySizesAndWeights> {
             });
           } else {
             setState(() {
-              friendDetails = FriendDetailsModel.fromJson(value);
+              familyDetails = FamilyDetailsModel.fromJson(value);
               isLoading = false;
             });
           }
@@ -110,14 +110,14 @@ class _FamilySizesAndWeightsState extends State<FamilySizesAndWeights> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.sizeWeight!.waist
+                                  familyDetails!.data!.sizeWeight!.waist
                                                   .toString() ==
                                               "" ||
-                                          friendDetails!
+                                          familyDetails!
                                                   .data!.sizeWeight!.waist ==
                                               null
                                       ? "friend not updated shirt size"
-                                      : friendDetails!.data!.sizeWeight!.waist
+                                      : familyDetails!.data!.sizeWeight!.waist
                                           .toString(),
                                   // '+ Add',
                                   style:
@@ -158,14 +158,14 @@ class _FamilySizesAndWeightsState extends State<FamilySizesAndWeights> {
                                   /*  friendDetails!.data!.sizeWeight!.shirt.toString() == '' ?
                       'waist is not added yet' :*/
                                   // friendDetails!.data!.sizeWeight!.shirt.toString(),
-                                  friendDetails!.data!.sizeWeight!.shirt
+                                  familyDetails!.data!.sizeWeight!.shirt
                                                   .toString() ==
                                               "" ||
-                                          friendDetails!
+                                          familyDetails!
                                                   .data!.sizeWeight!.shirt ==
                                               null
                                       ? "friend not updated shirt size"
-                                      : friendDetails!.data!.sizeWeight!.shirt
+                                      : familyDetails!.data!.sizeWeight!.shirt
                                           .toString(),
                                   // '+ Add',
                                   /*:
@@ -209,14 +209,14 @@ class _FamilySizesAndWeightsState extends State<FamilySizesAndWeights> {
                                 Text(
                                   /* friendDetails!.data!.sizeWeight!.shoes.toString() == '' ?
                       'waist is not added yet' :*/
-                                  friendDetails!.data!.sizeWeight!.shoes
+                                  familyDetails!.data!.sizeWeight!.shoes
                                                   .toString() ==
                                               "" ||
-                                          friendDetails!
+                                          familyDetails!
                                                   .data!.sizeWeight!.shoes ==
                                               null
                                       ? "friend not updated shoes size"
-                                      : friendDetails!.data!.sizeWeight!.shoes
+                                      : familyDetails!.data!.sizeWeight!.shoes
                                           .toString(),
                                   // '+ Add',
                                   style: AppTextStyle().textColor29292914w400,
@@ -249,14 +249,14 @@ class _FamilySizesAndWeightsState extends State<FamilySizesAndWeights> {
                                 ),
                                 Spacer(),
                                 Text(
-                                    friendDetails!.data!.sizeWeight!.bed
+                                    familyDetails!.data!.sizeWeight!.bed
                                                     .toString() ==
                                                 "" ||
-                                            friendDetails!
+                                            familyDetails!
                                                     .data!.sizeWeight!.bed ==
                                                 null
                                         ? "friend not updated shoes size"
-                                        : friendDetails!.data!.sizeWeight!.bed
+                                        : familyDetails!.data!.sizeWeight!.bed
                                             .toString(),
                                     //  Add' ,
                                     style:

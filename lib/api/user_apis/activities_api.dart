@@ -3,22 +3,19 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/constants/urls.dart';
-import 'package:swishlist/models/activity_model.dart';
 
 import '../../models/activity1_model.dart';
 
-Future <dynamic> getActivityApi() async {
-  var headers = {
-    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
-  };
-  var request = http.MultipartRequest('POST',
-      Uri.parse('$baseUrl/api/user/activities'));
+Future<dynamic> getActivityApi() async {
+  var headers = {'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'};
+  var request =
+      http.MultipartRequest('POST', Uri.parse('$baseUrl/api/user/activities'));
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   print(headers);
   print(request.headers);
   var resp = jsonDecode(await response.stream.bytesToString());
-  if(response.statusCode == 200) {
+  if (response.statusCode == 200) {
     print(resp);
     return resp;
   } else {
@@ -29,15 +26,11 @@ Future <dynamic> getActivityApi() async {
   }
 }
 
-Future postActivityApi({
-  required String leadUserid,
-  required String productId
-} ) async{
-  var headers = {
-    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
-  };
-  var request = http.MultipartRequest('POST',
-      Uri.parse('$baseUrl/api/user/activities/store'));
+Future postActivityApi(
+    {required String leadUserid, required String productId}) async {
+  var headers = {'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'};
+  var request = http.MultipartRequest(
+      'POST', Uri.parse('$baseUrl/api/user/activities/store'));
   request.fields.addAll({
     'lead_user_id': leadUserid,
     'product_id': productId,
@@ -45,7 +38,7 @@ Future postActivityApi({
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
-  if(response.statusCode == 200 ){
+  if (response.statusCode == 200) {
     print(resp);
     return resp;
   } else {
@@ -58,15 +51,15 @@ Future postActivityApi({
 
 Future activity() async {
   var headers = {'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'};
-  var request = http.MultipartRequest(
-      'POST', Uri.parse('$baseUrl/api/user/activities'));
+  var request =
+      http.MultipartRequest('POST', Uri.parse('$baseUrl/api/user/activities'));
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   var resBody = jsonDecode(await response.stream.bytesToString());
 
   if (response.statusCode == 200) {
     print(resBody);
-    return Activity1.fromJson(resBody);
+    return ActivityModel.fromJson(resBody);
   } else {
     print(resBody);
     print(response.statusCode);

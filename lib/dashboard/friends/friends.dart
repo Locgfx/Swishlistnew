@@ -14,6 +14,7 @@ import 'addfriends.dart';
 import 'friendproduct.dart';
 import 'friends_notifications.dart';
 import 'message.dart';
+import 'new_screens/add_friend_by_email_phone.dart';
 
 class Friends extends StatefulWidget {
   final LoginResponse response;
@@ -174,7 +175,12 @@ class _FriendsState extends State<Friends> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AddFriends()));
+                                      builder: (context) =>
+                                          AddFriendByMailPhone()));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => AddFriends()));
                             },
                             child: Container(
                               height: 24,
@@ -360,9 +366,17 @@ class _FriendsState extends State<Friends> {
                                                 friendId: friendList
                                                     .data![i].friendUserId
                                                     .toString(),
-                                                friendPhoto: baseUrl +
-                                                    friendList.data![i].friend!
-                                                        .photo!,
+                                                friendPhoto: friendList
+                                                        .data![i].friend!.photo!
+                                                        .toString()
+                                                        .contains('http')
+                                                    ? friendList
+                                                        .data![i].friend!.photo!
+                                                        .toString()
+                                                    : baseUrl +
+                                                        friendList.data![i]
+                                                            .friend!.photo!
+                                                            .toString(),
                                                 id: friendList.data![i].id!
                                                     .toString(),
                                                 /* id: searchList[i].id.toString(),*/

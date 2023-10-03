@@ -1116,6 +1116,7 @@ class _UserProfileState extends State<UserProfile> {
                           height: 10.h,
                         ),
                         GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
                               context: context,
@@ -1149,127 +1150,139 @@ class _UserProfileState extends State<UserProfile> {
                               },
                             );
                           },
-                          child: Row(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Work",
-                                style: AppTextStyle().textColor70707014w400,
-                              ),
-                              Spacer(),
-                              SizedBox(width: 5.w),
+                              Row(
+                                children: [
+                                  Text(
+                                    "Work",
+                                    style: AppTextStyle().textColor70707014w400,
+                                  ),
+                                  Spacer(),
+                                  SizedBox(width: 5.w),
 
-                              // Image.asset("assets/images/information1.png"),
-                              // SizedBox(width: 20.w),
-                              // SvgPicture.asset("assets/icons/forwordarrow.svg")
+                                  // Image.asset("assets/images/information1.png"),
+                                  // SizedBox(width: 20.w),
+                                  // SvgPicture.asset("assets/icons/forwordarrow.svg")
+                                ],
+                              ),
+                              workController.text.isEmpty
+                                  ? Text(
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      profile!.data!.workAddress.toString() ==
+                                                  '' ||
+                                              profile!.data!.workAddress == null
+                                          ? '+ Add'
+                                          : profile!.data!.workAddress
+                                              .toString(),
+                                      style: profile!.data!.workAddress == ''
+                                          ? AppTextStyle().textColorD5574514w500
+                                          : AppTextStyle()
+                                              .textColor29292914w400,
+                                    )
+                                  : Text(
+                                      workController.text,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                          AppTextStyle().textColor29292914w400,
+                                    ),
                             ],
                           ),
 
                           // child: WorkRowWidget(profile:profile!),
                         ),
-                        workController.text.isEmpty
-                            ? Text(
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                profile!.data!.workAddress.toString() == '' ||
-                                        profile!.data!.workAddress == null
-                                    ? '+ Add'
-                                    : profile!.data!.workAddress.toString(),
-                                style: profile!.data!.workAddress == ''
-                                    ? AppTextStyle().textColorD5574514w500
-                                    : AppTextStyle().textColor29292914w400,
-                              )
-                            : Text(
-                                workController.text,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppTextStyle().textColor29292914w400,
-                              ),
+
                         SizedBox(height: 30),
                         Padding(
                             padding: const EdgeInsets.only(bottom: 16),
                             child:
                                 // child: (profile!.data!.occupation.toString() == '')
-                                //     ? LightYellowButtonWithText(
-                                //         size: 16,
-                                //         backgroundColor: MaterialStateProperty.all(
-                                //             ColorSelect.colorF7E641),
-                                //         textStyleColor: Colors.black,
-                                //         onTap: () {
-                                //           postProfile(
-                                //             name: nameController.text,
-                                //             gender: genderController.text,
-                                //             dob: dobFormat,
-                                //             occupation: occupationController.text,
-                                //             relationStatus: relationStatus.text,
-                                //             email: emailController.text,
-                                //             phone: phoneController.text,
-                                //             alternateNo: alternateNo.text,
-                                //             homeAddress: homeController.text,
-                                //             workAddress: workController.text,
-                                //             privacyStatus: 'public',
-                                //             photo: pickedImage.isAbsolute
-                                //                 ? pickedImage.path
-                                //                 : '',
-                                //           ).then(
-                                //             (value) async {
-                                //               if (value['status'] == true) {
-                                //                 SharedPrefs().setPPercent('100 %');
-                                //                 Navigator.pop(context);
-                                //                 Fluttertoast.showToast(
-                                //                     msg: value['message']);
-                                //               } else {
-                                //                 Fluttertoast.showToast(
-                                //                     msg: value['message']);
-                                //               }
-                                //             },
-                                //           );
-                                //         },
-                                //         title: 'Add')
-                                //     :
+                                //     ?
                                 LightYellowButtonWithText(
-                                    size: 15,
+                                    size: 16,
                                     backgroundColor: MaterialStateProperty.all(
                                         ColorSelect.colorF7E641),
                                     textStyleColor: Colors.black,
                                     onTap: () {
-                                      updateProfile(
-                                              name: nameController.text,
-                                              gender: genderController.text,
-                                              dob: dobFormat,
-                                              occupation:
-                                                  occupationController.text,
-                                              relationStatus:
-                                                  relationStatus.text,
-                                              email: emailController.text,
-                                              phone: phoneController.text,
-                                              alternateNo: alternateNo.text,
-                                              homeAddress: homeController.text,
-                                              workAddress: workController.text,
-                                              privacyStatus: 'public',
-                                              id: profile!.data!.id.toString(),
-                                              photo: pickedImage.isAbsolute
-                                                  ? pickedImage.path
-                                                  : '')
-                                          .then((value) {
-                                        print(pickedImage);
-                                        if (value['status'] == true) {
-                                          SharedPrefs()
-                                              .setName(nameController.text);
-                                          SharedPrefs()
-                                              .setEmail(emailController.text);
-                                          Navigator.pop(context);
-                                          // setState(() {
-                                          //   // isLoading ? Loading() :getProfile();
-                                          // });
-                                          Fluttertoast.showToast(
-                                              msg: value['message']);
-                                        } else {
-                                          Fluttertoast.showToast(
-                                              msg: value['message']);
-                                        }
-                                      });
+                                      postProfile(
+                                        name: nameController.text,
+                                        gender: genderController.text,
+                                        dob: dobFormat,
+                                        occupation: occupationController.text,
+                                        relationStatus: relationStatus.text,
+                                        email: emailController.text,
+                                        phone: phoneController.text,
+                                        alternateNo: alternateNo.text,
+                                        homeAddress: homeController.text,
+                                        workAddress: workController.text,
+                                        privacyStatus: 'public',
+                                        photo: pickedImage.isAbsolute
+                                            ? pickedImage.path
+                                            : '',
+                                      ).then(
+                                        (value) async {
+                                          if (value['status'] == true) {
+                                            SharedPrefs().setPPercent('100 %');
+                                            Navigator.pop(context);
+                                            Fluttertoast.showToast(
+                                                msg: value['message']);
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg: value['message']);
+                                          }
+                                        },
+                                      );
                                     },
-                                    title: 'Update')),
+                                    title: 'Add')
+                            //     :
+                            // LightYellowButtonWithText(
+                            //     size: 15,
+                            //     backgroundColor: MaterialStateProperty.all(
+                            //         ColorSelect.colorF7E641),
+                            //     textStyleColor: Colors.black,
+                            //     onTap: () {
+                            //       updateProfile(
+                            //               name: nameController.text,
+                            //               gender: genderController.text,
+                            //               dob: dobFormat,
+                            //               occupation:
+                            //                   occupationController.text,
+                            //               relationStatus:
+                            //                   relationStatus.text,
+                            //               email: emailController.text,
+                            //               phone: phoneController.text,
+                            //               alternateNo: alternateNo.text,
+                            //               homeAddress: homeController.text,
+                            //               workAddress: workController.text,
+                            //               privacyStatus: 'public',
+                            //               id: profile!.data!.id.toString(),
+                            //               photo: pickedImage.isAbsolute
+                            //                   ? pickedImage.path
+                            //                   : '')
+                            //           .then((value) {
+                            //         print(pickedImage);
+                            //         if (value['status'] == true) {
+                            //           SharedPrefs()
+                            //               .setName(nameController.text);
+                            //           SharedPrefs()
+                            //               .setEmail(emailController.text);
+                            //           Navigator.pop(context);
+                            //           // setState(() {
+                            //           //   // isLoading ? Loading() :getProfile();
+                            //           // });
+                            //           Fluttertoast.showToast(
+                            //               msg: value['message']);
+                            //         } else {
+                            //           Fluttertoast.showToast(
+                            //               msg: value['message']);
+                            //         }
+                            //       });
+                            //     },
+                            //     title: 'Update')
+                            ),
                         SizedBox(height: 25.h)
                       ],
                     ),

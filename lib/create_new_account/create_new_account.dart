@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -77,7 +78,7 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
                         child: pickedImage.path.isEmpty
                             ? Image.asset(
                                 'assets/images/Frame1000002321.png',
-                                 fit: BoxFit.cover,
+                                fit: BoxFit.cover,
                               )
                             : Image.file(
                                 pickedImage,
@@ -168,6 +169,9 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: TextFormField(
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(10),
+                      ],
                       controller: numberController,
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: 24),

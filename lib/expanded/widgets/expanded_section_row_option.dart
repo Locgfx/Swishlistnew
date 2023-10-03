@@ -8,7 +8,7 @@ import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/models/family_model.dart';
 
 import '../../constants/color.dart';
-import '../../family_members/family_members_profile.dart';
+import '../../family_members/family_member_all_details.dart';
 
 class OptionRow extends StatelessWidget {
   final String icon;
@@ -144,7 +144,7 @@ class _OptionRowFamilyState extends State<OptionRowFamily> {
                           context,
                           MaterialPageRoute(
                             builder: (_) => FamilyMemberDetails(
-                              friendId: '',
+                              familyMemberId: '',
                             ),
                           ),
                         );

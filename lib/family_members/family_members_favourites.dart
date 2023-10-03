@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 
-import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
-import '../../models/friends_details_model.dart';
+import '../api/family_member_apis/family_details_api.dart';
+import '../models/new_models/family_details_models.dart';
 
 class FamilyMemberFavourites extends StatefulWidget {
   final String friendId;
@@ -45,15 +45,15 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
   }
 
   bool isLoading = false;
-  FriendDetailsModel? friendDetails = FriendDetailsModel();
+  FamilyDetailsModel? familyFavourites = FamilyDetailsModel();
   // List<String>? elements = [''];
   getFriendDetails() {
     isLoading = true;
-    var resp = friendDetailsApi(friendUserId: widget.friendId);
+    var resp = getFamilyDetailsApi(familyMemberId: widget.friendId);
     resp.then((value) {
       if (value['status'] == true) {
         setState(() {
-          friendDetails = FriendDetailsModel.fromJson(value);
+          familyFavourites = FamilyDetailsModel.fromJson(value);
           isLoading = false;
         });
       } else {
@@ -88,7 +88,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
           : SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: friendDetails!.data!.favourite!.isEmpty
+                child: familyFavourites!.data!.favourite!.isEmpty
                     ? Center(
                         child: Column(
                           children: [
@@ -123,7 +123,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].cars
+                                  familyFavourites!.data!.favourite![0].cars
                                       .toString(),
                                   // 'Car',
                                   style: AppTextStyle().textColor29292914w400,
@@ -150,7 +150,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].bikes
+                                  familyFavourites!.data!.favourite![0].bikes
                                       .toString(),
                                   // 'Bikes',
                                   style: AppTextStyle().textColor29292914w400,
@@ -172,7 +172,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].movies
+                                  familyFavourites!.data!.favourite![0].movies
                                       .toString(),
                                   // 'Movies',
                                   style: AppTextStyle().textColor29292914w400,
@@ -193,7 +193,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].shows
+                                  familyFavourites!.data!.favourite![0].shows
                                       .toString(),
                                   // 'Shows',
                                   style: AppTextStyle().textColor29292914w400,
@@ -215,7 +215,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].foods
+                                  familyFavourites!.data!.favourite![0].foods
                                       .toString(),
                                   // 'Food',
                                   style: AppTextStyle().textColor29292914w400,
@@ -237,7 +237,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].gadgets
+                                  familyFavourites!.data!.favourite![0].gadgets
                                       .toString(),
                                   // 'Gadgets',
                                   style: AppTextStyle().textColor29292914w400,
@@ -266,7 +266,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                   ),
                                   Spacer(),
                                   Text(
-                                    friendDetails!
+                                    familyFavourites!
                                         .data!.favourite![0].superheroes
                                         .toString(),
                                     // 'Superheroes',
@@ -288,7 +288,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].actors
+                                  familyFavourites!.data!.favourite![0].actors
                                       .toString(),
                                   // 'Actors',
                                   style: AppTextStyle().textColor29292914w400,
@@ -310,7 +310,8 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].actresses
+                                  familyFavourites!
+                                      .data!.favourite![0].actresses
                                       .toString(),
                                   // 'Actress',
                                   style: AppTextStyle().textColor29292914w400,
@@ -331,7 +332,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].singers
+                                  familyFavourites!.data!.favourite![0].singers
                                       .toString(),
                                   // 'Singers',
                                   style: AppTextStyle().textColor29292914w400,
@@ -353,7 +354,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].players
+                                  familyFavourites!.data!.favourite![0].players
                                       .toString(),
                                   // 'Players',
                                   style: AppTextStyle().textColor29292914w400,
@@ -381,7 +382,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].cities
+                                  familyFavourites!.data!.favourite![0].cities
                                       .toString(),
                                   // 'Cities',
                                   style: AppTextStyle().textColor29292914w400,
@@ -403,7 +404,8 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].countries
+                                  familyFavourites!
+                                      .data!.favourite![0].countries
                                       .toString(),
                                   // 'Countries',
                                   style: AppTextStyle().textColor29292914w400,
@@ -425,7 +427,8 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].restaurants
+                                  familyFavourites!
+                                      .data!.favourite![0].restaurants
                                       .toString(),
                                   // 'Restaurants',
                                   style: AppTextStyle().textColor29292914w400,
@@ -447,7 +450,7 @@ class _FamilyMemberFavouritesState extends State<FamilyMemberFavourites> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  friendDetails!.data!.favourite![0].hotels
+                                  familyFavourites!.data!.favourite![0].hotels
                                       .toString(),
                                   // 'Hotels',
                                   style: AppTextStyle().textColor29292914w400,

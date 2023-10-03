@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/constants/globals/loading.dart';
+import 'package:swishlist/models/new_models/family_details_models.dart';
 
-import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
-import '../../models/friends_details_model.dart';
+import '../api/family_member_apis/family_details_api.dart';
 
 class FamilyMemberProfile extends StatefulWidget {
   final String friendId;
@@ -23,7 +23,7 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
   }
 
   bool isLoading = true;
-  FriendDetailsModel friendDetails = FriendDetailsModel(
+  FamilyDetailsModel familyDetails = FamilyDetailsModel(
       data: Data(
           profile: Profile(
     name: '',
@@ -42,7 +42,7 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
 
   getFriendDetails() {
     isLoading = true;
-    var resp = friendDetailsApi(friendUserId: widget.friendId);
+    var resp = getFamilyDetailsApi(familyMemberId: widget.friendId);
     resp.then((value) {
       if (mounted) {
         if (value['status'] == true) {
@@ -52,7 +52,7 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
             });
           } else {
             setState(() {
-              friendDetails = FriendDetailsModel.fromJson(value);
+              familyDetails = FamilyDetailsModel.fromJson(value);
               isLoading = false;
             });
           }
@@ -125,11 +125,11 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
                             //     : friendDetails!
                             //     .data!.sizeWeight!.shoes
                             //     .toString(),
-                            friendDetails.data!.profile!.name.toString() ==
+                            familyDetails.data!.profile!.name.toString() ==
                                         '' ||
-                                    friendDetails.data!.profile!.name == null
+                                    familyDetails.data!.profile!.name == null
                                 ? 'friend not added name yet'
-                                : friendDetails.data!.profile!.name.toString(),
+                                : familyDetails.data!.profile!.name.toString(),
                             // 'Harry Wilson',
                             style:
                                 // AppTextStyle().textColorD5574514w500 :
@@ -172,11 +172,11 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
                           //   AppTextStyle().textColor29292914w400,
                           // ):
                           Text(
-                            friendDetails.data!.profile!.gender.toString() ==
+                            familyDetails.data!.profile!.gender.toString() ==
                                         '' ||
-                                    friendDetails.data!.profile!.gender == null
+                                    familyDetails.data!.profile!.gender == null
                                 ? 'friend not added gender yet'
-                                : friendDetails.data!.profile!.gender
+                                : familyDetails.data!.profile!.gender
                                     .toString(),
                             // friendDetails.data!.profile!.gender.toString() == ''
                             //   friendDetails.data!.profile!.gender == null
@@ -230,10 +230,10 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
                           //   AppTextStyle().textColor29292914w400,
                           // ):
                           Text(
-                            friendDetails.data!.profile!.dob.toString() == '' ||
-                                    friendDetails.data!.profile!.dob == null
+                            familyDetails.data!.profile!.dob.toString() == '' ||
+                                    familyDetails.data!.profile!.dob == null
                                 ? 'friend not added dob yet'
-                                : friendDetails.data!.profile!.dob.toString(),
+                                : familyDetails.data!.profile!.dob.toString(),
                             style: AppTextStyle().textColor29292914w400,
                           ),
                           // Image.asset("assets/images/information2.png"),
@@ -264,12 +264,12 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
                         //   AppTextStyle().textColor29292914w400,
                         // ):
                         Text(
-                          friendDetails.data!.profile!.occupation.toString() ==
+                          familyDetails.data!.profile!.occupation.toString() ==
                                       '' ||
-                                  friendDetails.data!.profile!.occupation ==
+                                  familyDetails.data!.profile!.occupation ==
                                       null
                               ? 'friend not added dob yet'
-                              : friendDetails.data!.profile!.occupation
+                              : familyDetails.data!.profile!.occupation
                                   .toString(),
                           style: AppTextStyle().textColor29292914w400,
                         ),
@@ -295,13 +295,13 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
                         //   AppTextStyle().textColor29292914w400,
                         // ):
                         Text(
-                          friendDetails.data!.profile!.relationStatus
+                          familyDetails.data!.profile!.relationStatus
                                           .toString() ==
                                       '' ||
-                                  friendDetails.data!.profile!.relationStatus ==
+                                  familyDetails.data!.profile!.relationStatus ==
                                       null
                               ? 'not update yet'
-                              : friendDetails.data!.profile!.relationStatus
+                              : familyDetails.data!.profile!.relationStatus
                                   .toString(),
                           style: AppTextStyle().textColor29292914w400,
                         ),
@@ -344,11 +344,11 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
                           //   AppTextStyle().textColor29292914w400,
                           // ):
                           Text(
-                              friendDetails.data!.profile!.phone.toString() ==
+                              familyDetails.data!.profile!.phone.toString() ==
                                           '' ||
-                                      friendDetails.data!.profile!.phone == null
+                                      familyDetails.data!.profile!.phone == null
                                   ? 'friend not updated ph no yet'
-                                  : friendDetails.data!.profile!.phone
+                                  : familyDetails.data!.profile!.phone
                                       .toString(),
                               style: AppTextStyle().textColor29292914w400),
                         ],
@@ -374,13 +374,13 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
                         //   AppTextStyle().textColor29292914w400,
                         // ):
                         Text(
-                          friendDetails.data!.profile!.alternatePhone
+                          familyDetails.data!.profile!.alternatePhone
                                           .toString() ==
                                       '' ||
-                                  friendDetails.data!.profile!.alternatePhone ==
+                                  familyDetails.data!.profile!.alternatePhone ==
                                       null
                               ? 'friend not updated alternate no yet'
-                              : friendDetails.data!.profile!.alternatePhone
+                              : familyDetails.data!.profile!.alternatePhone
                                   .toString(),
                           style: AppTextStyle().textColor29292914w400,
                         ),
@@ -406,10 +406,10 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
                         //   AppTextStyle().textColor29292914w400,
                         // ):
                         Text(
-                          friendDetails.data!.profile!.email.toString() == '' ||
-                                  friendDetails.data!.profile!.email == null
+                          familyDetails.data!.profile!.email.toString() == '' ||
+                                  familyDetails.data!.profile!.email == null
                               ? 'friend not email no yet'
-                              : friendDetails.data!.profile!.phone.toString(),
+                              : familyDetails.data!.profile!.phone.toString(),
                           style: AppTextStyle().textColor29292914w400,
                         ),
                       ],
@@ -439,12 +439,12 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
                         //   AppTextStyle().textColor29292914w400,
                         // ):
                         Text(
-                          friendDetails.data!.profile!.homeAddress.toString() ==
+                          familyDetails.data!.profile!.homeAddress.toString() ==
                                       '' ||
-                                  friendDetails.data!.profile!.homeAddress ==
+                                  familyDetails.data!.profile!.homeAddress ==
                                       null
                               ? 'friend not adress no yet'
-                              : friendDetails.data!.profile!.homeAddress
+                              : familyDetails.data!.profile!.homeAddress
                                   .toString(),
                           style: AppTextStyle().textColor29292914w400,
                           maxLines: 3,
@@ -474,11 +474,11 @@ class _FamilyMemberProfileState extends State<FamilyMemberProfile> {
                       ],
                     ),
                     Text(
-                      friendDetails.data!.profile!.workAddress.toString() ==
+                      familyDetails.data!.profile!.workAddress.toString() ==
                                   '' ||
-                              friendDetails.data!.profile!.workAddress == null
+                              familyDetails.data!.profile!.workAddress == null
                           ? 'friend not address no yet'
-                          : friendDetails.data!.profile!.workAddress.toString(),
+                          : familyDetails.data!.profile!.workAddress.toString(),
                       style: AppTextStyle().textColor29292914w400,
                     ),
                     // SizedBox(height: 20.h,),

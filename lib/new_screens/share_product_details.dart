@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/urls.dart';
-import 'package:swishlist/dashboard/products/wantproducts.dart';
 import 'package:swishlist/new_screens/tabs_screen/family_list.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,10 +16,9 @@ import '../../buttons/white_button.dart';
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../models/add_friend_model.dart';
-import '../../models/login_models.dart';
 import '../../new_screens/tabs_screen/friend_list.dart';
 
-class ProductDetail extends StatefulWidget {
+class ShareProductDetail extends StatefulWidget {
   final String name;
   final String price;
   final String link;
@@ -28,9 +26,9 @@ class ProductDetail extends StatefulWidget {
   final String purchaseDate;
   final String id;
   final String type;
-  final LoginResponse response;
+
   // final String id;
-  const ProductDetail({
+  const ShareProductDetail({
     Key? key,
     required this.name,
     required this.price,
@@ -39,15 +37,15 @@ class ProductDetail extends StatefulWidget {
     required this.purchaseDate,
     required this.id,
     required this.type,
-    required this.response,
+
     // required this.id
   }) : super(key: key);
 
   @override
-  State<ProductDetail> createState() => _ProductDetailState();
+  State<ShareProductDetail> createState() => _ShareProductDetailState();
 }
 
-class _ProductDetailState extends State<ProductDetail> {
+class _ShareProductDetailState extends State<ShareProductDetail> {
   final PageController _pageController = PageController(
     initialPage: 0,
   );
@@ -918,44 +916,44 @@ class _ProductDetailState extends State<ProductDetail> {
                                                               image: Image.asset(
                                                                   "assets/images/trashdel.png"),
                                                               onTap: () {
-                                                                deleteProductsApi(
-                                                                        id: widget
-                                                                            .id)
-                                                                    .then(
-                                                                        (value) {
-                                                                  if (value[
-                                                                          'status'] ==
-                                                                      true) {
-                                                                    Navigator
-                                                                        .pushReplacement(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                        builder:
-                                                                            (context) =>
-                                                                                WantProducts(
-                                                                          isUser:
-                                                                              true,
-                                                                          response:
-                                                                              widget.response,
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                    // Navigator.of(
-                                                                    //     context)
-                                                                    //   ..pop()
-                                                                    //   ..pop()
-                                                                    //   ..pop();
-                                                                    Fluttertoast
-                                                                        .showToast(
-                                                                            msg:
-                                                                                value['message']);
-                                                                  } else {
-                                                                    Fluttertoast
-                                                                        .showToast(
-                                                                            msg:
-                                                                                value['message']);
-                                                                  }
-                                                                });
+                                                                // deleteProductsApi(
+                                                                //         id: widget
+                                                                //             .id)
+                                                                //     .then(
+                                                                //         (value) {
+                                                                //   if (value[
+                                                                //           'status'] ==
+                                                                //       true) {
+                                                                //     Navigator
+                                                                //         .pushReplacement(
+                                                                //       context,
+                                                                //       MaterialPageRoute(
+                                                                //         builder:
+                                                                //             (context) =>
+                                                                //                 WantProducts(
+                                                                //           isUser:
+                                                                //               true,
+                                                                //           response:
+                                                                //               widget.response,
+                                                                //         ),
+                                                                //       ),
+                                                                //     );
+                                                                //     // Navigator.of(
+                                                                //     //     context)
+                                                                //     //   ..pop()
+                                                                //     //   ..pop()
+                                                                //     //   ..pop();
+                                                                //     Fluttertoast
+                                                                //         .showToast(
+                                                                //             msg:
+                                                                //                 value['message']);
+                                                                //   } else {
+                                                                //     Fluttertoast
+                                                                //         .showToast(
+                                                                //             msg:
+                                                                //                 value['message']);
+                                                                //   }
+                                                                // });
                                                               },
                                                               title: 'Delete',
                                                             ),

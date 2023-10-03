@@ -9,7 +9,7 @@ import 'package:swishlist/expanded/widgets/managed_family_member_row.dart';
 import '../api/notifications/meber_notifiction_aapi.dart';
 import '../api/user_apis/family_apis.dart';
 import '../constants/globals/loading.dart';
-import '../family_members/family_members_profile.dart';
+import '../family_members/family_member_all_details.dart';
 import '../models/notification_models/member_index_model.dart';
 import '../models/notification_models/member_notification_models.dart';
 
@@ -124,7 +124,6 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
             if (v.status == "accepted") {
               familyA.add(v);
             }
-            print(familyA[0].status.toString());
           }
 
           //
@@ -310,7 +309,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => FamilyMemberDetails(
-                                        friendId: familyA[i]
+                                        familyMemberId: familyA[i]
                                             .familyMemberUser!
                                             .id
                                             .toString(),
@@ -387,11 +386,20 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                       .familyMemberUser!
                                       .email
                                       .toString(),
-                                  familyPhoto: baseUrl +
-                                      familyA[i]
+                                  familyPhoto: familyA[i]
                                           .familyMemberUser!
-                                          .username
-                                          .toString(),
+                                          .photo
+                                          .toString()
+                                          .contains('http')
+                                      ? familyA[i]
+                                          .familyMemberUser!
+                                          .photo
+                                          .toString()
+                                      : baseUrl +
+                                          familyA[i]
+                                              .familyMemberUser!
+                                              .photo
+                                              .toString(),
                                   familyRelation: familyA[i].status.toString(),
                                   id: familyA[i].id.toString(),
                                   tap: () {

@@ -79,10 +79,7 @@ Future<dynamic> familyMemberDeleteApi({
 
 Future<dynamic> getAcceptMember() async {
   // var headers = {'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'};
-  var headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
-  };
+  var headers = {'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'};
   var request =
       http.Request('POST', Uri.parse('$baseUrl/api/user/familyMember'));
   request.bodyFields = {};

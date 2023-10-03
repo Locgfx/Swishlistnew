@@ -5,9 +5,9 @@ import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/constants/urls.dart';
 
-import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
-import '../../models/friends_details_model.dart';
+import '../api/family_member_apis/family_details_api.dart';
+import '../models/new_models/family_details_models.dart';
 
 class FamilyMembersPets extends StatefulWidget {
   final String friendId;
@@ -20,21 +20,21 @@ class FamilyMembersPets extends StatefulWidget {
 class _FamilyMembersPetsState extends State<FamilyMembersPets> {
   @override
   void initState() {
-    getFriendPets();
+    getFamilyPets();
     super.initState();
   }
 
   bool isLoading = false;
-  FriendDetailsModel? friendDetails;
+  FamilyDetailsModel? familyPetsDetails;
 
-  getFriendPets() {
+  getFamilyPets() {
     isLoading = true;
-    var resp = friendDetailsApi(friendUserId: widget.friendId);
+    var resp = getFamilyDetailsApi(familyMemberId: widget.friendId);
     resp.then((value) {
       if (mounted) {
         if (value['status'] == true) {
           setState(() {
-            friendDetails = FriendDetailsModel.fromJson(value);
+            familyPetsDetails = FamilyDetailsModel.fromJson(value);
             isLoading = false;
           });
         } else {
@@ -73,7 +73,7 @@ class _FamilyMembersPetsState extends State<FamilyMembersPets> {
           ? Loading()
           : Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: friendDetails!.data!.pets!.isEmpty
+              child: familyPetsDetails!.data!.pets!.isEmpty
                   ? Center(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,7 +99,7 @@ class _FamilyMembersPetsState extends State<FamilyMembersPets> {
                         scrollDirection: Axis.vertical,
                         physics: ScrollPhysics(),
                         padding: EdgeInsets.symmetric(horizontal: 10),
-                        itemCount: friendDetails!.data!.pets!.length,
+                        itemCount: familyPetsDetails!.data!.pets!.length,
                         shrinkWrap: true,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
@@ -141,7 +141,8 @@ class _FamilyMembersPetsState extends State<FamilyMembersPets> {
                                     ),
                                     child: CachedNetworkImage(
                                       imageUrl: (baseUrl +
-                                          friendDetails!.data!.pets![i].photo
+                                          familyPetsDetails!
+                                              .data!.pets![i].photo
                                               .toString()),
                                       fit: BoxFit.cover,
                                       errorWidget: (context, url, error) =>
@@ -180,7 +181,8 @@ class _FamilyMembersPetsState extends State<FamilyMembersPets> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              friendDetails!.data!.pets![i].name
+                                              familyPetsDetails!
+                                                  .data!.pets![i].name
                                                   .toString()
                                                   .toString(),
                                               style: AppTextStyle()
@@ -189,7 +191,7 @@ class _FamilyMembersPetsState extends State<FamilyMembersPets> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  friendDetails!
+                                                  familyPetsDetails!
                                                       .data!.pets![i].type
                                                       .toString(),
                                                   style: AppTextStyle()
@@ -209,7 +211,7 @@ class _FamilyMembersPetsState extends State<FamilyMembersPets> {
                                                   width: 10.w,
                                                 ),
                                                 Text(
-                                                  friendDetails!
+                                                  familyPetsDetails!
                                                       .data!.pets![i].origin
                                                       .toString(),
                                                   style: AppTextStyle()
