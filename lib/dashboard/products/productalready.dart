@@ -335,6 +335,11 @@ class _ProductAlreadyState extends State<ProductAlready> {
                                                                       i]
                                                                   .type
                                                                   .toString(),
+                                                              productId:
+                                                                  haveProducts2[
+                                                                          i]
+                                                                      .id
+                                                                      .toString(),
                                                             )));
                                               } else {
                                                 if (selectedItems.contains(

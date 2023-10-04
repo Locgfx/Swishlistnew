@@ -241,8 +241,12 @@ class _ShareProductDetailState extends State<ShareProductDetail> {
                                         );
                                       },
                                       children: [
-                                        FriendList(),
-                                        FamilyList(),
+                                        FriendList(
+                                          productId: '',
+                                        ),
+                                        FamilyList(
+                                          productId2: '',
+                                        ),
 
                                         // ProductsPage(
                                         //   response: widget.response,

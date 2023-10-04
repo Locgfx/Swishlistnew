@@ -1,16 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../api/notifications/meber_notifiction_aapi.dart';
+import '../../api/shared_product_api/shared_product_api.dart';
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../constants/urls.dart';
 import '../../models/notification_models/member_index_model.dart';
 
 class FamilyList extends StatefulWidget {
-  const FamilyList({Key? key}) : super(key: key);
+  final String productId2;
+  const FamilyList({Key? key, required this.productId2}) : super(key: key);
 
   @override
   State<FamilyList> createState() => _FamilyListState();
@@ -69,12 +72,15 @@ class _FamilyListState extends State<FamilyList> {
               ),
             )
           : familyA.isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(bottom: 80.0, top: 20),
-                  child: Image.asset(
-                    "assets/images/addproducts2.png",
-                    height: 200,
-                    width: 200,
+              ? Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 60),
+                    child: Image.asset(
+                      "assets/images/addproducts2.png",
+                      height: 200,
+                      width: 200,
+                    ),
                   ),
                 )
               : ListView.builder(
@@ -100,19 +106,27 @@ class _FamilyListState extends State<FamilyList> {
                                 ),
                                 child: CachedNetworkImage(
                                   imageUrl: familyA[i]
-                                          .familyMemberUser!
-                                          .photo
-                                          .toString()
-                                          .contains("https")
-                                      ? familyA[i]
-                                          .familyMemberUser!
-                                          .photo
-                                          .toString()
-                                      : baseUrl +
-                                          familyA[i]
                                               .familyMemberUser!
                                               .photo
-                                              .toString(),
+                                              .toString()
+                                              .isEmpty ||
+                                          familyA[i].familyMemberUser!.photo ==
+                                              null
+                                      ? 'assets/icons/userico.jpg'
+                                      : familyA[i]
+                                              .familyMemberUser!
+                                              .photo
+                                              .toString()
+                                              .contains("https")
+                                          ? familyA[i]
+                                              .familyMemberUser!
+                                              .photo
+                                              .toString()
+                                          : baseUrl +
+                                              familyA[i]
+                                                  .familyMemberUser!
+                                                  .photo
+                                                  .toString(),
                                   fit: BoxFit.cover,
                                   errorWidget: (context, url, error) =>
 
@@ -151,7 +165,28 @@ class _FamilyListState extends State<FamilyList> {
                                   backgroundColor: MaterialStateProperty.all(
                                       ColorSelect.colorF7E641),
                                   textStyleColor: Colors.black,
-                                  onTap: () {},
+                                  onTap: () {
+                                    sharedProductApi(
+                                            productId: widget.productId2,
+                                            leadUserId: familyA[i]
+                                                .familyMemberUserId
+                                                .toString())
+                                        .then((value) {
+                                      if (value['status'] == true) {
+                                        Navigator.pop(context);
+                                        // Navigator.of(
+                                        //     context)
+                                        //   ..pop()
+                                        //   ..pop();
+                                        Fluttertoast.showToast(
+                                            msg: value['message']);
+                                      } else {
+                                        Fluttertoast.showToast(
+                                            msg: value[
+                                                'please enter all products details']);
+                                      }
+                                    });
+                                  },
                                   title: 'Send')
                             ],
                           ),

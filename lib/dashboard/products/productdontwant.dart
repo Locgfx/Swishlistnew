@@ -301,6 +301,10 @@ class _ProductdontwantState extends State<Productdontwant> {
                                                                       i]
                                                                   .type
                                                                   .toString(),
+                                                              productId:
+                                                                  notWantTwo[i]
+                                                                      .id
+                                                                      .toString(),
                                                             )));
                                               } else {
                                                 if (selectedItems.contains(

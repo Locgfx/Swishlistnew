@@ -639,6 +639,11 @@ class _WantProductsState extends State<WantProducts> {
                                                                       i]
                                                                   .type
                                                                   .toString(),
+                                                              productId:
+                                                                  wantProduct2[
+                                                                          i]
+                                                                      .id
+                                                                      .toString(),
                                                             )));
                                                 print(wantProduct2[i]
                                                     .photo

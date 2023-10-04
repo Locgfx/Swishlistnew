@@ -346,29 +346,6 @@ class _ProductsPageState extends State<ProductsPage> {
                                                   : baseUrl +
                                                       profile!.data!.user!.photo
                                                           .toString(),
-                                          // imageUrl: widget.response.data.photo
-                                          //         .toString()
-                                          //         .contains("https")
-                                          //     ? widget.response.data.photo
-                                          //         .toString()
-                                          //     : baseUrl +
-                                          //         widget.response.data.photo
-                                          //             .toString(),
-                                          // haveProducts2[i]
-                                          //     .photo
-                                          //     .toString()
-                                          //     .contains("https")
-                                          //     ? haveProducts2[i].photo.toString()
-                                          //     : baseUrl +
-                                          //     haveProducts2[i].photo.toString(),
-                                          // SharedPrefs()
-                                          //         .getUserPhoto()
-                                          //         .toString()
-                                          //         .contains('https')
-                                          //     ? SharedPrefs()
-                                          //         .getUserPhoto()
-                                          //         .toString()
-                                          //     : '$baseUrl${SharedPrefs().getUserPhoto()}',
                                           fit: BoxFit.cover,
                                           errorWidget: (context, url, error) =>
                                               Image.asset(
@@ -391,23 +368,6 @@ class _ProductsPageState extends State<ProductsPage> {
                                           ),
                                         ),
                                       ),
-                                      // ),
-                                      // Positioned(
-                                      //   bottom: -5,
-                                      //   child: Container(
-                                      //     padding: EdgeInsets.all(5),
-                                      //     decoration: BoxDecoration(
-                                      //       color: ColorSelect.colorF7E641,
-                                      //       borderRadius: BorderRadius.all(
-                                      //         Radius.circular(80),
-                                      //       ),
-                                      //     ),
-                                      //     child: Text(
-                                      //       " 25% ",
-                                      //       style: AppTextStyle().textColor29292910w500,
-                                      //     ),
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                 ),
@@ -984,6 +944,11 @@ class _ProductsPageState extends State<ProductsPage> {
                                                                           i]
                                                                       .type
                                                                       .toString(),
+                                                                  productId:
+                                                                      wantProducts2[
+                                                                              i]
+                                                                          .id
+                                                                          .toString(),
                                                                 )));
                                                     // Navigator.push(
                                                     //   context,
@@ -1244,6 +1209,11 @@ class _ProductsPageState extends State<ProductsPage> {
                                                                           i]
                                                                       .type
                                                                       .toString(),
+                                                                  productId:
+                                                                      notWant2[
+                                                                              i]
+                                                                          .id
+                                                                          .toString(),
                                                                 )));
                                                   },
                                                   child: Container(
@@ -1496,6 +1466,11 @@ class _ProductsPageState extends State<ProductsPage> {
                                                                           i]
                                                                       .type
                                                                       .toString(),
+                                                                  productId:
+                                                                      haveProducts2[
+                                                                              i]
+                                                                          .id
+                                                                          .toString(),
                                                                 )));
                                                   },
                                                   child: Container(
@@ -1740,6 +1715,7 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
                                                 type: haveProducts2[i]
                                                     .type
                                                     .toString(),
+                                                productId: '',
                                               )));
                                 },
                                 child: Container(
@@ -1981,6 +1957,7 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                                                 type: wantProducts2[i]
                                                     .type
                                                     .toString(),
+                                                productId: '',
                                               )));
                                   // Navigator.push(
                                   //   context,
@@ -2192,6 +2169,7 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
                                                 id: notWant2[i].id.toString(),
                                                 type:
                                                     notWant2[i].type.toString(),
+                                                productId: '',
                                               )));
                                 },
                                 child: Container(

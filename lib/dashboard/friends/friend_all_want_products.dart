@@ -215,6 +215,7 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                                                     .want![i]
                                                                     .type
                                                                     .toString(),
+                                                                productId: '',
                                                               )));
                                                 },
                                                 child: Container(

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../api/shared_product_api/shared_product_api.dart';
 import '../../api/user_apis/friends_api.dart';
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
@@ -10,7 +12,8 @@ import '../../constants/urls.dart';
 import '../../models/add_friend_model.dart';
 
 class FriendList extends StatefulWidget {
-  const FriendList({Key? key}) : super(key: key);
+  final String productId;
+  const FriendList({Key? key, required this.productId}) : super(key: key);
 
   @override
   State<FriendList> createState() => _FriendListState();
@@ -141,7 +144,28 @@ class _FriendListState extends State<FriendList> {
                                   backgroundColor: MaterialStateProperty.all(
                                       ColorSelect.colorF7E641),
                                   textStyleColor: Colors.black,
-                                  onTap: () {},
+                                  onTap: () {
+                                    sharedProductApi(
+                                            productId: widget.productId,
+                                            leadUserId: friendList
+                                                .data![i].friend!.id
+                                                .toString())
+                                        .then((value) {
+                                      if (value['status'] == true) {
+                                        Navigator.pop(context);
+                                        // Navigator.of(
+                                        //     context)
+                                        //   ..pop()
+                                        //   ..pop();
+                                        Fluttertoast.showToast(
+                                            msg: value['message']);
+                                      } else {
+                                        Fluttertoast.showToast(
+                                            msg: value[
+                                                'please enter all products details']);
+                                      }
+                                    });
+                                  },
                                   title: 'Send')
                             ],
                           ),

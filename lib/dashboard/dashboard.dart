@@ -1,10 +1,14 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/dashboard/products/products_page.dart';
 import 'package:swishlist/dashboard/search/home_etsy_products.dart';
 
+import '../api/push_notification_api.dart';
 import '../constants/color.dart';
+import '../constants/globals/keys.dart';
 import '../models/login_models.dart';
 import 'activities/activities.dart';
 import 'friends/friends.dart';
@@ -32,6 +36,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
+    initializeFirebaseService();
   }
 
   @override
@@ -41,6 +46,29 @@ class _DashboardState extends State<Dashboard> {
   }
 
   int selectedIndex = 0;
+
+  String _fcmToken = '';
+  Future<void> initializeFirebaseService() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    String firebaseAppToken = await messaging.getToken(
+          vapidKey:
+              "BNBIPSYT_iCs6OeciJS8R3l4vouFWut_AldR16nowfLEgWdHh11q5_NDsRVRZtY4fYLqcvk4vu8B4Lzc_7GSnGk",
+        ) ??
+        '';
+    if (!mounted) {
+      _fcmToken = firebaseAppToken;
+    } else {
+      setState(() {
+        _fcmToken = firebaseAppToken;
+      });
+    }
+
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString(SavedKeys().fcmToken, _fcmToken);
+    print('Firebase token: $firebaseAppToken');
+    getNoticationByFCM();
+  }
 
   @override
   Widget build(BuildContext context) {

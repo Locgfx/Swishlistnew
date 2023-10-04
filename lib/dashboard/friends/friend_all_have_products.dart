@@ -203,6 +203,7 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                                     .have![i]
                                                                     .type
                                                                     .toString(),
+                                                                productId: '',
                                                               )));
                                                 },
                                                 child: Container(

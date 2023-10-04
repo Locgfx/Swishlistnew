@@ -29,6 +29,7 @@ class ProductDetail extends StatefulWidget {
   final String id;
   final String type;
   final LoginResponse response;
+  final String productId;
   // final String id;
   const ProductDetail({
     Key? key,
@@ -40,6 +41,7 @@ class ProductDetail extends StatefulWidget {
     required this.id,
     required this.type,
     required this.response,
+    required this.productId,
     // required this.id
   }) : super(key: key);
 
@@ -243,8 +245,12 @@ class _ProductDetailState extends State<ProductDetail> {
                                         );
                                       },
                                       children: [
-                                        FriendList(),
-                                        FamilyList(),
+                                        FriendList(
+                                          productId: widget.productId,
+                                        ),
+                                        FamilyList(
+                                          productId2: widget.productId,
+                                        ),
 
                                         // ProductsPage(
                                         //   response: widget.response,

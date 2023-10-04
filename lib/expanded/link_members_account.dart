@@ -161,7 +161,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 24),
                         border: InputBorder.none,
-                        hintText: "Enter phone number/email",
+                        hintText: "Enter email of your family member",
                       ),
                     ),
                   ),

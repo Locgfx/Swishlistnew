@@ -40,6 +40,7 @@ class ProductListWidget extends StatelessWidget {
                               id: '',
                               type: '',
                               response: response,
+                              productId: '',
                             )));
                 log("hello");
                 print("hello");
