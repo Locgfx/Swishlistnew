@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -135,6 +137,11 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
       }
     });
   }
+
+  // bool show = false;
+  final List<bool> show = List.generate(10, (index) => false);
+  final List<bool> delete = List.generate(10, (index) => false);
+  final List<bool> accept = List.generate(10, (index) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -295,6 +302,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                         )
                       else
                         ListView.builder(
+                          padding: EdgeInsets.only(top: 6),
                           physics: NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
@@ -320,6 +328,16 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                 child: UserRowWidget(
                                   widget2: GestureDetector(
                                     onTap: () {
+                                      setState(() {
+                                        show[i] = !show[i];
+                                      });
+                                      Timer timer =
+                                          Timer(Duration(seconds: 2), () {
+                                        setState(() {
+                                          show[i] = false;
+                                        });
+                                      });
+
                                       deleteFamilyMembers(
                                               id: familyA[i].id.toString())
                                           .then((value) => {
@@ -328,7 +346,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                                     setState(() {
                                                       isLoading
                                                           ? Loading()
-                                                          : getAcceptMember();
+                                                          : get();
                                                     }),
                                                     Fluttertoast.showToast(
                                                         msg: value['message']),
@@ -339,44 +357,23 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                                         msg: value['message']),
                                                   }
                                               });
-                                      // familyMemberUpdateApi(
-                                      //         status: 'rejected',
-                                      //         id: familyIndex!.data![0].id
-                                      //             .toString())
-                                      //     .then((value) async {
-                                      //   if (value['status'] == true) {
-                                      //     // SharedPrefs().setPassword(passwordController.text);
-                                      //     // Navigator.push(
-                                      //     //   context,
-                                      //     //   MaterialPageRoute(
-                                      //     //     builder: (context) => EmailVerification(
-                                      //     //       email: emailController.text,
-                                      //     //       password: passwordController.text,
-                                      //     //     ),
-                                      //     //   ),
-                                      //     // );
-                                      //     Fluttertoast.showToast(
-                                      //         msg: value['message']);
-                                      //
-                                      //     // SharedPrefs().setPassword(passwordController.toString());
-                                      //     // print(SharedPrefs().setPassword(passwordController.toString()));
-                                      //   } else {
-                                      //     Fluttertoast.showToast(
-                                      //         msg: value['message']);
-                                      //   }
-                                      // });
                                     },
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          color: Colors.redAccent
-                                              .withOpacity(0.65),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text("Delete"),
-                                        )),
+                                    child: show[i]
+                                        ? CircularProgressIndicator(
+                                            color: ColorSelect.colorF7E641,
+                                          )
+                                        : Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              color: Colors.redAccent
+                                                  .withOpacity(0.65),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text("Delete"),
+                                            )),
                                   ),
                                   familyName: familyA[i]
                                       .familyMemberUser!
@@ -478,12 +475,25 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                     widget: GestureDetector(
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () {
+                                        setState(() {
+                                          accept[i] = !accept[i];
+                                        });
+                                        Timer timer =
+                                            Timer(Duration(seconds: 2), () {
+                                          setState(() {
+                                            accept[i] = false;
+                                          });
+                                        });
+
                                         familyMemberUpdateApi(
                                                 status: 'accepted',
                                                 id: familyIndex!.data![i].id
                                                     .toString())
                                             .then((value) async {
                                           if (value['status'] == true) {
+                                            isLoading
+                                                ? Loading()
+                                                : getRequest();
                                             // SharedPrefs().setPassword(passwordController.text);
                                             // Navigator.push(
                                             //   context,
@@ -519,12 +529,26 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                     ),
                                     widget2: GestureDetector(
                                       onTap: () {
+                                        setState(() {
+                                          delete[i] = !delete[i];
+                                        });
+                                        Timer timer =
+                                            Timer(Duration(seconds: 2), () {
+                                          setState(() {
+                                            delete[i] = false;
+                                          });
+                                        });
                                         familyMemberUpdateApi(
                                                 status: 'rejected',
                                                 id: familyIndex!.data![i].id
                                                     .toString())
                                             .then((value) async {
                                           if (value['status'] == true) {
+                                            setState(() {
+                                              isLoading
+                                                  ? Loading()
+                                                  : getRequest();
+                                            });
                                             // SharedPrefs().setPassword(passwordController.text);
                                             // Navigator.push(
                                             //   context,
@@ -546,17 +570,22 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                           }
                                         });
                                       },
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            color: Colors.redAccent
-                                                .withOpacity(0.65),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text("Reject"),
-                                          )),
+                                      child: delete[i]
+                                          ? CircularProgressIndicator(
+                                              color: ColorSelect.colorF7E641,
+                                            )
+                                          : Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                color: Colors.redAccent
+                                                    .withOpacity(0.65),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text("Reject"),
+                                              )),
                                     ),
                                     familyName: familyRequested[i]
                                         .user!
