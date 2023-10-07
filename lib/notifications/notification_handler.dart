@@ -34,8 +34,8 @@ class NotificationServices {
     Platform.isAndroid
         ? _flutterLocalNotificationsPlugin
             .resolvePlatformSpecificImplementation<
-                AndroidFlutterLocalNotificationsPlugin>()
-        // ?.pendingNotificationRequests()
+                AndroidFlutterLocalNotificationsPlugin>()!
+            .requestPermission()
         : await _flutterLocalNotificationsPlugin
             .resolvePlatformSpecificImplementation<
                 IOSFlutterLocalNotificationsPlugin>()
