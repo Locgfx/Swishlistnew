@@ -88,7 +88,6 @@ class _FPetsState extends State<FPets> {
                           SizedBox(height: 5),
                           Text(
                             'Your Friend has No Pets yet',
-                            style: AppTextStyle().textColor29292914w500,
                           )
                         ],
                       ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:swishlist/dashboard/products/productdetail.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
@@ -11,6 +10,7 @@ import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/friend_product_model.dart';
 import '../../models/login_models.dart';
+import 'new_screens/friend_product_details.dart';
 
 class FriendHaveProducts extends StatefulWidget {
   final LoginResponse response;
@@ -163,7 +163,7 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              ProductDetail(
+                                                              FriendProductDetail(
                                                                 response: widget
                                                                     .response,
                                                                 name: products!
@@ -303,7 +303,7 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                            .only(
+                                                                        .only(
                                                                         left:
                                                                             16),
                                                                 child: SizedBox(
@@ -330,7 +330,7 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                            .only(
+                                                                        .only(
                                                                         left:
                                                                             16),
                                                                 child: Text(
@@ -346,7 +346,7 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                            .only(
+                                                                        .only(
                                                                         left:
                                                                             16),
                                                                 child: Row(

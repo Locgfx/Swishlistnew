@@ -10,10 +10,8 @@ import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/add_friend_model.dart';
 import '../../models/friend_notification_model.dart';
-import 'addfriends.dart';
 import 'friendproduct.dart';
 import 'friends_notifications.dart';
-import 'message.dart';
 import 'new_screens/add_friend_by_email_phone.dart';
 
 class Friends extends StatefulWidget {
@@ -171,6 +169,7 @@ class _FriendsState extends State<Friends> {
                           // ),
                           SizedBox(width: 16),
                           GestureDetector(
+                            behavior: HitTestBehavior.translucent,
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -183,8 +182,8 @@ class _FriendsState extends State<Friends> {
                               //         builder: (context) => AddFriends()));
                             },
                             child: Container(
-                              height: 24,
-                              width: 24,
+                              height: 28,
+                              width: 28,
                               color: Colors.transparent,
                               child: Image.asset(
                                 "assets/images/user-add.png",
@@ -192,30 +191,31 @@ class _FriendsState extends State<Friends> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 16),
+                          // SizedBox(width: 16),
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //             builder: (context) => Messages(
+                          //                 // friendId: friendList[0].friend!.id.toString(),
+                          //                 // friendName: friendList[0].friend!.name.toString(),
+                          //                 // friendPhoto: baseUrl+friendList[0].friend!.photo!,
+                          //                 )));
+                          //   },
+                          //   child: Container(
+                          //     height: 24,
+                          //     width: 24,
+                          //     color: Colors.transparent,
+                          //     child: Image.asset(
+                          //       "assets/images/messageicon.png",
+                          //       color: ColorSelect.color292929,
+                          //     ),
+                          //   ),
+                          // ),
+                          SizedBox(width: 10),
                           GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Messages(
-                                          // friendId: friendList[0].friend!.id.toString(),
-                                          // friendName: friendList[0].friend!.name.toString(),
-                                          // friendPhoto: baseUrl+friendList[0].friend!.photo!,
-                                          )));
-                            },
-                            child: Container(
-                              height: 24,
-                              width: 24,
-                              color: Colors.transparent,
-                              child: Image.asset(
-                                "assets/images/messageicon.png",
-                                color: ColorSelect.color292929,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 16),
-                          GestureDetector(
+                            behavior: HitTestBehavior.translucent,
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -226,8 +226,8 @@ class _FriendsState extends State<Friends> {
                             child: friendNotification.isNotEmpty
                                 ? Container(
                                     color: Colors.transparent,
-                                    height: 24,
-                                    width: 24,
+                                    height: 28,
+                                    width: 28,
                                     child: Stack(
                                       children: [
                                         Image.asset(
@@ -334,7 +334,8 @@ class _FriendsState extends State<Friends> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => AddFriends()));
+                                        builder: (context) =>
+                                            AddFriendByMailPhone()));
                               },
                               buttonIcon: 'assets/images/4xuseradd.png',
                             )
@@ -367,16 +368,8 @@ class _FriendsState extends State<Friends> {
                                                     .data![i].friendUserId
                                                     .toString(),
                                                 friendPhoto: friendList
-                                                        .data![i].friend!.photo!
-                                                        .toString()
-                                                        .contains('http')
-                                                    ? friendList
-                                                        .data![i].friend!.photo!
-                                                        .toString()
-                                                    : baseUrl +
-                                                        friendList.data![i]
-                                                            .friend!.photo!
-                                                            .toString(),
+                                                    .data![i].friend!.photo!
+                                                    .toString(),
                                                 id: friendList.data![i].id!
                                                     .toString(),
                                                 /* id: searchList[i].id.toString(),*/

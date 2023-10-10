@@ -6,6 +6,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/color.dart';
+import 'package:swishlist/dashboard/reset_password/reset_password.dart';
 import 'package:swishlist/expanded/widgets/Profile_data_and_all_uesr_data.dart';
 import 'package:swishlist/profile_page/account.dart';
 import 'package:swishlist/profile_page/date_and_events.dart';
@@ -27,7 +28,6 @@ import '../models/interest_model.dart';
 import '../models/login_models.dart';
 import '../models/profile_model.dart';
 import '../models/sizes_and_weight_model.dart';
-import '../profile_page/change_password.dart';
 import '../profile_page/sizes_and_weights.dart';
 
 class UserAllDetails extends StatefulWidget {
@@ -331,7 +331,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ResetPasswordViaEmail()));
+                                builder: (context) => ResetPassword()));
                       },
                       child: Text(
                         'Change Password',

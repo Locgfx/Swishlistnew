@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/buttons/white_button.dart';
 import 'package:swishlist/constants/color.dart';
-import 'package:swishlist/login/reset_password_via_email.dart';
+import 'package:swishlist/dashboard/reset_password/reset_password.dart';
 
 import '../../signup/signup_with_email.dart';
 
@@ -103,8 +103,7 @@ class RowCreateNewAccountWidget extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            ResetPasswordViaEmail()));
+                                        builder: (context) => ResetPassword()));
                               },
                               title: 'Email',
                             ),

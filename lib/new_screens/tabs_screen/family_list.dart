@@ -76,10 +76,19 @@ class _FamilyListState extends State<FamilyList> {
                   alignment: Alignment.topCenter,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 60),
-                    child: Image.asset(
-                      "assets/images/addproducts2.png",
-                      height: 200,
-                      width: 200,
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          "assets/images/addproducts2.png",
+                          height: 200,
+                          width: 200,
+                        ),
+                        SizedBox(height: 10),
+                        Text("No Family Member Yet",
+                            style: AppTextStyle()
+                                .textColor29292912w500
+                                .copyWith(color: Color(0xff292929))),
+                      ],
                     ),
                   ),
                 )

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/dashboard/friends/profile_chat.dart';
@@ -14,12 +13,14 @@ import '../../api/user_apis/friends_api.dart';
 import '../../constants/globals/globals.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
+import '../../models/add_friend_model.dart';
 import '../products/widget/manuallyaddbottomsheetwidget.dart';
 import 'friend_all_dont_want_products.dart';
 import 'friend_all_have_products.dart';
 import 'friend_all_want_products.dart';
 import 'friend_profile.dart';
 import 'friends_notifications.dart';
+import 'new_screens/friend_product_details.dart';
 
 class FriendProduct extends StatefulWidget {
   final LoginResponse response;
@@ -56,6 +57,7 @@ class _FriendProductState extends State<FriendProduct> {
   void initState() {
     print(widget.friendId);
     getProducts();
+    getFriends();
     super.initState();
   }
 
@@ -88,6 +90,33 @@ class _FriendProductState extends State<FriendProduct> {
         setState(() {});
       }
       // haveProducts2.clear();
+    });
+  }
+
+  FriendModel friendList = FriendModel();
+
+  getFriends() {
+    isLoading = true;
+    // friendList.clear();
+    var resp = getFriendsApi();
+    resp.then((value) {
+      if (mounted) {
+        if (value['status'] == true) {
+          setState(() {
+            friendList = FriendModel.fromJson(value);
+            // for (var v in value) {
+            //   friendList.add(ModelFriend.fromJson(v));
+            // }
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+
+          // isLoading = false;
+        }
+      }
     });
   }
 
@@ -156,23 +185,23 @@ class _FriendProductState extends State<FriendProduct> {
                                     child: SingleChildScrollView(
                                       child: Column(
                                         children: [
-                                          ListTile(
-                                            title: GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  Share.share(
-                                                      'Share your friend details');
-                                                });
-                                              },
-                                              child: Text(
-                                                'Send Profile',
-                                                style:
-                                                    // AppTextStyle().textColorBA505014w500
-                                                    AppTextStyle()
-                                                        .textColor39393914w500,
-                                              ),
-                                            ),
-                                          ),
+                                          // ListTile(
+                                          //   title: GestureDetector(
+                                          //     onTap: () {
+                                          //       setState(() {
+                                          //         Share.share(
+                                          //             'Share your friend details');
+                                          //       });
+                                          //     },
+                                          //     child: Text(
+                                          //       'Send Profile',
+                                          //       style:
+                                          //           // AppTextStyle().textColorBA505014w500
+                                          //           AppTextStyle()
+                                          //               .textColor39393914w500,
+                                          //     ),
+                                          //   ),
+                                          // ),
                                           ListTile(
                                             title: GestureDetector(
                                               onTap: () {
@@ -299,7 +328,11 @@ class _FriendProductState extends State<FriendProduct> {
                                                 color: Colors.grey,
                                               ),
                                               child: CachedNetworkImage(
-                                                imageUrl: widget.friendPhoto,
+                                                imageUrl: widget.friendPhoto
+                                                        .contains('http')
+                                                    ? widget.friendPhoto
+                                                    : baseUrl +
+                                                        widget.friendPhoto,
                                                 fit: BoxFit.cover,
                                                 errorWidget:
                                                     (context, url, error) =>
@@ -440,19 +473,51 @@ class _FriendProductState extends State<FriendProduct> {
                                               child: GestureDetector(
                                                 onTap: () {
                                                   Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          FriendWantProducts(
-                                                        response:
-                                                            widget.response,
-                                                        friendId:
-                                                            widget.friendId,
-                                                        friendName:
-                                                            widget.friendName,
-                                                      ),
-                                                    ),
-                                                  );
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              FriendProductDetail(
+                                                                response: widget
+                                                                    .response,
+                                                                name: products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .name
+                                                                    .toString(),
+                                                                price: products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .price
+                                                                    .toString(),
+                                                                link: products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .link
+                                                                    .toString(),
+                                                                image: baseUrl +
+                                                                    products!
+                                                                        .data!
+                                                                        .want![
+                                                                            i]
+                                                                        .photo
+                                                                        .toString(),
+                                                                purchaseDate: products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .purchasedDate
+                                                                    .toString(),
+                                                                id: products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .id
+                                                                    .toString(),
+                                                                type: products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .type
+                                                                    .toString(),
+                                                                productId: '',
+                                                              )));
                                                 },
                                                 child: Container(
                                                   width: 173,
@@ -646,19 +711,48 @@ class _FriendProductState extends State<FriendProduct> {
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                FriendDonWantProducts(
-                                                              response: widget
-                                                                  .response,
-                                                              friendId: widget
-                                                                  .friendId,
-                                                              friendName: widget
-                                                                  .friendName,
-                                                            ),
-                                                          ),
-                                                        );
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        FriendProductDetail(
+                                                                          response:
+                                                                              widget.response,
+                                                                          name: products!
+                                                                              .data!
+                                                                              .dontWant![i]
+                                                                              .name
+                                                                              .toString(),
+                                                                          price: products!
+                                                                              .data!
+                                                                              .dontWant![i]
+                                                                              .price
+                                                                              .toString(),
+                                                                          link: products!
+                                                                              .data!
+                                                                              .dontWant![i]
+                                                                              .link
+                                                                              .toString(),
+                                                                          image:
+                                                                              baseUrl + products!.data!.dontWant![i].photo.toString(),
+                                                                          purchaseDate: products!
+                                                                              .data!
+                                                                              .dontWant![i]
+                                                                              .purchasedDate
+                                                                              .toString(),
+                                                                          id: products!
+                                                                              .data!
+                                                                              .dontWant![i]
+                                                                              .id
+                                                                              .toString(),
+                                                                          type: products!
+                                                                              .data!
+                                                                              .dontWant![i]
+                                                                              .type
+                                                                              .toString(),
+                                                                          productId:
+                                                                              '',
+                                                                        )));
                                                       },
                                                       child: Container(
                                                         width: 173,
@@ -866,19 +960,48 @@ class _FriendProductState extends State<FriendProduct> {
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                FriendHaveProducts(
-                                                              response: widget
-                                                                  .response,
-                                                              friendId: widget
-                                                                  .friendId,
-                                                              friendName: widget
-                                                                  .friendName,
-                                                            ),
-                                                          ),
-                                                        );
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        FriendProductDetail(
+                                                                          response:
+                                                                              widget.response,
+                                                                          name: products!
+                                                                              .data!
+                                                                              .have![i]
+                                                                              .name
+                                                                              .toString(),
+                                                                          price: products!
+                                                                              .data!
+                                                                              .have![i]
+                                                                              .price
+                                                                              .toString(),
+                                                                          link: products!
+                                                                              .data!
+                                                                              .have![i]
+                                                                              .link
+                                                                              .toString(),
+                                                                          image:
+                                                                              baseUrl + products!.data!.have![i].photo.toString(),
+                                                                          purchaseDate: products!
+                                                                              .data!
+                                                                              .have![i]
+                                                                              .purchasedDate
+                                                                              .toString(),
+                                                                          id: products!
+                                                                              .data!
+                                                                              .have![i]
+                                                                              .id
+                                                                              .toString(),
+                                                                          type: products!
+                                                                              .data!
+                                                                              .have![i]
+                                                                              .type
+                                                                              .toString(),
+                                                                          productId:
+                                                                              '',
+                                                                        )));
                                                       },
                                                       child: Container(
                                                         width: 173,

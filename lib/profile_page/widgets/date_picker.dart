@@ -43,7 +43,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                 width: 1.sw,
                 height: 200,
                 child: CupertinoDatePicker(
-                  dateOrder: DatePickerDateOrder.ymd,
+                  dateOrder: DatePickerDateOrder.dmy,
                   mode: CupertinoDatePickerMode.date,
                   minimumYear: 1950,
                   maximumYear: widget.maximumDate,
@@ -60,34 +60,37 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  YellowButtonWithText(
-                    size: 16,
-                    backgroundColor:
-                        MaterialStateProperty.all(ColorSelect.colorF7E641),
-                    textStyleColor: ColorSelect.color292929,
-                    onTap: () {
-                      setState(() {
-                        selectedDate;
-                      });
-                      Navigator.pop(context);
-                      print(selectedDate);
-                    },
-                    title: 'OK',
+                  SizedBox(
+                    width: 80,
+                    child: YellowButtonWithText(
+                      size: 16,
+                      backgroundColor:
+                          MaterialStateProperty.all(ColorSelect.colorF7E641),
+                      textStyleColor: ColorSelect.color292929,
+                      onTap: () {
+                        setState(() {
+                          selectedDate;
+                        });
+                        Navigator.pop(context);
+                        print(selectedDate);
+                      },
+                      title: 'OK',
+                    ),
                   ),
-                  YellowButtonWithText(
-                    size: 16,
-                    backgroundColor:
-                        MaterialStateProperty.all(ColorSelect.colorF7E641),
-                    textStyleColor: ColorSelect.color292929,
-                    onTap: () {
-                      setState(() {
-                        selectedDate;
-                      });
-                      Navigator.pop(context);
-                      print(selectedDate);
-                    },
-                    title: 'Cancel',
-                  )
+                  // YellowButtonWithText(
+                  //   size: 16,
+                  //   backgroundColor:
+                  //       MaterialStateProperty.all(ColorSelect.colorF7E641),
+                  //   textStyleColor: ColorSelect.color292929,
+                  //   onTap: () {
+                  //     setState(() {
+                  //       selectedDate;
+                  //     });
+                  //     Navigator.pop(context);
+                  //     print(selectedDate);
+                  //   },
+                  //   title: 'Cancel',
+                  // )
                 ],
               )
             ],

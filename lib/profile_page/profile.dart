@@ -104,7 +104,7 @@ class _UserProfileState extends State<UserProfile> {
     relationStatus.text = profile!.data!.relationStatus ?? '';
     emailController.text = profile!.data!.email ?? '';
     phoneController.text = profile!.data!.phone ?? '';
-    // alternateNo.text = profile!.data!.alternatePhone ?? '';
+    alternateNo.text = profile!.data!.alternatePhone ?? '';
     homeController.text = profile!.data!.homeAddress ?? '';
     workController.text = profile!.data!.workAddress ?? '';
   }
@@ -173,6 +173,34 @@ class _UserProfileState extends State<UserProfile> {
   double normalizedPercent = 0.0;
 
   ProfileModel? response;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _email = '';
+  String _emailError = '';
+
+  bool _isValid = false;
+
+  void _validateEmail(String email) {
+    if (isValidEmail(email)) {
+      Fluttertoast.showToast(
+        msg: "Valid email: $email",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: "Invalid email: $email",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    }
+  }
+
+  bool isValidEmail(String email) {
+    // Regular expression for email validation
+    final emailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+    return emailRegExp.hasMatch(email);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -400,7 +428,7 @@ class _UserProfileState extends State<UserProfile> {
                                   title: 'Name',
                                   addTextField: TextFormField(
                                     inputFormatters: [
-                                      LengthLimitingTextInputFormatter(25),
+                                      LengthLimitingTextInputFormatter(20),
                                     ],
                                     onChanged: (v) {
                                       setState(() {});
@@ -771,6 +799,7 @@ class _UserProfileState extends State<UserProfile> {
                                     inputFormatters: [
                                       LengthLimitingTextInputFormatter(25),
                                     ],
+
                                     onChanged: (v) {
                                       setState(() {});
                                       if (!pro.contains("email")) {
@@ -832,28 +861,31 @@ class _UserProfileState extends State<UserProfile> {
                               builder: (BuildContext context) {
                                 return NameEditDialogWidget(
                                   title: 'phone no',
-                                  addTextField: TextFormField(
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(10),
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                    onChanged: (v) {
-                                      setState(() {});
-                                      if (!pro.contains("phone")) {
-                                        setState(() {
-                                          pro.add('phone');
-                                        });
-                                      }
-                                    },
-                                    onEditingComplete: () {
-                                      Navigator.pop(context);
-                                    },
-                                    controller: phoneController,
-                                    cursorColor: ColorSelect.colorF7E641,
-                                    decoration:
-                                        AppTFDecoration(hint: 'phone no')
-                                            .decoration(),
-                                    //keyboardType: TextInputType.phone,
+                                  addTextField: Form(
+                                    key: _formKey,
+                                    child: TextFormField(
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(10),
+                                      ],
+                                      keyboardType: TextInputType.number,
+                                      onChanged: (v) {
+                                        setState(() {});
+                                        if (!pro.contains("phone")) {
+                                          setState(() {
+                                            pro.add('phone');
+                                          });
+                                        }
+                                      },
+                                      onEditingComplete: () {
+                                        Navigator.pop(context);
+                                      },
+                                      controller: phoneController,
+                                      cursorColor: ColorSelect.colorF7E641,
+                                      decoration:
+                                          AppTFDecoration(hint: 'phone no')
+                                              .decoration(),
+                                      //keyboardType: TextInputType.phone,
+                                    ),
                                   ),
                                 );
                               },
@@ -1051,7 +1083,7 @@ class _UserProfileState extends State<UserProfile> {
                                   title: 'Home Address',
                                   addTextField: TextFormField(
                                     inputFormatters: [
-                                      LengthLimitingTextInputFormatter(50),
+                                      LengthLimitingTextInputFormatter(70),
                                     ],
                                     onChanged: (v) {
                                       setState(() {});
@@ -1077,7 +1109,7 @@ class _UserProfileState extends State<UserProfile> {
                           },
                           child: Container(
                             color: Colors.transparent,
-                            child: Row(
+                            child: Column(
                               children: [
                                 homeController.text.isEmpty
                                     ? Text(
@@ -1125,7 +1157,7 @@ class _UserProfileState extends State<UserProfile> {
                                   title: 'Work Address',
                                   addTextField: TextFormField(
                                     inputFormatters: [
-                                      LengthLimitingTextInputFormatter(50),
+                                      LengthLimitingTextInputFormatter(70),
                                     ],
                                     onChanged: (v) {
                                       setState(() {});
@@ -1494,7 +1526,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                         ),
                       ),
                       SizedBox(width: 10),
-                      Text('male', style: AppTextStyle().textColor29292914w500)
+                      Text('Male', style: AppTextStyle().textColor29292914w500)
                     ],
                   ),
                 ),
@@ -1533,7 +1565,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                         ),
                       ),
                       SizedBox(width: 10),
-                      Text('female',
+                      Text('Female',
                           style: AppTextStyle().textColor29292914w500)
                     ],
                   ),
@@ -1573,7 +1605,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                         ),
                       ),
                       SizedBox(width: 10),
-                      Text('neutral',
+                      Text('Neutral',
                           style: AppTextStyle().textColor29292914w500)
                     ],
                   ),
@@ -1712,7 +1744,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
                       ),
                     ),
                     SizedBox(width: 10),
-                    Text('married', style: AppTextStyle().textColor29292914w500)
+                    Text('Married', style: AppTextStyle().textColor29292914w500)
                   ],
                 ),
               ),
@@ -1751,7 +1783,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
                       ),
                     ),
                     SizedBox(width: 10),
-                    Text('single', style: AppTextStyle().textColor29292914w500)
+                    Text('Single', style: AppTextStyle().textColor29292914w500)
                   ],
                 ),
               ),

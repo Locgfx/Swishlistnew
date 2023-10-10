@@ -268,7 +268,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                             });
                                           }
                                         },
-                                        title: 'waist',
+                                        title: 'Waist Size',
                                       );
                                     },
                                   );

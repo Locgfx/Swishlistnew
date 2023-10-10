@@ -96,13 +96,9 @@ bool _sendNotif = true;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
+  await Firebase.initializeApp();
   var _prefs = await SharedPreferences.getInstance();
   _sendNotif = _prefs.getBool(SavedKeys().notificationValue) ?? true;
-  await SharedPrefs().init();
-  await Firebase.initializeApp();
-  await SystemChrome.setPreferredOrientations(
-    [DeviceOrientation.portraitUp],
-  );
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   final IOSInitializationSettings initializationSettingsIOS =
@@ -126,8 +122,6 @@ void main() async {
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()!
           .requestPermission()
-      // !
-      //         .requestPermission()
       : await flutterPlugin
           .resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
@@ -136,6 +130,12 @@ void main() async {
             badge: true,
             sound: true,
           );
+  await SharedPrefs().init();
+  await Firebase.initializeApp();
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
+
   runApp(const MyApp());
 }
 
@@ -286,6 +286,7 @@ class _MyAppState extends State<MyApp> {
       },
     );
     notificationServices.initializeNotification();
+
     super.initState();
   }
 

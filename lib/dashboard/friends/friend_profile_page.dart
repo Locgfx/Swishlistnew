@@ -64,6 +64,8 @@ class _FProfileState extends State<FProfile> {
     });
   }
 
+  final GlobalKey<FormState> form = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,216 +105,261 @@ class _FProfileState extends State<FProfile> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    InkWell(
-                      onTap: () {},
-                      child: Row(
-                        children: [
-                          Text(
-                            "Name",
-                            style: AppTextStyle().textColor70707014w400,
-                          ),
-                          Spacer(),
+                    friendDetails.data!.profile!.name.toString() == '' ||
+                            friendDetails.data!.profile!.name == null
+                        ? SizedBox()
+                        : InkWell(
+                            onTap: () {},
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Name",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
 
-                          Text(
-                            // friendDetails!.data!.sizeWeight!.shoes
-                            //     .toString() ==
-                            //     "" ||
-                            //     friendDetails!.data!.sizeWeight!
-                            //         .shoes ==
-                            //         null
-                            //     ? "friend not updated shoes size"
-                            //     : friendDetails!
-                            //     .data!.sizeWeight!.shoes
-                            //     .toString(),
-                            friendDetails.data!.profile!.name.toString() ==
-                                        '' ||
-                                    friendDetails.data!.profile!.name == null
-                                ? 'friend not added name yet'
-                                : friendDetails.data!.profile!.name.toString(),
-                            // 'Harry Wilson',
-                            style:
-                                // AppTextStyle().textColorD5574514w500 :
-                                AppTextStyle().textColor29292914w400,
+                                Text(
+                                  // friendDetails!.data!.sizeWeight!.shoes
+                                  //     .toString() ==
+                                  //     "" ||
+                                  //     friendDetails!.data!.sizeWeight!
+                                  //         .shoes ==
+                                  //         null
+                                  //     ? "friend not updated shoes size"
+                                  //     : friendDetails!
+                                  //     .data!.sizeWeight!.shoes
+                                  //     .toString(),
+                                  // friendDetails.data!.profile!.name.toString() ==
+                                  //             '' ||
+                                  //         friendDetails.data!.profile!.name == null
+                                  //     ? 'friend not added name yet'
+                                  //     :
+                                  friendDetails.data!.profile!.name.toString(),
+                                  // 'Harry Wilson',
+                                  style:
+                                      // AppTextStyle().textColorD5574514w500 :
+                                      AppTextStyle().textColor29292914w400,
+                                ),
+                                // SizedBox(
+                                //   width: 5.w,
+                                // ),
+                                // Image.asset("assets/images/image46.png"),
+                                // SizedBox(
+                                //   width: 20.w,
+                                // ),
+                                // Image.asset("assets/images/Vector175.png"),
+                              ],
+                            ),
                           ),
-                          // SizedBox(
-                          //   width: 5.w,
-                          // ),
-                          // Image.asset("assets/images/image46.png"),
-                          // SizedBox(
-                          //   width: 20.w,
-                          // ),
-                          // Image.asset("assets/images/Vector175.png"),
-                        ],
-                      ),
-                    ),
                     SizedBox(
-                      height: 20.h,
+                      height:
+                          friendDetails.data!.profile!.name.toString() == '' ||
+                                  friendDetails.data!.profile!.name == null
+                              ? 0
+                              : 20.h,
                     ),
-                    InkWell(
-                      onTap: () {
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (BuildContext context) {
-                        //
-                        //   },
-                        // );
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            "Gender",
-                            style: AppTextStyle().textColor70707014w400,
-                          ),
-                          Spacer(),
-                          // friendDetails.data!.profile!.gender!.isEmpty?
-                          // Text(
-                          //   friendDetails.data!.profile!.gender!.toString(),
-                          //   style:
-                          //   AppTextStyle().textColor29292914w400,
-                          // ):
-                          Text(
-                            friendDetails.data!.profile!.gender.toString() ==
-                                        '' ||
-                                    friendDetails.data!.profile!.gender == null
-                                ? 'friend not added gender yet'
-                                : friendDetails.data!.profile!.gender
-                                    .toString(),
-                            // friendDetails.data!.profile!.gender.toString() == ''
-                            //   friendDetails.data!.profile!.gender == null
-                            //     ? 'Gender is not added yet'
-                            //     : friendDetails.data!.profile!.gender
-                            //         .toString(),
-                            // 'Male',
-                            /*:
+                    friendDetails.data!.profile!.gender.toString() == '' ||
+                            friendDetails.data!.profile!.gender == null
+                        ? SizedBox()
+                        : InkWell(
+                            onTap: () {
+                              // showDialog(
+                              //   context: context,
+                              //   builder: (BuildContext context) {
+                              //
+                              //   },
+                              // );
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Gender",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                // friendDetails.data!.profile!.gender!.isEmpty?
+                                // Text(
+                                //   friendDetails.data!.profile!.gender!.toString(),
+                                //   style:
+                                //   AppTextStyle().textColor29292914w400,
+                                // ):
+                                Text(
+                                  // friendDetails.data!.profile!.gender.toString() ==
+                                  //             '' ||
+                                  //         friendDetails.data!.profile!.gender == null
+                                  //     ? 'friend not added gender yet'
+                                  //     :
+                                  friendDetails.data!.profile!.gender
+                                      .toString(),
+                                  // friendDetails.data!.profile!.gender.toString() == ''
+                                  //   friendDetails.data!.profile!.gender == null
+                                  //     ? 'Gender is not added yet'
+                                  //     : friendDetails.data!.profile!.gender
+                                  //         .toString(),
+                                  // 'Male',
+                                  /*:
                           sizeWeight!.data!.shirt!.toString(),
                           style: sizeWeight!.data!.shirt! == '' ?
                           AppTextStyle().textColorD5574514w500 :*/
-                            style: AppTextStyle().textColor29292914w400,
-                          ),
-                          // SizedBox(
-                          //   width: 5.w,
-                          // ),
-                          // Image.asset("assets/images/image461.png"),
-                          // SizedBox(
-                          //   width: 20.w,
-                          // ),
-                          // Image.asset("assets/images/Vector175.png"),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (BuildContext context) {
-                        //   },
-                        // );
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            "Date of birth",
-                            style: AppTextStyle().textColor70707014w400,
-                          ),
-                          Spacer(),
-                          SizedBox(
-                            width: 5.w,
+                                  style: AppTextStyle().textColor29292914w400,
+                                ),
+                                // SizedBox(
+                                //   width: 5.w,
+                                // ),
+                                // Image.asset("assets/images/image461.png"),
+                                // SizedBox(
+                                //   width: 20.w,
+                                // ),
+                                // Image.asset("assets/images/Vector175.png"),
+                              ],
+                            ),
                           ),
 
-                          // friendDetails.data!.profile!.dob!.isEmpty?
-                          // Text(
-                          //   friendDetails.data!.profile!.dob.toString(),
-                          //   style:
-                          //   AppTextStyle().textColor29292914w400,
-                          // ):
-                          Text(
-                            friendDetails.data!.profile!.dob.toString() == '' ||
-                                    friendDetails.data!.profile!.dob == null
-                                ? 'friend not added dob yet'
-                                : friendDetails.data!.profile!.dob.toString(),
-                            style: AppTextStyle().textColor29292914w400,
+                    SizedBox(
+                      height: friendDetails.data!.profile!.gender.toString() ==
+                                  '' ||
+                              friendDetails.data!.profile!.gender == null
+                          ? 0
+                          : 20.h,
+                    ),
+                    friendDetails.data!.profile!.dob.toString() == '' ||
+                            friendDetails.data!.profile!.dob == null
+                        ? SizedBox()
+                        : GestureDetector(
+                            onTap: () {
+                              // showDialog(
+                              //   context: context,
+                              //   builder: (BuildContext context) {
+                              //   },
+                              // );
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Date of birth",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                SizedBox(
+                                  width: 5.w,
+                                ),
+
+                                // friendDetails.data!.profile!.dob!.isEmpty?
+                                // Text(
+                                //   friendDetails.data!.profile!.dob.toString(),
+                                //   style:
+                                //   AppTextStyle().textColor29292914w400,
+                                // ):
+                                Text(
+                                  // friendDetails.data!.profile!.dob.toString() == '' ||
+                                  //         friendDetails.data!.profile!.dob == null
+                                  //     ? 'friend not added dob yet'
+                                  //     :
+                                  friendDetails.data!.profile!.dob.toString(),
+                                  style: AppTextStyle().textColor29292914w400,
+                                ),
+                                // Image.asset("assets/images/information2.png"),
+                                // SizedBox(
+                                //   width: 20.w,
+                                // ),
+                                // Image.asset("assets/images/Vector175.png"),
+                              ],
+                            ),
                           ),
-                          // Image.asset("assets/images/information2.png"),
-                          // SizedBox(
-                          //   width: 20.w,
-                          // ),
-                          // Image.asset("assets/images/Vector175.png"),
-                        ],
-                      ),
-                    ),
                     SizedBox(
-                      height: 20.h,
+                      height:
+                          friendDetails.data!.profile!.dob.toString() == '' ||
+                                  friendDetails.data!.profile!.dob == null
+                              ? 0
+                              : 20.h,
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          "Occupation",
-                          style: AppTextStyle().textColor70707014w400,
-                        ),
-                        Spacer(),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        // friendDetails.data!.profile!.occupation!.isEmpty?
-                        // Text(
-                        //   friendDetails.data!.profile!.occupation.toString(),
-                        //   style:
-                        //   AppTextStyle().textColor29292914w400,
-                        // ):
-                        Text(
-                          friendDetails.data!.profile!.occupation.toString() ==
-                                      '' ||
-                                  friendDetails.data!.profile!.occupation ==
-                                      null
-                              ? 'friend not added dob yet'
-                              : friendDetails.data!.profile!.occupation
-                                  .toString(),
-                          style: AppTextStyle().textColor29292914w400,
-                        ),
-                      ],
-                    ),
+                    friendDetails.data!.profile!.occupation.toString() == '' ||
+                            friendDetails.data!.profile!.occupation == null
+                        ? SizedBox()
+                        : Row(
+                            children: [
+                              Text(
+                                "Occupation",
+                                style: AppTextStyle().textColor70707014w400,
+                              ),
+                              Spacer(),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              // friendDetails.data!.profile!.occupation!.isEmpty?
+                              // Text(
+                              //   friendDetails.data!.profile!.occupation.toString(),
+                              //   style:
+                              //   AppTextStyle().textColor29292914w400,
+                              // ):
+                              Text(
+                                // friendDetails.data!.profile!.occupation.toString() ==
+                                //             '' ||
+                                //         friendDetails.data!.profile!.occupation ==
+                                //             null
+                                //     ? 'friend not added dob yet'
+                                //     :
+                                friendDetails.data!.profile!.occupation
+                                    .toString(),
+                                style: AppTextStyle().textColor29292914w400,
+                              ),
+                            ],
+                          ),
                     SizedBox(
-                      height: 20.h,
+                      height: friendDetails.data!.profile!.occupation
+                                      .toString() ==
+                                  '' ||
+                              friendDetails.data!.profile!.occupation == null
+                          ? 0
+                          : 20.h,
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          "Relationship Status",
-                          style: AppTextStyle().textColor70707014w400,
-                        ),
-                        Spacer(),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        // friendDetails.data!.profile!.relationStatus!.isEmpty?
-                        // Text(
-                        //   friendDetails.data!.profile!.relationStatus.toString(),
-                        //   style:
-                        //   AppTextStyle().textColor29292914w400,
-                        // ):
-                        Text(
-                          friendDetails.data!.profile!.relationStatus
-                                          .toString() ==
-                                      '' ||
-                                  friendDetails.data!.profile!.relationStatus ==
-                                      null
-                              ? 'not update yet'
-                              : friendDetails.data!.profile!.relationStatus
-                                  .toString(),
-                          style: AppTextStyle().textColor29292914w400,
-                        ),
-                        // Image.asset("assets/images/information2.png"),
-                        // SizedBox(
-                        //   width: 20.w,
-                        // ),
-                        // Image.asset("assets/images/Vector175.png"),
-                      ],
-                    ),
+                    friendDetails.data!.profile!.relationStatus.toString() ==
+                                '' ||
+                            friendDetails.data!.profile!.relationStatus == null
+                        ? SizedBox()
+                        : Row(
+                            children: [
+                              Text(
+                                "Relationship Status",
+                                style: AppTextStyle().textColor70707014w400,
+                              ),
+                              Spacer(),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              // friendDetails.data!.profile!.relationStatus!.isEmpty?
+                              // Text(
+                              //   friendDetails.data!.profile!.relationStatus.toString(),
+                              //   style:
+                              //   AppTextStyle().textColor29292914w400,
+                              // ):
+                              Text(
+                                // friendDetails.data!.profile!.relationStatus
+                                //                 .toString() ==
+                                //             '' ||
+                                //         friendDetails.data!.profile!.relationStatus ==
+                                //             null
+                                //     ? 'not update yet'
+                                //     :
+                                friendDetails.data!.profile!.relationStatus
+                                    .toString(),
+                                style: AppTextStyle().textColor29292914w400,
+                              ),
+                              // Image.asset("assets/images/information2.png"),
+                              // SizedBox(
+                              //   width: 20.w,
+                              // ),
+                              // Image.asset("assets/images/Vector175.png"),
+                            ],
+                          ),
                     SizedBox(
-                      height: 40.h,
+                      height: friendDetails.data!.profile!.relationStatus
+                                      .toString() ==
+                                  '' ||
+                              friendDetails.data!.profile!.relationStatus ==
+                                  null
+                          ? 20.h
+                          : 40.h,
                     ),
                     Text(
                       "Contact",
@@ -321,100 +368,126 @@ class _FProfileState extends State<FProfile> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (BuildContext context) {
-                        //   },
-                        // );
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            "Phone",
-                            style: AppTextStyle().textColor70707014w400,
+                    friendDetails.data!.profile!.phone.toString() == '' ||
+                            friendDetails.data!.profile!.phone == null
+                        ? SizedBox()
+                        : GestureDetector(
+                            onTap: () {
+                              // showDialog(
+                              //   context: context,
+                              //   builder: (BuildContext context) {
+                              //   },
+                              // );
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Phone",
+                                  style: AppTextStyle().textColor70707014w400,
+                                ),
+                                Spacer(),
+                                // friendDetails.data!.profile!.phone!.isEmpty?
+                                // Text(
+                                //   friendDetails.data!.profile!.phone.toString(),
+                                //   style:
+                                //   AppTextStyle().textColor29292914w400,
+                                // ):
+                                Text(
+                                    friendDetails.data!.profile!.phone
+                                                    .toString() ==
+                                                '' ||
+                                            friendDetails
+                                                    .data!.profile!.phone ==
+                                                null
+                                        ? 'friend not updated ph no yet'
+                                        : friendDetails.data!.profile!.phone
+                                            .toString(),
+                                    style:
+                                        AppTextStyle().textColor29292914w400),
+                              ],
+                            ),
                           ),
-                          Spacer(),
-                          // friendDetails.data!.profile!.phone!.isEmpty?
-                          // Text(
-                          //   friendDetails.data!.profile!.phone.toString(),
-                          //   style:
-                          //   AppTextStyle().textColor29292914w400,
-                          // ):
-                          Text(
-                              friendDetails.data!.profile!.phone.toString() ==
-                                          '' ||
-                                      friendDetails.data!.profile!.phone == null
-                                  ? 'friend not updated ph no yet'
-                                  : friendDetails.data!.profile!.phone
-                                      .toString(),
-                              style: AppTextStyle().textColor29292914w400),
-                        ],
-                      ),
+                    SizedBox(
+                      height:
+                          friendDetails.data!.profile!.phone.toString() == '' ||
+                                  friendDetails.data!.profile!.phone == null
+                              ? 0
+                              : 20.h,
                     ),
+                    friendDetails.data!.profile!.alternatePhone.toString() ==
+                                '' ||
+                            friendDetails.data!.profile!.alternatePhone == null
+                        ? SizedBox()
+                        : Row(
+                            children: [
+                              Text(
+                                "Alternate Phone",
+                                style: AppTextStyle().textColor70707014w400,
+                              ),
+                              Spacer(),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              // friendDetails.data!.profile!.alternatePhone!.isEmpty?
+                              // Text(
+                              //   friendDetails.data!.profile!.alternatePhone.toString(),
+                              //   style:
+                              //   AppTextStyle().textColor29292914w400,
+                              // ):
+                              Text(
+                                // friendDetails.data!.profile!.alternatePhone
+                                //                 .toString() ==
+                                //             '' ||
+                                //         friendDetails.data!.profile!.alternatePhone ==
+                                //             null
+                                //     ? 'friend not updated alternate no yet'
+                                //     :
+                                friendDetails.data!.profile!.alternatePhone
+                                    .toString(),
+                                style: AppTextStyle().textColor29292914w400,
+                              ),
+                            ],
+                          ),
                     SizedBox(
                       height: 20.h,
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          "Alternate Phone",
-                          style: AppTextStyle().textColor70707014w400,
-                        ),
-                        Spacer(),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        // friendDetails.data!.profile!.alternatePhone!.isEmpty?
-                        // Text(
-                        //   friendDetails.data!.profile!.alternatePhone.toString(),
-                        //   style:
-                        //   AppTextStyle().textColor29292914w400,
-                        // ):
-                        Text(
-                          friendDetails.data!.profile!.alternatePhone
-                                          .toString() ==
-                                      '' ||
-                                  friendDetails.data!.profile!.alternatePhone ==
-                                      null
-                              ? 'friend not updated alternate no yet'
-                              : friendDetails.data!.profile!.alternatePhone
-                                  .toString(),
-                          style: AppTextStyle().textColor29292914w400,
-                        ),
-                      ],
-                    ),
+                    friendDetails.data!.profile!.email.toString() == '' ||
+                            friendDetails.data!.profile!.email == null
+                        ? SizedBox()
+                        : Row(
+                            children: [
+                              Text(
+                                "Email",
+                                style: AppTextStyle().textColor70707014w400,
+                              ),
+                              Spacer(),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              // friendDetails.data!.profile!.email!.isEmpty?
+                              // Text(
+                              //   friendDetails.data!.profile!.email.toString(),
+                              //   style:
+                              //   AppTextStyle().textColor29292914w400,
+                              // ):
+                              Text(
+                                friendDetails.data!.profile!.email.toString() ==
+                                            '' ||
+                                        friendDetails.data!.profile!.email ==
+                                            null
+                                    ? 'friend not email no yet'
+                                    : friendDetails.data!.profile!.phone
+                                        .toString(),
+                                style: AppTextStyle().textColor29292914w400,
+                              ),
+                            ],
+                          ),
                     SizedBox(
-                      height: 20.h,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "Email",
-                          style: AppTextStyle().textColor70707014w400,
-                        ),
-                        Spacer(),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        // friendDetails.data!.profile!.email!.isEmpty?
-                        // Text(
-                        //   friendDetails.data!.profile!.email.toString(),
-                        //   style:
-                        //   AppTextStyle().textColor29292914w400,
-                        // ):
-                        Text(
+                      height:
                           friendDetails.data!.profile!.email.toString() == '' ||
                                   friendDetails.data!.profile!.email == null
-                              ? 'friend not email no yet'
-                              : friendDetails.data!.profile!.phone.toString(),
-                          style: AppTextStyle().textColor29292914w400,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 40.h,
+                              ? 20.h
+                              : 40.h,
                     ),
                     Text(
                       "Address",
@@ -423,63 +496,82 @@ class _FProfileState extends State<FProfile> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Home",
-                          style: AppTextStyle().textColor70707014w400,
-                        ),
-                        SizedBox(height: 10.h),
-                        // friendDetails.data!.profile!.homeAddress!.isEmpty?
-                        // Text(
-                        //   friendDetails.data!.profile!.homeAddress.toString(),
-                        //   style:
-                        //   AppTextStyle().textColor29292914w400,
-                        // ):
-                        Text(
-                          friendDetails.data!.profile!.homeAddress.toString() ==
-                                      '' ||
-                                  friendDetails.data!.profile!.homeAddress ==
-                                      null
-                              ? 'friend not adress no yet'
-                              : friendDetails.data!.profile!.homeAddress
-                                  .toString(),
-                          style: AppTextStyle().textColor29292914w400,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
+
+                    friendDetails.data!.profile!.homeAddress.toString() == '' ||
+                            friendDetails.data!.profile!.homeAddress == null
+                        ? SizedBox()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Home",
+                                style: AppTextStyle().textColor70707014w400,
+                              ),
+                              SizedBox(height: 10.h),
+                              // friendDetails.data!.profile!.homeAddress!.isEmpty?
+                              // Text(
+                              //   friendDetails.data!.profile!.homeAddress.toString(),
+                              //   style:
+                              //   AppTextStyle().textColor29292914w400,
+                              // ):
+                              Text(
+                                // friendDetails.data!.profile!.homeAddress.toString() ==
+                                //             '' ||
+                                //         friendDetails.data!.profile!.homeAddress ==
+                                //             null
+                                //     ? 'friend not adress no yet'
+                                //     :
+                                friendDetails.data!.profile!.homeAddress
+                                    .toString(),
+                                style: AppTextStyle().textColor29292914w400,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
                     SizedBox(
-                      height: 20.h,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "work Address",
-                          style: AppTextStyle().textColor70707014w400,
-                        ),
-                        Spacer(),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        // friendDetails.data!.profile!.workAddress!.isEmpty?
-                        // Text(
-                        //   friendDetails.data!.profile!.workAddress.toString(),
-                        //   style:
-                        //   AppTextStyle().textColor29292914w400,
-                        // ):
-                      ],
-                    ),
-                    Text(
-                      friendDetails.data!.profile!.workAddress.toString() ==
+                      height: friendDetails.data!.profile!.homeAddress
+                                      .toString() ==
                                   '' ||
-                              friendDetails.data!.profile!.workAddress == null
-                          ? 'friend not address no yet'
-                          : friendDetails.data!.profile!.workAddress.toString(),
-                      style: AppTextStyle().textColor29292914w400,
+                              friendDetails.data!.profile!.homeAddress == null
+                          ? 0
+                          : 20.h,
                     ),
+                    friendDetails.data!.profile!.workAddress.toString() == '' ||
+                            friendDetails.data!.profile!.workAddress == null
+                        ? SizedBox()
+                        : Row(
+                            children: [
+                              Text(
+                                "work Address",
+                                style: AppTextStyle().textColor70707014w400,
+                              ),
+                              Spacer(),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              // friendDetails.data!.profile!.workAddress!.isEmpty?
+                              // Text(
+                              //   friendDetails.data!.profile!.workAddress.toString(),
+                              //   style:
+                              //   AppTextStyle().textColor29292914w400,
+                              // ):
+                            ],
+                          ),
+                    friendDetails.data!.profile!.workAddress.toString() == '' ||
+                            friendDetails.data!.profile!.workAddress == null
+                        ? SizedBox()
+                        : Text(
+                            // friendDetails.data!.profile!.workAddress
+                            //                 .toString() ==
+                            //             '' ||
+                            //         friendDetails.data!.profile!.workAddress ==
+                            //             null
+                            //     ? 'friend not address no yet'
+                            //     :
+                            friendDetails.data!.profile!.workAddress.toString(),
+                            style: AppTextStyle().textColor29292914w400,
+                          ),
                     // SizedBox(height: 20.h,),
                     // Row(
                     //   children: [

@@ -126,7 +126,9 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                       ),
                       clipBehavior: Clip.hardEdge,
                       child: CachedNetworkImage(
-                        imageUrl: widget.friendImage,
+                        imageUrl: widget.friendImage.contains('http')
+                            ? widget.friendImage
+                            : baseUrl + widget.friendImage,
                         fit: BoxFit.cover,
                         errorWidget: (context, url, error) => Icon(
                           Icons.error,
@@ -154,18 +156,11 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        listMessages!.data!.isEmpty
-                            ? Text(
-                                "friend Name not updated",
-                                overflow: TextOverflow.ellipsis,
-                                // "Pam",
-                                style: AppTextStyle().robotocolor1F1F1C14w500,
-                              )
-                            : Text(
-                                widget.name,
-                                // "Pam",
-                                style: AppTextStyle().robotocolor1F1F1C14w500,
-                              ),
+                        Text(
+                          widget.name,
+                          // "Pam",
+                          style: AppTextStyle().robotocolor1F1F1C14w500,
+                        ),
                         Row(
                           children: [
                             SizedBox(
@@ -272,10 +267,13 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 12, vertical: 8),
                                             child: Text(
-                                              element.message.toString(),
-                                              style: AppTextStyle()
-                                                  .textColorFFFFFF14w400,
-                                            ),
+                                                element.message.toString(),
+                                                style: ids ==
+                                                        element.sendFromUserId
+                                                    ? AppTextStyle()
+                                                        .textColorFFFFFF14w400
+                                                    : AppTextStyle()
+                                                        .textColor00000014w400),
                                           ),
                                         ),
                                       )
@@ -344,9 +342,8 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                           color: ids ==
                                                                   element
                                                                       .sendFromUserId
-                                                              ? Colors.redAccent
-                                                              : Colors
-                                                                  .redAccent),
+                                                              ? Colors.white
+                                                              : Colors.black),
                                                       maxLines: 4,
                                                       overflow:
                                                           TextOverflow.ellipsis,
@@ -528,7 +525,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                     NeverScrollableScrollPhysics(),
                                                                 child: Padding(
                                                                   padding: const EdgeInsets
-                                                                          .symmetric(
+                                                                      .symmetric(
                                                                       horizontal:
                                                                           16),
                                                                   child: Column(
@@ -561,8 +558,8 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                                 "Products I Want",
                                                                                 style: AppTextStyle().textColor29292914w500,
                                                                               ),
-                                                                              SizedBox(width: 8),
-                                                                              Image.asset("assets/images/directiondown01.png"),
+                                                                              // SizedBox(width: 8),
+                                                                              // Image.asset("assets/images/directiondown01.png"),
                                                                             ],
                                                                           )
                                                                         ],

@@ -161,6 +161,7 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
           // backgroundColor: ColorSelect.colorF7E641,
           backgroundColor: ColorSelect.colorFFFFFF,
           elevation: 0,
+          automaticallyImplyLeading: false,
           title: Row(
             children: [
               Text(

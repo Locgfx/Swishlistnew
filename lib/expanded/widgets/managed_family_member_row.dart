@@ -28,78 +28,52 @@ class UserRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        Expanded(
-          child: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: ColorSelect.colorEDEDF1,
-                ),
-                child: CachedNetworkImage(
-                  imageUrl: familyPhoto,
-                  // imageUrl: baseUrl+familyModel2[i].familyMemberUser!.photo.toString(),
-                  fit: BoxFit.cover,
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                  progressIndicatorBuilder: (a, b, c) => Opacity(
-                    opacity: 0.3,
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.black12,
-                      highlightColor: Colors.white,
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        //margin: EdgeInsets.symmetric(horizontal: 24),
-                        decoration: BoxDecoration(
-                            color: Colors.white, shape: BoxShape.circle),
-                      ),
+        Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: ColorSelect.colorEDEDF1,
+              ),
+              child: CachedNetworkImage(
+                imageUrl: familyPhoto,
+                // imageUrl: baseUrl+familyModel2[i].familyMemberUser!.photo.toString(),
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) => Icon(Icons.error),
+                progressIndicatorBuilder: (a, b, c) => Opacity(
+                  opacity: 0.3,
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.black12,
+                    highlightColor: Colors.white,
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      //margin: EdgeInsets.symmetric(horizontal: 24),
+                      decoration: BoxDecoration(
+                          color: Colors.white, shape: BoxShape.circle),
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                width: 10.w,
-              ),
-              Column(
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        familyName,
-                        // "Jan Levinson",
-                        style: AppTextStyle().textColor29292914w500,
-                      ),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                      // Container(
-                      //   // height: 30.h,
-                      //   // width: 50.w,
-                      //   decoration: BoxDecoration(
-                      //       color: ColorSelect.colorF6E3DB,
-                      //       borderRadius:
-                      //           BorderRadius.all(Radius.circular(80))),
-                      //   child: Center(
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.all(8.0),
-                      //       child: Text(
-                      //         familyRelation,
-                      //         // " Wife",
-                      //         style: AppTextStyle().textColor29292912w400,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10.h,
+                  Text(
+                    familyName,
+                    // 'bhbvhbbhvbhbbfrbbvdfbgdfjbvjfdvjbjdjfvbdfjvbfbvfhvb',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    // familyName,
+                    // "Jan Levinson",
+                    style: AppTextStyle().textColor29292914w500,
                   ),
                   Text(
                     familyUsername,
@@ -108,14 +82,111 @@ class UserRowWidget extends StatelessWidget {
                   )
                 ],
               ),
-            ],
-          ),
+            ),
+            SizedBox(
+              width: 2,
+            ),
+            Padding(padding: const EdgeInsets.only(right: 16), child: widget),
+            Padding(padding: const EdgeInsets.only(right: 0), child: widget2),
+          ],
         ),
-
-        // Spacer(),
-        Padding(padding: const EdgeInsets.only(right: 16), child: widget),
-
-        Padding(padding: const EdgeInsets.only(right: 0), child: widget2),
+        //       Row(
+        //       children: [
+        //         Expanded(
+        //           child: Row(
+        //             children: [
+        //               Container(
+        //                 width: 40,
+        //                 height: 40,
+        //                 clipBehavior: Clip.hardEdge,
+        //                 decoration: BoxDecoration(
+        //                   shape: BoxShape.circle,
+        //                   color: ColorSelect.colorEDEDF1,
+        //                 ),
+        //                 child: CachedNetworkImage(
+        //                   imageUrl: familyPhoto,
+        //                   // imageUrl: baseUrl+familyModel2[i].familyMemberUser!.photo.toString(),
+        //                   fit: BoxFit.cover,
+        //                   errorWidget: (context, url, error) => Icon(Icons.error),
+        //                   progressIndicatorBuilder: (a, b, c) => Opacity(
+        //                     opacity: 0.3,
+        //                     child: Shimmer.fromColors(
+        //                       baseColor: Colors.black12,
+        //                       highlightColor: Colors.white,
+        //                       child: Container(
+        //                         width: 50,
+        //                         height: 50,
+        //                         //margin: EdgeInsets.symmetric(horizontal: 24),
+        //                         decoration: BoxDecoration(
+        //                             color: Colors.white, shape: BoxShape.circle),
+        //                       ),
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //               SizedBox(
+        //                 width: 10.w,
+        //               ),
+        //               Column(
+        //                 crossAxisAlignment: CrossAxisAlignment.start,
+        //                 children: [
+        //                   Row(
+        //                     children: [
+        //                       Column(
+        //                         children: [
+        //                           Text(
+        //                             'bhbvhbbhvbhbbfrbbvdfbgdfjbvjfdvjbjdjfvbdfjvbfbvfhvb',
+        //                             maxLines: 2,
+        //                             overflow: TextOverflow.ellipsis,
+        //                             // familyName,
+        //                             // "Jan Levinson",
+        //                             style: AppTextStyle().textColor29292914w500,
+        //                           ),
+        //                         ],
+        //                       ),
+        //                       SizedBox(
+        //                         width: 20.w,
+        //                       ),
+        //                       // Container(
+        //                       //   // height: 30.h,
+        //                       //   // width: 50.w,
+        //                       //   decoration: BoxDecoration(
+        //                       //       color: ColorSelect.colorF6E3DB,
+        //                       //       borderRadius:
+        //                       //           BorderRadius.all(Radius.circular(80))),
+        //                       //   child: Center(
+        //                       //     child: Padding(
+        //                       //       padding: const EdgeInsets.all(8.0),
+        //                       //       child: Text(
+        //                       //         familyRelation,
+        //                       //         // " Wife",
+        //                       //         style: AppTextStyle().textColor29292912w400,
+        //                       //       ),
+        //                       //     ),
+        //                       //   ),
+        //                       // )
+        //                     ],
+        //                   ),
+        //                   SizedBox(
+        //                     height: 10.h,
+        //                   ),
+        //                   Text(
+        //                     familyUsername,
+        //                     // "JanLovey22",
+        //                     style: AppTextStyle().textColor70707014w400,
+        //                   )
+        //                 ],
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //
+        //         // Spacer(),
+        //         Padding(padding: const EdgeInsets.only(right: 16), child: widget),
+        //
+        //         Padding(padding: const EdgeInsets.only(right: 0), child: widget2),
+        //       ],
+        // ),
       ],
     );
   }

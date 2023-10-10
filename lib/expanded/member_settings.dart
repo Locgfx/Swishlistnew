@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -207,10 +209,18 @@ class _MemberSettingsState extends State<MemberSettings> {
                           ),
                           SizedBox(height: 20),
                           GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                Share.share('Check out SwishList on AppStore');
-                              });
+                            onTap: () async {
+                              if (Platform.isIOS) {
+                                setState(() {
+                                  Share.share(
+                                      'https://apps.apple.com/us/app/swishlist/id6447429473');
+                                });
+                              } else {
+                                setState(() {
+                                  Share.share(
+                                      'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share');
+                                });
+                              }
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(vertical: 5),

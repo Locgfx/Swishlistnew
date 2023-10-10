@@ -46,7 +46,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.locgfx.swishlist"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion flutter.targetSdkVersion
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -71,6 +71,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:32.1.0')
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation 'com.google.firebase:firebase-messaging:20.1.0'

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:swishlist/dashboard/products/productdetail.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
@@ -11,6 +10,7 @@ import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/friend_product_model.dart';
 import '../../models/login_models.dart';
+import 'new_screens/friend_product_details.dart';
 
 class FriendDonWantProducts extends StatefulWidget {
   final LoginResponse response;
@@ -162,56 +162,55 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder:
-                                                              (context) =>
-                                                                  ProductDetail(
-                                                                    response: widget
-                                                                        .response,
-                                                                    name: products!
+                                                          builder: (context) =>
+                                                              FriendProductDetail(
+                                                                response: widget
+                                                                    .response,
+                                                                name: products!
+                                                                    .data!
+                                                                    .dontWant![
+                                                                        i]
+                                                                    .name
+                                                                    .toString(),
+                                                                price: products!
+                                                                    .data!
+                                                                    .dontWant![
+                                                                        i]
+                                                                    .price
+                                                                    .toString(),
+                                                                link: products!
+                                                                    .data!
+                                                                    .dontWant![
+                                                                        i]
+                                                                    .link
+                                                                    .toString(),
+                                                                image: baseUrl +
+                                                                    products!
                                                                         .data!
                                                                         .dontWant![
                                                                             i]
-                                                                        .name
+                                                                        .photo
                                                                         .toString(),
-                                                                    price: products!
-                                                                        .data!
-                                                                        .dontWant![
-                                                                            i]
-                                                                        .price
-                                                                        .toString(),
-                                                                    link: products!
-                                                                        .data!
-                                                                        .dontWant![
-                                                                            i]
-                                                                        .link
-                                                                        .toString(),
-                                                                    image: baseUrl +
-                                                                        products!
-                                                                            .data!
-                                                                            .dontWant![i]
-                                                                            .photo
-                                                                            .toString(),
-                                                                    purchaseDate: products!
-                                                                        .data!
-                                                                        .dontWant![
-                                                                            i]
-                                                                        .purchasedDate
-                                                                        .toString(),
-                                                                    id: products!
-                                                                        .data!
-                                                                        .dontWant![
-                                                                            i]
-                                                                        .id
-                                                                        .toString(),
-                                                                    type: products!
-                                                                        .data!
-                                                                        .dontWant![
-                                                                            i]
-                                                                        .type
-                                                                        .toString(),
-                                                                    productId:
-                                                                        '',
-                                                                  )));
+                                                                purchaseDate: products!
+                                                                    .data!
+                                                                    .dontWant![
+                                                                        i]
+                                                                    .purchasedDate
+                                                                    .toString(),
+                                                                id: products!
+                                                                    .data!
+                                                                    .dontWant![
+                                                                        i]
+                                                                    .id
+                                                                    .toString(),
+                                                                type: products!
+                                                                    .data!
+                                                                    .dontWant![
+                                                                        i]
+                                                                    .type
+                                                                    .toString(),
+                                                                productId: '',
+                                                              )));
                                                 },
                                                 child: Container(
                                                   color: Colors.transparent,
@@ -313,7 +312,7 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                            .only(
+                                                                        .only(
                                                                         left:
                                                                             16),
                                                                 child: SizedBox(
@@ -340,7 +339,7 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                            .only(
+                                                                        .only(
                                                                         left:
                                                                             16),
                                                                 child: Text(
@@ -355,7 +354,7 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                            .only(
+                                                                        .only(
                                                                         left:
                                                                             16),
                                                                 child: Row(

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -35,6 +36,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
 
   List<DateModel> eventUpcoming2 = [];
   List<int> selectedItems = [];
+  bool showLoad = false;
   bool show = false;
 
   // getAllEvent() {
@@ -320,6 +322,10 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                     children: [
                                                       Expanded(
                                                         child: TextFormField(
+                                                          inputFormatters: [
+                                                            LengthLimitingTextInputFormatter(
+                                                                30),
+                                                          ],
                                                           onChanged: (v) {
                                                             setState(() {});
                                                           },
@@ -449,52 +455,79 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                 ),
                                               ),
                                               SizedBox(height: 22),
-                                              LightYellowButtonWithText(
-                                                size: 14,
-                                                onTap: () {
-                                                  if (nameController
-                                                          .text.isNotEmpty &&
-                                                      dateController
-                                                          .text.isNotEmpty) {
-                                                    postDateAndEventApi(
-                                                            name: nameController
-                                                                .text,
-                                                            date: dateFormat,
-                                                            type: "all",
-                                                            privacy: 'public')
-                                                        .then((value) async {
-                                                      if (value['status'] ==
-                                                          true) {
-                                                        Fluttertoast.showToast(
-                                                            msg: value[
-                                                                'message']);
-                                                        Navigator.pop(context);
-                                                        Navigator.pop(context);
-                                                      } else {
-                                                        Fluttertoast.showToast(
-                                                            msg:
-                                                                'Please fill all details fields');
-                                                      }
-                                                    });
-                                                  }
-                                                },
-                                                backgroundColor: (nameController
-                                                            .text.isNotEmpty &&
-                                                        dateController
-                                                            .text.isNotEmpty)
-                                                    ? MaterialStateProperty.all(
-                                                        ColorSelect.colorF7E641)
-                                                    : MaterialStateProperty.all(
-                                                        ColorSelect
-                                                            .colorFCF5B6),
-                                                textStyleColor: (nameController
-                                                            .text.isNotEmpty &&
-                                                        dateController
-                                                            .text.isNotEmpty)
-                                                    ? Colors.black
-                                                    : ColorSelect.colorB5B07A,
-                                                title: 'Save',
-                                              ),
+                                              showLoad
+                                                  ? LoadingLightYellowButton()
+                                                  : LightYellowButtonWithText(
+                                                      size: 14,
+                                                      onTap: () {
+                                                        setState(() {
+                                                          showLoad = !showLoad;
+                                                        });
+                                                        Timer timer = Timer(
+                                                            Duration(
+                                                                seconds: 2),
+                                                            () {
+                                                          setState(() {
+                                                            showLoad = false;
+                                                          });
+                                                        });
+                                                        if (nameController.text
+                                                                .isNotEmpty &&
+                                                            dateController.text
+                                                                .isNotEmpty) {
+                                                          postDateAndEventApi(
+                                                                  name:
+                                                                      nameController
+                                                                          .text,
+                                                                  date:
+                                                                      dateFormat,
+                                                                  type: "all",
+                                                                  privacy:
+                                                                      'public')
+                                                              .then(
+                                                                  (value) async {
+                                                            if (value[
+                                                                    'status'] ==
+                                                                true) {
+                                                              Fluttertoast.showToast(
+                                                                  msg: value[
+                                                                      'message']);
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Navigator.pop(
+                                                                  context);
+                                                            } else {
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                      msg:
+                                                                          'Please fill all details fields');
+                                                            }
+                                                          });
+                                                        }
+                                                      },
+                                                      backgroundColor: (nameController
+                                                                  .text
+                                                                  .isNotEmpty &&
+                                                              dateController
+                                                                  .text
+                                                                  .isNotEmpty)
+                                                          ? MaterialStateProperty
+                                                              .all(ColorSelect
+                                                                  .colorF7E641)
+                                                          : MaterialStateProperty
+                                                              .all(ColorSelect
+                                                                  .colorFCF5B6),
+                                                      textStyleColor: (nameController
+                                                                  .text
+                                                                  .isNotEmpty &&
+                                                              dateController
+                                                                  .text
+                                                                  .isNotEmpty)
+                                                          ? Colors.black
+                                                          : ColorSelect
+                                                              .colorB5B07A,
+                                                      title: 'Save',
+                                                    ),
                                             ],
                                           ),
                                         ),

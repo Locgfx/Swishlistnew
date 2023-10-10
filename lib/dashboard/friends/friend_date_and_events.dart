@@ -130,36 +130,117 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                                 ],
                               ),
                             )
-                          : ListView.builder(
+                          : ListView.separated(
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               itemCount: eventListUp.length,
                               itemBuilder: (context, i) {
-                                return Row(
-                                  children: [
-                                    Text(
-                                      eventListUp[i].name.toString(),
-                                      // "Birthday",
-                                      style:
-                                          AppTextStyle().textColor70707014w400,
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1, color: Colors.yellow),
+                                    color: Colors.grey.withOpacity(0.02),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Event : ',
+                                                  style: AppTextStyle()
+                                                      .textColor29292914w600,
+                                                ),
+                                                Text(
+                                                  eventListUp[i]
+                                                      .name
+                                                      .toString(),
+                                                  style: AppTextStyle()
+                                                      .textColor29292914w400,
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Date : ',
+                                                  style: AppTextStyle()
+                                                      .textColor29292914w600,
+                                                ),
+                                                Text(
+                                                  eventListUp[i]
+                                                      .date
+                                                      .toString(),
+                                                  style: AppTextStyle()
+                                                      .textColor29292914w400,
+                                                ),
+                                              ],
+                                            ),
+
+                                            // Row(
+                                            //   children: [
+                                            //     Text(
+                                            //       eventUpcoming!
+                                            //           .data![i].name
+                                            //           .toString(),
+                                            //       style: AppTextStyle()
+                                            //           .textColor70707014w400,
+                                            //     ),
+                                            //     Spacer(),
+                                            //     Text(
+                                            //       eventUpcoming!
+                                            //           .data![i].date
+                                            //           .toString(),
+                                            //       style: AppTextStyle()
+                                            //           .textColor29292914w400,
+                                            //     ),
+                                            //   ],
+                                            // ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                    Spacer(),
-                                    Text(
-                                      eventListUp[i].date.toString(),
-                                      // '12 July, 1988',
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ),
-                                  ],
+                                  ),
                                 );
-                              }),
+                                //   Row(
+                                //   children: [
+                                //     Text(
+                                //       eventListUp[i].name.toString(),
+                                //       // "Birthday",
+                                //       style:
+                                //           AppTextStyle().textColor70707014w400,
+                                //     ),
+                                //     Spacer(),
+                                //     Text(
+                                //       eventListUp[i].date.toString(),
+                                //       // '12 July, 1988',
+                                //       style:
+                                //           AppTextStyle().textColor29292914w400,
+                                //     ),
+                                //   ],
+                                // );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) => SizedBox(
+                                height: 10,
+                              ),
+                            ),
                       // UpcomingRowWidget(eventDate: event!,),
+                      // SizedBox(
+                      //   height: 20.h,
+                      // ),
                       SizedBox(
                         height: 20.h,
                       ),
-                      SizedBox(
-                        height: 40.h,
-                      ),
+
                       Text(
                         "All",
                         style: AppTextStyle().textColor29292914w600,
@@ -181,23 +262,78 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                               shrinkWrap: true,
                               itemCount: eventListAll.length,
                               itemBuilder: (context, i) {
-                                return Row(
-                                  children: [
-                                    Text(
-                                      eventListAll[i].name.toString(),
-                                      // "Birthday",
-                                      style:
-                                          AppTextStyle().textColor70707014w400,
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1, color: Colors.yellow),
+                                    color: Colors.grey.withOpacity(0.02),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Event : ',
+                                                  style: AppTextStyle()
+                                                      .textColor29292914w600,
+                                                ),
+                                                Text(
+                                                  eventListAll[i]
+                                                      .name
+                                                      .toString(),
+                                                  style: AppTextStyle()
+                                                      .textColor29292914w400,
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Date : ',
+                                                  style: AppTextStyle()
+                                                      .textColor29292914w600,
+                                                ),
+                                                Text(
+                                                  eventListAll[i]
+                                                      .date
+                                                      .toString(),
+                                                  style: AppTextStyle()
+                                                      .textColor29292914w400,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                    Spacer(),
-                                    Text(
-                                      eventListAll[i].date.toString(),
-                                      // '12 July, 1988',
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ),
-                                  ],
+                                  ),
                                 );
+                                //   Row(
+                                //   children: [
+                                //     Text(
+                                //       eventListAll[i].name.toString(),
+                                //       // "Birthday",
+                                //       style:
+                                //           AppTextStyle().textColor70707014w400,
+                                //     ),
+                                //     Spacer(),
+                                //     Text(
+                                //       eventListAll[i].date.toString(),
+                                //       // '12 July, 1988',
+                                //       style:
+                                //           AppTextStyle().textColor29292914w400,
+                                //     ),
+                                //   ],
+                                // );
                               }),
                     ],
                   ),

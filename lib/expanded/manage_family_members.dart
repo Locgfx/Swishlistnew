@@ -206,7 +206,8 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
         leadingWidth: 40,
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
-          child: InkWell(
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () {
               Navigator.pop(context);
             },
@@ -337,7 +338,6 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                           show[i] = false;
                                         });
                                       });
-
                                       deleteFamilyMembers(
                                               id: familyA[i].id.toString())
                                           .then((value) => {

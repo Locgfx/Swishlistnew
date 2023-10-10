@@ -155,7 +155,7 @@ class _FriendProfileState extends State<FriendProfile> {
               ),
               title: Text(
                 friendDetails.data!.name == ''
-                    ? 'no data'
+                    ? 'User'
                     : friendDetails.data!.name.toString(),
                 // 'Andy Bernard',
                 style: AppTextStyle().textColor29292920w700,
@@ -207,8 +207,12 @@ class _FriendProfileState extends State<FriendProfile> {
                             shape: BoxShape.circle,
                           ),
                           child: CachedNetworkImage(
-                            imageUrl:
-                                baseUrl + friendDetails.data!.photo.toString(),
+                            imageUrl: friendDetails.data!.photo
+                                    .toString()
+                                    .contains('http')
+                                ? friendDetails.data!.photo.toString()
+                                : baseUrl +
+                                    friendDetails.data!.photo.toString(),
                             fit: BoxFit.cover,
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
@@ -236,7 +240,9 @@ class _FriendProfileState extends State<FriendProfile> {
                         SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            friendDetails.data!.name.toString(),
+                            friendDetails.data!.name == ''
+                                ? 'User'
+                                : friendDetails.data!.name.toString(),
                             // 'Andy Bernard',
                             style: AppTextStyle().textColor29292920w700,
                           ),
@@ -251,12 +257,9 @@ class _FriendProfileState extends State<FriendProfile> {
                     SizedBox(height: 12),
                     // friendDetails!.data!.interest! == null ?
                     //     Text('Friend has no interest added yet'):
-                    elements!.isEmpty
-                        ? Text('no data')
-                        : Wrap(
-                            children:
-                                elements!.map((e) => chipBox(name: e)).toList(),
-                          ),
+                    Wrap(
+                      children: elements!.map((e) => chipBox(name: e)).toList(),
+                    ),
                     // GridView.builder(
                     //   shrinkWrap: true,
                     //   physics: NeverScrollableScrollPhysics(),

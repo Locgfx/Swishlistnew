@@ -35,6 +35,7 @@ class _FriendNotificationState extends State<FriendNotification> {
             for (var v in value['data']) {
               friendNotification.add(FriendNotificationModel.fromJson(v));
             }
+
             isLoading = false;
           });
         } else {
@@ -45,6 +46,8 @@ class _FriendNotificationState extends State<FriendNotification> {
       }
     });
   }
+
+  // final List<bool> reject = List.generate(50, (index) => false);
 
   @override
   void initState() {
@@ -117,6 +120,8 @@ class _FriendNotificationState extends State<FriendNotification> {
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, i) {
+                      // final List<bool> delete = List.generate(
+                      //     friendNotification.length, (i) => false);
                       return Column(
                         children: [
                           Container(
@@ -225,6 +230,15 @@ class _FriendNotificationState extends State<FriendNotification> {
                                 SizedBox(width: 16),
                                 GestureDetector(
                                   onTap: () {
+                                    // setState(() {
+                                    //   delete[i] = !delete[i];
+                                    // });
+                                    // Timer timer =
+                                    //     Timer(Duration(seconds: 2), () {
+                                    //   setState(() {
+                                    //     delete[i] = false;
+                                    //   });
+                                    // });
                                     updateFriendRequestApi(
                                             status: 'rejected',
                                             id: friendNotification[i]
@@ -233,9 +247,11 @@ class _FriendNotificationState extends State<FriendNotification> {
                                         .then((value) async {
                                       if (value['status'] == true) {
                                         setState(() {
-                                          isLoading
-                                              ? Loading()
-                                              : getFriendNotifications();
+                                          setState(() {
+                                            isLoading
+                                                ? Loading()
+                                                : getFriendNotifications();
+                                          });
                                         });
 
                                         Fluttertoast.showToast(
@@ -249,7 +265,13 @@ class _FriendNotificationState extends State<FriendNotification> {
                                       }
                                     });
                                   },
-                                  child: Container(
+                                  child:
+                                      // delete[i]
+                                      //     ? CircularProgressIndicator(
+                                      //         color: ColorSelect.colorF7E641,
+                                      //       )
+                                      //     :
+                                      Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),
                                       color: Colors.redAccent.withOpacity(0.65),
