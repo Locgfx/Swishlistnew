@@ -181,13 +181,9 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                                     .have![i]
                                                                     .link
                                                                     .toString(),
-                                                                image: baseUrl +
-                                                                    products!
-                                                                        .data!
-                                                                        .have![
-                                                                            i]
-                                                                        .photo
-                                                                        .toString(),
+                                                                image: products!.data!.have![i].photo.toString().contains('http')
+                                                                    ? products!.data!.have![i].photo.toString()
+                                                                    : baseUrl + products!.data!.have![i].photo.toString(),
                                                                 purchaseDate: products!
                                                                     .data!
                                                                     .have![i]

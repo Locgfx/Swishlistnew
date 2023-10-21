@@ -112,7 +112,9 @@ class _EmailVerificationState extends State<EmailVerification> {
                         //   ),
                         // );
                         Fluttertoast.showToast(
-                            msg: 'Your OTP is ${value['data']['otp']}');
+                            msg: 'Please check your mail for Otp');
+                        // Fluttertoast.showToast(
+                        //     msg: 'Your OTP is ${value['data']['otp']}');
                       } else {
                         Fluttertoast.showToast(msg: value['message']);
                       }

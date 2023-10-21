@@ -6,12 +6,11 @@ import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/dashboard/products/products_page.dart';
 import 'package:swishlist/dashboard/search/home_etsy_products.dart';
 
-import '../api/push_notification_api.dart';
 import '../constants/color.dart';
 import '../constants/globals/keys.dart';
 import '../models/login_models.dart';
-import 'activities/activities.dart';
 import 'friends/friends.dart';
+import 'notification/fcm_notification.dart';
 
 class Dashboard extends StatefulWidget {
   final LoginResponse response;
@@ -67,7 +66,7 @@ class _DashboardState extends State<Dashboard> {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString(SavedKeys().fcmToken, _fcmToken);
     print('Firebase token: $firebaseAppToken');
-    getNoticationByFCM();
+    // getNoticationByFCM();
   }
 
   @override
@@ -319,9 +318,12 @@ class _DashboardState extends State<Dashboard> {
                   //     builder: (context) => Search(),
                   //   ),
                   // ),
-                  Activities(
+                  FcmNotificationScreen(
                     response: widget.response,
                   ),
+                  // Activities(
+                  //   response: widget.response,
+                  // ),
                   ShowCaseWidget(
                     builder: Builder(
                       builder: (context) => Friends(

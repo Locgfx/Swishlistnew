@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:swishlist/constants/globals/shared_prefs.dart';
 
 import '../api/user_apis/delete_account_api.dart';
 import '../buttons/light_yellow.dart';
@@ -93,6 +94,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
                                 .then((value) async {
                               Fluttertoast.showToast(msg: value['message']);
                               if (value['status'] == true) {
+                                // SharedPrefs().clearPrefs();
+                                SharedPrefs().setLoginFalse();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -124,7 +127,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
                               response!.status == true*/
                               ) {
                             Fluttertoast.showToast(
-                                msg: 'Your OTP is ${value['data']['otp']}');
+                                msg: 'Please check your mail for Otp');
 
                             // print(pickedImage.toString());
                             // print(updateNameController.text);

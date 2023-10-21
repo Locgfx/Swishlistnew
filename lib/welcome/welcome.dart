@@ -110,21 +110,21 @@ class _WelcomeState extends State<Welcome> {
                   //   ),
                   // ),
                   SizedBox(width: 6),
-                  Expanded(
-                    child: Container(
-                        height: 48,
-                        width: 120,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            border: Border.all(
-                                width: 1, color: ColorSelect.colorA3A3A3)),
-                        child: SvgPicture.asset(
-                            "assets/icons/logos_facebook.svg",
-                            height: 20,
-                            width: 20,
-                            fit: BoxFit.scaleDown)),
-                  ),
-                  SizedBox(width: 6),
+                  // Expanded(
+                  //   child: Container(
+                  //       height: 48,
+                  //       width: 120,
+                  //       decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //           border: Border.all(
+                  //               width: 1, color: ColorSelect.colorA3A3A3)),
+                  //       child: SvgPicture.asset(
+                  //           "assets/icons/logos_facebook.svg",
+                  //           height: 20,
+                  //           width: 20,
+                  //           fit: BoxFit.scaleDown)),
+                  // ),
+                  // SizedBox(width: 6),
                   Expanded(child: GoogleSigninButton())
                   // GestureDetector(
                   //   onTap: () async {

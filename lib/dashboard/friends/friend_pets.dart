@@ -27,6 +27,21 @@ class _FPetsState extends State<FPets> {
   bool isLoading = false;
   FriendDetailsModel? friendDetails;
 
+  Future<void> _handleRefresh() async {
+    getFriendPets();
+    // Implement your refresh logic here.
+    // For example, fetch new data from an API or update some data.
+    // You can use async/await for asynchronous operations.
+
+    // For demonstration purposes, let's delay for 2 seconds.
+    await Future.delayed(Duration(seconds: 2));
+
+    // Once the refresh operation is complete, call setState to rebuild the UI.
+    setState(() {
+      // Update your data or UI state as needed.
+    });
+  }
+
   getFriendPets() {
     isLoading = true;
     var resp = friendDetailsApi(friendUserId: widget.friendId);
@@ -71,251 +86,229 @@ class _FPetsState extends State<FPets> {
       ),
       body: isLoading
           ? Loading()
-          : Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: friendDetails!.data!.pets!.isEmpty
-                  ? Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.error_outline,
-                            color: Colors.black,
-                            size: 100,
+          : RefreshIndicator(
+              backgroundColor: Colors.white,
+              color: ColorSelect.colorF7E641,
+              strokeWidth: 3,
+              onRefresh: _handleRefresh,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                  child: friendDetails!.data!.pets!.isEmpty
+                      ? Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.error_outline,
+                                color: Colors.black,
+                                size: 100,
+                              ),
+                              // Image.asset("assets/images/delivery.png",height: 100,),
+                              SizedBox(height: 5),
+                              Text(
+                                'Your Friend has No Pets yet',
+                              )
+                            ],
                           ),
-                          // Image.asset("assets/images/delivery.png",height: 100,),
-                          SizedBox(height: 5),
-                          Text(
-                            'Your Friend has No Pets yet',
-                          )
-                        ],
-                      ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: GridView.builder(
-                        scrollDirection: Axis.vertical,
-                        physics: ScrollPhysics(),
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        itemCount: friendDetails!.data!.pets!.length,
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 1,
-                          mainAxisSpacing: 10,
-                        ),
-                        itemBuilder: (ctx, i) {
-                          return GestureDetector(
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              height: 220,
-                              width: 130,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color:
-                                          // selectedItems.contains(
-                                          //     pets!
-                                          //         .data![index].id!)
-                                          //     ?
-                                          ColorSelect.colorF7E641,
-                                      // //     :
-                                      // Colors.grey,
-                                      // color: Colors.grey,
-                                      width: 1),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 20.h,
-                                  ),
-                                  Container(
-                                    height: 80,
-                                    width: 80,
-                                    clipBehavior: Clip.hardEdge,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.grey.shade200,
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: GridView.builder(
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            itemCount: friendDetails!.data!.pets!.length,
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 1,
+                              mainAxisSpacing: 10,
+                            ),
+                            itemBuilder: (ctx, i) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                height: 300,
+                                width: 130,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: ColorSelect.colorF7E641,
+
+                                        // color: Colors.grey,
+                                        width: 1),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 10.h,
                                     ),
-                                    child: CachedNetworkImage(
-                                      imageUrl: (baseUrl +
-                                          friendDetails!.data!.pets![i].photo
-                                              .toString()),
-                                      fit: BoxFit.cover,
-                                      errorWidget: (context, url, error) =>
-                                          Icon(
-                                        Icons.error,
-                                        size: 40,
-                                      ),
-                                      progressIndicatorBuilder: (a, b, c) =>
-                                          Opacity(
-                                        opacity: 0.3,
-                                        child: Shimmer.fromColors(
-                                          baseColor: Colors.black12,
-                                          highlightColor: Colors.white,
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.circle),
+                                    Center(
+                                      child: Container(
+                                        height: 80,
+                                        width: 80,
+                                        clipBehavior: Clip.hardEdge,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.grey.shade200,
+                                        ),
+                                        child: CachedNetworkImage(
+                                          imageUrl: (baseUrl +
+                                              friendDetails!
+                                                  .data!.pets![i].photo
+                                                  .toString()),
+                                          fit: BoxFit.cover,
+                                          errorWidget: (context, url, error) =>
+                                              Icon(
+                                            Icons.error,
+                                            size: 40,
+                                          ),
+                                          progressIndicatorBuilder: (a, b, c) =>
+                                              Opacity(
+                                            opacity: 0.3,
+                                            child: Shimmer.fromColors(
+                                              baseColor: Colors.black12,
+                                              highlightColor: Colors.white,
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    shape: BoxShape.circle),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  // Image.asset(pets!.data[index].photo.toString()),
-                                  SizedBox(
-                                    height: 20.h,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 16),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              friendDetails!.data!.pets![i].name
-                                                  .toString()
-                                                  .toString(),
-                                              style: AppTextStyle()
-                                                  .textColor29292914w400,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  friendDetails!
-                                                      .data!.pets![i].type
-                                                      .toString(),
-                                                  style: AppTextStyle()
-                                                      .textColor70707014w400,
-                                                ),
-                                                SizedBox(
-                                                  width: 10.w,
-                                                ),
-                                                Container(
-                                                    height: 5.h,
-                                                    width: 5.w,
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.grey,
-                                                        shape:
-                                                            BoxShape.circle)),
-                                                SizedBox(
-                                                  width: 10.w,
-                                                ),
-                                                Text(
-                                                  friendDetails!
-                                                      .data!.pets![i].origin
-                                                      .toString(),
-                                                  style: AppTextStyle()
-                                                      .textColor70707014w400,
-                                                ),
-                                              ],
-                                            )
-                                          ],
+                                    // Image.asset(pets!.data[index].photo.toString()),
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          friendDetails!.data!.pets![i].name
+                                              .toString(),
+                                          maxLines: 5,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
                                         ),
-                                      ),
-                                      Spacer(),
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(right: 10),
-                                      //   child:
-                                      //   Image.asset('assets/images/Vector175.png'),
-                                      // )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-              // Column(
-              //   children: [
-              //     ListView.separated(
-              //       itemCount: friendDetails!.data!.pets!.length,
-              //         shrinkWrap:  true,
-              //         itemBuilder: (context,i) {
-              //         return Row(
-              //           children: [
-              //             Container(
-              //               width: 52,
-              //               height: 52,
-              //               clipBehavior: Clip.hardEdge,
-              //               decoration: BoxDecoration(
-              //                 shape: BoxShape.circle,
-              //               ),
-              //               child: CachedNetworkImage(
-              //                 imageUrl: (baseUrl+friendDetails!.data!.pets![i].photo.toString()),
-              //                 fit: BoxFit.cover,
-              //                 errorWidget: (context, url, error) =>
-              //                     Icon(Icons.error,size: 40,),
-              //                 progressIndicatorBuilder:  (a,b,c) =>
-              //                     Opacity(
-              //                       opacity: 0.3,
-              //                       child: Shimmer.fromColors(
-              //                         baseColor: Colors.black12,
-              //                         highlightColor: Colors.white,
-              //                         child: Container(
-              //                           width: 50,
-              //                           height: 50,
-              //                           //margin: EdgeInsets.symmetric(horizontal: 24),
-              //                           decoration: BoxDecoration(
-              //                               color: Colors.white,
-              //                               shape: BoxShape.circle
-              //                           ),
-              //                         ),
-              //
-              //                       ),
-              //                     ),
-              //               ),
-              //             ),
-              //             SizedBox(width: 8),
-              //             Column(
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               children: [
-              //                 Text(
-              //                   friendDetails!.data!.pets![i].name.toString(),
-              //                   // 'Pet Name',
-              //                   style: AppTextStyle().textColor29292914w500,
-              //                 ),
-              //                 SizedBox(height: 5),
-              //                 Row(
-              //                   children: [
-              //                     Text(
-              //                     friendDetails!.data!.pets![i].type.toString(),
-              //                       // 'Pet Type',
-              //                       style: AppTextStyle().k84848414w400Inter,
-              //                     ),
-              //                     SizedBox(width: 8),
-              //                     Container(
-              //                       width: 4,
-              //                       height: 4,
-              //                       decoration: BoxDecoration(
-              //                         shape: BoxShape.circle,
-              //                         color: Colors.grey,
-              //                       ),
-              //                     ),
-              //                     SizedBox(width: 8),
-              //                     Text(
-              //                     friendDetails!.data!.pets![i].origin.toString(),
-              //                       // 'Pet Breed',
-              //                       style: AppTextStyle().k84848414w400Inter,
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ],
-              //             ),
-              //           ],
-              //         );
-              //         }, separatorBuilder: (BuildContext context, int index) => SizedBox(height: 20,),)
-              //
-              //   ],
-              // ),
+                                        Text(
+                                          friendDetails!.data!.pets![i].type
+                                              .toString(),
+                                          style: AppTextStyle()
+                                              .textColor70707014w400,
+                                        ),
+                                        Text(
+                                          friendDetails!.data!.pets![i].origin
+                                              .toString(),
+                                          style: AppTextStyle()
+                                              .textColor70707014w400,
+                                        ),
+                                      ],
+                                    ),
+
+                                    // Text(
+                                    //   pets!.data![index].origin
+                                    //       .toString(),
+                                    //   style: AppTextStyle()
+                                    //       .textColor70707014w400,
+                                    // ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                  // Column(
+                  //   children: [
+                  //     ListView.separated(
+                  //       itemCount: friendDetails!.data!.pets!.length,
+                  //         shrinkWrap:  true,
+                  //         itemBuilder: (context,i) {
+                  //         return Row(
+                  //           children: [
+                  //             Container(
+                  //               width: 52,
+                  //               height: 52,
+                  //               clipBehavior: Clip.hardEdge,
+                  //               decoration: BoxDecoration(
+                  //                 shape: BoxShape.circle,
+                  //               ),
+                  //               child: CachedNetworkImage(
+                  //                 imageUrl: (baseUrl+friendDetails!.data!.pets![i].photo.toString()),
+                  //                 fit: BoxFit.cover,
+                  //                 errorWidget: (context, url, error) =>
+                  //                     Icon(Icons.error,size: 40,),
+                  //                 progressIndicatorBuilder:  (a,b,c) =>
+                  //                     Opacity(
+                  //                       opacity: 0.3,
+                  //                       child: Shimmer.fromColors(
+                  //                         baseColor: Colors.black12,
+                  //                         highlightColor: Colors.white,
+                  //                         child: Container(
+                  //                           width: 50,
+                  //                           height: 50,
+                  //                           //margin: EdgeInsets.symmetric(horizontal: 24),
+                  //                           decoration: BoxDecoration(
+                  //                               color: Colors.white,
+                  //                               shape: BoxShape.circle
+                  //                           ),
+                  //                         ),
+                  //
+                  //                       ),
+                  //                     ),
+                  //               ),
+                  //             ),
+                  //             SizedBox(width: 8),
+                  //             Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 Text(
+                  //                   friendDetails!.data!.pets![i].name.toString(),
+                  //                   // 'Pet Name',
+                  //                   style: AppTextStyle().textColor29292914w500,
+                  //                 ),
+                  //                 SizedBox(height: 5),
+                  //                 Row(
+                  //                   children: [
+                  //                     Text(
+                  //                     friendDetails!.data!.pets![i].type.toString(),
+                  //                       // 'Pet Type',
+                  //                       style: AppTextStyle().k84848414w400Inter,
+                  //                     ),
+                  //                     SizedBox(width: 8),
+                  //                     Container(
+                  //                       width: 4,
+                  //                       height: 4,
+                  //                       decoration: BoxDecoration(
+                  //                         shape: BoxShape.circle,
+                  //                         color: Colors.grey,
+                  //                       ),
+                  //                     ),
+                  //                     SizedBox(width: 8),
+                  //                     Text(
+                  //                     friendDetails!.data!.pets![i].origin.toString(),
+                  //                       // 'Pet Breed',
+                  //                       style: AppTextStyle().k84848414w400Inter,
+                  //                     ),
+                  //                   ],
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ],
+                  //         );
+                  //         }, separatorBuilder: (BuildContext context, int index) => SizedBox(height: 20,),)
+                  //
+                  //   ],
+                  // ),
+                ),
+              ),
             ),
     );
   }

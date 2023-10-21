@@ -188,7 +188,7 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
                         const EdgeInsets.only(left: 16, right: 16, top: 105),
                     child: searchController.text.isEmpty
                         ? LazyLoadScrollView(
-                            isLoading: isLoading,
+                            isLoading: loading,
                             scrollDirection: Axis.vertical,
                             onEndOfPage: () {
                               if (scrollLength >= 25) {

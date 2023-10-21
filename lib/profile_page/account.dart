@@ -12,7 +12,6 @@ import '../buttons/red_button.dart';
 import '../buttons/red_text_white_color_button.dart';
 import '../buttons/white_button.dart';
 import '../models/profile_model.dart';
-import 'change_password.dart';
 import 'delete_account.dart';
 
 class Account extends StatefulWidget {
@@ -317,8 +316,10 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
                                     true /*&&
                               response!.status == true*/
                                 ) {
+                              // Fluttertoast.showToast(
+                              //     msg: 'Your OTP is ${value['data']['otp']}');
                               Fluttertoast.showToast(
-                                  msg: 'Your OTP is ${value['data']['otp']}');
+                                  msg: 'Otp Send to your mail');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

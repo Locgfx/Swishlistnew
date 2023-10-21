@@ -1,12 +1,12 @@
-class FriendProductModel {
+class FriendNonNullModel {
   int? code;
   bool? status;
   String? message;
   Data? data;
 
-  FriendProductModel({this.code, this.status, this.message, this.data});
+  FriendNonNullModel({this.code, this.status, this.message, this.data});
 
-  FriendProductModel.fromJson(Map<String, dynamic> json) {
+  FriendNonNullModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     status = json['status'];
     message = json['message'];

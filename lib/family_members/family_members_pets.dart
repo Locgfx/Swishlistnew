@@ -75,24 +75,10 @@ class _FamilyMembersPetsState extends State<FamilyMembersPets> {
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               child: familyPetsDetails!.data!.pets!.isEmpty
                   ? Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.error_outline,
-                            color: Colors.black,
-                            size: 100,
-                          ),
-                          // Image.asset("assets/images/delivery.png",height: 100,),
-                          SizedBox(height: 5),
-                          Text(
-                            'Your Friend has No Pets yet',
-                            style: AppTextStyle().textColor29292914w500,
-                          )
-                        ],
-                      ),
-                    )
+                      child: Text(
+                      'Your Friend has No Pets yet',
+                      style: AppTextStyle().textColor29292914w500,
+                    ))
                   : Padding(
                       padding: const EdgeInsets.only(bottom: 16.0),
                       child: GridView.builder(

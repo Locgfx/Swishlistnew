@@ -29,7 +29,7 @@ Future<dynamic> productStoreApi({
   request.files.add(await http.MultipartFile.fromPath('photo', photo));
   request.headers.addAll(headers);
   print(headers);
-  print(request.fields);
+  print('"checking"${request.fields}');
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   if (response.statusCode == 200) {

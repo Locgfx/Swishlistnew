@@ -11,12 +11,14 @@ import 'package:swishlist/expanded/widgets/managed_family_member_row.dart';
 import '../api/notifications/meber_notifiction_aapi.dart';
 import '../api/user_apis/family_apis.dart';
 import '../constants/globals/loading.dart';
-import '../family_members/family_member_all_details.dart';
+import '../dashboard/family/family_products.dart';
 import '../models/notification_models/member_index_model.dart';
 import '../models/notification_models/member_notification_models.dart';
 
 class ManageFamilyMembers extends StatefulWidget {
-  const ManageFamilyMembers({Key? key}) : super(key: key);
+  const ManageFamilyMembers({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ManageFamilyMembers> createState() => _ManageFamilyMembersState();
@@ -139,9 +141,10 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
   }
 
   // bool show = false;
-  final List<bool> show = List.generate(10, (index) => false);
-  final List<bool> delete = List.generate(10, (index) => false);
-  final List<bool> accept = List.generate(10, (index) => false);
+
+  final List<bool> delete = List.generate(1000, (index) => false);
+  final List<bool> accept = List.generate(1000, (index) => false);
+  final List<bool> remove = List.generate(1000, (index) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -317,25 +320,49 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => FamilyMemberDetails(
-                                        familyMemberId: familyA[i]
+                                      builder: (_) => FamilyMemberProduct(
+                                        familyName: familyA[i]
+                                            .familyMemberUser!
+                                            .name
+                                            .toString(),
+                                        familyUserName: familyA[i]
+                                            .familyMemberUser!
+                                            .name
+                                            .toString(),
+                                        familyId: familyA[i]
                                             .familyMemberUser!
                                             .id
                                             .toString(),
+                                        familyPhoto: familyA[i]
+                                            .familyMemberUser!
+                                            .photo
+                                            .toString(),
+                                        id: familyA[i].id.toString(),
                                       ),
                                     ),
                                   );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (_) => FamilyMemberDetails(
+                                  //       familyMemberId: familyA[i]
+                                  //           .familyMemberUser!
+                                  //           .id
+                                  //           .toString(),
+                                  //     ),
+                                  //   ),
+                                  // );
                                 },
                                 child: UserRowWidget(
                                   widget2: GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        show[i] = !show[i];
+                                        remove[i] = !remove[i];
                                       });
                                       Timer timer =
                                           Timer(Duration(seconds: 2), () {
                                         setState(() {
-                                          show[i] = false;
+                                          remove[i] = false;
                                         });
                                       });
                                       deleteFamilyMembers(
@@ -346,7 +373,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                                     setState(() {
                                                       isLoading
                                                           ? Loading()
-                                                          : get();
+                                                          : _handleRefresh();
                                                     }),
                                                     Fluttertoast.showToast(
                                                         msg: value['message']),
@@ -358,9 +385,9 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                                   }
                                               });
                                     },
-                                    child: show[i]
+                                    child: remove[i]
                                         ? CircularProgressIndicator(
-                                            color: ColorSelect.colorF7E641,
+                                            color: Colors.yellow,
                                           )
                                         : Container(
                                             decoration: BoxDecoration(
@@ -372,7 +399,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: Text("Delete"),
+                                              child: Text("Remove"),
                                             )),
                                   ),
                                   familyName: familyA[i]
@@ -381,7 +408,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                       .toString(),
                                   familyUsername: familyA[i]
                                       .familyMemberUser!
-                                      .email
+                                      .name
                                       .toString(),
                                   familyPhoto: familyA[i]
                                           .familyMemberUser!
@@ -441,9 +468,12 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                       SizedBox(
                         height: 20.h,
                       ),
-                      Text(
-                        "Requested",
-                        style: AppTextStyle().textColor70707012w500,
+                      GestureDetector(
+                        onTap: () {},
+                        child: Text(
+                          "Requested",
+                          style: AppTextStyle().textColor70707012w500,
+                        ),
                       ),
                       SizedBox(
                         height: 20.h,
@@ -491,9 +521,11 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                                     .toString())
                                             .then((value) async {
                                           if (value['status'] == true) {
-                                            isLoading
-                                                ? Loading()
-                                                : getRequest();
+                                            setState(() {
+                                              isLoading
+                                                  ? Loading()
+                                                  : _handleRefresh();
+                                            });
                                             // SharedPrefs().setPassword(passwordController.text);
                                             // Navigator.push(
                                             //   context,
@@ -515,17 +547,22 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                           }
                                         });
                                       },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          color: ColorSelect.colorF7E641,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text("Accept"),
-                                        ),
-                                      ),
+                                      child: accept[i]
+                                          ? CircularProgressIndicator(
+                                              color: Colors.yellow,
+                                            )
+                                          : Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                color: ColorSelect.colorF7E641,
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text("Accept"),
+                                              ),
+                                            ),
                                     ),
                                     widget2: GestureDetector(
                                       onTap: () {
@@ -572,7 +609,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                       },
                                       child: delete[i]
                                           ? CircularProgressIndicator(
-                                              color: ColorSelect.colorF7E641,
+                                              color: Colors.yellow,
                                             )
                                           : Container(
                                               decoration: BoxDecoration(
@@ -595,11 +632,20 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                         .user!
                                         .email
                                         .toString(),
-                                    familyPhoto: baseUrl +
-                                        familyRequested[i]
-                                            .user!
-                                            .username
-                                            .toString(),
+                                    familyPhoto: familyRequested[i]
+                                            .familyMember!
+                                            .photo
+                                            .toString()
+                                            .contains('http')
+                                        ? familyRequested[i]
+                                            .familyMember!
+                                            .photo
+                                            .toString()
+                                        : baseUrl +
+                                            familyRequested[i]
+                                                .familyMember!
+                                                .photo
+                                                .toString(),
                                     familyRelation:
                                         familyRequested[i].status.toString(),
                                     id: familyRequested[i].id.toString(),

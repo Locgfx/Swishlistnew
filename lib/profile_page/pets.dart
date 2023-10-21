@@ -285,7 +285,7 @@ class _PetsState extends State<Pets> {
                                         child: Container(
                                           margin: EdgeInsets.symmetric(
                                               horizontal: 5),
-                                          height: 220,
+                                          height: 300,
                                           width: 130,
                                           decoration: BoxDecoration(
                                               border: Border.all(
@@ -303,41 +303,44 @@ class _PetsState extends State<Pets> {
                                               SizedBox(
                                                 height: 20.h,
                                               ),
-                                              Container(
-                                                height: 80,
-                                                width: 80,
-                                                clipBehavior: Clip.hardEdge,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.grey.shade200,
-                                                ),
-                                                child: CachedNetworkImage(
-                                                  imageUrl: (baseUrl +
-                                                      pets!.data![index].photo
-                                                          .toString()),
-                                                  fit: BoxFit.cover,
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(
-                                                    Icons.error,
-                                                    size: 40,
+                                              Center(
+                                                child: Container(
+                                                  height: 80,
+                                                  width: 80,
+                                                  clipBehavior: Clip.hardEdge,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.grey.shade200,
                                                   ),
-                                                  progressIndicatorBuilder:
-                                                      (a, b, c) => Opacity(
-                                                    opacity: 0.3,
-                                                    child: Shimmer.fromColors(
-                                                      baseColor: Colors.black12,
-                                                      highlightColor:
-                                                          Colors.white,
-                                                      child: Container(
-                                                        width: 50,
-                                                        height: 50,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                shape: BoxShape
-                                                                    .circle),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: (baseUrl +
+                                                        pets!.data![index].photo
+                                                            .toString()),
+                                                    fit: BoxFit.cover,
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Icon(
+                                                      Icons.error,
+                                                      size: 40,
+                                                    ),
+                                                    progressIndicatorBuilder:
+                                                        (a, b, c) => Opacity(
+                                                      opacity: 0.3,
+                                                      child: Shimmer.fromColors(
+                                                        baseColor:
+                                                            Colors.black12,
+                                                        highlightColor:
+                                                            Colors.white,
+                                                        child: Container(
+                                                          width: 50,
+                                                          height: 50,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  shape: BoxShape
+                                                                      .circle),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -345,69 +348,40 @@ class _PetsState extends State<Pets> {
                                               ),
                                               // Image.asset(pets!.data[index].photo.toString()),
                                               SizedBox(
-                                                height: 20.h,
+                                                height: 10.h,
                                               ),
-                                              Row(
+                                              Column(
                                                 children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 16),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          pets!
-                                                              .data![index].name
-                                                              .toString(),
-                                                          style: AppTextStyle()
-                                                              .textColor29292914w400,
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              pets!.data![index]
-                                                                  .type
-                                                                  .toString(),
-                                                              style: AppTextStyle()
-                                                                  .textColor70707014w400,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 10.w,
-                                                            ),
-                                                            Container(
-                                                                height: 5.h,
-                                                                width: 5.w,
-                                                                decoration: BoxDecoration(
-                                                                    color: Colors
-                                                                        .grey,
-                                                                    shape: BoxShape
-                                                                        .circle)),
-                                                            SizedBox(
-                                                              width: 10.w,
-                                                            ),
-                                                            Text(
-                                                              pets!.data![index]
-                                                                  .origin
-                                                                  .toString(),
-                                                              style: AppTextStyle()
-                                                                  .textColor70707014w400,
-                                                            ),
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
+                                                  Text(
+                                                    pets!.data![index].name
+                                                        .toString(),
+                                                    maxLines: 5,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: AppTextStyle()
+                                                        .textColor29292914w400,
                                                   ),
-                                                  Spacer(),
-                                                  // Padding(
-                                                  //   padding: const EdgeInsets.only(right: 10),
-                                                  //   child:
-                                                  //   Image.asset('assets/images/Vector175.png'),
-                                                  // )
+                                                  Text(
+                                                    pets!.data![index].type
+                                                        .toString(),
+                                                    style: AppTextStyle()
+                                                        .textColor70707014w400,
+                                                  ),
+                                                  Text(
+                                                    pets!.data![index].origin
+                                                        .toString(),
+                                                    style: AppTextStyle()
+                                                        .textColor70707014w400,
+                                                  ),
                                                 ],
                                               ),
+
+                                              // Text(
+                                              //   pets!.data![index].origin
+                                              //       .toString(),
+                                              //   style: AppTextStyle()
+                                              //       .textColor70707014w400,
+                                              // ),
                                             ],
                                           ),
                                         ),

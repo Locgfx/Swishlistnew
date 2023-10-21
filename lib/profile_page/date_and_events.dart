@@ -489,13 +489,22 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                             if (value[
                                                                     'status'] ==
                                                                 true) {
+                                                              setState(() {
+                                                                showLoad =
+                                                                    false;
+
+                                                                isLoading
+                                                                    ? Loading
+                                                                    : _handleRefresh();
+                                                              });
+
                                                               Fluttertoast.showToast(
                                                                   msg: value[
                                                                       'message']);
                                                               Navigator.pop(
                                                                   context);
-                                                              Navigator.pop(
-                                                                  context);
+                                                              // Navigator.pop(
+                                                              //     context);
                                                             } else {
                                                               Fluttertoast
                                                                   .showToast(
@@ -574,29 +583,108 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                   scrollDirection: Axis.vertical,
                                   itemBuilder: (context, i) {
                                     return GestureDetector(
-                                      child: Column(
-                                        children: [
-                                          Row(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 1, color: Colors.yellow),
+                                          color: Colors.grey.withOpacity(0.02),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                eventUpcoming2[i]
-                                                    .name
-                                                    .toString(),
-                                                style: AppTextStyle()
-                                                    .textColor70707014w400,
-                                              ),
-                                              Spacer(),
-                                              Text(
-                                                eventUpcoming2[i]
-                                                    .date
-                                                    .toString(),
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'Event : ',
+                                                        style: AppTextStyle()
+                                                            .textColor29292914w600,
+                                                      ),
+                                                      Text(
+                                                        eventUpcoming2[i]
+                                                            .name
+                                                            .toString(),
+                                                        style: AppTextStyle()
+                                                            .textColor29292914w400,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'Date : ',
+                                                        style: AppTextStyle()
+                                                            .textColor29292914w600,
+                                                      ),
+                                                      Text(
+                                                        eventUpcoming2[i]
+                                                            .date
+                                                            .toString(),
+                                                        style: AppTextStyle()
+                                                            .textColor29292914w400,
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                  // Row(
+                                                  //   children: [
+                                                  //     Text(
+                                                  //       eventUpcoming!
+                                                  //           .data![i].name
+                                                  //           .toString(),
+                                                  //       style: AppTextStyle()
+                                                  //           .textColor70707014w400,
+                                                  //     ),
+                                                  //     Spacer(),
+                                                  //     Text(
+                                                  //       eventUpcoming!
+                                                  //           .data![i].date
+                                                  //           .toString(),
+                                                  //       style: AppTextStyle()
+                                                  //           .textColor29292914w400,
+                                                  //     ),
+                                                  //   ],
+                                                  // ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                        ],
+                                        ),
                                       ),
+                                      // child: Padding(
+                                      //   padding: const EdgeInsets.all(8.0),
+                                      //   child: Column(
+                                      //     children: [
+                                      //       Row(
+                                      //         children: [
+                                      //           Text(
+                                      //             eventUpcoming2[i]
+                                      //                 .name
+                                      //                 .toString(),
+                                      //             style: AppTextStyle()
+                                      //                 .textColor70707014w400,
+                                      //           ),
+                                      //           Spacer(),
+                                      //           Text(
+                                      //             eventUpcoming2[i]
+                                      //                 .date
+                                      //                 .toString(),
+                                      //             style: AppTextStyle()
+                                      //                 .textColor29292914w400,
+                                      //           ),
+                                      //         ],
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
                                     );
                                   },
                                   separatorBuilder:
@@ -634,7 +722,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                       ),
                                     )
                                   : ListView.separated(
-                                      padding: EdgeInsets.all(0),
+                                      padding: EdgeInsets.only(bottom: 16),
                                       physics: NeverScrollableScrollPhysics(),
                                       itemCount: eventUpcoming.length,
                                       // itemCount: 6,

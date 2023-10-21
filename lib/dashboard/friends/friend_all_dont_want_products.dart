@@ -184,13 +184,26 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                                         i]
                                                                     .link
                                                                     .toString(),
-                                                                image: baseUrl +
-                                                                    products!
+                                                                image: products!
                                                                         .data!
                                                                         .dontWant![
                                                                             i]
                                                                         .photo
-                                                                        .toString(),
+                                                                        .toString()
+                                                                        .contains(
+                                                                            'http')
+                                                                    ? products!
+                                                                        .data!
+                                                                        .dontWant![
+                                                                            i]
+                                                                        .photo
+                                                                        .toString()
+                                                                    : baseUrl +
+                                                                        products!
+                                                                            .data!
+                                                                            .dontWant![i]
+                                                                            .photo
+                                                                            .toString(),
                                                                 purchaseDate: products!
                                                                     .data!
                                                                     .dontWant![

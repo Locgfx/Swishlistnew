@@ -1035,7 +1035,7 @@ class _FriendProductDetailState extends State<FriendProductDetail> {
                 Row(
                   children: [
                     Text(
-                      widget.price,
+                      '\$ ${widget.price}',
                       // "47.99",
                       style: AppTextStyle().textColor29292924w700,
                     ),
@@ -1045,7 +1045,7 @@ class _FriendProductDetailState extends State<FriendProductDetail> {
                 SizedBox(height: 20.h),
                 GestureDetector(
                   onTap: () {
-                    print(widget.image.toString());
+                    print(widget.image);
                   },
                   child: Container(
                       width: 1.sw,
@@ -1056,10 +1056,11 @@ class _FriendProductDetailState extends State<FriendProductDetail> {
                           border: Border.all(
                               color: ColorSelect.colorE0E0E0, width: 1)),
                       child: CachedNetworkImage(
-                        imageUrl:
-                            wantProducts2[i].photo.toString().contains("https")
-                                ? wantProducts2[i].photo.toString()
-                                : baseUrl + wantProducts2[i].photo.toString(),
+                        imageUrl: widget.image,
+                        // wantProducts2[i].photo.toString().contains("https")
+                        //     ? wantProducts2[i].photo.toString()
+                        //     :
+                        // baseUrl + wantProducts2[i].photo.toString(),
                         // imageUrl: (baseUrl+getProducts!.data![i].photo.toString()),
                         fit: BoxFit.cover,
                         errorWidget: (context, url, error) => Icon(

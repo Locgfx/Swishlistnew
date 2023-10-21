@@ -4,13 +4,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:swishlist/models/login_models.dart';
+import 'package:swishlist/api/user_apis/auth_user_api.dart';
 
-import '../api/user_apis/auth_user_api.dart';
 import '../constants/globals/shared_prefs.dart';
 import '../dashboard/dashboard.dart';
 import '../intro/intro_page.dart';
 import '../login/login.dart';
+import '../models/login_models.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -50,6 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
     print('Firebase token: $firebaseAppToken');
     print(_fcmToken);
     //NotificationTokenApi().get();
+    // authUserApi(fcmToken: _fcmToken).then((value) async {});
   }
 
   setPage() {
@@ -90,12 +91,15 @@ class _SplashScreenState extends State<SplashScreen> {
         //   });
         // }
         if (loginBool) {
+          print('check token${SharedPrefs().getLoginToken()}');
           LoginResponse response;
-          authUserApi().then((value) async {
+          authTokenLoginApi(
+                  token: '${SharedPrefs().getLoginToken()}',
+                  fcmToken: _fcmToken)
+              .then((value) async {
             response = value;
             if (response.status == true) {
-              // SharedPrefs().setLoginToken(response.token);
-
+              SharedPrefs().setLoginToken(response.token);
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => Dashboard(response: response),

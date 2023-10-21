@@ -393,16 +393,20 @@ class _ManuallyAddState extends State<ManuallyAdd> {
                               if (networkImage.isNotEmpty ||
                                   pickedImage.isAbsolute) {
                                 productStoreApi(
-                                        type: productTypeController.text,
-                                        name: titleController.text,
-                                        link: productLinkController.text,
-                                        price: priceController.text,
-                                        purchaseDate: dateFormat,
-                                        privacyStatus: 'public',
-                                        photo: pickedImage.isAbsolute
-                                            ? pickedImage.path
-                                            : '')
-                                    .then(
+                                  name: titleController.text,
+                                  type: productTypeController.text == 'have'
+                                      ? 'have'
+                                      : productTypeController.text == 'want'
+                                          ? 'want'
+                                          : 'dont_want',
+                                  link: productLinkController.text,
+                                  price: priceController.text,
+                                  purchaseDate: dateFormat,
+                                  privacyStatus: 'public',
+                                  photo: pickedImage.isAbsolute
+                                      ? pickedImage.path
+                                      : '',
+                                ).then(
                                   (value) async {
                                     if (value['status'] == true) {
                                       setState(() {
@@ -527,7 +531,7 @@ class _ProductTypeBottomSheet extends State<ProductTypeBottomSheet> {
                     onTap: () => setState(() {
                       _gIndex = 1;
                       Navigator.of(context).pop();
-                      widget.onPop("dont_want");
+                      widget.onPop("dont want");
                     }),
                     child: Container(
                       height: 44.h,
@@ -585,7 +589,7 @@ class _ProductTypeBottomSheet extends State<ProductTypeBottomSheet> {
   void initState() {
     if (widget.productType == "have") {
       _gIndex = 0;
-    } else if (widget.productType == "dont_want") {
+    } else if (widget.productType == "dont want") {
       _gIndex = 1;
     } else {
       _gIndex = 2;

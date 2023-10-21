@@ -453,8 +453,10 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                                               40),
                                                                       suffixIcon:
                                                                           Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.only(right: 15.0),
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            right:
+                                                                                15.0),
                                                                         child: Image
                                                                             .asset(
                                                                           'assets/images/down-arrow.png',
@@ -528,9 +530,14 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                                     .text
                                                                     .isNotEmpty) {
                                                               etsyStoreApi(
-                                                                type:
-                                                                    productTypeController
-                                                                        .text,
+                                                                type: productTypeController
+                                                                            .text ==
+                                                                        'have'
+                                                                    ? 'have'
+                                                                    : productTypeController.text ==
+                                                                            'want'
+                                                                        ? 'want'
+                                                                        : 'dont_want',
                                                                 name: widget
                                                                     .productTitle,
                                                                 link: widget

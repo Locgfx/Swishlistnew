@@ -52,8 +52,18 @@ class GoogleSigninButton extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(8)),
               border: Border.all(width: 1, color: ColorSelect.colorA3A3A3)),
-          child: SvgPicture.asset("assets/icons/flat-color-icons_google.svg",
-              height: 20, width: 20, fit: BoxFit.scaleDown)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset("assets/icons/flat-color-icons_google.svg",
+                  height: 20, width: 20, fit: BoxFit.scaleDown),
+              SizedBox(width: 6),
+              Text(
+                'Sign in with Google',
+                style: AppTextStyle().textColor00000014w400,
+              ),
+            ],
+          )),
     );
   }
 }

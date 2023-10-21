@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/dashboard/friends/friend_date_and_events.dart';
-import 'package:swishlist/dashboard/friends/friend_family_page.dart';
 import 'package:swishlist/dashboard/friends/friend_favourites.dart';
 import 'package:swishlist/dashboard/friends/friend_pets.dart';
 import 'package:swishlist/dashboard/friends/friend_profile_page.dart';
@@ -136,6 +135,21 @@ class _FriendProfileState extends State<FriendProfile> {
     });
   }
 
+  Future<void> _handleRefresh() async {
+    getFriendInterest();
+    // widget.friendId;
+    getFriendProfile();
+    // Implement your refresh logic here.
+    // For example, fetch new data from an API or update some data.
+    // You can use async/await for asynchronous operations.
+    // For demonstration purposes, let's delay for 2 seconds.
+    await Future.delayed(Duration(seconds: 2));
+    // Once the refresh operation is complete, call setState to rebuild the UI.
+    setState(() {
+      // Update your data or UI state as needed.
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -188,195 +202,203 @@ class _FriendProfileState extends State<FriendProfile> {
                 // ),
               ],
             ),
-            body: SingleChildScrollView(
-              child: Container(
-                height: 1.sh,
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 30),
-                    Row(
-                      children: [
-                        Container(
-                          width: 70,
-                          height: 70,
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            shape: BoxShape.circle,
-                          ),
-                          child: CachedNetworkImage(
-                            imageUrl: friendDetails.data!.photo
-                                    .toString()
-                                    .contains('http')
-                                ? friendDetails.data!.photo.toString()
-                                : baseUrl +
-                                    friendDetails.data!.photo.toString(),
-                            fit: BoxFit.cover,
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                            progressIndicatorBuilder: (a, b, c) => Opacity(
-                              opacity: 0.3,
-                              child: Shimmer.fromColors(
-                                baseColor: Colors.black12,
-                                highlightColor: Colors.white,
-                                child: Container(
-                                  // width: 50,
-                                  // height: 50,
-                                  //margin: EdgeInsets.symmetric(horizontal: 24),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle),
+            body: RefreshIndicator(
+              backgroundColor: Colors.white,
+              color: ColorSelect.colorF7E641,
+              strokeWidth: 3,
+              onRefresh: _handleRefresh,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Container(
+                  height: 1.sh,
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 30),
+                      Row(
+                        children: [
+                          Container(
+                            width: 70,
+                            height: 70,
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              shape: BoxShape.circle,
+                            ),
+                            child: CachedNetworkImage(
+                              imageUrl: friendDetails.data!.photo
+                                      .toString()
+                                      .contains('http')
+                                  ? friendDetails.data!.photo.toString()
+                                  : baseUrl +
+                                      friendDetails.data!.photo.toString(),
+                              fit: BoxFit.cover,
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                              progressIndicatorBuilder: (a, b, c) => Opacity(
+                                opacity: 0.3,
+                                child: Shimmer.fromColors(
+                                  baseColor: Colors.black12,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    // width: 50,
+                                    // height: 50,
+                                    //margin: EdgeInsets.symmetric(horizontal: 24),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle),
+                                  ),
                                 ),
                               ),
                             ),
+                            // child: Image.asset(
+                            //   'assets/images/Rectangle319.png',
+                            //   fit: BoxFit.fill,
+                            // ),
                           ),
-                          // child: Image.asset(
-                          //   'assets/images/Rectangle319.png',
-                          //   fit: BoxFit.fill,
-                          // ),
-                        ),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            friendDetails.data!.name == ''
-                                ? 'User'
-                                : friendDetails.data!.name.toString(),
-                            // 'Andy Bernard',
-                            style: AppTextStyle().textColor29292920w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 24),
-                    Text(
-                      'Interests',
-                      style: AppTextStyle().textColor29292914w600,
-                    ),
-                    SizedBox(height: 12),
-                    // friendDetails!.data!.interest! == null ?
-                    //     Text('Friend has no interest added yet'):
-                    Wrap(
-                      children: elements!.map((e) => chipBox(name: e)).toList(),
-                    ),
-                    // GridView.builder(
-                    //   shrinkWrap: true,
-                    //   physics: NeverScrollableScrollPhysics(),
-                    //   itemCount: interestList.length,
-                    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //     crossAxisCount: 4,
-                    //     childAspectRatio: 2.1,
-                    //     mainAxisSpacing: 8,
-                    //     crossAxisSpacing: 8,
-                    //   ),
-                    //   itemBuilder: (_, i) {
-                    //     return Container(
-                    //       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-                    //       decoration: BoxDecoration(
-                    //         color: ColorSelect.colorCBE0FA,
-                    //         borderRadius: BorderRadius.circular(48),
-                    //       ),
-                    //       child: Center(
-                    //         child: Text(
-                    //           interestList[i],
-                    //           style: AppTextStyle().textColor29292913w400,
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
-                    SizedBox(height: 24),
-                    ProfileRow(
-                      icon: 'userimg',
-                      title: 'Profile',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => FProfile(
-                              friendId: widget.friendId,
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              friendDetails.data!.name == ''
+                                  ? 'User'
+                                  : friendDetails.data!.name.toString(),
+                              // 'Andy Bernard',
+                              style: AppTextStyle().textColor29292920w700,
                             ),
                           ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 36),
-                    ProfileRow(
-                      icon: 'zoomin',
-                      title: 'Sized and Weights',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => FSizesAndWeights(
-                              friendId: widget.friendId,
+                        ],
+                      ),
+                      SizedBox(height: 24),
+                      Text(
+                        'Interests',
+                        style: AppTextStyle().textColor29292914w600,
+                      ),
+                      SizedBox(height: 12),
+                      // friendDetails!.data!.interest! == null ?
+                      //     Text('Friend has no interest added yet'):
+                      Wrap(
+                        children:
+                            elements!.map((e) => chipBox(name: e)).toList(),
+                      ),
+                      // GridView.builder(
+                      //   shrinkWrap: true,
+                      //   physics: NeverScrollableScrollPhysics(),
+                      //   itemCount: interestList.length,
+                      //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      //     crossAxisCount: 4,
+                      //     childAspectRatio: 2.1,
+                      //     mainAxisSpacing: 8,
+                      //     crossAxisSpacing: 8,
+                      //   ),
+                      //   itemBuilder: (_, i) {
+                      //     return Container(
+                      //       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                      //       decoration: BoxDecoration(
+                      //         color: ColorSelect.colorCBE0FA,
+                      //         borderRadius: BorderRadius.circular(48),
+                      //       ),
+                      //       child: Center(
+                      //         child: Text(
+                      //           interestList[i],
+                      //           style: AppTextStyle().textColor29292913w400,
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
+                      SizedBox(height: 24),
+                      ProfileRow(
+                        icon: 'userimg',
+                        title: 'Profile',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => FProfile(
+                                friendId: widget.friendId,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 36),
-                    ProfileRow(
-                      icon: 'Subtract',
-                      title: 'Favourites',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => FFavourites(
-                              friendId: widget.friendId,
+                          );
+                        },
+                      ),
+                      SizedBox(height: 36),
+                      ProfileRow(
+                        icon: 'zoomin',
+                        title: 'Sized and Weights',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => FSizesAndWeights(
+                                friendId: widget.friendId,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 36),
-                    ProfileRow(
-                      icon: 'mdi_dog',
-                      title: 'Pets',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => FPets(
-                              friendId: widget.friendId,
+                          );
+                        },
+                      ),
+                      SizedBox(height: 36),
+                      ProfileRow(
+                        icon: 'Subtract',
+                        title: 'Favourites',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => FFavourites(
+                                friendId: widget.friendId,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 36),
-                    ProfileRow(
-                      icon: 'agenda1',
-                      title: 'Dates and Events',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => FDatesAndEvents(
-                              friendId: widget.friendId,
+                          );
+                        },
+                      ),
+                      SizedBox(height: 36),
+                      ProfileRow(
+                        icon: 'mdi_dog',
+                        title: 'Pets',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => FPets(
+                                friendId: widget.friendId,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 36),
-                    ProfileRow(
-                      icon: 'user',
-                      title: 'Family',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => FFamily(
-                              friendId: widget.friendId,
+                          );
+                        },
+                      ),
+                      SizedBox(height: 36),
+                      ProfileRow(
+                        icon: 'agenda1',
+                        title: 'Dates and Events',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => FDatesAndEvents(
+                                friendId: widget.friendId,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                          );
+                        },
+                      ),
+                      SizedBox(height: 36),
+                      // ProfileRow(
+                      //   icon: 'user',
+                      //   title: 'Family',
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (_) => FFamily(
+                      //           friendId: widget.friendId,
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
+                    ],
+                  ),
                 ),
               ),
             ),

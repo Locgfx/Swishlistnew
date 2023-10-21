@@ -193,13 +193,26 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                                                     .want![i]
                                                                     .link
                                                                     .toString(),
-                                                                image: baseUrl +
-                                                                    products!
+                                                                image: products!
                                                                         .data!
                                                                         .want![
                                                                             i]
                                                                         .photo
-                                                                        .toString(),
+                                                                        .toString()
+                                                                        .contains(
+                                                                            'http')
+                                                                    ? products!
+                                                                        .data!
+                                                                        .want![
+                                                                            i]
+                                                                        .photo
+                                                                        .toString()
+                                                                    : baseUrl +
+                                                                        products!
+                                                                            .data!
+                                                                            .want![i]
+                                                                            .photo
+                                                                            .toString(),
                                                                 purchaseDate: products!
                                                                     .data!
                                                                     .want![i]

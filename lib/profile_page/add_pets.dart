@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -194,6 +195,9 @@ class _AddPetsState extends State<AddPets> {
                             onChanged: (v) {
                               setState(() {});
                             },
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(15),
+                            ],
                             controller: nameController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
@@ -224,6 +228,9 @@ class _AddPetsState extends State<AddPets> {
                             onChanged: (v) {
                               setState(() {});
                             },
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(15),
+                            ],
                             controller: typeController,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -254,6 +261,9 @@ class _AddPetsState extends State<AddPets> {
                             onChanged: (v) {
                               setState(() {});
                             },
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(15),
+                            ],
                             controller: originController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(

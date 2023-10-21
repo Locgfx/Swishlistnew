@@ -15,6 +15,22 @@ class FDatesAndEvents extends StatefulWidget {
 }
 
 class _FDatesAndEventsState extends State<FDatesAndEvents> {
+  Future<void> _handleRefresh() async {
+    getAllFriendEventDetails();
+
+    // Implement your refresh logic here.
+    // For example, fetch new data from an API or update some data.
+    // You can use async/await for asynchronous operations.
+
+    // For demonstration purposes, let's delay for 2 seconds.
+    await Future.delayed(Duration(seconds: 2));
+
+    // Once the refresh operation is complete, call setState to rebuild the UI.
+    setState(() {
+      // Update your data or UI state as needed.
+    });
+  }
+
   List upcomingDetails = ['Event Name'];
   List allDetails = [
     'Birthday',
@@ -38,6 +54,8 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
     isLoading = true;
     var resp = friendDetailsApi(friendUserId: widget.friendId);
     resp.then((value) {
+      eventListAll.clear();
+      eventListUp.clear();
       if (value['status'] == true) {
         setState(() {
           friendDetails1 = FriendDetailsModel.fromJson(value);
@@ -102,240 +120,256 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
         ),
         body: isLoading
             ? Loading()
-            : SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      Text(
-                        "Upcoming",
-                        style: AppTextStyle().textColor29292914w600,
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      eventListUp.isEmpty
-                          ? Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  /*      Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                          SizedBox(height: 5),*/
-                                  Text("No upcoming event dates of friend")
-                                ],
-                              ),
-                            )
-                          : ListView.separated(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              itemCount: eventListUp.length,
-                              itemBuilder: (context, i) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1, color: Colors.yellow),
-                                    color: Colors.grey.withOpacity(0.02),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'Event : ',
-                                                  style: AppTextStyle()
-                                                      .textColor29292914w600,
-                                                ),
-                                                Text(
-                                                  eventListUp[i]
-                                                      .name
-                                                      .toString(),
-                                                  style: AppTextStyle()
-                                                      .textColor29292914w400,
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'Date : ',
-                                                  style: AppTextStyle()
-                                                      .textColor29292914w600,
-                                                ),
-                                                Text(
-                                                  eventListUp[i]
-                                                      .date
-                                                      .toString(),
-                                                  style: AppTextStyle()
-                                                      .textColor29292914w400,
-                                                ),
-                                              ],
-                                            ),
-
-                                            // Row(
-                                            //   children: [
-                                            //     Text(
-                                            //       eventUpcoming!
-                                            //           .data![i].name
-                                            //           .toString(),
-                                            //       style: AppTextStyle()
-                                            //           .textColor70707014w400,
-                                            //     ),
-                                            //     Spacer(),
-                                            //     Text(
-                                            //       eventUpcoming!
-                                            //           .data![i].date
-                                            //           .toString(),
-                                            //       style: AppTextStyle()
-                                            //           .textColor29292914w400,
-                                            //     ),
-                                            //   ],
-                                            // ),
-                                          ],
-                                        ),
-                                      ],
+            : RefreshIndicator(
+                backgroundColor: Colors.white,
+                color: ColorSelect.colorF7E641,
+                strokeWidth: 3,
+                onRefresh: _handleRefresh,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 40.h,
+                        ),
+                        Text(
+                          "Upcoming",
+                          style: AppTextStyle().textColor29292914w600,
+                        ),
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        eventListUp.isEmpty
+                            ? Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    /*      Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                            SizedBox(height: 5),*/
+                                    Text("No upcoming event dates of friend")
+                                  ],
+                                ),
+                              )
+                            : ListView.separated(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                itemCount: eventListUp.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, i) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1, color: Colors.yellow),
+                                      color: Colors.grey.withOpacity(0.02),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                  ),
-                                );
-                                //   Row(
-                                //   children: [
-                                //     Text(
-                                //       eventListUp[i].name.toString(),
-                                //       // "Birthday",
-                                //       style:
-                                //           AppTextStyle().textColor70707014w400,
-                                //     ),
-                                //     Spacer(),
-                                //     Text(
-                                //       eventListUp[i].date.toString(),
-                                //       // '12 July, 1988',
-                                //       style:
-                                //           AppTextStyle().textColor29292914w400,
-                                //     ),
-                                //   ],
-                                // );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) => SizedBox(
-                                height: 10,
-                              ),
-                            ),
-                      // UpcomingRowWidget(eventDate: event!,),
-                      // SizedBox(
-                      //   height: 20.h,
-                      // ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Event : ',
+                                                    style: AppTextStyle()
+                                                        .textColor29292914w600,
+                                                  ),
+                                                  Text(
+                                                    eventListUp[i]
+                                                        .name
+                                                        .toString(),
+                                                    style: AppTextStyle()
+                                                        .textColor29292914w400,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Date : ',
+                                                    style: AppTextStyle()
+                                                        .textColor29292914w600,
+                                                  ),
+                                                  Text(
+                                                    eventListUp[i]
+                                                        .date
+                                                        .toString(),
+                                                    style: AppTextStyle()
+                                                        .textColor29292914w400,
+                                                  ),
+                                                ],
+                                              ),
 
-                      Text(
-                        "All",
-                        style: AppTextStyle().textColor29292914w600,
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      friendDetails1!.data!.eventDate!.isEmpty
-                          ? Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("No upcoming event dates of friend")
-                                ],
-                              ),
-                            )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: eventListAll.length,
-                              itemBuilder: (context, i) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1, color: Colors.yellow),
-                                    color: Colors.grey.withOpacity(0.02),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'Event : ',
-                                                  style: AppTextStyle()
-                                                      .textColor29292914w600,
-                                                ),
-                                                Text(
-                                                  eventListAll[i]
-                                                      .name
-                                                      .toString(),
-                                                  style: AppTextStyle()
-                                                      .textColor29292914w400,
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'Date : ',
-                                                  style: AppTextStyle()
-                                                      .textColor29292914w600,
-                                                ),
-                                                Text(
-                                                  eventListAll[i]
-                                                      .date
-                                                      .toString(),
-                                                  style: AppTextStyle()
-                                                      .textColor29292914w400,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                              // Row(
+                                              //   children: [
+                                              //     Text(
+                                              //       eventUpcoming!
+                                              //           .data![i].name
+                                              //           .toString(),
+                                              //       style: AppTextStyle()
+                                              //           .textColor70707014w400,
+                                              //     ),
+                                              //     Spacer(),
+                                              //     Text(
+                                              //       eventUpcoming!
+                                              //           .data![i].date
+                                              //           .toString(),
+                                              //       style: AppTextStyle()
+                                              //           .textColor29292914w400,
+                                              //     ),
+                                              //   ],
+                                              // ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                                //   Row(
-                                //   children: [
-                                //     Text(
-                                //       eventListAll[i].name.toString(),
-                                //       // "Birthday",
-                                //       style:
-                                //           AppTextStyle().textColor70707014w400,
-                                //     ),
-                                //     Spacer(),
-                                //     Text(
-                                //       eventListAll[i].date.toString(),
-                                //       // '12 July, 1988',
-                                //       style:
-                                //           AppTextStyle().textColor29292914w400,
-                                //     ),
-                                //   ],
-                                // );
-                              }),
-                    ],
+                                  );
+                                  //   Row(
+                                  //   children: [
+                                  //     Text(
+                                  //       eventListUp[i].name.toString(),
+                                  //       // "Birthday",
+                                  //       style:
+                                  //           AppTextStyle().textColor70707014w400,
+                                  //     ),
+                                  //     Spacer(),
+                                  //     Text(
+                                  //       eventListUp[i].date.toString(),
+                                  //       // '12 July, 1988',
+                                  //       style:
+                                  //           AppTextStyle().textColor29292914w400,
+                                  //     ),
+                                  //   ],
+                                  // );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        SizedBox(
+                                  height: 10,
+                                ),
+                              ),
+                        // UpcomingRowWidget(eventDate: event!,),
+                        // SizedBox(
+                        //   height: 20.h,
+                        // ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+
+                        Text(
+                          "All",
+                          style: AppTextStyle().textColor29292914w600,
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        friendDetails1!.data!.eventDate!.isEmpty
+                            ? Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("No upcoming event dates of friend")
+                                  ],
+                                ),
+                              )
+                            : ListView.separated(
+                                padding: EdgeInsets.only(bottom: 16),
+                                shrinkWrap: true,
+                                itemCount: eventListAll.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, i) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1, color: Colors.yellow),
+                                      color: Colors.grey.withOpacity(0.02),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Event : ',
+                                                    style: AppTextStyle()
+                                                        .textColor29292914w600,
+                                                  ),
+                                                  Text(
+                                                    eventListAll[i]
+                                                        .name
+                                                        .toString(),
+                                                    style: AppTextStyle()
+                                                        .textColor29292914w400,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Date : ',
+                                                    style: AppTextStyle()
+                                                        .textColor29292914w600,
+                                                  ),
+                                                  Text(
+                                                    eventListAll[i]
+                                                        .date
+                                                        .toString(),
+                                                    style: AppTextStyle()
+                                                        .textColor29292914w400,
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                  //   Row(
+                                  //   children: [
+                                  //     Text(
+                                  //       eventListAll[i].name.toString(),
+                                  //       // "Birthday",
+                                  //       style:
+                                  //           AppTextStyle().textColor70707014w400,
+                                  //     ),
+                                  //     Spacer(),
+                                  //     Text(
+                                  //       eventListAll[i].date.toString(),
+                                  //       // '12 July, 1988',
+                                  //       style:
+                                  //           AppTextStyle().textColor29292914w400,
+                                  //     ),
+                                  //   ],
+                                  // );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        SizedBox(
+                                  height: 10,
+                                ),
+                              ),
+                      ],
+                    ),
                   ),
                 ),
               ));

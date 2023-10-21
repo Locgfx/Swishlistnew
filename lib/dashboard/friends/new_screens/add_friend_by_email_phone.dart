@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,6 +24,7 @@ class AddFriendByMailPhone extends StatefulWidget {
 class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
   final TextEditingController emailPhoneController = TextEditingController();
   bool isLoading = false;
+  bool show = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,41 +40,51 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
                   color: ColorSelect.colorF7E641,
                 ),
               )
-            : LightYellowButtonWithText(
-                backgroundColor: (emailPhoneController.text.isNotEmpty)
-                    ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                    : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                textStyleColor: (emailPhoneController.text.isNotEmpty)
-                    ? Colors.black
-                    : ColorSelect.colorB5B07A,
-                onTap: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => FriendRequestSent(
-                  //               name: emailPhoneController.text,
-                  //             )));
+            : show
+                ? LoadingLightYellowButton()
+                : LightYellowButtonWithText(
+                    backgroundColor: (emailPhoneController.text.isNotEmpty)
+                        ? MaterialStateProperty.all(ColorSelect.colorF7E641)
+                        : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
+                    textStyleColor: (emailPhoneController.text.isNotEmpty)
+                        ? Colors.black
+                        : ColorSelect.colorB5B07A,
+                    onTap: () {
+                      setState(() {
+                        show = !show;
+                      });
+                      Timer timer = Timer(Duration(seconds: 2), () {
+                        setState(() {
+                          show = false;
+                        });
+                      });
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => FriendRequestSent(
+                      //               name: emailPhoneController.text,
+                      //             )));
 
-                  if (emailPhoneController.text.isNotEmpty) {
-                    addFriendByMailPhoneApi(
-                      phoneEmail: emailPhoneController.text,
-                    ).then((value) async {
-                      if (value['status'] == true) {
-                        Fluttertoast.showToast(msg: value['message']);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FriendRequestSent(
-                                      name: emailPhoneController.text,
-                                    )));
-                      } else {
-                        Fluttertoast.showToast(msg: value['message']);
+                      if (emailPhoneController.text.isNotEmpty) {
+                        addFriendByMailPhoneApi(
+                          phoneEmail: emailPhoneController.text,
+                        ).then((value) async {
+                          if (value['status'] == true) {
+                            Fluttertoast.showToast(msg: value['message']);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FriendRequestSent(
+                                          name: emailPhoneController.text,
+                                        )));
+                          } else {
+                            Fluttertoast.showToast(msg: value['message']);
+                          }
+                        });
                       }
-                    });
-                  }
-                },
-                title: 'Send Request',
-              ),
+                    },
+                    title: 'Send Request',
+                  ),
       ),
       body: TextFieldUnFocusOnTap(
         child: SingleChildScrollView(

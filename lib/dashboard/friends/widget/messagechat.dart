@@ -169,10 +169,9 @@ class _MessageChatWidgetState extends State<MessageChatWidget> {
                                   if (sendMsgController.text.isNotEmpty) {
                                     print(widget.friendId);
                                     sendMessageApi(
-                                            sendUserid: widget.friendId,
-                                            message: sendMsgController.text,
-                                            productId: '')
-                                        .then((value) async {
+                                      sendUserid: widget.friendId,
+                                      message: sendMsgController.text,
+                                    ).then((value) async {
                                       print(widget.friendId);
                                       print(sendMsgController);
                                       if (value['status'] == true) {

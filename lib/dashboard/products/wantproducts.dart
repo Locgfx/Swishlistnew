@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/products_api.dart';
 import 'package:swishlist/dashboard/dashboard.dart';
@@ -133,25 +132,28 @@ class _WantProductsState extends State<WantProducts> {
                       });
                     }
                   },
-                  child: Container(
-                    width: 36,
-                    height: 36,
-                    color: Colors.transparent,
-                    child: Image.asset('assets/images/del.png'),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      color: Colors.transparent,
+                      child: Image.asset('assets/images/del.png'),
+                    ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Share.share(wantProduct2[0].link.toString());
-                  },
-                  child: Container(
-                    width: 36,
-                    height: 36,
-                    margin: EdgeInsets.only(right: 16, left: 16),
-                    color: Colors.transparent,
-                    child: Image.asset('assets/images/send1.png'),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     Share.share(wantProduct2[0].link.toString());
+                //   },
+                //   child: Container(
+                //     width: 36,
+                //     height: 36,
+                //     margin: EdgeInsets.only(right: 16, left: 16),
+                //     color: Colors.transparent,
+                //     child: Image.asset('assets/images/send1.png'),
+                //   ),
+                // ),
                 // GestureDetector(
                 //     onTap: () {
                 //       showDialog(
@@ -777,7 +779,7 @@ class _WantProductsState extends State<WantProducts> {
                                                           Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .only(
+                                                                    .only(
                                                                     left: 16),
                                                             child: SizedBox(
                                                               width: 230.w,
@@ -801,7 +803,7 @@ class _WantProductsState extends State<WantProducts> {
                                                           Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .only(
+                                                                    .only(
                                                                     left: 16),
                                                             child: Text(
                                                               'USD ${wantProduct2[i].price.toString()}',
@@ -816,7 +818,7 @@ class _WantProductsState extends State<WantProducts> {
                                                           Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .only(
+                                                                    .only(
                                                                     left: 16),
                                                             child: Row(
                                                               children: [

@@ -107,6 +107,7 @@ class _UserProfileState extends State<UserProfile> {
     alternateNo.text = profile!.data!.alternatePhone ?? '';
     homeController.text = profile!.data!.homeAddress ?? '';
     workController.text = profile!.data!.workAddress ?? '';
+    // pickedImage.toString() =  profile!.data!.user!.photo ?? '';
   }
 
   double dou = 00;
@@ -281,7 +282,11 @@ class _UserProfileState extends State<UserProfile> {
                       workAddress: workController.text,
                       privacyStatus: 'public',
                       id: profile!.data!.id.toString(),
-                      photo: pickedImage.isAbsolute ? pickedImage.path : '')
+                      photo: profile!.data!.user!.photo!.isEmpty
+                          ? pickedImage.isAbsolute
+                              ? pickedImage.path
+                              : ''
+                          : profile!.data!.user!.photo!)
                   .then((value) {
                 print(pickedImage);
                 if (value['status'] == true) {

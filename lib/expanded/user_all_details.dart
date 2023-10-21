@@ -316,9 +316,14 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) => Account()));
                       },
-                      child: Text(
-                        'Delete Account',
-                        style: AppTextStyle().textColor39393914w500,
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Text(
+                            'Delete Account',
+                            style: AppTextStyle().textColor39393914w500,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -333,9 +338,14 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                             MaterialPageRoute(
                                 builder: (context) => ResetPassword()));
                       },
-                      child: Text(
-                        'Change Password',
-                        style: AppTextStyle().textColor39393914w500,
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Text(
+                            'Change Password',
+                            style: AppTextStyle().textColor39393914w500,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -356,7 +366,9 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                 // ),
                 PopupMenuItem(
                   child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
+                      // SharedPrefs().clearPrefs();
                       SharedPrefs().setLoginFalse();
                       // SharedPrefs().setAppleLoginFalse();
                       // SharedPrefs().setGoogleLoginFalse();
@@ -372,9 +384,14 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                       );
                     },
                     child: ListTile(
-                      title: Text(
-                        'Log out',
-                        style: AppTextStyle().textColor39393914w500,
+                      title: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Text(
+                            'Log out',
+                            style: AppTextStyle().textColor39393914w500,
+                          ),
+                        ),
                       ),
                     ),
                   ),

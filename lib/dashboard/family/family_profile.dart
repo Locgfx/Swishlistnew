@@ -3,40 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
-import 'package:swishlist/family_members/family_members_date_events.dart';
-import 'package:swishlist/family_members/family_members_favourites.dart';
-import 'package:swishlist/family_members/family_members_pets.dart';
-import 'package:swishlist/family_members/family_members_size_weights.dart';
+import 'package:swishlist/dashboard/friends/friend_date_and_events.dart';
+import 'package:swishlist/dashboard/friends/friend_favourites.dart';
+import 'package:swishlist/dashboard/friends/friend_pets.dart';
+import 'package:swishlist/dashboard/friends/friend_profile_page.dart';
+import 'package:swishlist/dashboard/friends/friend_sizes_and_weights.dart';
+import 'package:swishlist/models/new_models/family_details_models.dart';
 
-import '../../api/user_apis/friends_api.dart';
+import '../../api/family_member_apis/family_details_api.dart';
 import '../../constants/color.dart';
 import '../../constants/urls.dart';
-import '../api/family_member_apis/family_details_api.dart';
-import '../models/new_models/family_details_models.dart';
-import 'family_members_details.dart';
+import '../../models/friends_details_model.dart';
 
-class FamilyMemberDetails extends StatefulWidget {
-  final String familyMemberId;
+class FamilyProfile extends StatefulWidget {
+  final String familyId;
   // final String friendName;
   // final String friendUserName;
-  const FamilyMemberDetails({
+  const FamilyProfile({
     Key? key,
-    required this.familyMemberId,
+    required this.familyId,
     /*  required this.friendName,
     required this.friendUserName*/
   }) : super(key: key);
 
   @override
-  State<FamilyMemberDetails> createState() => _FamilyMemberDetailsState();
+  State<FamilyProfile> createState() => _FriendProfileState();
 }
 
-class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
+class _FriendProfileState extends State<FamilyProfile> {
   @override
   void initState() {
-    getFriendInterest();
+    // getFriendInterest();
     // widget.friendId;
-    getFriendProfile();
-
+    getFamilyProfile();
+    print(widget.familyId);
     super.initState();
   }
 
@@ -49,76 +49,76 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
   // FriendDetailsModel ? friendDetails;
   FamilyDetailsModel familyDetails = FamilyDetailsModel();
 
-  FamilyDetailsModel? familyInterest;
+  FriendDetailsModel? friendInterest;
 
-  getFriendInterest() {
-    isLoading = true;
-    var resp = familyMemberUserId(familyMemberUserId: widget.familyMemberId);
-    resp.then((value) {
-      if (mounted) {
-        if (value['status'] == true) {
-          setState(() {
-            familyInterest = FamilyDetailsModel.fromJson(value);
-            elements = familyInterest!.data!.interest!.interest!.split(",");
-            if (familyDetails.data != null) {
-              if (familyDetails.data!.interest == null) {
-              } else {
-                elements = familyDetails.data!.interest!.interest!.split(",");
-              }
-            } else {
-              familyDetails = FamilyDetailsModel(
-                  data: Data(
-                id: 0,
-                name: '',
-                username: '',
-                phone: '',
-                email: '',
-                photo: '',
-                type: '',
-                profile: Profile(
-                  id: 0,
-                  userId: 0,
-                  name: '',
-                  photo: '',
-                  gender: '',
-                  dob: '',
-                  occupation: '',
-                  relationStatus: '',
-                  email: '',
-                  phone: '',
-                  alternatePhone: '',
-                  homeAddress: '',
-                  workAddress: '',
-                  privacyStatus: '',
-                  createdAt: '',
-                ),
-                sizeWeight: SizeWeight(
-                  id: 0,
-                  userId: 0,
-                  waist: '',
-                  shirt: '',
-                  shoes: '',
-                  bed: '',
-                  privacyStatus: '',
-                  createdAt: '',
-                ),
-                interest: Interest(interest: ''),
-              ));
-            }
-            isLoading = false;
-          });
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      }
-    });
-  }
+  // getFriendInterest() {
+  //   isLoading = true;
+  //   var resp = friendDetailsApi(friendUserId: widget.familyId);
+  //   resp.then((value) {
+  //     if (mounted) {
+  //       if (value['status'] == true) {
+  //         setState(() {
+  //           friendInterest = FriendDetailsModel.fromJson(value);
+  //           // elements =  friendDetails.data!.interest!.interest!.split(",");
+  //           if (friendDetails.data != null) {
+  //             if (friendDetails.data!.interest == null) {
+  //             } else {
+  //               elements = friendDetails.data!.interest!.interest!.split(",");
+  //             }
+  //           } else {
+  //             friendDetails = FriendDetailsModel(
+  //                 data: Data(
+  //               id: 0,
+  //               name: '',
+  //               username: '',
+  //               phone: '',
+  //               email: '',
+  //               photo: '',
+  //               type: '',
+  //               profile: Profile(
+  //                 id: 0,
+  //                 userId: 0,
+  //                 name: '',
+  //                 photo: '',
+  //                 gender: '',
+  //                 dob: '',
+  //                 occupation: '',
+  //                 relationStatus: '',
+  //                 email: '',
+  //                 phone: '',
+  //                 alternatePhone: '',
+  //                 homeAddress: '',
+  //                 workAddress: '',
+  //                 privacyStatus: '',
+  //                 createdAt: '',
+  //               ),
+  //               sizeWeight: SizeWeight(
+  //                 id: 0,
+  //                 userId: 0,
+  //                 waist: '',
+  //                 shirt: '',
+  //                 shoes: '',
+  //                 bed: '',
+  //                 privacyStatus: '',
+  //                 createdAt: '',
+  //               ),
+  //               interest: Interest(interest: ''),
+  //             ));
+  //           }
+  //           isLoading = false;
+  //         });
+  //       } else {
+  //         setState(() {
+  //           isLoading = false;
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
 
-  getFriendProfile() {
+  getFamilyProfile() {
     isLoading = true;
-    var resp = friendDetailsApi(friendUserId: widget.familyMemberId);
+    var resp = getFamilyDetailsApi(familyMemberId: widget.familyId);
     resp.then((value) {
       if (mounted) {
         if (value['status'] == true) {
@@ -155,7 +155,7 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
               ),
               title: Text(
                 familyDetails.data!.name == ''
-                    ? 'no data'
+                    ? 'User'
                     : familyDetails.data!.name.toString(),
                 // 'Andy Bernard',
                 style: AppTextStyle().textColor29292920w700,
@@ -207,8 +207,12 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                             shape: BoxShape.circle,
                           ),
                           child: CachedNetworkImage(
-                            imageUrl:
-                                baseUrl + familyDetails.data!.photo.toString(),
+                            imageUrl: familyDetails.data!.photo
+                                    .toString()
+                                    .contains('http')
+                                ? familyDetails.data!.photo.toString()
+                                : baseUrl +
+                                    familyDetails.data!.photo.toString(),
                             fit: BoxFit.cover,
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
@@ -236,7 +240,9 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                         SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            familyDetails.data!.name.toString(),
+                            familyDetails.data!.name == ''
+                                ? 'User'
+                                : familyDetails.data!.name.toString(),
                             // 'Andy Bernard',
                             style: AppTextStyle().textColor29292920w700,
                           ),
@@ -251,12 +257,9 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                     SizedBox(height: 12),
                     // friendDetails!.data!.interest! == null ?
                     //     Text('Friend has no interest added yet'):
-                    elements!.isEmpty || elements == null
-                        ? Text('No data')
-                        : Wrap(
-                            children:
-                                elements!.map((e) => chipBox(name: e)).toList(),
-                          ),
+                    Wrap(
+                      children: elements!.map((e) => chipBox(name: e)).toList(),
+                    ),
                     // GridView.builder(
                     //   shrinkWrap: true,
                     //   physics: NeverScrollableScrollPhysics(),
@@ -291,8 +294,8 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => FamilyMemberProfile(
-                              friendId: widget.familyMemberId,
+                            builder: (_) => FProfile(
+                              friendId: widget.familyId,
                             ),
                           ),
                         );
@@ -306,8 +309,8 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => FamilySizesAndWeights(
-                              friendId: widget.familyMemberId,
+                            builder: (_) => FSizesAndWeights(
+                              friendId: widget.familyId,
                             ),
                           ),
                         );
@@ -321,8 +324,8 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => FamilyMemberFavourites(
-                              friendId: widget.familyMemberId,
+                            builder: (_) => FFavourites(
+                              friendId: widget.familyId,
                             ),
                           ),
                         );
@@ -336,8 +339,8 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => FamilyMembersPets(
-                              friendId: widget.familyMemberId,
+                            builder: (_) => FPets(
+                              friendId: widget.familyId,
                             ),
                           ),
                         );
@@ -351,8 +354,8 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => FamilyDatesAndEvents(
-                              friendId: widget.familyMemberId,
+                            builder: (_) => FDatesAndEvents(
+                              friendId: widget.familyId,
                             ),
                           ),
                         );
@@ -367,7 +370,7 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                     //       context,
                     //       MaterialPageRoute(
                     //         builder: (_) => FFamily(
-                    //           friendId: widget.friendId,
+                    //           friendId: widget.familyId,
                     //         ),
                     //       ),
                     //     );

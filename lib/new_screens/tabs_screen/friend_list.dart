@@ -30,7 +30,6 @@ class _FriendListState extends State<FriendList> {
   bool isLoading = false;
   getFriends() {
     isLoading = true;
-    // friendList.clear();
     var resp = getFriendsApi();
     resp.then((value) {
       if (mounted) {

@@ -9,7 +9,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/color.dart';
 import '../models/login_models.dart';
-import '../profile_page/privacy.dart';
 import 'notifications.dart';
 
 class MemberSettings extends StatefulWidget {
@@ -131,31 +130,31 @@ class _MemberSettingsState extends State<MemberSettings> {
                             ),
                           ),
                           SizedBox(height: 20),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => Privacy(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 5),
-                              color: Colors.transparent,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Privacy",
-                                    style: AppTextStyle().textColor39393914w500,
-                                  ),
-                                  Spacer(),
-                                  SvgPicture.asset(
-                                      "assets/icons/forwordarrow.svg")
-                                ],
-                              ),
-                            ),
-                          )
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //         builder: (_) => Privacy(),
+                          //       ),
+                          //     );
+                          //   },
+                          //   child: Container(
+                          //     padding: EdgeInsets.symmetric(vertical: 5),
+                          //     color: Colors.transparent,
+                          //     child: Row(
+                          //       children: [
+                          //         Text(
+                          //           "Privacy",
+                          //           style: AppTextStyle().textColor39393914w500,
+                          //         ),
+                          //         Spacer(),
+                          //         SvgPicture.asset(
+                          //             "assets/icons/forwordarrow.svg")
+                          //       ],
+                          //     ),
+                          //   ),
+                          // )
                         ],
                       ),
                     ),

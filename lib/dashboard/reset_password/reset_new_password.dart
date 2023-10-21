@@ -1,13 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:swishlist/login/login.dart';
 
+import '../../api/reset_pass_api.dart';
 import '../../buttons/light_yellow.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/globals.dart';
+import '../../constants/globals/shared_prefs.dart';
 import '../../signup/widgets/text_term_widget.dart';
 
 class ResetNewPassword extends StatefulWidget {
-  const ResetNewPassword({Key? key}) : super(key: key);
+  final String email;
+  const ResetNewPassword({
+    Key? key,
+    required this.email,
+  }) : super(key: key);
 
   @override
   State<ResetNewPassword> createState() => _ResetNewPasswordState();
@@ -43,6 +53,8 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
     // validate all the form fields
     if (_formKey.currentState!.validate()) {}
   }
+
+  bool show = false;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +106,6 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                       },
                       controller: passwordController,
                       decoration: InputDecoration(
-                        errorText: _errorText,
                         suffixIcon: InkWell(
                           onTap: _toggle,
                           child: Padding(
@@ -120,15 +131,48 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                 ),
                 SizedBox(
                   height: 52,
-                  child: LightYellowButtonWithText(
-                      backgroundColor: (passwordController.text.isNotEmpty)
-                          ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                          : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                      textStyleColor: (passwordController.text.isNotEmpty)
-                          ? Colors.black
-                          : ColorSelect.colorB5B07A,
-                      onTap: () {},
-                      title: 'Done'),
+                  child: passwordController.text.isEmpty
+                      ? LightYellowButtonWithText(
+                          backgroundColor: MaterialStateProperty.all(
+                              ColorSelect.colorFCF5B6),
+                          textStyleColor: ColorSelect.colorB5B07A,
+                          onTap: () {},
+                          title: 'Please Enter password')
+                      : show
+                          ? LoadingLightYellowButton()
+                          : LightYellowButtonWithText(
+                              backgroundColor: MaterialStateProperty.all(
+                                  ColorSelect.colorF7E641),
+                              textStyleColor: Colors.black,
+                              onTap: () {
+                                setState(() {
+                                  show = !show;
+                                });
+                                Timer timer = Timer(Duration(seconds: 2), () {
+                                  setState(() {
+                                    show = false;
+                                  });
+                                });
+                                resetNewpApi(
+                                        email: SharedPrefs()
+                                            .getChangeEmail()
+                                            .toString(),
+                                        password: passwordController.text)
+                                    .then((value) async {
+                                  if (value['status'] == true) {
+                                    // SharedPrefs().clearPrefs();
+                                    SharedPrefs().setLoginFalse();
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) => Login()),
+                                    );
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: value['message']);
+                                  }
+                                });
+                              },
+                              title: 'Done'),
                 ),
               ],
             ),

@@ -9,6 +9,7 @@ class SharedPrefs {
   String gToken = 'gtoken';
   String aToken = 'atoken';
   String emailKey = 'email';
+  String changeEmailKey = 'email';
   String passwordKey = 'password';
   String name = 'name';
   String username = 'username';
@@ -22,6 +23,7 @@ class SharedPrefs {
   String pets = 'pets';
   String dateAndEvent = 'date';
   String userId = 'userId';
+
   static SharedPreferences? _prefs;
 
   Future setPPercent(String percent) async {
@@ -134,6 +136,14 @@ class SharedPrefs {
 
   Future setEmail(String email) async {
     return await _prefs?.setString(emailKey, email);
+  }
+
+  String? getChangeEmail() {
+    return _prefs?.getString(changeEmailKey);
+  }
+
+  Future setChangeEmail(String email) async {
+    return await _prefs?.setString(changeEmailKey, email);
   }
 
   Future setPhone(String phoneNO) async {

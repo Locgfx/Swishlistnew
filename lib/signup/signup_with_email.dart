@@ -151,8 +151,10 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                                     );
                                     print(passwordController.text);
                                     Fluttertoast.showToast(
-                                        msg:
-                                            'Your OTP is ${value['data']['otp']}');
+                                        msg: 'Please check your mail for Otp');
+                                    // Fluttertoast.showToast(
+                                    //     msg:
+                                    //         'Your OTP is ${value['data']['otp']}');
 
                                     // SharedPrefs().setPassword(passwordController.toString());
                                     // print(SharedPrefs().setPassword(passwordController.toString()));

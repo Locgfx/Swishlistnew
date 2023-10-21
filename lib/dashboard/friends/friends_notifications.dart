@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,6 +48,9 @@ class _FriendNotificationState extends State<FriendNotification> {
       }
     });
   }
+
+  final List<bool> delete = List.generate(1000, (index) => false);
+  final List<bool> accept = List.generate(1000, (index) => false);
 
   // final List<bool> reject = List.generate(50, (index) => false);
 
@@ -137,11 +142,20 @@ class _FriendNotificationState extends State<FriendNotification> {
                                   ),
                                   clipBehavior: Clip.hardEdge,
                                   child: CachedNetworkImage(
-                                    imageUrl: baseUrl +
-                                        friendNotification[i]
+                                    imageUrl: friendNotification[i]
                                             .user!
                                             .photo
-                                            .toString(),
+                                            .toString()
+                                            .contains('http')
+                                        ? friendNotification[i]
+                                            .user!
+                                            .photo
+                                            .toString()
+                                        : baseUrl +
+                                            friendNotification[i]
+                                                .user!
+                                                .photo
+                                                .toString(),
                                     fit: BoxFit.cover,
                                     errorWidget: (context, url, error) =>
                                         Icon(Icons.error),
@@ -195,6 +209,15 @@ class _FriendNotificationState extends State<FriendNotification> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
+                                    setState(() {
+                                      accept[i] = !accept[i];
+                                    });
+                                    Timer timer =
+                                        Timer(Duration(seconds: 2), () {
+                                      setState(() {
+                                        accept[i] = false;
+                                      });
+                                    });
                                     updateFriendRequestApi(
                                             status: 'accepted',
                                             id: friendNotification[i]
@@ -216,20 +239,34 @@ class _FriendNotificationState extends State<FriendNotification> {
                                       }
                                     });
                                   },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: ColorSelect.colorF7E641,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("Accept"),
-                                    ),
-                                  ),
+                                  child: accept[i]
+                                      ? CircularProgressIndicator(
+                                          color: ColorSelect.colorF7E641,
+                                        )
+                                      : Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            color: ColorSelect.colorF7E641,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text("Accept"),
+                                          ),
+                                        ),
                                 ),
                                 SizedBox(width: 16),
                                 GestureDetector(
                                   onTap: () {
+                                    setState(() {
+                                      delete[i] = !delete[i];
+                                    });
+                                    Timer timer =
+                                        Timer(Duration(seconds: 2), () {
+                                      setState(() {
+                                        delete[i] = false;
+                                      });
+                                    });
                                     // setState(() {
                                     //   delete[i] = !delete[i];
                                     // });
@@ -265,22 +302,22 @@ class _FriendNotificationState extends State<FriendNotification> {
                                       }
                                     });
                                   },
-                                  child:
-                                      // delete[i]
-                                      //     ? CircularProgressIndicator(
-                                      //         color: ColorSelect.colorF7E641,
-                                      //       )
-                                      //     :
-                                      Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: Colors.redAccent.withOpacity(0.65),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("Reject"),
-                                    ),
-                                  ),
+                                  child: delete[i]
+                                      ? CircularProgressIndicator(
+                                          color: ColorSelect.colorF7E641,
+                                        )
+                                      : Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            color: Colors.redAccent
+                                                .withOpacity(0.65),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text("Reject"),
+                                          ),
+                                        ),
                                 ),
                                 // Container(
                                 //   decoration: BoxDecoration(

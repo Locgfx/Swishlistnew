@@ -516,6 +516,20 @@ class _ProductsPageState extends State<ProductsPage> {
                                 //         ),
                                 //       )
                                 //     :
+                                // Padding(
+                                //   padding: const EdgeInsets.only(right: 4.0),
+                                //   child: GestureDetector(
+                                //     onTap: () {},
+                                //     child: Container(
+                                //         // color: Colors.red,
+                                //         height: 48,
+                                //         width: 48,
+                                //         padding: EdgeInsets.all(8),
+                                //         child:
+                                //             Icon(Icons.shopping_bag_rounded)),
+                                //   ),
+                                // ),
+
                                 Showcase(
                                   key: _first,
                                   description: 'Share profile with others',
@@ -574,7 +588,7 @@ class _ProductsPageState extends State<ProductsPage> {
                           duration: Duration(milliseconds: 500),
                           curve: Curves.fastOutSlowIn,
                           width: 1.sw,
-                          height: showExpandedScreen ? 300.h : 0,
+                          height: showExpandedScreen ? 220.h : 0,
                           decoration: BoxDecoration(
                             color: Colors.white,
                           ),

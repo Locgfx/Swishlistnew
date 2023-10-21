@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -51,6 +53,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
 
   String _selectedText = 'father';
   final TextEditingController emailPhoneController = TextEditingController();
+  bool show = false;
 
   @override
   Widget build(BuildContext context) {
@@ -66,40 +69,50 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
                   color: ColorSelect.colorF7E641,
                 ),
               )
-            : LightYellowButtonWithText(
-                backgroundColor: (emailPhoneController.text.isNotEmpty &&
-                        _selectedText.isNotEmpty)
-                    ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                    : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                textStyleColor: (emailPhoneController.text.isNotEmpty &&
-                        _selectedText.isNotEmpty)
-                    ? Colors.black
-                    : ColorSelect.colorB5B07A,
-                onTap: () {
-                  print(memberId.text);
-                  if (emailPhoneController.text.isNotEmpty) {
-                    postFamilyMemberApi(
-                      relation: _selectedText,
-                      status: 'requested',
-                      privacy: "public",
-                      familyMemberMail: emailPhoneController.text,
-                    ).then((value) async {
-                      if (value['status'] == true) {
-                        Fluttertoast.showToast(msg: value['message']);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RequestSent(
-                                      name: emailPhoneController.text,
-                                    )));
-                      } else {
-                        Fluttertoast.showToast(msg: value['message']);
+            : show
+                ? LoadingLightYellowButton()
+                : LightYellowButtonWithText(
+                    backgroundColor: (emailPhoneController.text.isNotEmpty &&
+                            _selectedText.isNotEmpty)
+                        ? MaterialStateProperty.all(ColorSelect.colorF7E641)
+                        : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
+                    textStyleColor: (emailPhoneController.text.isNotEmpty &&
+                            _selectedText.isNotEmpty)
+                        ? Colors.black
+                        : ColorSelect.colorB5B07A,
+                    onTap: () {
+                      setState(() {
+                        show = !show;
+                      });
+                      Timer timer = Timer(Duration(seconds: 3), () {
+                        setState(() {
+                          show = false;
+                        });
+                      });
+                      print(memberId.text);
+                      if (emailPhoneController.text.isNotEmpty) {
+                        postFamilyMemberApi(
+                          relation: _selectedText,
+                          status: 'requested',
+                          privacy: "public",
+                          familyMemberMail: emailPhoneController.text,
+                        ).then((value) async {
+                          if (value['status'] == true) {
+                            Fluttertoast.showToast(msg: value['message']);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RequestSent(
+                                          name: emailPhoneController.text,
+                                        )));
+                          } else {
+                            Fluttertoast.showToast(msg: value['message']);
+                          }
+                        });
                       }
-                    });
-                  }
-                },
-                title: 'Add Family Member',
-              ),
+                    },
+                    title: 'Add Family Member',
+                  ),
       ),
       body: TextFieldUnFocusOnTap(
         child: SingleChildScrollView(

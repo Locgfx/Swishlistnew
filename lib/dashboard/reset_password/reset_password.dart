@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/dashboard/reset_password/reset_password_otp.dart';
 
-import '../../api/login_signup_apis/reset_password_api.dart';
+import '../../api/reset_pass_api.dart';
 import '../../buttons/light_yellow.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/globals.dart';
-import '../../constants/globals/shared_prefs.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({Key? key}) : super(key: key);
@@ -106,7 +106,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                               ColorSelect.colorFCF5B6),
                           textStyleColor: ColorSelect.colorB5B07A,
                           onTap: () {},
-                          title: 'Next')
+                          title: 'Please Enter Email')
                       : show
                           ? LoadingLightYellowButton()
                           : LightYellowButtonWithText(
@@ -123,20 +123,20 @@ class _ResetPasswordState extends State<ResetPassword> {
                                   });
                                 });
                                 if (emailController.text.isNotEmpty) {
-                                  resetPassGenerateOtpApi(
-                                          emailPhone: emailController.text)
+                                  resetPassApi(email: emailController.text)
                                       .then((value) async {
                                     if (value['status'] == true) {
                                       SharedPrefs()
-                                          .setEmail(emailController.text);
+                                          .setChangeEmail(emailController.text);
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ResetPasswordOtp()),
+                                                ResetPasswordOtp(
+                                                  email: emailController.text,
+                                                )),
                                       );
                                       Fluttertoast.showToast(
-                                          msg:
-                                              'Your OTP is ${value['data']['otp']}');
+                                          msg: 'Otp Send to your mail');
                                     } else {
                                       Fluttertoast.showToast(
                                           msg: value['message']);

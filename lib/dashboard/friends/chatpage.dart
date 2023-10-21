@@ -288,7 +288,7 @@ class _ChatPageState extends State<ChatPage> {
                                                           child: Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     horizontal:
                                                                         16),
                                                             child: Column(
@@ -399,13 +399,12 @@ class _ChatPageState extends State<ChatPage> {
                                                         .text.isNotEmpty) {
                                                       print(widget.friendId);
                                                       sendMessageApi(
-                                                              sendUserid: widget
-                                                                  .friendId,
-                                                              message:
-                                                                  sendMsgController
-                                                                      .text,
-                                                              productId: '')
-                                                          .then((value) async {
+                                                        sendUserid:
+                                                            widget.friendId,
+                                                        message:
+                                                            sendMsgController
+                                                                .text,
+                                                      ).then((value) async {
                                                         print(widget.friendId);
                                                         print(
                                                             sendMsgController);

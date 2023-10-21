@@ -1,21 +1,64 @@
-import 'package:flutter/material.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:swishlist/constants/globals/shared_prefs.dart';
+import 'package:swishlist/dashboard/reset_password/reset_new_password.dart';
+
+import '../../api/reset_pass_api.dart';
 import '../../buttons/light_yellow.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/globals.dart';
 import '../../signup/widgets/text_term_widget.dart';
 
 class ResetPasswordOtp extends StatefulWidget {
-  const ResetPasswordOtp({Key? key}) : super(key: key);
+  final String email;
+  const ResetPasswordOtp({Key? key, required this.email}) : super(key: key);
 
   @override
   State<ResetPasswordOtp> createState() => _ResetPasswordOtpState();
 }
 
 class _ResetPasswordOtpState extends State<ResetPasswordOtp> {
+  @override
+  void initState() {
+    _startTimer();
+    super.initState();
+  }
+
+  bool show = false;
+
   final emailController = TextEditingController();
   final otpController = TextEditingController();
+
+  Timer? _timer;
+  int _start = 60;
+
+  _startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFieldUnFocusOnTap(
@@ -88,51 +131,101 @@ class _ResetPasswordOtpState extends State<ResetPasswordOtp> {
                 ),
                 SizedBox(
                   height: 52,
-                  child: LightYellowButtonWithText(
-                      backgroundColor: (otpController.text.isNotEmpty)
-                          ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                          : MaterialStateProperty.all(ColorSelect.colorFCF5B6),
-                      textStyleColor: (otpController.text.isNotEmpty)
-                          ? Colors.black
-                          : ColorSelect.colorB5B07A,
-                      onTap: () {
-                        // resetPassValidateOtpApi(
-                        //         emailPhone: emailController.text,
-                        //         otp: otpController.text,
-                        //         password: conPassController.text)
-                        //     .then((value) {
-                        //   if (value['status'] == true) {
-                        //     Navigator.of(context).pushReplacement(
-                        //       MaterialPageRoute(
-                        //           builder: (context) => ResetNewPassword()),
-                        //     );
-                        //     // details.onStepContinue!();
-                        //     Fluttertoast.showToast(msg: value['message']);
-                        //   } else {
-                        //     Fluttertoast.showToast(msg: value['message']);
-                        //   }
-                        // });
-                      },
-                      title: 'Next'),
+                  child: otpController.text.isEmpty
+                      ? LightYellowButtonWithText(
+                          backgroundColor: MaterialStateProperty.all(
+                              ColorSelect.colorFCF5B6),
+                          textStyleColor: ColorSelect.colorB5B07A,
+                          onTap: () {},
+                          title: 'Please Enter OTP')
+                      : show
+                          ? LoadingLightYellowButton()
+                          : LightYellowButtonWithText(
+                              backgroundColor: MaterialStateProperty.all(
+                                  ColorSelect.colorF7E641),
+                              textStyleColor: Colors.black,
+                              onTap: () {
+                                setState(() {
+                                  show = !show;
+                                });
+                                Timer timer = Timer(Duration(seconds: 2), () {
+                                  setState(() {
+                                    show = false;
+                                  });
+                                });
+                                resetPassOtpApi(
+                                  email:
+                                      SharedPrefs().getChangeEmail().toString(),
+                                  otp: otpController.text,
+                                ).then((value) {
+                                  if (value['status'] == true) {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ResetNewPassword(
+                                                email: widget.email,
+                                              )),
+                                    );
+                                    // details.onStepContinue!();
+                                    Fluttertoast.showToast(
+                                        msg: value['message']);
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: value['message']);
+                                  }
+                                });
+                              },
+                              title: 'Next'),
                 ),
                 SizedBox(
-                  height: 42,
+                  height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Resend",
-                      style: AppTextStyle().roboto29292914w500,
+                GestureDetector(
+                  onTap: _start == 0
+                      ? () {
+                          setState(() {
+                            _start = 60;
+                          });
+
+                          resetPassApi(
+                                  email:
+                                      SharedPrefs().getChangeEmail().toString())
+                              .then((value) async {
+                            if (value['status'] == true) {
+                              // Navigator.of(context).pushReplacement(
+                              //   MaterialPageRoute(
+                              //       builder: (context) => ResetPasswordOtp(
+                              //             email: emailController.text,
+                              //           )),
+                              // );
+                              // Fluttertoast.showToast(
+                              //     msg: 'Your OTP is ${value['data']['otp']}');
+                            } else {
+                              Fluttertoast.showToast(msg: value['message']);
+                            }
+                          });
+                        }
+                      : () {},
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    // color: Colors.redAccent,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Resend",
+                          style: AppTextStyle().roboto29292914w500,
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          "${_start} sec",
+                          style: AppTextStyle().robotocolor70707014w400,
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    Text(
-                      "30 sec",
-                      style: AppTextStyle().robotocolor70707014w400,
-                    ),
-                  ],
+                  ),
                 )
               ],
             ),
