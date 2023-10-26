@@ -489,7 +489,7 @@ class _SearchState extends State<Search> {
                                                       height: 8.0,
                                                     ),
                                                     Text(
-                                                      ' USD ${searchListings[i].price!.amount.toString()}',
+                                                      ' \$ ${searchListings[i].price!.amount.toString()}',
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style: AppTextStyle()

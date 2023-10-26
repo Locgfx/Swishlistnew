@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:path_provider/path_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,6 +39,8 @@ class _UserProfileState extends State<UserProfile> {
   void initState() {
     getProfile();
     print(profile!.data!.name!.toString());
+    downloadAndSaveImage();
+
     super.initState();
   }
 
@@ -96,6 +98,20 @@ class _UserProfileState extends State<UserProfile> {
     });
   }
 
+  late String localImagePath;
+
+  Future<void> downloadAndSaveImage() async {
+    final documentDirectory = await getApplicationDocumentsDirectory();
+    final filePath = '${documentDirectory.path}/image.png';
+    File file = File(filePath);
+    await file.writeAsString(profile!.data!.user!.photo.toString());
+    if (mounted) {
+      setState(() {
+        localImagePath = filePath;
+      });
+    }
+  }
+
   void fields() {
     nameController.text = profile!.data!.name ?? '';
     genderController.text = profile!.data!.gender ?? '';
@@ -107,7 +123,8 @@ class _UserProfileState extends State<UserProfile> {
     alternateNo.text = profile!.data!.alternatePhone ?? '';
     homeController.text = profile!.data!.homeAddress ?? '';
     workController.text = profile!.data!.workAddress ?? '';
-    // pickedImage.toString() =  profile!.data!.user!.photo ?? '';
+   // pickedImage.toString() =  profile!.data!.user!.photo ?? '';
+    //pickedImage = File(pickedImage.path ?? '');
   }
 
   double dou = 00;
@@ -154,7 +171,9 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   File pickedImage = File("");
+
   final ImagePicker _imgPicker = ImagePicker();
+
   String networkImage = '';
   final nameController = TextEditingController();
   final genderController = TextEditingController();
@@ -1244,6 +1263,7 @@ class _UserProfileState extends State<UserProfile> {
                                         ColorSelect.colorF7E641),
                                     textStyleColor: Colors.black,
                                     onTap: () {
+                                      //print(localImagePath);
                                       postProfile(
                                         name: nameController.text,
                                         gender: genderController.text,
@@ -1256,10 +1276,14 @@ class _UserProfileState extends State<UserProfile> {
                                         homeAddress: homeController.text,
                                         workAddress: workController.text,
                                         privacyStatus: 'public',
-                                        photo: pickedImage.isAbsolute
-                                            ? pickedImage.path
-                                            : '',
+                                        photo:
+                                        localImagePath
+
+                                        // pickedImage.path.isEmpty
+                                        //     ? pickedImage.path
+                                        //     : localImagePath,
                                       ).then(
+
                                         (value) async {
                                           if (value['status'] == true) {
                                             SharedPrefs().setPPercent('100 %');

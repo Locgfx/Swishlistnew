@@ -86,7 +86,8 @@ class _LoginState extends State<Login> {
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: 24),
                           border: InputBorder.none,
-                          hintText: "Enter phone number/email",
+                          hintText: "Enter email"
+                          // "Enter phone number/email",
                         ),
                       ),
                     ),
@@ -221,6 +222,7 @@ class _LoginState extends State<Login> {
                           },
                           title: 'Next'),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.only(top: 30, bottom: 20),
                   child: Text(

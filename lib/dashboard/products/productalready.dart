@@ -285,6 +285,8 @@ class _ProductAlreadyState extends State<ProductAlready> {
                                       shrinkWrap: true,
                                       // scrollDirection: Axis.vertical,
                                       itemBuilder: (context, i) {
+                                        double price = double.tryParse(haveProducts2[i].price.toString()) ?? 0.0;
+                                        double normalizedPercent = price / 100.0;
                                         return Padding(
                                           padding:
                                               const EdgeInsets.only(top: 16),
@@ -500,7 +502,7 @@ class _ProductAlreadyState extends State<ProductAlready> {
                                                                     .only(
                                                                     left: 16),
                                                             child: Text(
-                                                              'USD ${haveProducts2[i].price.toString()}',
+                                                              '\$ ${normalizedPercent.toString()}',
                                                               // haveProducts2[i].price.toString(),
                                                               // getProducts!.data![i].price.toString(),
                                                               // "47.99",

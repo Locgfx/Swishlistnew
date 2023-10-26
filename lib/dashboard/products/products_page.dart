@@ -22,12 +22,14 @@ import 'package:swishlist/expanded/member_settings.dart';
 import 'package:swishlist/expanded/user_all_details.dart';
 import 'package:swishlist/expanded/widgets/expanded_section_row_option.dart';
 
+import '../../api/user_apis/friends_api.dart';
 import '../../api/user_apis/products_api.dart';
 import '../../api/user_apis/profile_apis.dart';
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/globals.dart';
 import '../../constants/globals/loading.dart';
+import '../../models/friend_notification_model.dart';
 import '../../models/login_models.dart';
 import '../../models/product_model.dart';
 import '../../models/product_type_model.dart';
@@ -49,6 +51,8 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
+
+
   LoginResponse? response;
 
   bool showBox = true;
@@ -76,6 +80,8 @@ class _ProductsPageState extends State<ProductsPage> {
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
   final GlobalKey _first = GlobalKey();
   final GlobalKey _second = GlobalKey();
   final GlobalKey _third = GlobalKey();
@@ -100,6 +106,9 @@ class _ProductsPageState extends State<ProductsPage> {
 
     super.initState();
   }
+
+
+
 
   Future<bool> _isFirstLaunch() async {
     final sharedPreferences = await SharedPreferences.getInstance();
@@ -248,6 +257,29 @@ class _ProductsPageState extends State<ProductsPage> {
       } else {
         isLoading = false;
         setState(() {});
+      }
+    });
+  }
+  List<FriendNotificationModel> friendNotification = [];
+  getFriendNotifications() {
+    isLoading = true;
+    var resp = getFriendNotificationApi();
+    resp.then((value) {
+      friendNotification.clear();
+      if (mounted) {
+        if (value['status'] == true) {
+          setState(() {
+            for (var v in value['data']) {
+              friendNotification.add(FriendNotificationModel.fromJson(v));
+            }
+
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+        }
       }
     });
   }
@@ -532,7 +564,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
                                 Showcase(
                                   key: _first,
-                                  description: 'Share profile with others',
+                                  description: 'Share your profile with others',
                                   child: GestureDetector(
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () async {
@@ -817,30 +849,33 @@ class _ProductsPageState extends State<ProductsPage> {
                           SizedBox(
                             width: 16,
                           ),
-                          Showcase(
-                            targetPadding: EdgeInsets.all(8),
-                            key: _third,
-                            description: "This is for add products manually",
-                            child: GestureDetector(
-                              onTap: () {
-                                showModalBottomSheet(
-                                    backgroundColor: Colors.transparent,
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (context) {
-                                      return ManuallyAddBottomSheetWidget(
-                                        productType:
-                                            'want', /*model: widget.model,*/
-                                      );
-                                    });
-                              },
-                              child: Container(
-                                height: 36,
-                                width: 36,
-                                decoration: BoxDecoration(
-                                    color: ColorSelect.colorF7E641,
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Center(child: Icon(Icons.add)),
+                          Center(
+                            child: Showcase(
+                              descriptionAlignment: TextAlign.justify,
+                              targetPadding: EdgeInsets.all(8),
+                              key: _third,
+                              description: "Add products manually with links from Amazon and other websites",
+                              child: GestureDetector(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      backgroundColor: Colors.transparent,
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (context) {
+                                        return ManuallyAddBottomSheetWidget(
+                                          productType:
+                                              'want', /*model: widget.model,*/
+                                        );
+                                      });
+                                },
+                                child: Container(
+                                  height: 36,
+                                  width: 36,
+                                  decoration: BoxDecoration(
+                                      color: ColorSelect.colorF7E641,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Center(child: Icon(Icons.add)),
+                                ),
                               ),
                             ),
                           ),
@@ -903,6 +938,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                       itemCount: wantProducts2.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
+                                        double price = double.tryParse(wantProducts2[i].price.toString()) ?? 0.0;
+                                        double normalizedPercent = price / 100.0;
                                         return Container(
                                           color: Colors.transparent,
                                           child: Column(
@@ -1066,7 +1103,9 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
-                                                    'USD ${wantProducts2[i].price.toString()}',
+                                                    '\$ ${normalizedPercent.toString()}',
+
+                                                    // '\$ ${wantProducts2[i].price.toString()}',
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,
                                                   ),
@@ -1168,6 +1207,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                       itemCount: notWant2.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
+                                        double price = double.tryParse(notWant2[i].price.toString()) ?? 0.0;
+                                        double normalizedPercent = price / 100.0;
                                         return Container(
                                           color: Colors.transparent,
                                           child: Column(
@@ -1324,7 +1365,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
-                                                    'USD ${notWant2[i].price.toString()}',
+                                                    '\$ ${normalizedPercent.toString()}',
+                                                    // '\$ ${notWant2[i].price.toString()}',
                                                     // widget.itemPrice[i],
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,
@@ -1425,6 +1467,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                       itemCount: haveProducts2.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
+                                        double price = double.tryParse(haveProducts2[i].price.toString()) ?? 0.0;
+                                        double normalizedPercent = price / 100.0;
                                         return Container(
                                           color: Colors.transparent,
                                           child: Column(
@@ -1580,7 +1624,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
-                                                    'USD ${haveProducts2[i].price.toString()}',
+                                                    '\$ ${normalizedPercent.toString()}',
+                                                    // '\$ ${haveProducts2[i].price.toString()}',
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,
                                                   ),
@@ -1800,7 +1845,7 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 16),
                                 child: Text(
-                                  'USD ${haveProducts2[i].price.toString()}',
+                                  '\$ ${haveProducts2[i].price.toString()}',
                                   style: AppTextStyle().textColor29292914w500,
                                 ),
                               ),
@@ -1882,7 +1927,8 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                   ),
                   Showcase(
                     key: widget.second,
-                    description: "this is for add products manually",
+                    description: "Add products manually with links from Amazon and other websites",
+                    //"this is for add products manually",
                     child:
                         // Positioned(
                         //   top: 800,
@@ -2050,7 +2096,7 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 16),
                                 child: Text(
-                                  'USD ${wantProducts2[i].price.toString()}',
+                                  '\$ ${wantProducts2[i].price.toString()}',
                                   style: AppTextStyle().textColor29292914w500,
                                 ),
                               ),
@@ -2255,7 +2301,7 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 16),
                                 child: Text(
-                                  'USD ${notWant2[i].price.toString()}',
+                                  '\$ ${notWant2[i].price.toString()}',
                                   // widget.itemPrice[i],
                                   style: AppTextStyle().textColor29292914w500,
                                 ),

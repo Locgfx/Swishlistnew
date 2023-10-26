@@ -317,6 +317,7 @@ class _ChatPageState extends State<ChatPage> {
                                                                     Text(
                                                                       "Products I Want",
                                                                       style: AppTextStyle()
+
                                                                           .textColor29292914w500,
                                                                     ),
                                                                     SizedBox(

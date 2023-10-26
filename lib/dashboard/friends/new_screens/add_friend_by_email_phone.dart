@@ -1,15 +1,26 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+// import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/friend_apis/add_friend_api.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 
+import '../../../api/user_apis/contact_api.dart';
+import '../../../api/user_apis/friends_api.dart';
+import '../../../buttons/yellow_button.dart';
+import '../../../constants/urls.dart';
+import '../../../models/contact_model.dart';
 import 'friend_request_send.dart';
 
 class AddFriendByMailPhone extends StatefulWidget {
@@ -22,9 +33,82 @@ class AddFriendByMailPhone extends StatefulWidget {
 }
 
 class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
+
+
+  @override
+  void initState() {
+    loadContacts();
+    super.initState();
+  }
   final TextEditingController emailPhoneController = TextEditingController();
   bool isLoading = false;
   bool show = false;
+
+
+
+  List<String> phNo = [];
+  List<ModelContact> friendList = [];
+  final searchController = TextEditingController();
+
+  contact() {
+    isLoading = true;
+    var resp = getContactApi(contacts: phNo);
+    resp.then((value) {
+      if (mounted) {
+        if (value['status'] == true) {
+          setState(() {
+            for (var v in value['data']) {
+              friendList.add(ModelContact.fromJson(v));
+            }
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
+    });
+  }
+
+  List<Contact> _contacts = const [];
+  String? _text;
+
+  bool _isLoading = false;
+
+  final _ctrl = ScrollController();
+
+  Future<void> loadContacts() async {
+    try {
+      await Permission.contacts.request();
+      _isLoading = true;
+      if (mounted) setState(() {});
+      // phNo.clear();
+      final sw = Stopwatch()..start();
+      _contacts = await FastContacts.getAllContacts();
+      for (var v in _contacts) {
+        for (var q in v.phones) {
+          var h = q.number.replaceAll('-', '').replaceAll(" ", "");
+          phNo.add(h);
+          // phNo.add(q.number);
+        }
+      }
+
+      contact();
+      sw.stop();
+      _text =
+      'Contacts: ${_contacts.length}\nTook: ${sw.elapsedMilliseconds}ms';
+    } on PlatformException catch (e) {
+      _text = 'Failed to get contacts:\n${e.details}';
+    } finally {
+      _isLoading = false;
+    }
+    if (!mounted) return;
+    setState(() {});
+  }
+
+  final TextEditingController _controller = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +117,16 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
       bottomNavigationBar: Container(
         height: 52.h,
         margin: EdgeInsets.symmetric(horizontal: 16, vertical: 25),
-        child: isLoading
-            ? Center(
-                child: LoadingAnimationWidget.waveDots(
-                  size: 40,
-                  color: ColorSelect.colorF7E641,
-                ),
-              )
-            : show
+        child:
+        // isLoading
+            // ? Center(
+            //     child: LoadingAnimationWidget.waveDots(
+            //       size: 40,
+            //       color: ColorSelect.colorF7E641,
+            //     ),
+            //   )
+            // :
+        show
                 ? LoadingLightYellowButton()
                 : LightYellowButtonWithText(
                     backgroundColor: (emailPhoneController.text.isNotEmpty)
@@ -103,16 +189,41 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
                 ),
                 leadingWidth: 40,
                 leading: Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: InkWell(
+                  padding: const EdgeInsets.only(left: 00),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: SvgPicture.asset(
-                      "assets/icons/arrowback.svg",
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20),
+                      // color: Colors.red,
+                      child: SvgPicture.asset(
+                        "assets/icons/arrowback.svg",
+                      ),
                     ),
                   ),
                 ),
+                // actions: [
+                //   Padding(
+                //     padding: const EdgeInsets.only(right: 16.0),
+                //     child: GestureDetector(
+                //       onTap: () {
+                //         // setState(() {
+                //         //   loadContacts();
+                //         // });
+                //       },
+                //       child: Container(
+                //         child: Center(
+                //           child: Text(
+                //             "Sync Contacts",
+                //             style: AppTextStyle().textColor29292916w500,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   )
+                // ],
               ),
               SizedBox(height: 40),
               Text(
@@ -154,6 +265,133 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
                     ),
                   ),
                 ),
+              ),
+              isLoading ?
+                  Padding(
+                    padding: const EdgeInsets.only(top: 60.0),
+                    child: Column(
+                      children: [
+                        Text("Please wait while contact syncing"),
+                        SizedBox(height: 10,),
+                        LoadingAnimationWidget.staggeredDotsWave(
+                          size: 40,
+                          color: ColorSelect.colorF7E641,
+                        )
+                      ],
+                    ),
+                  )
+              :
+              ListView.separated(
+                shrinkWrap: true,
+                itemCount: friendList.length,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, i) {
+                  return ListTile(
+                      leading: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey.shade200,
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                        child: CachedNetworkImage(
+                          imageUrl: baseUrl +
+                              friendList[i]
+                                  .photo
+                                  .toString(),
+                          // imageUrl: baseUrl+contactModel.data![i].photo.toString(),
+                          fit: BoxFit.cover,
+                          errorWidget:
+                              (context, url, error) =>
+                              Icon(Icons.error),
+                          progressIndicatorBuilder:
+                              (a, b, c) => Opacity(
+                            opacity: 0.3,
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.black12,
+                              highlightColor: Colors.white,
+                              child: Container(
+                                width: 50,
+                                height: 50,
+                                //margin: EdgeInsets.symmetric(horizontal: 24),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      title: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                friendList[i]
+                                    .name
+                                    .toString(),
+                              ),
+                              Text(friendList[i]
+                                  .phone
+                                  .toString()),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                right: 10),
+                            child: SizedBox(
+                              width: 70,
+                              height: 36,
+                              child: YellowButtonWithText(
+                                backgroundColor:
+                                MaterialStateProperty
+                                    .all(ColorSelect
+                                    .colorF7E641),
+                                textStyleColor:
+                                ColorSelect.color292929,
+                                title: 'Add',
+                                onTap: () {
+                                  addFriendApi(
+                                      friendsId:
+                                      friendList[i]
+                                          .id
+                                          .toString(),
+                                      status:
+                                      'requested')
+                                      .then((value) {
+                                    print(value);
+                                    if (value['status'] ==
+                                        true) {
+                                      setState(() {
+                                        Fluttertoast.showToast(
+                                            msg: value[
+                                            'message']);
+                                      });
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: value[
+                                          'message']);
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      // subtitle: Text(num),
+                      onTap: () {});
+                },
+                separatorBuilder:
+                    (BuildContext context, int index) =>
+                    SizedBox(
+                      height: 10,
+                    ),
               ),
               // Container(
               //   margin: EdgeInsets.symmetric(horizontal: 16),

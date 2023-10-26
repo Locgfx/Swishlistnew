@@ -97,6 +97,7 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                         children: [
                           Expanded(
                             child: Text(
+
                                 /*  widget.isUser ? "I want" : */ "${widget.friendName} does not Wants",
                                 maxLines: 2,
                                 style: AppTextStyle().textColor29292924w700),

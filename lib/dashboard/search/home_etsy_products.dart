@@ -153,6 +153,11 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
     super.dispose();
   }
 
+  double normalizedPercent = 0.0;
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return TextFieldUnFocusOnTap(
@@ -219,6 +224,7 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
                                   itemCount: listings.length + 1,
                                   itemBuilder: (_, i) {
                                     if (i < listings.length) {
+                                      normalizedPercent = listings[i].price!.amount! / 100.00 ;
                                       return GestureDetector(
                                         onTap: () {
                                           Navigator.push(
@@ -325,7 +331,9 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
                                                       height: 8.0,
                                                     ),
                                                     Text(
-                                                      ' USD ${listings[i].price!.amount.toString()}',
+                                                      // normalizedPercent.toString(),
+                                                      '\$ ${normalizedPercent } ',
+                                                      // ' \$ ${listings[i].price!.amount.toString()}',
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style: AppTextStyle()

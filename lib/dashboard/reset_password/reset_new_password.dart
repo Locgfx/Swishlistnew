@@ -24,7 +24,12 @@ class ResetNewPassword extends StatefulWidget {
 }
 
 class _ResetNewPasswordState extends State<ResetNewPassword> {
+
+
   final passwordController = TextEditingController();
+
+  final _confirmPasswordController = TextEditingController();
+
 
   bool _obscureText = true;
   void _toggle() {
@@ -49,12 +54,13 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
   }
 
   final _formKey = GlobalKey<FormState>();
-  void _submit() {
-    // validate all the form fields
-    if (_formKey.currentState!.validate()) {}
-  }
+  // void _submit() {
+  //   // validate all the form fields
+  //   if (_formKey.currentState!.validate()) {}
+  // }
 
   bool show = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -86,10 +92,16 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                 SizedBox(
                   height: 88,
                 ),
-                Text(
-                  'Enter your password',
-                  style: AppTextStyle().textColor29292916w500,
-                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Enter a new password',
+                        style: AppTextStyle().textColor29292916w500,
+                      ),
+
                 SizedBox(height: 24),
                 Container(
                   width: 1.sw,
@@ -99,7 +111,16 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                       borderRadius: BorderRadius.all(Radius.circular(8))),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20),
-                    child: TextField(
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a value';
+                        }
+
+                        return null;
+                      },
+
+
                       obscureText: _obscureText,
                       onChanged: (v) {
                         setState(() {});
@@ -121,17 +142,76 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                           maxWidth: 40,
                         ),
                         border: InputBorder.none,
-                        hintText: "Password",
+                        hintText: "New Password",
                       ),
                     ),
                   ),
                 ),
+
+                SizedBox(height: 24),
+
+                Text(
+                  'Confirm your new password',
+                  style: AppTextStyle().textColor29292916w500,
+                ),
+                SizedBox(height: 24),
+                Container(
+                  width: 1.sw,
+                  height: 52,
+                  decoration: BoxDecoration(
+                      color: ColorSelect.colorEDEDF1,
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a value';
+                        }
+
+                        return null;
+                      },
+                      obscureText: _obscureText,
+                      onChanged: (v) {
+                        setState(() {});
+                      },
+                      controller: _confirmPasswordController,
+                      decoration: InputDecoration(
+                        suffixIcon: InkWell(
+                          onTap: _toggle,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 14),
+                            child: Image(
+                                image: AssetImage(_obscureText
+                                    ? 'assets/icons/eye-disable.png'
+                                    : 'assets/icons/eye.png')),
+                          ),
+                        ),
+                        suffixIconConstraints: BoxConstraints(
+                          maxHeight: 40,
+                          maxWidth: 40,
+                        ),
+                        border: InputBorder.none,
+                        hintText: "Confirm New Password",
+                      ),
+                    ),
+                  ),
+                )
+                    ],
+                  ),
+                ),
+
+
+
+                // SizedBox(
+                //   height: 24,
+                // ),
                 SizedBox(
                   height: 24,
                 ),
                 SizedBox(
                   height: 52,
-                  child: passwordController.text.isEmpty
+                  child: passwordController.text.isEmpty || _confirmPasswordController.text.isEmpty
                       ? LightYellowButtonWithText(
                           backgroundColor: MaterialStateProperty.all(
                               ColorSelect.colorFCF5B6),
@@ -145,6 +225,9 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                                   ColorSelect.colorF7E641),
                               textStyleColor: Colors.black,
                               onTap: () {
+                                if(_formKey.currentState!.validate()){
+
+
                                 setState(() {
                                   show = !show;
                                 });
@@ -153,24 +236,33 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                                     show = false;
                                   });
                                 });
-                                resetNewpApi(
-                                        email: SharedPrefs()
-                                            .getChangeEmail()
-                                            .toString(),
-                                        password: passwordController.text)
-                                    .then((value) async {
-                                  if (value['status'] == true) {
+                                if (passwordController.text != _confirmPasswordController.text) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Passwords do not match')),
+                                  );
+                                }else{
+                                  resetNewpApi(
+                                      email: SharedPrefs()
+                                          .getChangeEmail()
+                                          .toString(),
+                                      password: passwordController.text)
+                                      .then((value) async {
+                                    if (value['status'] == true) {
                                     // SharedPrefs().clearPrefs();
-                                    SharedPrefs().setLoginFalse();
+                                    //c  SharedPrefs().setLoginFalse();
                                     Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) => Login()),
+                                    MaterialPageRoute(
+                                    builder: (context) => Login()),
                                     );
-                                  } else {
+                                    } else {
                                     Fluttertoast.showToast(
-                                        msg: value['message']);
-                                  }
-                                });
+                                    msg: value['message']);
+                                    }
+
+                                  });
+                                }
+
+                                }
                               },
                               title: 'Done'),
                 ),

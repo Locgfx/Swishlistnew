@@ -14,6 +14,7 @@ import '../../buttons/light_yellow.dart';
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../models/etsy_image_model.dart';
+import '../../models/etsy_listingid_model.dart';
 import '../../models/etsy_load_more_model.dart';
 import '../products/manuallyadd.dart';
 
@@ -23,6 +24,7 @@ class EtsyProductDetails extends StatefulWidget {
   final String productPrice;
   final String productUrl;
   final String productDescription;
+
 
   const EtsyProductDetails({
     Key? key,
@@ -42,12 +44,19 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
   @override
   void initState() {
     getImages();
+
+
     super.initState();
   }
+
+
 
   EtsyImagesModel? imageModel;
   bool isLoading = false;
   EtsyLoadMoreModel? etsyDetails;
+
+  // double normalizedPercent = 0.0;
+  // double inputNumber = double.tryParse(widget.productPrice) ?? 0.0;
 
   getImages() {
     isLoading = true;
@@ -68,6 +77,9 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
 
   @override
   Widget build(BuildContext context) {
+    // normalizedPercent =  / 100.00;
+    double price = double.tryParse(widget.productPrice) ?? 0.0;
+    double normalizedPercent = price / 100.0;
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -134,7 +146,10 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                     Row(
                       children: [
                         Text(
-                          'USD ${widget.productPrice}',
+                        // normalizedPercent.toString(),
+                          '\$ ${normalizedPercent.toString()}',
+
+                          // '\$ ${widget.productPrice}',
                           style: AppTextStyle().textColor29292924w700,
                         ),
                       ],

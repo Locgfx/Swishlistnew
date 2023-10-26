@@ -324,7 +324,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                                       height: 8.0,
                                                     ),
                                                     Text(
-                                                      ' USD ${listings[i].price!.amount.toString()}',
+                                                      ' \$ ${listings[i].price!.amount.toString()}',
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style: AppTextStyle()

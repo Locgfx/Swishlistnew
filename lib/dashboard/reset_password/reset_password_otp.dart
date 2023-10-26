@@ -33,26 +33,54 @@ class _ResetPasswordOtpState extends State<ResetPasswordOtp> {
   final otpController = TextEditingController();
 
   Timer? _timer;
-  int _start = 60;
+  //int _start = 300;
 
-  _startTimer() {
-    const oneSec = Duration(seconds: 1);
-    _timer = Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_start == 0) {
-          setState(() {
-            timer.cancel();
-          });
+  int _remainingMinutes = 5;
+  int _remainingSeconds = 0;
+
+  // _startTimer() {
+  //
+  //   const oneMinute = const Duration(minutes: 1);
+  //   _timer = Timer.periodic(
+  //     oneMinute,
+  //     (Timer timer) {
+  //       setState(() {
+  //         if (_remainingMinutes > 0) {
+  //           _remainingMinutes--;
+  //         } else {
+  //           timer.cancel();
+  //           // Handle timer completion, e.g., re-enable the "Resend OTP" button
+  //         }
+  //       });
+  //     },
+  //   );
+  // }
+
+
+  _startTimer(){
+    const oneSecond = const Duration(seconds: 1);
+    _timer = Timer.periodic(oneSecond, (timer) {
+      setState(() {
+        if (_remainingSeconds > 0) {
+          _remainingSeconds--;
+        } else if (_remainingMinutes > 0) {
+          _remainingMinutes--;
+          _remainingSeconds = 59;
         } else {
-          setState(() {
-            _start--;
-          });
+          timer.cancel();
+
         }
-      },
-    );
+      });
+    });
   }
 
+
+  String formatTime() {
+
+    String minutes = _remainingMinutes.toString().padLeft(2, '0');
+    String seconds = _remainingSeconds.toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
   @override
   void dispose() {
     _timer?.cancel();
@@ -181,11 +209,18 @@ class _ResetPasswordOtpState extends State<ResetPasswordOtp> {
                   height: 10,
                 ),
                 GestureDetector(
-                  onTap: _start == 0
-                      ? () {
-                          setState(() {
-                            _start = 60;
-                          });
+                  onTap: (){
+
+                    setState(() {
+                      _remainingMinutes = 5;
+                      _remainingSeconds = 0;
+                    });
+                    _startTimer();
+                    // _remainingMinutes == 0
+                  //     ? () {
+                  //         setState(() {
+                  //           _remainingMinutes = 5;
+                  //         });
 
                           resetPassApi(
                                   email:
@@ -204,8 +239,8 @@ class _ResetPasswordOtpState extends State<ResetPasswordOtp> {
                               Fluttertoast.showToast(msg: value['message']);
                             }
                           });
-                        }
-                      : () {},
+                        },
+                     // : () {},
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 16),
                     // color: Colors.redAccent,
@@ -220,7 +255,7 @@ class _ResetPasswordOtpState extends State<ResetPasswordOtp> {
                           width: 4,
                         ),
                         Text(
-                          "${_start} sec",
+                          formatTime(),
                           style: AppTextStyle().robotocolor70707014w400,
                         ),
                       ],

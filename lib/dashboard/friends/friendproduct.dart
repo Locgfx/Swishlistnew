@@ -704,7 +704,7 @@ class _FriendProductState extends State<FriendProduct> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
-                                                    'USD ${products!.data!.want![i].price.toString()}',
+                                                    '\$ ${products!.data!.want![i].price.toString()}',
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,
                                                   ),
@@ -748,6 +748,7 @@ class _FriendProductState extends State<FriendProduct> {
                                     color: Colors.transparent,
                                     child: Text(
                                       'View All',
+
                                       style:
                                           AppTextStyle().textColor29292914w500,
                                     ),
@@ -957,7 +958,7 @@ class _FriendProductState extends State<FriendProduct> {
                                                             const EdgeInsets
                                                                 .only(left: 16),
                                                         child: Text(
-                                                          'USD ${products!.data!.dontWant![i].price.toString()}',
+                                                          '\$ ${products!.data!.dontWant![i].price.toString()}',
                                                           style: AppTextStyle()
                                                               .textColor29292914w500,
                                                         ),
@@ -1205,7 +1206,7 @@ class _FriendProductState extends State<FriendProduct> {
                                                             const EdgeInsets
                                                                 .only(left: 16),
                                                         child: Text(
-                                                          'USD ${products!.data!.have![i].price.toString()}',
+                                                          '\$ ${products!.data!.have![i].price.toString()}',
                                                           style: AppTextStyle()
                                                               .textColor29292914w500,
                                                         ),

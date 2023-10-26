@@ -255,6 +255,8 @@ class _ProductdontwantState extends State<Productdontwant> {
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
                                       itemBuilder: (context, i) {
+                                        double price = double.tryParse(notWantTwo[i].price.toString()) ?? 0.0;
+                                        double normalizedPercent = price / 100.0;
                                         return Padding(
                                           padding:
                                               const EdgeInsets.only(top: 16),
@@ -466,7 +468,7 @@ class _ProductdontwantState extends State<Productdontwant> {
                                                                     .only(
                                                                     left: 16),
                                                             child: Text(
-                                                              'USD ${notWantTwo[i].price.toString()}',
+                                                              '\$ ${normalizedPercent.toString()}',
                                                               // notWantTwo[i].price.toString(),
                                                               // "47.99",
                                                               style: AppTextStyle()
