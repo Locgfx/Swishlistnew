@@ -285,8 +285,13 @@ class _ProductAlreadyState extends State<ProductAlready> {
                                       shrinkWrap: true,
                                       // scrollDirection: Axis.vertical,
                                       itemBuilder: (context, i) {
-                                        double price = double.tryParse(haveProducts2[i].price.toString()) ?? 0.0;
-                                        double normalizedPercent = price / 100.0;
+                                        double price = double.tryParse(
+                                                haveProducts2[i]
+                                                    .price
+                                                    .toString()) ??
+                                            0.0;
+                                        double normalizedPercent =
+                                            price / 100.0;
                                         return Padding(
                                           padding:
                                               const EdgeInsets.only(top: 16),
@@ -304,47 +309,46 @@ class _ProductAlreadyState extends State<ProductAlready> {
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ProductDetail(
-                                                              response: widget
-                                                                  .response,
-                                                              name: haveProducts2[
-                                                                      i]
-                                                                  .name
-                                                                  .toString(),
-                                                              price:
-                                                                  haveProducts2[
+                                                        builder:
+                                                            (context) =>
+                                                                ProductDetail(
+                                                                  response: widget
+                                                                      .response,
+                                                                  name: haveProducts2[
+                                                                          i]
+                                                                      .name
+                                                                      .toString(),
+                                                                  price: haveProducts2[
                                                                           i]
                                                                       .price
                                                                       .toString(),
-                                                              link: haveProducts2[
-                                                                      i]
-                                                                  .link
-                                                                  .toString(),
-                                                              image: baseUrl +
-                                                                  haveProducts2[
+                                                                  link: haveProducts2[
+                                                                          i]
+                                                                      .link
+                                                                      .toString(),
+                                                                  image: haveProducts2[
                                                                           i]
                                                                       .photo
                                                                       .toString(),
-                                                              purchaseDate:
-                                                                  haveProducts2[
-                                                                          i]
-                                                                      .purchasedDate
-                                                                      .toString(),
-                                                              id: haveProducts2[
-                                                                      i]
-                                                                  .id
-                                                                  .toString(),
-                                                              type: haveProducts2[
-                                                                      i]
-                                                                  .type
-                                                                  .toString(),
-                                                              productId:
-                                                                  haveProducts2[
+                                                                  purchaseDate:
+                                                                      haveProducts2[
+                                                                              i]
+                                                                          .purchasedDate
+                                                                          .toString(),
+                                                                  id: haveProducts2[
                                                                           i]
                                                                       .id
                                                                       .toString(),
-                                                            )));
+                                                                  type: haveProducts2[
+                                                                          i]
+                                                                      .type
+                                                                      .toString(),
+                                                                  productId:
+                                                                      haveProducts2[
+                                                                              i]
+                                                                          .id
+                                                                          .toString(),
+                                                                )));
                                               } else {
                                                 if (selectedItems.contains(
                                                     haveProducts2[i].id!)) {

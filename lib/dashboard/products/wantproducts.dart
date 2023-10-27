@@ -592,8 +592,13 @@ class _WantProductsState extends State<WantProducts> {
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
                                       itemBuilder: (context, i) {
-                                        double price = double.tryParse(wantProduct2[i].price.toString()) ?? 0.0;
-                                        double normalizedPercent = price / 100.0;
+                                        double price = double.tryParse(
+                                                wantProduct2[i]
+                                                    .price
+                                                    .toString()) ??
+                                            0.0;
+                                        double normalizedPercent =
+                                            price / 100.0;
                                         return Padding(
                                           padding:
                                               const EdgeInsets.only(top: 16),
@@ -621,7 +626,7 @@ class _WantProductsState extends State<WantProducts> {
                                                                   .name
                                                                   .toString(),
                                                               price:
-                                                                  '\$${wantProduct2[i].price.toString()}',
+                                                                  '${wantProduct2[i].price.toString()}',
                                                               link: wantProduct2[
                                                                       i]
                                                                   .link

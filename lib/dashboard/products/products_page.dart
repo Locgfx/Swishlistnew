@@ -51,8 +51,6 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
-
-
   LoginResponse? response;
 
   bool showBox = true;
@@ -81,7 +79,6 @@ class _ProductsPageState extends State<ProductsPage> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
   final GlobalKey _first = GlobalKey();
   final GlobalKey _second = GlobalKey();
   final GlobalKey _third = GlobalKey();
@@ -106,9 +103,6 @@ class _ProductsPageState extends State<ProductsPage> {
 
     super.initState();
   }
-
-
-
 
   Future<bool> _isFirstLaunch() async {
     final sharedPreferences = await SharedPreferences.getInstance();
@@ -260,6 +254,7 @@ class _ProductsPageState extends State<ProductsPage> {
       }
     });
   }
+
   List<FriendNotificationModel> friendNotification = [];
   getFriendNotifications() {
     isLoading = true;
@@ -854,7 +849,8 @@ class _ProductsPageState extends State<ProductsPage> {
                               descriptionAlignment: TextAlign.justify,
                               targetPadding: EdgeInsets.all(8),
                               key: _third,
-                              description: "Add products manually with links from Amazon and other websites",
+                              description:
+                                  "Add products manually with links from Amazon and other websites",
                               child: GestureDetector(
                                 onTap: () {
                                   showModalBottomSheet(
@@ -938,8 +934,13 @@ class _ProductsPageState extends State<ProductsPage> {
                                       itemCount: wantProducts2.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
-                                        double price = double.tryParse(wantProducts2[i].price.toString()) ?? 0.0;
-                                        double normalizedPercent = price / 100.0;
+                                        double price = double.tryParse(
+                                                wantProducts2[i]
+                                                    .price
+                                                    .toString()) ??
+                                            0.0;
+                                        double normalizedPercent =
+                                            price / 100.0;
                                         return Container(
                                           color: Colors.transparent,
                                           child: Column(
@@ -962,8 +963,10 @@ class _ProductsPageState extends State<ProductsPage> {
                                                                           i]
                                                                       .name
                                                                       .toString(),
-                                                                  price:
-                                                                      '\$${wantProducts2[i].price.toString()}',
+                                                                  price: wantProducts2[
+                                                                          i]
+                                                                      .price
+                                                                      .toString(),
                                                                   link: wantProducts2[
                                                                           i]
                                                                       .link
@@ -1207,8 +1210,11 @@ class _ProductsPageState extends State<ProductsPage> {
                                       itemCount: notWant2.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
-                                        double price = double.tryParse(notWant2[i].price.toString()) ?? 0.0;
-                                        double normalizedPercent = price / 100.0;
+                                        double price = double.tryParse(
+                                                notWant2[i].price.toString()) ??
+                                            0.0;
+                                        double normalizedPercent =
+                                            price / 100.0;
                                         return Container(
                                           color: Colors.transparent,
                                           child: Column(
@@ -1232,7 +1238,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                                       .name
                                                                       .toString(),
                                                                   price:
-                                                                      '\$${notWant2[i].price.toString()}',
+                                                                      '${notWant2[i].price.toString()}',
                                                                   link: notWant2[
                                                                           i]
                                                                       .link
@@ -1467,8 +1473,13 @@ class _ProductsPageState extends State<ProductsPage> {
                                       itemCount: haveProducts2.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
-                                        double price = double.tryParse(haveProducts2[i].price.toString()) ?? 0.0;
-                                        double normalizedPercent = price / 100.0;
+                                        double price = double.tryParse(
+                                                haveProducts2[i]
+                                                    .price
+                                                    .toString()) ??
+                                            0.0;
+                                        double normalizedPercent =
+                                            price / 100.0;
                                         return Container(
                                           color: Colors.transparent,
                                           child: Column(
@@ -1492,7 +1503,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                                       .name
                                                                       .toString(),
                                                                   price:
-                                                                      '\$${haveProducts2[i].price.toString()}',
+                                                                      '${haveProducts2[i].price.toString()}',
                                                                   link: haveProducts2[
                                                                           i]
                                                                       .link
@@ -1927,7 +1938,8 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                   ),
                   Showcase(
                     key: widget.second,
-                    description: "Add products manually with links from Amazon and other websites",
+                    description:
+                        "Add products manually with links from Amazon and other websites",
                     //"this is for add products manually",
                     child:
                         // Positioned(

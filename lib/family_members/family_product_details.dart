@@ -7,9 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../api/user_apis/friends_api.dart';
 import '../../../constants/color.dart';
 import '../../../models/add_friend_model.dart';
-import '../../../models/login_models.dart';
 
-class FriendProductDetail extends StatefulWidget {
+class FamilyProductDetail extends StatefulWidget {
   final String name;
   final String price;
   final String link;
@@ -17,10 +16,9 @@ class FriendProductDetail extends StatefulWidget {
   final String purchaseDate;
   final String id;
   final String type;
-  final LoginResponse response;
   final String productId;
   // final String id;
-  const FriendProductDetail({
+  const FamilyProductDetail({
     Key? key,
     required this.name,
     required this.price,
@@ -29,16 +27,15 @@ class FriendProductDetail extends StatefulWidget {
     required this.purchaseDate,
     required this.id,
     required this.type,
-    required this.response,
     required this.productId,
     // required this.id
   }) : super(key: key);
 
   @override
-  State<FriendProductDetail> createState() => _FriendProductDetailState();
+  State<FamilyProductDetail> createState() => _FamilyProductDetailState();
 }
 
-class _FriendProductDetailState extends State<FriendProductDetail> {
+class _FamilyProductDetailState extends State<FamilyProductDetail> {
   final PageController _pageController = PageController(
     initialPage: 0,
   );

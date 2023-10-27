@@ -255,8 +255,13 @@ class _ProductdontwantState extends State<Productdontwant> {
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
                                       itemBuilder: (context, i) {
-                                        double price = double.tryParse(notWantTwo[i].price.toString()) ?? 0.0;
-                                        double normalizedPercent = price / 100.0;
+                                        double price = double.tryParse(
+                                                notWantTwo[i]
+                                                    .price
+                                                    .toString()) ??
+                                            0.0;
+                                        double normalizedPercent =
+                                            price / 100.0;
                                         return Padding(
                                           padding:
                                               const EdgeInsets.only(top: 16),
@@ -290,10 +295,10 @@ class _ProductdontwantState extends State<Productdontwant> {
                                                                       i]
                                                                   .link
                                                                   .toString(),
-                                                              image: baseUrl +
-                                                                  notWantTwo[i]
-                                                                      .photo
-                                                                      .toString(),
+                                                              image: notWantTwo[
+                                                                      i]
+                                                                  .photo
+                                                                  .toString(),
                                                               purchaseDate:
                                                                   notWantTwo[i]
                                                                       .purchasedDate

@@ -166,6 +166,13 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                           shrinkWrap: true,
                                           scrollDirection: Axis.vertical,
                                           itemBuilder: (context, i) {
+                                            double price = double.tryParse(
+                                                    products!
+                                                        .data!.want![i].price
+                                                        .toString()) ??
+                                                0.0;
+                                            double normalizedPercent =
+                                                price / 100.0;
                                             return Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 16),
@@ -362,7 +369,7 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                                                         left:
                                                                             16),
                                                                 child: Text(
-                                                                  '\$ ${products!.data!.want![i].price.toString()}',
+                                                                  '\$ ${normalizedPercent}',
                                                                   // "47.99",
                                                                   style: AppTextStyle()
                                                                       .textColor29292914w500,

@@ -108,6 +108,8 @@ class _ProductDetailState extends State<ProductDetail> {
 
   @override
   Widget build(BuildContext context) {
+    double price = double.tryParse(widget.price) ?? 0.0;
+    double normalizedPercent = price / 100.0;
     return DefaultTabController(
       length: 2,
       initialIndex: 1,
@@ -467,7 +469,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                                               .colorF7E641)),
                                                   child: Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 12,
                                                         vertical: 16),
                                                     child: Column(
@@ -1046,7 +1048,10 @@ class _ProductDetailState extends State<ProductDetail> {
                 Row(
                   children: [
                     Text(
-                      widget.price,
+                      // widget.price,
+                      '\$ ${normalizedPercent.toString()}',
+                      // "ckmmkc",
+                      // normalizedPercent.toString(),
                       // "47.99",
                       style: AppTextStyle().textColor29292924w700,
                     ),

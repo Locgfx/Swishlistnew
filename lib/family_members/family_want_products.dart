@@ -4,30 +4,31 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/friend_product_model.dart';
-import '../../models/login_models.dart';
-import 'new_screens/friend_product_details.dart';
+import '../api/family_member_apis/family_products_api.dart';
+import 'family_product_details.dart';
 
-class FriendDonWantProducts extends StatefulWidget {
-  final LoginResponse response;
-  final String friendId;
-  final String friendName;
-  const FriendDonWantProducts({
+class FamilyWantProducts extends StatefulWidget {
+  // final LoginResponse response;
+  final String familyId;
+  final String familyName;
+  // final bool isUser;
+  const FamilyWantProducts({
     Key? key,
-    required this.friendId,
-    required this.friendName,
-    required this.response,
+    required this.familyId,
+    required this.familyName,
+    // required this.response,
+    /* required this.isUser*/
   }) : super(key: key);
 
   @override
-  State<FriendDonWantProducts> createState() => _FriendDonWantProductsState();
+  State<FamilyWantProducts> createState() => _FamilyWantProductsState();
 }
 
-class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
+class _FamilyWantProductsState extends State<FamilyWantProducts> {
   @override
   void initState() {
     getProducts();
@@ -37,15 +38,23 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
   bool loading = false;
   bool isLoading = false;
   FriendProductModel? products;
-  // List <FriendProductModel> haveProducts2 = [];
 
   getProducts() {
     isLoading = true;
-    var resp = getFriendProductsApi(friendId: widget.friendId);
+    var resp = getFamilyProductsApi(familyId: widget.familyId);
     resp.then((value) {
       if (value['status'] == true) {
         setState(() {
           products = FriendProductModel.fromJson(value);
+          // for(var v in value["data"]) {
+          //   haveProducts.add(FriendProductModel.fromJson(v));
+          // }
+          // for(var v in haveProducts){
+          //   if(v.data.want){
+          //     haveProducts2.add(v);
+          //   }
+          // }
+          // print(haveProducts2);
           isLoading = false;
         });
       } else {
@@ -97,9 +106,10 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                         children: [
                           Expanded(
                             child: Text(
-                                /*  widget.isUser ? "I want" : */ "${widget.friendName} does not Wants",
-                                maxLines: 2,
-                                style: AppTextStyle().textColor29292924w700),
+                              '${widget.familyName} Wants',
+                              maxLines: 2,
+                              style: AppTextStyle().textColor29292924w700,
+                            ),
                           ),
                         ],
                       ),
@@ -122,7 +132,16 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                             SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  products!.data!.dontWant!.isEmpty
+                                  // Row(
+                                  //   children: [
+                                  //     Text(
+                                  //       '${products!.data!.length.toString()} Products',
+                                  //       // "6 Products",
+                                  //       style: AppTextStyle().textColor70707012w500,
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  products!.data!.want!.isEmpty
                                       ? Center(
                                           child: Column(
                                             crossAxisAlignment:
@@ -138,7 +157,7 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                               // Image.asset("assets/images/delivery.png",height: 100,),
                                               SizedBox(height: 5),
                                               Text(
-                                                'Your Friend does not Added Any product yet',
+                                                'Your Friend does not Added Product yet',
                                                 style: AppTextStyle()
                                                     .textColor29292914w500,
                                               )
@@ -150,13 +169,14 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                           physics:
                                               NeverScrollableScrollPhysics(),
                                           itemCount:
-                                              products!.data!.dontWant!.length,
+                                              products!.data!.want!.length,
+                                          // itemCount: 6,
                                           shrinkWrap: true,
                                           scrollDirection: Axis.vertical,
                                           itemBuilder: (context, i) {
                                             double price = double.tryParse(
-                                                    products!.data!.dontWant![i]
-                                                        .price
+                                                    products!
+                                                        .data!.want![i].price
                                                         .toString()) ??
                                                 0.0;
                                             double normalizedPercent =
@@ -170,30 +190,25 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              FriendProductDetail(
-                                                                response: widget
-                                                                    .response,
+                                                              FamilyProductDetail(
                                                                 name: products!
                                                                     .data!
-                                                                    .dontWant![
-                                                                        i]
+                                                                    .want![i]
                                                                     .name
                                                                     .toString(),
                                                                 price: products!
                                                                     .data!
-                                                                    .dontWant![
-                                                                        i]
+                                                                    .want![i]
                                                                     .price
                                                                     .toString(),
                                                                 link: products!
                                                                     .data!
-                                                                    .dontWant![
-                                                                        i]
+                                                                    .want![i]
                                                                     .link
                                                                     .toString(),
                                                                 image: products!
                                                                         .data!
-                                                                        .dontWant![
+                                                                        .want![
                                                                             i]
                                                                         .photo
                                                                         .toString()
@@ -201,36 +216,93 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                                             'http')
                                                                     ? products!
                                                                         .data!
-                                                                        .dontWant![
+                                                                        .want![
                                                                             i]
                                                                         .photo
                                                                         .toString()
                                                                     : baseUrl +
                                                                         products!
                                                                             .data!
-                                                                            .dontWant![i]
+                                                                            .want![i]
                                                                             .photo
                                                                             .toString(),
                                                                 purchaseDate: products!
                                                                     .data!
-                                                                    .dontWant![
-                                                                        i]
+                                                                    .want![i]
                                                                     .purchasedDate
                                                                     .toString(),
                                                                 id: products!
                                                                     .data!
-                                                                    .dontWant![
-                                                                        i]
+                                                                    .want![i]
                                                                     .id
                                                                     .toString(),
                                                                 type: products!
                                                                     .data!
-                                                                    .dontWant![
-                                                                        i]
+                                                                    .want![i]
                                                                     .type
                                                                     .toString(),
                                                                 productId: '',
                                                               )));
+
+                                                  // Navigator.push(
+                                                  //     context,
+                                                  //     MaterialPageRoute(
+                                                  //         builder: (context) =>
+                                                  //             FriendProductDetail(
+                                                  //               response: widget
+                                                  //                   .response,
+                                                  //               name: products!
+                                                  //                   .data!
+                                                  //                   .want![i]
+                                                  //                   .name
+                                                  //                   .toString(),
+                                                  //               price: products!
+                                                  //                   .data!
+                                                  //                   .want![i]
+                                                  //                   .price
+                                                  //                   .toString(),
+                                                  //               link: products!
+                                                  //                   .data!
+                                                  //                   .want![i]
+                                                  //                   .link
+                                                  //                   .toString(),
+                                                  //               image: products!
+                                                  //                   .data!
+                                                  //                   .want![
+                                                  //               i]
+                                                  //                   .photo
+                                                  //                   .toString()
+                                                  //                   .contains(
+                                                  //                   'http')
+                                                  //                   ? products!
+                                                  //                   .data!
+                                                  //                   .want![
+                                                  //               i]
+                                                  //                   .photo
+                                                  //                   .toString()
+                                                  //                   : baseUrl +
+                                                  //                   products!
+                                                  //                       .data!
+                                                  //                       .want![i]
+                                                  //                       .photo
+                                                  //                       .toString(),
+                                                  //               purchaseDate: products!
+                                                  //                   .data!
+                                                  //                   .want![i]
+                                                  //                   .purchasedDate
+                                                  //                   .toString(),
+                                                  //               id: products!
+                                                  //                   .data!
+                                                  //                   .want![i]
+                                                  //                   .id
+                                                  //                   .toString(),
+                                                  //               type: products!
+                                                  //                   .data!
+                                                  //                   .want![i]
+                                                  //                   .type
+                                                  //                   .toString(),
+                                                  //               productId: '',
+                                                  //             )));
                                                 },
                                                 child: Container(
                                                   color: Colors.transparent,
@@ -238,92 +310,91 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                     children: [
                                                       Row(
                                                         children: [
-                                                          Stack(
-                                                            children: [
-                                                              Container(
-                                                                height: 86,
-                                                                width: 86,
-                                                                clipBehavior:
-                                                                    Clip.hardEdge,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8),
-                                                                  border: Border
-                                                                      .all(
-                                                                    width: 1,
-                                                                    color: /*selectedItems.contains(products!.data!.dontWant![i].id!)
-                                                          ? ColorSelect.colorF7E641*/
-                                                                        ColorSelect
-                                                                            .colorE0E0E0,
-                                                                  ),
+                                                          Stack(children: [
+                                                            Container(
+                                                              height: 86,
+                                                              width: 86,
+                                                              clipBehavior:
+                                                                  Clip.hardEdge,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8),
+                                                                border:
+                                                                    Border.all(
+                                                                  width: 1,
+                                                                  color: ColorSelect
+                                                                      .colorE0E0E0,
                                                                 ),
-                                                                child:
-                                                                    CachedNetworkImage(
-                                                                  // imageUrl: (baseUrl+wantProduct2[i].photo.toString()),
-                                                                  imageUrl: products!
-                                                                          .data!
-                                                                          .dontWant![
-                                                                              i]
-                                                                          .photo
-                                                                          .toString()
-                                                                          .contains(
-                                                                              "https")
-                                                                      ? products!
-                                                                          .data!
-                                                                          .dontWant![
-                                                                              i]
-                                                                          .photo
-                                                                          .toString()
-                                                                      : baseUrl +
-                                                                          products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .photo
-                                                                              .toString(),
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                  errorWidget:
-                                                                      (context,
-                                                                              url,
-                                                                              error) =>
-                                                                          Icon(
-                                                                    Icons.error,
-                                                                    size: 40,
-                                                                  ),
-                                                                  progressIndicatorBuilder:
-                                                                      (a, b, c) =>
-                                                                          Opacity(
-                                                                    opacity:
-                                                                        0.3,
-                                                                    child: Shimmer
-                                                                        .fromColors(
-                                                                      baseColor:
-                                                                          Colors
-                                                                              .black12,
-                                                                      highlightColor:
-                                                                          Colors
-                                                                              .white,
-                                                                      child:
-                                                                          Container(
-                                                                        width:
-                                                                            173,
-                                                                        height:
-                                                                            129,
-                                                                        decoration: BoxDecoration(
-                                                                            border:
-                                                                                Border.all(color: ColorSelect.colorE0E0E0, width: 1),
-                                                                            color: ColorSelect.colorFFFFFF,
-                                                                            borderRadius: BorderRadius.circular(12)),
-                                                                      ),
+                                                              ),
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                imageUrl: products!
+                                                                        .data!
+                                                                        .want![
+                                                                            i]
+                                                                        .photo
+                                                                        .toString()
+                                                                        .contains(
+                                                                            "https")
+                                                                    ? products!
+                                                                        .data!
+                                                                        .want![
+                                                                            i]
+                                                                        .photo
+                                                                        .toString()
+                                                                    : baseUrl +
+                                                                        products!
+                                                                            .data!
+                                                                            .want![i]
+                                                                            .photo
+                                                                            .toString(),
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                errorWidget:
+                                                                    (context,
+                                                                            url,
+                                                                            error) =>
+                                                                        Icon(
+                                                                  Icons.error,
+                                                                  size: 40,
+                                                                ),
+                                                                progressIndicatorBuilder:
+                                                                    (a, b, c) =>
+                                                                        Opacity(
+                                                                  opacity: 0.3,
+                                                                  child: Shimmer
+                                                                      .fromColors(
+                                                                    baseColor:
+                                                                        Colors
+                                                                            .black12,
+                                                                    highlightColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    child:
+                                                                        Container(
+                                                                      width:
+                                                                          173,
+                                                                      height:
+                                                                          129,
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border.all(
+                                                                              color: ColorSelect
+                                                                                  .colorE0E0E0,
+                                                                              width:
+                                                                                  1),
+                                                                          color: ColorSelect
+                                                                              .colorFFFFFF,
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(12)),
                                                                     ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ],
-                                                          ),
+                                                            ),
+                                                          ]),
                                                           Column(
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
@@ -340,10 +411,11 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                                   child: Text(
                                                                     products!
                                                                         .data!
-                                                                        .dontWant![
+                                                                        .want![
                                                                             i]
                                                                         .name
                                                                         .toString(),
+                                                                    // "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
                                                                     overflow:
                                                                         TextOverflow
                                                                             .ellipsis,
@@ -364,6 +436,7 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                                             16),
                                                                 child: Text(
                                                                   '\$ ${normalizedPercent}',
+                                                                  // "47.99",
                                                                   style: AppTextStyle()
                                                                       .textColor29292914w500,
                                                                 ),
@@ -396,13 +469,13 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                                     SizedBox(
                                                                       width: 6,
                                                                     ),
-                                                                    Text(DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inMinutes <=
+                                                                    Text(DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes <=
                                                                             59
-                                                                        ? "${DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inMinutes} min ago"
-                                                                        : DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inHours <=
+                                                                        ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes} min ago"
+                                                                        : DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours <=
                                                                                 23
-                                                                            ? "${DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inHours} hr ago"
-                                                                            : "${DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inDays} days ago"),
+                                                                            ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours} hr ago"
+                                                                            : "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inDays} days ago"),
                                                                   ],
                                                                 ),
                                                               )

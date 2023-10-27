@@ -154,6 +154,13 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                           shrinkWrap: true,
                                           scrollDirection: Axis.vertical,
                                           itemBuilder: (context, i) {
+                                            double price = double.tryParse(
+                                                    products!
+                                                        .data!.have![i].price
+                                                        .toString()) ??
+                                                0.0;
+                                            double normalizedPercent =
+                                                price / 100.0;
                                             return Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 16),
@@ -181,9 +188,26 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                                     .have![i]
                                                                     .link
                                                                     .toString(),
-                                                                image: products!.data!.have![i].photo.toString().contains('http')
-                                                                    ? products!.data!.have![i].photo.toString()
-                                                                    : baseUrl + products!.data!.have![i].photo.toString(),
+                                                                image: products!
+                                                                        .data!
+                                                                        .have![
+                                                                            i]
+                                                                        .photo
+                                                                        .toString()
+                                                                        .contains(
+                                                                            'http')
+                                                                    ? products!
+                                                                        .data!
+                                                                        .have![
+                                                                            i]
+                                                                        .photo
+                                                                        .toString()
+                                                                    : baseUrl +
+                                                                        products!
+                                                                            .data!
+                                                                            .have![i]
+                                                                            .photo
+                                                                            .toString(),
                                                                 purchaseDate: products!
                                                                     .data!
                                                                     .have![i]
@@ -330,7 +354,7 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                                         left:
                                                                             16),
                                                                 child: Text(
-                                                                  '\$ ${products!.data!.have![i].price.toString()}',
+                                                                  '\$ ${normalizedPercent}',
                                                                   // "47.99",
                                                                   style: AppTextStyle()
                                                                       .textColor29292914w500,

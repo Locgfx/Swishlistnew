@@ -13,7 +13,11 @@ import '../../api/user_apis/friends_api.dart';
 import '../../constants/globals/globals.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
+import '../../family_members/family_don_want_products.dart';
+import '../../family_members/family_have_products.dart';
 import '../../family_members/family_member_all_details.dart';
+import '../../family_members/family_product_details.dart';
+import '../../family_members/family_want_products.dart';
 import '../../models/add_friend_model.dart';
 import '../friends/friends_notifications.dart';
 import '../products/widget/manuallyaddbottomsheetwidget.dart';
@@ -403,16 +407,15 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (_) => FriendWantProducts(
-                                  //       friendId: widget.friendId,
-                                  //       friendName: widget.friendName,
-                                  //       response: widget.response,
-                                  //     ),
-                                  //   ),
-                                  // );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => FamilyWantProducts(
+                                        familyName: widget.familyName,
+                                        familyId: widget.familyId,
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: Container(
                                   padding: EdgeInsets.only(
@@ -455,6 +458,11 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                     // itemCount: 2,
                                     shrinkWrap: true,
                                     itemBuilder: (context, i) {
+                                      double price = double.tryParse(products!
+                                              .data!.want![i].price
+                                              .toString()) ??
+                                          0.0;
+                                      double normalizedPercent = price / 100.0;
                                       return Container(
                                         color: Colors.transparent,
                                         child: Column(
@@ -466,69 +474,68 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                               flex: 4,
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  // Navigator.push(
-                                                  //     context,
-                                                  //     MaterialPageRoute(
-                                                  //         builder: (context) =>
-                                                  //             FriendProductDetail(
-                                                  //               response: widget
-                                                  //                   .response,
-                                                  //               name: products!
-                                                  //                   .data!
-                                                  //                   .want![i]
-                                                  //                   .name
-                                                  //                   .toString(),
-                                                  //               price: products!
-                                                  //                   .data!
-                                                  //                   .want![i]
-                                                  //                   .price
-                                                  //                   .toString(),
-                                                  //               link: products!
-                                                  //                   .data!
-                                                  //                   .want![i]
-                                                  //                   .link
-                                                  //                   .toString(),
-                                                  //               image: products!
-                                                  //                       .data!
-                                                  //                       .want![
-                                                  //                           i]
-                                                  //                       .photo
-                                                  //                       .toString()
-                                                  //                       .contains(
-                                                  //                           'http')
-                                                  //                   ? products!
-                                                  //                       .data!
-                                                  //                       .want![
-                                                  //                           i]
-                                                  //                       .photo
-                                                  //                       .toString()
-                                                  //                   : baseUrl +
-                                                  //                       products!
-                                                  //                           .data!
-                                                  //                           .want![i]
-                                                  //                           .photo
-                                                  //                           .toString(),
-                                                  //               purchaseDate: products!
-                                                  //                   .data!
-                                                  //                   .want![i]
-                                                  //                   .purchasedDate
-                                                  //                   .toString(),
-                                                  //               id: products!
-                                                  //                   .data!
-                                                  //                   .want![i]
-                                                  //                   .id
-                                                  //                   .toString(),
-                                                  //               type: products!
-                                                  //                   .data!
-                                                  //                   .want![i]
-                                                  //                   .type
-                                                  //                   .toString(),
-                                                  //               productId: '',
-                                                  //             )));
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              FamilyProductDetail(
+                                                                name: products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .name
+                                                                    .toString(),
+                                                                price: products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .price
+                                                                    .toString(),
+                                                                link: products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .link
+                                                                    .toString(),
+                                                                image: products!
+                                                                        .data!
+                                                                        .want![
+                                                                            i]
+                                                                        .photo
+                                                                        .toString()
+                                                                        .contains(
+                                                                            'http')
+                                                                    ? products!
+                                                                        .data!
+                                                                        .want![
+                                                                            i]
+                                                                        .photo
+                                                                        .toString()
+                                                                    : baseUrl +
+                                                                        products!
+                                                                            .data!
+                                                                            .want![i]
+                                                                            .photo
+                                                                            .toString(),
+                                                                purchaseDate: products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .purchasedDate
+                                                                    .toString(),
+                                                                id: products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .id
+                                                                    .toString(),
+                                                                type: products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .type
+                                                                    .toString(),
+                                                                productId: '',
+                                                              )));
                                                   // Navigator.push(
                                                   //   context,
                                                   //   MaterialPageRoute(
-                                                  //     builder: (context) => WantProducts(
+                                                  //     builder: (context) =>
+                                                  //         WantProducts(
                                                   //       isUser: true,
                                                   //     ),
                                                   //   ),
@@ -623,7 +630,7 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                 padding: const EdgeInsets.only(
                                                     left: 16),
                                                 child: Text(
-                                                  'USD ${products!.data!.want![i].price.toString()}',
+                                                  'USD ${normalizedPercent}',
                                                   style: AppTextStyle()
                                                       .textColor29292914w500,
                                                 ),
@@ -650,16 +657,15 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (_) => FriendDonWantProducts(
-                                  //       response: widget.response,
-                                  //       friendId: widget.friendId,
-                                  //       friendName: widget.friendName,
-                                  //     ),
-                                  //   ),
-                                  // );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => FamilyDontWantProducts(
+                                        familyId: widget.familyId,
+                                        familyName: widget.familyName,
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: Container(
                                   padding: EdgeInsets.only(
@@ -713,6 +719,13 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                           // itemCount: 2,
                                           shrinkWrap: true,
                                           itemBuilder: (context, i) {
+                                            double price = double.tryParse(
+                                                    products!.data!.dontWant![i]
+                                                        .price
+                                                        .toString()) ??
+                                                0.0;
+                                            double normalizedPercent =
+                                                price / 100.0;
                                             return Container(
                                               color: Colors.transparent,
                                               child: Column(
@@ -724,6 +737,48 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                     flex: 4,
                                                     child: GestureDetector(
                                                       onTap: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        FamilyProductDetail(
+                                                                          name: products!
+                                                                              .data!
+                                                                              .dontWant![i]
+                                                                              .name
+                                                                              .toString(),
+                                                                          price: products!
+                                                                              .data!
+                                                                              .dontWant![i]
+                                                                              .price
+                                                                              .toString(),
+                                                                          link: products!
+                                                                              .data!
+                                                                              .dontWant![i]
+                                                                              .link
+                                                                              .toString(),
+                                                                          image: products!.data!.dontWant![i].photo.toString().contains('http')
+                                                                              ? products!.data!.dontWant![i].photo.toString()
+                                                                              : baseUrl + products!.data!.dontWant![i].photo.toString(),
+                                                                          purchaseDate: products!
+                                                                              .data!
+                                                                              .dontWant![i]
+                                                                              .purchasedDate
+                                                                              .toString(),
+                                                                          id: products!
+                                                                              .data!
+                                                                              .dontWant![i]
+                                                                              .id
+                                                                              .toString(),
+                                                                          type: products!
+                                                                              .data!
+                                                                              .dontWant![i]
+                                                                              .type
+                                                                              .toString(),
+                                                                          productId:
+                                                                              '',
+                                                                        )));
                                                         // Navigator.push(
                                                         //     context,
                                                         //     MaterialPageRoute(
@@ -880,7 +935,7 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                           const EdgeInsets.only(
                                                               left: 16),
                                                       child: Text(
-                                                        'USD ${products!.data!.dontWant![i].price.toString()}',
+                                                        'USD ${normalizedPercent}',
                                                         style: AppTextStyle()
                                                             .textColor29292914w500,
                                                       ),
@@ -907,16 +962,15 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (_) => FriendHaveProducts(
-                                  //       response: widget.response,
-                                  //       friendId: widget.friendId,
-                                  //       friendName: widget.friendName,
-                                  //     ),
-                                  //   ),
-                                  // );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => FamilyHaveProducts(
+                                        familyId: widget.familyId,
+                                        familyName: widget.familyName,
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: Container(
                                   padding: EdgeInsets.only(
@@ -969,6 +1023,13 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                           // itemCount: 2,
                                           shrinkWrap: true,
                                           itemBuilder: (context, i) {
+                                            double price = double.tryParse(
+                                                    products!
+                                                        .data!.have![i].price
+                                                        .toString()) ??
+                                                0.0;
+                                            double normalizedPercent =
+                                                price / 100.0;
                                             return Container(
                                               color: Colors.transparent,
                                               child: Column(
@@ -980,6 +1041,48 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                     flex: 4,
                                                     child: GestureDetector(
                                                       onTap: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        FamilyProductDetail(
+                                                                          name: products!
+                                                                              .data!
+                                                                              .have![i]
+                                                                              .name
+                                                                              .toString(),
+                                                                          price: products!
+                                                                              .data!
+                                                                              .have![i]
+                                                                              .price
+                                                                              .toString(),
+                                                                          link: products!
+                                                                              .data!
+                                                                              .have![i]
+                                                                              .link
+                                                                              .toString(),
+                                                                          image: products!.data!.have![i].photo.toString().contains('http')
+                                                                              ? products!.data!.have![i].photo.toString()
+                                                                              : baseUrl + products!.data!.have![i].photo.toString(),
+                                                                          purchaseDate: products!
+                                                                              .data!
+                                                                              .have![i]
+                                                                              .purchasedDate
+                                                                              .toString(),
+                                                                          id: products!
+                                                                              .data!
+                                                                              .have![i]
+                                                                              .id
+                                                                              .toString(),
+                                                                          type: products!
+                                                                              .data!
+                                                                              .have![i]
+                                                                              .type
+                                                                              .toString(),
+                                                                          productId:
+                                                                              '',
+                                                                        )));
                                                         // Navigator.push(
                                                         //     context,
                                                         //     MaterialPageRoute(
@@ -1136,7 +1239,7 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                           const EdgeInsets.only(
                                                               left: 16),
                                                       child: Text(
-                                                        'USD ${products!.data!.have![i].price.toString()}',
+                                                        'USD ${normalizedPercent}',
                                                         style: AppTextStyle()
                                                             .textColor29292914w500,
                                                       ),
