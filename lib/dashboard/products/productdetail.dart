@@ -408,14 +408,17 @@ class _ProductDetailState extends State<ProductDetail> {
                     });
                 // Share.share(widget.link);
               },
-              child: Image.asset(
-                "assets/images/Vectorsend.png",
-                height: 24,
-                width: 20,
+              child: Container(
+                height: 32,
+                width: 32,
+                padding: EdgeInsets.all(4),
+                child: Image.asset(
+                  "assets/images/Vectorsend.png",
+                ),
               ),
             ),
             SizedBox(
-              width: 16,
+              width: 10,
             ),
             InkWell(
                 onTap: () {

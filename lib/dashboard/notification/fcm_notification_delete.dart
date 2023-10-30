@@ -160,7 +160,21 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                             //   "hold item to delete",
                             //   style: TextStyle(fontSize: 10),
                             // ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16),
+                              child: Center(
+                                child: Text(
+                                  "Tap and hold notification to delete",
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyle().textColor70707012w400,
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: 16),
+
                             ListView.separated(
+                              padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               itemCount: fcmnotification.data!.length,
                               physics: NeverScrollableScrollPhysics(),
@@ -330,7 +344,8 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                   (BuildContext context, int index) => SizedBox(
                                 height: 16,
                               ),
-                            )
+                            ),
+                            SizedBox(height: 24),
                           ],
                         ),
                       ),

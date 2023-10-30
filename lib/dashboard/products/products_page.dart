@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -13,6 +10,8 @@ import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/dashboard/products/productalready.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
 import 'package:swishlist/dashboard/products/productdontwant.dart';
+import 'package:swishlist/dashboard/products/share_profile_family_list.dart';
+import 'package:swishlist/dashboard/products/share_profile_friend_list.dart';
 import 'package:swishlist/dashboard/products/wantproducts.dart';
 import 'package:swishlist/dashboard/products/widget/already_manually_add_bottom_sheet.dart';
 import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
@@ -103,6 +102,19 @@ class _ProductsPageState extends State<ProductsPage> {
 
     super.initState();
   }
+
+  final PageController _pageController = PageController(
+    initialPage: 0,
+  );
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  int pageIndex = 0;
+  int selectedIndex = 0;
 
   Future<bool> _isFirstLaunch() async {
     final sharedPreferences = await SharedPreferences.getInstance();
@@ -562,33 +574,315 @@ class _ProductsPageState extends State<ProductsPage> {
                                   description: 'Share your profile with others',
                                   child: GestureDetector(
                                     behavior: HitTestBehavior.translucent,
-                                    onTap: () async {
-                                      if (Platform.isIOS) {
-                                        setState(() {
-                                          Share.share(
-                                              'https://apps.apple.com/us/app/swishlist/id6447429473');
-                                        });
-                                      } else {
-                                        setState(() {
-                                          Share.share(
-                                              'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share');
-                                        });
-                                      }
-                                      // final url = Uri.parse(
-                                      //   'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share',
-                                      // );
-                                      // if (await canLaunchUrl(url)) {
-                                      //   launchUrl(url);
-                                      // } else {
-                                      //   // ignore: avoid_print
-                                      //   print("Can't launch $url");
-                                      // }
-                                      // // final Uri url = Uri.parse(
-                                      // //     'https://play.google.com/store/apps/details?id=com.locgfx.swishlist&pcampaignid=web_share');
-                                      // // if (!await launchUrl(url)) {
-                                      // //   throw Exception(
-                                      // //       'Could not launch $_url');
-                                      // // }
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                          backgroundColor: Colors.transparent,
+                                          context: context,
+                                          builder: (context) {
+                                            return StatefulBuilder(builder:
+                                                (BuildContext context,
+                                                    StateSetter setState) {
+                                              return Container(
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      ColorSelect.colorFFFFFF,
+                                                  borderRadius:
+                                                      BorderRadius.vertical(
+                                                    top: Radius.circular(20),
+                                                  ),
+                                                ),
+                                                child: SingleChildScrollView(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 16),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 8,
+                                                        ),
+                                                        Container(
+                                                          width: 48.w,
+                                                          height: 4.h,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8),
+                                                              color: ColorSelect
+                                                                  .colorDCDCDC),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "Send to",
+                                                                  style: AppTextStyle()
+                                                                      .textColor29292920w500,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Spacer(),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                selectedIndex =
+                                                                    pageIndex =
+                                                                        0;
+                                                                _pageController
+                                                                    .jumpToPage(
+                                                                  pageIndex,
+                                                                );
+                                                                pageIndex = 0;
+                                                                setState(() {});
+                                                              },
+                                                              child: Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: pageIndex ==
+                                                                          0
+                                                                      ? ColorSelect
+                                                                          .colorF7E641
+                                                                      : Colors
+                                                                          .transparent,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          8.0),
+                                                                  child: Text(
+                                                                      "Friends",
+                                                                      style: AppTextStyle()
+                                                                          .textColor29292912w500
+                                                                          .copyWith(
+                                                                              color: pageIndex == 0 ? Color(0xff292929) : Color(0xff707070))),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 16),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                setState(() {
+                                                                  selectedIndex =
+                                                                      pageIndex =
+                                                                          1;
+                                                                  _pageController
+                                                                      .jumpToPage(
+                                                                    pageIndex,
+                                                                  );
+                                                                  pageIndex = 1;
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: pageIndex ==
+                                                                          1
+                                                                      ? ColorSelect
+                                                                          .colorF7E641
+                                                                      : Colors
+                                                                          .transparent,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          8.0),
+                                                                  child: Text(
+                                                                      "Family",
+                                                                      style: AppTextStyle()
+                                                                          .textColor29292912w500
+                                                                          .copyWith(
+                                                                              color: pageIndex == 1 ? Color(0xff292929) : Color(0xff707070))),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        SizedBox(height: 16),
+                                                        SizedBox(
+                                                          height: 600,
+                                                          child: PageView(
+                                                            controller:
+                                                                _pageController,
+                                                            onPageChanged:
+                                                                (page) {
+                                                              setState(
+                                                                () {
+                                                                  pageIndex =
+                                                                      page;
+                                                                },
+                                                              );
+                                                            },
+                                                            children: [
+                                                              ShareProfileFriendList(),
+                                                              ShareProfileFamilyList(),
+
+                                                              // ProductsPage(
+                                                              //   response: widget.response,
+                                                              // ),
+                                                              // // AllEtsyProducts(),
+                                                              // Search(),
+                                                              // Activities(),
+                                                              // Friends(),
+                                                            ],
+                                                          ),
+                                                        ),
+
+                                                        // isLoading
+                                                        //     ? Center(
+                                                        //         child: LoadingAnimationWidget.inkDrop(
+                                                        //           size: 40,
+                                                        //           color: ColorSelect.colorF7E641,
+                                                        //         ),
+                                                        //       )
+                                                        //     : friendList.data!.isEmpty
+                                                        //         ? Padding(
+                                                        //             padding: const EdgeInsets.only(
+                                                        //                 bottom: 80.0, top: 20),
+                                                        //             child: Image.asset(
+                                                        //               "assets/images/addproducts2.png",
+                                                        //               height: 200,
+                                                        //               width: 200,
+                                                        //             ),
+                                                        //           )
+                                                        //         : ListView.builder(
+                                                        //             physics: ScrollPhysics(),
+                                                        //             itemCount: friendList.data!.length,
+                                                        //             shrinkWrap: true,
+                                                        //             scrollDirection: Axis.vertical,
+                                                        //             itemBuilder: (context, i) {
+                                                        //               return Padding(
+                                                        //                 padding: const EdgeInsets.only(
+                                                        //                     top: 16),
+                                                        //                 child: GestureDetector(
+                                                        //                   onTap: () {},
+                                                        //                   child: Container(
+                                                        //                     color: Colors.transparent,
+                                                        //                     child: Row(
+                                                        //                       children: [
+                                                        //                         Container(
+                                                        //                           height: 60,
+                                                        //                           width: 60,
+                                                        //                           clipBehavior:
+                                                        //                               Clip.hardEdge,
+                                                        //                           decoration:
+                                                        //                               BoxDecoration(
+                                                        //                             color: Colors
+                                                        //                                 .redAccent,
+                                                        //                             shape:
+                                                        //                                 BoxShape.circle,
+                                                        //                           ),
+                                                        //                           child:
+                                                        //                               CachedNetworkImage(
+                                                        //                             imageUrl: friendList
+                                                        //                                     .data![i]
+                                                        //                                     .friend!
+                                                        //                                     .photo
+                                                        //                                     .toString()
+                                                        //                                     .contains(
+                                                        //                                         "https")
+                                                        //                                 ? friendList
+                                                        //                                     .data![i]
+                                                        //                                     .friend!
+                                                        //                                     .photo
+                                                        //                                     .toString()
+                                                        //                                 : baseUrl +
+                                                        //                                     friendList
+                                                        //                                         .data![
+                                                        //                                             i]
+                                                        //                                         .friend!
+                                                        //                                         .photo
+                                                        //                                         .toString(),
+                                                        //                             fit: BoxFit.cover,
+                                                        //                             errorWidget: (context,
+                                                        //                                     url,
+                                                        //                                     error) =>
+                                                        //
+                                                        //                                 // Image.asset(
+                                                        //                                 // "assets/icons/userico.jpg"),
+                                                        //                                 Image.asset(
+                                                        //                                     "assets/icons/userico.jpg"),
+                                                        //                             progressIndicatorBuilder:
+                                                        //                                 (a, b, c) =>
+                                                        //                                     Opacity(
+                                                        //                               opacity: 0.3,
+                                                        //                               child: Shimmer
+                                                        //                                   .fromColors(
+                                                        //                                 baseColor: Colors
+                                                        //                                     .black12,
+                                                        //                                 highlightColor:
+                                                        //                                     Colors
+                                                        //                                         .white,
+                                                        //                                 child:
+                                                        //                                     Container(
+                                                        //                                   width: 60,
+                                                        //                                   height: 60,
+                                                        //                                   decoration:
+                                                        //                                       BoxDecoration(
+                                                        //                                     shape: BoxShape
+                                                        //                                         .circle,
+                                                        //                                     color: ColorSelect
+                                                        //                                         .colorFFFFFF,
+                                                        //                                   ),
+                                                        //                                 ),
+                                                        //                               ),
+                                                        //                             ),
+                                                        //                           ),
+                                                        //                         ),
+                                                        //                         Padding(
+                                                        //                           padding:
+                                                        //                               const EdgeInsets
+                                                        //                                       .only(
+                                                        //                                   left: 8.0),
+                                                        //                           child: Text(
+                                                        //                             friendList.data![i]
+                                                        //                                 .friend!.name
+                                                        //                                 .toString(),
+                                                        //                             overflow:
+                                                        //                                 TextOverflow
+                                                        //                                     .ellipsis,
+                                                        //                             maxLines: 2,
+                                                        //                             style: AppTextStyle()
+                                                        //                                 .textColor29292914w400,
+                                                        //                           ),
+                                                        //                         ),
+                                                        //                         Spacer(),
+                                                        //                         YellowButtonWithText(
+                                                        //                             backgroundColor:
+                                                        //                                 MaterialStateProperty
+                                                        //                                     .all(ColorSelect
+                                                        //                                         .colorF7E641),
+                                                        //                             textStyleColor:
+                                                        //                                 Colors.black,
+                                                        //                             onTap: () {},
+                                                        //                             title: 'Send')
+                                                        //                       ],
+                                                        //                     ),
+                                                        //                   ),
+                                                        //                 ),
+                                                        //               );
+                                                        //             }),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                          });
+                                      // Share.share(widget.link);
                                     },
                                     child: Padding(
                                       padding:

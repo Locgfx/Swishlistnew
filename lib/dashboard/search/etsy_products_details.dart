@@ -4,7 +4,6 @@ import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 
@@ -14,7 +13,6 @@ import '../../buttons/light_yellow.dart';
 import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../models/etsy_image_model.dart';
-import '../../models/etsy_listingid_model.dart';
 import '../../models/etsy_load_more_model.dart';
 import '../products/manuallyadd.dart';
 
@@ -24,7 +22,6 @@ class EtsyProductDetails extends StatefulWidget {
   final String productPrice;
   final String productUrl;
   final String productDescription;
-
 
   const EtsyProductDetails({
     Key? key,
@@ -45,11 +42,8 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
   void initState() {
     getImages();
 
-
     super.initState();
   }
-
-
 
   EtsyImagesModel? imageModel;
   bool isLoading = false;
@@ -93,21 +87,21 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
             ),
           ],
         ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Share.share(widget.productUrl);
-            },
-            child: Padding(
-              padding: EdgeInsets.only(right: 16),
-              child: Image.asset(
-                "assets/images/Vectorsend.png",
-                height: 24,
-                width: 20,
-              ),
-            ),
-          ),
-        ],
+        // actions: [
+        //   GestureDetector(
+        //     onTap: () {
+        //       Share.share(widget.productUrl);
+        //     },
+        //     child: Padding(
+        //       padding: EdgeInsets.only(right: 16),
+        //       child: Image.asset(
+        //         "assets/images/Vectorsend.png",
+        //         height: 24,
+        //         width: 20,
+        //       ),
+        //     ),
+        //   ),
+        // ],
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
           child: InkWell(
@@ -146,7 +140,7 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                     Row(
                       children: [
                         Text(
-                        // normalizedPercent.toString(),
+                          // normalizedPercent.toString(),
                           '\$ ${normalizedPercent.toString()}',
 
                           // '\$ ${widget.productPrice}',

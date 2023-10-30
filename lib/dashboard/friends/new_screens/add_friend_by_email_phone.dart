@@ -106,6 +106,9 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
 
   final TextEditingController _controller = TextEditingController();
 
+  final List<bool> delete = List.generate(1000, (index) => false);
+  final List<bool> accept = List.generate(1000, (index) => false);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -337,40 +340,73 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
                                         Text(friendList[i].phone.toString()),
                                       ],
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: SizedBox(
-                                        width: 70,
-                                        height: 36,
-                                        child: YellowButtonWithText(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  ColorSelect.colorF7E641),
-                                          textStyleColor:
-                                              ColorSelect.color292929,
-                                          title: 'Add',
-                                          onTap: () {
-                                            addFriendApi(
-                                                    friendsId: friendList[i]
-                                                        .id
-                                                        .toString(),
-                                                    status: 'requested')
-                                                .then((value) {
-                                              print(value);
-                                              if (value['status'] == true) {
-                                                setState(() {
-                                                  Fluttertoast.showToast(
-                                                      msg: value['message']);
-                                                });
-                                              } else {
-                                                Fluttertoast.showToast(
-                                                    msg: value['message']);
-                                              }
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                    )
+                                    accept[i]
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 22.0),
+                                            child: CircularProgressIndicator(
+                                              color: ColorSelect.colorF7E641,
+                                            ),
+                                          )
+                                        : Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 10),
+                                            child: SizedBox(
+                                              width: 70,
+                                              height: 36,
+                                              child: YellowButtonWithText(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        ColorSelect
+                                                            .colorF7E641),
+                                                textStyleColor:
+                                                    ColorSelect.color292929,
+                                                title: 'Add',
+                                                onTap: () {
+                                                  setState(() {
+                                                    accept[i] = !accept[i];
+                                                  });
+                                                  Timer timer = Timer(
+                                                      Duration(seconds: 2), () {
+                                                    setState(() {
+                                                      accept[i] = false;
+                                                    });
+                                                  });
+                                                  addFriendApi(
+                                                          friendsId:
+                                                              friendList[i]
+                                                                  .id
+                                                                  .toString(),
+                                                          status: 'requested')
+                                                      .then((value) {
+                                                    print(value);
+                                                    if (value['status'] ==
+                                                        true) {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  FriendRequestSent(
+                                                                    name: friendList[
+                                                                            i]
+                                                                        .name
+                                                                        .toString(),
+                                                                  )));
+                                                      setState(() {
+                                                        Fluttertoast.showToast(
+                                                            msg: value[
+                                                                'message']);
+                                                      });
+                                                    } else {
+                                                      Fluttertoast.showToast(
+                                                          msg:
+                                                              value['message']);
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          )
                                   ],
                                 ),
                                 // subtitle: Text(num),

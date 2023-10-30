@@ -356,6 +356,9 @@ class _FriendProductState extends State<FriendProduct> {
                                       MaterialPageRoute(
                                         builder: (_) => FriendProfile(
                                           friendId: widget.friendId,
+                                          friendName: widget.friendName,
+                                          friendUserName: widget.friendUserName,
+                                          photo: widget.friendPhoto,
                                         ),
                                       ),
                                     );
@@ -365,6 +368,7 @@ class _FriendProductState extends State<FriendProduct> {
                                     padding: EdgeInsets.all(16),
                                     clipBehavior: Clip.hardEdge,
                                     decoration: BoxDecoration(
+                                        // color: Colors.red,
                                         color: Colors.transparent,
                                         borderRadius: BorderRadius.circular(8),
                                         border: Border.all(

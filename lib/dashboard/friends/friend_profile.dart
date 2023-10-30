@@ -16,11 +16,16 @@ import '../../models/friends_details_model.dart';
 
 class FriendProfile extends StatefulWidget {
   final String friendId;
-  // final String friendName;
-  // final String friendUserName;
+  final String friendName;
+  final String friendUserName;
+  final String photo;
+
   const FriendProfile({
     Key? key,
     required this.friendId,
+    required this.friendName,
+    required this.friendUserName,
+    required this.photo,
     /*  required this.friendName,
     required this.friendUserName*/
   }) : super(key: key);
@@ -168,9 +173,10 @@ class _FriendProfileState extends State<FriendProfile> {
                     child: Image.asset('assets/images/Vector190.png')),
               ),
               title: Text(
-                friendDetails.data!.name == ''
-                    ? 'User'
-                    : friendDetails.data!.name.toString(),
+                widget.friendName,
+                // friendDetails.data!.name == ''
+                //     ? 'User'
+                //     : friendDetails.data!.name.toString(),
                 // 'Andy Bernard',
                 style: AppTextStyle().textColor29292920w700,
               ),
@@ -235,7 +241,7 @@ class _FriendProfileState extends State<FriendProfile> {
                                       friendDetails.data!.photo.toString(),
                               fit: BoxFit.cover,
                               errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
+                                  Image.asset("assets/icons/userico.jpg"),
                               progressIndicatorBuilder: (a, b, c) => Opacity(
                                 opacity: 0.3,
                                 child: Shimmer.fromColors(
@@ -260,9 +266,10 @@ class _FriendProfileState extends State<FriendProfile> {
                           SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              friendDetails.data!.name == ''
-                                  ? 'User'
-                                  : friendDetails.data!.name.toString(),
+                              widget.friendUserName,
+                              // friendDetails.data!.name == ''
+                              //     ? 'User'
+                              //     : friendDetails.data!.name.toString(),
                               // 'Andy Bernard',
                               style: AppTextStyle().textColor29292920w700,
                             ),
