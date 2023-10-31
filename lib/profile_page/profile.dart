@@ -13,6 +13,8 @@ import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/constants/urls.dart';
+import 'package:swishlist/expanded/user_all_details.dart';
+import 'package:swishlist/models/login_models.dart';
 import 'package:swishlist/models/profile_model.dart';
 import 'package:swishlist/profile_page/privacy.dart';
 import 'package:swishlist/profile_page/widgets/date_picker.dart';
@@ -24,7 +26,9 @@ import '../constants/globals/loading.dart';
 import 'favourite_add_widgets/car_edit_dialog.dart';
 
 class UserProfile extends StatefulWidget {
-  UserProfile({Key? key}) : super(key: key);
+  final LoginResponse response;
+
+  UserProfile({Key? key, required this.response}) : super(key: key);
   @override
   State<UserProfile> createState() => _UserProfileState();
 }
@@ -101,6 +105,8 @@ class _UserProfileState extends State<UserProfile> {
               get();
               fields();
               isLoading = false;
+              print(
+                  'check photo${baseUrl + profile!.data!.user!.photo.toString()}');
             });
           }
         } else {
@@ -289,36 +295,36 @@ class _UserProfileState extends State<UserProfile> {
               //         profile!.data!.dob.toString() == '' ||
               //         profile!.data!.occupation.toString() == '' ||
               //         profile!.data!.phone.toString() == '')
-              updateProfile(
-                      name: nameController.text,
-                      gender: genderController.text,
-                      dob: dobFormat,
-                      occupation: occupationController.text,
-                      relationStatus: relationStatus.text,
-                      email: emailController.text,
-                      phone: phoneController.text,
-                      alternateNo: alternateNo.text,
-                      homeAddress: homeController.text,
-                      workAddress: workController.text,
-                      privacyStatus: 'public',
-                      id: profile!.data!.id.toString(),
-                      photo: profile!.data!.user!.photo!.isEmpty
-                          ? pickedImage.isAbsolute
-                              ? pickedImage.path
-                              : ''
-                          : profile!.data!.user!.photo!)
-                  .then((value) {
-                print(pickedImage);
-                if (value['status'] == true) {
-                  Navigator.pop(context);
-                  // setState(() {
-                  //   // isLoading ? Loading() :getProfile();
-                  // });
-                  Fluttertoast.showToast(msg: value['message']);
-                } else {
-                  Fluttertoast.showToast(msg: value['message']);
-                }
-              });
+              // updateProfile(
+              //         name: nameController.text,
+              //         gender: genderController.text,
+              //         dob: dobFormat,
+              //         occupation: occupationController.text,
+              //         relationStatus: relationStatus.text,
+              //         email: emailController.text,
+              //         phone: phoneController.text,
+              //         alternateNo: alternateNo.text,
+              //         homeAddress: homeController.text,
+              //         workAddress: workController.text,
+              //         privacyStatus: 'public',
+              //         id: profile!.data!.id.toString(),
+              //         photo: profile!.data!.user!.photo!.isEmpty
+              //             ? pickedImage.isAbsolute
+              //                 ? pickedImage.path
+              //                 : ''
+              //             : profile!.data!.user!.photo!)
+              //     .then((value) {
+              //   print(pickedImage);
+              //   if (value['status'] == true) {
+              //     Navigator.pop(context);
+              //     // setState(() {
+              //     //   // isLoading ? Loading() :getProfile();
+              //     // });
+              //     Fluttertoast.showToast(msg: value['message']);
+              //   } else {
+              //     Fluttertoast.showToast(msg: value['message']);
+              //   }
+              // });
             },
             child: SvgPicture.asset(
               "assets/icons/arrowback.svg",
@@ -380,9 +386,14 @@ class _UserProfileState extends State<UserProfile> {
                                         ),
                                         clipBehavior: Clip.hardEdge,
                                         child: CachedNetworkImage(
-                                          imageUrl: baseUrl +
-                                              profile!.data!.user!.photo
-                                                  .toString(),
+                                          imageUrl: profile!.data!.user!.photo
+                                                  .toString()
+                                                  .contains("https")
+                                              ? profile!.data!.user!.photo
+                                                  .toString()
+                                              : baseUrl +
+                                                  profile!.data!.user!.photo
+                                                      .toString(),
                                           /* baseUrl+profile!.data!.user!.photo! == '' ?
                               'add photo' :*/
                                           // '$baseUrl${SharedPrefs().getUserPhoto()}',
@@ -1280,14 +1291,25 @@ class _UserProfileState extends State<UserProfile> {
                                         photo:
                                             // localImagePath
 
-                                            pickedImage.path.isEmpty
+                                            pickedImage.isAbsolute
                                                 ? pickedImage.path
                                                 : '',
                                       ).then(
                                         (value) async {
                                           if (value['status'] == true) {
                                             SharedPrefs().setPPercent('100 %');
-                                            Navigator.pop(context);
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) {
+                                                  // Your new route/widget here
+                                                  return UserAllDetails(
+                                                    response: widget.response,
+                                                  );
+                                                },
+                                              ),
+                                            );
                                             Fluttertoast.showToast(
                                                 msg: value['message']);
                                           } else {

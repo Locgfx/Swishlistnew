@@ -1421,7 +1421,7 @@ class _ProductsPageState extends State<ProductsPage> {
       ): Text("flmv")*/
                                   ),
                       SizedBox(
-                        height: 68,
+                        height: 16,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -1687,7 +1687,7 @@ class _ProductsPageState extends State<ProductsPage> {
     )*/
                                   ),
                       SizedBox(
-                        height: 68,
+                        height: 16,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),

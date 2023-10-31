@@ -307,7 +307,7 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
                                     // imageUrl: baseUrl+contactModel.data![i].photo.toString(),
                                     fit: BoxFit.cover,
                                     errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
+                                        Image.asset("assets/icons/userico.jpg"),
                                     progressIndicatorBuilder: (a, b, c) =>
                                         Opacity(
                                       opacity: 0.3,

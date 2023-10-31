@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/loading.dart';
+import 'package:swishlist/models/login_models.dart';
 import 'package:swishlist/profile_page/profile.dart';
 
 import '../api/user_apis/delete_account_api.dart';
@@ -15,7 +16,8 @@ import '../models/profile_model.dart';
 import 'delete_account.dart';
 
 class Account extends StatefulWidget {
-  const Account({Key? key}) : super(key: key);
+  final LoginResponse response;
+  const Account({Key? key, required this.response}) : super(key: key);
 
   @override
   State<Account> createState() => _AccountState();
@@ -65,7 +67,9 @@ class _AccountState extends State<Account> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => UserProfile(),
+                    builder: (context) => UserProfile(
+                      response: widget.response,
+                    ),
                   ),
                 );
               },

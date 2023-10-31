@@ -219,18 +219,18 @@ class User {
   String? name;
   String? username;
 
-  String? email;
+  // String? email;
   String? photo;
   String? type;
 
-  User({this.id, this.name, this.username, this.email, this.photo, this.type});
+  User({this.id, this.name, this.username, this.photo, this.type});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     username = json['username'];
 
-    email = json['email'];
+    // email = json['email'];
     photo = json['photo'];
     type = json['type'];
   }
@@ -241,7 +241,7 @@ class User {
     data['name'] = this.name;
     data['username'] = this.username;
 
-    data['email'] = this.email;
+    // data['email'] = this.email;
     data['photo'] = this.photo;
     data['type'] = this.type;
     return data;

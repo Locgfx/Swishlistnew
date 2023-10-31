@@ -449,8 +449,13 @@ class _FriendsState extends State<Friends> {
                                                       children: [
                                                         Text(
                                                           friendList[i]
-                                                              .friend!
-                                                              .name!,
+                                                                      .friend!
+                                                                      .name ==
+                                                                  null
+                                                              ? 'friend not added name yet'
+                                                              : friendList[i]
+                                                                  .friend!
+                                                                  .name!,
                                                           // "Andy Bernard",
                                                           style: AppTextStyle()
                                                               .textColor29292914w500,
@@ -458,8 +463,14 @@ class _FriendsState extends State<Friends> {
                                                         SizedBox(height: 4),
                                                         Text(
                                                           friendList[i]
-                                                              .friend!
-                                                              .username!,
+                                                                      .friend!
+                                                                      .username ==
+                                                                  null
+                                                              ? 'friend not added name yet'
+                                                              : friendList[i]
+                                                                  .friend!
+                                                                  .username!,
+
                                                           // "AndyAngie3260",
                                                           style: AppTextStyle()
                                                               .textColor70707014w400,

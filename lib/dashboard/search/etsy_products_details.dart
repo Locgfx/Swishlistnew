@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 
@@ -68,6 +71,8 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
   final productTypeController = TextEditingController();
   final dateController = TextEditingController();
   String dateFormat = '';
+
+  bool show = false;
 
   @override
   Widget build(BuildContext context) {
@@ -505,84 +510,112 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                 SizedBox(
                                                   height: 16,
                                                 ),
-                                                SizedBox(
-                                                  height: 40.h,
-                                                  width: 88.w,
-                                                  child:
-                                                      LightYellowButtonWithText(
-                                                          backgroundColor: (productTypeController
-                                                                      .text
-                                                                      .isNotEmpty &&
-                                                                  dateController
-                                                                      .text
-                                                                      .isNotEmpty)
-                                                              ? MaterialStateProperty
-                                                                  .all(ColorSelect
-                                                                      .colorF7E641)
-                                                              : MaterialStateProperty
-                                                                  .all(ColorSelect
-                                                                      .colorFCF5B6),
-                                                          textStyleColor: (productTypeController
-                                                                      .text
-                                                                      .isNotEmpty &&
-                                                                  dateController
-                                                                      .text
-                                                                      .isNotEmpty)
-                                                              ? Colors.black
-                                                              : ColorSelect
-                                                                  .colorB5B07A,
-                                                          onTap: () {
-                                                            if (productTypeController
-                                                                    .text
-                                                                    .isNotEmpty &&
-                                                                dateController
-                                                                    .text
-                                                                    .isNotEmpty) {
-                                                              etsyStoreApi(
-                                                                type: productTypeController
-                                                                            .text ==
-                                                                        'have'
-                                                                    ? 'have'
-                                                                    : productTypeController.text ==
-                                                                            'want'
-                                                                        ? 'want'
-                                                                        : 'dont_want',
-                                                                name: widget
-                                                                    .productTitle,
-                                                                link: widget
-                                                                    .productUrl,
-                                                                price: widget
-                                                                    .productPrice,
-                                                                purchaseDate:
-                                                                    dateFormat,
-                                                                status:
-                                                                    'public',
-                                                                photoUrl: imageModel!
-                                                                    .results![0]
-                                                                    .urlFullxfull
-                                                                    .toString(),
-                                                                photo: '',
-                                                              ).then((value) {
-                                                                if (value[
-                                                                        'status'] ==
-                                                                    true) {
-                                                                  Navigator.of(
-                                                                      context)
-                                                                    ..pop()
-                                                                    ..pop();
-                                                                  Fluttertoast.showToast(
-                                                                      msg: value[
-                                                                          'message']);
-                                                                } else {
-                                                                  Fluttertoast.showToast(
-                                                                      msg: value[
-                                                                          'please enter all products details']);
-                                                                }
-                                                              });
-                                                            }
-                                                          },
-                                                          title: 'Add'),
-                                                ),
+                                                show
+                                                    ? Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 24),
+                                                        child: LoadingAnimationWidget
+                                                            .staggeredDotsWave(
+                                                          size: 40,
+                                                          color: ColorSelect
+                                                              .colorF7E641,
+                                                        ),
+                                                      )
+                                                    : SizedBox(
+                                                        height: 40.h,
+                                                        width: 88.w,
+                                                        child:
+                                                            LightYellowButtonWithText(
+                                                                backgroundColor: (productTypeController
+                                                                            .text
+                                                                            .isNotEmpty &&
+                                                                        dateController
+                                                                            .text
+                                                                            .isNotEmpty)
+                                                                    ? MaterialStateProperty.all(
+                                                                        ColorSelect
+                                                                            .colorF7E641)
+                                                                    : MaterialStateProperty.all(
+                                                                        ColorSelect
+                                                                            .colorFCF5B6),
+                                                                textStyleColor: (productTypeController
+                                                                            .text
+                                                                            .isNotEmpty &&
+                                                                        dateController
+                                                                            .text
+                                                                            .isNotEmpty)
+                                                                    ? Colors
+                                                                        .black
+                                                                    : ColorSelect
+                                                                        .colorB5B07A,
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    show =
+                                                                        !show;
+                                                                  });
+                                                                  Timer timer = Timer(
+                                                                      Duration(
+                                                                          seconds:
+                                                                              3),
+                                                                      () {
+                                                                    setState(
+                                                                        () {
+                                                                      show =
+                                                                          false;
+                                                                    });
+                                                                  });
+                                                                  if (productTypeController
+                                                                          .text
+                                                                          .isNotEmpty &&
+                                                                      dateController
+                                                                          .text
+                                                                          .isNotEmpty) {
+                                                                    etsyStoreApi(
+                                                                      type: productTypeController.text ==
+                                                                              'have'
+                                                                          ? 'have'
+                                                                          : productTypeController.text == 'want'
+                                                                              ? 'want'
+                                                                              : 'dont_want',
+                                                                      name: widget
+                                                                          .productTitle,
+                                                                      link: widget
+                                                                          .productUrl,
+                                                                      price: widget
+                                                                          .productPrice,
+                                                                      purchaseDate:
+                                                                          dateFormat,
+                                                                      status:
+                                                                          'public',
+                                                                      photoUrl: imageModel!
+                                                                          .results![
+                                                                              0]
+                                                                          .urlFullxfull
+                                                                          .toString(),
+                                                                      photo: '',
+                                                                    ).then(
+                                                                        (value) {
+                                                                      if (value[
+                                                                              'status'] ==
+                                                                          true) {
+                                                                        Navigator.of(
+                                                                            context)
+                                                                          ..pop()
+                                                                          ..pop();
+                                                                        Fluttertoast.showToast(
+                                                                            msg:
+                                                                                value['message']);
+                                                                      } else {
+                                                                        Fluttertoast.showToast(
+                                                                            msg:
+                                                                                value['please enter all products details']);
+                                                                      }
+                                                                    });
+                                                                  }
+                                                                },
+                                                                title: 'Add'),
+                                                      ),
                                                 SizedBox(
                                                   height: 32,
                                                 )

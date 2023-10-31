@@ -37,6 +37,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
   List<DateModel> eventUpcoming2 = [];
   List<int> selectedItems = [];
   bool showLoad = false;
+
   bool show = false;
 
   // getAllEvent() {
@@ -144,6 +145,8 @@ class _DateAndEventsState extends State<DateAndEvents> {
   String dateFormat = '';
 
   DateTime? selectedDate;
+
+  final List<bool> accept = List.generate(1000, (index) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -497,6 +500,10 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                                     ? Loading
                                                                     : _handleRefresh();
                                                               });
+                                                              dateController
+                                                                  .clear();
+                                                              nameController
+                                                                  .clear();
 
                                                               Fluttertoast.showToast(
                                                                   msg: value[
@@ -764,6 +771,10 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                             eventUpcoming[i]
                                                                 .name
                                                                 .toString(),
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                             style: AppTextStyle()
                                                                 .textColor29292914w400,
                                                           ),
@@ -810,13 +821,13 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                   GestureDetector(
                                                     onTap: () {
                                                       setState(() {
-                                                        show = !show;
+                                                        accept[i] = !accept[i];
                                                       });
                                                       Timer timer = Timer(
                                                           Duration(seconds: 2),
                                                           () {
                                                         setState(() {
-                                                          show = false;
+                                                          accept[i] = false;
                                                         });
                                                       });
                                                       deleteEventAndDate(
@@ -847,15 +858,17 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                         });
                                                       });
                                                     },
-                                                    child: show
+                                                    child: accept[i]
                                                         ? Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                    .all(4.0),
+                                                                    .only(
+                                                                    right:
+                                                                        10.0),
                                                             child:
                                                                 CircularProgressIndicator(
-                                                              color:
-                                                                  Colors.yellow,
+                                                              color: ColorSelect
+                                                                  .colorF7E641,
                                                             ),
                                                           )
                                                         : Container(

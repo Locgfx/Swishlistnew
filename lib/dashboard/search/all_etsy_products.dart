@@ -147,6 +147,8 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
     }
   }
 
+  double normalizedPercent = 0.0;
+
   @override
   void dispose() {
     searchController.dispose();
@@ -218,6 +220,8 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                   itemCount: listings.length + 1,
                                   itemBuilder: (_, i) {
                                     if (i < listings.length) {
+                                      normalizedPercent =
+                                          listings[i].price!.amount! / 100.00;
                                       return GestureDetector(
                                         onTap: () {
                                           Navigator.push(
@@ -324,7 +328,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                                       height: 8.0,
                                                     ),
                                                     Text(
-                                                      ' \$ ${listings[i].price!.amount.toString()}',
+                                                      ' \$ ${normalizedPercent}',
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style: AppTextStyle()

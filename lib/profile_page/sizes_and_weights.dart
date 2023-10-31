@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
+import 'package:swishlist/expanded/user_all_details.dart';
 
 import '../api/user_apis/sizes_and_weight_api.dart';
 import '../buttons/light_yellow.dart';
@@ -548,7 +549,16 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                           privacy: 'public')
                                       .then((value) async {
                                     if (value['status'] == true) {
-                                      Navigator.pop(context);
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) {
+                                            // Your new route/widget here
+                                            return UserAllDetails(
+                                              response: widget.response,
+                                            );
+                                          },
+                                        ),
+                                      );
                                       SharedPrefs().setSize('100 %');
                                       // setState(() {
                                       //   isLoading ? Loading(): getSizedWeight();
@@ -588,7 +598,16 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                           id: sizeWeight!.data!.id.toString())
                                       .then((value) {
                                     if (value['status'] == true) {
-                                      Navigator.pop(context);
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) {
+                                            // Your new route/widget here
+                                            return UserAllDetails(
+                                              response: widget.response,
+                                            );
+                                          },
+                                        ),
+                                      );
                                       // SharedPrefs().setSize('100 %');
                                       Fluttertoast.showToast(
                                           msg: value['message']);

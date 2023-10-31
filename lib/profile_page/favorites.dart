@@ -6,7 +6,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
+import 'package:swishlist/expanded/user_all_details.dart';
 import 'package:swishlist/models/favourites_model.dart';
+import 'package:swishlist/models/login_models.dart';
 
 import '../api/user_apis/favourites_api.dart';
 import '../buttons/light_yellow.dart';
@@ -15,8 +17,10 @@ import '../constants/globals/loading.dart';
 import 'favourite_add_widgets/car_edit_dialog.dart';
 
 class Favorites extends StatefulWidget {
+  final LoginResponse response;
   const Favorites({
     Key? key,
+    required this.response,
   }) : super(key: key);
   @override
   State<Favorites> createState() => _FavoritesState();
@@ -1492,7 +1496,16 @@ class _FavoritesState extends State<Favorites> {
                                     if (value['status'] == true) {
                                       SharedPrefs().setFavourites('100 %');
 
-                                      Navigator.pop(context);
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) {
+                                            // Your new route/widget here
+                                            return UserAllDetails(
+                                              response: widget.response,
+                                            );
+                                          },
+                                        ),
+                                      );
                                       // setState(() {
                                       //   isLoading ? Loading() : getFavourites();
                                       // });
@@ -1534,7 +1547,16 @@ class _FavoritesState extends State<Favorites> {
                                           id: favourites!.data!.id.toString())
                                       .then((value) async {
                                     if (value['status'] == true) {
-                                      Navigator.pop(context);
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) {
+                                            // Your new route/widget here
+                                            return UserAllDetails(
+                                              response: widget.response,
+                                            );
+                                          },
+                                        ),
+                                      );
                                       setState(() {
                                         // isLoading ? Loading() : getFavourites();
                                       });

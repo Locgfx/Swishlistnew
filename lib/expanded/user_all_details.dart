@@ -5,9 +5,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:swishlist/api/user_apis/complete_percent_api.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/dashboard/reset_password/reset_password.dart';
 import 'package:swishlist/expanded/widgets/Profile_data_and_all_uesr_data.dart';
+import 'package:swishlist/models/complete_percent_model.dart';
 import 'package:swishlist/profile_page/account.dart';
 import 'package:swishlist/profile_page/date_and_events.dart';
 import 'package:swishlist/profile_page/favorites.dart';
@@ -49,6 +51,18 @@ class _UserAllDetailsState extends State<UserAllDetails> {
     getFavourites();
     getProfile();
     super.initState();
+  }
+
+  List<CompletePercentModel> percent = [];
+  getCompletePercent() {
+    isLoading = true;
+    var resp = getCompletePercentApi();
+    resp.then((value) {
+      setState(() {
+        percent.add(CompletePercentModel.fromJson(value));
+        isLoading = false;
+      });
+    });
   }
 
   List<String>? elements = [''];
@@ -313,8 +327,12 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                     title: GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => Account()));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Account(
+                                      response: widget.response,
+                                    )));
                       },
                       child: Container(
                         child: Padding(
@@ -665,10 +683,12 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => UserProfile()));
+                                builder: (context) => UserProfile(
+                                      response: widget.response,
+                                    )));
                       },
                       child: Row(
                         children: [
@@ -742,7 +762,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (_) => SizeAndWeights(
@@ -819,10 +839,12 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Favorites()));
+                                builder: (context) => Favorites(
+                                      response: widget.response,
+                                    )));
                       },
                       child: Row(
                         children: [

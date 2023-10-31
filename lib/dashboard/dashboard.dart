@@ -293,6 +293,8 @@ class _DashboardState extends State<Dashboard> {
           child: Stack(
             children: [
               PageView(
+                physics: NeverScrollableScrollPhysics(),
+                allowImplicitScrolling: true,
                 controller: _pageController,
                 onPageChanged: (page) {
                   setState(
