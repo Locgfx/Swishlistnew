@@ -51,7 +51,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
     });
   }
 
-  String _selectedText = 'father';
+  String _selectedText = 'Father';
   final TextEditingController emailPhoneController = TextEditingController();
   bool show = false;
 
@@ -247,7 +247,6 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
               //     ),
               //   ),
               // ),
-
               SizedBox(height: 20.h),
               Container(
                 height: 52.h,
@@ -258,6 +257,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: DropdownButton<String>(
+                    padding: EdgeInsets.only(top: 8, bottom: 8),
                     isExpanded: true,
                     hint: Padding(
                       padding: const EdgeInsets.only(left: 16),
@@ -275,11 +275,11 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
                     underline: SizedBox(),
                     value: _selectedText,
                     items: <String>[
-                      'father',
-                      'mother',
-                      'brother',
-                      'child',
-                      'sister'
+                      'Father',
+                      'Mother',
+                      'Brother',
+                      'Child',
+                      'Sister'
                     ].map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,

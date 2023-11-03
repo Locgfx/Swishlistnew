@@ -327,7 +327,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                         child: TextFormField(
                                                           inputFormatters: [
                                                             LengthLimitingTextInputFormatter(
-                                                                30),
+                                                                20),
                                                           ],
                                                           onChanged: (v) {
                                                             setState(() {});
@@ -574,11 +574,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      /*      Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                          SizedBox(height: 5),*/
-                                      Text("No Upcoming Dates yet")
-                                    ],
+                                    children: [Text("No Upcoming Dates yet")],
                                   ),
                                 )
                               : ListView.separated(
@@ -767,16 +763,19 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                             style: AppTextStyle()
                                                                 .textColor29292914w600,
                                                           ),
-                                                          Text(
-                                                            eventUpcoming[i]
-                                                                .name
-                                                                .toString(),
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: AppTextStyle()
-                                                                .textColor29292914w400,
+                                                          SizedBox(
+                                                            width: 240,
+                                                            child: Text(
+                                                              eventUpcoming[i]
+                                                                  .name
+                                                                  .toString(),
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: AppTextStyle()
+                                                                  .textColor29292914w400,
+                                                            ),
                                                           ),
                                                         ],
                                                       ),

@@ -6,15 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:swishlist/api/login_signup_apis/update_profile_api.dart';
+import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/globals.dart';
+import 'package:swishlist/constants/globals/shared_prefs.dart';
+import 'package:swishlist/login/login.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
-
-import '../api/login_signup_apis/update_profile_api.dart';
-import '../buttons/light_yellow.dart';
-import '../constants/globals/shared_prefs.dart';
-import '../login/login.dart';
 
 class CreateNewAccountWithEmail extends StatefulWidget {
   final String email;
@@ -127,6 +126,9 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
                             ? 'Name must be greater than 4 characters'
                             : null;
                       },
+                      onChanged: (v) {
+                        setState(() {});
+                      },
                       controller: updateNameController,
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: 24),
@@ -149,6 +151,9 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
                     padding: const EdgeInsets.only(left: 20),
                     child: TextFormField(
                       controller: userNameController,
+                      onChanged: (v) {
+                        setState(() {});
+                      },
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: 24),
                           border: InputBorder.none,
@@ -173,6 +178,9 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
                         LengthLimitingTextInputFormatter(10),
                       ],
                       controller: numberController,
+                      onChanged: (v) {
+                        setState(() {});
+                      },
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: 24),
                           border: InputBorder.none,
@@ -187,60 +195,94 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
                 SizedBox(
                   height: 52.h,
                   width: 328.w,
-                  child: show
-                      ? LoadingLightYellowButton()
-                      : YellowButtonWithText(
+                  child: updateNameController.text.isEmpty ||
+                          userNameController.text.isEmpty ||
+                          numberController.text.isEmpty ||
+                          pickedImage.path.isEmpty
+                      ? LightYellowButtonWithText(
                           backgroundColor: MaterialStateProperty.all(
-                              ColorSelect.colorF7E641),
-                          textStyleColor: ColorSelect.color292929,
+                              ColorSelect.colorFCF5B6),
+                          textStyleColor: ColorSelect.colorB5B07A,
                           onTap: () {
-                            setState(() {
-                              show = !show;
-                            });
-                            Timer timer = Timer(Duration(seconds: 5), () {
-                              setState(() {
-                                show = false;
-                              });
-                            });
-                            // if(formKey.currentState!.validate()) {
-                            createAccountApi(
-                              name: updateNameController.text,
-                              userName: userNameController.text,
-                              email: widget.email,
-                              phone: numberController.text,
-                              photo: pickedImage.isAbsolute
-                                  ? pickedImage.path
-                                  : '',
-                            ).then((value) async {
-                              if (value['status'] ==
-                                      true /*&&
-                                response!.status == true*/
-                                  ) {
-                                SharedPrefs()
-                                    .setUserPhoto(pickedImage.toString());
-                                SharedPrefs()
-                                    .setName(updateNameController.toString());
-                                SharedPrefs()
-                                    .setUsername(userNameController.toString());
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => Login(),
-                                  ),
-                                );
+                            if (updateNameController.text.isNotEmpty ||
+                                userNameController.text.isNotEmpty ||
+                                numberController.text.isNotEmpty ||
+                                pickedImage.path.isNotEmpty) {
+                              if (pickedImage.path.isEmpty) {
                                 Fluttertoast.showToast(
-                                    msg: "Account Successfully Created");
-                                // print(pickedImage.toString());
-                                // print(updateNameController.text);
-                              } else {
+                                    msg: "Please add profile photo");
+                              } else if (updateNameController.text.isEmpty) {
                                 Fluttertoast.showToast(
-                                    msg:
-                                        "Account Failed to create check your details");
+                                    msg: "Please add your name");
+                              } else if (userNameController.text.isEmpty) {
+                                Fluttertoast.showToast(
+                                    msg: "Please add your username");
+                              } else if (phoneNoController.text.isEmpty) {
+                                Fluttertoast.showToast(
+                                    msg: "Please add your phone no");
                               }
-                            });
-                            // }
+                            } else {
+                              setState(() {
+                                Fluttertoast.showToast(
+                                    msg: "Please add all details");
+                              });
+                            }
                           },
-                          title: 'Create Account'),
+                          title: 'Please add all details')
+                      : show
+                          ? LoadingLightYellowButton()
+                          : YellowButtonWithText(
+                              backgroundColor: MaterialStateProperty.all(
+                                  ColorSelect.colorF7E641),
+                              textStyleColor: Colors.black,
+                              onTap: () {
+                                setState(() {
+                                  show = !show;
+                                });
+                                Timer timer = Timer(Duration(seconds: 5), () {
+                                  setState(() {
+                                    show = false;
+                                  });
+                                });
+                                // if(formKey.currentState!.validate()) {
+                                createAccountApi(
+                                  name: updateNameController.text,
+                                  userName: userNameController.text,
+                                  email: widget.email,
+                                  phone: numberController.text,
+                                  photo: pickedImage.isAbsolute
+                                      ? pickedImage.path
+                                      : '',
+                                ).then((value) async {
+                                  if (value['status'] ==
+                                          true /*&&
+                              response!.status == true*/
+                                      ) {
+                                    SharedPrefs()
+                                        .setUserPhoto(pickedImage.toString());
+                                    SharedPrefs().setName(
+                                        updateNameController.toString());
+                                    SharedPrefs().setUsername(
+                                        userNameController.toString());
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => Login(),
+                                      ),
+                                    );
+                                    Fluttertoast.showToast(
+                                        msg: "Account Successfully Created");
+                                    // print(pickedImage.toString());
+                                    // print(updateNameController.text);
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            "Account Failed to create check your details");
+                                  }
+                                });
+                                // }
+                              },
+                              title: 'Create Account'),
                 ),
               ],
             ),

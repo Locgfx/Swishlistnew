@@ -76,6 +76,7 @@ dependencies:
   flutter_rounded_date_picker: ^3.0.4
   firebase_messaging: ^14.6.8
   flutter_local_notifications: 9.9.1
+#  flutter_local_notifications: ^16.1.0
   email_validator: ^2.1.17
   flutter_cache_manager: ^3.3.1
 #  flutter_local_notifications: ^16.1.0

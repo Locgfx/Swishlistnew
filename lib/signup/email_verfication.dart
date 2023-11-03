@@ -27,10 +27,44 @@ class EmailVerification extends StatefulWidget {
 }
 
 class _EmailVerificationState extends State<EmailVerification> {
+  @override
+  void initState() {
+    _startTimer();
+    super.initState();
+  }
+
+  Timer? _timer;
+  int _start = 60;
+
+  _startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   final otpController = TextEditingController();
   bool loading = false;
   LoginResponse? response;
   bool show = false;
+
   @override
   Widget build(BuildContext context) {
     return TextFieldUnFocusOnTap(
@@ -98,29 +132,57 @@ class _EmailVerificationState extends State<EmailVerification> {
                 child: WhiteButtonWithText(
                   backgroundColor: MaterialStateProperty.all(Colors.white),
                   textStyleColor: ColorSelect.color292929,
-                  onTap: () {
-                    resendOtp(
-                      context: context,
-                      emailPhone: widget.email,
-                    ).then((value) async {
-                      if (value['status'] == true) {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => CreateNewAccount(
-                        //     ),
-                        //   ),
-                        // );
-                        Fluttertoast.showToast(
-                            msg: 'Please check your mail for Otp');
-                        // Fluttertoast.showToast(
-                        //     msg: 'Your OTP is ${value['data']['otp']}');
-                      } else {
-                        Fluttertoast.showToast(msg: value['message']);
-                      }
-                    });
-                  },
-                  title: 'Resent OTP',
+                  onTap: _start == 0
+                      ? () {
+                          setState(() {
+                            _start = 60;
+                          });
+                          _startTimer();
+                          resendOtp(
+                            context: context,
+                            emailPhone: widget.email,
+                          ).then((value) async {
+                            if (value['status'] == true) {
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => CreateNewAccount(
+                              //     ),
+                              //   ),
+                              // );
+                              Fluttertoast.showToast(
+                                  msg: 'check your mail for otp');
+                              // Fluttertoast.showToast(
+                              //     msg: 'Your OTP is ${value['data']['otp']}');
+                            } else {
+                              Fluttertoast.showToast(msg: value['message']);
+                            }
+                          });
+                        }
+                      : () {},
+                  // onTap: () {
+                  //   resendOtp(
+                  //     context: context,
+                  //     emailPhone: widget.email,
+                  //   ).then((value) async {
+                  //     if (value['status'] == true) {
+                  //       // Navigator.push(
+                  //       //   context,
+                  //       //   MaterialPageRoute(
+                  //       //     builder: (context) => CreateNewAccount(
+                  //       //     ),
+                  //       //   ),
+                  //       // );
+                  //       Fluttertoast.showToast(
+                  //           msg: 'Please check your mail for Otp');
+                  //       // Fluttertoast.showToast(
+                  //       //     msg: 'Your OTP is ${value['data']['otp']}');
+                  //     } else {
+                  //       Fluttertoast.showToast(msg: value['message']);
+                  //     }
+                  //   });
+                  // },
+                  title: 'Resend ${_start}s',
                 ),
               ),
               SizedBox(height: 50),

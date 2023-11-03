@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
+import 'package:swishlist/buttons/yellow_button.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 
 import '../../constants/color.dart';
@@ -337,69 +338,138 @@ class _AddPetsState extends State<AddPets> {
                 SizedBox(
                   width: 328.w,
                   height: 52.h,
-                  child: /*isLoading ?
-                  LoadingLightYellowButton():*/
-                      show
+                  child: nameController.text.isEmpty ||
+                          typeController.text.isEmpty ||
+                          originController.text.isEmpty ||
+                          pickedImage.path.isEmpty
+                      ? LightYellowButtonWithText(
+                          backgroundColor: MaterialStateProperty.all(
+                              ColorSelect.colorFCF5B6),
+                          textStyleColor: ColorSelect.colorB5B07A,
+                          onTap: () {
+                            if (nameController.text.isNotEmpty ||
+                                typeController.text.isNotEmpty ||
+                                originController.text.isNotEmpty ||
+                                pickedImage.path.isNotEmpty) {
+                              if (pickedImage.path.isEmpty) {
+                                Fluttertoast.showToast(msg: "Add pet photo");
+                              } else if (nameController.text.isEmpty) {
+                                Fluttertoast.showToast(msg: "Add pet name");
+                              } else if (typeController.text.isEmpty) {
+                                Fluttertoast.showToast(msg: "Add pet type");
+                              } else if (originController.text.isEmpty) {
+                                Fluttertoast.showToast(msg: "Add pet origin");
+                              }
+                            } else {
+                              setState(() {
+                                Fluttertoast.showToast(msg: "Add all details");
+                              });
+                            }
+                          },
+                          title: 'Add all details')
+                      : show
                           ? LoadingLightYellowButton()
-                          : LightYellowButtonWithText(
+                          : YellowButtonWithText(
+                              backgroundColor: MaterialStateProperty.all(
+                                  ColorSelect.colorF7E641),
+                              textStyleColor: Colors.black,
                               onTap: () {
                                 setState(() {
                                   show = !show;
                                 });
-                                Timer timer = Timer(Duration(seconds: 3), () {
+                                Timer timer = Timer(Duration(seconds: 5), () {
                                   setState(() {
                                     show = false;
                                   });
                                 });
-                                if (formKey.currentState!.validate()) {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  if (networkImage.isNotEmpty ||
-                                      pickedImage.isAbsolute) {
-                                    postPetsApi(
-                                      name: nameController.text,
-                                      type: typeController.text,
-                                      origin: originController.text,
-                                      privacyStatus: "public",
-                                      photo: pickedImage.isAbsolute
-                                          ? pickedImage.path
-                                          : '',
-                                    ).then(
-                                      (value) async {
-                                        if (value['status'] == true) {
-                                          SharedPrefs().setPets('100 %');
-                                          Navigator.pop(context);
-                                          // Navigator.pushReplacement(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: (_) => Pets()));
-                                          Fluttertoast.showToast(
-                                              msg: value['message']);
-                                        } else {
-                                          Fluttertoast.showToast(
-                                              msg: value['message']);
-                                        }
-                                      },
-                                    );
-                                  }
-                                }
+                                postPetsApi(
+                                  name: nameController.text,
+                                  type: typeController.text,
+                                  origin: originController.text,
+                                  privacyStatus: "public",
+                                  photo: pickedImage.isAbsolute
+                                      ? pickedImage.path
+                                      : '',
+                                ).then(
+                                  (value) async {
+                                    if (value['status'] == true) {
+                                      SharedPrefs().setPets('100 %');
+                                      Navigator.pop(context);
+                                      // Navigator.pushReplacement(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (_) => user()));
+                                      Fluttertoast.showToast(
+                                          msg: value['message']);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: value['message']);
+                                    }
+                                  },
+                                );
                               },
-                              backgroundColor:
-                                  (nameController.text.isNotEmpty &&
-                                              typeController.text.isNotEmpty ||
-                                          originController.text.isNotEmpty)
-                                      ? MaterialStateProperty.all(
-                                          ColorSelect.colorF7E641)
-                                      : MaterialStateProperty.all(
-                                          ColorSelect.colorFCF5B6),
-                              textStyleColor: nameController.text.isNotEmpty &&
-                                          typeController.text.isNotEmpty ||
-                                      originController.text.isNotEmpty
-                                  ? Colors.black
-                                  : ColorSelect.colorB5B07A,
-                              title: 'Add',
-                            ),
+                              title: 'Add'),
+                  // show
+                  //     ? LoadingLightYellowButton()
+                  //     : LightYellowButtonWithText(
+                  //         onTap: () {
+                  //           setState(() {
+                  //             show = !show;
+                  //           });
+                  //           Timer timer = Timer(Duration(seconds: 3), () {
+                  //             setState(() {
+                  //               show = false;
+                  //             });
+                  //           });
+                  //           if (formKey.currentState!.validate()) {
+                  //             setState(() {
+                  //               isLoading = true;
+                  //             });
+                  //             if (networkImage.isNotEmpty ||
+                  //                 pickedImage.isAbsolute) {
+                  //               postPetsApi(
+                  //                 name: nameController.text,
+                  //                 type: typeController.text,
+                  //                 origin: originController.text,
+                  //                 privacyStatus: "public",
+                  //                 photo: pickedImage.isAbsolute
+                  //                     ? pickedImage.path
+                  //                     : '',
+                  //               ).then(
+                  //                 (value) async {
+                  //                   if (value['status'] == true) {
+                  //                     SharedPrefs().setPets('100 %');
+                  //                     Navigator.pop(context);
+                  //                     // Navigator.pushReplacement(
+                  //                     //     context,
+                  //                     //     MaterialPageRoute(
+                  //                     //         builder: (_) => Pets()));
+                  //                     Fluttertoast.showToast(
+                  //                         msg: value['message']);
+                  //                   } else {
+                  //                     Fluttertoast.showToast(
+                  //                         msg: value['message']);
+                  //                   }
+                  //                 },
+                  //               );
+                  //             }
+                  //           }
+                  //         },
+                  //         backgroundColor:
+                  //             (nameController.text.isNotEmpty &&
+                  //                         typeController.text.isNotEmpty ||
+                  //                     originController.text.isNotEmpty)
+                  //                 ? MaterialStateProperty.all(
+                  //                     ColorSelect.colorF7E641)
+                  //                 : MaterialStateProperty.all(
+                  //                     ColorSelect.colorFCF5B6),
+                  //         textStyleColor: nameController.text.isNotEmpty &&
+                  //                     typeController.text.isNotEmpty ||
+                  //                 originController.text.isNotEmpty
+                  //             ? Colors.black
+                  //             : ColorSelect.colorB5B07A,
+                  //         title: 'Add',
+                  //       ),
                 ),
                 SizedBox(height: 24)
               ],

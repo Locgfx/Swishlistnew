@@ -617,7 +617,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MyInterests(

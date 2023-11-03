@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/constants/urls.dart';
@@ -46,6 +50,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
 
   List<int> selectedItems = [];
   bool loading = false;
+  bool show = false;
 
   @override
   void initState() {
@@ -56,6 +61,80 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text(
+          "Delete Notifications",
+          style: AppTextStyle().textColor29292916w500,
+        ),
+        actions: [
+          selectedItems.isEmpty
+              ? SizedBox()
+              : GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      show = !show;
+                    });
+                    Timer timer = Timer(Duration(seconds: 2), () {
+                      setState(() {
+                        show = false;
+                      });
+                    });
+                    setState(() {
+                      loading = true;
+                    });
+                    for (var v in selectedItems) {
+                      fcmNotificationDeleteApi(id: v.toString())
+                          .then((value) async {
+                        print(v);
+                        print(selectedItems.toString());
+                        if (value['status'] == true) {
+                          setState(() {
+                            fcmnotification.data!
+                                .removeWhere((element) => element.id == v);
+                          });
+                          Fluttertoast.showToast(msg: value['message']);
+                        } else {
+                          Fluttertoast.showToast(msg: value['message']);
+                        }
+                        setState(() {
+                          isLoading = false;
+                          selectedItems.clear();
+                        });
+                      });
+                    }
+                  },
+                  child: show
+                      ? Center(
+                          child: Padding(
+                              padding: const EdgeInsets.only(right: 16),
+                              child: LoadingAnimationWidget.staggeredDotsWave(
+                                size: 30,
+                                color: Colors.black.withOpacity(0.70),
+                              )),
+                        )
+                      : Container(
+                          margin: EdgeInsets.only(right: 16),
+                          width: 36,
+                          height: 36,
+                          child: Image.asset('assets/images/del.png'),
+                        ),
+                ),
+        ],
+        leadingWidth: 40,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: SvgPicture.asset(
+              "assets/icons/arrowback.svg",
+            ),
+          ),
+        ),
+      ),
       body: isLoading
           ? Loading()
           : RefreshIndicator(
@@ -72,33 +151,22 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
                 child: fcmnotification.data!.isEmpty
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 100),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 30.0),
-                            child:
-                                Image.asset("assets/images/empty activity.png"),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 60, right: 60, top: 24),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "No notifications yet",
-                                  maxLines: 2,
-                                  style: AppTextStyle().roboto29292914w500,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
+                    ? Center(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 60, left: 60, right: 60, bottom: 16),
+                              child: Image.asset(
+                                "assets/images/empty activity.png",
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 40),
-                        ],
+                            Text(
+                              "No notifications yet",
+                            ),
+                            SizedBox(height: 40),
+                          ],
+                        ),
                       )
                     : Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -106,68 +174,62 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: 60,
+                              height: 16,
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  "Delete Notification",
-                                  style: AppTextStyle().textColor29292920w500,
-                                ),
-                                Spacer(),
-                                selectedItems.isEmpty
-                                    ? SizedBox()
-                                    : GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            loading = true;
-                                          });
-                                          for (var v in selectedItems) {
-                                            fcmNotificationDeleteApi(
-                                                    id: v.toString())
-                                                .then((value) async {
-                                              print(v);
-                                              print(selectedItems.toString());
-                                              if (value['status'] == true) {
-                                                setState(() {
-                                                  fcmnotification.data!
-                                                      .removeWhere((element) =>
-                                                          element.id == v);
-                                                });
-                                                Fluttertoast.showToast(
-                                                    msg: value['message']);
-                                              } else {
-                                                Fluttertoast.showToast(
-                                                    msg: value['message']);
-                                              }
-                                              setState(() {
-                                                isLoading = false;
-                                                selectedItems.clear();
-                                              });
-                                            });
-                                          }
-                                        },
-                                        child: Container(
-                                          width: 36,
-                                          height: 36,
-                                          child: Image.asset(
-                                              'assets/images/del.png'),
-                                        ),
-                                      ),
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //
+                            //
+                            //     selectedItems.isEmpty
+                            //         ? SizedBox()
+                            //         : GestureDetector(
+                            //             onTap: () {
+                            //               setState(() {
+                            //                 loading = true;
+                            //               });
+                            //               for (var v in selectedItems) {
+                            //                 fcmNotificationDeleteApi(
+                            //                         id: v.toString())
+                            //                     .then((value) async {
+                            //                   print(v);
+                            //                   print(selectedItems.toString());
+                            //                   if (value['status'] == true) {
+                            //                     setState(() {
+                            //                       fcmnotification.data!
+                            //                           .removeWhere((element) =>
+                            //                               element.id == v);
+                            //                     });
+                            //                     Fluttertoast.showToast(
+                            //                         msg: value['message']);
+                            //                   } else {
+                            //                     Fluttertoast.showToast(
+                            //                         msg: value['message']);
+                            //                   }
+                            //                   setState(() {
+                            //                     isLoading = false;
+                            //                     selectedItems.clear();
+                            //                   });
+                            //                 });
+                            //               }
+                            //             },
+                            //             child: Container(
+                            //               width: 36,
+                            //               height: 36,
+                            //               child: Image.asset(
+                            //                   'assets/images/del.png'),
+                            //             ),
+                            //           ),
+                            //   ],
+                            // ),
                             // Text(
                             //   "hold item to delete",
                             //   style: TextStyle(fontSize: 10),
                             // ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 16),
-                              child: Center(
-                                child: Text(
-                                  "Tap and hold notification to delete",
-                                  textAlign: TextAlign.center,
-                                  style: AppTextStyle().textColor70707012w400,
-                                ),
+                            Center(
+                              child: Text(
+                                "Tap and hold notification to delete",
+                                textAlign: TextAlign.center,
+                                style: AppTextStyle().textColor70707012w400,
                               ),
                             ),
 

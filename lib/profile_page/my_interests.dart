@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/constants/color.dart';
+import 'package:swishlist/expanded/user_all_details.dart';
 
 import '../api/user_apis/interest_api.dart';
 import '../buttons/yellow_button.dart';
@@ -137,14 +138,14 @@ class _MyInterestsState extends State<MyInterests> {
                         ).then((value) async {
                           if (value['status'] == true) {
                             Fluttertoast.showToast(msg: value['message']);
-                            Navigator.pop(context);
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (_) =>
-                            //         UserAllDetails(response: widget.response),
-                            //   ),
-                            // );
+                            // Navigator.pop(context);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    UserAllDetails(response: widget.response),
+                              ),
+                            );
                           } else {
                             Fluttertoast.showToast(msg: value['message']);
                           }
@@ -171,14 +172,14 @@ class _MyInterestsState extends State<MyInterests> {
                             // print(tagsList.toString());
                             // print(_interest!.data!.id.toString());
                             Fluttertoast.showToast(msg: value['message']);
-                            Navigator.pop(context);
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (_) =>
-                            //         UserAllDetails(response: widget.response),
-                            //   ),
-                            // );
+                            // Navigator.pop(context);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    UserAllDetails(response: widget.response),
+                              ),
+                            );
                           } else {
                             Fluttertoast.showToast(msg: value['message']);
                           }

@@ -48,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // var prefs = await SharedPreferences.getInstance();
     // prefs.setString(Keys().fcmToken, _fcmToken);
     print('Firebase token: $firebaseAppToken');
-    print(_fcmToken);
+    print('check token ${_fcmToken} check token');
     //NotificationTokenApi().get();
     // authUserApi(fcmToken: _fcmToken).then((value) async {});
   }

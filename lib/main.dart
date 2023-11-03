@@ -52,15 +52,26 @@ fn(RemoteMessage message) async {
           ticker: 'ticker');
   NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: androidPlatformChannelSpecifics);
-  //log(event.data['content']['id'].toString());
-  log(a['id']);
-  flutterPlugin.show(
-    a['id'],
-    a['title'].toString(),
-    a['body'].toString(),
-    platformChannelSpecifics,
-    payload: a['payload'].toString(),
-  );
+  // log(event.data['content']['id'].toString());
+  // log(a['id']);
+  if (a['id'] != null && a['id'] is int) {
+    flutterPlugin.show(
+      a['id'],
+      a['title'].toString(),
+      a['body'].toString(),
+      platformChannelSpecifics,
+      payload: a['payload'].toString(),
+    );
+  }
+
+  // flutterPlugin.show(
+  //   a['id'],
+  //   a['title'].toString(),
+  //   a['body'].toString(),
+  //   platformChannelSpecifics,
+  //   payload: a['payload'].toString(),
+  // );
+
   /*if (message.data['content']['payload']['type'].toString() == 'story') {
     Navigator.push(
         _navigatorKey.currentState!.context,
@@ -300,6 +311,9 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             // home: ContactSync(),
             home: SplashScreen()
+            // home: CreateNewAccountWithEmail(
+            //   email: '',
+            // ),
             // home: IntroFinal(
             //   onBackTap: () {},
             // ),

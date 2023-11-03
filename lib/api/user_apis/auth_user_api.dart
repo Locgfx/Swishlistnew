@@ -36,9 +36,9 @@ Future<dynamic> authTokenLoginApi(
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
-  print(resp);
+  print('check resp${resp}');
   if (response.statusCode == 200) {
-    print(resp);
+    print('check resp${resp}');
     return LoginResponse.fromJson(resp);
   } else {
     // print(resp);
