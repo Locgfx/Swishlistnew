@@ -57,15 +57,15 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPrefs().init();
     bool loginBool;
     bool firstRun;
-    bool signLogin;
-    bool googleLoginBool;
-    bool appleLoginBool;
+    // bool signLogin;
+    // bool googleLoginBool;
+    // bool appleLoginBool;
     Future.delayed(Duration(seconds: 3), () {
       firstRun = SharedPrefs().getFirstRun() ?? false;
       loginBool = SharedPrefs().getLogin() ?? false;
-      signLogin = SharedPrefs().getSignLogin() ?? false;
-      googleLoginBool = SharedPrefs().getGoogleLogin() ?? false;
-      appleLoginBool = SharedPrefs().getAppleLogin() ?? false;
+      // signLogin = SharedPrefs().getSignLogin() ?? false;
+      // googleLoginBool = SharedPrefs().getGoogleLogin() ?? false;
+      // appleLoginBool = SharedPrefs().getAppleLogin() ?? false;
       if (firstRun) {
         // if (loginBool) {
         //   print('login');

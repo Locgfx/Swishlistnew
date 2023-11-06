@@ -9,7 +9,7 @@ import '../../constants/globals/shared_prefs.dart';
 Future<dynamic> getNoticationByFCM() async {
   var prefs = await SharedPreferences.getInstance();
   String v = prefs.getString(SavedKeys().fcmToken) ?? "";
-  var token = prefs.getString(SavedKeys().cookie);
+  // var token = prefs.getString(SavedKeys().cookie);
   var headers = {'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'};
   var request = http.Request(
       'GET',
