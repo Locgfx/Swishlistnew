@@ -7,6 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/constants/urls.dart';
+import 'package:swishlist/dashboard/products/link_product_bottom_sheets/already_product_add_bottom_sheet.dart';
+import 'package:swishlist/dashboard/products/link_product_bottom_sheets/dont_want_product_add_bottom_sheet.dart';
+import 'package:swishlist/dashboard/products/link_product_bottom_sheets/want_product_bottom_sheet.dart';
 import 'package:swishlist/dashboard/products/productalready.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
 import 'package:swishlist/dashboard/products/productdontwant.dart';
@@ -1152,9 +1155,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                       context: context,
                                       isScrollControlled: true,
                                       builder: (context) {
-                                        return ManuallyAddBottomSheetWidget(
-                                          productType:
-                                              'want', /*model: widget.model,*/
+                                        return WantProductAddBottomSheetWidget(
+                                          productType: 'want',
                                         );
                                       });
                                 },
@@ -1338,10 +1340,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       fit: BoxFit.cover,
                                                       errorWidget: (context,
                                                               url, error) =>
-                                                          Icon(
-                                                        Icons.error,
-                                                        size: 40,
-                                                      ),
+                                                          Image.asset(
+                                                              'assets/icons/logoswishlist.png'),
                                                       progressIndicatorBuilder:
                                                           (a, b, c) => Opacity(
                                                         opacity: 0.3,
@@ -1459,7 +1459,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                   context: context,
                                   isScrollControlled: true,
                                   builder: (context) {
-                                    return ManuallyAddBottomSheetWidget(
+                                    return DontProductAddBottomSheetWidget(
                                       productType:
                                           'dont_want', /*model: widget.model,*/
                                     );
@@ -1487,7 +1487,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                         context: context,
                                         isScrollControlled: true,
                                         builder: (context) {
-                                          return ManuallyAddBottomSheetWidget(
+                                          return DontProductAddBottomSheetWidget(
                                             productType:
                                                 'dont_want', /*model: widget.model,*/
                                           );
@@ -1602,10 +1602,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       fit: BoxFit.cover,
                                                       errorWidget: (context,
                                                               url, error) =>
-                                                          Icon(
-                                                        Icons.error,
-                                                        size: 40,
-                                                      ),
+                                                          Image.asset(
+                                                              'assets/icons/logoswishlist.png'),
                                                       progressIndicatorBuilder:
                                                           (a, b, c) => Opacity(
                                                         opacity: 0.3,
@@ -1722,7 +1720,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                     context: context,
                                     isScrollControlled: true,
                                     builder: (context) {
-                                      return ManuallyAlreadyAddBottomSheetWidget(
+                                      return AlreadyProductAddBottomSheetWidget(
                                         productType: 'have',
                                       );
                                     });
@@ -1750,7 +1748,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                         context: context,
                                         isScrollControlled: true,
                                         builder: (context) {
-                                          return ManuallyAddBottomSheetWidget(
+                                          return AlreadyProductAddBottomSheetWidget(
                                             productType:
                                                 'have', /*model: widget.model,*/
                                           );
@@ -1867,10 +1865,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       fit: BoxFit.cover,
                                                       errorWidget: (context,
                                                               url, error) =>
-                                                          Icon(
-                                                        Icons.error,
-                                                        size: 40,
-                                                      ),
+                                                          Image.asset(
+                                                              'assets/icons/logoswishlist.png'),
                                                       progressIndicatorBuilder:
                                                           (a, b, c) => Opacity(
                                                         opacity: 0.3,

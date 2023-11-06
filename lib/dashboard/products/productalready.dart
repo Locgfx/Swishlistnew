@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
+import 'package:swishlist/dashboard/products/link_product_bottom_sheets/already_product_add_bottom_sheet.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
-import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
 import 'package:swishlist/models/login_models.dart';
 
 import '../../api/user_apis/products_api.dart';
@@ -193,7 +193,7 @@ class _ProductAlreadyState extends State<ProductAlready> {
                           context: context,
                           isScrollControlled: true,
                           builder: (context) {
-                            return ManuallyAddBottomSheetWidget(
+                            return AlreadyProductAddBottomSheetWidget(
                               productType: 'have', /*model: widget.model,*/
                             );
                           });

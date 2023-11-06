@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/api/scapping_api.dart';
+import 'package:swishlist/dashboard/products/scrapping/scrapping_product_add.dart';
 import 'package:swishlist/models/link_product_model.dart';
+import 'package:swishlist/models/new_models/product_store_model.dart';
 
 import '../../../buttons/light_yellow.dart';
 import '../../../constants/color.dart';
@@ -11,26 +12,27 @@ import '../../search/all_etsy_products.dart';
 import '../manuallyadd.dart';
 import '../productAdded.dart';
 
-class ManuallyAddBottomSheetWidget extends StatefulWidget {
+class AlreadyProductAddBottomSheetWidget extends StatefulWidget {
   final String productType;
-  ManuallyAddBottomSheetWidget({
+  AlreadyProductAddBottomSheetWidget({
     Key? key,
     required this.productType,
   }) : super(key: key);
 
   @override
-  State<ManuallyAddBottomSheetWidget> createState() =>
-      _ManuallyAddBottomSheetWidgetState();
+  State<AlreadyProductAddBottomSheetWidget> createState() =>
+      _AlreadyProductAddBottomSheetWidgetState();
 }
 
-class _ManuallyAddBottomSheetWidgetState
-    extends State<ManuallyAddBottomSheetWidget> {
+class _AlreadyProductAddBottomSheetWidgetState
+    extends State<AlreadyProductAddBottomSheetWidget> {
   final productLinkController = TextEditingController();
 
   final form = GlobalKey<FormState>();
 
   // ProductTypeModel? model;
   LinkProductModel? response;
+  ProductStoreModel? respStore;
 
   @override
   Widget build(BuildContext context) {
@@ -159,43 +161,113 @@ class _ManuallyAddBottomSheetWidgetState
                                               ColorSelect.colorF7E641),
                                       textStyleColor: Colors.black,
                                       onTap: () {
-                                        if (form.currentState!.validate()) {
-                                          productScrappingApi(
-                                                  productUrl:
+                                        productScrappingApi(
+                                                productUrl:
+                                                    productLinkController.text)
+                                            .then((value) async {
+                                          response = value;
+                                          if (response!.error == false) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    ScrappingProductAdded(
+                                                  name: response!.data!.title
+                                                      .toString(),
+                                                  price: response!.data!.price
+                                                      .toString(),
+                                                  productImage: response!
+                                                      .data!.image
+                                                      .toString(),
+                                                  productLink:
                                                       productLinkController
-                                                          .text)
-                                              .then((value) async {
-                                            response = value;
-                                            if (response!.error == false) {
-                                              // SharedPrefs().setPassword(passwordController.text);
+                                                          .text,
+                                                  type: widget.productType,
+                                                ),
+                                              ),
+                                            );
 
-                                              Fluttertoast.showToast(
-                                                  msg:
-                                                      'product added successfully');
-                                              // Fluttertoast.showToast(
-                                              //     msg:
-                                              //         'Your OTP is ${value['data']['otp']}');
+                                            // productStoreApi(
+                                            //         type: 'want',
+                                            //         name: response!
+                                            //             .data!.title
+                                            //             .toString(),
+                                            //         link:
+                                            //             productLinkController
+                                            //                 .text,
+                                            //         price:
+                                            //             response!
+                                            //                 .data!.price
+                                            //                 .toString(),
+                                            //         purchaseDate:
+                                            //             formattedTime,
+                                            //         privacyStatus: 'public',
+                                            //         photo: localImagePath)
+                                            //     .then(
+                                            //   (value) async {
+                                            //     respStore = value;
+                                            //     if (respStore!.status ==
+                                            //         true) {
+                                            //       setState(() {
+                                            //         // isLoading = false;
+                                            //       });
+                                            //       Navigator.push(
+                                            //         context,
+                                            //         MaterialPageRoute(
+                                            //           builder: (_) =>
+                                            //               ProductAdded(
+                                            //                   name: response!
+                                            //                       .data!.title
+                                            //                       .toString(),
+                                            //                   price: response!
+                                            //                       .data!.price
+                                            //                       .toString(),
+                                            //                   productImage:
+                                            //                       response!
+                                            //                           .data!
+                                            //                           .image
+                                            //                           .toString()),
+                                            //         ),
+                                            //       );
+                                            //       Fluttertoast.showToast(
+                                            //           msg: respStore!.message
+                                            //               .toString());
+                                            //     } else {
+                                            //       Fluttertoast.showToast(
+                                            //           msg:
+                                            //               'Please enter product image');
+                                            //     }
+                                            //   },
+                                            // );
+                                            // SharedPrefs().setPassword(passwordController.text);
 
-                                              // SharedPrefs().setPassword(passwordController.toString());
-                                              // print(SharedPrefs().setPassword(passwordController.toString()));
-                                            } else {
-                                              Fluttertoast.showToast(
-                                                  msg: value[
-                                                      'please check product link']);
-                                            }
-                                          });
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //     builder: (_) => ProductAdded(
-                                          //         name: titleController.text,
-                                          //         price: priceController.text,
-                                          //         productImage: respStore!
-                                          //             .data!.photo
-                                          //             .toString()),
-                                          //   ),
-                                          // );
-                                        }
+                                            // Fluttertoast.showToast(
+                                            //     msg:
+                                            //         'product added successfully');
+                                            // Fluttertoast.showToast(
+                                            //     msg:
+                                            //         'Your OTP is ${value['data']['otp']}');
+
+                                            // SharedPrefs().setPassword(passwordController.toString());
+                                            // print(SharedPrefs().setPassword(passwordController.toString()));
+                                          } else {
+                                            // Fluttertoast.showToast(
+                                            //     msg: value[
+                                            //         'please check product link']);
+                                          }
+                                        });
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (_) => ProductAdded(
+                                        //         name: titleController.text,
+                                        //         price: priceController.text,
+                                        //         productImage: respStore!
+                                        //             .data!.photo
+                                        //             .toString()),
+                                        //   ),
+                                        // );
+
                                         /* Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(

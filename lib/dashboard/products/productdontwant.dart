@@ -5,8 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/products_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
+import 'package:swishlist/dashboard/products/link_product_bottom_sheets/dont_want_product_add_bottom_sheet.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
-import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
 import 'package:swishlist/models/login_models.dart';
 import 'package:swishlist/models/product_model.dart';
 
@@ -176,7 +176,7 @@ class _ProductdontwantState extends State<Productdontwant> {
                           isScrollControlled: true,
                           context: context,
                           builder: (context) {
-                            return ManuallyAddBottomSheetWidget(
+                            return DontProductAddBottomSheetWidget(
                               productType: 'dont_want', /*model: widget.model,*/
                             );
                           });

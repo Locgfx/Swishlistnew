@@ -7,13 +7,13 @@ import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/products_api.dart';
 import 'package:swishlist/dashboard/dashboard.dart';
 import 'package:swishlist/dashboard/products/productdetail.dart';
-import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
 
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/login_models.dart';
 import '../../models/product_type_model.dart';
+import 'link_product_bottom_sheets/want_product_bottom_sheet.dart';
 
 class WantProducts extends StatefulWidget {
   final LoginResponse response;
@@ -506,7 +506,7 @@ class _WantProductsState extends State<WantProducts> {
                                 isScrollControlled: true,
                                 context: context,
                                 builder: (context) {
-                                  return ManuallyAddBottomSheetWidget(
+                                  return WantProductAddBottomSheetWidget(
                                     productType: 'want',
                                   );
                                 });
