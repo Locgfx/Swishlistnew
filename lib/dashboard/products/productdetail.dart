@@ -1052,7 +1052,11 @@ class _ProductDetailState extends State<ProductDetail> {
                   children: [
                     Text(
                       // widget.price,
-                      '\$ ${normalizedPercent.toString()}',
+                      widget.link.contains("etsy")
+                          ? '\$ ${normalizedPercent.toString()}'
+                          : '\$ ${widget.price}',
+
+                      // '\$ ${normalizedPercent.toString()}',
                       // "ckmmkc",
                       // normalizedPercent.toString(),
                       // "47.99",

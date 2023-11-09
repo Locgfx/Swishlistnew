@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:swishlist/api/scapping_api.dart';
 import 'package:swishlist/dashboard/products/scrapping/scrapping_product_add.dart';
 import 'package:swishlist/models/link_product_model.dart';
@@ -33,6 +36,7 @@ class _AlreadyProductAddBottomSheetWidgetState
   // ProductTypeModel? model;
   LinkProductModel? response;
   ProductStoreModel? respStore;
+  bool show = false;
 
   @override
   Widget build(BuildContext context) {
@@ -152,131 +156,153 @@ class _AlreadyProductAddBottomSheetWidgetState
                       Row(
                         children: [
                           productLinkController.text.isNotEmpty
-                              ? SizedBox(
-                                  height: 40.h,
-                                  width: 88.w,
-                                  child: LightYellowButtonWithText(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              ColorSelect.colorF7E641),
-                                      textStyleColor: Colors.black,
-                                      onTap: () {
-                                        productScrappingApi(
-                                                productUrl:
-                                                    productLinkController.text)
-                                            .then((value) async {
-                                          response = value;
-                                          if (response!.error == false) {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (_) =>
-                                                    ScrappingProductAdded(
-                                                  name: response!.data!.title
-                                                      .toString(),
-                                                  price: response!.data!.price
-                                                      .toString(),
-                                                  productImage: response!
-                                                      .data!.image
-                                                      .toString(),
-                                                  productLink:
-                                                      productLinkController
-                                                          .text,
-                                                  type: widget.productType,
-                                                ),
-                                              ),
-                                            );
+                              ? show
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(left: 16),
+                                      child: LoadingAnimationWidget
+                                          .staggeredDotsWave(
+                                        size: 35,
+                                        color: ColorSelect.colorF7E641,
+                                      ),
+                                    )
+                                  : SizedBox(
+                                      height: 40.h,
+                                      width: 88.w,
+                                      child: LightYellowButtonWithText(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  ColorSelect.colorF7E641),
+                                          textStyleColor: Colors.black,
+                                          onTap: () {
+                                            setState(() {
+                                              show = !show;
+                                            });
+                                            Timer timer =
+                                                Timer(Duration(seconds: 4), () {
+                                              setState(() {
+                                                show = false;
+                                              });
+                                            });
 
-                                            // productStoreApi(
-                                            //         type: 'want',
-                                            //         name: response!
-                                            //             .data!.title
-                                            //             .toString(),
-                                            //         link:
-                                            //             productLinkController
-                                            //                 .text,
-                                            //         price:
-                                            //             response!
-                                            //                 .data!.price
-                                            //                 .toString(),
-                                            //         purchaseDate:
-                                            //             formattedTime,
-                                            //         privacyStatus: 'public',
-                                            //         photo: localImagePath)
-                                            //     .then(
-                                            //   (value) async {
-                                            //     respStore = value;
-                                            //     if (respStore!.status ==
-                                            //         true) {
-                                            //       setState(() {
-                                            //         // isLoading = false;
-                                            //       });
-                                            //       Navigator.push(
-                                            //         context,
-                                            //         MaterialPageRoute(
-                                            //           builder: (_) =>
-                                            //               ProductAdded(
-                                            //                   name: response!
-                                            //                       .data!.title
-                                            //                       .toString(),
-                                            //                   price: response!
-                                            //                       .data!.price
-                                            //                       .toString(),
-                                            //                   productImage:
-                                            //                       response!
-                                            //                           .data!
-                                            //                           .image
-                                            //                           .toString()),
-                                            //         ),
-                                            //       );
-                                            //       Fluttertoast.showToast(
-                                            //           msg: respStore!.message
-                                            //               .toString());
-                                            //     } else {
-                                            //       Fluttertoast.showToast(
-                                            //           msg:
-                                            //               'Please enter product image');
-                                            //     }
-                                            //   },
+                                            productScrappingApi(
+                                                    productUrl:
+                                                        productLinkController
+                                                            .text)
+                                                .then((value) async {
+                                              response = value;
+                                              if (response!.error == false) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        ScrappingProductAdded(
+                                                      name: response!
+                                                          .data!.title
+                                                          .toString(),
+                                                      price: response!
+                                                          .data!.price
+                                                          .toString(),
+                                                      productImage: response!
+                                                          .data!.image
+                                                          .toString(),
+                                                      productLink:
+                                                          productLinkController
+                                                              .text,
+                                                      type: widget.productType,
+                                                    ),
+                                                  ),
+                                                );
+
+                                                // productStoreApi(
+                                                //         type: 'want',
+                                                //         name: response!
+                                                //             .data!.title
+                                                //             .toString(),
+                                                //         link:
+                                                //             productLinkController
+                                                //                 .text,
+                                                //         price:
+                                                //             response!
+                                                //                 .data!.price
+                                                //                 .toString(),
+                                                //         purchaseDate:
+                                                //             formattedTime,
+                                                //         privacyStatus: 'public',
+                                                //         photo: localImagePath)
+                                                //     .then(
+                                                //   (value) async {
+                                                //     respStore = value;
+                                                //     if (respStore!.status ==
+                                                //         true) {
+                                                //       setState(() {
+                                                //         // isLoading = false;
+                                                //       });
+                                                //       Navigator.push(
+                                                //         context,
+                                                //         MaterialPageRoute(
+                                                //           builder: (_) =>
+                                                //               ProductAdded(
+                                                //                   name: response!
+                                                //                       .data!.title
+                                                //                       .toString(),
+                                                //                   price: response!
+                                                //                       .data!.price
+                                                //                       .toString(),
+                                                //                   productImage:
+                                                //                       response!
+                                                //                           .data!
+                                                //                           .image
+                                                //                           .toString()),
+                                                //         ),
+                                                //       );
+                                                //       Fluttertoast.showToast(
+                                                //           msg: respStore!.message
+                                                //               .toString());
+                                                //     } else {
+                                                //       Fluttertoast.showToast(
+                                                //           msg:
+                                                //               'Please enter product image');
+                                                //     }
+                                                //   },
+                                                // );
+                                                // SharedPrefs().setPassword(passwordController.text);
+
+                                                // Fluttertoast.showToast(
+                                                //     msg:
+                                                //         'product added successfully');
+                                                // Fluttertoast.showToast(
+                                                //     msg:
+                                                //         'Your OTP is ${value['data']['otp']}');
+
+                                                // SharedPrefs().setPassword(passwordController.toString());
+                                                // print(SharedPrefs().setPassword(passwordController.toString()));
+                                              } else {
+                                                // Fluttertoast.showToast(
+                                                //     msg: value[
+                                                //         'please check product link']);
+                                              }
+                                            });
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //     builder: (_) => ProductAdded(
+                                            //         name: titleController.text,
+                                            //         price: priceController.text,
+                                            //         productImage: respStore!
+                                            //             .data!.photo
+                                            //             .toString()),
+                                            //   ),
                                             // );
-                                            // SharedPrefs().setPassword(passwordController.text);
 
-                                            // Fluttertoast.showToast(
-                                            //     msg:
-                                            //         'product added successfully');
-                                            // Fluttertoast.showToast(
-                                            //     msg:
-                                            //         'Your OTP is ${value['data']['otp']}');
-
-                                            // SharedPrefs().setPassword(passwordController.toString());
-                                            // print(SharedPrefs().setPassword(passwordController.toString()));
-                                          } else {
-                                            // Fluttertoast.showToast(
-                                            //     msg: value[
-                                            //         'please check product link']);
-                                          }
-                                        });
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (_) => ProductAdded(
-                                        //         name: titleController.text,
-                                        //         price: priceController.text,
-                                        //         productImage: respStore!
-                                        //             .data!.photo
-                                        //             .toString()),
-                                        //   ),
-                                        // );
-
-                                        /* Navigator.pushReplacement(
+                                            /* Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ProductAdded(name: '', price: '', productImage: ''),
                                       ),
                                   );*/
-                                      },
-                                      title: 'Add'),
-                                )
+                                          },
+                                          title: 'Add'),
+                                    )
                               : SizedBox(
                                   height: 40.h,
                                   width: 88.w,

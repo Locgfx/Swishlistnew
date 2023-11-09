@@ -8,10 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swishlist/splash/splash2.dart';
 
-import 'constants/globals/keys.dart';
 import 'constants/globals/shared_prefs.dart';
 import 'notifications/notification_handler.dart';
 
@@ -39,6 +37,7 @@ fn(RemoteMessage message) async {
   log(message.data.toString());
   String t = message.data['content'].toString();
   Map a = jsonDecode(t.toString());
+
   // http.Response response = await http.get(Uri.parse(a['bigPicture']));
   // final bytes = response.bodyBytes;
   AndroidNotificationDetails androidPlatformChannelSpecifics =
@@ -46,15 +45,12 @@ fn(RemoteMessage message) async {
           channelDescription: 'your channel description',
           importance: Importance.max,
           priority: Priority.high,
-          // styleInformation: BigPictureStyleInformation(
-          //           //     ByteArrayAndroidBitmap.fromBase64String(base64Encode(bytes))
-          // ),
           ticker: 'ticker');
   NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: androidPlatformChannelSpecifics);
   // log(event.data['content']['id'].toString());
-  // log(a['id']);
-  if (a['id'] != null && a['id'] is int) {
+  log(a['id']);
+  if (a['id'] != null && a['id'] is String) {
     flutterPlugin.show(
       a['id'],
       a['title'].toString(),
@@ -63,6 +59,15 @@ fn(RemoteMessage message) async {
       payload: a['payload'].toString(),
     );
   }
+  // if (a['id'] != null && a['id'] is int) {
+  //   flutterPlugin.show(
+  //     a['id'],
+  //     a['title'].toString(),
+  //     a['body'].toString(),
+  //     platformChannelSpecifics,
+  //     payload: a['payload'].toString(),
+  //   );
+  // }
 
   // flutterPlugin.show(
   //   a['id'],
@@ -102,14 +107,14 @@ fn(RemoteMessage message) async {
   });*/
 }
 
-bool _sendNotif = true;
+// bool _sendNotif = true;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
   await Firebase.initializeApp();
-  var _prefs = await SharedPreferences.getInstance();
-  _sendNotif = _prefs.getBool(SavedKeys().notificationValue) ?? true;
+  // --------- var _prefs = await SharedPreferences.getInstance();
+  // ---------  _sendNotif = _prefs.getBool(SavedKeys().notificationValue) ?? true;
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   final IOSInitializationSettings initializationSettingsIOS =
@@ -161,9 +166,9 @@ void selectNotification(var payload) async {}
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 
-  if (_sendNotif) {
-    fn(message);
-  }
+  // if (_sendotif) {
+  fn(message);
+  // }
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -191,10 +196,10 @@ class _MyAppState extends State<MyApp> {
     // If the message also contains a data property with a "type" of "chat",
     // navigate to a chat screen
     if (initialMessage != null) {
-      if (_sendNotif) {
-        fn(initialMessage);
-      }
+      // if (_sendNotif) {
+      fn(initialMessage);
     }
+    // }
 
     // Also handle any interaction when the app is in the background via a
     // Stream listener
@@ -209,7 +214,7 @@ class _MyAppState extends State<MyApp> {
       (event) async {
         RemoteNotification? notification = event.notification;
         AndroidNotification? android = event.notification?.android;
-        if (notification != null && android != null && _sendNotif) {
+        if (notification != null && android != null) {
           flutterPlugin.show(
               notification.hashCode,
               notification.title,
@@ -225,9 +230,9 @@ class _MyAppState extends State<MyApp> {
                 ),
               ));
         }
-        if (_sendNotif) {
-          fn(event);
-        }
+        // if (_sendNotif) {
+        fn(event);
+        // }
         //log(event.data['content']['payload']['type'].toString());
         /*if (event.data['content']['payload']['type'] == 'story') {
           _navigatorKey.currentState?.push(MaterialPageRoute(
@@ -257,7 +262,7 @@ class _MyAppState extends State<MyApp> {
         });*/
         RemoteNotification? notification = event.notification;
         AndroidNotification? android = event.notification?.android;
-        if (notification != null && android != null && _sendNotif) {
+        if (notification != null && android != null) {
           flutterPlugin.show(
               notification.hashCode,
               notification.title,
@@ -273,9 +278,9 @@ class _MyAppState extends State<MyApp> {
                 ),
               ));
         }
-        if (_sendNotif) {
-          fn(event);
-        }
+        // if (_sendNotif) {
+        fn(event);
+        // }
         /*if (event.data['content']['payload']['type'] == 'story') {
         _navigatorKey.currentState?.push(MaterialPageRoute(
             builder: (ctx) => DetailsScreen(

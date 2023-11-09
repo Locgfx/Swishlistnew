@@ -372,9 +372,14 @@ class _FriendsState extends State<Friends> {
                                                         .friendUserId
                                                         .toString(),
                                                     friendPhoto: friendList[i]
-                                                        .friend!
-                                                        .photo!
-                                                        .toString(),
+                                                                .friend!
+                                                                .photo ==
+                                                            null
+                                                        ? ''
+                                                        : friendList[i]
+                                                            .friend!
+                                                            .photo!
+                                                            .toString(),
                                                     id: friendList[i]
                                                         .id!
                                                         .toString(),
@@ -398,22 +403,29 @@ class _FriendsState extends State<Friends> {
                                                     clipBehavior: Clip.hardEdge,
                                                     child: CachedNetworkImage(
                                                       imageUrl: friendList[i]
-                                                              .friend!
-                                                              .photo!
-                                                              .contains('http')
-                                                          ? friendList[i]
-                                                              .friend!
-                                                              .photo
-                                                              .toString()
-                                                          : baseUrl +
-                                                              friendList[i]
+                                                                  .friend!
+                                                                  .photo ==
+                                                              null
+                                                          ? ""
+                                                          : friendList[i]
+                                                                  .friend!
+                                                                  .photo!
+                                                                  .contains(
+                                                                      'http')
+                                                              ? friendList[i]
                                                                   .friend!
                                                                   .photo
-                                                                  .toString(),
+                                                                  .toString()
+                                                              : baseUrl +
+                                                                  friendList[i]
+                                                                      .friend!
+                                                                      .photo
+                                                                      .toString(),
                                                       fit: BoxFit.cover,
                                                       errorWidget: (context,
                                                               url, error) =>
-                                                          Icon(Icons.error),
+                                                          Image.asset(
+                                                              "assets/icons/userico.jpg"),
                                                       progressIndicatorBuilder:
                                                           (a, b, c) => Opacity(
                                                         opacity: 0.3,

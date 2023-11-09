@@ -1206,7 +1206,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                 context: context,
                                                 isScrollControlled: true,
                                                 builder: (context) {
-                                                  return ManuallyAddBottomSheetWidget(
+                                                  return WantProductAddBottomSheetWidget(
                                                     productType: 'want',
                                                     //*model: widget.model,*//*);
                                                   );
@@ -1400,7 +1400,12 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
-                                                    '\$ ${normalizedPercent.toString()}',
+                                                    wantProducts2[i]
+                                                            .link
+                                                            .toString()
+                                                            .contains("etsy")
+                                                        ? '\$ ${normalizedPercent.toString()}'
+                                                        : '\$ ${wantProducts2[i].price.toString()}',
 
                                                     // '\$ ${wantProducts2[i].price.toString()}',
                                                     style: AppTextStyle()
@@ -1663,7 +1668,12 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
-                                                    '\$ ${normalizedPercent.toString()}',
+                                                    notWant2[i]
+                                                            .link
+                                                            .toString()
+                                                            .contains("etsy")
+                                                        ? '\$ ${normalizedPercent.toString()}'
+                                                        : '\$ ${notWant2[i].price.toString()}',
                                                     // '\$ ${notWant2[i].price.toString()}',
                                                     // widget.itemPrice[i],
                                                     style: AppTextStyle()
@@ -1676,14 +1686,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                         );
                                       },
                                     ),
-                                  )
-                                  /*:isLoading ? Center(
-          child: LoadingAnimationWidget.waveDots(
-          size: 70,
-           color: ColorSelect.colorF7E641,
-          ),
-    )*/
-                                  ),
+                                  )),
                       SizedBox(
                         height: 16,
                       ),
@@ -1716,14 +1719,15 @@ class _ProductsPageState extends State<ProductsPage> {
                             GestureDetector(
                               onTap: () {
                                 showModalBottomSheet(
-                                    backgroundColor: Colors.transparent,
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (context) {
-                                      return AlreadyProductAddBottomSheetWidget(
-                                        productType: 'have',
-                                      );
-                                    });
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (context) {
+                                    return AlreadyProductAddBottomSheetWidget(
+                                      productType: 'have',
+                                    );
+                                  },
+                                );
                               },
                               child: Container(
                                 height: 36,
@@ -1925,7 +1929,12 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
-                                                    '\$ ${normalizedPercent.toString()}',
+                                                    haveProducts2[i]
+                                                            .link
+                                                            .toString()
+                                                            .contains("etsy")
+                                                        ? '\$ ${normalizedPercent.toString()}'
+                                                        : '\$ ${haveProducts2[i].price.toString()}',
                                                     // '\$ ${haveProducts2[i].price.toString()}',
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,

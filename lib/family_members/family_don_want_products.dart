@@ -440,7 +440,17 @@ class _FamilyDontWantProductsState extends State<FamilyDontWantProducts> {
                                                                         left:
                                                                             16),
                                                                 child: Text(
-                                                                  '\$ ${normalizedPercent}',
+                                                                  products!
+                                                                          .data!
+                                                                          .dontWant![
+                                                                              i]
+                                                                          .link
+                                                                          .toString()
+                                                                          .contains(
+                                                                              "etsy")
+                                                                      ? '\$ ${normalizedPercent}'
+                                                                      : '\$ ${products!.data!.dontWant![i].price.toString()}',
+                                                                  // '\$ ${normalizedPercent}',
                                                                   // "47.99",
                                                                   style: AppTextStyle()
                                                                       .textColor29292914w500,

@@ -434,7 +434,18 @@ class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
                                                                         left:
                                                                             16),
                                                                 child: Text(
-                                                                  '\$ ${normalizedPercent}',
+                                                                  products!
+                                                                          .data!
+                                                                          .have![
+                                                                              i]
+                                                                          .link
+                                                                          .toString()
+                                                                          .contains(
+                                                                              "etsy")
+                                                                      ? '\$ ${normalizedPercent}'
+                                                                      : '\$ ${products!.data!.have![i].price.toString()}',
+
+                                                                  // '\$ ${normalizedPercent}',
                                                                   // "47.99",
                                                                   style: AppTextStyle()
                                                                       .textColor29292914w500,

@@ -233,41 +233,6 @@ class _FriendProductState extends State<FriendProduct> {
                                   child: SingleChildScrollView(
                                     child: Column(
                                       children: [
-                                        // ListTile(
-                                        //   title: GestureDetector(
-                                        //     onTap: () {
-                                        //       setState(() {
-                                        //         Share.share(
-                                        //             'Share your friend details');
-                                        //       });
-                                        //     },
-                                        //     child: Text(
-                                        //       'Send Profile',
-                                        //       style:
-                                        //           // AppTextStyle().textColorBA505014w500
-                                        //           AppTextStyle()
-                                        //               .textColor39393914w500,
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        // ListTile(
-                                        //   title: GestureDetector(
-                                        //     onTap: () {
-                                        //       Navigator.push(
-                                        //           context,
-                                        //           MaterialPageRoute(
-                                        //               builder: (context) =>
-                                        //                   FriendNotification()));
-                                        //     },
-                                        //     child: Text(
-                                        //       'Notification',
-                                        //       style:
-                                        //           // AppTextStyle().textColorBA505014w500
-                                        //           AppTextStyle()
-                                        //               .textColor39393914w500,
-                                        //     ),
-                                        //   ),
-                                        // ),
                                         ListTile(
                                           title: GestureDetector(
                                             onTap: () {
@@ -385,7 +350,7 @@ class _FriendProductState extends State<FriendProduct> {
                                                 clipBehavior: Clip.hardEdge,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color: Colors.grey,
+                                                  color: Colors.transparent,
                                                 ),
                                                 child: CachedNetworkImage(
                                                   imageUrl: widget.friendPhoto
@@ -394,9 +359,10 @@ class _FriendProductState extends State<FriendProduct> {
                                                       : baseUrl +
                                                           widget.friendPhoto,
                                                   fit: BoxFit.cover,
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(Icons.error),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      Image.asset(
+                                                          "assets/icons/userico.jpg"),
                                                   progressIndicatorBuilder:
                                                       (a, b, c) => Opacity(
                                                     opacity: 0.3,
@@ -714,7 +680,13 @@ class _FriendProductState extends State<FriendProduct> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
-                                                    '\$ ${normalizedPercent}',
+                                                    products!
+                                                            .data!.want![i].link
+                                                            .toString()
+                                                            .contains("etsy")
+                                                        ? '\$ ${normalizedPercent}'
+                                                        : '\$ ${products!.data!.want![i].price.toString()}',
+                                                    // '\$ ${normalizedPercent}',
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,
                                                   ),
@@ -974,7 +946,15 @@ class _FriendProductState extends State<FriendProduct> {
                                                             const EdgeInsets
                                                                 .only(left: 16),
                                                         child: Text(
-                                                          '\$ ${normalizedPercent}',
+                                                          products!
+                                                                  .data!
+                                                                  .dontWant![i]
+                                                                  .link
+                                                                  .toString()
+                                                                  .contains(
+                                                                      "etsy")
+                                                              ? '\$ ${normalizedPercent}'
+                                                              : '\$ ${products!.data!.dontWant![i].price.toString()}',
                                                           style: AppTextStyle()
                                                               .textColor29292914w500,
                                                         ),
@@ -1229,7 +1209,14 @@ class _FriendProductState extends State<FriendProduct> {
                                                             const EdgeInsets
                                                                 .only(left: 16),
                                                         child: Text(
-                                                          '\$ ${normalizedPercent}',
+                                                          products!.data!
+                                                                  .have![i].link
+                                                                  .toString()
+                                                                  .contains(
+                                                                      "etsy")
+                                                              ? '\$ ${normalizedPercent}'
+                                                              : '\$ ${products!.data!.have![i].price.toString()}',
+                                                          // '\$ ${normalizedPercent}',
                                                           style: AppTextStyle()
                                                               .textColor29292914w500,
                                                         ),

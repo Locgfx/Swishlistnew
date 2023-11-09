@@ -44,7 +44,8 @@ class UserRowWidget extends StatelessWidget {
                 imageUrl: familyPhoto,
                 // imageUrl: baseUrl+familyModel2[i].familyMemberUser!.photo.toString(),
                 fit: BoxFit.cover,
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                errorWidget: (context, url, error) =>
+                    Image.asset("assets/icons/userico.jpg"),
                 progressIndicatorBuilder: (a, b, c) => Opacity(
                   opacity: 0.3,
                   child: Shimmer.fromColors(

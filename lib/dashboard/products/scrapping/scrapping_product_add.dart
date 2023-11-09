@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/scapping_api.dart';
@@ -38,23 +42,44 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
   @override
   void initState() {
     super.initState();
-
     downloadAndSaveImage();
   }
 
   late String localImagePath;
+  bool show = false;
 
   Future<void> downloadAndSaveImage() async {
     final documentDirectory = await getApplicationDocumentsDirectory();
     final filePath = '${documentDirectory.path}/image.png';
-    File file = File(filePath);
-    await file.writeAsString(widget.productImage);
-    if (mounted) {
-      setState(() {
-        localImagePath = filePath;
-      });
+    Uri imageUri =
+        Uri.parse(widget.productImage); // Convert the string to a Uri
+
+    http.Response response = await http.get(imageUri);
+
+    if (response.statusCode == 200) {
+      File file = File(filePath);
+      await file.writeAsBytes(response.bodyBytes);
+      if (mounted) {
+        setState(() {
+          localImagePath = filePath;
+        });
+      }
+    } else {
+      // Handle the case when the image couldn't be downloaded
     }
   }
+
+  // Future<void> downloadAndSaveImage() async {
+  //   final documentDirectory = await getApplicationDocumentsDirectory();
+  //   final filePath = '${documentDirectory.path}/image.png';
+  //   File file = File(filePath);
+  //   await file.writeAsString(widget.productImage);
+  //   if (mounted) {
+  //     setState(() {
+  //       localImagePath = filePath;
+  //     });
+  //   }
+  // }
 
   int count = 3;
   ProductStoreModel? respStore;
@@ -72,39 +97,68 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 52,
-                child: YellowButtonWithText(
-                  backgroundColor:
-                      MaterialStateProperty.all(ColorSelect.colorF7E641),
-                  textStyleColor: Colors.black,
-                  onTap: () {
-                    print(localImagePath);
-                    // setState(() {
-                    //   downloadAndSaveImage();
-                    // });
-                    scrappingAddProduct(
-                            name: widget.name,
-                            link: widget.productLink,
-                            price: priceWithoutDollar,
-                            purchaseDate: formattedTime,
-                            photo: localImagePath,
-                            context: context,
-                            privacy: 'public',
-                            type: widget.type)
-                        .then(
-                      (value) async {
-                        if (value['status'] == true) {
-                          Fluttertoast.showToast(msg: 'Product Added');
-                        } else {
-                          Fluttertoast.showToast(msg: value['message']);
-                        }
-                      },
-                    );
-                  },
-                  title: 'Add',
-                ),
-              ),
+              show
+                  ? SizedBox(
+                      height: 52,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            elevation: MaterialStateProperty.all<double>(0),
+                            backgroundColor: MaterialStateProperty.all(
+                                ColorSelect.colorF7E641),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ))),
+                        onPressed: () {},
+                        child: Center(
+                          child: LoadingAnimationWidget.waveDots(
+                            size: 40,
+                            // color: ColorSelect.colorF7E641,
+                            color: Colors.black38,
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox(
+                      height: 52,
+                      child: YellowButtonWithText(
+                        backgroundColor:
+                            MaterialStateProperty.all(ColorSelect.colorF7E641),
+                        textStyleColor: Colors.black,
+                        onTap: () {
+                          // setState(() {
+                          //   downloadAndSaveImage();
+                          // });
+                          setState(() {
+                            show = !show;
+                          });
+                          Timer timer = Timer(Duration(seconds: 4), () {
+                            setState(() {
+                              show = false;
+                            });
+                          });
+                          scrappingAddProduct(
+                                  name: widget.name,
+                                  link: widget.productLink,
+                                  price: priceWithoutDollar,
+                                  purchaseDate: formattedTime,
+                                  photo: localImagePath,
+                                  context: context,
+                                  privacy: 'public',
+                                  type: widget.type)
+                              .then(
+                            (value) async {
+                              if (value['status'] == true) {
+                                Fluttertoast.showToast(msg: 'Product Added');
+                              } else {
+                                Fluttertoast.showToast(msg: value['message']);
+                              }
+                            },
+                          );
+                        },
+                        title: 'Add',
+                      ),
+                    ),
               SizedBox(height: 16),
 
               // SizedBox(
@@ -216,14 +270,34 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
                   //     ),
                   //   ),
                   // ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      'Add Product Now',
-                      style: AppTextStyle().textColor29292924w700,
-                    ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            height: 30,
+                            width: 30,
+                            padding: EdgeInsets.all(6),
+                            child: SvgPicture.asset(
+                              "assets/icons/arrowback.svg",
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 24),
+                      Text(
+                        'Add Product Now',
+                        style: AppTextStyle().textColor29292920w500,
+                      ),
+                    ],
                   ),
                   SizedBox(height: 8),
+
                   // Text(
                   //   'to products you want.',
                   //   style: AppTextStyle().textColor29292914w400,

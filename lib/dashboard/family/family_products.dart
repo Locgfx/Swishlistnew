@@ -332,9 +332,10 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                     : baseUrl +
                                                         widget.familyPhoto,
                                                 fit: BoxFit.cover,
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(Icons.error),
+                                                errorWidget: (context, url,
+                                                        error) =>
+                                                    Image.asset(
+                                                        "assets/icons/userico.jpg"),
                                                 progressIndicatorBuilder:
                                                     (a, b, c) => Opacity(
                                                   opacity: 0.3,
@@ -561,13 +562,14 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                     imageUrl: products!.data!
                                                             .want![i].photo
                                                             .toString()
-                                                            .contains("https")
+                                                            .contains('http')
                                                         ? products!.data!
                                                             .want![i].photo
                                                             .toString()
-                                                        : products!.data!
-                                                            .want![i].photo
-                                                            .toString(),
+                                                        : baseUrl +
+                                                            products!.data!
+                                                                .want![i].photo
+                                                                .toString(),
                                                     fit: BoxFit.cover,
                                                     errorWidget:
                                                         (context, url, error) =>
@@ -630,7 +632,11 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                 padding: const EdgeInsets.only(
                                                     left: 16),
                                                 child: Text(
-                                                  'USD ${normalizedPercent}',
+                                                  products!.data!.want![i].link
+                                                          .toString()
+                                                          .contains("etsy")
+                                                      ? '\$ ${normalizedPercent}'
+                                                      : '\$ ${products!.data!.want![i].price.toString()}',
                                                   style: AppTextStyle()
                                                       .textColor29292914w500,
                                                 ),
@@ -864,11 +870,13 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                                   .dontWant![i]
                                                                   .photo
                                                                   .toString()
-                                                              : products!
-                                                                  .data!
-                                                                  .dontWant![i]
-                                                                  .photo
-                                                                  .toString(),
+                                                              : baseUrl +
+                                                                  products!
+                                                                      .data!
+                                                                      .dontWant![
+                                                                          i]
+                                                                      .photo
+                                                                      .toString(),
                                                           fit: BoxFit.cover,
                                                           errorWidget: (context,
                                                                   url, error) =>
@@ -935,7 +943,16 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                           const EdgeInsets.only(
                                                               left: 16),
                                                       child: Text(
-                                                        'USD ${normalizedPercent}',
+                                                        products!
+                                                                .data!
+                                                                .dontWant![i]
+                                                                .link
+                                                                .toString()
+                                                                .contains(
+                                                                    "etsy")
+                                                            ? '\$ ${normalizedPercent}'
+                                                            : '\$ ${products!.data!.dontWant![i].price.toString()}',
+                                                        // 'USD ${normalizedPercent}',
                                                         style: AppTextStyle()
                                                             .textColor29292914w500,
                                                       ),
@@ -1168,11 +1185,12 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                                   .have![i]
                                                                   .photo
                                                                   .toString()
-                                                              : products!
-                                                                  .data!
-                                                                  .have![i]
-                                                                  .photo
-                                                                  .toString(),
+                                                              : baseUrl +
+                                                                  products!
+                                                                      .data!
+                                                                      .have![i]
+                                                                      .photo
+                                                                      .toString(),
                                                           fit: BoxFit.cover,
                                                           errorWidget: (context,
                                                                   url, error) =>
@@ -1239,7 +1257,14 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                           const EdgeInsets.only(
                                                               left: 16),
                                                       child: Text(
-                                                        'USD ${normalizedPercent}',
+                                                        products!.data!.have![i]
+                                                                .link
+                                                                .toString()
+                                                                .contains(
+                                                                    "etsy")
+                                                            ? '\$ ${normalizedPercent}'
+                                                            : '\$ ${products!.data!.have![i].price.toString()}',
+                                                        // 'USD ${normalizedPercent}',
                                                         style: AppTextStyle()
                                                             .textColor29292914w500,
                                                       ),

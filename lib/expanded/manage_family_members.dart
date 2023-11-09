@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/expanded/widgets/managed_family_member_row.dart';
+
 import '../api/notifications/meber_notifiction_aapi.dart';
 import '../api/user_apis/family_apis.dart';
 import '../constants/globals/loading.dart';
@@ -229,57 +231,6 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                 physics: AlwaysScrollableScrollPhysics(),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16, top: 40, right: 16),
-                  // child:Padding(
-                  //         padding: const EdgeInsets.only(top: 40.0),
-                  //         child: Center(
-                  //             child: Column(
-                  //           children: [
-                  //             Padding(
-                  //               padding:
-                  //                   const EdgeInsets.symmetric(horizontal: 30.0),
-                  //               child:
-                  //                   Image.asset("assets/images/addfriends.png"),
-                  //             ),
-                  //             Padding(
-                  //               padding: const EdgeInsets.only(
-                  //                   left: 66, right: 66, top: 24),
-                  //               child: Text(
-                  //                 "Add family members to share your profile and your favorite product",
-                  //                 style: AppTextStyle().roboto29292914w500,
-                  //                 textAlign: TextAlign.center,
-                  //               ),
-                  //             ),
-                  //             // SizedBox(height: 40),
-                  //             // SizedBox(
-                  //             //   height: 50.h,
-                  //             //   width: 1.sw,
-                  //             //   child: YellowButtonWithIcon(
-                  //             //     backgroundColor:
-                  //             //     MaterialStateProperty.all(ColorSelect.colorF7E641),
-                  //             //     textStyleColor: ColorSelect.color292929,
-                  //             //     onTap: tap,
-                  //             //     title: buttonTxt,
-                  //             //     buttonIcon: buttonIcon,
-                  //             //   ),
-                  //             // )
-                  //           ],
-                  //         )),
-                  //       ),
-                  // AddProductImage(
-                  //         image: 'assets/images/addfriends.png',
-                  //         txt:
-                  //             'Add family members to share your profile and your favorite product',
-                  //         buttonTxt: 'Add  Member',
-                  //         tap: () {
-                  //           Navigator.of(context).push(
-                  //             MaterialPageRoute(
-                  //               builder: (context) =>
-                  //                   const LinkMembersAccount(),
-                  //             ),
-                  //           );
-                  //         },
-                  //         buttonIcon: 'assets/images/4xuseradd.png',
-                  //       )
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -339,17 +290,6 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                       ),
                                     ),
                                   );
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (_) => FamilyMemberDetails(
-                                  //       familyMemberId: familyA[i]
-                                  //           .familyMemberUser!
-                                  //           .id
-                                  //           .toString(),
-                                  //     ),
-                                  //   ),
-                                  // );
                                 },
                                 child: UserRowWidget(
                                   widget2: GestureDetector(

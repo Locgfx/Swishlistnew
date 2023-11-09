@@ -369,7 +369,18 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                                                         left:
                                                                             16),
                                                                 child: Text(
-                                                                  '\$ ${normalizedPercent}',
+                                                                  products!
+                                                                          .data!
+                                                                          .want![
+                                                                              i]
+                                                                          .link
+                                                                          .toString()
+                                                                          .contains(
+                                                                              "etsy")
+                                                                      ? '\$ ${normalizedPercent}'
+                                                                      : '\$ ${products!.data!.want![i].price.toString()}',
+
+                                                                  // '\$ ${normalizedPercent}',
                                                                   // "47.99",
                                                                   style: AppTextStyle()
                                                                       .textColor29292914w500,

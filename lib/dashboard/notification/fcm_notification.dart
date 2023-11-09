@@ -260,8 +260,8 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                   errorWidget: (context,
                                                                           url,
                                                                           error) =>
-                                                                      Icon(Icons
-                                                                          .error),
+                                                                      Image.asset(
+                                                                          "assets/icons/userico.jpg"),
                                                                   progressIndicatorBuilder:
                                                                       (a, b, c) =>
                                                                           Opacity(
