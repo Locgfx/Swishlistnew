@@ -154,6 +154,7 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
   }
 
   double normalizedPercent = 0.0;
+  double normalizedPercentSearch = 0.0;
   //
 
   @override
@@ -398,6 +399,8 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
                                     itemCount: searchListings.length + 1,
                                     itemBuilder: (_, i) {
                                       if (i < searchListings.length) {
+                                        normalizedPercentSearch =
+                                            listings[i].price!.amount! / 100.00;
                                         return GestureDetector(
                                           onTap: () {
                                             Navigator.push(
@@ -511,7 +514,8 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
                                                         height: 8.0,
                                                       ),
                                                       Text(
-                                                        ' \$ ${searchListings[i].price!.amount.toString()}',
+                                                        '\$ ${normalizedPercentSearch} ',
+                                                        // ' \$ ${searchListings[i].price!.amount.toString()}',
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         style: AppTextStyle()

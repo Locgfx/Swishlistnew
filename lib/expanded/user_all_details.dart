@@ -863,7 +863,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Favourites",
+                                "Favorites",
                                 style: AppTextStyle().textColor29292914w400,
                               ),
                               isLoading

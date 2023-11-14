@@ -347,7 +347,7 @@ class _FriendProfileState extends State<FriendProfile> {
                       SizedBox(height: 36),
                       ProfileRow(
                         icon: 'Subtract',
-                        title: 'Favourites',
+                        title: 'Favorites',
                         onTap: () {
                           Navigator.push(
                             context,

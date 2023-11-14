@@ -14,7 +14,6 @@ import 'constants/globals/shared_prefs.dart';
 import 'notifications/notification_handler.dart';
 
 NotificationServices notificationServices = NotificationServices();
-
 AndroidNotificationChannel androidChannel = AndroidNotificationChannel(
   'basic_channel',
   'basic_channel',
@@ -49,16 +48,28 @@ fn(RemoteMessage message) async {
   NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: androidPlatformChannelSpecifics);
   // log(event.data['content']['id'].toString());
-  log(a['id']);
-  if (a['id'] != null && a['id'] is String) {
-    flutterPlugin.show(
-      a['id'],
-      a['title'].toString(),
-      a['body'].toString(),
-      platformChannelSpecifics,
-      payload: a['payload'].toString(),
-    );
-  }
+  // log(a['id']);
+  // if (a['id'] != null && a['id'].runtimeType == String) {
+  flutterPlugin.show(
+    a['id'] != null ? int.parse(a['id'].toString()) : 0,
+    // a['id'] ?? '',
+    a['title'].toString(),
+    a['body'].toString(),
+    platformChannelSpecifics,
+    payload: a['payload'].toString(),
+  );
+  // show notification
+  // }
+  // if (a['id'] != null && a['id'] is String) {
+  //   flutterPlugin.show(
+  //     a['id'],
+  //     a['title'].toString(),
+  //     a['body'].toString(),
+  //     platformChannelSpecifics,
+  //     payload: a['payload'].toString(),
+  //   );
+  // }
+
   // if (a['id'] != null && a['id'] is int) {
   //   flutterPlugin.show(
   //     a['id'],
@@ -127,6 +138,7 @@ void main() async {
   await flutterPlugin.initialize(initializationSettings,
       onSelectNotification: selectNotification);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   await FlutterLocalNotificationsPlugin()
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()

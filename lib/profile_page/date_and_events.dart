@@ -418,8 +418,8 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                                       .now(),
                                                               firstDate: DateTime(
                                                                   DateTime.now()
-                                                                          .year -
-                                                                      10),
+                                                                          .day -
+                                                                      1),
                                                               lastDate: DateTime(
                                                                   DateTime.now()
                                                                           .year +

@@ -150,8 +150,14 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
                             (value) async {
                               if (value['status'] == true) {
                                 Fluttertoast.showToast(msg: 'Product Added');
+                                Navigator.of(context)
+                                  ..pop()
+                                  ..pop();
                               } else {
                                 Fluttertoast.showToast(msg: value['message']);
+                                Navigator.of(context)
+                                  ..pop()
+                                  ..pop();
                               }
                             },
                           );
