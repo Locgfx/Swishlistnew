@@ -395,6 +395,10 @@ class _ProductAlreadyState extends State<ProductAlready> {
                                                           ),
                                                           child:
                                                               CachedNetworkImage(
+                                                            maxHeightDiskCache:
+                                                                120,
+                                                            maxWidthDiskCache:
+                                                                120,
                                                             // imageUrl: (baseUrl+haveProducts2[i].photo.toString()),
                                                             imageUrl: haveProducts2[
                                                                         i]
@@ -506,7 +510,14 @@ class _ProductAlreadyState extends State<ProductAlready> {
                                                                     .only(
                                                                     left: 16),
                                                             child: Text(
-                                                              '\$ ${normalizedPercent.toString()}',
+                                                              haveProducts2[i]
+                                                                      .link
+                                                                      .toString()
+                                                                      .contains(
+                                                                          "etsy")
+                                                                  ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
+                                                                  : '\$ ${haveProducts2[i].price.toString()}',
+                                                              // '\$ ${normalizedPercent.toStringAsFixed(2)}',
                                                               // haveProducts2[i].price.toString(),
                                                               // getProducts!.data![i].price.toString(),
                                                               // "47.99",

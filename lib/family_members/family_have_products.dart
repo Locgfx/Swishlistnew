@@ -352,14 +352,11 @@ class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
                                                                             .toString(),
                                                                 fit: BoxFit
                                                                     .cover,
-                                                                errorWidget:
-                                                                    (context,
-                                                                            url,
-                                                                            error) =>
-                                                                        Icon(
-                                                                  Icons.error,
-                                                                  size: 40,
-                                                                ),
+                                                                errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                    Image.asset(
+                                                                        'assets/icons/logoswishlist.png'),
                                                                 progressIndicatorBuilder:
                                                                     (a, b, c) =>
                                                                         Opacity(
@@ -442,7 +439,7 @@ class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
                                                                           .toString()
                                                                           .contains(
                                                                               "etsy")
-                                                                      ? '\$ ${normalizedPercent}'
+                                                                      ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
                                                                       : '\$ ${products!.data!.have![i].price.toString()}',
 
                                                                   // '\$ ${normalizedPercent}',

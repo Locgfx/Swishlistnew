@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:swishlist/api/user_apis/auth_user_api.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
@@ -84,11 +85,11 @@ class _LoginState extends State<Login> {
                         },
                         controller: phoneEmailController,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 24),
-                          border: InputBorder.none,
-                          hintText: "Enter email"
-                          // "Enter phone number/email",
-                        ),
+                            contentPadding: EdgeInsets.symmetric(vertical: 24),
+                            border: InputBorder.none,
+                            hintText: "Enter email"
+                            // "Enter phone number/email",
+                            ),
                       ),
                     ),
                   ),
@@ -189,6 +190,19 @@ class _LoginState extends State<Login> {
                                         .setLoginToken(response!.token);
                                     SharedPrefs()
                                         .setId(response!.data.id.toString());
+                                    authTokenLoginApi(
+                                            token:
+                                                '${SharedPrefs().getLoginToken()}',
+                                            fcmToken:
+                                                "${SharedPrefs().getFcmToken()}")
+                                        .then((value) async {
+                                      response = value;
+                                      if (response?.status == true) {
+                                        SharedPrefs()
+                                            .setLoginToken(response!.token);
+                                      }
+                                    });
+
                                     // SharedPrefs().setName(
                                     //     response!.data.name.toString());
                                     // SharedPrefs().setUsername(

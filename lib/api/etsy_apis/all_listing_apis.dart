@@ -64,7 +64,7 @@ Future<dynamic> searchEtsyProductApi({
   var request = http.Request(
       'GET',
       Uri.parse(
-          '$etsyUrl/v3/application/listings/active?limit=25&offset=$page&keywords=$search'));
+          '$etsyUrl/v3/application/listings/active?limit=25&offset=$page&shop_location=United States&keywords=$search'));
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());

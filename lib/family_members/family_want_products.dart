@@ -243,66 +243,6 @@ class _FamilyWantProductsState extends State<FamilyWantProducts> {
                                                                     .toString(),
                                                                 productId: '',
                                                               )));
-
-                                                  // Navigator.push(
-                                                  //     context,
-                                                  //     MaterialPageRoute(
-                                                  //         builder: (context) =>
-                                                  //             FriendProductDetail(
-                                                  //               response: widget
-                                                  //                   .response,
-                                                  //               name: products!
-                                                  //                   .data!
-                                                  //                   .want![i]
-                                                  //                   .name
-                                                  //                   .toString(),
-                                                  //               price: products!
-                                                  //                   .data!
-                                                  //                   .want![i]
-                                                  //                   .price
-                                                  //                   .toString(),
-                                                  //               link: products!
-                                                  //                   .data!
-                                                  //                   .want![i]
-                                                  //                   .link
-                                                  //                   .toString(),
-                                                  //               image: products!
-                                                  //                   .data!
-                                                  //                   .want![
-                                                  //               i]
-                                                  //                   .photo
-                                                  //                   .toString()
-                                                  //                   .contains(
-                                                  //                   'http')
-                                                  //                   ? products!
-                                                  //                   .data!
-                                                  //                   .want![
-                                                  //               i]
-                                                  //                   .photo
-                                                  //                   .toString()
-                                                  //                   : baseUrl +
-                                                  //                   products!
-                                                  //                       .data!
-                                                  //                       .want![i]
-                                                  //                       .photo
-                                                  //                       .toString(),
-                                                  //               purchaseDate: products!
-                                                  //                   .data!
-                                                  //                   .want![i]
-                                                  //                   .purchasedDate
-                                                  //                   .toString(),
-                                                  //               id: products!
-                                                  //                   .data!
-                                                  //                   .want![i]
-                                                  //                   .id
-                                                  //                   .toString(),
-                                                  //               type: products!
-                                                  //                   .data!
-                                                  //                   .want![i]
-                                                  //                   .type
-                                                  //                   .toString(),
-                                                  //               productId: '',
-                                                  //             )));
                                                 },
                                                 child: Container(
                                                   color: Colors.transparent,
@@ -353,14 +293,11 @@ class _FamilyWantProductsState extends State<FamilyWantProducts> {
                                                                             .toString(),
                                                                 fit: BoxFit
                                                                     .cover,
-                                                                errorWidget:
-                                                                    (context,
-                                                                            url,
-                                                                            error) =>
-                                                                        Icon(
-                                                                  Icons.error,
-                                                                  size: 40,
-                                                                ),
+                                                                errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                    Image.asset(
+                                                                        'assets/icons/logoswishlist.png'),
                                                                 progressIndicatorBuilder:
                                                                     (a, b, c) =>
                                                                         Opacity(
@@ -443,7 +380,7 @@ class _FamilyWantProductsState extends State<FamilyWantProducts> {
                                                                           .toString()
                                                                           .contains(
                                                                               "etsy")
-                                                                      ? '\$ ${normalizedPercent}'
+                                                                      ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
                                                                       : '\$ ${products!.data!.want![i].price.toString()}',
                                                                   // "47.99",
                                                                   style: AppTextStyle()

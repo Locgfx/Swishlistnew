@@ -455,196 +455,205 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: products!.data!.want!.length,
-                                    // itemCount: 2,
+                                    // itemCount: products!.data!.want!.length,
+                                    itemCount: 5,
                                     shrinkWrap: true,
                                     itemBuilder: (context, i) {
-                                      double price = double.tryParse(products!
-                                              .data!.want![i].price
-                                              .toString()) ??
-                                          0.0;
-                                      double normalizedPercent = price / 100.0;
-                                      return Container(
-                                        color: Colors.transparent,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(height: 16),
-                                            Expanded(
-                                              flex: 4,
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              FamilyProductDetail(
-                                                                name: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .name
-                                                                    .toString(),
-                                                                price: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .price
-                                                                    .toString(),
-                                                                link: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .link
-                                                                    .toString(),
-                                                                image: products!
-                                                                        .data!
-                                                                        .want![
-                                                                            i]
-                                                                        .photo
-                                                                        .toString()
-                                                                        .contains(
-                                                                            'http')
-                                                                    ? products!
-                                                                        .data!
-                                                                        .want![
-                                                                            i]
-                                                                        .photo
-                                                                        .toString()
-                                                                    : baseUrl +
-                                                                        products!
-                                                                            .data!
-                                                                            .want![i]
-                                                                            .photo
-                                                                            .toString(),
-                                                                purchaseDate: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .purchasedDate
-                                                                    .toString(),
-                                                                id: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .id
-                                                                    .toString(),
-                                                                type: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .type
-                                                                    .toString(),
-                                                                productId: '',
-                                                              )));
-                                                  // Navigator.push(
-                                                  //   context,
-                                                  //   MaterialPageRoute(
-                                                  //     builder: (context) =>
-                                                  //         WantProducts(
-                                                  //       isUser: true,
-                                                  //     ),
-                                                  //   ),
-                                                  // );
-                                                },
-                                                child: Container(
-                                                  width: 173,
-                                                  height: 129,
-                                                  margin:
-                                                      EdgeInsets.only(left: 16),
-                                                  clipBehavior: Clip.hardEdge,
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: ColorSelect
-                                                              .colorE0E0E0,
-                                                          width: 1),
-                                                      color: ColorSelect
-                                                          .colorFFFFFF,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12)),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: products!.data!
-                                                            .want![i].photo
-                                                            .toString()
-                                                            .contains('http')
-                                                        ? products!.data!
-                                                            .want![i].photo
-                                                            .toString()
-                                                        : baseUrl +
-                                                            products!.data!
-                                                                .want![i].photo
-                                                                .toString(),
-                                                    fit: BoxFit.cover,
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            Icon(
-                                                      Icons.error,
-                                                      size: 40,
-                                                    ),
-                                                    progressIndicatorBuilder:
-                                                        (a, b, c) => Opacity(
-                                                      opacity: 0.3,
-                                                      child: Shimmer.fromColors(
-                                                        baseColor:
-                                                            Colors.black12,
-                                                        highlightColor:
-                                                            Colors.white,
-                                                        child: Container(
-                                                          width: 173,
-                                                          height: 129,
-                                                          decoration: BoxDecoration(
-                                                              border: Border.all(
-                                                                  color: ColorSelect
-                                                                      .colorE0E0E0,
-                                                                  width: 1),
-                                                              color: ColorSelect
-                                                                  .colorFFFFFF,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          12)),
+                                      if (i < products!.data!.want!.length) {
+                                        double price = double.tryParse(products!
+                                                .data!.want![i].price
+                                                .toString()) ??
+                                            0.0;
+                                        double normalizedPercent =
+                                            price / 100.0;
+                                        return Container(
+                                          color: Colors.transparent,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(height: 16),
+                                              Expanded(
+                                                flex: 4,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                FamilyProductDetail(
+                                                                  name: products!
+                                                                      .data!
+                                                                      .want![i]
+                                                                      .name
+                                                                      .toString(),
+                                                                  price: products!
+                                                                      .data!
+                                                                      .want![i]
+                                                                      .price
+                                                                      .toString(),
+                                                                  link: products!
+                                                                      .data!
+                                                                      .want![i]
+                                                                      .link
+                                                                      .toString(),
+                                                                  image: products!
+                                                                          .data!
+                                                                          .want![
+                                                                              i]
+                                                                          .photo
+                                                                          .toString()
+                                                                          .contains(
+                                                                              'http')
+                                                                      ? products!
+                                                                          .data!
+                                                                          .want![
+                                                                              i]
+                                                                          .photo
+                                                                          .toString()
+                                                                      : baseUrl +
+                                                                          products!
+                                                                              .data!
+                                                                              .want![i]
+                                                                              .photo
+                                                                              .toString(),
+                                                                  purchaseDate: products!
+                                                                      .data!
+                                                                      .want![i]
+                                                                      .purchasedDate
+                                                                      .toString(),
+                                                                  id: products!
+                                                                      .data!
+                                                                      .want![i]
+                                                                      .id
+                                                                      .toString(),
+                                                                  type: products!
+                                                                      .data!
+                                                                      .want![i]
+                                                                      .type
+                                                                      .toString(),
+                                                                  productId: '',
+                                                                )));
+                                                    // Navigator.push(
+                                                    //   context,
+                                                    //   MaterialPageRoute(
+                                                    //     builder: (context) =>
+                                                    //         WantProducts(
+                                                    //       isUser: true,
+                                                    //     ),
+                                                    //   ),
+                                                    // );
+                                                  },
+                                                  child: Container(
+                                                    width: 173,
+                                                    height: 129,
+                                                    margin: EdgeInsets.only(
+                                                        left: 16),
+                                                    clipBehavior: Clip.hardEdge,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color: ColorSelect
+                                                                .colorE0E0E0,
+                                                            width: 1),
+                                                        color: ColorSelect
+                                                            .colorFFFFFF,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12)),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: products!.data!
+                                                              .want![i].photo
+                                                              .toString()
+                                                              .contains('http')
+                                                          ? products!.data!
+                                                              .want![i].photo
+                                                              .toString()
+                                                          : baseUrl +
+                                                              products!
+                                                                  .data!
+                                                                  .want![i]
+                                                                  .photo
+                                                                  .toString(),
+                                                      fit: BoxFit.cover,
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Image.asset(
+                                                              'assets/icons/logoswishlist.png'),
+                                                      progressIndicatorBuilder:
+                                                          (a, b, c) => Opacity(
+                                                        opacity: 0.3,
+                                                        child:
+                                                            Shimmer.fromColors(
+                                                          baseColor:
+                                                              Colors.black12,
+                                                          highlightColor:
+                                                              Colors.white,
+                                                          child: Container(
+                                                            width: 173,
+                                                            height: 129,
+                                                            decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: ColorSelect
+                                                                        .colorE0E0E0,
+                                                                    width: 1),
+                                                                color: ColorSelect
+                                                                    .colorFFFFFF,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            12)),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(height: 12),
-                                            Expanded(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 16),
-                                                child: SizedBox(
-                                                  width: 173,
-                                                  child: Text(
-                                                    products!
-                                                        .data!.want![i].name
-                                                        .toString(),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 2,
-                                                    style: AppTextStyle()
-                                                        .textColor29292912w400,
+                                              SizedBox(height: 12),
+                                              Expanded(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 16),
+                                                  child: SizedBox(
+                                                    width: 173,
+                                                    child: Text(
+                                                      products!
+                                                          .data!.want![i].name
+                                                          .toString(),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                      style: AppTextStyle()
+                                                          .textColor29292912w400,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(height: 4),
-                                            Expanded(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 16),
-                                                child: Text(
-                                                  products!.data!.want![i].link
-                                                          .toString()
-                                                          .contains("etsy")
-                                                      ? '\$ ${normalizedPercent}'
-                                                      : '\$ ${products!.data!.want![i].price.toString()}',
-                                                  style: AppTextStyle()
-                                                      .textColor29292914w500,
+                                              SizedBox(height: 4),
+                                              Expanded(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 16),
+                                                  child: Text(
+                                                    products!
+                                                            .data!.want![i].link
+                                                            .toString()
+                                                            .contains("etsy")
+                                                        ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
+                                                        : '\$ ${products!.data!.want![i].price.toString()}',
+                                                    style: AppTextStyle()
+                                                        .textColor29292914w500,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
+                                            ],
+                                          ),
+                                        );
+                                      } else {
+                                        return Container();
+                                      }
                                     },
                                   ),
                                 )),
@@ -720,247 +729,241 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                       : ListView.builder(
                                           // physics: NeverScrollableScrollPhysics(),
                                           scrollDirection: Axis.horizontal,
-                                          itemCount:
-                                              products!.data!.dontWant!.length,
-                                          // itemCount: 2,
+                                          // itemCount:
+                                          //     products!.data!.dontWant!.length,
+                                          itemCount: 5,
                                           shrinkWrap: true,
                                           itemBuilder: (context, i) {
-                                            double price = double.tryParse(
-                                                    products!.data!.dontWant![i]
-                                                        .price
-                                                        .toString()) ??
-                                                0.0;
-                                            double normalizedPercent =
-                                                price / 100.0;
-                                            return Container(
-                                              color: Colors.transparent,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(height: 16),
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        FamilyProductDetail(
-                                                                          name: products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .name
-                                                                              .toString(),
-                                                                          price: products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .price
-                                                                              .toString(),
-                                                                          link: products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .link
-                                                                              .toString(),
-                                                                          image: products!.data!.dontWant![i].photo.toString().contains('http')
-                                                                              ? products!.data!.dontWant![i].photo.toString()
-                                                                              : baseUrl + products!.data!.dontWant![i].photo.toString(),
-                                                                          purchaseDate: products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .purchasedDate
-                                                                              .toString(),
-                                                                          id: products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .id
-                                                                              .toString(),
-                                                                          type: products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .type
-                                                                              .toString(),
-                                                                          productId:
-                                                                              '',
-                                                                        )));
-                                                        // Navigator.push(
-                                                        //     context,
-                                                        //     MaterialPageRoute(
-                                                        //         builder:
-                                                        //             (context) =>
-                                                        //                 FriendProductDetail(
-                                                        //                   response:
-                                                        //                       widget.response,
-                                                        //                   name: products!
-                                                        //                       .data!
-                                                        //                       .dontWant![i]
-                                                        //                       .name
-                                                        //                       .toString(),
-                                                        //                   price: products!
-                                                        //                       .data!
-                                                        //                       .dontWant![i]
-                                                        //                       .price
-                                                        //                       .toString(),
-                                                        //                   link: products!
-                                                        //                       .data!
-                                                        //                       .dontWant![i]
-                                                        //                       .link
-                                                        //                       .toString(),
-                                                        //                   image: products!.data!.dontWant![i].photo.toString().contains('http')
-                                                        //                       ? products!.data!.dontWant![i].photo.toString()
-                                                        //                       : baseUrl + products!.data!.dontWant![i].photo.toString(),
-                                                        //                   purchaseDate: products!
-                                                        //                       .data!
-                                                        //                       .dontWant![i]
-                                                        //                       .purchasedDate
-                                                        //                       .toString(),
-                                                        //                   id: products!
-                                                        //                       .data!
-                                                        //                       .dontWant![i]
-                                                        //                       .id
-                                                        //                       .toString(),
-                                                        //                   type: products!
-                                                        //                       .data!
-                                                        //                       .dontWant![i]
-                                                        //                       .type
-                                                        //                       .toString(),
-                                                        //                   productId:
-                                                        //                       '',
-                                                        //                 )));
-                                                        // Navigator.push(
-                                                        //   context,
-                                                        //   MaterialPageRoute(
-                                                        //     builder: (context) => WantProducts(
-                                                        //       isUser: true,
-                                                        //     ),
-                                                        //   ),
-                                                        // );
-                                                      },
-                                                      child: Container(
-                                                        width: 173,
-                                                        height: 129,
-                                                        margin: EdgeInsets.only(
-                                                            left: 16),
-                                                        clipBehavior:
-                                                            Clip.hardEdge,
-                                                        decoration: BoxDecoration(
-                                                            border: Border.all(
-                                                                color: ColorSelect
-                                                                    .colorE0E0E0,
-                                                                width: 1),
-                                                            color: ColorSelect
-                                                                .colorFFFFFF,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12)),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl: products!
-                                                                  .data!
-                                                                  .dontWant![i]
-                                                                  .photo
-                                                                  .toString()
-                                                                  .contains(
-                                                                      "https")
-                                                              ? products!
-                                                                  .data!
-                                                                  .dontWant![i]
-                                                                  .photo
-                                                                  .toString()
-                                                              : baseUrl +
-                                                                  products!
-                                                                      .data!
-                                                                      .dontWant![
-                                                                          i]
-                                                                      .photo
-                                                                      .toString(),
-                                                          fit: BoxFit.cover,
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              Icon(
-                                                            Icons.error,
-                                                            size: 40,
-                                                          ),
-                                                          progressIndicatorBuilder:
-                                                              (a, b, c) =>
-                                                                  Opacity(
-                                                            opacity: 0.3,
-                                                            child: Shimmer
-                                                                .fromColors(
-                                                              baseColor: Colors
-                                                                  .black12,
-                                                              highlightColor:
-                                                                  Colors.white,
-                                                              child: Container(
-                                                                width: 173,
-                                                                height: 129,
-                                                                decoration: BoxDecoration(
-                                                                    border: Border.all(
-                                                                        color: ColorSelect
-                                                                            .colorE0E0E0,
-                                                                        width:
-                                                                            1),
-                                                                    color: ColorSelect
-                                                                        .colorFFFFFF,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            12)),
+                                            if (i <
+                                                products!
+                                                    .data!.dontWant!.length) {
+                                              double price = double.tryParse(
+                                                      products!.data!
+                                                          .dontWant![i].price
+                                                          .toString()) ??
+                                                  0.0;
+                                              double normalizedPercent =
+                                                  price / 100.0;
+                                              return Container(
+                                                color: Colors.transparent,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(height: 16),
+                                                    Expanded(
+                                                      flex: 4,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          FamilyProductDetail(
+                                                                            name:
+                                                                                products!.data!.dontWant![i].name.toString(),
+                                                                            price:
+                                                                                products!.data!.dontWant![i].price.toString(),
+                                                                            link:
+                                                                                products!.data!.dontWant![i].link.toString(),
+                                                                            image: products!.data!.dontWant![i].photo.toString().contains('http')
+                                                                                ? products!.data!.dontWant![i].photo.toString()
+                                                                                : baseUrl + products!.data!.dontWant![i].photo.toString(),
+                                                                            purchaseDate:
+                                                                                products!.data!.dontWant![i].purchasedDate.toString(),
+                                                                            id: products!.data!.dontWant![i].id.toString(),
+                                                                            type:
+                                                                                products!.data!.dontWant![i].type.toString(),
+                                                                            productId:
+                                                                                '',
+                                                                          )));
+                                                          // Navigator.push(
+                                                          //     context,
+                                                          //     MaterialPageRoute(
+                                                          //         builder:
+                                                          //             (context) =>
+                                                          //                 FriendProductDetail(
+                                                          //                   response:
+                                                          //                       widget.response,
+                                                          //                   name: products!
+                                                          //                       .data!
+                                                          //                       .dontWant![i]
+                                                          //                       .name
+                                                          //                       .toString(),
+                                                          //                   price: products!
+                                                          //                       .data!
+                                                          //                       .dontWant![i]
+                                                          //                       .price
+                                                          //                       .toString(),
+                                                          //                   link: products!
+                                                          //                       .data!
+                                                          //                       .dontWant![i]
+                                                          //                       .link
+                                                          //                       .toString(),
+                                                          //                   image: products!.data!.dontWant![i].photo.toString().contains('http')
+                                                          //                       ? products!.data!.dontWant![i].photo.toString()
+                                                          //                       : baseUrl + products!.data!.dontWant![i].photo.toString(),
+                                                          //                   purchaseDate: products!
+                                                          //                       .data!
+                                                          //                       .dontWant![i]
+                                                          //                       .purchasedDate
+                                                          //                       .toString(),
+                                                          //                   id: products!
+                                                          //                       .data!
+                                                          //                       .dontWant![i]
+                                                          //                       .id
+                                                          //                       .toString(),
+                                                          //                   type: products!
+                                                          //                       .data!
+                                                          //                       .dontWant![i]
+                                                          //                       .type
+                                                          //                       .toString(),
+                                                          //                   productId:
+                                                          //                       '',
+                                                          //                 )));
+                                                          // Navigator.push(
+                                                          //   context,
+                                                          //   MaterialPageRoute(
+                                                          //     builder: (context) => WantProducts(
+                                                          //       isUser: true,
+                                                          //     ),
+                                                          //   ),
+                                                          // );
+                                                        },
+                                                        child: Container(
+                                                          width: 173,
+                                                          height: 129,
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 16),
+                                                          clipBehavior:
+                                                              Clip.hardEdge,
+                                                          decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                  color: ColorSelect
+                                                                      .colorE0E0E0,
+                                                                  width: 1),
+                                                              color: ColorSelect
+                                                                  .colorFFFFFF,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12)),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl: products!
+                                                                    .data!
+                                                                    .dontWant![
+                                                                        i]
+                                                                    .photo
+                                                                    .toString()
+                                                                    .contains(
+                                                                        "https")
+                                                                ? products!
+                                                                    .data!
+                                                                    .dontWant![
+                                                                        i]
+                                                                    .photo
+                                                                    .toString()
+                                                                : baseUrl +
+                                                                    products!
+                                                                        .data!
+                                                                        .dontWant![
+                                                                            i]
+                                                                        .photo
+                                                                        .toString(),
+                                                            fit: BoxFit.cover,
+                                                            errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                Image.asset(
+                                                                    'assets/icons/logoswishlist.png'),
+                                                            progressIndicatorBuilder:
+                                                                (a, b, c) =>
+                                                                    Opacity(
+                                                              opacity: 0.3,
+                                                              child: Shimmer
+                                                                  .fromColors(
+                                                                baseColor: Colors
+                                                                    .black12,
+                                                                highlightColor:
+                                                                    Colors
+                                                                        .white,
+                                                                child:
+                                                                    Container(
+                                                                  width: 173,
+                                                                  height: 129,
+                                                                  decoration: BoxDecoration(
+                                                                      border: Border.all(
+                                                                          color: ColorSelect
+                                                                              .colorE0E0E0,
+                                                                          width:
+                                                                              1),
+                                                                      color: ColorSelect
+                                                                          .colorFFFFFF,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              12)),
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(height: 12),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 16),
-                                                      child: SizedBox(
-                                                        width: 173,
-                                                        child: Text(
-                                                          products!.data!
-                                                              .dontWant![i].name
-                                                              .toString(),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 2,
-                                                          style: AppTextStyle()
-                                                              .textColor29292912w400,
+                                                    SizedBox(height: 12),
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 16),
+                                                        child: SizedBox(
+                                                          width: 173,
+                                                          child: Text(
+                                                            products!
+                                                                .data!
+                                                                .dontWant![i]
+                                                                .name
+                                                                .toString(),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            maxLines: 2,
+                                                            style: AppTextStyle()
+                                                                .textColor29292912w400,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(height: 4),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 16),
-                                                      child: Text(
-                                                        products!
-                                                                .data!
-                                                                .dontWant![i]
-                                                                .link
-                                                                .toString()
-                                                                .contains(
-                                                                    "etsy")
-                                                            ? '\$ ${normalizedPercent}'
-                                                            : '\$ ${products!.data!.dontWant![i].price.toString()}',
-                                                        // 'USD ${normalizedPercent}',
-                                                        style: AppTextStyle()
-                                                            .textColor29292914w500,
+                                                    SizedBox(height: 4),
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 16),
+                                                        child: Text(
+                                                          products!
+                                                                  .data!
+                                                                  .dontWant![i]
+                                                                  .link
+                                                                  .toString()
+                                                                  .contains(
+                                                                      "etsy")
+                                                              ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
+                                                              : '\$ ${products!.data!.dontWant![i].price.toString()}',
+                                                          // 'USD ${normalizedPercent}',
+                                                          style: AppTextStyle()
+                                                              .textColor29292914w500,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
+                                                  ],
+                                                ),
+                                              );
+                                            } else {
+                                              return Container();
+                                            }
                                           },
                                         ),
                                 )),
@@ -1035,244 +1038,234 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                         )
                                       : ListView.builder(
                                           scrollDirection: Axis.horizontal,
-                                          itemCount:
-                                              products!.data!.have!.length,
-                                          // itemCount: 2,
+                                          // itemCount:
+                                          //     products!.data!.have!.length,
+                                          itemCount: 5,
                                           shrinkWrap: true,
                                           itemBuilder: (context, i) {
-                                            double price = double.tryParse(
-                                                    products!
-                                                        .data!.have![i].price
-                                                        .toString()) ??
-                                                0.0;
-                                            double normalizedPercent =
-                                                price / 100.0;
-                                            return Container(
-                                              color: Colors.transparent,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(height: 16),
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        FamilyProductDetail(
-                                                                          name: products!
-                                                                              .data!
-                                                                              .have![i]
-                                                                              .name
-                                                                              .toString(),
-                                                                          price: products!
-                                                                              .data!
-                                                                              .have![i]
-                                                                              .price
-                                                                              .toString(),
-                                                                          link: products!
-                                                                              .data!
-                                                                              .have![i]
-                                                                              .link
-                                                                              .toString(),
-                                                                          image: products!.data!.have![i].photo.toString().contains('http')
-                                                                              ? products!.data!.have![i].photo.toString()
-                                                                              : baseUrl + products!.data!.have![i].photo.toString(),
-                                                                          purchaseDate: products!
-                                                                              .data!
-                                                                              .have![i]
-                                                                              .purchasedDate
-                                                                              .toString(),
-                                                                          id: products!
-                                                                              .data!
-                                                                              .have![i]
-                                                                              .id
-                                                                              .toString(),
-                                                                          type: products!
-                                                                              .data!
-                                                                              .have![i]
-                                                                              .type
-                                                                              .toString(),
-                                                                          productId:
-                                                                              '',
-                                                                        )));
-                                                        // Navigator.push(
-                                                        //     context,
-                                                        //     MaterialPageRoute(
-                                                        //         builder:
-                                                        //             (context) =>
-                                                        //                 FriendProductDetail(
-                                                        //                   response:
-                                                        //                       widget.response,
-                                                        //                   name: products!
-                                                        //                       .data!
-                                                        //                       .have![i]
-                                                        //                       .name
-                                                        //                       .toString(),
-                                                        //                   price: products!
-                                                        //                       .data!
-                                                        //                       .have![i]
-                                                        //                       .price
-                                                        //                       .toString(),
-                                                        //                   link: products!
-                                                        //                       .data!
-                                                        //                       .have![i]
-                                                        //                       .link
-                                                        //                       .toString(),
-                                                        //                   image: products!.data!.have![i].photo.toString().contains('http')
-                                                        //                       ? products!.data!.have![i].photo.toString()
-                                                        //                       : baseUrl + products!.data!.have![i].photo.toString(),
-                                                        //                   purchaseDate: products!
-                                                        //                       .data!
-                                                        //                       .have![i]
-                                                        //                       .purchasedDate
-                                                        //                       .toString(),
-                                                        //                   id: products!
-                                                        //                       .data!
-                                                        //                       .have![i]
-                                                        //                       .id
-                                                        //                       .toString(),
-                                                        //                   type: products!
-                                                        //                       .data!
-                                                        //                       .have![i]
-                                                        //                       .type
-                                                        //                       .toString(),
-                                                        //                   productId:
-                                                        //                       '',
-                                                        //                 )));
-                                                        // Navigator.push(
-                                                        //   context,
-                                                        //   MaterialPageRoute(
-                                                        //     builder: (context) => WantProducts(
-                                                        //       isUser: true,
-                                                        //     ),
-                                                        //   ),
-                                                        // );
-                                                      },
-                                                      child: Container(
-                                                        width: 173,
-                                                        height: 129,
-                                                        margin: EdgeInsets.only(
-                                                            left: 16),
-                                                        clipBehavior:
-                                                            Clip.hardEdge,
-                                                        decoration: BoxDecoration(
-                                                            border: Border.all(
-                                                                color: ColorSelect
-                                                                    .colorE0E0E0,
-                                                                width: 1),
-                                                            color: ColorSelect
-                                                                .colorFFFFFF,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12)),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl: products!
-                                                                  .data!
-                                                                  .have![i]
-                                                                  .photo
-                                                                  .toString()
-                                                                  .contains(
-                                                                      "https")
-                                                              ? products!
-                                                                  .data!
-                                                                  .have![i]
-                                                                  .photo
-                                                                  .toString()
-                                                              : baseUrl +
-                                                                  products!
-                                                                      .data!
-                                                                      .have![i]
-                                                                      .photo
-                                                                      .toString(),
-                                                          fit: BoxFit.cover,
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              Icon(
-                                                            Icons.error,
-                                                            size: 40,
-                                                          ),
-                                                          progressIndicatorBuilder:
-                                                              (a, b, c) =>
-                                                                  Opacity(
-                                                            opacity: 0.3,
-                                                            child: Shimmer
-                                                                .fromColors(
-                                                              baseColor: Colors
-                                                                  .black12,
-                                                              highlightColor:
-                                                                  Colors.white,
-                                                              child: Container(
-                                                                width: 173,
-                                                                height: 129,
-                                                                decoration: BoxDecoration(
-                                                                    border: Border.all(
-                                                                        color: ColorSelect
-                                                                            .colorE0E0E0,
-                                                                        width:
-                                                                            1),
-                                                                    color: ColorSelect
-                                                                        .colorFFFFFF,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            12)),
+                                            if (i <
+                                                products!.data!.have!.length) {
+                                              double price = double.tryParse(
+                                                      products!
+                                                          .data!.have![i].price
+                                                          .toString()) ??
+                                                  0.0;
+                                              double normalizedPercent =
+                                                  price / 100.0;
+                                              return Container(
+                                                color: Colors.transparent,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(height: 16),
+                                                    Expanded(
+                                                      flex: 4,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          FamilyProductDetail(
+                                                                            name:
+                                                                                products!.data!.have![i].name.toString(),
+                                                                            price:
+                                                                                products!.data!.have![i].price.toString(),
+                                                                            link:
+                                                                                products!.data!.have![i].link.toString(),
+                                                                            image: products!.data!.have![i].photo.toString().contains('http')
+                                                                                ? products!.data!.have![i].photo.toString()
+                                                                                : baseUrl + products!.data!.have![i].photo.toString(),
+                                                                            purchaseDate:
+                                                                                products!.data!.have![i].purchasedDate.toString(),
+                                                                            id: products!.data!.have![i].id.toString(),
+                                                                            type:
+                                                                                products!.data!.have![i].type.toString(),
+                                                                            productId:
+                                                                                '',
+                                                                          )));
+                                                          // Navigator.push(
+                                                          //     context,
+                                                          //     MaterialPageRoute(
+                                                          //         builder:
+                                                          //             (context) =>
+                                                          //                 FriendProductDetail(
+                                                          //                   response:
+                                                          //                       widget.response,
+                                                          //                   name: products!
+                                                          //                       .data!
+                                                          //                       .have![i]
+                                                          //                       .name
+                                                          //                       .toString(),
+                                                          //                   price: products!
+                                                          //                       .data!
+                                                          //                       .have![i]
+                                                          //                       .price
+                                                          //                       .toString(),
+                                                          //                   link: products!
+                                                          //                       .data!
+                                                          //                       .have![i]
+                                                          //                       .link
+                                                          //                       .toString(),
+                                                          //                   image: products!.data!.have![i].photo.toString().contains('http')
+                                                          //                       ? products!.data!.have![i].photo.toString()
+                                                          //                       : baseUrl + products!.data!.have![i].photo.toString(),
+                                                          //                   purchaseDate: products!
+                                                          //                       .data!
+                                                          //                       .have![i]
+                                                          //                       .purchasedDate
+                                                          //                       .toString(),
+                                                          //                   id: products!
+                                                          //                       .data!
+                                                          //                       .have![i]
+                                                          //                       .id
+                                                          //                       .toString(),
+                                                          //                   type: products!
+                                                          //                       .data!
+                                                          //                       .have![i]
+                                                          //                       .type
+                                                          //                       .toString(),
+                                                          //                   productId:
+                                                          //                       '',
+                                                          //                 )));
+                                                          // Navigator.push(
+                                                          //   context,
+                                                          //   MaterialPageRoute(
+                                                          //     builder: (context) => WantProducts(
+                                                          //       isUser: true,
+                                                          //     ),
+                                                          //   ),
+                                                          // );
+                                                        },
+                                                        child: Container(
+                                                          width: 173,
+                                                          height: 129,
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 16),
+                                                          clipBehavior:
+                                                              Clip.hardEdge,
+                                                          decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                  color: ColorSelect
+                                                                      .colorE0E0E0,
+                                                                  width: 1),
+                                                              color: ColorSelect
+                                                                  .colorFFFFFF,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12)),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl: products!
+                                                                    .data!
+                                                                    .have![i]
+                                                                    .photo
+                                                                    .toString()
+                                                                    .contains(
+                                                                        "https")
+                                                                ? products!
+                                                                    .data!
+                                                                    .have![i]
+                                                                    .photo
+                                                                    .toString()
+                                                                : baseUrl +
+                                                                    products!
+                                                                        .data!
+                                                                        .have![
+                                                                            i]
+                                                                        .photo
+                                                                        .toString(),
+                                                            fit: BoxFit.cover,
+                                                            errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                Image.asset(
+                                                                    'assets/icons/logoswishlist.png'),
+                                                            progressIndicatorBuilder:
+                                                                (a, b, c) =>
+                                                                    Opacity(
+                                                              opacity: 0.3,
+                                                              child: Shimmer
+                                                                  .fromColors(
+                                                                baseColor: Colors
+                                                                    .black12,
+                                                                highlightColor:
+                                                                    Colors
+                                                                        .white,
+                                                                child:
+                                                                    Container(
+                                                                  width: 173,
+                                                                  height: 129,
+                                                                  decoration: BoxDecoration(
+                                                                      border: Border.all(
+                                                                          color: ColorSelect
+                                                                              .colorE0E0E0,
+                                                                          width:
+                                                                              1),
+                                                                      color: ColorSelect
+                                                                          .colorFFFFFF,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              12)),
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(height: 12),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 16),
-                                                      child: SizedBox(
-                                                        width: 173,
-                                                        child: Text(
-                                                          products!.data!
-                                                              .have![i].name
-                                                              .toString(),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 2,
-                                                          style: AppTextStyle()
-                                                              .textColor29292912w400,
+                                                    SizedBox(height: 12),
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 16),
+                                                        child: SizedBox(
+                                                          width: 173,
+                                                          child: Text(
+                                                            products!.data!
+                                                                .have![i].name
+                                                                .toString(),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            maxLines: 2,
+                                                            style: AppTextStyle()
+                                                                .textColor29292912w400,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(height: 4),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 16),
-                                                      child: Text(
-                                                        products!.data!.have![i]
-                                                                .link
-                                                                .toString()
-                                                                .contains(
-                                                                    "etsy")
-                                                            ? '\$ ${normalizedPercent}'
-                                                            : '\$ ${products!.data!.have![i].price.toString()}',
-                                                        // 'USD ${normalizedPercent}',
-                                                        style: AppTextStyle()
-                                                            .textColor29292914w500,
+                                                    SizedBox(height: 4),
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 16),
+                                                        child: Text(
+                                                          products!.data!
+                                                                  .have![i].link
+                                                                  .toString()
+                                                                  .contains(
+                                                                      "etsy")
+                                                              ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
+                                                              : '\$ ${products!.data!.have![i].price.toString()}',
+                                                          // 'USD ${normalizedPercent}',
+                                                          style: AppTextStyle()
+                                                              .textColor29292914w500,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
+                                                  ],
+                                                ),
+                                              );
+                                            } else {
+                                              return Container();
+                                            }
                                           },
                                         ),
                                 )),

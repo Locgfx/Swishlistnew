@@ -50,14 +50,14 @@ fn(RemoteMessage message) async {
   // log(event.data['content']['id'].toString());
   // log(a['id']);
   // if (a['id'] != null && a['id'].runtimeType == String) {
-  flutterPlugin.show(
-    a['id'] != null ? int.parse(a['id'].toString()) : 0,
-    // a['id'] ?? '',
-    a['title'].toString(),
-    a['body'].toString(),
-    platformChannelSpecifics,
-    payload: a['payload'].toString(),
-  );
+  // flutterPlugin.show(
+  //   a['id'],
+  //   // a['id'] ?? '',
+  //   a['title'].toString(),
+  //   a['body'].toString(),
+  //   platformChannelSpecifics,
+  //   payload: a['payload'].toString(),
+  // );
   // show notification
   // }
   // if (a['id'] != null && a['id'] is String) {
@@ -70,15 +70,15 @@ fn(RemoteMessage message) async {
   //   );
   // }
 
-  // if (a['id'] != null && a['id'] is int) {
-  //   flutterPlugin.show(
-  //     a['id'],
-  //     a['title'].toString(),
-  //     a['body'].toString(),
-  //     platformChannelSpecifics,
-  //     payload: a['payload'].toString(),
-  //   );
-  // }
+  if (a['id'] != null && a['id'] is int) {
+    flutterPlugin.show(
+      a['id'],
+      a['title'].toString(),
+      a['body'].toString(),
+      platformChannelSpecifics,
+      payload: a['payload'].toString(),
+    );
+  }
 
   // flutterPlugin.show(
   //   a['id'],

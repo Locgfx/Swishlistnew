@@ -332,7 +332,7 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
                                                     ),
                                                     Text(
                                                       // normalizedPercent.toString(),
-                                                      '\$ ${normalizedPercent} ',
+                                                      '\$ ${normalizedPercent.toString()} ',
                                                       // ' \$ ${listings[i].price!.amount.toString()}',
                                                       overflow:
                                                           TextOverflow.ellipsis,
@@ -400,7 +400,8 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
                                     itemBuilder: (_, i) {
                                       if (i < searchListings.length) {
                                         normalizedPercentSearch =
-                                            listings[i].price!.amount! / 100.00;
+                                            searchListings[i].price!.amount! /
+                                                100.00;
                                         return GestureDetector(
                                           onTap: () {
                                             Navigator.push(
@@ -514,7 +515,7 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
                                                         height: 8.0,
                                                       ),
                                                       Text(
-                                                        '\$ ${normalizedPercentSearch} ',
+                                                        '\$ ${normalizedPercentSearch.toStringAsFixed(2)} ',
                                                         // ' \$ ${searchListings[i].price!.amount.toString()}',
                                                         overflow: TextOverflow
                                                             .ellipsis,

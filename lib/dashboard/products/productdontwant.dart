@@ -365,6 +365,10 @@ class _ProductdontwantState extends State<Productdontwant> {
                                                           ),
                                                           child:
                                                               CachedNetworkImage(
+                                                            maxHeightDiskCache:
+                                                                120,
+                                                            maxWidthDiskCache:
+                                                                120,
                                                             // imageUrl: (baseUrl+notWantTwo[i].photo.toString()),
                                                             imageUrl: notWantTwo[
                                                                         i]
@@ -473,7 +477,14 @@ class _ProductdontwantState extends State<Productdontwant> {
                                                                     .only(
                                                                     left: 16),
                                                             child: Text(
-                                                              '\$ ${normalizedPercent.toString()}',
+                                                              notWantTwo[i]
+                                                                      .link
+                                                                      .toString()
+                                                                      .contains(
+                                                                          "etsy")
+                                                                  ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
+                                                                  : '\$ ${notWantTwo[i].price.toString()}',
+                                                              // '\$ ${normalizedPercent.toStringAsFixed(2)}',
                                                               // notWantTwo[i].price.toString(),
                                                               // "47.99",
                                                               style: AppTextStyle()

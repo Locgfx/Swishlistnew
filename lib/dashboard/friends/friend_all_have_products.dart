@@ -254,6 +254,10 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                                 ),
                                                                 child:
                                                                     CachedNetworkImage(
+                                                                  maxHeightDiskCache:
+                                                                      120,
+                                                                  maxWidthDiskCache:
+                                                                      120,
                                                                   imageUrl: products!
                                                                           .data!
                                                                           .have![
@@ -276,14 +280,11 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                                               .toString(),
                                                                   fit: BoxFit
                                                                       .cover,
-                                                                  errorWidget:
-                                                                      (context,
-                                                                              url,
-                                                                              error) =>
-                                                                          Icon(
-                                                                    Icons.error,
-                                                                    size: 40,
-                                                                  ),
+                                                                  errorWidget: (context,
+                                                                          url,
+                                                                          error) =>
+                                                                      Image.asset(
+                                                                          'assets/icons/logoswishlist.png'),
                                                                   progressIndicatorBuilder:
                                                                       (a, b, c) =>
                                                                           Opacity(
@@ -362,7 +363,7 @@ class _FriendHaveProductsState extends State<FriendHaveProducts> {
                                                                           .toString()
                                                                           .contains(
                                                                               "etsy")
-                                                                      ? '\$ ${normalizedPercent}'
+                                                                      ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
                                                                       : '\$ ${products!.data!.have![i].price.toString()}',
                                                                   // "47.99",
                                                                   style: AppTextStyle()

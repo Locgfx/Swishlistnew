@@ -78,6 +78,7 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
   Widget build(BuildContext context) {
     // normalizedPercent =  / 100.00;
     double price = double.tryParse(widget.productPrice) ?? 0.0;
+    // double price = 4300;
     double normalizedPercent = price / 100.0;
     return Scaffold(
       extendBody: true,
@@ -146,7 +147,7 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                       children: [
                         Text(
                           // normalizedPercent.toString(),
-                          '\$ ${normalizedPercent.toString()}',
+                          '\$ ${normalizedPercent.toStringAsFixed(2)}',
 
                           // '\$ ${widget.productPrice}',
                           style: AppTextStyle().textColor29292924w700,

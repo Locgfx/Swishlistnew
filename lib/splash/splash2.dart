@@ -45,6 +45,8 @@ class _SplashScreenState extends State<SplashScreen> {
       });
     }
 
+    SharedPrefs().setFcmToken(_fcmToken);
+
     // var prefs = await SharedPreferences.getInstance();
     // prefs.setString(Keys().fcmToken, _fcmToken);
     print('Firebase token: $firebaseAppToken');

@@ -16,8 +16,6 @@ import 'package:swishlist/dashboard/products/productdontwant.dart';
 import 'package:swishlist/dashboard/products/share_profile_family_list.dart';
 import 'package:swishlist/dashboard/products/share_profile_friend_list.dart';
 import 'package:swishlist/dashboard/products/wantproducts.dart';
-import 'package:swishlist/dashboard/products/widget/already_manually_add_bottom_sheet.dart';
-import 'package:swishlist/dashboard/products/widget/manuallyaddbottomsheetwidget.dart';
 import 'package:swishlist/expanded/add_family_member.dart';
 import 'package:swishlist/expanded/manage_family_members.dart';
 import 'package:swishlist/expanded/member_settings.dart';
@@ -1227,195 +1225,200 @@ class _ProductsPageState extends State<ProductsPage> {
                                     padding: const EdgeInsets.only(right: 8.0),
                                     child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: wantProducts2.length,
+                                      itemCount: 5,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
-                                        double price = double.tryParse(
-                                                wantProducts2[i]
-                                                    .price
-                                                    .toString()) ??
-                                            0.0;
-                                        double normalizedPercent =
-                                            price / 100.0;
-                                        return Container(
-                                          color: Colors.transparent,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(height: 16),
-                                              Expanded(
-                                                flex: 4,
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                ProductDetail(
-                                                                  response: widget
-                                                                      .response,
-                                                                  name: wantProducts2[
-                                                                          i]
-                                                                      .name
-                                                                      .toString(),
-                                                                  price: wantProducts2[
-                                                                          i]
-                                                                      .price
-                                                                      .toString(),
-                                                                  link: wantProducts2[
-                                                                          i]
-                                                                      .link
-                                                                      .toString(),
-                                                                  image: wantProducts2[
-                                                                              i]
-                                                                          .photo
-                                                                          .toString()
-                                                                          .contains(
-                                                                              "https")
-                                                                      ? wantProducts2[
-                                                                              i]
-                                                                          .photo
-                                                                          .toString()
-                                                                      : baseUrl +
-                                                                          wantProducts2[i]
-                                                                              .photo
-                                                                              .toString(),
-                                                                  purchaseDate:
-                                                                      wantProducts2[
-                                                                              i]
-                                                                          .purchasedDate
-                                                                          .toString(),
-                                                                  id: wantProducts2[
-                                                                          i]
-                                                                      .id
-                                                                      .toString(),
-                                                                  type: wantProducts2[
-                                                                          i]
-                                                                      .type
-                                                                      .toString(),
-                                                                  productId:
-                                                                      wantProducts2[
-                                                                              i]
-                                                                          .id
-                                                                          .toString(),
-                                                                )));
-                                                    // Navigator.push(
-                                                    //   context,
-                                                    //   MaterialPageRoute(
-                                                    //     builder: (context) => WantProducts(
-                                                    //       isUser: true,
-                                                    //     ),
-                                                    //   ),
-                                                    // );
-                                                  },
-                                                  child: Container(
-                                                    width: 173,
-                                                    height: 129,
-                                                    margin: EdgeInsets.only(
-                                                        left: 16),
-                                                    clipBehavior: Clip.hardEdge,
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: ColorSelect
-                                                                .colorE0E0E0,
-                                                            width: 1),
-                                                        color: ColorSelect
-                                                            .colorFFFFFF,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12)),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl: wantProducts2[i]
-                                                              .photo
-                                                              .toString()
-                                                              .contains("https")
-                                                          ? wantProducts2[i]
-                                                              .photo
-                                                              .toString()
-                                                          : baseUrl +
-                                                              wantProducts2[i]
-                                                                  .photo
-                                                                  .toString(),
-                                                      fit: BoxFit.cover,
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          Image.asset(
-                                                              'assets/icons/logoswishlist.png'),
-                                                      progressIndicatorBuilder:
-                                                          (a, b, c) => Opacity(
-                                                        opacity: 0.3,
-                                                        child:
-                                                            Shimmer.fromColors(
-                                                          baseColor:
-                                                              Colors.black12,
-                                                          highlightColor:
-                                                              Colors.white,
-                                                          child: Container(
-                                                            width: 173,
-                                                            height: 129,
-                                                            decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                    color: ColorSelect
-                                                                        .colorE0E0E0,
-                                                                    width: 1),
-                                                                color: ColorSelect
-                                                                    .colorFFFFFF,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            12)),
+                                        if (i < wantProducts2.length) {
+                                          double price = double.tryParse(
+                                                  wantProducts2[i]
+                                                      .price
+                                                      .toString()) ??
+                                              0.0;
+                                          double normalizedPercent =
+                                              price / 100.00;
+                                          return Container(
+                                            color: Colors.transparent,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(height: 16),
+                                                Expanded(
+                                                  flex: 4,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  ProductDetail(
+                                                                    response: widget
+                                                                        .response,
+                                                                    name: wantProducts2[
+                                                                            i]
+                                                                        .name
+                                                                        .toString(),
+                                                                    price: wantProducts2[
+                                                                            i]
+                                                                        .price
+                                                                        .toString(),
+                                                                    link: wantProducts2[
+                                                                            i]
+                                                                        .link
+                                                                        .toString(),
+                                                                    image: wantProducts2[i]
+                                                                            .photo
+                                                                            .toString()
+                                                                            .contains(
+                                                                                "https")
+                                                                        ? wantProducts2[i]
+                                                                            .photo
+                                                                            .toString()
+                                                                        : baseUrl +
+                                                                            wantProducts2[i].photo.toString(),
+                                                                    purchaseDate: wantProducts2[
+                                                                            i]
+                                                                        .purchasedDate
+                                                                        .toString(),
+                                                                    id: wantProducts2[
+                                                                            i]
+                                                                        .id
+                                                                        .toString(),
+                                                                    type: wantProducts2[
+                                                                            i]
+                                                                        .type
+                                                                        .toString(),
+                                                                    productId:
+                                                                        wantProducts2[i]
+                                                                            .id
+                                                                            .toString(),
+                                                                  )));
+                                                      // Navigator.push(
+                                                      //   context,
+                                                      //   MaterialPageRoute(
+                                                      //     builder: (context) => WantProducts(
+                                                      //       isUser: true,
+                                                      //     ),
+                                                      //   ),
+                                                      // );
+                                                    },
+                                                    child: Container(
+                                                      width: 173,
+                                                      height: 129,
+                                                      margin: EdgeInsets.only(
+                                                          left: 16),
+                                                      clipBehavior:
+                                                          Clip.hardEdge,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: ColorSelect
+                                                                  .colorE0E0E0,
+                                                              width: 1),
+                                                          color: ColorSelect
+                                                              .colorFFFFFF,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      12)),
+                                                      child: CachedNetworkImage(
+                                                        maxHeightDiskCache: 200,
+                                                        maxWidthDiskCache: 200,
+                                                        imageUrl: wantProducts2[
+                                                                    i]
+                                                                .photo
+                                                                .toString()
+                                                                .contains(
+                                                                    "https")
+                                                            ? wantProducts2[i]
+                                                                .photo
+                                                                .toString()
+                                                            : baseUrl +
+                                                                wantProducts2[i]
+                                                                    .photo
+                                                                    .toString(),
+                                                        fit: BoxFit.cover,
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Image.asset(
+                                                                'assets/icons/logoswishlist.png'),
+                                                        progressIndicatorBuilder:
+                                                            (a, b, c) =>
+                                                                Opacity(
+                                                          opacity: 0.3,
+                                                          child: Shimmer
+                                                              .fromColors(
+                                                            baseColor:
+                                                                Colors.black12,
+                                                            highlightColor:
+                                                                Colors.white,
+                                                            child: Container(
+                                                              width: 173,
+                                                              height: 129,
+                                                              decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                      color: ColorSelect
+                                                                          .colorE0E0E0,
+                                                                      width: 1),
+                                                                  color: ColorSelect
+                                                                      .colorFFFFFF,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              12)),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 12),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 16),
-                                                  child: SizedBox(
-                                                    width: 173,
-                                                    child: Text(
-                                                      wantProducts2[i]
-                                                          .name
-                                                          .toString(),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                      style: AppTextStyle()
-                                                          .textColor29292912w400,
+                                                SizedBox(height: 12),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 16),
+                                                    child: SizedBox(
+                                                      width: 173,
+                                                      child: Text(
+                                                        wantProducts2[i]
+                                                            .name
+                                                            .toString(),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 2,
+                                                        style: AppTextStyle()
+                                                            .textColor29292912w400,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 4),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 16),
-                                                  child: Text(
-                                                    wantProducts2[i]
-                                                            .link
-                                                            .toString()
-                                                            .contains("etsy")
-                                                        ? '\$ ${normalizedPercent.toString()}'
-                                                        : '\$ ${wantProducts2[i].price.toString()}',
+                                                SizedBox(height: 4),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 16),
+                                                    child: Text(
+                                                      wantProducts2[i]
+                                                              .link
+                                                              .toString()
+                                                              .contains("etsy")
+                                                          ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
+                                                          : '\$ ${wantProducts2[i].price.toString()}',
 
-                                                    // '\$ ${wantProducts2[i].price.toString()}',
-                                                    style: AppTextStyle()
-                                                        .textColor29292914w500,
+                                                      // '\$ ${wantProducts2[i].price.toString()}',
+                                                      style: AppTextStyle()
+                                                          .textColor29292914w500,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
                                       },
                                     ),
                                   ) /*:isLoading ? Center(
@@ -1506,184 +1509,191 @@ class _ProductsPageState extends State<ProductsPage> {
                                     padding: const EdgeInsets.only(right: 8.0),
                                     child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: notWant2.length,
+                                      itemCount: 5,
+                                      // itemCount: notWant2.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
-                                        double price = double.tryParse(
-                                                notWant2[i].price.toString()) ??
-                                            0.0;
-                                        double normalizedPercent =
-                                            price / 100.0;
-                                        return Container(
-                                          color: Colors.transparent,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(height: 16),
-                                              Expanded(
-                                                flex: 4,
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                ProductDetail(
-                                                                  response: widget
-                                                                      .response,
-                                                                  name: notWant2[
-                                                                          i]
-                                                                      .name
-                                                                      .toString(),
-                                                                  price:
-                                                                      '${notWant2[i].price.toString()}',
-                                                                  link: notWant2[
-                                                                          i]
-                                                                      .link
-                                                                      .toString(),
-                                                                  image: notWant2[
-                                                                              i]
-                                                                          .photo
-                                                                          .toString()
-                                                                          .contains(
-                                                                              "https")
-                                                                      ? notWant2[
-                                                                              i]
-                                                                          .photo
-                                                                          .toString()
-                                                                      : baseUrl +
-                                                                          notWant2[i]
-                                                                              .photo
-                                                                              .toString(),
-                                                                  purchaseDate:
-                                                                      notWant2[
-                                                                              i]
-                                                                          .purchasedDate
-                                                                          .toString(),
-                                                                  id: notWant2[
-                                                                          i]
-                                                                      .id
-                                                                      .toString(),
-                                                                  type: notWant2[
-                                                                          i]
-                                                                      .type
-                                                                      .toString(),
-                                                                  productId:
-                                                                      notWant2[
-                                                                              i]
-                                                                          .id
-                                                                          .toString(),
-                                                                )));
-                                                  },
-                                                  child: Container(
-                                                    width: 173,
-                                                    height: 129,
-                                                    margin: EdgeInsets.only(
-                                                        left: 16),
-                                                    clipBehavior: Clip.hardEdge,
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: ColorSelect
-                                                                .colorE0E0E0,
-                                                            width: 1),
-                                                        color: ColorSelect
-                                                            .colorFFFFFF,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12)),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl: notWant2[i]
-                                                              .photo
-                                                              .toString()
-                                                              .contains("https")
-                                                          ? notWant2[i]
-                                                              .photo
-                                                              .toString()
-                                                          : baseUrl +
-                                                              notWant2[i]
-                                                                  .photo
-                                                                  .toString(),
-                                                      fit: BoxFit.cover,
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          Image.asset(
-                                                              'assets/icons/logoswishlist.png'),
-                                                      progressIndicatorBuilder:
-                                                          (a, b, c) => Opacity(
-                                                        opacity: 0.3,
-                                                        child:
-                                                            Shimmer.fromColors(
-                                                          baseColor:
-                                                              Colors.black12,
-                                                          highlightColor:
-                                                              Colors.white,
-                                                          child: Container(
-                                                            width: 173,
-                                                            height: 129,
-                                                            decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                    color: ColorSelect
-                                                                        .colorE0E0E0,
-                                                                    width: 1),
-                                                                color: ColorSelect
-                                                                    .colorFFFFFF,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            12)),
+                                        if (i < notWant2.length) {
+                                          double price = double.tryParse(
+                                                  notWant2[i]
+                                                      .price
+                                                      .toString()) ??
+                                              0.0;
+                                          double normalizedPercent =
+                                              price / 100.0;
+                                          return Container(
+                                            color: Colors.transparent,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(height: 16),
+                                                Expanded(
+                                                  flex: 4,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  ProductDetail(
+                                                                    response: widget
+                                                                        .response,
+                                                                    name: notWant2[
+                                                                            i]
+                                                                        .name
+                                                                        .toString(),
+                                                                    price:
+                                                                        '${notWant2[i].price.toString()}',
+                                                                    link: notWant2[
+                                                                            i]
+                                                                        .link
+                                                                        .toString(),
+                                                                    image: notWant2[i]
+                                                                            .photo
+                                                                            .toString()
+                                                                            .contains(
+                                                                                "https")
+                                                                        ? notWant2[i]
+                                                                            .photo
+                                                                            .toString()
+                                                                        : baseUrl +
+                                                                            notWant2[i].photo.toString(),
+                                                                    purchaseDate: notWant2[
+                                                                            i]
+                                                                        .purchasedDate
+                                                                        .toString(),
+                                                                    id: notWant2[
+                                                                            i]
+                                                                        .id
+                                                                        .toString(),
+                                                                    type: notWant2[
+                                                                            i]
+                                                                        .type
+                                                                        .toString(),
+                                                                    productId:
+                                                                        notWant2[i]
+                                                                            .id
+                                                                            .toString(),
+                                                                  )));
+                                                    },
+                                                    child: Container(
+                                                      width: 173,
+                                                      height: 129,
+                                                      margin: EdgeInsets.only(
+                                                          left: 16),
+                                                      clipBehavior:
+                                                          Clip.hardEdge,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: ColorSelect
+                                                                  .colorE0E0E0,
+                                                              width: 1),
+                                                          color: ColorSelect
+                                                              .colorFFFFFF,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      12)),
+                                                      child: CachedNetworkImage(
+                                                        maxHeightDiskCache: 200,
+                                                        maxWidthDiskCache: 200,
+                                                        imageUrl: notWant2[i]
+                                                                .photo
+                                                                .toString()
+                                                                .contains(
+                                                                    "https")
+                                                            ? notWant2[i]
+                                                                .photo
+                                                                .toString()
+                                                            : baseUrl +
+                                                                notWant2[i]
+                                                                    .photo
+                                                                    .toString(),
+                                                        fit: BoxFit.cover,
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Image.asset(
+                                                                'assets/icons/logoswishlist.png'),
+                                                        progressIndicatorBuilder:
+                                                            (a, b, c) =>
+                                                                Opacity(
+                                                          opacity: 0.3,
+                                                          child: Shimmer
+                                                              .fromColors(
+                                                            baseColor:
+                                                                Colors.black12,
+                                                            highlightColor:
+                                                                Colors.white,
+                                                            child: Container(
+                                                              width: 173,
+                                                              height: 129,
+                                                              decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                      color: ColorSelect
+                                                                          .colorE0E0E0,
+                                                                      width: 1),
+                                                                  color: ColorSelect
+                                                                      .colorFFFFFF,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              12)),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 12),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 16),
-                                                  child: SizedBox(
-                                                    width: 173,
-                                                    child: Text(
-                                                      notWant2[i]
-                                                          .name
-                                                          .toString(),
-                                                      // widget.itemNameList[i],
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                      style: AppTextStyle()
-                                                          .textColor29292912w400,
+                                                SizedBox(height: 12),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 16),
+                                                    child: SizedBox(
+                                                      width: 173,
+                                                      child: Text(
+                                                        notWant2[i]
+                                                            .name
+                                                            .toString(),
+                                                        // widget.itemNameList[i],
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 2,
+                                                        style: AppTextStyle()
+                                                            .textColor29292912w400,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 4),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 16),
-                                                  child: Text(
-                                                    notWant2[i]
-                                                            .link
-                                                            .toString()
-                                                            .contains("etsy")
-                                                        ? '\$ ${normalizedPercent.toString()}'
-                                                        : '\$ ${notWant2[i].price.toString()}',
-                                                    // '\$ ${notWant2[i].price.toString()}',
-                                                    // widget.itemPrice[i],
-                                                    style: AppTextStyle()
-                                                        .textColor29292914w500,
+                                                SizedBox(height: 4),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 16),
+                                                    child: Text(
+                                                      notWant2[i]
+                                                              .link
+                                                              .toString()
+                                                              .contains("etsy")
+                                                          ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
+                                                          : '\$ ${notWant2[i].price.toString()}',
+                                                      // '\$ ${notWant2[i].price.toString()}',
+                                                      // widget.itemPrice[i],
+                                                      style: AppTextStyle()
+                                                          .textColor29292914w500,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
                                       },
                                     ),
                                   )),
@@ -1766,184 +1776,190 @@ class _ProductsPageState extends State<ProductsPage> {
                                     padding: const EdgeInsets.only(right: 8),
                                     child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: haveProducts2.length,
+                                      itemCount: 5,
+                                      // itemCount: haveProducts2.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
-                                        double price = double.tryParse(
-                                                haveProducts2[i]
-                                                    .price
-                                                    .toString()) ??
-                                            0.0;
-                                        double normalizedPercent =
-                                            price / 100.0;
-                                        return Container(
-                                          color: Colors.transparent,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(height: 16),
-                                              Expanded(
-                                                flex: 4,
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                ProductDetail(
-                                                                  response: widget
-                                                                      .response,
-                                                                  name: haveProducts2[
-                                                                          i]
-                                                                      .name
-                                                                      .toString(),
-                                                                  price:
-                                                                      '${haveProducts2[i].price.toString()}',
-                                                                  link: haveProducts2[
-                                                                          i]
-                                                                      .link
-                                                                      .toString(),
-                                                                  image: haveProducts2[
-                                                                              i]
-                                                                          .photo
-                                                                          .toString()
-                                                                          .contains(
-                                                                              "https")
-                                                                      ? haveProducts2[
-                                                                              i]
-                                                                          .photo
-                                                                          .toString()
-                                                                      : baseUrl +
-                                                                          haveProducts2[i]
-                                                                              .photo
-                                                                              .toString(),
-                                                                  purchaseDate:
-                                                                      haveProducts2[
-                                                                              i]
-                                                                          .purchasedDate
-                                                                          .toString(),
-                                                                  id: haveProducts2[
-                                                                          i]
-                                                                      .id
-                                                                      .toString(),
-                                                                  type: haveProducts2[
-                                                                          i]
-                                                                      .type
-                                                                      .toString(),
-                                                                  productId:
-                                                                      haveProducts2[
-                                                                              i]
-                                                                          .id
-                                                                          .toString(),
-                                                                )));
-                                                  },
-                                                  child: Container(
-                                                    width: 173,
-                                                    height: 129,
-                                                    margin: EdgeInsets.only(
-                                                        left: 16),
-                                                    clipBehavior: Clip.hardEdge,
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: ColorSelect
-                                                                .colorE0E0E0,
-                                                            width: 1),
-                                                        color: ColorSelect
-                                                            .colorFFFFFF,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12)),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl: haveProducts2[i]
-                                                              .photo
-                                                              .toString()
-                                                              .contains("https")
-                                                          ? haveProducts2[i]
-                                                              .photo
-                                                              .toString()
-                                                          : baseUrl +
-                                                              haveProducts2[i]
-                                                                  .photo
-                                                                  .toString(),
-                                                      fit: BoxFit.cover,
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          Image.asset(
-                                                              'assets/icons/logoswishlist.png'),
-                                                      progressIndicatorBuilder:
-                                                          (a, b, c) => Opacity(
-                                                        opacity: 0.3,
-                                                        child:
-                                                            Shimmer.fromColors(
-                                                          baseColor:
-                                                              Colors.black12,
-                                                          highlightColor:
-                                                              Colors.white,
-                                                          child: Container(
-                                                            width: 173,
-                                                            height: 129,
-                                                            decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                    color: ColorSelect
-                                                                        .colorE0E0E0,
-                                                                    width: 1),
-                                                                color: ColorSelect
-                                                                    .colorFFFFFF,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            12)),
+                                        if (i < haveProducts2.length) {
+                                          double price = double.tryParse(
+                                                  haveProducts2[i]
+                                                      .price
+                                                      .toString()) ??
+                                              0.0;
+                                          double normalizedPercent =
+                                              price / 100.0;
+                                          return Container(
+                                            color: Colors.transparent,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(height: 16),
+                                                Expanded(
+                                                  flex: 4,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  ProductDetail(
+                                                                    response: widget
+                                                                        .response,
+                                                                    name: haveProducts2[
+                                                                            i]
+                                                                        .name
+                                                                        .toString(),
+                                                                    price:
+                                                                        '${haveProducts2[i].price.toString()}',
+                                                                    link: haveProducts2[
+                                                                            i]
+                                                                        .link
+                                                                        .toString(),
+                                                                    image: haveProducts2[i]
+                                                                            .photo
+                                                                            .toString()
+                                                                            .contains(
+                                                                                "https")
+                                                                        ? haveProducts2[i]
+                                                                            .photo
+                                                                            .toString()
+                                                                        : baseUrl +
+                                                                            haveProducts2[i].photo.toString(),
+                                                                    purchaseDate: haveProducts2[
+                                                                            i]
+                                                                        .purchasedDate
+                                                                        .toString(),
+                                                                    id: haveProducts2[
+                                                                            i]
+                                                                        .id
+                                                                        .toString(),
+                                                                    type: haveProducts2[
+                                                                            i]
+                                                                        .type
+                                                                        .toString(),
+                                                                    productId:
+                                                                        haveProducts2[i]
+                                                                            .id
+                                                                            .toString(),
+                                                                  )));
+                                                    },
+                                                    child: Container(
+                                                      width: 173,
+                                                      height: 129,
+                                                      margin: EdgeInsets.only(
+                                                          left: 16),
+                                                      clipBehavior:
+                                                          Clip.hardEdge,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: ColorSelect
+                                                                  .colorE0E0E0,
+                                                              width: 1),
+                                                          color: ColorSelect
+                                                              .colorFFFFFF,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      12)),
+                                                      child: CachedNetworkImage(
+                                                        maxHeightDiskCache: 200,
+                                                        maxWidthDiskCache: 200,
+                                                        imageUrl: haveProducts2[
+                                                                    i]
+                                                                .photo
+                                                                .toString()
+                                                                .contains(
+                                                                    "https")
+                                                            ? haveProducts2[i]
+                                                                .photo
+                                                                .toString()
+                                                            : baseUrl +
+                                                                haveProducts2[i]
+                                                                    .photo
+                                                                    .toString(),
+                                                        fit: BoxFit.cover,
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Image.asset(
+                                                                'assets/icons/logoswishlist.png'),
+                                                        progressIndicatorBuilder:
+                                                            (a, b, c) =>
+                                                                Opacity(
+                                                          opacity: 0.3,
+                                                          child: Shimmer
+                                                              .fromColors(
+                                                            baseColor:
+                                                                Colors.black12,
+                                                            highlightColor:
+                                                                Colors.white,
+                                                            child: Container(
+                                                              width: 173,
+                                                              height: 129,
+                                                              decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                      color: ColorSelect
+                                                                          .colorE0E0E0,
+                                                                      width: 1),
+                                                                  color: ColorSelect
+                                                                      .colorFFFFFF,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              12)),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 12),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 16),
-                                                  child: SizedBox(
-                                                    width: 173,
-                                                    child: Text(
-                                                      haveProducts2[i]
-                                                          .name
-                                                          .toString(),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 3,
-                                                      style: AppTextStyle()
-                                                          .textColor29292912w400,
+                                                SizedBox(height: 12),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 16),
+                                                    child: SizedBox(
+                                                      width: 173,
+                                                      child: Text(
+                                                        haveProducts2[i]
+                                                            .name
+                                                            .toString(),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 3,
+                                                        style: AppTextStyle()
+                                                            .textColor29292912w400,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 4),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 16),
-                                                  child: Text(
-                                                    haveProducts2[i]
-                                                            .link
-                                                            .toString()
-                                                            .contains("etsy")
-                                                        ? '\$ ${normalizedPercent.toString()}'
-                                                        : '\$ ${haveProducts2[i].price.toString()}',
-                                                    // '\$ ${haveProducts2[i].price.toString()}',
-                                                    style: AppTextStyle()
-                                                        .textColor29292914w500,
+                                                SizedBox(height: 4),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 16),
+                                                    child: Text(
+                                                      haveProducts2[i]
+                                                              .link
+                                                              .toString()
+                                                              .contains("etsy")
+                                                          ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
+                                                          : '\$ ${haveProducts2[i].price.toString()}',
+                                                      // '\$ ${haveProducts2[i].price.toString()}',
+                                                      style: AppTextStyle()
+                                                          .textColor29292914w500,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
                                       },
                                     ),
                                   ), /*:isLoading ? Center(
@@ -1959,677 +1975,5 @@ class _ProductsPageState extends State<ProductsPage> {
               ),
       ),
     );
-  }
-}
-
-//
-class AlreadyProductListWidget extends StatefulWidget {
-  final LoginResponse response;
-  const AlreadyProductListWidget({
-    Key? key,
-    required this.response,
-  }) : super(key: key);
-
-  @override
-  State<AlreadyProductListWidget> createState() =>
-      _AlreadyProductListWidgetState();
-}
-
-class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
-  @override
-  void initState() {
-    getHaveProducts();
-    super.initState();
-  }
-
-  bool isLoading = false;
-  GetProductModel? getProducts;
-  List<ProductTypeModel> haveProducts = [];
-  List<ProductTypeModel> haveProducts2 = [];
-
-  getHaveProducts() {
-    isLoading = true;
-    var resp = getProductsApi();
-    resp.then((value) {
-      if (value['status'] == true) {
-        setState(() {});
-        setState(() {
-          for (var v in value["data"]) {
-            haveProducts.add(ProductTypeModel.fromJson(v));
-          }
-          for (var v in haveProducts) {
-            if (v.type! == "have") {
-              haveProducts2.add(v);
-              setState(() {});
-            }
-          }
-          isLoading = false;
-        });
-      } else {
-        isLoading = false;
-        setState(() {});
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return isLoading
-        ? DotsLoader()
-        : haveProducts2.isEmpty
-            ? AddProductError(
-                image: 'assets/images/addproduct3.png',
-                tap: () {
-                  showModalBottomSheet(
-                      backgroundColor: Colors.transparent,
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) {
-                        return ManuallyAlreadyAddBottomSheetWidget(
-                          productType: 'have', /*model: widget.model,*/
-                        );
-                      });
-                },
-              )
-            : SizedBox(
-                height: 220,
-                width: 1.sw,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: haveProducts2.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, i) {
-                      return Container(
-                        color: Colors.transparent,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 16),
-                            Expanded(
-                              flex: 4,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ProductDetail(
-                                                response: widget.response,
-                                                name: haveProducts2[i]
-                                                    .name
-                                                    .toString(),
-                                                price:
-                                                    '\$${haveProducts2[i].price.toString()}',
-                                                link: haveProducts2[i]
-                                                    .link
-                                                    .toString(),
-                                                image: haveProducts2[i]
-                                                        .photo
-                                                        .toString()
-                                                        .contains("https")
-                                                    ? haveProducts2[i]
-                                                        .photo
-                                                        .toString()
-                                                    : baseUrl +
-                                                        haveProducts2[i]
-                                                            .photo
-                                                            .toString(),
-                                                purchaseDate: haveProducts2[i]
-                                                    .purchasedDate
-                                                    .toString(),
-                                                id: haveProducts2[i]
-                                                    .id
-                                                    .toString(),
-                                                type: haveProducts2[i]
-                                                    .type
-                                                    .toString(),
-                                                productId: '',
-                                              )));
-                                },
-                                child: Container(
-                                  width: 173,
-                                  height: 129,
-                                  margin: EdgeInsets.only(left: 16),
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: ColorSelect.colorE0E0E0,
-                                          width: 1),
-                                      color: ColorSelect.colorFFFFFF,
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: CachedNetworkImage(
-                                    imageUrl: haveProducts2[i]
-                                            .photo
-                                            .toString()
-                                            .contains("https")
-                                        ? haveProducts2[i].photo.toString()
-                                        : baseUrl +
-                                            haveProducts2[i].photo.toString(),
-                                    fit: BoxFit.cover,
-                                    errorWidget: (context, url, error) => Icon(
-                                      Icons.error,
-                                      size: 40,
-                                    ),
-                                    progressIndicatorBuilder: (a, b, c) =>
-                                        Opacity(
-                                      opacity: 0.3,
-                                      child: Shimmer.fromColors(
-                                        baseColor: Colors.black12,
-                                        highlightColor: Colors.white,
-                                        child: Container(
-                                          width: 173,
-                                          height: 129,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color:
-                                                      ColorSelect.colorE0E0E0,
-                                                  width: 1),
-                                              color: ColorSelect.colorFFFFFF,
-                                              borderRadius:
-                                                  BorderRadius.circular(12)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 12),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 16),
-                                child: SizedBox(
-                                  width: 173,
-                                  child: Text(
-                                    haveProducts2[i].name.toString(),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
-                                    style: AppTextStyle().textColor29292912w400,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 16),
-                                child: Text(
-                                  '\$ ${haveProducts2[i].price.toString()}',
-                                  style: AppTextStyle().textColor29292914w500,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ), /*:isLoading ? Center(
-       child: LoadingAnimationWidget.waveDots(
-        size: 70,
-        color: ColorSelect.colorF7E641),
-       ): Text("flmv"*/
-              );
-  }
-}
-
-class IWantProductListWidget extends StatefulWidget {
-  final LoginResponse response;
-  final GlobalKey second;
-  IWantProductListWidget(
-      {Key? key, required this.second, required this.response})
-      : super(
-          key: key,
-        );
-
-  @override
-  State<IWantProductListWidget> createState() => _IWantProductListWidgetState();
-}
-
-class _IWantProductListWidgetState extends State<IWantProductListWidget> {
-  @override
-  void initState() {
-    getWantProducts();
-    super.initState();
-  }
-
-  bool isLoading = false;
-  GetProductModel? getProducts;
-  List<ProductTypeModel> wantProducts = [];
-  List<ProductTypeModel> wantProducts2 = [];
-
-  getWantProducts() {
-    isLoading = true;
-    var resp = getProductsApi();
-    resp.then((value) {
-      if (value['status'] == true) {
-        setState(() {
-          for (var v in value['data']) {
-            wantProducts.add(ProductTypeModel.fromJson(v));
-          }
-          for (var v in wantProducts) {
-            if (v.type! == "want") {
-              wantProducts2.add(v);
-              wantProducts2.removeWhere((element) => element.id == v);
-            }
-          }
-          isLoading = false;
-        });
-      } else {
-        isLoading = false;
-        // wantProducts2.clear();
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return isLoading
-        ? DotsLoader()
-        : wantProducts2.isEmpty
-            ? Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 60, right: 60, bottom: 12, top: 20),
-                    child: Image.asset('assets/images/Asset 1product 1.png'),
-                  ),
-                  Showcase(
-                    key: widget.second,
-                    description:
-                        "Add products manually with links from Amazon and other websites",
-                    //"this is for add products manually",
-                    child:
-                        // Positioned(
-                        //   top: 800,
-                        //   bottom: 50,
-                        //   child:
-                        Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: SizedBox(
-                        height: 50.h,
-                        width: 1.sw,
-                        child: YellowButtonWithIcon(
-                          backgroundColor: MaterialStateProperty.all(
-                              ColorSelect.colorF7E641),
-                          textStyleColor: ColorSelect.color292929,
-                          onTap: () {
-                            showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (context) {
-                                  return ManuallyAddBottomSheetWidget(
-                                    productType: 'want',
-                                    //*model: widget.model,*//*);
-                                  );
-                                });
-                          },
-                          title: "Add Product",
-                          buttonIcon: "assets/images/plus.png",
-                        ),
-                      ),
-                    ),
-                  ),
-                  // )
-                ],
-              )
-            : Container(
-                height: 220,
-                width: 1.sw,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: wantProducts2.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, i) {
-                      return Container(
-                        color: Colors.transparent,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 16),
-                            Expanded(
-                              flex: 4,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ProductDetail(
-                                                response: widget.response,
-                                                name: wantProducts2[i]
-                                                    .name
-                                                    .toString(),
-                                                price:
-                                                    '\$${wantProducts2[i].price.toString()}',
-                                                link: wantProducts2[i]
-                                                    .link
-                                                    .toString(),
-                                                image: wantProducts2[i]
-                                                        .photo
-                                                        .toString()
-                                                        .contains("https")
-                                                    ? wantProducts2[i]
-                                                        .photo
-                                                        .toString()
-                                                    : baseUrl +
-                                                        wantProducts2[i]
-                                                            .photo
-                                                            .toString(),
-                                                purchaseDate: wantProducts2[i]
-                                                    .purchasedDate
-                                                    .toString(),
-                                                id: wantProducts2[i]
-                                                    .id
-                                                    .toString(),
-                                                type: wantProducts2[i]
-                                                    .type
-                                                    .toString(),
-                                                productId: '',
-                                              )));
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => WantProducts(
-                                  //       isUser: true,
-                                  //     ),
-                                  //   ),
-                                  // );
-                                },
-                                child: Container(
-                                  width: 173,
-                                  height: 129,
-                                  margin: EdgeInsets.only(left: 16),
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: ColorSelect.colorE0E0E0,
-                                          width: 1),
-                                      color: ColorSelect.colorFFFFFF,
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: CachedNetworkImage(
-                                    imageUrl: wantProducts2[i]
-                                            .photo
-                                            .toString()
-                                            .contains("https")
-                                        ? wantProducts2[i].photo.toString()
-                                        : baseUrl +
-                                            wantProducts2[i].photo.toString(),
-                                    fit: BoxFit.cover,
-                                    errorWidget: (context, url, error) => Icon(
-                                      Icons.error,
-                                      size: 40,
-                                    ),
-                                    progressIndicatorBuilder: (a, b, c) =>
-                                        Opacity(
-                                      opacity: 0.3,
-                                      child: Shimmer.fromColors(
-                                        baseColor: Colors.black12,
-                                        highlightColor: Colors.white,
-                                        child: Container(
-                                          width: 173,
-                                          height: 129,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color:
-                                                      ColorSelect.colorE0E0E0,
-                                                  width: 1),
-                                              color: ColorSelect.colorFFFFFF,
-                                              borderRadius:
-                                                  BorderRadius.circular(12)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 12),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 16),
-                                child: SizedBox(
-                                  width: 173,
-                                  child: Text(
-                                    wantProducts2[i].name.toString(),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                    style: AppTextStyle().textColor29292912w400,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 16),
-                                child: Text(
-                                  '\$ ${wantProducts2[i].price.toString()}',
-                                  style: AppTextStyle().textColor29292914w500,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ) /*:isLoading ? Center(
-        child: LoadingAnimationWidget.waveDots(
-          size: 70,
-          color: ColorSelect.colorF7E641,
-        ),
-      ): Text("flmv")*/
-                );
-  }
-}
-
-class NotWantProductListWidget extends StatefulWidget {
-  final LoginResponse response;
-  const NotWantProductListWidget({
-    Key? key,
-    required this.response,
-  }) : super(key: key);
-
-  @override
-  State<NotWantProductListWidget> createState() =>
-      _NotWantProductListWidgetState();
-}
-
-class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
-  @override
-  void initState() {
-    getNotWant();
-    super.initState();
-  }
-
-  bool isLoading = false;
-  GetProductModel? getProducts;
-  List<ProductTypeModel> notWant = [];
-  List<ProductTypeModel> notWant2 = [];
-  getNotWant() {
-    isLoading = true;
-    var resp = getProductsApi();
-    resp.then((value) {
-      if (value['status'] == true) {
-        setState(() {
-          for (var v in value["data"]) {
-            notWant.add(ProductTypeModel.fromJson(v));
-          }
-          for (var v in notWant) {
-            if (v.type! == "dont_want") {
-              notWant2.add(v);
-            }
-          }
-          isLoading = false;
-          // notWant2.clear();
-        });
-      } else {
-        isLoading = false;
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return isLoading
-        ? DotsLoader()
-        : notWant2.isEmpty
-            ? AddProductError(
-                image: 'assets/images/addproducts2.png',
-                tap: () {
-                  showModalBottomSheet(
-                      backgroundColor: Colors.transparent,
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) {
-                        return ManuallyAddBottomSheetWidget(
-                          productType: 'dont_want', /*model: widget.model,*/
-                        );
-                      });
-                },
-              )
-            : SizedBox(
-                height: 220,
-                width: 1.sw,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: notWant2.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, i) {
-                      return Container(
-                        color: Colors.transparent,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 16),
-                            Expanded(
-                              flex: 4,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ProductDetail(
-                                                response: widget.response,
-                                                name:
-                                                    notWant2[i].name.toString(),
-                                                price:
-                                                    '\$${notWant2[i].price.toString()}',
-                                                link:
-                                                    notWant2[i].link.toString(),
-                                                image: notWant2[i]
-                                                        .photo
-                                                        .toString()
-                                                        .contains("https")
-                                                    ? notWant2[i]
-                                                        .photo
-                                                        .toString()
-                                                    : baseUrl +
-                                                        notWant2[i]
-                                                            .photo
-                                                            .toString(),
-                                                purchaseDate: notWant2[i]
-                                                    .purchasedDate
-                                                    .toString(),
-                                                id: notWant2[i].id.toString(),
-                                                type:
-                                                    notWant2[i].type.toString(),
-                                                productId: '',
-                                              )));
-                                },
-                                child: Container(
-                                  width: 173,
-                                  height: 129,
-                                  margin: EdgeInsets.only(left: 16),
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: ColorSelect.colorE0E0E0,
-                                          width: 1),
-                                      color: ColorSelect.colorFFFFFF,
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: CachedNetworkImage(
-                                    imageUrl: notWant2[i]
-                                            .photo
-                                            .toString()
-                                            .contains("https")
-                                        ? notWant2[i].photo.toString()
-                                        : baseUrl +
-                                            notWant2[i].photo.toString(),
-                                    fit: BoxFit.cover,
-                                    errorWidget: (context, url, error) => Icon(
-                                      Icons.error,
-                                      size: 40,
-                                    ),
-                                    progressIndicatorBuilder: (a, b, c) =>
-                                        Opacity(
-                                      opacity: 0.3,
-                                      child: Shimmer.fromColors(
-                                        baseColor: Colors.black12,
-                                        highlightColor: Colors.white,
-                                        child: Container(
-                                          width: 173,
-                                          height: 129,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color:
-                                                      ColorSelect.colorE0E0E0,
-                                                  width: 1),
-                                              color: ColorSelect.colorFFFFFF,
-                                              borderRadius:
-                                                  BorderRadius.circular(12)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 12),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 16),
-                                child: SizedBox(
-                                  width: 173,
-                                  child: Text(
-                                    notWant2[i].name.toString(),
-                                    // widget.itemNameList[i],
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                    style: AppTextStyle().textColor29292912w400,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 16),
-                                child: Text(
-                                  '\$ ${notWant2[i].price.toString()}',
-                                  // widget.itemPrice[i],
-                                  style: AppTextStyle().textColor29292914w500,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                )
-                /*:isLoading ? Center(
-          child: LoadingAnimationWidget.waveDots(
-          size: 70,
-           color: ColorSelect.colorF7E641,
-          ),
-    )*/
-                );
   }
 }

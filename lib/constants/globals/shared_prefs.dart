@@ -23,6 +23,7 @@ class SharedPrefs {
   String pets = 'pets';
   String dateAndEvent = 'date';
   String userId = 'userId';
+  String fcmToken = 'fcmToken';
 
   static SharedPreferences? _prefs;
 
@@ -212,5 +213,13 @@ class SharedPrefs {
 
   Future setLoginFalse() async {
     return await _prefs?.setBool(login, false);
+  }
+
+  String? getFcmToken() {
+    return _prefs?.getString(fcmToken);
+  }
+
+  Future setFcmToken(String loginToken) async {
+    return await _prefs?.setString(fcmToken, loginToken);
   }
 }

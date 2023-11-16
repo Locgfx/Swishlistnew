@@ -147,13 +147,15 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
     }
   }
 
-  double normalizedPercent = 0.0;
-
   @override
   void dispose() {
     searchController.dispose();
     super.dispose();
   }
+
+  double normalizedPercent = 0.0;
+  double normalizedPercentSearch = 0.0;
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -328,7 +330,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                                       height: 8.0,
                                                     ),
                                                     Text(
-                                                      ' \$ ${normalizedPercent}',
+                                                      ' \$ ${normalizedPercent.toStringAsFixed(2)}',
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style: AppTextStyle()
@@ -394,6 +396,9 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                     itemCount: searchListings.length + 1,
                                     itemBuilder: (_, i) {
                                       if (i < searchListings.length) {
+                                        normalizedPercentSearch =
+                                            searchListings[i].price!.amount! /
+                                                100.00;
                                         return GestureDetector(
                                           onTap: () {
                                             Navigator.push(
@@ -507,7 +512,7 @@ class _AllEtsyProductsState extends State<AllEtsyProducts> {
                                                         height: 8.0,
                                                       ),
                                                       Text(
-                                                        ' \$ ${searchListings[i].price!.amount.toString()}',
+                                                        ' \$ ${normalizedPercentSearch.toStringAsFixed(2)}',
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         style: AppTextStyle()

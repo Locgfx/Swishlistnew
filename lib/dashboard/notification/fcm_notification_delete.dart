@@ -64,6 +64,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+        centerTitle: false,
         title: Text(
           "Delete Notifications",
           style: AppTextStyle().textColor29292916w500,
@@ -308,9 +309,10 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                                           .sendBy!.photo
                                                           .toString(),
                                               fit: BoxFit.cover,
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Icon(Icons.error),
+                                              errorWidget: (context, url,
+                                                      error) =>
+                                                  Image.asset(
+                                                      "assets/icons/userico.jpg"),
                                               progressIndicatorBuilder:
                                                   (a, b, c) => Opacity(
                                                 opacity: 0.3,
@@ -362,7 +364,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             12),
-                                                    color: Colors.grey.shade200,
+                                                    color: Colors.transparent,
                                                   ),
                                                   clipBehavior: Clip.hardEdge,
                                                   child: CachedNetworkImage(
@@ -370,9 +372,10 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                                         .data![i].product!.photo
                                                         .toString(),
                                                     fit: BoxFit.cover,
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            Icon(Icons.error),
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        Image.asset(
+                                                            'assets/icons/logoswishlist.png'),
                                                     progressIndicatorBuilder:
                                                         (a, b, c) => Opacity(
                                                       opacity: 0.3,
