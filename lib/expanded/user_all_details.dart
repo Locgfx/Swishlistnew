@@ -285,6 +285,24 @@ class _UserAllDetailsState extends State<UserAllDetails> {
     proParsedPercent = double.tryParse(proCompletePercent ?? '0') ?? 0.0;
     proNormalizedPercent = proParsedPercent / 100.0;
 
+    double combinedPercentages =
+        normalizedPercent + FavnormalizedPercent + proNormalizedPercent;
+    double combinedNormalizedPercent = (combinedPercentages / 3) * 100;
+
+    String combinedPercentAsString = combinedNormalizedPercent.toString();
+
+    // String? comp;
+    // double par = 0.0;
+    // double nor = 0.0;
+    //
+    // comp = sizeWeight!.data!.completePercent! +
+    //     profile!.data!.completePercent! +
+    //     favourites!.data!.completePercent!;
+    // par = double.tryParse(comp) ?? 0.0;
+    // nor = par / 100.0;
+
+    // double result = totalSum / 100;
+
     return Stack(
       children: [
         Scaffold(
@@ -578,18 +596,22 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                               MainAxisAlignment.start,
                                           children: [
                                             Text(
-                                              profile!.data!.completePercent
-                                                              .toString() ==
-                                                          "" ||
-                                                      profile!.data!
-                                                              .completePercent ==
-                                                          null
-                                                  ? "0"
-                                                  : profile!
-                                                      .data!.completePercent
-                                                      .toString()
-                                                      .split(".")
-                                                      .first,
+                                              combinedPercentAsString
+                                                  .toString()
+                                                  .split(".")
+                                                  .first,
+                                              // profile!.data!.completePercent
+                                              //                 .toString() ==
+                                              //             "" ||
+                                              //         profile!.data!
+                                              //                 .completePercent ==
+                                              //             null
+                                              //     ? "0"
+                                              //     : profile!
+                                              //         .data!.completePercent
+                                              //         .toString()
+                                              //         .split(".")
+                                              //         .first,
                                               // sizeWeight!.data!.completePercent
                                               //     .toString()
                                               //     .split(".")
@@ -938,7 +960,17 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                 builder: (context) => DateAndEvents()));
                       },
                       child: DateAndEventsRowWidget(),
-                    )
+                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     print(combinedNormalizedPercent);
+                    //   },
+                    //   child: Container(
+                    //     height: 40,
+                    //     width: 120,
+                    //     color: Colors.red,
+                    //   ),
+                    // )
                   ],
                 ),
               ),

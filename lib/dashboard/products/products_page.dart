@@ -34,7 +34,6 @@ import '../../models/login_models.dart';
 import '../../models/product_model.dart';
 import '../../models/product_type_model.dart';
 import '../../models/profile_model.dart';
-import '../friends/friends.dart';
 
 class ProductsPage extends StatefulWidget {
   static const PREFERENCES_IS_FIRST_LAUNCH_STRING =
@@ -910,7 +909,7 @@ class _ProductsPageState extends State<ProductsPage> {
                           duration: Duration(milliseconds: 500),
                           curve: Curves.fastOutSlowIn,
                           width: 1.sw,
-                          height: showExpandedScreen ? 220.h : 0,
+                          height: showExpandedScreen ? 160.h : 0,
                           decoration: BoxDecoration(
                             color: Colors.white,
                           ),
@@ -971,58 +970,58 @@ class _ProductsPageState extends State<ProductsPage> {
                                   },
                                 ),
                                 SizedBox(height: 20),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => ShowCaseWidget(
-                                          builder: Builder(
-                                              builder: (context) => Friends(
-                                                    response: widget.response,
-                                                  )),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    color: Colors.transparent,
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          width: 44,
-                                          height: 44,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: ColorSelect.colorEDEDF1,
-                                          ),
-                                          padding: EdgeInsets.all(8),
-                                          child: Image.asset(
-                                            'assets/images/send1.png',
-                                          ),
-                                        ),
-                                        SizedBox(width: 8),
-                                        Text(
-                                          'Share Product with friend',
-                                          style: AppTextStyle()
-                                              .textColor29292914w500,
-                                        ),
-                                        Spacer(),
-                                        Container(
-                                          width: 32,
-                                          height: 16,
-                                          padding: EdgeInsets.only(right: 16),
-                                          color: Colors.transparent,
-                                          child: Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 20),
+                                // InkWell(
+                                //   onTap: () {
+                                //     Navigator.push(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //         builder: (_) => ShowCaseWidget(
+                                //           builder: Builder(
+                                //               builder: (context) => Friends(
+                                //                     response: widget.response,
+                                //                   )),
+                                //         ),
+                                //       ),
+                                //     );
+                                //   },
+                                //   child: Container(
+                                //     color: Colors.transparent,
+                                //     child: Row(
+                                //       children: [
+                                //         Container(
+                                //           width: 44,
+                                //           height: 44,
+                                //           decoration: BoxDecoration(
+                                //             shape: BoxShape.circle,
+                                //             color: ColorSelect.colorEDEDF1,
+                                //           ),
+                                //           padding: EdgeInsets.all(8),
+                                //           child: Image.asset(
+                                //             'assets/images/send1.png',
+                                //           ),
+                                //         ),
+                                //         SizedBox(width: 8),
+                                //         Text(
+                                //           'Share Product with friend',
+                                //           style: AppTextStyle()
+                                //               .textColor29292914w500,
+                                //         ),
+                                //         Spacer(),
+                                //         Container(
+                                //           width: 32,
+                                //           height: 16,
+                                //           padding: EdgeInsets.only(right: 16),
+                                //           color: Colors.transparent,
+                                //           child: Icon(
+                                //             Icons.arrow_forward_ios_rounded,
+                                //             color: Colors.black,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+                                // SizedBox(height: 20),
                                 OptionRow(
                                   icon: 'setting',
                                   label: 'Settings',

@@ -235,6 +235,10 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                     Clip.hardEdge,
                                                                 child:
                                                                     CachedNetworkImage(
+                                                                  maxWidthDiskCache:
+                                                                      65,
+                                                                  maxHeightDiskCache:
+                                                                      65,
                                                                   imageUrl: fcmnotification
                                                                           .data![
                                                                               i]
@@ -399,6 +403,10 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                         Clip.hardEdge,
                                                                     child:
                                                                         CachedNetworkImage(
+                                                                      maxWidthDiskCache:
+                                                                          65,
+                                                                      maxHeightDiskCache:
+                                                                          65,
                                                                       imageUrl: fcmnotification
                                                                               .data![
                                                                                   i]
@@ -523,6 +531,10 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                         Clip.hardEdge,
                                                                     child:
                                                                         CachedNetworkImage(
+                                                                      maxWidthDiskCache:
+                                                                          65,
+                                                                      maxHeightDiskCache:
+                                                                          65,
                                                                       imageUrl: fcmnotification
                                                                               .data![
                                                                                   i]
@@ -682,6 +694,10 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                 Clip.hardEdge,
                                                             child:
                                                                 CachedNetworkImage(
+                                                              maxWidthDiskCache:
+                                                                  65,
+                                                              maxHeightDiskCache:
+                                                                  65,
                                                               imageUrl: fcmnotification
                                                                       .data![i]
                                                                       .sendBy!
@@ -774,6 +790,10 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                 Clip.hardEdge,
                                                             child:
                                                                 CachedNetworkImage(
+                                                              maxWidthDiskCache:
+                                                                  65,
+                                                              maxHeightDiskCache:
+                                                                  65,
                                                               imageUrl: fcmnotification
                                                                       .data![i]
                                                                       .product!

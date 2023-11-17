@@ -137,7 +137,6 @@ class _FriendProductDetailState extends State<FriendProductDetail> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     widget.name,
-                    // "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest, in Green",
                     style: AppTextStyle().textColor29292916w500,
                   ),
                 ),
@@ -148,7 +147,7 @@ class _FriendProductDetailState extends State<FriendProductDetail> {
                   children: [
                     Text(
                       widget.link.contains("etsy")
-                          ? '\$ ${normalizedPercent}'
+                          ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
                           : '\$ ${widget.price}',
                       // "47.99",
                       style: AppTextStyle().textColor29292924w700,

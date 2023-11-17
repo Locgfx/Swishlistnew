@@ -24,12 +24,9 @@ class ResetNewPassword extends StatefulWidget {
 }
 
 class _ResetNewPasswordState extends State<ResetNewPassword> {
-
-
   final passwordController = TextEditingController();
 
   final _confirmPasswordController = TextEditingController();
-
 
   bool _obscureText = true;
   void _toggle() {
@@ -60,7 +57,6 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
   // }
 
   bool show = false;
-
 
   @override
   Widget build(BuildContext context) {
@@ -101,107 +97,100 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                         'Enter a new password',
                         style: AppTextStyle().textColor29292916w500,
                       ),
+                      SizedBox(height: 24),
+                      Container(
+                        width: 1.sw,
+                        height: 52,
+                        decoration: BoxDecoration(
+                            color: ColorSelect.colorEDEDF1,
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter a value';
+                              }
 
-                SizedBox(height: 24),
-                Container(
-                  width: 1.sw,
-                  height: 52,
-                  decoration: BoxDecoration(
-                      color: ColorSelect.colorEDEDF1,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter a value';
-                        }
-
-                        return null;
-                      },
-
-
-                      obscureText: _obscureText,
-                      onChanged: (v) {
-                        setState(() {});
-                      },
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                        suffixIcon: InkWell(
-                          onTap: _toggle,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 14),
-                            child: Image(
-                                image: AssetImage(_obscureText
-                                    ? 'assets/icons/eye-disable.png'
-                                    : 'assets/icons/eye.png')),
+                              return null;
+                            },
+                            obscureText: _obscureText,
+                            onChanged: (v) {
+                              setState(() {});
+                            },
+                            controller: passwordController,
+                            decoration: InputDecoration(
+                              suffixIcon: InkWell(
+                                onTap: _toggle,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 14),
+                                  child: Image(
+                                      image: AssetImage(_obscureText
+                                          ? 'assets/icons/eye-disable.png'
+                                          : 'assets/icons/eye.png')),
+                                ),
+                              ),
+                              suffixIconConstraints: BoxConstraints(
+                                maxHeight: 40,
+                                maxWidth: 40,
+                              ),
+                              border: InputBorder.none,
+                              hintText: "New Password",
+                            ),
                           ),
                         ),
-                        suffixIconConstraints: BoxConstraints(
-                          maxHeight: 40,
-                          maxWidth: 40,
-                        ),
-                        border: InputBorder.none,
-                        hintText: "New Password",
                       ),
-                    ),
-                  ),
-                ),
+                      SizedBox(height: 24),
+                      Text(
+                        'Confirm your new password',
+                        style: AppTextStyle().textColor29292916w500,
+                      ),
+                      SizedBox(height: 24),
+                      Container(
+                        width: 1.sw,
+                        height: 52,
+                        decoration: BoxDecoration(
+                            color: ColorSelect.colorEDEDF1,
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter a value';
+                              }
 
-                SizedBox(height: 24),
-
-                Text(
-                  'Confirm your new password',
-                  style: AppTextStyle().textColor29292916w500,
-                ),
-                SizedBox(height: 24),
-                Container(
-                  width: 1.sw,
-                  height: 52,
-                  decoration: BoxDecoration(
-                      color: ColorSelect.colorEDEDF1,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter a value';
-                        }
-
-                        return null;
-                      },
-                      obscureText: _obscureText,
-                      onChanged: (v) {
-                        setState(() {});
-                      },
-                      controller: _confirmPasswordController,
-                      decoration: InputDecoration(
-                        suffixIcon: InkWell(
-                          onTap: _toggle,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 14),
-                            child: Image(
-                                image: AssetImage(_obscureText
-                                    ? 'assets/icons/eye-disable.png'
-                                    : 'assets/icons/eye.png')),
+                              return null;
+                            },
+                            obscureText: _obscureText,
+                            onChanged: (v) {
+                              setState(() {});
+                            },
+                            controller: _confirmPasswordController,
+                            decoration: InputDecoration(
+                              suffixIcon: InkWell(
+                                onTap: _toggle,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 14),
+                                  child: Image(
+                                      image: AssetImage(_obscureText
+                                          ? 'assets/icons/eye-disable.png'
+                                          : 'assets/icons/eye.png')),
+                                ),
+                              ),
+                              suffixIconConstraints: BoxConstraints(
+                                maxHeight: 40,
+                                maxWidth: 40,
+                              ),
+                              border: InputBorder.none,
+                              hintText: "Confirm New Password",
+                            ),
                           ),
                         ),
-                        suffixIconConstraints: BoxConstraints(
-                          maxHeight: 40,
-                          maxWidth: 40,
-                        ),
-                        border: InputBorder.none,
-                        hintText: "Confirm New Password",
-                      ),
-                    ),
-                  ),
-                )
+                      )
                     ],
                   ),
                 ),
-
-
 
                 // SizedBox(
                 //   height: 24,
@@ -211,7 +200,8 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                 ),
                 SizedBox(
                   height: 52,
-                  child: passwordController.text.isEmpty || _confirmPasswordController.text.isEmpty
+                  child: passwordController.text.isEmpty ||
+                          _confirmPasswordController.text.isEmpty
                       ? LightYellowButtonWithText(
                           backgroundColor: MaterialStateProperty.all(
                               ColorSelect.colorFCF5B6),
@@ -225,43 +215,42 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                                   ColorSelect.colorF7E641),
                               textStyleColor: Colors.black,
                               onTap: () {
-                                if(_formKey.currentState!.validate()){
-
-
-                                setState(() {
-                                  show = !show;
-                                });
-                                Timer timer = Timer(Duration(seconds: 2), () {
+                                if (_formKey.currentState!.validate()) {
                                   setState(() {
-                                    show = false;
+                                    show = !show;
                                   });
-                                });
-                                if (passwordController.text != _confirmPasswordController.text) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('Passwords do not match')),
-                                  );
-                                }else{
-                                  resetNewpApi(
-                                      email: SharedPrefs()
-                                          .getChangeEmail()
-                                          .toString(),
-                                      password: passwordController.text)
-                                      .then((value) async {
-                                    if (value['status'] == true) {
-                                    // SharedPrefs().clearPrefs();
-                                    //c  SharedPrefs().setLoginFalse();
-                                    Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                    builder: (context) => Login()),
+                                  Timer timer = Timer(Duration(seconds: 2), () {
+                                    setState(() {
+                                      show = false;
+                                    });
+                                  });
+                                  if (passwordController.text !=
+                                      _confirmPasswordController.text) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content:
+                                              Text('Passwords do not match')),
                                     );
-                                    } else {
-                                    Fluttertoast.showToast(
-                                    msg: value['message']);
-                                    }
-
-                                  });
-                                }
-
+                                  } else {
+                                    resetNewpApi(
+                                            email: SharedPrefs()
+                                                .getChangeEmail()
+                                                .toString(),
+                                            password: passwordController.text)
+                                        .then((value) async {
+                                      if (value['status'] == true) {
+                                        // SharedPrefs().clearPrefs();
+                                        SharedPrefs().setLoginFalse();
+                                        Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) => Login()),
+                                        );
+                                      } else {
+                                        Fluttertoast.showToast(
+                                            msg: value['message']);
+                                      }
+                                    });
+                                  }
                                 }
                               },
                               title: 'Done'),

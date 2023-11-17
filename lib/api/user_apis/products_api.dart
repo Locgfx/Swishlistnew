@@ -110,7 +110,7 @@ Future<dynamic> updateProducts({
     'purchased_date': purchaseDate,
     'privacy_status': privacyStatus,
     'id': id,
-    'photo_url': photoUrl,
+    // 'photo_url': photoUrl,
   });
   if (photo != '') {
     request.files.add(await http.MultipartFile.fromPath('photo', photo));

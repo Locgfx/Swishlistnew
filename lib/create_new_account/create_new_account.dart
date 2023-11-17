@@ -94,6 +94,8 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
                       child: GestureDetector(
                         onTap: () async {
                           XFile? v = await _imgPicker.pickImage(
+                              maxWidth: 90,
+                              maxHeight: 90,
                               source: ImageSource.gallery);
                           if (v != null) {
                             setState(
@@ -179,7 +181,11 @@ class _CreateNewAccountWithEmailState extends State<CreateNewAccountWithEmail> {
                       ],
                       controller: numberController,
                       onChanged: (v) {
-                        setState(() {});
+                        setState(() {
+                          if (phoneNoController.text.trim().length == 10) {
+                            FocusScope.of(context).unfocus();
+                          }
+                        });
                       },
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: 24),

@@ -19,7 +19,6 @@ import '../../family_members/family_member_all_details.dart';
 import '../../family_members/family_product_details.dart';
 import '../../family_members/family_want_products.dart';
 import '../../models/add_friend_model.dart';
-import '../friends/friends_notifications.dart';
 import '../products/widget/manuallyaddbottomsheetwidget.dart';
 
 class FamilyMemberProduct extends StatefulWidget {
@@ -200,24 +199,24 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                           //     ),
                                           //   ),
                                           // ),
-                                          ListTile(
-                                            title: GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            FriendNotification()));
-                                              },
-                                              child: Text(
-                                                'Notification',
-                                                style:
-                                                    // AppTextStyle().textColorBA505014w500
-                                                    AppTextStyle()
-                                                        .textColor39393914w500,
-                                              ),
-                                            ),
-                                          ),
+                                          // ListTile(
+                                          //   title: GestureDetector(
+                                          //     onTap: () {
+                                          //       Navigator.push(
+                                          //           context,
+                                          //           MaterialPageRoute(
+                                          //               builder: (context) =>
+                                          //                   FriendNotification()));
+                                          //     },
+                                          //     child: Text(
+                                          //       'Notification',
+                                          //       style:
+                                          //           // AppTextStyle().textColorBA505014w500
+                                          //           AppTextStyle()
+                                          //               .textColor39393914w500,
+                                          //     ),
+                                          //   ),
+                                          // ),
                                           ListTile(
                                             title: GestureDetector(
                                               onTap: () {
@@ -235,7 +234,7 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                 });
                                               },
                                               child: Text(
-                                                'Unfriend',
+                                                'Remove',
                                                 style:
                                                     // AppTextStyle().textColorBA505014w500
                                                     AppTextStyle()

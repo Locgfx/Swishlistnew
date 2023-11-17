@@ -110,6 +110,7 @@ class _AddPetsState extends State<AddPets> {
                               child: GestureDetector(
                                   onTap: () async {
                                     XFile? v = await _imgPicker.pickImage(
+                                        imageQuality: 40,
                                         source: ImageSource.gallery);
                                     if (v != null) {
                                       setState(
@@ -197,7 +198,7 @@ class _AddPetsState extends State<AddPets> {
                               setState(() {});
                             },
                             inputFormatters: [
-                              LengthLimitingTextInputFormatter(15),
+                              LengthLimitingTextInputFormatter(12),
                             ],
                             controller: nameController,
                             keyboardType: TextInputType.text,
@@ -230,7 +231,7 @@ class _AddPetsState extends State<AddPets> {
                               setState(() {});
                             },
                             inputFormatters: [
-                              LengthLimitingTextInputFormatter(15),
+                              LengthLimitingTextInputFormatter(12),
                             ],
                             controller: typeController,
                             decoration: InputDecoration(
@@ -263,7 +264,7 @@ class _AddPetsState extends State<AddPets> {
                               setState(() {});
                             },
                             inputFormatters: [
-                              LengthLimitingTextInputFormatter(15),
+                              LengthLimitingTextInputFormatter(12),
                             ],
                             controller: originController,
                             keyboardType: TextInputType.text,

@@ -145,7 +145,7 @@ class _FamilyProductDetailState extends State<FamilyProductDetail> {
                   children: [
                     Text(
                       widget.link.contains("etsy")
-                          ? '\$ ${normalizedPercent}'
+                          ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
                           : '\$ ${widget.price}',
                       // "47.99",
                       style: AppTextStyle().textColor29292924w700,

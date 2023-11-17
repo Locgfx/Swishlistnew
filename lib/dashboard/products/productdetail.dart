@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/urls.dart';
+import 'package:swishlist/dashboard/products/edit_product.dart';
 import 'package:swishlist/dashboard/products/wantproducts.dart';
 import 'package:swishlist/new_screens/tabs_screen/family_list.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,7 +15,6 @@ import '../../api/user_apis/friends_api.dart';
 import '../../api/user_apis/products_api.dart';
 import '../../buttons/red_button.dart';
 import '../../buttons/white_button.dart';
-import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../models/add_friend_model.dart';
 import '../../models/login_models.dart';
@@ -253,152 +253,9 @@ class _ProductDetailState extends State<ProductDetail> {
                                         FamilyList(
                                           productId2: widget.productId,
                                         ),
-
-                                        // ProductsPage(
-                                        //   response: widget.response,
-                                        // ),
-                                        // // AllEtsyProducts(),
-                                        // Search(),
-                                        // Activities(),
-                                        // Friends(),
                                       ],
                                     ),
                                   ),
-
-                                  // isLoading
-                                  //     ? Center(
-                                  //         child: LoadingAnimationWidget.inkDrop(
-                                  //           size: 40,
-                                  //           color: ColorSelect.colorF7E641,
-                                  //         ),
-                                  //       )
-                                  //     : friendList.data!.isEmpty
-                                  //         ? Padding(
-                                  //             padding: const EdgeInsets.only(
-                                  //                 bottom: 80.0, top: 20),
-                                  //             child: Image.asset(
-                                  //               "assets/images/addproducts2.png",
-                                  //               height: 200,
-                                  //               width: 200,
-                                  //             ),
-                                  //           )
-                                  //         : ListView.builder(
-                                  //             physics: ScrollPhysics(),
-                                  //             itemCount: friendList.data!.length,
-                                  //             shrinkWrap: true,
-                                  //             scrollDirection: Axis.vertical,
-                                  //             itemBuilder: (context, i) {
-                                  //               return Padding(
-                                  //                 padding: const EdgeInsets.only(
-                                  //                     top: 16),
-                                  //                 child: GestureDetector(
-                                  //                   onTap: () {},
-                                  //                   child: Container(
-                                  //                     color: Colors.transparent,
-                                  //                     child: Row(
-                                  //                       children: [
-                                  //                         Container(
-                                  //                           height: 60,
-                                  //                           width: 60,
-                                  //                           clipBehavior:
-                                  //                               Clip.hardEdge,
-                                  //                           decoration:
-                                  //                               BoxDecoration(
-                                  //                             color: Colors
-                                  //                                 .redAccent,
-                                  //                             shape:
-                                  //                                 BoxShape.circle,
-                                  //                           ),
-                                  //                           child:
-                                  //                               CachedNetworkImage(
-                                  //                             imageUrl: friendList
-                                  //                                     .data![i]
-                                  //                                     .friend!
-                                  //                                     .photo
-                                  //                                     .toString()
-                                  //                                     .contains(
-                                  //                                         "https")
-                                  //                                 ? friendList
-                                  //                                     .data![i]
-                                  //                                     .friend!
-                                  //                                     .photo
-                                  //                                     .toString()
-                                  //                                 : baseUrl +
-                                  //                                     friendList
-                                  //                                         .data![
-                                  //                                             i]
-                                  //                                         .friend!
-                                  //                                         .photo
-                                  //                                         .toString(),
-                                  //                             fit: BoxFit.cover,
-                                  //                             errorWidget: (context,
-                                  //                                     url,
-                                  //                                     error) =>
-                                  //
-                                  //                                 // Image.asset(
-                                  //                                 // "assets/icons/userico.jpg"),
-                                  //                                 Image.asset(
-                                  //                                     "assets/icons/userico.jpg"),
-                                  //                             progressIndicatorBuilder:
-                                  //                                 (a, b, c) =>
-                                  //                                     Opacity(
-                                  //                               opacity: 0.3,
-                                  //                               child: Shimmer
-                                  //                                   .fromColors(
-                                  //                                 baseColor: Colors
-                                  //                                     .black12,
-                                  //                                 highlightColor:
-                                  //                                     Colors
-                                  //                                         .white,
-                                  //                                 child:
-                                  //                                     Container(
-                                  //                                   width: 60,
-                                  //                                   height: 60,
-                                  //                                   decoration:
-                                  //                                       BoxDecoration(
-                                  //                                     shape: BoxShape
-                                  //                                         .circle,
-                                  //                                     color: ColorSelect
-                                  //                                         .colorFFFFFF,
-                                  //                                   ),
-                                  //                                 ),
-                                  //                               ),
-                                  //                             ),
-                                  //                           ),
-                                  //                         ),
-                                  //                         Padding(
-                                  //                           padding:
-                                  //                               const EdgeInsets
-                                  //                                       .only(
-                                  //                                   left: 8.0),
-                                  //                           child: Text(
-                                  //                             friendList.data![i]
-                                  //                                 .friend!.name
-                                  //                                 .toString(),
-                                  //                             overflow:
-                                  //                                 TextOverflow
-                                  //                                     .ellipsis,
-                                  //                             maxLines: 2,
-                                  //                             style: AppTextStyle()
-                                  //                                 .textColor29292914w400,
-                                  //                           ),
-                                  //                         ),
-                                  //                         Spacer(),
-                                  //                         YellowButtonWithText(
-                                  //                             backgroundColor:
-                                  //                                 MaterialStateProperty
-                                  //                                     .all(ColorSelect
-                                  //                                         .colorF7E641),
-                                  //                             textStyleColor:
-                                  //                                 Colors.black,
-                                  //                             onTap: () {},
-                                  //                             title: 'Send')
-                                  //                       ],
-                                  //                     ),
-                                  //                   ),
-                                  //                 ),
-                                  //               );
-                                  //             }),
                                 ],
                               ),
                             ),
@@ -435,139 +292,147 @@ class _ProductDetailState extends State<ProductDetail> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) {
-                                        return Container(
-                                          height: 338.h,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  height: 32.h,
-                                                ),
-                                                Text(
-                                                  "Edit title",
-                                                  style: AppTextStyle()
-                                                      .textColor3D3D3D24w700,
-                                                ),
-                                                SizedBox(
-                                                  height: 28.h,
-                                                ),
-                                                Container(
-                                                  height: 154.h,
-                                                  width: 328.w,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                      color: ColorSelect
-                                                          .colorFEFCF6,
-                                                      border: Border.all(
-                                                          color: ColorSelect
-                                                              .colorF7E641)),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 12,
-                                                        vertical: 16),
-                                                    child: Column(
-                                                      children: [
-                                                        TextFormField(
-                                                          controller:
-                                                              textController,
-                                                          onChanged: (v) {
-                                                            setState(() {});
-                                                          },
-                                                          // controller: moviesController,
-                                                          cursorColor:
-                                                              ColorSelect
-                                                                  .colorF7E641,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            border: InputBorder
-                                                                .none,
-                                                            focusedBorder:
-                                                                InputBorder
-                                                                    .none,
-                                                            enabledBorder:
-                                                                InputBorder
-                                                                    .none,
-                                                            errorBorder:
-                                                                InputBorder
-                                                                    .none,
-                                                            disabledBorder:
-                                                                InputBorder
-                                                                    .none,
-                                                          ), //keyboardType: TextInputType.phone,
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 16.h,
-                                                ),
-                                                SizedBox(
-                                                  width: 87.w,
-                                                  height: 48.h,
-                                                  child: YellowButtonWithText(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(ColorSelect
-                                                                  .colorF7E641),
-                                                      textStyleColor:
-                                                          ColorSelect
-                                                              .color292929,
-                                                      onTap: () {
-                                                        updateProducts(
-                                                                type:
-                                                                    widget.type,
-                                                                name:
-                                                                    textController
-                                                                        .text,
-                                                                link:
-                                                                    widget.link,
-                                                                price: widget
-                                                                    .price,
-                                                                purchaseDate: widget
-                                                                    .purchaseDate,
-                                                                privacyStatus:
-                                                                    'public',
-                                                                photo: '',
-                                                                id: widget.id,
-                                                                photoUrl: widget
-                                                                    .image)
-                                                            .then((value) {
-                                                          if (value['status'] ==
-                                                              true) {
-                                                            Navigator.of(
-                                                                context)
-                                                              ..pop()
-                                                              ..pop()
-                                                              ..pop();
-                                                            Fluttertoast.showToast(
-                                                                msg: value[
-                                                                    'message']);
-                                                          } else {
-                                                            Fluttertoast.showToast(
-                                                                msg: value[
-                                                                    'message']);
-                                                          }
-                                                        });
-                                                      },
-                                                      title: 'Save'),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      },
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => EditProduct(
+                                          image: widget.image,
+                                          id: widget.productId,
+                                        ),
+                                      ),
                                     );
+                                    // showModalBottomSheet(
+                                    //   context: context,
+                                    //   builder: (context) {
+                                    //     return Container(
+                                    //       height: 338.h,
+                                    //       child: Padding(
+                                    //         padding: const EdgeInsets.symmetric(
+                                    //             horizontal: 16),
+                                    //         child: Column(
+                                    //           crossAxisAlignment:
+                                    //               CrossAxisAlignment.start,
+                                    //           children: [
+                                    //             SizedBox(
+                                    //               height: 32.h,
+                                    //             ),
+                                    //             Text(
+                                    //               "Edit Title",
+                                    //               style: AppTextStyle()
+                                    //                   .textColor3D3D3D24w700,
+                                    //             ),
+                                    //             SizedBox(
+                                    //               height: 28.h,
+                                    //             ),
+                                    //             Container(
+                                    //               height: 154.h,
+                                    //               width: 328.w,
+                                    //               decoration: BoxDecoration(
+                                    //                   borderRadius:
+                                    //                       BorderRadius.circular(
+                                    //                           8),
+                                    //                   color: ColorSelect
+                                    //                       .colorFEFCF6,
+                                    //                   border: Border.all(
+                                    //                       color: ColorSelect
+                                    //                           .colorF7E641)),
+                                    //               child: Padding(
+                                    //                 padding: const EdgeInsets
+                                    //                     .symmetric(
+                                    //                     horizontal: 12,
+                                    //                     vertical: 16),
+                                    //                 child: Column(
+                                    //                   children: [
+                                    //                     TextFormField(
+                                    //                       controller:
+                                    //                           textController,
+                                    //                       onChanged: (v) {
+                                    //                         setState(() {});
+                                    //                       },
+                                    //                       // controller: moviesController,
+                                    //                       cursorColor:
+                                    //                           ColorSelect
+                                    //                               .colorF7E641,
+                                    //                       decoration:
+                                    //                           InputDecoration(
+                                    //                         border: InputBorder
+                                    //                             .none,
+                                    //                         focusedBorder:
+                                    //                             InputBorder
+                                    //                                 .none,
+                                    //                         enabledBorder:
+                                    //                             InputBorder
+                                    //                                 .none,
+                                    //                         errorBorder:
+                                    //                             InputBorder
+                                    //                                 .none,
+                                    //                         disabledBorder:
+                                    //                             InputBorder
+                                    //                                 .none,
+                                    //                       ), //keyboardType: TextInputType.phone,
+                                    //                     )
+                                    //                   ],
+                                    //                 ),
+                                    //               ),
+                                    //             ),
+                                    //             SizedBox(
+                                    //               height: 16.h,
+                                    //             ),
+                                    //             SizedBox(
+                                    //               width: 87.w,
+                                    //               height: 48.h,
+                                    //               child: YellowButtonWithText(
+                                    //                   backgroundColor:
+                                    //                       MaterialStateProperty
+                                    //                           .all(ColorSelect
+                                    //                               .colorF7E641),
+                                    //                   textStyleColor:
+                                    //                       ColorSelect
+                                    //                           .color292929,
+                                    //                   onTap: () {
+                                    //                     updateProducts(
+                                    //                             type:
+                                    //                                 widget.type,
+                                    //                             name:
+                                    //                                 textController
+                                    //                                     .text,
+                                    //                             link:
+                                    //                                 widget.link,
+                                    //                             price: widget
+                                    //                                 .price,
+                                    //                             purchaseDate: widget
+                                    //                                 .purchaseDate,
+                                    //                             privacyStatus:
+                                    //                                 'public',
+                                    //                             photo: '',
+                                    //                             id: widget.id,
+                                    //                             photoUrl: widget
+                                    //                                 .image)
+                                    //                         .then((value) {
+                                    //                       if (value['status'] ==
+                                    //                           true) {
+                                    //                         Navigator.of(
+                                    //                             context)
+                                    //                           ..pop()
+                                    //                           ..pop()
+                                    //                           ..pop();
+                                    //                         Fluttertoast.showToast(
+                                    //                             msg: value[
+                                    //                                 'message']);
+                                    //                       } else {
+                                    //                         Fluttertoast.showToast(
+                                    //                             msg: value[
+                                    //                                 'message']);
+                                    //                       }
+                                    //                     });
+                                    //                   },
+                                    //                   title: 'Save'),
+                                    //             )
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //     );
+                                    //   },
+                                    // );
                                   },
                                   child: Container(
                                     height: 40.h,
@@ -582,7 +447,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                               "assets/icons/edittitle.svg"),
                                         ),
                                         Text(
-                                          "Edit title",
+                                          "Edit Product",
                                           style: AppTextStyle()
                                               .textColor39393914w500,
                                         )
@@ -593,234 +458,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                 SizedBox(
                                   height: 8.h,
                                 ),
-                                // GestureDetector(
-                                //   onTap: () {
-                                //     showDialog(
-                                //       context: context,
-                                //       builder: (BuildContext context) {
-                                //         return AlertDialog(
-                                //           insetPadding: EdgeInsets.only(
-                                //               left: 20, right: 20),
-                                //           shape: RoundedRectangleBorder(
-                                //             borderRadius:
-                                //                 BorderRadius.circular(12),
-                                //           ),
-                                //           elevation: 0,
-                                //           backgroundColor: Colors.white,
-                                //           content: SizedBox(
-                                //             width: 1.sw,
-                                //             child: SingleChildScrollView(
-                                //               child: Column(
-                                //                 children: [
-                                //                   Text(
-                                //                     "Edit Privacy",
-                                //                     style: AppTextStyle()
-                                //                         .textColor29292918w500,
-                                //                   ),
-                                //                   SizedBox(
-                                //                     height: 8.h,
-                                //                   ),
-                                //                   Container(
-                                //                     width: 328.w,
-                                //                     height: 52.h,
-                                //                     decoration: BoxDecoration(
-                                //                         borderRadius:
-                                //                             BorderRadius.circular(
-                                //                                 8),
-                                //                         color: ColorSelect
-                                //                             .colorEDEDF1),
-                                //                     child: Padding(
-                                //                       padding:
-                                //                           const EdgeInsets.only(
-                                //                               left: 12),
-                                //                       child: Row(
-                                //                         children: [
-                                //                           Expanded(
-                                //                             child: TextFormField(
-                                //                               onTap: () {
-                                //                                 showModalBottomSheet(
-                                //                                     shape:
-                                //                                         const RoundedRectangleBorder(
-                                //                                       borderRadius: BorderRadius.only(
-                                //                                           topRight:
-                                //                                               Radius.circular(
-                                //                                                   20),
-                                //                                           topLeft:
-                                //                                               Radius.circular(20)),
-                                //                                     ),
-                                //                                     context:
-                                //                                         context,
-                                //                                     builder:
-                                //                                         (context) =>
-                                //                                             PrivacyStatusBottomSheet(
-                                //                                               onPop:
-                                //                                                   (val) {
-                                //                                                 setState(() {
-                                //                                                   privacyController.text = val;
-                                //                                                 });
-                                //                                               },
-                                //                                               privacyStatus:
-                                //                                                   privacyController.text,
-                                //                                             ));
-                                //                               },
-                                //                               onChanged: (v) {
-                                //                                 setState(() {});
-                                //                               },
-                                //                               controller:
-                                //                                   privacyController,
-                                //                               decoration:
-                                //                                   InputDecoration(
-                                //                                       border:
-                                //                                           InputBorder
-                                //                                               .none,
-                                //                                       hintText:
-                                //                                           "Select privacy",
-                                //                                       hintStyle:
-                                //                                           AppTextStyle()
-                                //                                               .textColor70707014w400,
-                                //                                       suffixIconConstraints: BoxConstraints(
-                                //                                           maxHeight:
-                                //                                               40,
-                                //                                           maxWidth:
-                                //                                               40),
-                                //                                       suffixIcon:
-                                //                                           Padding(
-                                //                                         padding: const EdgeInsets
-                                //                                                 .only(
-                                //                                             right:
-                                //                                                 15.0),
-                                //                                         child: Image
-                                //                                             .asset(
-                                //                                           'assets/images/down-arrow.png',
-                                //                                           height:
-                                //                                               25,
-                                //                                         ),
-                                //                                       )),
-                                //                               keyboardType:
-                                //                                   TextInputType
-                                //                                       .text,
-                                //                               readOnly: true,
-                                //                             ),
-                                //                           ),
-                                //                         ],
-                                //                       ),
-                                //                     ),
-                                //                   ),
-                                //                   SizedBox(height: 16.h),
-                                //                   Row(
-                                //                     children: [
-                                //                       Expanded(
-                                //                         child: SizedBox(
-                                //                           height: 52,
-                                //                           child:
-                                //                               WhiteButtonWithText(
-                                //                                   backgroundColor:
-                                //                                       MaterialStateProperty
-                                //                                           .all(Colors
-                                //                                               .white),
-                                //                                   textStyleColor:
-                                //                                       ColorSelect
-                                //                                           .color292929,
-                                //                                   onTap: () {
-                                //                                     Navigator.pop(
-                                //                                         context);
-                                //                                   },
-                                //                                   title:
-                                //                                       'Cancel'),
-                                //                         ),
-                                //                       ),
-                                //                       SizedBox(
-                                //                         width: 12.w,
-                                //                       ),
-                                //                       Expanded(
-                                //                         child: SizedBox(
-                                //                           height: 52,
-                                //                           child:
-                                //                               WhiteButtonWithText(
-                                //                                   backgroundColor:
-                                //                                       MaterialStateProperty.all(
-                                //                                           ColorSelect
-                                //                                               .colorCE5252),
-                                //                                   textStyleColor:
-                                //                                       ColorSelect
-                                //                                           .colorFFFFFF,
-                                //                                   onTap: () {
-                                //                                     updateProducts(
-                                //                                             type: widget
-                                //                                                 .type,
-                                //                                             name: widget
-                                //                                                 .name,
-                                //                                             link: widget
-                                //                                                 .link,
-                                //                                             price: widget
-                                //                                                 .price,
-                                //                                             purchaseDate: widget
-                                //                                                 .purchaseDate,
-                                //                                             privacyStatus: privacyController
-                                //                                                 .text,
-                                //                                             photo:
-                                //                                                 '',
-                                //                                             id: widget
-                                //                                                 .id,
-                                //                                             photoUrl: widget
-                                //                                                 .image)
-                                //                                         .then(
-                                //                                             (value) {
-                                //                                       if (value[
-                                //                                               'status'] ==
-                                //                                           true) {
-                                //                                         Navigator.of(
-                                //                                             context)
-                                //                                           ..pop()
-                                //                                           ..pop()
-                                //                                           ..pop();
-                                //                                         Fluttertoast
-                                //                                             .showToast(
-                                //                                                 msg: value['message']);
-                                //                                       } else {
-                                //                                         Fluttertoast
-                                //                                             .showToast(
-                                //                                                 msg: value['message']);
-                                //                                       }
-                                //                                     });
-                                //                                   },
-                                //                                   title: 'Save'),
-                                //                         ),
-                                //                       ),
-                                //                     ],
-                                //                   ),
-                                //                 ],
-                                //               ),
-                                //             ),
-                                //           ),
-                                //         );
-                                //       },
-                                //     );
-                                //   },
-                                //   child: Container(
-                                //     height: 40.h,
-                                //     width: 328.w,
-                                //     color: Colors.transparent,
-                                //     child: Row(
-                                //       children: [
-                                //         SizedBox(
-                                //           height: 32,
-                                //         ),
-                                //         Padding(
-                                //           padding:
-                                //               const EdgeInsets.only(right: 15),
-                                //           child: SvgPicture.asset(
-                                //               "assets/icons/eyeeditprivacy.svg"),
-                                //         ),
-                                //         Text(
-                                //           "Edit privacy",
-                                //           style: AppTextStyle()
-                                //               .textColor39393914w500,
-                                //         )
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
                                 SizedBox(
                                   height: 8.h,
                                 ),
@@ -1014,8 +651,10 @@ class _ProductDetailState extends State<ProductDetail> {
                       });
                 },
                 child: Container(
-                    height: 24,
-                    width: 24,
+                    padding: EdgeInsets.all(4),
+                    color: Colors.transparent,
+                    height: 32,
+                    width: 32,
                     child: Image.asset("assets/images/4xdot.png"))),
           ]),
           leading: Padding(
@@ -1053,7 +692,7 @@ class _ProductDetailState extends State<ProductDetail> {
                     Text(
                       // widget.price,
                       widget.link.contains("etsy")
-                          ? '\$ ${normalizedPercent.toString()}'
+                          ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
                           : '\$ ${widget.price}',
 
                       // '\$ ${normalizedPercent.toString()}',
