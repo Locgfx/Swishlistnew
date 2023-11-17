@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swishlist/api/login_signup_apis/login_api.dart';
 import 'package:swishlist/api/user_apis/auth_user_api.dart';
 
 import '../constants/globals/shared_prefs.dart';
@@ -92,21 +93,63 @@ class _SplashScreenState extends State<SplashScreen> {
         // }
         if (loginBool) {
           print('check token${SharedPrefs().getLoginToken()}');
-          LoginResponse response;
-          authTokenLoginApi(
+          LoginResponse? response;
+          login(
+            context: context,
+            email: SharedPrefs().getEmail().toString(),
+            password: SharedPrefs().getPassword().toString(),
+          ).then((value) {
+            response = value;
+            if (response?.error != null &&
+                response!.error == false) {
+
+              SharedPrefs().setLoginTrue();
+              SharedPrefs()
+                  .setEmail(response!.data!.email.toString());
+              // SharedPrefs()
+              //     .setPassword(passwordController.text);
+              SharedPrefs()
+                  .setLoginToken(response!.token.toString());
+              SharedPrefs()
+                  .setId(response!.data!.id.toString());
+              // SharedPrefs().setName(
+              //     response!.data.name.toString());
+              // SharedPrefs().setUsername(
+              //     response!.data.username.toString());
+              // SharedPrefs().setUserPhoto(
+              //     response!.data.photo.toString());
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) =>
+                      Dashboard(response: response!),
+                ),
+              );
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (_) => ShowCaseWidget(
+              //         builder: Builder(
+              //       builder: (context) =>
+              //           Dashboard(response: response!),
+              //     )),
+              //   ),
+              // );
+            }
+          });
+      /*    authTokenLoginApi(
                   token: '${SharedPrefs().getLoginToken()}',
                   fcmToken: _fcmToken)
               .then((value) async {
             response = value;
-            if (response.status == true) {
-              SharedPrefs().setLoginToken(response.token);
+            if (response.error == false) {
+              SharedPrefs().setLoginToken(response.token.toString());
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => Dashboard(response: response),
                 ),
               );
             }
-          });
+          });*/
         }
         // else if (appleLoginBool) {
         //   LoginResponse response;

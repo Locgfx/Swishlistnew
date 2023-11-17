@@ -22,15 +22,17 @@ class FamilyList extends StatefulWidget {
 class _FamilyListState extends State<FamilyList> {
   @override
   void initState() {
-    get();
+    //get();
+    getFamilyMembers();
     super.initState();
   }
 
-  MemberIndexModel? index;
+  //MemberIndexModel? index;
   bool isLoading = false;
-  List<Index> familyA = [];
+  List<FamilyMemberIndexModel> familyA = [];
+  //List<FamilyMemberIndexModel> familyStatus = [];
 
-  get() {
+ /* get() {
     isLoading = true;
     var resp = getAcceptMember();
     resp.then((value) {
@@ -55,6 +57,28 @@ class _FamilyListState extends State<FamilyList> {
         isLoading = false;
       }
     });
+  }*/
+
+  getFamilyMembers(){
+    isLoading = true;
+    var resp = familyMemberIndexApi();
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            familyA.add(FamilyMemberIndexModel.fromJson(v));
+
+          }
+
+          isLoading = false;
+
+        });
+      }
+      else{
+        isLoading = false;
+      }
+    });
+
   }
 
   @override
@@ -115,25 +139,25 @@ class _FamilyListState extends State<FamilyList> {
                                 ),
                                 child: CachedNetworkImage(
                                   imageUrl: familyA[i]
-                                              .familyMemberUser!
+                                              .member!
                                               .photo
                                               .toString()
                                               .isEmpty ||
-                                          familyA[i].familyMemberUser!.photo ==
+                                          familyA[i].member!.photo ==
                                               null
                                       ? 'assets/icons/userico.jpg'
                                       : familyA[i]
-                                              .familyMemberUser!
+                                              .member!
                                               .photo
                                               .toString()
                                               .contains("https")
                                           ? familyA[i]
-                                              .familyMemberUser!
+                                              .member!
                                               .photo
                                               .toString()
-                                          : baseUrl +
+                                          : newBaseUrl +
                                               familyA[i]
-                                                  .familyMemberUser!
+                                                  .member!
                                                   .photo
                                                   .toString(),
                                   fit: BoxFit.cover,
@@ -163,7 +187,7 @@ class _FamilyListState extends State<FamilyList> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
-                                  familyA[i].familyMemberUser!.name.toString(),
+                                  familyA[i].member!.name.toString(),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   style: AppTextStyle().textColor29292914w400,
@@ -175,7 +199,7 @@ class _FamilyListState extends State<FamilyList> {
                                       ColorSelect.colorF7E641),
                                   textStyleColor: Colors.black,
                                   onTap: () {
-                                    sharedProductApi(
+                                   /* sharedProductApi(
                                             productId: widget.productId2,
                                             leadUserId: familyA[i]
                                                 .familyMemberUserId
@@ -194,7 +218,7 @@ class _FamilyListState extends State<FamilyList> {
                                             msg: value[
                                                 'please enter all products details']);
                                       }
-                                    });
+                                    });*/
                                   },
                                   title: 'Send')
                             ],

@@ -26,6 +26,7 @@ class EtsyProductDetails extends StatefulWidget {
   final String productUrl;
   final String productDescription;
 
+
   const EtsyProductDetails({
     Key? key,
     required this.productTitle,
@@ -33,6 +34,7 @@ class EtsyProductDetails extends StatefulWidget {
     required this.productDescription,
     required this.productId,
     required this.productUrl,
+
   }) : super(key: key);
 
   @override
@@ -223,7 +225,16 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                         title: 'Add Product',
                         onTap: () {
                           showModalBottomSheet(
-                            backgroundColor: Colors.transparent,
+                            shape:     const RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.only(
+                                  topRight: Radius.circular(
+                                      20),
+                                  topLeft:
+                                  Radius.circular(20)),
+                            ),
+
+                            //backgroundColor: Colors.transparent,
                             context: context,
                             isScrollControlled: true,
                             builder: (context) {
@@ -235,7 +246,8 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                           .viewInsets
                                           .bottom),
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20)),
+                                      borderRadius: BorderRadius.circular(20)
+                                  ),
                                   child: SingleChildScrollView(
                                     child: Column(
                                       crossAxisAlignment:
@@ -282,13 +294,19 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                         //     ),
                                         //   ),
                                         // ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
+                                        // SizedBox(
+                                        //   height: 20,
+                                        // ),
                                         Container(
                                           width: 1.sw,
                                           decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            borderRadius:  BorderRadius.only(
+                                                topRight: Radius.circular(
+                                                    20),
+                                                topLeft:
+                                                Radius.circular(20)),
+
+                                            //color: Colors.white,
                                           ),
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -480,6 +498,8 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                                       )),
                                                               onTap: () {
                                                                 showModalBottomSheet(
+                                                                 // backgroundColor: Colors.transparent,
+
                                                                     shape:
                                                                         const RoundedRectangleBorder(
                                                                       borderRadius: BorderRadius.only(
@@ -594,11 +614,11 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                                           .urlFullxfull
                                                                           .toString(),
                                                                       photo: '',
+                                                                      desc: widget.productDescription
                                                                     ).then(
                                                                         (value) {
-                                                                      if (value[
-                                                                              'status'] ==
-                                                                          true) {
+                                                                      if (value['error'] ==
+                                                                          false) {
                                                                         Navigator.of(
                                                                             context)
                                                                           ..pop()

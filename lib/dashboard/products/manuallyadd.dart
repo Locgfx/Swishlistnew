@@ -474,12 +474,7 @@ class _ProductTypeBottomSheet extends State<ProductTypeBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-        ),
-        // height: 259.h,
+
         child: Column(
           children: [
             Container(
@@ -581,7 +576,7 @@ class _ProductTypeBottomSheet extends State<ProductTypeBottomSheet> {
             ),
           ],
         ),
-      ),
+
     );
   }
 

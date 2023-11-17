@@ -178,17 +178,17 @@ class _LoginState extends State<Login> {
                                   password: passwordController.text,
                                 ).then((value) {
                                   response = value;
-                                  if (response?.status != null &&
-                                      response!.status == true) {
+                                  if (response?.error != null &&
+                                      response!.error == false) {
                                     SharedPrefs().setLoginTrue();
-                                    // SharedPrefs()
-                                    //     .setEmail(phoneEmailController.text);
+                                    SharedPrefs()
+                                        .setEmail(phoneEmailController.text);
                                     SharedPrefs()
                                         .setPassword(passwordController.text);
                                     SharedPrefs()
-                                        .setLoginToken(response!.token);
+                                        .setLoginToken(response!.token.toString());
                                     SharedPrefs()
-                                        .setId(response!.data.id.toString());
+                                        .setId(response!.data!.id.toString());
                                     // SharedPrefs().setName(
                                     //     response!.data.name.toString());
                                     // SharedPrefs().setUsername(

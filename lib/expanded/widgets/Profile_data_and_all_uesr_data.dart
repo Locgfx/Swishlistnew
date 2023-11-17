@@ -111,54 +111,76 @@ class _FavoritesRowWidgetState extends State<FavoritesRowWidget> {
   // }
 
   bool isLoading = false;
-  FavouritesModel? favourites = FavouritesModel(
-      data: FavouriteData(
-    // id: '',
-    // userId: '',
-    cars: '',
-    bikes: '',
-    movies: '',
-    shows: '',
-    foods: '',
-    gadgets: '',
-    superheroes: '',
-    actors: '',
-    actresses: '',
-    singers: '',
-    players: '',
-    cities: '',
-    countries: '',
-    restaurants: '',
-    hotels: '',
-    privacyStatus: '',
-    createdAt: '',
-  ));
+
+  // FavouritesModel? favourites = FavouritesModel(
+  //     data: FavouriteData(
+  //   // id: '',
+  //   // userId: '',
+  //   cars: '',
+  //   bikes: '',
+  //   movies: '',
+  //   shows: '',
+  //   foods: '',
+  //   gadgets: '',
+  //   superheroes: '',
+  //   actors: '',
+  //   actresses: '',
+  //   singers: '',
+  //   players: '',
+  //   cities: '',
+  //   countries: '',
+  //   restaurants: '',
+  //   hotels: '',
+  //   privacyStatus: '',
+  //   createdAt: '',
+  // ));
+
+  // getFavourites() {
+  //   isLoading = true;
+  //   var resp = getFavouritesApi();
+  //   resp.then((value) {
+  //     print(value);
+  //     if (mounted) {
+  //       if (value['status'] == true) {
+  //         if (value['message'] == "No Favourites") {
+  //           setState(() {
+  //             isLoading = false;
+  //           });
+  //         } else {
+  //           setState(() {
+  //             favourites = FavouritesModel.fromJson(value);
+  //             isLoading = false;
+  //           });
+  //         }
+  //       } else {
+  //         setState(() {
+  //           isLoading = false;
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
+
+
+  FavouritesModel? favourites ;
+
   getFavourites() {
     isLoading = true;
     var resp = getFavouritesApi();
     resp.then((value) {
-      print(value);
-      if (mounted) {
-        if (value['status'] == true) {
-          if (value['message'] == "No Favourites") {
-            setState(() {
-              isLoading = false;
-            });
-          } else {
-            setState(() {
-              favourites = FavouritesModel.fromJson(value);
-              isLoading = false;
-            });
-          }
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-        }
+      if(value.error == false){
+        setState(() {
+          favourites = value;
+          isLoading = false;
+        });
+      }else{
+        setState(() {
+          isLoading = false;
+        });
       }
+
     });
   }
-
   @override
   void initState() {
     getFavourites();
@@ -167,9 +189,9 @@ class _FavoritesRowWidgetState extends State<FavoritesRowWidget> {
 
   @override
   Widget build(BuildContext context) {
-    completePercent = favourites?.data?.completePercent;
-    parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
-    normalizedPercent = parsedPercent / 100.0;
+    // completePercent = favourites?.data?.completePercent;
+    // parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
+    // normalizedPercent = parsedPercent / 100.0;
     return Row(
       children: [
         CircularPercentIndicator(
@@ -194,8 +216,8 @@ class _FavoritesRowWidgetState extends State<FavoritesRowWidget> {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        favourites!.data!.completePercent.toString() == "" ||
+                      Text('20',
+                       /* favourites!.data!.completePercent.toString() == "" ||
                                 favourites!.data!.completePercent == null
                             ? "0"
                             : favourites!.data!.completePercent
@@ -205,7 +227,7 @@ class _FavoritesRowWidgetState extends State<FavoritesRowWidget> {
                         // sizeWeight!.data!.completePercent
                         //     .toString()
                         //     .split(".")
-                        //     .first,
+                        //     .first,*/
                         style: AppTextStyle().textColor70707012w400,
                       ),
                       Text(

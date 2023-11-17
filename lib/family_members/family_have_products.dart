@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:swishlist/models/family_member_product_model.dart';
 
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/friend_product_model.dart';
 import '../api/family_member_apis/family_products_api.dart';
+import '../api/user_apis/friends_api.dart';
 import 'family_product_details.dart';
 
 class FamilyHaveProducts extends StatefulWidget {
@@ -31,7 +33,8 @@ class FamilyHaveProducts extends StatefulWidget {
 class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
   @override
   void initState() {
-    getProducts();
+    //getProducts();
+    getHaveProducts();
     super.initState();
   }
 
@@ -39,7 +42,37 @@ class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
   bool isLoading = false;
   FriendProductModel? products;
 
-  getProducts() {
+  List<FamilyMemberProductModel> haveProducts = [];
+  List<FamilyMemberProductModel> haveProductsType = [];
+
+
+  getHaveProducts(){
+    isLoading = true;
+    var resp = getFamilyProductsApi(member_id: widget.familyId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            haveProducts.add(FamilyMemberProductModel.fromJson(v));
+          }
+          for(var q in  haveProducts){
+            if(q.type == 'have'){
+              haveProductsType.add(q);
+
+            }
+          }
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
+
+  }
+  /*getProducts() {
     isLoading = true;
     var resp = getFamilyProductsApi(familyId: widget.familyId);
     resp.then((value) {
@@ -63,7 +96,7 @@ class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
       }
       // haveProducts2.clear();
     });
-  }
+  }*/
 
   int selected = -1;
 
@@ -141,7 +174,8 @@ class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
                                   //     ),
                                   //   ],
                                   // ),
-                                  products!.data!.have!.isEmpty
+                              haveProductsType.isEmpty
+                                  //products!.data!.have!.isEmpty
                                       ? Center(
                                           child: Column(
                                             crossAxisAlignment:
@@ -168,15 +202,14 @@ class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
                                           padding: EdgeInsets.only(bottom: 30),
                                           physics:
                                               NeverScrollableScrollPhysics(),
-                                          itemCount:
-                                              products!.data!.have!.length,
+                                          itemCount: haveProductsType.length,
+                                              //products!.data!.have!.length,
                                           // itemCount: 6,
                                           shrinkWrap: true,
                                           scrollDirection: Axis.vertical,
                                           itemBuilder: (context, i) {
                                             double price = double.tryParse(
-                                                    products!
-                                                        .data!.have![i].price
+                                                haveProductsType[i].price
                                                         .toString()) ??
                                                 0.0;
                                             double normalizedPercent =
@@ -191,56 +224,42 @@ class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               FamilyProductDetail(
-                                                                name: products!
-                                                                    .data!
-                                                                    .have![i]
+                                                                name: haveProductsType[i]
                                                                     .name
                                                                     .toString(),
-                                                                price: products!
-                                                                    .data!
-                                                                    .have![i]
+                                                                price: haveProductsType[i]
                                                                     .price
                                                                     .toString(),
-                                                                link: products!
-                                                                    .data!
-                                                                    .have![i]
-                                                                    .link
+                                                                link: haveProductsType[i]
+                                                                    .url
                                                                     .toString(),
-                                                                image: products!
-                                                                        .data!
-                                                                        .have![
+                                                                image: haveProductsType[
                                                                             i]
                                                                         .photo
                                                                         .toString()
                                                                         .contains(
                                                                             'http')
-                                                                    ? products!
-                                                                        .data!
-                                                                        .have![
+                                                                    ? haveProductsType[
                                                                             i]
                                                                         .photo
                                                                         .toString()
                                                                     : baseUrl +
-                                                                        products!
-                                                                            .data!
-                                                                            .have![i]
+                                                                    haveProductsType[i]
                                                                             .photo
                                                                             .toString(),
-                                                                purchaseDate: products!
-                                                                    .data!
-                                                                    .have![i]
-                                                                    .purchasedDate
+                                                                purchaseDate:
+                                                                haveProductsType[i]
+                                                                    .purchasedOn
                                                                     .toString(),
-                                                                id: products!
-                                                                    .data!
-                                                                    .have![i]
+                                                                id: haveProductsType[i]
                                                                     .id
                                                                     .toString(),
-                                                                type: products!
-                                                                    .data!
-                                                                    .have![i]
-                                                                    .type
-                                                                    .toString(),
+                                                                type: '',
+                                                                // products!
+                                                                //     .data!
+                                                                //     .have![i]
+                                                                //     .type
+                                                                //     .toString(),
                                                                 productId: '',
                                                               )));
                                                   // Navigator.push(
@@ -330,24 +349,18 @@ class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
                                                               ),
                                                               child:
                                                                   CachedNetworkImage(
-                                                                imageUrl: products!
-                                                                        .data!
-                                                                        .have![
+                                                                imageUrl: haveProductsType[
                                                                             i]
                                                                         .photo
                                                                         .toString()
                                                                         .contains(
                                                                             "https")
-                                                                    ? products!
-                                                                        .data!
-                                                                        .have![
+                                                                    ? haveProductsType[
                                                                             i]
                                                                         .photo
                                                                         .toString()
                                                                     : baseUrl +
-                                                                        products!
-                                                                            .data!
-                                                                            .have![i]
+                                                                    haveProductsType[i]
                                                                             .photo
                                                                             .toString(),
                                                                 fit: BoxFit
@@ -408,9 +421,7 @@ class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
                                                                 child: SizedBox(
                                                                   width: 230.w,
                                                                   child: Text(
-                                                                    products!
-                                                                        .data!
-                                                                        .have![
+                                                                    haveProductsType[
                                                                             i]
                                                                         .name
                                                                         .toString(),
@@ -434,8 +445,12 @@ class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
                                                                         left:
                                                                             16),
                                                                 child: Text(
-                                                                  '\$ ${normalizedPercent}',
+                                                                  //'\$ ${normalizedPercent}',
                                                                   // "47.99",
+                                                                  haveProductsType[
+                                                                  i]
+                                                                      .price
+                                                                      .toString(),
                                                                   style: AppTextStyle()
                                                                       .textColor29292914w500,
                                                                 ),
@@ -468,13 +483,16 @@ class _FamilyHaveProductsState extends State<FamilyHaveProducts> {
                                                                     SizedBox(
                                                                       width: 6,
                                                                     ),
-                                                                    Text(DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes <=
-                                                                            59
-                                                                        ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes} min ago"
-                                                                        : DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours <=
-                                                                                23
-                                                                            ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours} hr ago"
-                                                                            : "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inDays} days ago"),
+                                                                    Text(
+                                                                        haveProductsType[i].lastUpdated.toString()
+                                                                        // DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes <=
+                                                                        //     59
+                                                                        // ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes} min ago"
+                                                                        // : DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours <=
+                                                                        //         23
+                                                                        //     ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours} hr ago"
+                                                                        //     : "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inDays} days ago"
+                                                                    ),
                                                                   ],
                                                                 ),
                                                               )

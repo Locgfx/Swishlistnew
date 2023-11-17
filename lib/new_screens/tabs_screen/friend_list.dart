@@ -10,6 +10,7 @@ import '../../buttons/yellow_button.dart';
 import '../../constants/color.dart';
 import '../../constants/urls.dart';
 import '../../models/add_friend_model.dart';
+import '../../models/new_models/main_friend_model.dart';
 
 class FriendList extends StatefulWidget {
   final String productId;
@@ -26,9 +27,10 @@ class _FriendListState extends State<FriendList> {
     super.initState();
   }
 
-  FriendModel friendList = FriendModel();
+  //FriendModel friendList = FriendModel();
   bool isLoading = false;
-  getFriends() {
+
+/*  getFriends() {
     isLoading = true;
     var resp = getFriendsApi();
     resp.then((value) {
@@ -50,6 +52,27 @@ class _FriendListState extends State<FriendList> {
         }
       }
     });
+  }*/
+  List<NewModelFriend> friendList = [];
+
+  getFriends(){
+    isLoading = true;
+    var resp = getFriendsApi();
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+
+            friendList.add(NewModelFriend.fromJson(v));
+          }
+          isLoading = false;
+        });
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
   }
 
   @override
@@ -66,7 +89,7 @@ class _FriendListState extends State<FriendList> {
                 ),
               ),
             )
-          : friendList.data!.isEmpty
+          : friendList.isEmpty
               ? Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
@@ -89,7 +112,7 @@ class _FriendListState extends State<FriendList> {
                 )
               : ListView.builder(
                   physics: ScrollPhysics(),
-                  itemCount: friendList.data!.length,
+                  itemCount: friendList.length,
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, i) {
@@ -109,13 +132,13 @@ class _FriendListState extends State<FriendList> {
                                   shape: BoxShape.circle,
                                 ),
                                 child: CachedNetworkImage(
-                                  imageUrl: friendList.data![i].friend!.photo
+                                  imageUrl: friendList[i].friend!.photo
                                           .toString()
                                           .contains("https")
-                                      ? friendList.data![i].friend!.photo
+                                      ? friendList[i].friend!.photo
                                           .toString()
                                       : baseUrl +
-                                          friendList.data![i].friend!.photo
+                                          friendList[i].friend!.photo
                                               .toString(),
                                   fit: BoxFit.cover,
                                   errorWidget: (context, url, error) =>
@@ -144,7 +167,7 @@ class _FriendListState extends State<FriendList> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
-                                  friendList.data![i].friend!.name.toString(),
+                                  friendList[i].friend!.name.toString(),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   style: AppTextStyle().textColor29292914w400,
@@ -158,11 +181,11 @@ class _FriendListState extends State<FriendList> {
                                   onTap: () {
                                     sharedProductApi(
                                             productId: widget.productId,
-                                            leadUserId: friendList
-                                                .data![i].friend!.id
-                                                .toString())
+                                            // leadUserId: friendList[i].friend!.id
+                                            //     .toString(),
+                                        friendId:  friendList[i].friend!.id.toString())
                                         .then((value) {
-                                      if (value['status'] == true) {
+                                      if (value['error'] == false) {
                                         Navigator.pop(context);
                                         // Navigator.of(
                                         //     context)

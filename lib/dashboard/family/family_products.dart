@@ -19,6 +19,7 @@ import '../../family_members/family_member_all_details.dart';
 import '../../family_members/family_product_details.dart';
 import '../../family_members/family_want_products.dart';
 import '../../models/add_friend_model.dart';
+import '../../models/family_member_product_model.dart';
 import '../friends/friends_notifications.dart';
 import '../products/widget/manuallyaddbottomsheetwidget.dart';
 
@@ -54,18 +55,21 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
   @override
   void initState() {
     print(widget.familyId);
-    getProducts();
-    getFriends();
+    //getProducts();
+    getWantProducts();
+    //getFriends();
+    getDontWantProducts();
+    getHaveProducts();
     super.initState();
   }
 
   bool isLoading = false;
   // List <FriendProductModel> products = [];
-  FriendProductModel? products;
-  List<FriendProductModel> haveProducts2 = [];
+  //FriendProductModel? products;
+  //List<FriendProductModel> haveProducts2 = [];
   // FriendModel?  haveProducts = FriendModel();
 
-  getProducts() {
+  /*getProducts() {
     isLoading = true;
     var resp = getFamilyProductsApi(familyId: widget.familyId);
     resp.then((value) {
@@ -89,34 +93,128 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
       }
       // haveProducts2.clear();
     });
-  }
+  }*/
 
-  FriendModel friendList = FriendModel();
+  List<FamilyMemberProductModel> wantProducts = [];
+  List<FamilyMemberProductModel> wantProductsType = [];
 
-  getFriends() {
+  getWantProducts(){
     isLoading = true;
-    // friendList.clear();
-    var resp = getFriendsApi();
+    var resp =  getFamilyProductsApi(member_id: widget.familyId);
     resp.then((value) {
-      if (mounted) {
-        if (value['status'] == true) {
-          setState(() {
-            friendList = FriendModel.fromJson(value);
-            // for (var v in value) {
-            //   friendList.add(ModelFriend.fromJson(v));
-            // }
-            isLoading = false;
-          });
-        } else {
-          setState(() {
-            isLoading = false;
-          });
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            wantProducts.add( FamilyMemberProductModel.fromJson(v));
+          }
+          for(var q in wantProducts){
+            if(q.type == 'want'){
+              wantProductsType.add(q);
 
-          // isLoading = false;
-        }
+            }
+          }
+          print(wantProducts);
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
       }
     });
+
   }
+
+  List<FamilyMemberProductModel> dontWantProducts = [];
+  List<FamilyMemberProductModel> dontWantProductsType = [];
+
+  getDontWantProducts(){
+    isLoading = true;
+    var resp =  getFamilyProductsApi(member_id: widget.familyId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            dontWantProducts.add( FamilyMemberProductModel.fromJson(v));
+          }
+          for(var q in dontWantProducts){
+            if(q.type == 'dont_want'){
+              dontWantProductsType.add(q);
+
+            }
+          }
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
+
+  }
+
+
+
+  List<FamilyMemberProductModel> haveProducts = [];
+  List<FamilyMemberProductModel> haveProductsType = [];
+
+
+  getHaveProducts(){
+    isLoading = true;
+    var resp =  getFamilyProductsApi(member_id: widget.familyId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            haveProducts.add( FamilyMemberProductModel.fromJson(v));
+          }
+          for(var q in  haveProducts){
+            if(q.type == 'have'){
+              haveProductsType.add(q);
+
+            }
+          }
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
+
+  }
+
+
+  // FriendModel friendList = FriendModel();
+  // getFriends() {
+  //   isLoading = true;
+  //   // friendList.clear();
+  //   var resp = getFriendsApi();
+  //   resp.then((value) {
+  //     if (mounted) {
+  //       if (value['status'] == true) {
+  //         setState(() {
+  //           friendList = FriendModel.fromJson(value);
+  //           // for (var v in value) {
+  //           //   friendList.add(ModelFriend.fromJson(v));
+  //           // }
+  //           isLoading = false;
+  //         });
+  //       } else {
+  //         setState(() {
+  //           isLoading = false;
+  //         });
+  //
+  //         // isLoading = false;
+  //       }
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +319,7 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                           ListTile(
                                             title: GestureDetector(
                                               onTap: () {
-                                                deleteFriendApi(id: widget.id)
+                                                   deleteFriendApi(id: widget.id)
                                                     .then((value) {
                                                   if (value['status'] == true) {
                                                     Fluttertoast.showToast(
@@ -399,7 +497,7 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  '${widget.familyUserName} want',
+                                  '${widget.familyName} want',
                                   // 'Friend Name wants',
                                   overflow: TextOverflow.ellipsis,
                                   style: AppTextStyle().textColor29292920w700,
@@ -431,7 +529,8 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                           ),
                         ),
                         SizedBox(height: 12),
-                        products!.data!.want!.isEmpty
+                       wantProductsType.isEmpty
+                       // products!.data!.want!.isEmpty
                             ? AddProductError(
                                 addButton: SizedBox(),
                                 image: 'assets/images/Asset 1product 1.png',
@@ -454,13 +553,18 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: products!.data!.want!.length,
+                                    itemCount: wantProductsType.length,
+                                    //products!.data!.want!.length,
                                     // itemCount: 2,
                                     shrinkWrap: true,
                                     itemBuilder: (context, i) {
-                                      double price = double.tryParse(products!
-                                              .data!.want![i].price
-                                              .toString()) ??
+                                      double price = double.tryParse(
+                                        wantProductsType[i].price.toString()
+                                          // products!
+                                          //     .data!.want![i].price
+                                          //     .toString()
+                                      )
+                                          ??
                                           0.0;
                                       double normalizedPercent = price / 100.0;
                                       return Container(
@@ -479,56 +583,67 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               FamilyProductDetail(
-                                                                name: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .name
-                                                                    .toString(),
-                                                                price: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .price
-                                                                    .toString(),
-                                                                link: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .link
-                                                                    .toString(),
-                                                                image: products!
-                                                                        .data!
-                                                                        .want![
-                                                                            i]
-                                                                        .photo
-                                                                        .toString()
-                                                                        .contains(
-                                                                            'http')
-                                                                    ? products!
-                                                                        .data!
-                                                                        .want![
-                                                                            i]
-                                                                        .photo
-                                                                        .toString()
-                                                                    : baseUrl +
-                                                                        products!
-                                                                            .data!
-                                                                            .want![i]
-                                                                            .photo
-                                                                            .toString(),
-                                                                purchaseDate: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .purchasedDate
-                                                                    .toString(),
-                                                                id: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .id
-                                                                    .toString(),
-                                                                type: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .type
-                                                                    .toString(),
+                                                                name: wantProductsType[i].name.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .name
+                                                                //     .toString(),
+                                                                price: wantProductsType[i].price.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .price
+                                                                //     .toString(),
+                                                                link: wantProductsType[i].url.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .link
+                                                                //     .toString(),
+                                                                image:
+                                                                    wantProductsType[i].photo.toString().contains('http') ?
+                                                                        wantProductsType[i].photo.toString()
+                                                                    :
+                                                                        baseUrl + wantProductsType[i].photo.toString(),
+                                                                // products!
+                                                                //         .data!
+                                                                //         .want![
+                                                                //             i]
+                                                                //         .photo
+                                                                //         .toString()
+                                                                //         .contains(
+                                                                //             'http')
+                                                                //     ? products!
+                                                                //         .data!
+                                                                //         .want![
+                                                                //             i]
+                                                                //         .photo
+                                                                //         .toString()
+                                                                //     : baseUrl +
+                                                                //         products!
+                                                                //             .data!
+                                                                //             .want![i]
+                                                                //             .photo
+                                                                //             .toString(),
+                                                                purchaseDate: wantProductsType[i].purchasedOn.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .purchasedDate
+                                                                //     .toString(),
+                                                                id: wantProductsType[i].id.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .id
+                                                                //     .toString(),
+                                                                type: '',
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .type
+                                                                //     .toString(),
                                                                 productId: '',
                                                               )));
                                                   // Navigator.push(
@@ -558,16 +673,20 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                           BorderRadius.circular(
                                                               12)),
                                                   child: CachedNetworkImage(
-                                                    imageUrl: products!.data!
-                                                            .want![i].photo
-                                                            .toString()
-                                                            .contains("https")
-                                                        ? products!.data!
-                                                            .want![i].photo
-                                                            .toString()
-                                                        : products!.data!
-                                                            .want![i].photo
-                                                            .toString(),
+                                                    imageUrl:
+                                                        wantProductsType[i].photo.toString().contains('https') ?
+                                                            wantProductsType[i].photo.toString() :
+                                                            wantProductsType[i].photo.toString(),
+                                                    // products!.data!
+                                                    //         .want![i].photo
+                                                    //         .toString()
+                                                    //         .contains("https")
+                                                    //     ? products!.data!
+                                                    //         .want![i].photo
+                                                    //         .toString()
+                                                    //     : products!.data!
+                                                    //         .want![i].photo
+                                                    //         .toString(),
                                                     fit: BoxFit.cover,
                                                     errorWidget:
                                                         (context, url, error) =>
@@ -612,9 +731,10 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                 child: SizedBox(
                                                   width: 173,
                                                   child: Text(
-                                                    products!
-                                                        .data!.want![i].name
-                                                        .toString(),
+                                                    wantProductsType[i].name.toString(),
+                                                    // products!
+                                                    //     .data!.want![i].name
+                                                    //     .toString(),
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     maxLines: 2,
@@ -630,7 +750,8 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                 padding: const EdgeInsets.only(
                                                     left: 16),
                                                 child: Text(
-                                                  'USD ${normalizedPercent}',
+                                                  //'\$ ${normalizedPercent}',
+                                                  wantProducts[i].price.toString(),
                                                   style: AppTextStyle()
                                                       .textColor29292914w500,
                                                 ),
@@ -681,7 +802,8 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                           ),
                         ),
                         SizedBox(height: 12),
-                        products!.data!.dontWant!.isEmpty
+                        dontWantProductsType.isEmpty
+                        //products!.data!.dontWant!.isEmpty
                             ? AddProductError(
                                 addButton: SizedBox(),
                                 image: 'assets/images/addproducts2.png',
@@ -702,7 +824,8 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                 height: 220,
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
-                                  child: products!.data!.dontWant!.isEmpty
+                                  child: dontWantProductsType.isEmpty
+                                  //products!.data!.dontWant!.isEmpty
                                       ? AddProductImage(
                                           image:
                                               'assets/images/Asset 1product 1.png',
@@ -714,13 +837,13 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                       : ListView.builder(
                                           // physics: NeverScrollableScrollPhysics(),
                                           scrollDirection: Axis.horizontal,
-                                          itemCount:
-                                              products!.data!.dontWant!.length,
+                                          itemCount:dontWantProductsType.length,
+                                              //products!.data!.dontWant!.length,
                                           // itemCount: 2,
                                           shrinkWrap: true,
                                           itemBuilder: (context, i) {
                                             double price = double.tryParse(
-                                                    products!.data!.dontWant![i]
+                                                dontWantProductsType[i]
                                                         .price
                                                         .toString()) ??
                                                 0.0;
@@ -743,39 +866,50 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                                 builder:
                                                                     (context) =>
                                                                         FamilyProductDetail(
-                                                                          name: products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .name
-                                                                              .toString(),
-                                                                          price: products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .price
-                                                                              .toString(),
-                                                                          link: products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .link
-                                                                              .toString(),
-                                                                          image: products!.data!.dontWant![i].photo.toString().contains('http')
-                                                                              ? products!.data!.dontWant![i].photo.toString()
-                                                                              : baseUrl + products!.data!.dontWant![i].photo.toString(),
-                                                                          purchaseDate: products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .purchasedDate
-                                                                              .toString(),
-                                                                          id: products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .id
-                                                                              .toString(),
-                                                                          type: products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .type
-                                                                              .toString(),
+                                                                          name: dontWantProductsType[i].name.toString(),
+                                                                          // products!
+                                                                          //     .data!
+                                                                          //     .dontWant![i]
+                                                                          //     .name
+                                                                          //     .toString(),
+                                                                          price: dontWantProductsType[i].price.toString(),
+                                                                          // products!
+                                                                          //     .data!
+                                                                          //     .dontWant![i]
+                                                                          //     .price
+                                                                          //     .toString(),
+                                                                          link: dontWantProductsType[i].url.toString(),
+                                                                          // products!
+                                                                          //     .data!
+                                                                          //     .dontWant![i]
+                                                                          //     .link
+                                                                          //     .toString(),
+                                                                          image: dontWantProductsType[i].photo.toString().contains('http')
+                                                                            ?
+                                                                          dontWantProductsType[i].photo.toString()
+                                                                          :
+                                                                               baseUrl + dontWantProductsType[i].photo.toString(),
+                                                                          // products!.data!.dontWant![i].photo.toString().contains('http')
+                                                                          //     ? products!.data!.dontWant![i].photo.toString()
+                                                                          //     : baseUrl + products!.data!.dontWant![i].photo.toString(),
+                                                                          purchaseDate: dontWantProductsType[i].purchasedOn.toString(),
+                                                                          // products!
+                                                                          //     .data!
+                                                                          //     .dontWant![i]
+                                                                          //     .purchasedDate
+                                                                          //     .toString(),
+                                                                          id: dontWantProductsType[i].id.toString(),
+                                                                          // products!
+                                                                          //     .data!
+                                                                          //     .dontWant![i]
+                                                                          //     .id
+                                                                          //     .toString(),
+                                                                          type: '',
+                                                                          // products!
+                                                                          //     .data!
+                                                                          //     .dontWant![i]
+                                                                          //     .type
+                                                                          //     .toString(),
                                                                           productId:
                                                                               '',
                                                                         )));
@@ -852,23 +986,27 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                                         12)),
                                                         child:
                                                             CachedNetworkImage(
-                                                          imageUrl: products!
-                                                                  .data!
-                                                                  .dontWant![i]
-                                                                  .photo
-                                                                  .toString()
-                                                                  .contains(
-                                                                      "https")
-                                                              ? products!
-                                                                  .data!
-                                                                  .dontWant![i]
-                                                                  .photo
-                                                                  .toString()
-                                                              : products!
-                                                                  .data!
-                                                                  .dontWant![i]
-                                                                  .photo
-                                                                  .toString(),
+                                                          imageUrl:
+                                                          dontWantProductsType[i].photo.toString().contains('https') ?
+                                                          dontWantProductsType[i].photo.toString() :
+                                                          dontWantProductsType[i].photo.toString(),
+                                                          // products!
+                                                          //         .data!
+                                                          //         .dontWant![i]
+                                                          //         .photo
+                                                          //         .toString()
+                                                          //         .contains(
+                                                          //             "https")
+                                                          //     ? products!
+                                                          //         .data!
+                                                          //         .dontWant![i]
+                                                          //         .photo
+                                                          //         .toString()
+                                                          //     : products!
+                                                          //         .data!
+                                                          //         .dontWant![i]
+                                                          //         .photo
+                                                          //         .toString(),
                                                           fit: BoxFit.cover,
                                                           errorWidget: (context,
                                                                   url, error) =>
@@ -916,9 +1054,10 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                       child: SizedBox(
                                                         width: 173,
                                                         child: Text(
-                                                          products!.data!
-                                                              .dontWant![i].name
-                                                              .toString(),
+                                                          dontWantProductsType[i].name.toString(),
+                                                          // products!.data!
+                                                          //     .dontWant![i].name
+                                                          //     .toString(),
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           maxLines: 2,
@@ -935,7 +1074,8 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                           const EdgeInsets.only(
                                                               left: 16),
                                                       child: Text(
-                                                        'USD ${normalizedPercent}',
+                                                        //'\$ ${normalizedPercent}',
+                                                          dontWantProductsType[i].price.toString(),
                                                         style: AppTextStyle()
                                                             .textColor29292914w500,
                                                       ),
@@ -954,7 +1094,7 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  '${widget.familyUserName} have',
+                                  '${widget.familyName} have',
                                   // 'Friend Name does not want',
                                   overflow: TextOverflow.ellipsis,
                                   style: AppTextStyle().textColor29292920w700,
@@ -986,7 +1126,8 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                           ),
                         ),
                         SizedBox(height: 12),
-                        products!.data!.have!.isEmpty
+                        haveProductsType.isEmpty
+                        //products!.data!.have!.isEmpty
                             ? AddProductError(
                                 addButton: SizedBox(),
                                 image: 'assets/images/addproduct3.png',
@@ -1007,7 +1148,9 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                 height: 220,
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
-                                  child: products!.data!.have!.isEmpty
+                                  child:
+                                  haveProductsType.isEmpty
+                                  //products!.data!.have!.isEmpty
                                       ? AddProductImage(
                                           image:
                                               'assets/images/Asset 1product 1.png',
@@ -1018,14 +1161,13 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                         )
                                       : ListView.builder(
                                           scrollDirection: Axis.horizontal,
-                                          itemCount:
-                                              products!.data!.have!.length,
+                                          itemCount: haveProductsType.length,
+                                             // products!.data!.have!.length,
                                           // itemCount: 2,
                                           shrinkWrap: true,
                                           itemBuilder: (context, i) {
                                             double price = double.tryParse(
-                                                    products!
-                                                        .data!.have![i].price
+                                                    haveProductsType[i].price
                                                         .toString()) ??
                                                 0.0;
                                             double normalizedPercent =
@@ -1047,39 +1189,48 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                                 builder:
                                                                     (context) =>
                                                                         FamilyProductDetail(
-                                                                          name: products!
-                                                                              .data!
-                                                                              .have![i]
-                                                                              .name
-                                                                              .toString(),
-                                                                          price: products!
-                                                                              .data!
-                                                                              .have![i]
-                                                                              .price
-                                                                              .toString(),
-                                                                          link: products!
-                                                                              .data!
-                                                                              .have![i]
-                                                                              .link
-                                                                              .toString(),
-                                                                          image: products!.data!.have![i].photo.toString().contains('http')
-                                                                              ? products!.data!.have![i].photo.toString()
-                                                                              : baseUrl + products!.data!.have![i].photo.toString(),
-                                                                          purchaseDate: products!
-                                                                              .data!
-                                                                              .have![i]
-                                                                              .purchasedDate
-                                                                              .toString(),
-                                                                          id: products!
-                                                                              .data!
-                                                                              .have![i]
-                                                                              .id
-                                                                              .toString(),
-                                                                          type: products!
-                                                                              .data!
-                                                                              .have![i]
-                                                                              .type
-                                                                              .toString(),
+                                                                          name: haveProductsType[i].name.toString(),
+                                                                          // products!
+                                                                          //     .data!
+                                                                          //     .have![i]
+                                                                          //     .name
+                                                                          //     .toString(),
+                                                                          price: haveProductsType[i].price.toString(),
+                                                                          // products!
+                                                                          //     .data!
+                                                                          //     .have![i]
+                                                                          //     .price
+                                                                          //     .toString(),
+                                                                          link: haveProductsType[i].url.toString(),
+                                                                          // products!
+                                                                          //     .data!
+                                                                          //     .have![i]
+                                                                          //     .link
+                                                                          //     .toString(),
+                                                                          image: haveProductsType[i].photo.toString().contains('http') ?
+                                                                              haveProductsType[i].photo.toString() :
+                                                                              baseUrl + haveProductsType[i].photo.toString(),
+                                                                          // products!.data!.have![i].photo.toString().contains('http')
+                                                                          //     ? products!.data!.have![i].photo.toString()
+                                                                          //     : baseUrl + products!.data!.have![i].photo.toString(),
+                                                                          purchaseDate: haveProductsType[i].purchasedOn.toString(),
+                                                                          // products!
+                                                                          //     .data!
+                                                                          //     .have![i]
+                                                                          //     .purchasedDate
+                                                                          //     .toString(),
+                                                                          id: haveProductsType[i].id.toString(),
+                                                                          // products!
+                                                                          //     .data!
+                                                                          //     .have![i]
+                                                                          //     .id
+                                                                          //     .toString(),
+                                                                          type: '',
+                                                                          // products!
+                                                                          //     .data!
+                                                                          //     .have![i]
+                                                                          //     .type
+                                                                          //     .toString(),
                                                                           productId:
                                                                               '',
                                                                         )));
@@ -1156,23 +1307,27 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                                         12)),
                                                         child:
                                                             CachedNetworkImage(
-                                                          imageUrl: products!
-                                                                  .data!
-                                                                  .have![i]
-                                                                  .photo
-                                                                  .toString()
-                                                                  .contains(
-                                                                      "https")
-                                                              ? products!
-                                                                  .data!
-                                                                  .have![i]
-                                                                  .photo
-                                                                  .toString()
-                                                              : products!
-                                                                  .data!
-                                                                  .have![i]
-                                                                  .photo
-                                                                  .toString(),
+                                                          imageUrl:
+                                                          haveProductsType[i].photo.toString().contains('https') ?
+                                                          haveProductsType[i].photo.toString() :
+                                                          baseUrl + haveProductsType[i].photo.toString(),
+                                                          // products!
+                                                          //         .data!
+                                                          //         .have![i]
+                                                          //         .photo
+                                                          //         .toString()
+                                                          //         .contains(
+                                                          //             "https")
+                                                          //     ? products!
+                                                          //         .data!
+                                                          //         .have![i]
+                                                          //         .photo
+                                                          //         .toString()
+                                                          //     : products!
+                                                          //         .data!
+                                                          //         .have![i]
+                                                          //         .photo
+                                                          //         .toString(),
                                                           fit: BoxFit.cover,
                                                           errorWidget: (context,
                                                                   url, error) =>
@@ -1220,9 +1375,10 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                       child: SizedBox(
                                                         width: 173,
                                                         child: Text(
-                                                          products!.data!
-                                                              .have![i].name
-                                                              .toString(),
+                                                          haveProductsType[i].name.toString(),
+                                                          // products!.data!
+                                                          //     .have![i].name
+                                                          //     .toString(),
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           maxLines: 2,
@@ -1239,7 +1395,8 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                           const EdgeInsets.only(
                                                               left: 16),
                                                       child: Text(
-                                                        'USD ${normalizedPercent}',
+                                                       // '\$ ${normalizedPercent}',
+                                                        haveProductsType[i].price.toString(),
                                                         style: AppTextStyle()
                                                             .textColor29292914w500,
                                                       ),

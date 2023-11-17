@@ -46,9 +46,9 @@ class UserAllDetails extends StatefulWidget {
 class _UserAllDetailsState extends State<UserAllDetails> {
   @override
   void initState() {
-    getInterest();
+    // getInterest();
     getSizedWeight();
-    getFavourites();
+    // getFavourites();
     getProfile();
     super.initState();
   }
@@ -67,28 +67,28 @@ class _UserAllDetailsState extends State<UserAllDetails> {
 
   List<String>? elements = [''];
   bool isLoading = false;
-  InterestModel _interest = InterestModel(data: Data(interest: ''));
-  // InterestModel? _interest;
-  getInterest() {
-    isLoading = true;
-    var resp = getInterestApi();
-    resp.then((value) {
-      if (value['status'] == true) {
-        setState(() {
-          _interest = InterestModel.fromJson(value);
-          elements = _interest.data!.interest!.split(",");
-          isLoading = false;
-        });
-      } else {
-        isLoading = false;
-      }
-    });
-  }
+  // InterestModel _interest = InterestModel(data: Data(interest: ''));
+  // // InterestModel? _interest;
+  // getInterest() {
+  //   isLoading = true;
+  //   var resp = getInterestApi();
+  //   resp.then((value) {
+  //     if (value['status'] == true) {
+  //       setState(() {
+  //         _interest = InterestModel.fromJson(value);
+  //         elements = _interest.data!.interest!.split(",");
+  //         isLoading = false;
+  //       });
+  //     } else {
+  //       isLoading = false;
+  //     }
+  //   });
+  // }
 
   Future<void> _handleRefresh() async {
-    getInterest();
+    // getInterest();
     getSizedWeight();
-    getFavourites();
+   getFavourites();
     getProfile();
 
     // Implement your refresh logic here.
@@ -120,35 +120,23 @@ class _UserAllDetailsState extends State<UserAllDetails> {
   double parsedPercent = 0.0;
   double normalizedPercent = 0.0;
 
-  SizesAndWeightModel? sizeWeight = SizesAndWeightModel(
-      data: SizeData(
-    waist: '',
-    shirt: '',
-    shoes: '',
-    bed: '',
-  ));
-  getSizedWeight() {
+
+  SizesAndWeightModel sizeWeight = SizesAndWeightModel();
+
+  getSizedWeight(){
     isLoading = true;
     var resp = getSizeAndWeightApi();
     resp.then((value) {
-      print(value);
-      if (mounted) {
-        if (value['status'] == true) {
-          if (value['message'] == 'No Size Weight') {
-            setState(() {
-              isLoading = false;
-            });
-          } else {
-            setState(() {
-              sizeWeight = SizesAndWeightModel.fromJson(value);
-              isLoading = false;
-            });
-          }
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-        }
+      if(value.error == false){
+        setState(() {
+          sizeWeight = value;
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
       }
     });
   }
@@ -167,53 +155,48 @@ class _UserAllDetailsState extends State<UserAllDetails> {
   //   }
   // }
 
-  FavouritesModel? favourites = FavouritesModel(
-      data: FavouriteData(
-    // id: '',
-    // userId: '',
-    cars: '',
-    bikes: '',
-    movies: '',
-    shows: '',
-    foods: '',
-    gadgets: '',
-    superheroes: '',
-    actors: '',
-    actresses: '',
-    singers: '',
-    players: '',
-    cities: '',
-    countries: '',
-    restaurants: '',
-    hotels: '',
-    privacyStatus: '',
-    createdAt: '',
-  ));
+  // FavouritesModel? favourites = FavouritesModel(
+  //     data: FavouriteData(
+  //   // id: '',
+  //   // userId: '',
+  //   cars: '',
+  //   bikes: '',
+  //   movies: '',
+  //   shows: '',
+  //   foods: '',
+  //   gadgets: '',
+  //   superheroes: '',
+  //   actors: '',
+  //   actresses: '',
+  //   singers: '',
+  //   players: '',
+  //   cities: '',
+  //   countries: '',
+  //   restaurants: '',
+  //   hotels: '',
+  //   privacyStatus: '',
+  //   createdAt: '',
+  // ));
+
+  FavouritesModel? favourites ;
+
   getFavourites() {
     isLoading = true;
     var resp = getFavouritesApi();
     resp.then((value) {
-      print(value);
-      if (mounted) {
-        if (value['status'] == true) {
-          if (value['message'] == "No Favourites") {
-            setState(() {
-              isLoading = false;
-            });
-          } else {
-            setState(() {
-              favourites = FavouritesModel.fromJson(value);
-              isLoading = false;
-            });
-          }
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      }
-    });
-  }
+   if(value.error == false){
+     setState(() {
+       favourites = value;
+       isLoading = false;
+     });
+   }else{
+     setState(() {
+       isLoading = false;
+     });
+   }
+
+   });
+   }
   //------------------------Profile Model -=--------------------------//
 
   String? proCompletePercent;
@@ -273,13 +256,13 @@ class _UserAllDetailsState extends State<UserAllDetails> {
 
   @override
   Widget build(BuildContext context) {
-    completePercent = sizeWeight?.data?.completePercent;
+    completePercent = sizeWeight.data?.complete;
     parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
     normalizedPercent = parsedPercent / 100.0;
 
-    FavcompletePercent = favourites?.data?.completePercent;
+    /*FavcompletePercent = favourites?.data?.complete;
     FavparsedPercent = double.tryParse(FavcompletePercent ?? '0') ?? 0.0;
-    FavnormalizedPercent = FavparsedPercent / 100.0;
+    FavnormalizedPercent = FavparsedPercent / 100.0;*/
 
     proCompletePercent = profile?.data?.completePercent;
     proParsedPercent = double.tryParse(proCompletePercent ?? '0') ?? 0.0;
@@ -796,19 +779,20 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                             MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            sizeWeight!.data!.completePercent
+                                            sizeWeight!.data!.complete
                                                             .toString() ==
-                                                        "" ||
+                                                        ""
+                                                ||
                                                     sizeWeight!.data!
-                                                            .completePercent ==
+                                                            .complete ==
                                                         null
                                                 ? "0"
                                                 : sizeWeight!
-                                                    .data!.completePercent
+                                                    .data!.complete
                                                     .toString()
                                                     .split(".")
                                                     .first,
-                                            // sizeWeight!.data!.completePercent
+                                            // sizeWeight!.data.completePercent
                                             //     .toString()
                                             //     .split(".")
                                             //     .first,
@@ -872,8 +856,8 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          favourites!.data!.completePercent
+                                        Text(''
+                                          /*favourites!.data!.completePercent
                                                           .toString() ==
                                                       "" ||
                                                   favourites!.data!
@@ -890,7 +874,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                           //     .split(".")
                                           //     .first,
                                           style: AppTextStyle()
-                                              .textColor70707012w400,
+                                              .textColor70707012w400,*/
                                         ),
                                         Text(
                                           "%  Percent",

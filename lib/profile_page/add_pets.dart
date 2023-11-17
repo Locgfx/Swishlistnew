@@ -357,6 +357,7 @@ class _AddPetsState extends State<AddPets> {
                                   });
                                   if (networkImage.isNotEmpty ||
                                       pickedImage.isAbsolute) {
+
                                     postPetsApi(
                                       name: nameController.text,
                                       type: typeController.text,
@@ -367,7 +368,7 @@ class _AddPetsState extends State<AddPets> {
                                           : '',
                                     ).then(
                                       (value) async {
-                                        if (value['status'] == true) {
+                                        if (value['error'] == false) {
                                           SharedPrefs().setPets('100 %');
                                           Navigator.pop(context);
                                           // Navigator.pushReplacement(
@@ -386,6 +387,7 @@ class _AddPetsState extends State<AddPets> {
                                 }
                               },
                               backgroundColor:
+
                                   (nameController.text.isNotEmpty &&
                                               typeController.text.isNotEmpty ||
                                           originController.text.isNotEmpty)

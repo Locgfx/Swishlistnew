@@ -12,8 +12,9 @@ import '../api/notifications/meber_notifiction_aapi.dart';
 import '../api/user_apis/family_apis.dart';
 import '../constants/globals/loading.dart';
 import '../dashboard/family/family_products.dart';
+import '../models/get_family_request_model.dart';
 import '../models/notification_models/member_index_model.dart';
-import '../models/notification_models/member_notification_models.dart';
+//import '../models/notification_models/member_notification_models.dart';
 
 class ManageFamilyMembers extends StatefulWidget {
   const ManageFamilyMembers({
@@ -27,14 +28,16 @@ class ManageFamilyMembers extends StatefulWidget {
 class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
   @override
   void initState() {
-    getRequest();
-    get();
+    getFamilyRequest();
+    //get();
+    getFamilyMembers();
     super.initState();
   }
 
   Future<void> _handleRefresh() async {
-    getRequest();
-    get();
+    getFamilyRequest();
+    //get();
+    getFamilyMembers();
     // Implement your refresh logic here.
     // For example, fetch new data from an API or update some data.
     // You can use async/await for asynchronous operations.
@@ -76,31 +79,39 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
   //     }
   //   });
   // }
-  List<Data> familyRequested = [];
-  List<Data> familyAccepted = [];
+  //List<Data> familyRequested = [];
+  //List<Data> familyAccepted = [];
 
   bool isLoading = false;
-  FamilyMemberIndexModel? familyIndex;
 
-  getRequest() {
+  List<FamilyMemberRequestIndexModel> familyIndex =[];
+  //List<FamilyMemberRequestIndexModel> familyRequested =[];
+
+  getFamilyRequest() {
     isLoading = true;
-    var resp = familyMemberIndexApi();
+    var resp = getFamilyRequestIndex();
     resp.then((value) {
-      familyRequested.clear();
-      if (value['status'] == true) {
+
+      if (value['error'] == false) {
         setState(() {
-          familyIndex = FamilyMemberIndexModel.fromJson(value);
-          for (var v in familyIndex!.data!) {
+          //familyIndex = FamilyMemberRequestIndexModel.fromJson(value);
+          for (var v in value['data']) {
+            familyIndex.add(FamilyMemberRequestIndexModel.fromJson(v));
+          }
             //   if (v.status == "accepted") {
             //     familyModel2.add(v);
             //   }
-            if (v.status == "requested") {
-              familyRequested.add(v);
-            }
-            print(familyRequested.first.status.toString());
-          }
-          //
+           /* for(var q in familyIndex){
 
+              if (q.status == "requested") {
+                familyRequested.add(q);
+              }
+            }*/
+
+            //print(familyRequested.first.status.toString());
+
+          //
+          print(familyIndex);
           isLoading = false;
         });
       } else {
@@ -109,11 +120,11 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
     });
   }
 
-  MemberIndexModel? index;
+  //MemberIndexModel? index;
   bool loading = false;
-  List<Index> familyA = [];
+  List<FamilyMemberIndexModel> familyA = [];
 
-  get() {
+ /* get() {
     isLoading = true;
     var resp = getAcceptMember();
     resp.then((value) {
@@ -138,6 +149,28 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
         isLoading = false;
       }
     });
+  }*/
+
+  getFamilyMembers(){
+    isLoading = true;
+    var resp = familyMemberIndexApi();
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            familyA.add(FamilyMemberIndexModel.fromJson(v));
+
+          }
+
+          isLoading = false;
+
+        });
+      }
+      else{
+        isLoading = false;
+      }
+    });
+
   }
 
   // bool show = false;
@@ -289,7 +322,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                         "Linked",
                         style: AppTextStyle().textColor70707012w500,
                       ),
-                      if (familyA.isEmpty)
+                      if (familyA.isEmpty )
                         Center(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -321,23 +354,50 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => FamilyMemberProduct(
-                                        familyName: familyA[i]
-                                            .familyMemberUser!
-                                            .name
-                                            .toString(),
-                                        familyUserName: familyA[i]
-                                            .familyMemberUser!
-                                            .name
-                                            .toString(),
-                                        familyId: familyA[i]
-                                            .familyMemberUser!
-                                            .id
-                                            .toString(),
-                                        familyPhoto: familyA[i]
-                                            .familyMemberUser!
+
+                                        familyName:
+                                        familyA[i]
+                                            .member!
+                                            .name!.isEmpty || familyA[i]
+                                            .member!
+                                            .name == null ? '' :
+                                        familyA[i]
+                                            .member!
+                                            .name!.toString(),
+
+                                        familyUserName:
+                                        familyA[i]
+                                            .member!
+                                            .name!.isEmpty || familyA[i]
+                                            .member!
+                                            .name == null ? '':
+                                        familyA[i]
+                                            .member!
+                                            .name!.toString() ,
+
+
+                                        familyId:
+                                        familyA[i].member!.id.toString().isEmpty ||
+                                            familyA[i].member!.id  == null ? '':
+                                        familyA[i]
+                                            .member!
+                                            .id!.toString(),
+
+
+                                        familyPhoto:
+                                        familyA[i]
+                                            .member!
                                             .photo
-                                            .toString(),
-                                        id: familyA[i].id.toString(),
+                                            .toString().isEmpty ||  familyA[i]
+                                            .member!
+                                            .photo == null ? '':
+                                        familyA[i]
+                                            .member!
+                                            .photo
+                                            .toString() ,
+
+                                        id: familyA[i].id.toString().isEmpty || familyA[i].id == null ? '':
+                                        familyA[i].id.toString(),
                                       ),
                                     ),
                                   );
@@ -402,30 +462,54 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                               child: Text("Remove"),
                                             )),
                                   ),
-                                  familyName: familyA[i]
-                                      .familyMemberUser!
-                                      .name
-                                      .toString(),
-                                  familyUsername: familyA[i]
-                                      .familyMemberUser!
-                                      .name
-                                      .toString(),
-                                  familyPhoto: familyA[i]
-                                          .familyMemberUser!
-                                          .photo
-                                          .toString()
+                                  familyName:
+                                  familyA[i]
+                                      .member!
+                                      .name!.isEmpty || familyA[i]
+                                      .member!
+                                      .name == null ?
+                                      '':
+                                  familyA[i]
+                                      .member!
+                                      .name!.toString()
+                                      //: ''
+                                  ,
+
+                                  // familyUserName:
+                                  // familyA[i]
+                                  //     .member!
+                                  //     .name!.isEmpty || familyA[i]
+                                  //     .member!
+                                  //     .name == null ?
+                                  // familyA[i]
+                                  //     .member!
+                                  //     .name!.toString() : '',
+                                  //
+
+                                  familyPhoto:
+                                  familyA[i]
+                                      .member!
+                                      .photo
+                                      .toString()
                                           .contains('http')
                                       ? familyA[i]
-                                          .familyMemberUser!
+                                          .member!
                                           .photo
                                           .toString()
-                                      : baseUrl +
+                                      : newBaseUrl +
                                           familyA[i]
-                                              .familyMemberUser!
+                                              .member!
                                               .photo
                                               .toString(),
-                                  familyRelation: familyA[i].status.toString(),
-                                  id: familyA[i].id.toString(),
+
+
+                                  familyRelation:
+                                  familyA[i].member!.status.toString().isEmpty || familyA[i].member!.status == null ?
+                                  familyA[i].member!.status.toString() : '',
+
+                                  id: familyA[i].member!.id.toString().isEmpty || familyA[i].member!.id == null ?
+                                  familyA[i].member!.id.toString() : ''
+                                  ,
                                   tap: () {
                                     // deleteFamilyMembers(id: familyModel2[i].id.toString())
                                     //     .then((value) => {
@@ -442,6 +526,15 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                     //             }
                                     //         });
                                   },
+                                  familyUsername:
+                                familyA[i]
+                                    .member!
+                                    .name!.isEmpty || familyA[i]
+                                    .member!
+                                    .name == null ?
+                                familyA[i]
+                                    .member!
+                                    .name!.toString() : '',
                                 ),
                               ),
                             );
@@ -478,26 +571,30 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                       SizedBox(
                         height: 20.h,
                       ),
-                      familyRequested.isEmpty
-                          ? Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  // Image.asset("assets/images/delivery.png",height: 100,),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    'No Family Requests',
-                                    style: AppTextStyle().textColor29292914w500,
-                                  )
-                                ],
-                              ),
-                            )
-                          : ListView.builder(
+    //                   familyIndex.isEmpty
+    //                       ?
+    // Center(
+    //                           child: Column(
+    //                             crossAxisAlignment: CrossAxisAlignment.center,
+    //                             mainAxisAlignment: MainAxisAlignment.center,
+    //                             children: [
+    //                               // Image.asset("assets/images/delivery.png",height: 100,),
+    //                               SizedBox(height: 5),
+    //                               Text(
+    //                                 'No Family Requests',
+    //                                 style: AppTextStyle().textColor29292914w500,
+    //                               )
+    //                             ],
+    //                           ),
+    //                         )
+    //                       :
+
+
+   /* ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
-                              itemCount: familyRequested.length,
+                              itemCount: familyIndex.length,
                               itemBuilder: (context, i) {
                                 return Padding(
                                   padding: const EdgeInsets.only(bottom: 20),
@@ -517,10 +614,10 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
 
                                         familyMemberUpdateApi(
                                                 status: 'accepted',
-                                                id: familyIndex!.data![i].id
+                                                id: familyIndex[i].id
                                                     .toString())
                                             .then((value) async {
-                                          if (value['status'] == true) {
+                                          if (value['error'] == false) {
                                             setState(() {
                                               isLoading
                                                   ? Loading()
@@ -577,14 +674,14 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                         });
                                         familyMemberUpdateApi(
                                                 status: 'rejected',
-                                                id: familyIndex!.data![i].id
+                                                id: familyIndex[i].id
                                                     .toString())
                                             .then((value) async {
-                                          if (value['status'] == true) {
+                                          if (value['error'] == false) {
                                             setState(() {
                                               isLoading
                                                   ? Loading()
-                                                  : getRequest();
+                                                  : getFamilyRequest();
                                             });
                                             // SharedPrefs().setPassword(passwordController.text);
                                             // Navigator.push(
@@ -624,31 +721,30 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                                 child: Text("Reject"),
                                               )),
                                     ),
-                                    familyName: familyRequested[i]
-                                        .user!
-                                        .name
+                                    familyName: familyIndex[i].requestBy!.
+                                        name
                                         .toString(),
-                                    familyUsername: familyRequested[i]
-                                        .user!
-                                        .email
+                                    familyUsername: familyIndex[i]
+                                        .requestBy!.name
+
                                         .toString(),
-                                    familyPhoto: familyRequested[i]
-                                            .familyMember!
+                                    familyPhoto: familyIndex[i]
+                                            .requestBy!
                                             .photo
                                             .toString()
                                             .contains('http')
-                                        ? familyRequested[i]
-                                            .familyMember!
+                                        ? familyIndex[i]
+                                            .requestBy!
                                             .photo
                                             .toString()
-                                        : baseUrl +
-                                            familyRequested[i]
-                                                .familyMember!
+                                        : newBaseUrl +
+                                            familyIndex[i]
+                                                .requestBy!
                                                 .photo
                                                 .toString(),
                                     familyRelation:
-                                        familyRequested[i].status.toString(),
-                                    id: familyRequested[i].id.toString(),
+                                        familyIndex[i].status.toString(),
+                                    id: familyIndex[i].id.toString(),
                                     tap: () {
                                       // deleteFamilyMembers(id: familyModel2[i].id.toString())
                                       //     .then((value) => {
@@ -668,7 +764,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                   ),
                                 );
                               },
-                            ),
+                            ),*/
                     ],
                   ),
                 ),

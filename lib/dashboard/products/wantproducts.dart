@@ -35,10 +35,11 @@ class _WantProductsState extends State<WantProducts> {
   List<int> selectedItems = [];
   bool loading = false;
   bool isLoading = false;
+
   List<ProductTypeModel> wantProduct = [];
   List<ProductTypeModel> wantProduct2 = [];
 
-  getWantProduct() {
+  /*getWantProduct() {
     isLoading = true;
     var resp = getProductsApi();
     resp.then((value) {
@@ -58,7 +59,33 @@ class _WantProductsState extends State<WantProducts> {
         isLoading = false;
       }
     });
+  }*/
+
+
+  getWantProduct(){
+    isLoading = true;
+    var resp = getProductsApi();
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            wantProduct.add(ProductTypeModel.fromJson(v));
+          }
+          for(var q in wantProduct){
+           if(q.type == 'want'){
+             wantProduct2.add(q);
+           }
+          }
+          isLoading = false;
+        });
+
+      }else{
+        isLoading = false;
+      }
+    });
   }
+
+
 
   int selected = -1;
 
@@ -113,16 +140,33 @@ class _WantProductsState extends State<WantProducts> {
                     setState(() {
                       loading = true;
                     });
-                    for (var v in selectedItems) {
-                      deleteProductsApi(id: v.toString()).then((value) async {
-                        print(selectedItems.toString());
-                        if (value['status'] == true) {
+                    // for (var v in selectedItems) {
+                    //   deleteProductsApi(id: v.toString()).then((value) async {
+                    //     print(selectedItems.toString());
+                    //     if (value['status'] == true) {
+                    //       setState(() {
+                    //         wantProduct2
+                    //             .removeWhere((element) => element.id == v);
+                    //       });
+                    //       Fluttertoast.showToast(msg: value['message']);
+                    //     } else {
+                    //       Fluttertoast.showToast(msg: value['message']);
+                    //     }
+                    //     setState(() {
+                    //       loading = false;
+                    //       selectedItems.clear();
+                    //     });
+                    //   });
+                    // }
+
+                    for(var v in selectedItems){
+                      deleteProductsApi(id: v.toString()).then((value) {
+                        if(value['error'] == false){
                           setState(() {
-                            wantProduct2
-                                .removeWhere((element) => element.id == v);
+                            wantProduct2.removeWhere((element) => element.id == v);
                           });
                           Fluttertoast.showToast(msg: value['message']);
-                        } else {
+                        }else{
                           Fluttertoast.showToast(msg: value['message']);
                         }
                         setState(() {
@@ -626,10 +670,13 @@ class _WantProductsState extends State<WantProducts> {
                                                                   .name
                                                                   .toString(),
                                                               price:
-                                                                  '${wantProduct2[i].price.toString()}',
+                                                              wantProduct2[
+                                                              i]
+                                                                  .price
+                                                                  .toString(),
                                                               link: wantProduct2[
                                                                       i]
-                                                                  .link
+                                                                  .url
                                                                   .toString(),
                                                               image: wantProduct2[
                                                                       i]
@@ -638,7 +685,7 @@ class _WantProductsState extends State<WantProducts> {
                                                               purchaseDate:
                                                                   wantProduct2[
                                                                           i]
-                                                                      .purchasedDate
+                                                                      .purchasedOn
                                                                       .toString(),
                                                               id: wantProduct2[
                                                                       i]
@@ -813,8 +860,8 @@ class _WantProductsState extends State<WantProducts> {
                                                                     .only(
                                                                     left: 16),
                                                             child: Text(
-                                                              // '\$ ${wantProduct2[i].price.toString()}',
-                                                              '\$ ${normalizedPercent.toString()}',
+                                                              ' ${wantProduct2[i].price.toString()}',
+                                                              //'\$ ${normalizedPercent.toString()}',
                                                               // "47.99",
                                                               style: AppTextStyle()
                                                                   .textColor29292914w500,
@@ -847,17 +894,22 @@ class _WantProductsState extends State<WantProducts> {
                                                                 SizedBox(
                                                                   width: 6,
                                                                 ),
-                                                                Text(DateTime.now()
-                                                                            .difference(DateTime.parse(wantProduct2[i]
-                                                                                .createdAt
-                                                                                .toString()))
-                                                                            .inMinutes <=
-                                                                        59
-                                                                    ? "${DateTime.now().difference(DateTime.parse(wantProduct2[i].createdAt.toString())).inMinutes} min ago"
-                                                                    : DateTime.now().difference(DateTime.parse(wantProduct2[i].createdAt.toString())).inHours <=
-                                                                            23
-                                                                        ? "${DateTime.now().difference(DateTime.parse(wantProduct2[i].createdAt.toString())).inHours} hr ago"
-                                                                        : "${DateTime.now().difference(DateTime.parse(wantProduct2[i].createdAt.toString())).inDays} days ago"),
+                                                                Text(
+                                                                  wantProduct2[i]
+                                                                      .lastUpdated
+                                                                      .toString(),
+                                                                    // DateTime.now()
+                                                                    //         .difference(DateTime.parse(wantProduct2[i]
+                                                                    //             .lastUpdated
+                                                                    //             .toString()))
+                                                                    //         .inMinutes <=
+                                                                    //     59
+                                                                    // ? "${DateTime.now().difference(DateTime.parse(wantProduct2[i].purchasedOn.toString())).inMinutes} min ago"
+                                                                    // : DateTime.now().difference(DateTime.parse(wantProduct2[i].purchasedOn.toString())).inHours <=
+                                                                    //         23
+                                                                    //     ? "${DateTime.now().difference(DateTime.parse(wantProduct2[i].purchasedOn.toString())).inHours} hr ago"
+                                                                    //     : "${DateTime.now().difference(DateTime.parse(wantProduct2[i].purchasedOn.toString())).inDays} days ago"
+                                                                ),
                                                               ],
                                                             ),
                                                           )

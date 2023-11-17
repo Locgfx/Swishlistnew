@@ -77,6 +77,7 @@ class _ShareProductDetailState extends State<ShareProductDetail> {
 
   FriendModel friendList = FriendModel();
   bool isLoading = false;
+
   getFriends() {
     isLoading = true;
     // friendList.clear();
@@ -515,41 +516,49 @@ class _ShareProductDetailState extends State<ShareProductDetail> {
                                                           ColorSelect
                                                               .color292929,
                                                       onTap: () {
-                                                        updateProducts(
-                                                                type:
-                                                                    widget.type,
-                                                                name:
-                                                                    textController
-                                                                        .text,
-                                                                link:
-                                                                    widget.link,
-                                                                price: widget
-                                                                    .price,
-                                                                purchaseDate: widget
-                                                                    .purchaseDate,
-                                                                privacyStatus:
-                                                                    'public',
-                                                                photo: '',
-                                                                id: widget.id,
-                                                                photoUrl: widget
-                                                                    .image)
-                                                            .then((value) {
-                                                          if (value['status'] ==
-                                                              true) {
-                                                            Navigator.of(
-                                                                context)
-                                                              ..pop()
-                                                              ..pop()
-                                                              ..pop();
+                                                        updateProducts(name: textController.text, id: widget.id).then((value){
+                                                          if(value['error'] == false){
+                                                            Navigator.of(context)..pop()..pop()..pop();
                                                             Fluttertoast.showToast(
                                                                 msg: value[
-                                                                    'message']);
-                                                          } else {
-                                                            Fluttertoast.showToast(
-                                                                msg: value[
-                                                                    'message']);
-                                                          }
+                                                                'message']);
+                                                          }else{}
                                                         });
+                                                        // updateProducts(
+                                                        //         type:
+                                                        //             widget.type,
+                                                        //         name:
+                                                        //             textController
+                                                        //                 .text,
+                                                        //         link:
+                                                        //             widget.link,
+                                                        //         price: widget
+                                                        //             .price,
+                                                        //         purchaseDate: widget
+                                                        //             .purchaseDate,
+                                                        //         privacyStatus:
+                                                        //             'public',
+                                                        //         photo: '',
+                                                        //         id: widget.id,
+                                                        //         photoUrl: widget
+                                                        //             .image)
+                                                        //     .then((value) {
+                                                        //   if (value['status'] ==
+                                                        //       true) {
+                                                        //     Navigator.of(
+                                                        //         context)
+                                                        //       ..pop()
+                                                        //       ..pop()
+                                                        //       ..pop();
+                                                        //     Fluttertoast.showToast(
+                                                        //         msg: value[
+                                                        //             'message']);
+                                                        //   } else {
+                                                        //     Fluttertoast.showToast(
+                                                        //         msg: value[
+                                                        //             'message']);
+                                                        //   }
+                                                        // });
                                                       },
                                                       title: 'Save'),
                                                 )

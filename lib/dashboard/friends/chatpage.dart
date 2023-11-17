@@ -168,73 +168,73 @@ class _ChatPageState extends State<ChatPage> {
               height: 1.sh,
               child: Stack(
                 children: [
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        GroupedListView<Data, String>(
-                          padding: EdgeInsets.only(bottom: 100),
-                          order: GroupedListOrder.DESC,
-                          shrinkWrap: true,
-                          elements: listMessages!.data!,
-                          groupBy: (element) => DateTime.now()
-                                      .difference(DateTime.parse(
-                                          element.createdAt.toString()))
-                                      .inMinutes <=
-                                  59
-                              ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inMinutes} min ago"
-                              : DateTime.now()
-                                          .difference(DateTime.parse(
-                                              element.createdAt.toString()))
-                                          .inHours <=
-                                      23
-                                  ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inHours} hr ago"
-                                  : "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inDays} days ago",
-                          groupSeparatorBuilder: (String groupByValue) => Text(
-                            groupByValue,
-                            textAlign: TextAlign.center,
-                          ),
-                          itemBuilder: (context, Data element) => ids ==
-                                  element.sendFromUserId
-                              ? Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(vertical: 12),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: ColorSelect.color343434),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 8),
-                                      child: Text(
-                                        element.message.toString(),
-                                        style: AppTextStyle()
-                                            .textColorFFFFFF14w400,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(vertical: 12),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: ColorSelect.colorECEDF0),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 8),
-                                      child: Text(
-                                        element.message.toString(),
-                                        style: AppTextStyle()
-                                            .textColor2C2C2C14w500roboto,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // SingleChildScrollView(
+                  //   child: Column(
+                  //     children: [
+                  //       GroupedListView<Data, String>(
+                  //         padding: EdgeInsets.only(bottom: 100),
+                  //         order: GroupedListOrder.DESC,
+                  //         shrinkWrap: true,
+                  //         elements: listMessages!.data!,
+                  //         groupBy: (element) => DateTime.now()
+                  //                     .difference(DateTime.parse(
+                  //                         element.createdAt.toString()))
+                  //                     .inMinutes <=
+                  //                 59
+                  //             ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inMinutes} min ago"
+                  //             : DateTime.now()
+                  //                         .difference(DateTime.parse(
+                  //                             element.createdAt.toString()))
+                  //                         .inHours <=
+                  //                     23
+                  //                 ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inHours} hr ago"
+                  //                 : "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inDays} days ago",
+                  //         groupSeparatorBuilder: (String groupByValue) => Text(
+                  //           groupByValue,
+                  //           textAlign: TextAlign.center,
+                  //         ),
+                  //         itemBuilder: (context, Data element) => ids ==
+                  //                 element.sendFromUserId
+                  //             ? Align(
+                  //                 alignment: Alignment.centerRight,
+                  //                 child: Container(
+                  //                   margin: EdgeInsets.symmetric(vertical: 12),
+                  //                   decoration: BoxDecoration(
+                  //                       borderRadius: BorderRadius.circular(8),
+                  //                       color: ColorSelect.color343434),
+                  //                   child: Padding(
+                  //                     padding: const EdgeInsets.symmetric(
+                  //                         horizontal: 12, vertical: 8),
+                  //                     child: Text(
+                  //                       element.message.toString(),
+                  //                       style: AppTextStyle()
+                  //                           .textColorFFFFFF14w400,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //               )
+                  //             : Align(
+                  //                 alignment: Alignment.centerLeft,
+                  //                 child: Container(
+                  //                   margin: EdgeInsets.symmetric(vertical: 12),
+                  //                   decoration: BoxDecoration(
+                  //                       borderRadius: BorderRadius.circular(8),
+                  //                       color: ColorSelect.colorECEDF0),
+                  //                   child: Padding(
+                  //                     padding: const EdgeInsets.symmetric(
+                  //                         horizontal: 12, vertical: 8),
+                  //                     child: Text(
+                  //                       element.message.toString(),
+                  //                       style: AppTextStyle()
+                  //                           .textColor2C2C2C14w500roboto,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Positioned(
                       bottom: 0,
                       child: Container(

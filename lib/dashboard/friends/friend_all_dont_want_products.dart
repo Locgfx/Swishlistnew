@@ -30,7 +30,8 @@ class FriendDonWantProducts extends StatefulWidget {
 class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
   @override
   void initState() {
-    getProducts();
+    //getProducts();
+    getDontWantProducts();
     super.initState();
   }
 
@@ -39,7 +40,7 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
   FriendProductModel? products;
   // List <FriendProductModel> haveProducts2 = [];
 
-  getProducts() {
+  /*getProducts() {
     isLoading = true;
     var resp = getFriendProductsApi(friendId: widget.friendId);
     resp.then((value) {
@@ -54,6 +55,36 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
       }
       // haveProducts2.clear();
     });
+  }*/
+
+  List<FriendProductModel> dontWantProducts = [];
+  List<FriendProductModel> dontWantProductsType = [];
+
+  getDontWantProducts(){
+    isLoading = true;
+    var resp = getFriendProductsApi(friendId: widget.friendId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            dontWantProducts.add(FriendProductModel.fromJson(v));
+          }
+          for(var q in dontWantProducts){
+            if(q.type == 'dont_want'){
+              dontWantProductsType.add(q);
+
+            }
+          }
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
+
   }
 
   int selected = -1;
@@ -122,7 +153,8 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                             SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  products!.data!.dontWant!.isEmpty
+                                  dontWantProductsType.isEmpty
+                                  //products!.data!.dontWant!.isEmpty
                                       ? Center(
                                           child: Column(
                                             crossAxisAlignment:
@@ -149,13 +181,14 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                           padding: EdgeInsets.only(bottom: 30),
                                           physics:
                                               NeverScrollableScrollPhysics(),
-                                          itemCount:
-                                              products!.data!.dontWant!.length,
+                                          itemCount: dontWantProductsType.length,
+                                              //products!.data!.dontWant!.length,
                                           shrinkWrap: true,
                                           scrollDirection: Axis.vertical,
                                           itemBuilder: (context, i) {
                                             double price = double.tryParse(
-                                                    products!.data!.dontWant![i]
+                                                    //products!.data!.dontWant![i]
+                                              dontWantProductsType[i]
                                                         .price
                                                         .toString()) ??
                                                 0.0;
@@ -173,62 +206,74 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                               FriendProductDetail(
                                                                 response: widget
                                                                     .response,
-                                                                name: products!
-                                                                    .data!
-                                                                    .dontWant![
-                                                                        i]
-                                                                    .name
-                                                                    .toString(),
-                                                                price: products!
-                                                                    .data!
-                                                                    .dontWant![
-                                                                        i]
-                                                                    .price
-                                                                    .toString(),
-                                                                link: products!
-                                                                    .data!
-                                                                    .dontWant![
-                                                                        i]
-                                                                    .link
-                                                                    .toString(),
-                                                                image: products!
-                                                                        .data!
-                                                                        .dontWant![
-                                                                            i]
-                                                                        .photo
-                                                                        .toString()
-                                                                        .contains(
-                                                                            'http')
-                                                                    ? products!
-                                                                        .data!
-                                                                        .dontWant![
-                                                                            i]
-                                                                        .photo
-                                                                        .toString()
-                                                                    : baseUrl +
-                                                                        products!
-                                                                            .data!
-                                                                            .dontWant![i]
-                                                                            .photo
-                                                                            .toString(),
-                                                                purchaseDate: products!
-                                                                    .data!
-                                                                    .dontWant![
-                                                                        i]
-                                                                    .purchasedDate
-                                                                    .toString(),
-                                                                id: products!
-                                                                    .data!
-                                                                    .dontWant![
-                                                                        i]
-                                                                    .id
-                                                                    .toString(),
-                                                                type: products!
-                                                                    .data!
-                                                                    .dontWant![
-                                                                        i]
-                                                                    .type
-                                                                    .toString(),
+                                                                name: dontWantProductsType[i].name.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .dontWant![
+                                                                //         i]
+                                                                //     .name
+                                                                //     .toString(),
+                                                                price: dontWantProductsType[i].price.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .dontWant![
+                                                                //         i]
+                                                                //     .price
+                                                                //     .toString(),
+                                                                link: dontWantProductsType[i].url.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .dontWant![
+                                                                //         i]
+                                                                //     .link
+                                                                //     .toString(),
+                                                                image:
+                                                                dontWantProductsType[i].photo.toString().contains('http')
+                                                                    ?
+                                                                dontWantProductsType[i].photo.toString()
+                                                                :
+                                                                     baseUrl + dontWantProductsType[i].photo.toString(),
+                                                                // products!
+                                                                //         .data!
+                                                                //         .dontWant![
+                                                                //             i]
+                                                                //         .photo
+                                                                //         .toString()
+                                                                //         .contains(
+                                                                //             'http')
+                                                                //     ? products!
+                                                                //         .data!
+                                                                //         .dontWant![
+                                                                //             i]
+                                                                //         .photo
+                                                                //         .toString()
+                                                                //     : baseUrl +
+                                                                //         products!
+                                                                //             .data!
+                                                                //             .dontWant![i]
+                                                                //             .photo
+                                                                //             .toString(),
+                                                                purchaseDate: dontWantProductsType[i].purchasedOn.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .dontWant![
+                                                                //         i]
+                                                                //     .purchasedDate
+                                                                //     .toString(),
+                                                                id: dontWantProductsType[i].id.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .dontWant![
+                                                                //         i]
+                                                                //     .id
+                                                                //     .toString(),
+                                                                type: '',
+                                                                // products!
+                                                                //     .data!
+                                                                //     .dontWant![
+                                                                //         i]
+                                                                //     .type
+                                                                //     .toString(),
                                                                 productId: '',
                                                               )));
                                                 },
@@ -263,26 +308,32 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                                 child:
                                                                     CachedNetworkImage(
                                                                   // imageUrl: (baseUrl+wantProduct2[i].photo.toString()),
-                                                                  imageUrl: products!
-                                                                          .data!
-                                                                          .dontWant![
-                                                                              i]
-                                                                          .photo
-                                                                          .toString()
-                                                                          .contains(
-                                                                              "https")
-                                                                      ? products!
-                                                                          .data!
-                                                                          .dontWant![
-                                                                              i]
-                                                                          .photo
-                                                                          .toString()
-                                                                      : baseUrl +
-                                                                          products!
-                                                                              .data!
-                                                                              .dontWant![i]
-                                                                              .photo
-                                                                              .toString(),
+                                                                  imageUrl:
+                                                                  dontWantProductsType[i].photo.toString().contains('http')
+                                                                      ?
+                                                                  dontWantProductsType[i].photo.toString()
+                                                                      :
+                                                                  baseUrl + dontWantProductsType[i].photo.toString(),
+                                                                  // products!
+                                                                  //         .data!
+                                                                  //         .dontWant![
+                                                                  //             i]
+                                                                  //         .photo
+                                                                  //         .toString()
+                                                                  //         .contains(
+                                                                  //             "https")
+                                                                  //     ? products!
+                                                                  //         .data!
+                                                                  //         .dontWant![
+                                                                  //             i]
+                                                                  //         .photo
+                                                                  //         .toString()
+                                                                  //     : baseUrl +
+                                                                  //         products!
+                                                                  //             .data!
+                                                                  //             .dontWant![i]
+                                                                  //             .photo
+                                                                  //             .toString(),
                                                                   fit: BoxFit
                                                                       .cover,
                                                                   errorWidget:
@@ -338,12 +389,13 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                                 child: SizedBox(
                                                                   width: 230.w,
                                                                   child: Text(
-                                                                    products!
-                                                                        .data!
-                                                                        .dontWant![
-                                                                            i]
-                                                                        .name
-                                                                        .toString(),
+                                                                    dontWantProductsType[i].name.toString(),
+                                                                    // products!
+                                                                    //     .data!
+                                                                    //     .dontWant![
+                                                                    //         i]
+                                                                    //     .name
+                                                                    //     .toString(),
                                                                     overflow:
                                                                         TextOverflow
                                                                             .ellipsis,
@@ -363,7 +415,9 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                                         left:
                                                                             16),
                                                                 child: Text(
-                                                                  '\$ ${normalizedPercent}',
+                                                                  dontWantProductsType[i].price.toString()
+                                                                  ,
+                                                                  //'\$ ${normalizedPercent}',
                                                                   style: AppTextStyle()
                                                                       .textColor29292914w500,
                                                                 ),
@@ -396,13 +450,16 @@ class _FriendDonWantProductsState extends State<FriendDonWantProducts> {
                                                                     SizedBox(
                                                                       width: 6,
                                                                     ),
-                                                                    Text(DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inMinutes <=
-                                                                            59
-                                                                        ? "${DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inMinutes} min ago"
-                                                                        : DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inHours <=
-                                                                                23
-                                                                            ? "${DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inHours} hr ago"
-                                                                            : "${DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inDays} days ago"),
+                                                                    Text(
+                                                                        dontWantProductsType[i].lastUpdated.toString()
+                                                                        // DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inMinutes <=
+                                                                        //     59
+                                                                        // ? "${DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inMinutes} min ago"
+                                                                        // : DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inHours <=
+                                                                        //         23
+                                                                        //     ? "${DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inHours} hr ago"
+                                                                        //     : "${DateTime.now().difference(DateTime.parse(products!.data!.dontWant![i].createdAt.toString())).inDays} days ago"
+                                                                    ),
                                                                   ],
                                                                 ),
                                                               )

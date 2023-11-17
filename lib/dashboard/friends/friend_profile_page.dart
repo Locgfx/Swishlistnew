@@ -22,6 +22,7 @@ class _FProfileState extends State<FProfile> {
   }
 
   bool isLoading = true;
+
   FriendDetailsModel friendDetails = FriendDetailsModel(
       data: Data(
           profile: Profile(

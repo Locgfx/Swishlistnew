@@ -23,14 +23,16 @@ class ShareProfileFamilyList extends StatefulWidget {
 class _ShareProfileFamilyListState extends State<ShareProfileFamilyList> {
   @override
   void initState() {
-    get();
+    //get();
+    getFamilyMembers();
     super.initState();
   }
 
-  MemberIndexModel? index;
+  //MemberIndexModel? index;
   bool isLoading = false;
-  List<Index> familyA = [];
+  List<FamilyMemberIndexModel> familyA = [];
 
+/*
   get() {
     isLoading = true;
     var resp = getAcceptMember();
@@ -57,6 +59,31 @@ class _ShareProfileFamilyListState extends State<ShareProfileFamilyList> {
       }
     });
   }
+*/
+
+  getFamilyMembers() {
+    isLoading = true;
+    var resp = familyMemberIndexApi();
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            familyA.add(FamilyMemberIndexModel.fromJson(v));
+
+          }
+          print(familyA[0].member!.name.toString());
+
+          isLoading = false;
+
+        });
+      }
+      else{
+        isLoading = false;
+      }
+    });
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -115,26 +142,23 @@ class _ShareProfileFamilyListState extends State<ShareProfileFamilyList> {
                                   shape: BoxShape.circle,
                                 ),
                                 child: CachedNetworkImage(
-                                  imageUrl: familyA[i]
-                                              .familyMemberUser!
-                                              .photo
-                                              .toString()
-                                              .isEmpty ||
-                                          familyA[i].familyMemberUser!.photo ==
+                                  imageUrl:
+
+                                          familyA[i].member!.photo ==
                                               null
                                       ? 'assets/icons/userico.jpg'
                                       : familyA[i]
-                                              .familyMemberUser!
+                                              .member!
                                               .photo
                                               .toString()
                                               .contains("https")
                                           ? familyA[i]
-                                              .familyMemberUser!
+                                              .member!
                                               .photo
                                               .toString()
                                           : baseUrl +
                                               familyA[i]
-                                                  .familyMemberUser!
+                                                  .member!
                                                   .photo
                                                   .toString(),
                                   fit: BoxFit.cover,
@@ -164,7 +188,7 @@ class _ShareProfileFamilyListState extends State<ShareProfileFamilyList> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
-                                  familyA[i].familyMemberUser!.name.toString(),
+                                  familyA[i].member!.name.toString(),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   style: AppTextStyle().textColor29292914w400,
@@ -176,25 +200,25 @@ class _ShareProfileFamilyListState extends State<ShareProfileFamilyList> {
                                       ColorSelect.colorF7E641),
                                   textStyleColor: Colors.black,
                                   onTap: () {
-                                    sharedProfileApi(
-                                            leadUserId: familyA[i]
-                                                .familyMemberUserId
-                                                .toString())
-                                        .then((value) {
-                                      if (value['status'] == true) {
-                                        Navigator.pop(context);
-                                        // Navigator.of(
-                                        //     context)
-                                        //   ..pop()
-                                        //   ..pop();
-                                        Fluttertoast.showToast(
-                                            msg: value['message']);
-                                      } else {
-                                        Fluttertoast.showToast(
-                                            msg: value[
-                                                'please enter all products details']);
-                                      }
-                                    });
+                                    // sharedProfileApi(
+                                    //         leadUserId: familyA[i]
+                                    //             .member!.id
+                                    //             .toString())
+                                    //     .then((value) {
+                                    //   if (value['status'] == true) {
+                                    //     Navigator.pop(context);
+                                    //     // Navigator.of(
+                                    //     //     context)
+                                    //     //   ..pop()
+                                    //     //   ..pop();
+                                    //     Fluttertoast.showToast(
+                                    //         msg: value['message']);
+                                    //   } else {
+                                    //     Fluttertoast.showToast(
+                                    //         msg: value[
+                                    //             'please enter all products details']);
+                                    //   }
+                                    // });
                                   },
                                   title: 'Send')
                             ],

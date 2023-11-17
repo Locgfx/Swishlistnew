@@ -44,7 +44,7 @@ class _ProductdontwantState extends State<Productdontwant> {
   List<ProductTypeModel> notWantOne = [];
   List<ProductTypeModel> notWantTwo = [];
 
-  getNotWantProducts() {
+  /*getNotWantProducts() {
     isLoading = true;
     var resp = getProductsApi();
     resp.then((value) {
@@ -61,6 +61,32 @@ class _ProductdontwantState extends State<Productdontwant> {
           isLoading = false;
         });
       } else {
+        isLoading = false;
+      }
+    });
+  }*/
+
+
+  getNotWantProducts(){
+    isLoading = true;
+    var resp = getProductsApi();
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for (var v in value['data']){
+            notWantOne.add(ProductTypeModel.fromJson(v));
+          }
+          for(var q in notWantOne){
+            if(q.type == 'dont_want'){
+              notWantTwo.add(q);
+            }
+
+          }
+          print(notWantTwo);
+          isLoading = false;
+        });
+
+      }else{
         isLoading = false;
       }
     });
@@ -98,7 +124,7 @@ class _ProductdontwantState extends State<Productdontwant> {
                     setState(() {
                       loading = true;
                     });
-                    for (var v in selectedItems) {
+                 /*   for (var v in selectedItems) {
                       deleteProductsApi(id: v.toString()).then((value) async {
                         print(selectedItems.toString());
                         if (value['status'] == true) {
@@ -116,6 +142,23 @@ class _ProductdontwantState extends State<Productdontwant> {
                         });
                       });
                       // }
+                    }*/
+
+                    for(var v in selectedItems){
+                      deleteProductsApi(id: v.toString()).then((value) {
+                        if(value['error'] == false){
+                          setState(() {
+                            notWantTwo.removeWhere((element) => element.id == v);
+                          });
+                          Fluttertoast.showToast(msg: value['message']);
+                        }else{
+                          Fluttertoast.showToast(msg: value['message']);
+                        }
+                        setState(() {
+                          loading = false;
+                          selectedItems.clear();
+                        });
+                      });
                     }
                   },
                   child: Padding(
@@ -293,7 +336,7 @@ class _ProductdontwantState extends State<Productdontwant> {
                                                                   .toString(),
                                                               link: notWantTwo[
                                                                       i]
-                                                                  .link
+                                                                  .url
                                                                   .toString(),
                                                               image: notWantTwo[
                                                                       i]
@@ -301,7 +344,7 @@ class _ProductdontwantState extends State<Productdontwant> {
                                                                   .toString(),
                                                               purchaseDate:
                                                                   notWantTwo[i]
-                                                                      .purchasedDate
+                                                                      .purchasedOn
                                                                       .toString(),
                                                               id: notWantTwo[i]
                                                                   .id
@@ -473,8 +516,8 @@ class _ProductdontwantState extends State<Productdontwant> {
                                                                     .only(
                                                                     left: 16),
                                                             child: Text(
-                                                              '\$ ${normalizedPercent.toString()}',
-                                                              // notWantTwo[i].price.toString(),
+                                                              //'\$ ${normalizedPercent.toString()}',
+                                                               notWantTwo[i].price.toString(),
                                                               // "47.99",
                                                               style: AppTextStyle()
                                                                   .textColor29292914w500,
@@ -507,17 +550,22 @@ class _ProductdontwantState extends State<Productdontwant> {
                                                                 SizedBox(
                                                                   width: 6,
                                                                 ),
-                                                                Text(DateTime.now()
-                                                                            .difference(DateTime.parse(notWantTwo[i]
-                                                                                .createdAt
-                                                                                .toString()))
-                                                                            .inMinutes <=
-                                                                        59
-                                                                    ? "${DateTime.now().difference(DateTime.parse(notWantTwo[i].createdAt.toString())).inMinutes} min ago"
-                                                                    : DateTime.now().difference(DateTime.parse(notWantTwo[i].createdAt.toString())).inHours <=
-                                                                            23
-                                                                        ? "${DateTime.now().difference(DateTime.parse(notWantTwo[i].createdAt.toString())).inHours} hr ago"
-                                                                        : "${DateTime.now().difference(DateTime.parse(notWantTwo[i].createdAt.toString())).inDays} days ago"),
+                                                                Text(
+                                                                  notWantTwo[i]
+                                                                      .lastUpdated
+                                                                      .toString(),
+                                                                    // DateTime.now()
+                                                                    //         .difference(DateTime.parse(notWantTwo[i]
+                                                                    //             .lastUpdated
+                                                                    //             .toString()))
+                                                                    //         .inMinutes <=
+                                                                    //     59
+                                                                    // ? "${DateTime.now().difference(DateTime.parse(notWantTwo[i].lastUpdated.toString())).inMinutes} min ago"
+                                                                    // : DateTime.now().difference(DateTime.parse(notWantTwo[i].lastUpdated.toString())).inHours <=
+                                                                    //         23
+                                                                    //     ? "${DateTime.now().difference(DateTime.parse(notWantTwo[i].lastUpdated.toString())).inHours} hr ago"
+                                                                    //     : "${DateTime.now().difference(DateTime.parse(notWantTwo[i].lastUpdated.toString())).inDays} days ago"
+                                                                ),
                                                               ],
                                                             ),
                                                           )

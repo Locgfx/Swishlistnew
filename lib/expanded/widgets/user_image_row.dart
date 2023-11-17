@@ -173,16 +173,16 @@ class _UserImageRowWidgetState extends State<UserImageRowWidget> {
           children: [
             Row(
               children: [
-                Text(
-                  '${SharedPrefs().getName()}'.isEmpty
-                      ? widget.response.data.name.toString()
-                      : '${SharedPrefs().getName()}',
-
-                  // widget.response.data.name.toString(),
-                  // '${SharedPrefs().getName()}',
-                  // "Michael Scott",
-                  style: AppTextStyle().textColor29292916w500,
-                ),
+                // Text(
+                //   '${SharedPrefs().getName()}'.isEmpty
+                //       ? widget.response.data.name.toString()
+                //       : '${SharedPrefs().getName()}',
+                //
+                //   // widget.response.data.name.toString(),
+                //   // '${SharedPrefs().getName()}',
+                //   // "Michael Scott",
+                //   style: AppTextStyle().textColor29292916w500,
+                // ),
               ],
             ),
             SizedBox(height: 10.h),

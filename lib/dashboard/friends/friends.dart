@@ -28,8 +28,10 @@ class Friends extends StatefulWidget {
 }
 
 class _FriendsState extends State<Friends> {
+
   bool emptyFriends = true;
   @override
+
   void initState() {
     getFriends();
     getFriendNotifications();
@@ -44,7 +46,7 @@ class _FriendsState extends State<Friends> {
   // NewModelFriend friendList = NewModelFriend();
   List<NewModelFriend> friendList = [];
 
-  getFriends() {
+  /*getFriends() {
     isLoading = true;
     friendList.clear();
     var resp = getFriendsApi();
@@ -68,7 +70,29 @@ class _FriendsState extends State<Friends> {
         }
       }
     });
+  }*/
+
+
+  getFriends(){
+    isLoading = true;
+    var resp = getFriendsApi();
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+
+            friendList.add(NewModelFriend.fromJson(v));
+          }
+          isLoading = false;
+        });
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
   }
+
 
   List<FriendNotificationModel> friendNotification = [];
   // FriendNotificationModel? friendNotification;
@@ -369,9 +393,13 @@ class _FriendsState extends State<Friends> {
                                                             .name
                                                             .toString(),
                                                     friendId: friendList[i]
-                                                        .friendUserId
+                                                        .friend!.id
                                                         .toString(),
                                                     friendPhoto: friendList[i]
+                                                        .friend!
+                                                        .photo  == null ? '':
+
+                                                    friendList[i]
                                                         .friend!
                                                         .photo!
                                                         .toString(),
@@ -397,7 +425,12 @@ class _FriendsState extends State<Friends> {
                                                     ),
                                                     clipBehavior: Clip.hardEdge,
                                                     child: CachedNetworkImage(
-                                                      imageUrl: friendList[i]
+                                                      imageUrl:
+                                      friendList[i]
+                                          .friend!
+                                          .photo  == null ? '':
+
+                                                      friendList[i]
                                                               .friend!
                                                               .photo!
                                                               .contains('http')
@@ -405,7 +438,7 @@ class _FriendsState extends State<Friends> {
                                                               .friend!
                                                               .photo
                                                               .toString()
-                                                          : baseUrl +
+                                                          : newBaseUrl +
                                                               friendList[i]
                                                                   .friend!
                                                                   .photo

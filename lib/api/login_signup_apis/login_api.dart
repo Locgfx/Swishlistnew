@@ -12,29 +12,28 @@ Future login({
   // required String phone,
 }) async {
   var headers = {
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Content-Type': 'application/json',
+    'User-Agent': 'insomnia/8.2.0',
+    'Accept': 'application/json'
   };
-  var request = http.Request('POST', Uri.parse('$baseUrl/api/login'));
-  request.bodyFields = {
-   if(email.contains("@")) 'email': email,
-    if(!email.contains('@')) 'phone': email,
-    'password': password,
-
-  };
-  print(request.bodyFields);
+  var request = http.Request('POST', Uri.parse('$newBaseUrl/api/login'));
+  request.body = json.encode({
+    "email": email,
+    "password": password,
+  });
   request.headers.addAll(headers);
+
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   if(response.statusCode == 200) {
-    if(resp['status'] == true){
+    if(resp['error'] == false){
       return LoginResponse.fromJson(resp);
     } else {
       Globals().showErrorMessage(context, 'Please enter correct details.');
       return LoginResponse(
-                  code: 1,
-                  status: false,
+                  error: true,
                   message: 'message',
-                  data: UserLogin(
+                  data: Data(
                       id: 1,
                       name: 'name',
                       username: 'username',

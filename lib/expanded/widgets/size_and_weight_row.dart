@@ -34,35 +34,65 @@ class _SizeAndWeightRowWidgetState extends State<SizeAndWeightRowWidget> {
   double normalizedPercent = 0.0;
 
   bool isLoading = false;
-  SizesAndWeightModel? sizeWeight = SizesAndWeightModel(
-      data: SizeData(
-    waist: '',
-    shirt: '',
-    shoes: '',
-    bed: '',
-  ));
-  getSizedWeight() {
+
+  // SizesAndWeightModel? sizeWeight = SizesAndWeightModel(
+  //     data: SizeData(
+  //       shoe: '',
+  //   privacy: '',
+  //   complete: '',
+  //   id: 0,
+  //   waist: '',
+  //   shirt: '',
+  //
+  //   bed: '',
+  // ), error: true, message: '');
+
+  // getSizedWeight() {
+  //   isLoading = true;
+  //   var resp = getSizeAndWeightApi();
+  //   resp.then((value) {
+  //     print(value);
+  //     if (mounted) {
+  //       if (value['status'] == true) {
+  //         if (value['message'] == 'No Size Weight') {
+  //           setState(() {
+  //             isLoading = false;
+  //           });
+  //         } else {
+  //           setState(() {
+  //             sizeWeight = SizesAndWeightModel.fromJson(value);
+  //             isLoading = false;
+  //           });
+  //         }
+  //       } else {
+  //         setState(() {
+  //           isLoading = false;
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
+
+
+  SizesAndWeightModel? sizeWeight;
+
+  getSizedWeight(){
     isLoading = true;
     var resp = getSizeAndWeightApi();
     resp.then((value) {
-      print(value);
-      if (mounted) {
-        if (value['status'] == true) {
-          if (value['message'] == 'No Size Weight') {
-            setState(() {
-              isLoading = false;
-            });
-          } else {
-            setState(() {
-              sizeWeight = SizesAndWeightModel.fromJson(value);
-              isLoading = false;
-            });
-          }
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-        }
+      if(value.error == false){
+        setState(() {
+          sizeWeight = value;
+
+          // get();
+          // fields();
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
       }
     });
   }
@@ -76,7 +106,7 @@ class _SizeAndWeightRowWidgetState extends State<SizeAndWeightRowWidget> {
 
   @override
   Widget build(BuildContext context) {
-    completePercent = sizeWeight?.data?.completePercent;
+    completePercent = sizeWeight!.data?.complete;
     parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
     normalizedPercent = parsedPercent / 100.0;
     return Row(
@@ -104,14 +134,14 @@ class _SizeAndWeightRowWidgetState extends State<SizeAndWeightRowWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        sizeWeight!.data!.completePercent.toString() == "" ||
-                                sizeWeight!.data!.completePercent == null
+                        sizeWeight!.data?.complete.toString() == "" ||
+                                sizeWeight!.data?.complete == null
                             ? "0"
-                            : sizeWeight!.data!.completePercent
+                            : sizeWeight!.data!.complete
                                 .toString()
                                 .split(".")
                                 .first,
-                        // sizeWeight!.data!.completePercent
+                        // sizeWeight!.data.completePercent
                         //     .toString()
                         //     .split(".")
                         //     .first,
@@ -119,6 +149,7 @@ class _SizeAndWeightRowWidgetState extends State<SizeAndWeightRowWidget> {
                       ),
                       Text(
                         "%  Percent",
+                        
                         style: AppTextStyle().textColor70707012w400,
                       )
                     ],

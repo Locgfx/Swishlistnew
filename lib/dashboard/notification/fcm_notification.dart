@@ -26,6 +26,8 @@ class FcmNotificationScreen extends StatefulWidget {
 
 class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
   bool isLoading = false;
+
+
   FcmNotificationModel fcmnotification = FcmNotificationModel();
   // List<FcmNotificationModel> fcmnotification = [];
   getFcmNotifications() {

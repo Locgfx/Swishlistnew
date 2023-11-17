@@ -39,7 +39,7 @@ class _EmailVerificationState extends State<EmailVerification> {
         bottomNavigationBar: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
+         /*     SizedBox(
                 height: 52.h,
                 width: 328.w,
                 child: show
@@ -88,7 +88,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                         },
                         title: 'Submit',
                       ),
-              ),
+              ),*/
               SizedBox(
                 height: 20,
               ),

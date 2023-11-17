@@ -13,6 +13,7 @@ import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../constants/urls.dart';
 import '../../models/friends_details_model.dart';
+import '../../models/new_models/main_friend_model.dart';
 
 class FriendProfile extends StatefulWidget {
   final String friendId;
@@ -54,6 +55,7 @@ class _FriendProfileState extends State<FriendProfile> {
   FriendDetailsModel friendDetails = FriendDetailsModel();
 
   FriendDetailsModel? friendInterest;
+  List<NewModelFriend> friendList = [];
 
   getFriendInterest() {
     isLoading = true;
@@ -120,23 +122,46 @@ class _FriendProfileState extends State<FriendProfile> {
     });
   }
 
-  getFriendProfile() {
+  // getFriendProfile() {
+  //   isLoading = true;
+  //   var resp = friendDetailsApi(friendUserId: widget.friendId);
+  //   resp.then((value) {
+  //     if (mounted) {
+  //       if (value['status'] == true) {
+  //         friendDetails = FriendDetailsModel.fromJson(value);
+  //         // if(friendDetails!.data!.interest == null ) {
+  //         // } else {
+  //         //   elements =  friendDetails!.data!.interest!.interest!.split(",");
+  //         //
+  //         // }
+  //         isLoading = false;
+  //       } else {
+  //         isLoading = false;
+  //       }
+  //     }
+  //   });
+  // }
+
+  getFriendProfile(){
     isLoading = true;
-    var resp = friendDetailsApi(friendUserId: widget.friendId);
+    var resp = getFriendsApi();
     resp.then((value) {
-      if (mounted) {
-        if (value['status'] == true) {
-          friendDetails = FriendDetailsModel.fromJson(value);
-          // if(friendDetails!.data!.interest == null ) {
-          // } else {
-          //   elements =  friendDetails!.data!.interest!.interest!.split(",");
-          //
-          // }
-          isLoading = false;
-        } else {
-          isLoading = false;
+      if(mounted){
+        if(value['error'] == false){
+          setState(() {
+            for(var v in value['data']){
+
+              friendList.add(NewModelFriend.fromJson(v));
+            }
+            isLoading = false;
+          });
+        }else{
+          setState(() {
+            isLoading = false;
+          });
         }
-      }
+
+        }
     });
   }
 
@@ -233,12 +258,13 @@ class _FriendProfileState extends State<FriendProfile> {
                               shape: BoxShape.circle,
                             ),
                             child: CachedNetworkImage(
-                              imageUrl: friendDetails.data!.photo
-                                      .toString()
-                                      .contains('http')
-                                  ? friendDetails.data!.photo.toString()
-                                  : baseUrl +
-                                      friendDetails.data!.photo.toString(),
+                              imageUrl: widget.photo,
+
+                              // imageUrl: friendList[0].friend!.photo.toString().contains('http')
+                              //
+                              //     ? friendList[0].friend!.photo.toString()
+                              //     : newBaseUrl +
+                              //     friendList[0].friend!.photo.toString(),
                               fit: BoxFit.cover,
                               errorWidget: (context, url, error) =>
                                   Image.asset("assets/icons/userico.jpg"),

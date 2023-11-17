@@ -9,6 +9,8 @@ import '../../constants/globals/loading.dart';
 import '../../constants/urls.dart';
 import '../../models/friend_product_model.dart';
 import '../api/family_member_apis/family_products_api.dart';
+import '../api/user_apis/friends_api.dart';
+import '../models/family_member_product_model.dart';
 import 'family_product_details.dart';
 
 class FamilyWantProducts extends StatefulWidget {
@@ -31,7 +33,8 @@ class FamilyWantProducts extends StatefulWidget {
 class _FamilyWantProductsState extends State<FamilyWantProducts> {
   @override
   void initState() {
-    getProducts();
+    //getProducts();
+    getWantProducts();
     super.initState();
   }
 
@@ -39,7 +42,7 @@ class _FamilyWantProductsState extends State<FamilyWantProducts> {
   bool isLoading = false;
   FriendProductModel? products;
 
-  getProducts() {
+  /*getProducts() {
     isLoading = true;
     var resp = getFamilyProductsApi(familyId: widget.familyId);
     resp.then((value) {
@@ -63,6 +66,37 @@ class _FamilyWantProductsState extends State<FamilyWantProducts> {
       }
       // haveProducts2.clear();
     });
+  }
+*/
+
+  List<FamilyMemberProductModel> wantProducts = [];
+  List<FamilyMemberProductModel> wantProductsType = [];
+
+  getWantProducts(){
+    isLoading = true;
+    var resp = getFamilyProductsApi(member_id: widget.familyId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            wantProducts.add(FamilyMemberProductModel.fromJson(v));
+          }
+          for(var q in wantProducts){
+            if(q.type == 'want'){
+              wantProductsType.add(q);
+
+            }
+          }
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
+
   }
 
   int selected = -1;
@@ -141,7 +175,8 @@ class _FamilyWantProductsState extends State<FamilyWantProducts> {
                                   //     ),
                                   //   ],
                                   // ),
-                                  products!.data!.want!.isEmpty
+                              wantProductsType.isEmpty
+                                  //products!.data!.want!.isEmpty
                                       ? Center(
                                           child: Column(
                                             crossAxisAlignment:
@@ -168,15 +203,14 @@ class _FamilyWantProductsState extends State<FamilyWantProducts> {
                                           padding: EdgeInsets.only(bottom: 30),
                                           physics:
                                               NeverScrollableScrollPhysics(),
-                                          itemCount:
-                                              products!.data!.want!.length,
+                                          itemCount: wantProductsType.length,
+                                              //products!.data!.want!.length,
                                           // itemCount: 6,
                                           shrinkWrap: true,
                                           scrollDirection: Axis.vertical,
                                           itemBuilder: (context, i) {
                                             double price = double.tryParse(
-                                                    products!
-                                                        .data!.want![i].price
+                                                wantProductsType[i].price
                                                         .toString()) ??
                                                 0.0;
                                             double normalizedPercent =
@@ -191,56 +225,41 @@ class _FamilyWantProductsState extends State<FamilyWantProducts> {
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               FamilyProductDetail(
-                                                                name: products!
-                                                                    .data!
-                                                                    .want![i]
+                                                                name: wantProductsType[i]
                                                                     .name
                                                                     .toString(),
-                                                                price: products!
-                                                                    .data!
-                                                                    .want![i]
+                                                                price: wantProductsType[i]
                                                                     .price
                                                                     .toString(),
-                                                                link: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .link
+                                                                link: wantProductsType[i]
+                                                                    .url
                                                                     .toString(),
-                                                                image: products!
-                                                                        .data!
-                                                                        .want![
+                                                                image: wantProductsType[
                                                                             i]
                                                                         .photo
                                                                         .toString()
                                                                         .contains(
                                                                             'http')
-                                                                    ? products!
-                                                                        .data!
-                                                                        .want![
+                                                                    ? wantProductsType[
                                                                             i]
                                                                         .photo
                                                                         .toString()
-                                                                    : baseUrl +
-                                                                        products!
-                                                                            .data!
-                                                                            .want![i]
+                                                                    : newBaseUrl +
+                                                                    wantProductsType[i]
                                                                             .photo
                                                                             .toString(),
-                                                                purchaseDate: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .purchasedDate
+                                                                purchaseDate: wantProductsType[i]
+                                                                    .purchasedOn
                                                                     .toString(),
-                                                                id: products!
-                                                                    .data!
-                                                                    .want![i]
+                                                                id: wantProductsType[i]
                                                                     .id
                                                                     .toString(),
-                                                                type: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .type
-                                                                    .toString(),
+                                                                type: '',
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .type
+                                                                //     .toString(),
                                                                 productId: '',
                                                               )));
 
@@ -331,24 +350,18 @@ class _FamilyWantProductsState extends State<FamilyWantProducts> {
                                                               ),
                                                               child:
                                                                   CachedNetworkImage(
-                                                                imageUrl: products!
-                                                                        .data!
-                                                                        .want![
+                                                                imageUrl: wantProductsType[
                                                                             i]
                                                                         .photo
                                                                         .toString()
                                                                         .contains(
                                                                             "https")
-                                                                    ? products!
-                                                                        .data!
-                                                                        .want![
+                                                                    ? wantProductsType[
                                                                             i]
                                                                         .photo
                                                                         .toString()
-                                                                    : baseUrl +
-                                                                        products!
-                                                                            .data!
-                                                                            .want![i]
+                                                                    : newBaseUrl +
+                                                                    wantProductsType[i]
                                                                             .photo
                                                                             .toString(),
                                                                 fit: BoxFit
@@ -409,9 +422,7 @@ class _FamilyWantProductsState extends State<FamilyWantProducts> {
                                                                 child: SizedBox(
                                                                   width: 230.w,
                                                                   child: Text(
-                                                                    products!
-                                                                        .data!
-                                                                        .want![
+                                                                    wantProductsType[
                                                                             i]
                                                                         .name
                                                                         .toString(),
@@ -435,7 +446,8 @@ class _FamilyWantProductsState extends State<FamilyWantProducts> {
                                                                         left:
                                                                             16),
                                                                 child: Text(
-                                                                  '\$ ${normalizedPercent}',
+                                                                 // '\$ ${normalizedPercent}',
+                                                                  wantProductsType[i].price.toString(),
                                                                   // "47.99",
                                                                   style: AppTextStyle()
                                                                       .textColor29292914w500,
@@ -469,13 +481,16 @@ class _FamilyWantProductsState extends State<FamilyWantProducts> {
                                                                     SizedBox(
                                                                       width: 6,
                                                                     ),
-                                                                    Text(DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes <=
-                                                                            59
-                                                                        ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes} min ago"
-                                                                        : DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours <=
-                                                                                23
-                                                                            ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours} hr ago"
-                                                                            : "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inDays} days ago"),
+                                                                    Text(
+                                                                        wantProductsType[i].lastUpdated.toString()
+                                                                        // DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes <=
+                                                                        //     59
+                                                                        // ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes} min ago"
+                                                                        // : DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours <=
+                                                                        //         23
+                                                                        //     ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours} hr ago"
+                                                                        //     : "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inDays} days ago"
+                                                                    ),
                                                                   ],
                                                                 ),
                                                               )

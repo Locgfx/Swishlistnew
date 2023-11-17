@@ -31,14 +31,48 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
   }
 
   bool isLoading = false;
-  SizesAndWeightModel? sizeWeight = SizesAndWeightModel(
-      data: SizeData(
-    waist: '',
-    shirt: '',
-    shoes: '',
-    bed: '',
-  ));
-  getSizedWeight() {
+
+  // SizesAndWeightModel? sizeWeight = SizesAndWeightModel(
+  //   message: '',
+  //     error: true,
+  //     data: SizeData(
+  //       complete: '',
+  //       privacy: 'private',
+  //       id: 0,
+  //       waist: '',
+  //       shirt: '',
+  //       shoe: '',
+  //        bed: '',
+  // ));
+
+  // SizesAndWeightModel  sizeWeight = SizesAndWeightModel(
+  //   data: SizeData(id: null, waist: '', shirt: '', shoe: '', bed: '', privacy: '', complete: ''), error: null, message: '',
+  //
+  //
+  // );
+  SizesAndWeightModel?  sizeWeight;
+
+  getSizedWeight(){
+    isLoading = true;
+    var resp = getSizeAndWeightApi();
+    resp.then((value) {
+      if(value.error == false){
+        setState(() {
+          sizeWeight = value;
+
+          // get();
+         fields();
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
+  }
+ /* getSizedWeight() {
     isLoading = true;
     var resp = getSizeAndWeightApi();
     resp.then((value) {
@@ -64,12 +98,12 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
         }
       }
     });
-  }
+  }*/
 
   void fields() {
     waistController.text = sizeWeight!.data!.waist ?? '';
     shirtController.text = sizeWeight!.data!.shirt ?? '';
-    shoesController.text = sizeWeight!.data!.shoes ?? '';
+    shoeController.text = sizeWeight!.data!.shoe ?? '';
     bedController.text = sizeWeight!.data!.bed ?? '';
   }
 
@@ -77,41 +111,43 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
   double dou = 00;
   var percent = "";
 
-  get() {
-    if (sizeWeight!.data!.waist != null || sizeWeight!.data!.waist != '') {
-      siz.add('waist');
-    }
-    if (sizeWeight!.data!.shirt != null || sizeWeight!.data!.shirt != '') {
-      siz.add('shirt');
-    }
-    if (sizeWeight!.data!.shoes != null || sizeWeight!.data!.shoes != '') {
-      siz.add('shoes');
-    }
-    if (sizeWeight!.data!.bed != null || sizeWeight!.data!.bed != '') {
-      siz.add('bed');
-    }
-    percent = ((siz.length / 4) * 100).toString().split(".").first;
-    dou = (siz.length / 4);
-  }
+  // get() {
+  //   if (sizeWeight!.data.waist != null || sizeWeight!.data.waist != '') {
+  //     siz.add('waist');
+  //   }
+  //   if (sizeWeight!.data.shirt != null || sizeWeight!.data.shirt != '') {
+  //     siz.add('shirt');
+  //   }
+  //   if (sizeWeight!.data.shoe != null || sizeWeight!.data.shoe != '') {
+  //     siz.add('shoe');
+  //   }
+  //   if (sizeWeight!.data.bed != null || sizeWeight!.data.bed != '') {
+  //     siz.add('bed');
+  //   }
+  //   percent = ((siz.length / 4) * 100).toString().split(".").first;
+  //   dou = (siz.length / 4);
+  // }
 
   int selectedSize = 0;
   bool selected = false;
   TextEditingController waistController = TextEditingController();
   final shirtController = TextEditingController();
-  final shoesController = TextEditingController();
+  final shoeController = TextEditingController();
   final bedController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool showInput = false;
 
-  String? completePercent;
+  String? complete;
   double parsedPercent = 0.0;
   double normalizedPercent = 0.0;
 
   @override
   Widget build(BuildContext context) {
-    completePercent = sizeWeight?.data?.completePercent;
-    parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
+
+    complete = sizeWeight?.data?.complete;
+    parsedPercent = double.tryParse(complete ?? '0') ?? 0.0;
     normalizedPercent = parsedPercent / 100.0;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -139,16 +175,16 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                sizeWeight!.data!.completePercent.toString() ==
+                                sizeWeight!.data!.complete.toString() ==
                                             "" ||
-                                        sizeWeight!.data!.completePercent ==
+                                        sizeWeight!.data!.complete ==
                                             null
                                     ? "0"
-                                    : sizeWeight!.data!.completePercent
+                                    : sizeWeight!.data!.complete
                                         .toString()
                                         .split(".")
                                         .first,
-                                // sizeWeight!.data!.completePercent
+                                // sizeWeight!.data.complete
                                 //     .toString()
                                 //     .split(".")
                                 //     .first,
@@ -170,49 +206,6 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
             child: GestureDetector(
               onTap: () {
                 Navigator.pop(context);
-                (sizeWeight!.data!.waist.toString() == '')
-                    ? postSizeAndWeightApi(
-                            waist: waistController.text,
-                            shirt: shirtController.text,
-                            shoes: shoesController.text,
-                            bed: bedController.text,
-                            privacy: 'public')
-                        .then((value) async {
-                        if (value['status'] == true) {
-                          SharedPrefs().setSize('100 %');
-                          // setState(() {
-                          //   isLoading ? Loading(): getSizedWeight();
-                          // });
-                          Navigator.pop(context);
-                          Fluttertoast.showToast(msg: value['message']);
-                        } else {
-                          Fluttertoast.showToast(
-                              msg: "Please fill all details fields");
-                        }
-                      })
-                    : updateSizeAndWeightApi(
-                            waist: waistController.text,
-                            shirt: shirtController.text,
-                            shoes: shoesController.text,
-                            bed: bedController.text,
-                            privacy: 'public',
-                            id: sizeWeight!.data!.id.toString())
-                        .then((value) {
-                        if (value['status'] == true) {
-                          // SharedPrefs().setSize('100 %');
-                          // Fluttertoast.showToast(msg: value['message']);
-                        } else {
-                          // Fluttertoast.showToast(
-                          //     msg: 'please update all fields');
-                        }
-                      });
-
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => UserAllDetails(
-                //               response: widget.response,
-                //             )));
               },
               child: Image.asset('assets/images/Vector190.png'),
             ),
@@ -390,15 +383,15 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return ShoesDialog(
+                                      return shoeDialog(
                                         onPop: (val) {
                                           setState(() {
                                             Navigator.pop(context);
-                                            shoesController.text = val;
+                                            shoeController.text = val;
                                           });
-                                          if (!siz.contains('shoes')) {
+                                          if (!siz.contains('shoe')) {
                                             setState(() {
-                                              siz.add('shoes');
+                                              siz.add('shoe');
                                             });
                                           }
                                         },
@@ -411,7 +404,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        "Shoes",
+                                        "shoe",
                                         style: AppTextStyle()
                                             .textColor70707014w400,
                                       ),
@@ -419,22 +412,22 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                       SizedBox(
                                         width: 5.w,
                                       ),
-                                      shoesController.text.isNotEmpty
+                                      shoeController.text.isNotEmpty
                                           ? Text(
-                                              shoesController.text,
+                                              shoeController.text,
                                               style: AppTextStyle()
                                                   .textColor29292914w400,
                                             )
                                           : Text(
-                                              sizeWeight!.data!.shoes
+                                              sizeWeight!.data!.shoe
                                                               .toString() ==
                                                           "" ||
-                                                      sizeWeight!.data!.shoes ==
+                                                      sizeWeight!.data!.shoe ==
                                                           null
                                                   ? "+ Add"
-                                                  : sizeWeight!.data!.shoes
+                                                  : sizeWeight!.data!.shoe
                                                       .toString(),
-                                              style: sizeWeight!.data!.shoes ==
+                                              style: sizeWeight!.data!.shoe ==
                                                       ''
                                                   ? AppTextStyle()
                                                       .textColorD5574514w500
@@ -530,8 +523,10 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 16, right: 16, bottom: 40),
-                      child: sizeWeight!.data!.bed.toString() == ''
-                          ? LightYellowButtonWithText(
+                      child:
+                      // sizeWeight!.data.bed.toString() == ''
+                      //     ?
+                      LightYellowButtonWithText(
                               size: 16,
                               backgroundColor: MaterialStateProperty.all(
                                   ColorSelect.colorF7E641),
@@ -542,13 +537,15 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                               onTap: () {
                                 if (formKey.currentState!.validate()) {
                                   postSizeAndWeightApi(
+
                                           waist: waistController.text,
                                           shirt: shirtController.text,
-                                          shoes: shoesController.text,
+
                                           bed: bedController.text,
-                                          privacy: 'public')
+                                          privacy: 'public',
+                                    shoes: shoeController.text, )
                                       .then((value) async {
-                                    if (value['status'] == true) {
+                                    if (value['error'] == false) {
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                           builder: (BuildContext context) {
@@ -574,51 +571,51 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                 }
                               },
                               title: 'Save')
-                          : LightYellowButtonWithText(
-                              size: 16,
-                              backgroundColor:
-                                  // (waistController.text.isNotEmpty &&
-                                  //         shirtController.text.isNotEmpty &&
-                                  //         shoesController.text.isNotEmpty &&
-                                  //         bedController.text.isNotEmpty)
-                                  MaterialStateProperty.all(
-                                      ColorSelect.colorF7E641),
-                              //     :
-                              // MaterialStateProperty.all(
-                              //     ColorSelect.colorFCF5B6),
-                              textStyleColor: Colors.black,
-                              onTap: () {
-                                if (formKey.currentState!.validate()) {
-                                  updateSizeAndWeightApi(
-                                          waist: waistController.text,
-                                          shirt: shirtController.text,
-                                          shoes: shoesController.text,
-                                          bed: bedController.text,
-                                          privacy: 'public',
-                                          id: sizeWeight!.data!.id.toString())
-                                      .then((value) {
-                                    if (value['status'] == true) {
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (BuildContext context) {
-                                            // Your new route/widget here
-                                            return UserAllDetails(
-                                              response: widget.response,
-                                            );
-                                          },
-                                        ),
-                                      );
-                                      // SharedPrefs().setSize('100 %');
-                                      Fluttertoast.showToast(
-                                          msg: value['message']);
-                                    } else {
-                                      Fluttertoast.showToast(
-                                          msg: 'please update all fields');
-                                    }
-                                  });
-                                }
-                              },
-                              title: 'Update'),
+                          // : LightYellowButtonWithText(
+                          //     size: 16,
+                          //     backgroundColor:
+                          //         // (waistController.text.isNotEmpty &&
+                          //         //         shirtController.text.isNotEmpty &&
+                          //         //         shoeController.text.isNotEmpty &&
+                          //         //         bedController.text.isNotEmpty)
+                          //         MaterialStateProperty.all(
+                          //             ColorSelect.colorF7E641),
+                          //     //     :
+                          //     // MaterialStateProperty.all(
+                          //     //     ColorSelect.colorFCF5B6),
+                          //     textStyleColor: Colors.black,
+                          //     onTap: () {
+                          //       if (formKey.currentState!.validate()) {
+                          //         updateSizeAndWeightApi(
+                          //                 waist: waistController.text,
+                          //                 shirt: shirtController.text,
+                          //                 shoe: shoeController.text,
+                          //                 bed: bedController.text,
+                          //                 privacy: 'public',
+                          //                 id: sizeWeight!.data.id.toString())
+                          //             .then((value) {
+                          //           if (value['status'] == true) {
+                          //             Navigator.of(context).pushReplacement(
+                          //               MaterialPageRoute(
+                          //                 builder: (BuildContext context) {
+                          //                   // Your new route/widget here
+                          //                   return UserAllDetails(
+                          //                     response: widget.response,
+                          //                   );
+                          //                 },
+                          //               ),
+                          //             );
+                          //             // SharedPrefs().setSize('100 %');
+                          //             Fluttertoast.showToast(
+                          //                 msg: value['message']);
+                          //           } else {
+                          //             Fluttertoast.showToast(
+                          //                 msg: 'please update all fields');
+                          //           }
+                          //         });
+                          //       }
+                          //     },
+                          //     title: 'Update'),
                     ),
                   ],
                 ),
@@ -893,14 +890,14 @@ class _ShirtDialogState extends State<ShirtDialog> {
   }
 }
 
-class ShoesDialog extends StatefulWidget {
+class shoeDialog extends StatefulWidget {
   final Function(String) onPop;
-  const ShoesDialog({Key? key, required this.onPop}) : super(key: key);
+  const shoeDialog({Key? key, required this.onPop}) : super(key: key);
   @override
-  State<ShoesDialog> createState() => _ShoesDialogState();
+  State<shoeDialog> createState() => _shoeDialogState();
 }
 
-class _ShoesDialogState extends State<ShoesDialog> {
+class _shoeDialogState extends State<shoeDialog> {
   int selectedSize = 0;
   List tags = [
     '6',
@@ -926,7 +923,7 @@ class _ShoesDialogState extends State<ShoesDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Shoes Size',
+                'shoe Size',
                 style: AppTextStyle().textColor29292914w500,
               ),
               SizedBox(height: 10),

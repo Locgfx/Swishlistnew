@@ -34,7 +34,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
         bottomNavigationBar: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
+          /*    SizedBox(
                 height: 52.h,
                 width: 328.w,
                 child: LightYellowButtonWithText(
@@ -75,7 +75,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                   },
                   title: 'Submit',
                 ),
-              ),
+              ),*/
               SizedBox(
                 height: 20,
               ),

@@ -41,29 +41,60 @@ class _ProductAlreadyState extends State<ProductAlready> {
   GetProductModel? getProducts;
   List<ProductTypeModel> haveProducts1 = [];
   List<ProductTypeModel> haveProducts2 = [];
-  getHaveProducts() {
+
+  // getHaveProducts() {
+  //   isLoading = true;
+  //   var resp = getProductsApi();
+  //   resp.then((value) {
+  //     if (mounted) {
+  //       if (value['status'] == true) {
+  //         setState(() {
+  //           for (var v in value['data']) {
+  //             haveProducts1.add(ProductTypeModel.fromJson(v));
+  //           }
+  //           for (var v in haveProducts1) {
+  //             if (v.type! == "have") {
+  //               haveProducts2.add(v);
+  //             }
+  //           }
+  //           isLoading = false;
+  //         });
+  //       } else {
+  //         isLoading = false;
+  //       }
+  //     }
+  //   });
+  // }
+
+
+  getHaveProducts(){
     isLoading = true;
     var resp = getProductsApi();
     resp.then((value) {
-      if (mounted) {
-        if (value['status'] == true) {
+      if(mounted){
+        if(value['error'] == false){
           setState(() {
-            for (var v in value['data']) {
+            for(var v in value['data']){
               haveProducts1.add(ProductTypeModel.fromJson(v));
             }
-            for (var v in haveProducts1) {
-              if (v.type! == "have") {
-                haveProducts2.add(v);
+            for(var q in haveProducts1){
+              if(q.type == "have"){
+                haveProducts2.add(q);
+
               }
             }
+            print(haveProducts2);
             isLoading = false;
           });
-        } else {
+        }else{
           isLoading = false;
         }
       }
+
     });
+
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +148,7 @@ class _ProductAlreadyState extends State<ProductAlready> {
                     setState(() {
                       loading = true;
                     });
-                    for (var v in selectedItems) {
+                   /* for (var v in selectedItems) {
                       deleteProductsApi(id: v.toString()).then((value) async {
                         print(selectedItems.toString());
                         if (value['status'] == true) {
@@ -135,6 +166,23 @@ class _ProductAlreadyState extends State<ProductAlready> {
                         });
                       });
                       // }
+                    }*/
+
+                    for(var v in selectedItems){
+                      deleteProductsApi(id: v.toString()).then((value) {
+                        if(value['error'] == false){
+                          setState(() {
+                            haveProducts2.removeWhere((element) => element.id == v);
+                          });
+                          Fluttertoast.showToast(msg: value['message']);
+                        }else{
+                          Fluttertoast.showToast(msg: value['message']);
+                        }
+                        setState(() {
+                          loading = false;
+                          selectedItems.clear();
+                        });
+                      });
                     }
                     // }
                   },
@@ -324,7 +372,7 @@ class _ProductAlreadyState extends State<ProductAlready> {
                                                                       .toString(),
                                                                   link: haveProducts2[
                                                                           i]
-                                                                      .link
+                                                                      .url
                                                                       .toString(),
                                                                   image: haveProducts2[
                                                                           i]
@@ -333,7 +381,7 @@ class _ProductAlreadyState extends State<ProductAlready> {
                                                                   purchaseDate:
                                                                       haveProducts2[
                                                                               i]
-                                                                          .purchasedDate
+                                                                          .purchasedOn
                                                                           .toString(),
                                                                   id: haveProducts2[
                                                                           i]
@@ -506,8 +554,8 @@ class _ProductAlreadyState extends State<ProductAlready> {
                                                                     .only(
                                                                     left: 16),
                                                             child: Text(
-                                                              '\$ ${normalizedPercent.toString()}',
-                                                              // haveProducts2[i].price.toString(),
+                                                              //'\$ ${normalizedPercent.toString()}',
+                                                               haveProducts2[i].price.toString(),
                                                               // getProducts!.data![i].price.toString(),
                                                               // "47.99",
                                                               style: AppTextStyle()
@@ -541,17 +589,22 @@ class _ProductAlreadyState extends State<ProductAlready> {
                                                                 SizedBox(
                                                                   width: 6,
                                                                 ),
-                                                                Text(DateTime.now()
-                                                                            .difference(DateTime.parse(haveProducts2[i]
-                                                                                .createdAt
-                                                                                .toString()))
-                                                                            .inMinutes <=
-                                                                        59
-                                                                    ? "${DateTime.now().difference(DateTime.parse(haveProducts2[i].createdAt.toString())).inMinutes} min ago"
-                                                                    : DateTime.now().difference(DateTime.parse(haveProducts2[i].createdAt.toString())).inHours <=
-                                                                            23
-                                                                        ? "${DateTime.now().difference(DateTime.parse(haveProducts2[i].createdAt.toString())).inHours} hr ago"
-                                                                        : "${DateTime.now().difference(DateTime.parse(haveProducts2[i].createdAt.toString())).inDays} days ago"),
+                                                                Text(
+                                                                  haveProducts2[i]
+                                                                      .lastUpdated                                                                                                                                   
+                                                                      .toString(),
+                                                                    // DateTime.now()
+                                                                    //         .difference(DateTime.parse(haveProducts2[i]
+                                                                    //             .lastUpdated
+                                                                    //             .toString()))
+                                                                    //         .inMinutes <=
+                                                                    //     59
+                                                                    // ? "${DateTime.now().difference(DateTime.parse(haveProducts2[i].lastUpdated.toString())).inMinutes} min ago"
+                                                                    // : DateTime.now().difference(DateTime.parse(haveProducts2[i].lastUpdated.toString())).inHours <=
+                                                                    //         23
+                                                                    //     ? "${DateTime.now().difference(DateTime.parse(haveProducts2[i].lastUpdated.toString())).inHours} hr ago"
+                                                                    //     : "${DateTime.now().difference(DateTime.parse(haveProducts2[i].lastUpdated.toString())).inDays} days ago"
+                                                                ),
                                                                 // Text(
                                                                 //   DateTime.now().difference(DateTime.parse(
                                                                 //       haveProducts2[i].purchasedDate.toString())).

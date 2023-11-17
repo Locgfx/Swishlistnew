@@ -56,16 +56,15 @@ Future verifyOtp({
   var resp = jsonDecode(await response.stream.bytesToString());
   print(resp);
   if(response.statusCode == 200) {
-    if(resp['status'] == true){
+    if(resp['error'] == false){
       return LoginResponse.fromJson(resp);
     }
     else {
       Fluttertoast.showToast(msg: 'Please Enter Valid Otp');
       return LoginResponse(
-        code: 1,
-        status: false,
+        error: true,
         message: 'message',
-        data: UserLogin(
+        data: Data(
             id: 1,
             name: 'name',
             username: 'username',

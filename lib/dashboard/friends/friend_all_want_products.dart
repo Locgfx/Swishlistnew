@@ -32,7 +32,8 @@ class FriendWantProducts extends StatefulWidget {
 class _FriendWantProductsState extends State<FriendWantProducts> {
   @override
   void initState() {
-    getProducts();
+    //getProducts();
+     getWantProducts();
     super.initState();
   }
 
@@ -40,7 +41,7 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
   bool isLoading = false;
   FriendProductModel? products;
 
-  getProducts() {
+/*  getProducts() {
     isLoading = true;
     var resp = getFriendProductsApi(friendId: widget.friendId);
     resp.then((value) {
@@ -55,7 +56,39 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
       }
       // haveProducts2.clear();
     });
+  }*/
+
+  List<FriendProductModel> wantProducts = [];
+  List<FriendProductModel> wantProductsType = [];
+
+
+  getWantProducts(){
+    isLoading = true;
+    var resp = getFriendProductsApi(friendId: widget.friendId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            wantProducts.add(FriendProductModel.fromJson(v));
+          }
+          for(var q in wantProducts){
+            if(q.type == 'want'){
+              wantProductsType.add(q);
+
+            }
+          }
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
+
   }
+
 
   int selected = -1;
 
@@ -133,7 +166,8 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                   //     ),
                                   //   ],
                                   // ),
-                                  products!.data!.want!.isEmpty
+                                  //products!.data!.want!.isEmpty
+                              wantProductsType.isEmpty
                                       ? Center(
                                           child: Column(
                                             crossAxisAlignment:
@@ -160,16 +194,20 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                           padding: EdgeInsets.only(bottom: 30),
                                           physics:
                                               NeverScrollableScrollPhysics(),
-                                          itemCount:
-                                              products!.data!.want!.length,
+                                          itemCount: wantProductsType.length,
+                                              //products!.data!.want!.length,
                                           // itemCount: 6,
                                           shrinkWrap: true,
                                           scrollDirection: Axis.vertical,
                                           itemBuilder: (context, i) {
-                                            double price = double.tryParse(
+                                          /*  double price = double.tryParse(
                                                     products!
                                                         .data!.want![i].price
-                                                        .toString()) ??
+                                                        .toString())
+                                                ??
+                                                0.0;*/
+                                            double price = double.tryParse(wantProductsType[i].price
+                                                .toString()) ??
                                                 0.0;
                                             double normalizedPercent =
                                                 price / 100.0;
@@ -185,56 +223,75 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                                               FriendProductDetail(
                                                                 response: widget
                                                                     .response,
-                                                                name: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .name
-                                                                    .toString(),
-                                                                price: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .price
-                                                                    .toString(),
-                                                                link: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .link
-                                                                    .toString(),
-                                                                image: products!
-                                                                        .data!
-                                                                        .want![
-                                                                            i]
-                                                                        .photo
-                                                                        .toString()
-                                                                        .contains(
-                                                                            'http')
-                                                                    ? products!
-                                                                        .data!
-                                                                        .want![
-                                                                            i]
-                                                                        .photo
-                                                                        .toString()
+                                                                name: wantProductsType[i].name.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .name
+                                                                //     .toString(),
+                                                                price: wantProductsType[i].price.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .price
+                                                                //     .toString(),
+                                                                link: wantProductsType[i].url.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .link
+                                                                //     .toString(),
+                                                                image:
+
+                                                                wantProductsType[i].photo.toString().contains('http')
+
+                                                                    ? wantProductsType[i].photo.toString()
+
                                                                     : baseUrl +
-                                                                        products!
-                                                                            .data!
-                                                                            .want![i]
-                                                                            .photo
-                                                                            .toString(),
-                                                                purchaseDate: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .purchasedDate
-                                                                    .toString(),
-                                                                id: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .id
-                                                                    .toString(),
-                                                                type: products!
-                                                                    .data!
-                                                                    .want![i]
-                                                                    .type
-                                                                    .toString(),
+                                                                    wantProductsType[i].photo.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .photo
+                                                                //     .toString(),
+                                                                // products!
+                                                                //         .data!
+                                                                //         .want![
+                                                                //             i]
+                                                                //         .photo
+                                                                //         .toString()
+                                                                //         .contains(
+                                                                //             'http')
+                                                                //     ? products!
+                                                                //         .data!
+                                                                //         .want![
+                                                                //             i]
+                                                                //         .photo
+                                                                //         .toString()
+                                                                //     : baseUrl +
+                                                                //         products!
+                                                                //             .data!
+                                                                //             .want![i]
+                                                                //             .photo
+                                                                //             .toString(),
+                                                                purchaseDate: wantProductsType[i].purchasedOn.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .purchasedDate
+                                                                //     .toString(),
+                                                                id: wantProductsType[i].id.toString(),
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .id
+                                                                //     .toString(),
+                                                                type: '',
+                                                                // products!
+                                                                //     .data!
+                                                                //     .want![i]
+                                                                //     .type
+                                                                //     .toString(),
                                                                 productId: '',
                                                               )));
                                                 },
@@ -265,26 +322,33 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                                               ),
                                                               child:
                                                                   CachedNetworkImage(
-                                                                imageUrl: products!
-                                                                        .data!
-                                                                        .want![
-                                                                            i]
-                                                                        .photo
-                                                                        .toString()
-                                                                        .contains(
-                                                                            "https")
-                                                                    ? products!
-                                                                        .data!
-                                                                        .want![
-                                                                            i]
-                                                                        .photo
-                                                                        .toString()
+                                                                imageUrl: wantProductsType[i].photo.toString().contains('http')
+
+                                                                    ? wantProductsType[i].photo.toString()
+
                                                                     : baseUrl +
-                                                                        products!
-                                                                            .data!
-                                                                            .want![i]
-                                                                            .photo
-                                                                            .toString(),
+                                                                    wantProductsType[i].photo.toString(),
+
+                                                                // products!
+                                                                //         .data!
+                                                                //         .want![
+                                                                //             i]
+                                                                //         .photo
+                                                                //         .toString()
+                                                                //         .contains(
+                                                                //             "https")
+                                                                //     ? products!
+                                                                //         .data!
+                                                                //         .want![
+                                                                //             i]
+                                                                //         .photo
+                                                                //         .toString()
+                                                                //     : baseUrl +
+                                                                //         products!
+                                                                //             .data!
+                                                                //             .want![i]
+                                                                //             .photo
+                                                                //             .toString(),
                                                                 fit: BoxFit
                                                                     .cover,
                                                                 errorWidget:
@@ -343,12 +407,13 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                                                 child: SizedBox(
                                                                   width: 230.w,
                                                                   child: Text(
-                                                                    products!
-                                                                        .data!
-                                                                        .want![
-                                                                            i]
-                                                                        .name
-                                                                        .toString(),
+                                                                    wantProductsType[i].name.toString(),
+                                                                    // products!
+                                                                    //     .data!
+                                                                    //     .want![
+                                                                    //         i]
+                                                                    //     .name
+                                                                    //     .toString(),
                                                                     // "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergonomic Chair with Footrest...",
                                                                     overflow:
                                                                         TextOverflow
@@ -369,7 +434,8 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                                                         left:
                                                                             16),
                                                                 child: Text(
-                                                                  '\$ ${normalizedPercent}',
+                                                                    wantProductsType[i].price.toString(),
+                                                                  //'\$ ${normalizedPercent}',
                                                                   // "47.99",
                                                                   style: AppTextStyle()
                                                                       .textColor29292914w500,
@@ -403,13 +469,16 @@ class _FriendWantProductsState extends State<FriendWantProducts> {
                                                                     SizedBox(
                                                                       width: 6,
                                                                     ),
-                                                                    Text(DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes <=
-                                                                            59
-                                                                        ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes} min ago"
-                                                                        : DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours <=
-                                                                                23
-                                                                            ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours} hr ago"
-                                                                            : "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inDays} days ago"),
+                                                                    Text(
+                                                                      wantProductsType[i].lastUpdated.toString()
+                                                                        // DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes <=
+                                                                        //     59
+                                                                        // ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inMinutes} min ago"
+                                                                        // : DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours <=
+                                                                        //         23
+                                                                        //     ? "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inHours} hr ago"
+                                                                        //     : "${DateTime.now().difference(DateTime.parse(products!.data!.want![i].createdAt.toString())).inDays} days ago"
+                                                                    ),
                                                                   ],
                                                                 ),
                                                               )

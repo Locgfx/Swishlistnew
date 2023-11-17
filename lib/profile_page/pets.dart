@@ -28,26 +28,49 @@ class _PetsState extends State<Pets> {
 
   List<int> selectedItems = [];
   bool isLoading = false;
-  PetsModel? pets;
+  // PetsModel? pets;
 
-  getPets() {
+
+  List<PetModel> pets = [];
+
+  getPets(){
     isLoading = true;
     var resp = getPetsAPi();
-    resp.then((value) {
-      if (value['status'] == true) {
+    pets.clear();
+    resp.then((value){
+      print('rrr${value}');
+      if(value['error'] == false){
         setState(() {
-          pets = PetsModel.fromJson(value);
+          pets.add(PetModel.fromJson(value));
+          // pets = PetsModel.fromJson(value);
           isLoading = false;
         });
-      } else {
+      }else{
         setState(() {
           isLoading = false;
         });
       }
     });
   }
-
-  @override
+  //
+  // getPets() {
+  //   isLoading = true;
+  //   var resp = getPetsAPi();
+  //   resp.then((value) {
+  //     if (value['status'] == true) {
+  //       setState(() {
+  //         pets = PetsModel.fromJson(value);
+  //         isLoading = false;
+  //       });
+  //     } else {
+  //       setState(() {
+  //         isLoading = false;
+  //       });
+  //     }
+  //   });
+  // }
+  //
+  // @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -78,9 +101,9 @@ class _PetsState extends State<Pets> {
                         deletePetsApi(id: v.toString()).then((value) async {
                           print(v);
                           print(selectedItems.toString());
-                          if (value['status'] == true) {
+                          if (value['error'] == false) {
                             setState(() {
-                              pets!.data!
+                              pets
                                   .removeWhere((element) => element.id == v);
                             });
                             Fluttertoast.showToast(msg: value['message']);
@@ -162,7 +185,7 @@ class _PetsState extends State<Pets> {
                         SizedBox(
                           height: 20,
                         ),
-                        pets!.data!.isEmpty
+                        pets.isEmpty
                             ? GestureDetector(
                                 onTap: () {
                                   Navigator.pushReplacement(
@@ -204,7 +227,7 @@ class _PetsState extends State<Pets> {
                                   scrollDirection: Axis.vertical,
                                   physics: ScrollPhysics(),
                                   padding: EdgeInsets.symmetric(horizontal: 10),
-                                  itemCount: pets!.data!.length + 1,
+                                  itemCount: pets.length + 1,
                                   shrinkWrap: true,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
@@ -213,7 +236,7 @@ class _PetsState extends State<Pets> {
                                     mainAxisSpacing: 10,
                                   ),
                                   itemBuilder: (ctx, index) {
-                                    if (index >= pets!.data!.length) {
+                                    if (index >= pets.length) {
                                       return GestureDetector(
                                         onTap: () {
                                           Navigator.push(
@@ -256,7 +279,7 @@ class _PetsState extends State<Pets> {
                                           if (selectedItems.isEmpty) {
                                             setState(() {
                                               selectedItems
-                                                  .add(pets!.data![index].id!);
+                                                  .add(pets[index].id!);
                                             });
                                           }
                                         },
@@ -269,15 +292,15 @@ class _PetsState extends State<Pets> {
                                             //             selectedItems()));
                                           } else {
                                             if (selectedItems.contains(
-                                                pets!.data![index].id!)) {
+                                                pets[index].id!)) {
                                               setState(() {
                                                 selectedItems.remove(
-                                                    pets!.data![index].id!);
+                                                    pets[index].id!);
                                               });
                                             } else {
                                               setState(() {
                                                 selectedItems.add(
-                                                    pets!.data![index].id!);
+                                                    pets[index].id!);
                                               });
                                             }
                                           }
@@ -290,8 +313,8 @@ class _PetsState extends State<Pets> {
                                           decoration: BoxDecoration(
                                               border: Border.all(
                                                   color: selectedItems.contains(
-                                                          pets!
-                                                              .data![index].id!)
+                                                          pets
+                                                          [index].id)
                                                       ? ColorSelect.colorF7E641
                                                       : Colors.grey,
                                                   // color: Colors.grey,
@@ -314,7 +337,7 @@ class _PetsState extends State<Pets> {
                                                   ),
                                                   child: CachedNetworkImage(
                                                     imageUrl: (baseUrl +
-                                                        pets!.data![index].photo
+                                                        pets[index].photo
                                                             .toString()),
                                                     fit: BoxFit.cover,
                                                     errorWidget:
@@ -353,7 +376,7 @@ class _PetsState extends State<Pets> {
                                               Column(
                                                 children: [
                                                   Text(
-                                                    pets!.data![index].name
+                                                    pets[index].name
                                                         .toString(),
                                                     maxLines: 5,
                                                     overflow:
@@ -362,13 +385,13 @@ class _PetsState extends State<Pets> {
                                                         .textColor29292914w400,
                                                   ),
                                                   Text(
-                                                    pets!.data![index].type
+                                                    pets[index].type
                                                         .toString(),
                                                     style: AppTextStyle()
                                                         .textColor70707014w400,
                                                   ),
                                                   Text(
-                                                    pets!.data![index].origin
+                                                    pets[index].origin
                                                         .toString(),
                                                     style: AppTextStyle()
                                                         .textColor70707014w400,

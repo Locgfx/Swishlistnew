@@ -39,10 +39,10 @@ Future updateProfile({
     } else {
       Fluttertoast.showToast(msg: 'Please Enter Valid Otp');
       return LoginResponse(
-        code: 1,
-        status: false,
+
+        error: true,
         message: 'message',
-        data: UserLogin(
+        data: Data(
             id: 1,
             name: 'name',
             username: 'username',

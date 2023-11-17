@@ -25,7 +25,7 @@ class MyInterests extends StatefulWidget {
 class _MyInterestsState extends State<MyInterests> {
   @override
   void initState() {
-    getInterest();
+    // getInterest();
     super.initState();
   }
 
@@ -67,24 +67,24 @@ class _MyInterestsState extends State<MyInterests> {
   // LoginResponse? response;
   // InterestModel? interest;
 
-  List<String>? elements = [''];
-  bool isLoading = false;
-  InterestModel _interest = InterestModel(data: Data(interest: ''));
-  getInterest() {
-    isLoading = true;
-    var resp = getInterestApi();
-    resp.then((value) {
-      if (value['status'] == true) {
-        setState(() {
-          _interest = InterestModel.fromJson(value);
-          elements = _interest.data!.interest!.split(",");
-          isLoading = false;
-        });
-      } else {
-        isLoading = false;
-      }
-    });
-  }
+  // List<String>? elements = [''];
+  // bool isLoading = false;
+  // InterestModel _interest = InterestModel(data: Data(interest: ''));
+  // getInterest() {
+  //   isLoading = true;
+  //   var resp = getInterestApi();
+  //   resp.then((value) {
+  //     if (value['status'] == true) {
+  //       setState(() {
+  //         _interest = InterestModel.fromJson(value);
+  //         elements = _interest.data!.interest!.split(",");
+  //         isLoading = false;
+  //       });
+  //     } else {
+  //       isLoading = false;
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -118,77 +118,77 @@ class _MyInterestsState extends State<MyInterests> {
       ),
       backgroundColor: Colors.white,
       //extendBody: true,
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        width: 1.sw,
-        // height: 60.h,
-        color: Colors.transparent,
-        child: SingleChildScrollView(
-            child: (_interest!.data!.interest == '')
-                ? YellowButtonWithText(
-                    size: 15,
-                    backgroundColor:
-                        MaterialStateProperty.all(ColorSelect.colorF7E641),
-                    textStyleColor: ColorSelect.color292929,
-                    onTap: () {
-                      if (tagsList.isNotEmpty) {
-                        postInterest(
-                          interest: tagsList.join(","),
-                        ).then((value) async {
-                          if (value['status'] == true) {
-                            Fluttertoast.showToast(msg: value['message']);
-                            Navigator.pop(context);
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (_) =>
-                            //         UserAllDetails(response: widget.response),
-                            //   ),
-                            // );
-                          } else {
-                            Fluttertoast.showToast(msg: value['message']);
-                          }
-                        });
-                      }
-                    },
-                    title:
-                        'Save ${tagsList.isNotEmpty && tagsList.length < 11 ? '(${tagsList.length}/10)' : ''}',
-                  )
-                : YellowButtonWithText(
-                    size: 15,
-                    backgroundColor:
-                        MaterialStateProperty.all(ColorSelect.colorF7E641),
-                    textStyleColor: ColorSelect.color292929,
-                    onTap: () {
-                      if (tagsList.isNotEmpty) {
-                        updateInterest(
-                                userid: _interest!.data!.userId.toString(),
-                                interest: tagsList.join(","),
-                                id: _interest!.data!.id.toString())
-                            .then((value) async {
-                          if (value['status'] == true) {
-                            // print(_interest!.data!.userId.toString());
-                            // print(tagsList.toString());
-                            // print(_interest!.data!.id.toString());
-                            Fluttertoast.showToast(msg: value['message']);
-                            Navigator.pop(context);
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (_) =>
-                            //         UserAllDetails(response: widget.response),
-                            //   ),
-                            // );
-                          } else {
-                            Fluttertoast.showToast(msg: value['message']);
-                          }
-                        });
-                      }
-                    },
-                    title:
-                        'Update ${tagsList.isNotEmpty && tagsList.length < 11 ? '(${tagsList.length}/10)' : ''}',
-                  )),
-      ),
+      // bottomNavigationBar: Container(
+      //   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      //   width: 1.sw,
+      //   // height: 60.h,
+      //   color: Colors.transparent,
+      //   child: SingleChildScrollView(
+      //       child: (_interest!.data!.interest == '')
+      //           ? YellowButtonWithText(
+      //               size: 15,
+      //               backgroundColor:
+      //                   MaterialStateProperty.all(ColorSelect.colorF7E641),
+      //               textStyleColor: ColorSelect.color292929,
+      //               onTap: () {
+      //                 if (tagsList.isNotEmpty) {
+      //                   postInterest(
+      //                     interest: tagsList.join(","),
+      //                   ).then((value) async {
+      //                     if (value['status'] == true) {
+      //                       Fluttertoast.showToast(msg: value['message']);
+      //                       Navigator.pop(context);
+      //                       // Navigator.push(
+      //                       //   context,
+      //                       //   MaterialPageRoute(
+      //                       //     builder: (_) =>
+      //                       //         UserAllDetails(response: widget.response),
+      //                       //   ),
+      //                       // );
+      //                     } else {
+      //                       Fluttertoast.showToast(msg: value['message']);
+      //                     }
+      //                   });
+      //                 }
+      //               },
+      //               title:
+      //                   'Save ${tagsList.isNotEmpty && tagsList.length < 11 ? '(${tagsList.length}/10)' : ''}',
+      //             )
+      //           : YellowButtonWithText(
+      //               size: 15,
+      //               backgroundColor:
+      //                   MaterialStateProperty.all(ColorSelect.colorF7E641),
+      //               textStyleColor: ColorSelect.color292929,
+      //               onTap: () {
+      //                 if (tagsList.isNotEmpty) {
+      //                   updateInterest(
+      //                           userid: _interest!.data!.userId.toString(),
+      //                           interest: tagsList.join(","),
+      //                           id: _interest!.data!.id.toString())
+      //                       .then((value) async {
+      //                     if (value['status'] == true) {
+      //                       // print(_interest!.data!.userId.toString());
+      //                       // print(tagsList.toString());
+      //                       // print(_interest!.data!.id.toString());
+      //                       Fluttertoast.showToast(msg: value['message']);
+      //                       Navigator.pop(context);
+      //                       // Navigator.push(
+      //                       //   context,
+      //                       //   MaterialPageRoute(
+      //                       //     builder: (_) =>
+      //                       //         UserAllDetails(response: widget.response),
+      //                       //   ),
+      //                       // );
+      //                     } else {
+      //                       Fluttertoast.showToast(msg: value['message']);
+      //                     }
+      //                   });
+      //                 }
+      //               },
+      //               title:
+      //                   'Update ${tagsList.isNotEmpty && tagsList.length < 11 ? '(${tagsList.length}/10)' : ''}',
+      //             )),
+      // ),
       body: Container(
         constraints: BoxConstraints(maxHeight: 1.sh),
         padding: const EdgeInsets.symmetric(horizontal: 16),

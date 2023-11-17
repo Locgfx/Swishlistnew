@@ -58,9 +58,11 @@ class _ProductsPageState extends State<ProductsPage> {
   int itemCount = 2;
 
   Future<void> _handleRefresh() async {
+
+
     getProfile();
-    getWantProducts();
-    getNotWant();
+    getWantProduct();
+    getNotWantProducts();
     getHaveProducts();
 
     // Implement your refresh logic here.
@@ -96,8 +98,8 @@ class _ProductsPageState extends State<ProductsPage> {
       });
     });
 
-    getWantProducts();
-    getNotWant();
+    getWantProduct();
+    getNotWantProducts();
     getHaveProducts();
 
     super.initState();
@@ -181,28 +183,33 @@ class _ProductsPageState extends State<ProductsPage> {
   List<ProductTypeModel> wantProducts = [];
   List<ProductTypeModel> wantProducts2 = [];
 
-  getWantProducts() {
+  getWantProduct(){
     isLoading = true;
     var resp = getProductsApi();
+
     resp.then((value) {
+
       wantProducts2.clear();
       wantProducts.clear();
-      if (value['status'] == true) {
+
+      if(value['error'] == false){
         setState(() {
-          for (var v in value['data']) {
+          for(var v in value['data']){
             wantProducts.add(ProductTypeModel.fromJson(v));
           }
-          for (var v in wantProducts) {
-            if (v.type! == "want") {
-              wantProducts2.add(v);
-              wantProducts2.removeWhere((element) => element.id == v);
+
+          for(var q in wantProducts){
+            if(q.type == 'want'){
+              wantProducts2.add(q);
             }
+
           }
+          print(wantProducts2);
           isLoading = false;
         });
-      } else {
+
+      }else{
         isLoading = false;
-        // wantProducts2.clear();
       }
     });
   }
@@ -210,62 +217,67 @@ class _ProductsPageState extends State<ProductsPage> {
   // GetProductModel? getProducts2;
   List<ProductTypeModel> notWant = [];
   List<ProductTypeModel> notWant2 = [];
-  getNotWant() {
+
+  getNotWantProducts(){
     isLoading = true;
     var resp = getProductsApi();
     resp.then((value) {
       notWant2.clear();
       notWant.clear();
-      if (value['status'] == true) {
+      if(value['error'] == false){
         setState(() {
-          for (var v in value["data"]) {
+          for (var v in value['data']){
             notWant.add(ProductTypeModel.fromJson(v));
           }
-          for (var v in notWant) {
-            if (v.type! == "dont_want") {
-              notWant2.add(v);
+          for(var q in notWant){
+            if(q.type == 'dont_want'){
+              notWant2.add(q);
             }
+
           }
+          print(notWant2);
           isLoading = false;
-          // notWant2.clear();
         });
-      } else {
+
+      }else{
         isLoading = false;
       }
     });
   }
-
   // GetProductModel? getProducts;
   List<ProductTypeModel> haveProducts = [];
   List<ProductTypeModel> haveProducts2 = [];
 
-  getHaveProducts() {
+  getHaveProducts(){
     isLoading = true;
     var resp = getProductsApi();
     resp.then((value) {
       haveProducts2.clear();
       haveProducts.clear();
-
-      if (value['status'] == true) {
-        setState(() {});
-        setState(() {
-          for (var v in value["data"]) {
-            haveProducts.add(ProductTypeModel.fromJson(v));
-          }
-          for (var v in haveProducts) {
-            if (v.type! == "have") {
-              haveProducts2.add(v);
-              setState(() {});
+      if(mounted){
+        if(value['error'] == false){
+          setState(() {
+            for(var v in value['data']){
+              haveProducts.add(ProductTypeModel.fromJson(v));
             }
-          }
+            for(var q in haveProducts){
+              if(q.type == 'have'){
+                haveProducts2.add(q);
+
+              }
+            }
+            print(haveProducts2);
+            isLoading = false;
+          });
+        }else{
           isLoading = false;
-        });
-      } else {
-        isLoading = false;
-        setState(() {});
+        }
       }
+
     });
+
   }
+
 
   List<FriendNotificationModel> friendNotification = [];
   getFriendNotifications() {
@@ -499,24 +511,24 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       ),
                                               ],
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 8),
-                                              child: Text(
-                                                // '${SharedPrefs().getEmail()}'
-                                                //         .isEmpty
-                                                //     ? widget.response.data.name
-                                                //         .toString()
-                                                //     :
-                                                // '${SharedPrefs().getEmail()}',
-                                                /* '${SharedPrefs().getUsername()}' == 'null' ?
-                                          'Add your Username' :*/
-                                                widget.response.data.email
-                                                    .toString(),
-                                                style: AppTextStyle()
-                                                    .textColor70707014w400,
-                                              ),
-                                            ),
+                                          //   Padding(
+                                          //     padding:
+                                          //         const EdgeInsets.only(top: 8),
+                                          //     child: Text(
+                                          //       // '${SharedPrefs().getEmail()}'
+                                          //       //         .isEmpty
+                                          //       //     ? widget.response.data.name
+                                          //       //         .toString()
+                                          //       //     :
+                                          //       // '${SharedPrefs().getEmail()}',
+                                          //       /* '${SharedPrefs().getUsername()}' == 'null' ?
+                                          // 'Add your Username' :*/
+                                          //       widget.response.data.email
+                                          //           .toString(),
+                                          //       style: AppTextStyle()
+                                          //           .textColor70707014w400,
+                                          //     ),
+                                          //   ),
                                           ],
                                         ),
                                         // SizedBox(
@@ -1263,7 +1275,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                                       .toString(),
                                                                   link: wantProducts2[
                                                                           i]
-                                                                      .link
+                                                                      .url
                                                                       .toString(),
                                                                   image: wantProducts2[
                                                                               i]
@@ -1282,7 +1294,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                                   purchaseDate:
                                                                       wantProducts2[
                                                                               i]
-                                                                          .purchasedDate
+                                                                          .purchasedOn
                                                                           .toString(),
                                                                   id: wantProducts2[
                                                                           i]
@@ -1331,7 +1343,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                           ? wantProducts2[i]
                                                               .photo
                                                               .toString()
-                                                          : baseUrl +
+                                                          : newBaseUrl +
                                                               wantProducts2[i]
                                                                   .photo
                                                                   .toString(),
@@ -1400,9 +1412,9 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
-                                                    '\$ ${normalizedPercent.toString()}',
+                                                    // '\$ ${normalizedPercent.toString()}',
 
-                                                    // '\$ ${wantProducts2[i].price.toString()}',
+                                                     ' ${wantProducts2[i].price.toString()}',
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,
                                                   ),
@@ -1532,10 +1544,12 @@ class _ProductsPageState extends State<ProductsPage> {
                                                                       .name
                                                                       .toString(),
                                                                   price:
-                                                                      '${notWant2[i].price.toString()}',
+                                                                  notWant2[i]
+                                                                      .price
+                                                                      .toString(),
                                                                   link: notWant2[
                                                                           i]
-                                                                      .link
+                                                                      .url
                                                                       .toString(),
                                                                   image: notWant2[
                                                                               i]
@@ -1554,7 +1568,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                                   purchaseDate:
                                                                       notWant2[
                                                                               i]
-                                                                          .purchasedDate
+                                                                          .purchasedOn
                                                                           .toString(),
                                                                   id: notWant2[
                                                                           i]
@@ -1665,8 +1679,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
-                                                    '\$ ${normalizedPercent.toString()}',
-                                                    // '\$ ${notWant2[i].price.toString()}',
+                                                    //'\$ ${normalizedPercent.toString()}',
+                                                     ' ${notWant2[i].price.toString()}',
                                                     // widget.itemPrice[i],
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,
@@ -1797,10 +1811,10 @@ class _ProductsPageState extends State<ProductsPage> {
                                                                       .name
                                                                       .toString(),
                                                                   price:
-                                                                      '${haveProducts2[i].price.toString()}',
+                                                                      haveProducts2[i].price.toString(),
                                                                   link: haveProducts2[
                                                                           i]
-                                                                      .link
+                                                                      .url
                                                                       .toString(),
                                                                   image: haveProducts2[
                                                                               i]
@@ -1819,7 +1833,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                                   purchaseDate:
                                                                       haveProducts2[
                                                                               i]
-                                                                          .purchasedDate
+                                                                          .purchasedOn
                                                                           .toString(),
                                                                   id: haveProducts2[
                                                                           i]
@@ -1860,7 +1874,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                           ? haveProducts2[i]
                                                               .photo
                                                               .toString()
-                                                          : baseUrl +
+                                                          : newBaseUrl +
                                                               haveProducts2[i]
                                                                   .photo
                                                                   .toString(),
@@ -1929,8 +1943,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
-                                                    '\$ ${normalizedPercent.toString()}',
-                                                    // '\$ ${haveProducts2[i].price.toString()}',
+                                                    //'\$ ${normalizedPercent.toString()}',
+                                                     ' ${haveProducts2[i].price.toString()}',
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,
                                                   ),
@@ -2057,7 +2071,7 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
                                                 price:
                                                     '\$${haveProducts2[i].price.toString()}',
                                                 link: haveProducts2[i]
-                                                    .link
+                                                    .url
                                                     .toString(),
                                                 image: haveProducts2[i]
                                                         .photo
@@ -2071,7 +2085,7 @@ class _AlreadyProductListWidgetState extends State<AlreadyProductListWidget> {
                                                             .photo
                                                             .toString(),
                                                 purchaseDate: haveProducts2[i]
-                                                    .purchasedDate
+                                                    .purchasedOn
                                                     .toString(),
                                                 id: haveProducts2[i]
                                                     .id
@@ -2301,7 +2315,7 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                                                 price:
                                                     '\$${wantProducts2[i].price.toString()}',
                                                 link: wantProducts2[i]
-                                                    .link
+                                                    .url
                                                     .toString(),
                                                 image: wantProducts2[i]
                                                         .photo
@@ -2315,7 +2329,7 @@ class _IWantProductListWidgetState extends State<IWantProductListWidget> {
                                                             .photo
                                                             .toString(),
                                                 purchaseDate: wantProducts2[i]
-                                                    .purchasedDate
+                                                    .purchasedOn
                                                     .toString(),
                                                 id: wantProducts2[i]
                                                     .id
@@ -2445,6 +2459,8 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
   GetProductModel? getProducts;
   List<ProductTypeModel> notWant = [];
   List<ProductTypeModel> notWant2 = [];
+
+
   getNotWant() {
     isLoading = true;
     var resp = getProductsApi();
@@ -2517,7 +2533,7 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
                                                 price:
                                                     '\$${notWant2[i].price.toString()}',
                                                 link:
-                                                    notWant2[i].link.toString(),
+                                                    notWant2[i].url.toString(),
                                                 image: notWant2[i]
                                                         .photo
                                                         .toString()
@@ -2530,7 +2546,7 @@ class _NotWantProductListWidgetState extends State<NotWantProductListWidget> {
                                                             .photo
                                                             .toString(),
                                                 purchaseDate: notWant2[i]
-                                                    .purchasedDate
+                                                    .purchasedOn
                                                     .toString(),
                                                 id: notWant2[i].id.toString(),
                                                 type:

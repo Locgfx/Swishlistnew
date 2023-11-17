@@ -6,22 +6,29 @@ import '../../constants/urls.dart';
 
 Future getFriendsApi() async {
   var headers = {
+    'Content-Type': 'multipart/form-data',
+    'User-Agent': 'insomnia/8.2.0',
+    'Accept': 'application/json',
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
-  var request = http.Request('POST', Uri.parse('$baseUrl/api/user/friend'));
-  request.bodyFields = {};
+  var request = http.Request('GET', Uri.parse('$newBaseUrl/api/friend'));
+
   request.headers.addAll(headers);
+
   http.StreamedResponse response = await request.send();
-  var resp = jsonDecode(await response.stream.bytesToString());
-  if(response.statusCode == 200 ) {
-    print(resp);
-    return resp;
-  } else {
-    print(resp);
-    print(response.statusCode);
-    print(response.reasonPhrase);
-    return resp;
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    print(resBody);
+    return resBody;
   }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+    print(resBody);
+    return resBody;
+  }
+
 }
 
 
@@ -125,7 +132,7 @@ Future<dynamic> updateFriendRequestApi({
 Future<dynamic> deleteFriendApi({
   required String id
 }) async {
-  var headers = {
+  /*var headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
@@ -144,31 +151,82 @@ Future<dynamic> deleteFriendApi({
     print(response.statusCode);
     print(response.reasonPhrase);
     return resp;
+  }*/
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  };
+  var request = http.Request('POST', Uri.parse('$newBaseUrl/api/friend/delete'));
+  request.body = json.encode({
+    "id": id
+  });
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    print(resBody);
+    return resBody;
+  }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+    print(resBody);
+    return resBody;
   }
 
 }
 
+
 Future <dynamic> getFriendProductsApi({
   required String friendId,
 }) async {
+
   var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
-  var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/api/user/friend/product'));
-  request.fields.addAll({
-    'friend_user_id': friendId,
+  var request = http.Request('POST', Uri.parse('$newBaseUrl/api/friend/products'));
+  request.body = json.encode({
+    "friend_id": friendId
   });
   request.headers.addAll(headers);
+
   http.StreamedResponse response = await request.send();
-  var resp = jsonDecode(await response.stream.bytesToString());
-  if (response.statusCode == 200){
-    // print(resp);
-    return resp;
-  } else {
-    // print(resp);
-    print(response.statusCode);
-    print(response.reasonPhrase);
-    return resp;
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    print(resBody);
+    return resBody;
   }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+    print(resBody);
+    return resBody;
+  }
+
+  // var headers = {
+  //   'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  // };
+  // var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/api/user/friend/product'));
+  // request.fields.addAll({
+  //   'friend_user_id': friendId,
+  // });
+  // request.headers.addAll(headers);
+  // http.StreamedResponse response = await request.send();
+  // var resp = jsonDecode(await response.stream.bytesToString());
+  // if (response.statusCode == 200){
+  //   // print(resp);
+  //   return resp;
+  // } else {
+  //   // print(resp);
+  //   print(response.statusCode);
+  //   print(response.reasonPhrase);
+  //   return resp;
+  // }
 
 }

@@ -33,17 +33,17 @@ class AppleLoginButton extends StatelessWidget {
             getAppleValidateToken(authorizedCode: credential.authorizationCode);
         resp.then((value) {
           response = value;
-          if (response?.status != null && response!.status == true) {
+          if (response?.error != null && response!.error == false) {
             SharedPrefs().setAppleToken(credential.authorizationCode);
             SharedPrefs().setLoginTrue();
             // SharedPrefs().setAppleTrue();
-            SharedPrefs().setName(response!.data.name.toString());
+            SharedPrefs().setName(response!.data!.name.toString());
             // SharedPrefs().setUsername(response!.data.username.toString());
             // SharedPrefs().setUserPhoto(response!.data.photo.toString());
             // SharedPrefs().setEmail(response!.data.email.toString());
             SharedPrefs().setPassword(credential.authorizationCode);
-            SharedPrefs().setLoginToken(response!.token);
-            SharedPrefs().setId(response!.data.id.toString());
+            SharedPrefs().setLoginToken(response!.token.toString());
+            SharedPrefs().setId(response!.data!.id.toString());
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => Dashboard(response: response!),

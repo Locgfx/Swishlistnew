@@ -1,31 +1,34 @@
-class LoginResponse {
-  bool? error;
-  String? message;
-  Data? data;
-  String? token;
+class FamilyMemberRequestIndexModel {
+  int? id;
+  String? status;
+  RequestBy? requestBy;
+  String? createdAt;
 
-  LoginResponse({this.error, this.message, this.data, this.token});
+  FamilyMemberRequestIndexModel(
+      {this.id, this.status, this.requestBy, this.createdAt});
 
-  LoginResponse.fromJson(Map<String, dynamic> json) {
-    error = json['error'];
-    message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-    token = json['token'];
+  FamilyMemberRequestIndexModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    status = json['status'];
+    requestBy = json['request_by'] != null
+        ? new RequestBy.fromJson(json['request_by'])
+        : null;
+    createdAt = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['error'] = this.error;
-    data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
+    data['id'] = this.id;
+    data['status'] = this.status;
+    if (this.requestBy != null) {
+      data['request_by'] = this.requestBy!.toJson();
     }
-    data['token'] = this.token;
+    data['created_at'] = this.createdAt;
     return data;
   }
 }
 
-class Data {
+class RequestBy {
   int? id;
   String? name;
   String? username;
@@ -37,7 +40,7 @@ class Data {
   String? status;
   String? complete;
 
-  Data(
+  RequestBy(
       {this.id,
         this.name,
         this.username,
@@ -49,7 +52,7 @@ class Data {
         this.status,
         this.complete});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  RequestBy.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     username = json['username'];
