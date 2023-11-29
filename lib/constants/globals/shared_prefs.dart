@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefs {
   String login = 'login';
+  String verifyEmail = 'verifyEmail';
   String googleLogin = 'googleLogin';
   String appleLogin = 'appleLogin';
   String signLogin = 'signLogin';
@@ -221,5 +222,25 @@ class SharedPrefs {
 
   Future setFcmToken(String loginToken) async {
     return await _prefs?.setString(fcmToken, loginToken);
+  }
+
+  // Future setEmailVerifyTrue() async {
+  //   return await _prefs?.setBool(verifyEmail, true);
+  // }
+  //
+  // bool? getEmailVerify() {
+  //   return _prefs?.getBool(verifyEmail);
+  // }
+  //
+  // Future setEmailVerifyFalse() async {
+  //   return await _prefs?.setBool(verifyEmail, false);
+  // }
+
+  String? getEmailVerify() {
+    return _prefs?.getString(verifyEmail);
+  }
+
+  Future setEmailVerify(String loginToken) async {
+    return await _prefs?.setString(verifyEmail, loginToken);
   }
 }

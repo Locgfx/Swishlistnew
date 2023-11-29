@@ -332,7 +332,7 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
                                                     ),
                                                     Text(
                                                       // normalizedPercent.toString(),
-                                                      '\$ ${normalizedPercent.toString()} ',
+                                                      '\$ ${normalizedPercent.toStringAsFixed(2)} ',
                                                       // ' \$ ${listings[i].price!.amount.toString()}',
                                                       overflow:
                                                           TextOverflow.ellipsis,

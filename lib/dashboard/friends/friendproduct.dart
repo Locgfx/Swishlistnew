@@ -457,8 +457,10 @@ class _FriendProductState extends State<FriendProduct> {
                             ),
                           ),
                           SizedBox(height: 12),
-                          products!.data!.want!.isEmpty ||
-                                  products!.data!.want == null
+                          (products?.data?.want?.isNotEmpty ?? false) ||
+                                  (products?.data?.want == null)
+                              // products!.data!.want!.isEmpty ||
+                              //         products!.data!.want == null
                               ? Center(
                                   child: Column(
                                     children: [
@@ -603,21 +605,36 @@ class _FriendProductState extends State<FriendProduct> {
                                                         maxHeightDiskCache: 200,
                                                         maxWidthDiskCache: 200,
                                                         imageUrl: products!
-                                                                .data!
-                                                                .want![i]
-                                                                .photo
-                                                                .toString()
-                                                                .contains(
-                                                                    'http')
-                                                            ? products!.data!
-                                                                .want![i].photo
-                                                                .toString()
-                                                            : baseUrl +
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .photo!
+                                                                    .isEmpty ||
                                                                 products!
+                                                                        .data!
+                                                                        .want![
+                                                                            i]
+                                                                        .photo ==
+                                                                    null
+                                                            ? ""
+                                                            : products!
                                                                     .data!
                                                                     .want![i]
                                                                     .photo
-                                                                    .toString(),
+                                                                    .toString()
+                                                                    .contains(
+                                                                        'http')
+                                                                ? products!
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .photo
+                                                                    .toString()
+                                                                : baseUrl +
+                                                                    products!
+                                                                        .data!
+                                                                        .want![
+                                                                            i]
+                                                                        .photo
+                                                                        .toString(),
                                                         fit: BoxFit.cover,
                                                         errorWidget: (context,
                                                                 url, error) =>
@@ -744,8 +761,10 @@ class _FriendProductState extends State<FriendProduct> {
                             ),
                           ),
                           SizedBox(height: 12),
-                          products!.data!.dontWant!.isEmpty ||
-                                  products!.data!.dontWant == null
+                          (products?.data?.want?.isNotEmpty ?? false) ||
+                                  (products?.data?.want == null)
+                              // products!.data!.dontWant!.isEmpty ||
+                              //         products!.data!.dontWant == null
                               ? AddProductError(
                                   addButton: SizedBox(),
                                   image: 'assets/images/addproducts2.png',
@@ -1014,22 +1033,25 @@ class _FriendProductState extends State<FriendProduct> {
                             ),
                           ),
                           SizedBox(height: 12),
-                          products!.data!.have!.isEmpty ||
-                                  products!.data!.have == null
+                          (products?.data?.want?.isNotEmpty ?? false) ||
+                                  (products?.data?.want == null)
+                              // products!.data!.have!.isEmpty ||
+                              //         products!.data!.have == null
                               ? AddProductError(
                                   addButton: SizedBox(),
                                   image: 'assets/images/addproduct3.png',
                                   tap: () {
                                     showModalBottomSheet(
-                                        backgroundColor: Colors.transparent,
-                                        context: context,
-                                        isScrollControlled: true,
-                                        builder: (context) {
-                                          return ManuallyAddBottomSheetWidget(
-                                            productType:
-                                                '', /*model: widget.model,*/
-                                          );
-                                        });
+                                      backgroundColor: Colors.transparent,
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (context) {
+                                        return ManuallyAddBottomSheetWidget(
+                                          productType:
+                                              '', /*model: widget.model,*/
+                                        );
+                                      },
+                                    );
                                   },
                                 )
                               : SizedBox(

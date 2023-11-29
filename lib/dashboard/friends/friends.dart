@@ -329,7 +329,7 @@ class _FriendsState extends State<Friends> {
                               ? AddProductImage(
                                   image: 'assets/images/addfriends.png',
                                   txt:
-                                      'Add friends to share your profile and your favorite product',
+                                      'Add friends to share your profile and your favorite products',
                                   buttonTxt: 'Add Friend',
                                   tap: () {
                                     Navigator.push(
