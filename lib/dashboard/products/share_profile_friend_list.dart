@@ -86,7 +86,7 @@ class _ShareProfileFriendListState extends State<ShareProfileFriendList> {
                         padding:
                             const EdgeInsets.only(left: 24, right: 24, top: 10),
                         child: Text(
-                          "Add Friends to Share Profile",
+                          "Add friends to share profile",
                           style: AppTextStyle().roboto29292914w500,
                           textAlign: TextAlign.center,
                         ),

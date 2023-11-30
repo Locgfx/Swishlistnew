@@ -59,73 +59,43 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPrefs().init();
     bool loginBool;
     bool firstRun;
-    // bool signLogin;
-    // bool googleLoginBool;
-    // bool appleLoginBool;
+
     Future.delayed(Duration(seconds: 3), () {
       firstRun = SharedPrefs().getFirstRun() ?? false;
       loginBool = SharedPrefs().getLogin() ?? false;
-      // signLogin = SharedPrefs().getSignLogin() ?? false;
-      // googleLoginBool = SharedPrefs().getGoogleLogin() ?? false;
-      // appleLoginBool = SharedPrefs().getAppleLogin() ?? false;
+
       if (firstRun) {
-        // if (loginBool) {
-        //   print('login');
-        //   LoginResponse response;
-        //   login(
-        //     context: context,
-        //     email: SharedPrefs().getEmail()!,
-        //     password: SharedPrefs().getPassword()!,
-        //   ).then((value) async {
-        //     response = value;
-        //     if (response.status == true) {
-        //       SharedPrefs().setLoginTrue();
-        //       SharedPrefs().setLoginToken(response.token);
-        //       print(response.token);
-        //       SharedPrefs().setId(response.data.id.toString());
-        //       print(response.data.id.toString());
-        //       Navigator.of(context).pushReplacement(
-        //         MaterialPageRoute(
-        //           builder: (context) => Dashboard(response: response),
-        //         ),
-        //       );
-        //     }
-        //   });
-        // }
         if (loginBool) {
           print('check token${SharedPrefs().getLoginToken()}');
           LoginResponse response;
+
+          // Assuming authTokenLoginApi returns a Future<LoginResponse>
           authTokenLoginApi(
-                  token: '${SharedPrefs().getLoginToken()}',
-                  fcmToken: _fcmToken)
-              .then((value) async {
-            response = value;
-            if (response.status == true) {
-              SharedPrefs().setLoginToken(response.token);
-              Navigator.of(context).pushReplacement(
+            token: '${SharedPrefs().getLoginToken()}',
+            fcmToken: _fcmToken,
+          ).then((value) async {
+            // Check the type of 'value' returned by authTokenLoginApi
+            if (value is LoginResponse) {
+              response = value;
+              if (response.status == true) {
+                SharedPrefs().setLoginToken(response.token);
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => Dashboard(response: response),
+                  ),
+                );
+              }
+            } else {
+              Navigator.pushReplacement(
+                context,
                 MaterialPageRoute(
-                  builder: (context) => Dashboard(response: response),
+                  builder: (_) => Login(),
                 ),
               );
+              // Handle the case where authTokenLoginApi returns an unexpected type
             }
           });
-        }
-        // else if (appleLoginBool) {
-        //   LoginResponse response;
-        //   authUserApi().then((value) async {
-        //     response = value;
-        //     if (response.status == true) {
-        //       // SharedPrefs().setLoginToken(response.token);
-        //
-        //       Navigator.of(context).pushReplacement(
-        //         MaterialPageRoute(
-        //           builder: (context) => Dashboard(response: response),
-        //         ),
-        //       );
-        //     }
-        //   });
-        // }
-        else {
+        } else {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -133,28 +103,6 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           );
         }
-        // if (googleLoginBool) {
-        //   LoginResponse response;
-        //   authUserApi().then((value) async {
-        //     response = value;
-        //     if (response.status == true) {
-        //       // SharedPrefs().setLoginToken(response.token);
-        //
-        //       Navigator.of(context).pushReplacement(
-        //         MaterialPageRoute(
-        //           builder: (context) => Dashboard(response: response),
-        //         ),
-        //       );
-        //     } else {
-        //       Navigator.push(
-        //         context,
-        //         MaterialPageRoute(
-        //           builder: (_) => Login(),
-        //         ),
-        //       );
-        //     }
-        //   });
-        // }
       } else {
         SharedPrefs.setFirstRunDone();
         Navigator.push(
@@ -166,6 +114,51 @@ class _SplashScreenState extends State<SplashScreen> {
       }
     });
   }
+
+  // setPage() {
+  //   SharedPrefs().init();
+  //   bool loginBool;
+  //   bool firstRun;
+  //   Future.delayed(Duration(seconds: 3), () {
+  //     firstRun = SharedPrefs().getFirstRun() ?? false;
+  //     loginBool = SharedPrefs().getLogin() ?? false;
+  //     if (firstRun) {
+  //       if (loginBool) {
+  //         print('check token${SharedPrefs().getLoginToken()}');
+  //         LoginResponse response;
+  //         authTokenLoginApi(
+  //                 token: '${SharedPrefs().getLoginToken()}',
+  //                 fcmToken: _fcmToken)
+  //             .then((value) async {
+  //           response = value;
+  //           if (response.status == true) {
+  //             SharedPrefs().setLoginToken(response.token);
+  //             Navigator.of(context).pushReplacement(
+  //               MaterialPageRoute(
+  //                 builder: (context) => Dashboard(response: response),
+  //               ),
+  //             );
+  //           }
+  //         });
+  //       } else {
+  //         Navigator.pushReplacement(
+  //           context,
+  //           MaterialPageRoute(
+  //             builder: (_) => Login(),
+  //           ),
+  //         );
+  //       }
+  //     } else {
+  //       SharedPrefs.setFirstRunDone();
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (_) => IntroPage(),
+  //         ),
+  //       );
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

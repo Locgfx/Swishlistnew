@@ -181,6 +181,7 @@ class _DontProductAddBottomSheetWidgetWidgetState
                                               show = false;
                                             });
                                           });
+                                          FocusScope.of(context).unfocus();
                                           productScrappingApi(
                                                   productUrl:
                                                       productLinkController

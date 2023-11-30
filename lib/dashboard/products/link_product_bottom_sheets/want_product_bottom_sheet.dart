@@ -149,6 +149,7 @@ class _WantProductAddBottomSheetWidgetState
                                               show = false;
                                             });
                                           });
+                                          FocusScope.of(context).unfocus();
 
                                           productScrappingApi(
                                                   productUrl:

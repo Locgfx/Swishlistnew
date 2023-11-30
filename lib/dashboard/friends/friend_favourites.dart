@@ -25,6 +25,7 @@ class _FFavouritesState extends State<FFavourites> {
     'Food',
     'Gadgets',
   ];
+
   List peopleDetails = [
     'Superheroes',
     'Actors',

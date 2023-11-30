@@ -457,10 +457,10 @@ class _FriendProductState extends State<FriendProduct> {
                             ),
                           ),
                           SizedBox(height: 12),
-                          (products?.data?.want?.isNotEmpty ?? false) ||
-                                  (products?.data?.want == null)
-                              // products!.data!.want!.isEmpty ||
-                              //         products!.data!.want == null
+                          // (products?.data?.want?.isNotEmpty ?? false) ||
+                          //         (products?.data?.want == null)
+                          products!.data!.want!.isEmpty ||
+                                  products!.data!.want == null
                               ? Center(
                                   child: Column(
                                     children: [
@@ -681,8 +681,20 @@ class _FriendProductState extends State<FriendProduct> {
                                                       width: 173,
                                                       child: Text(
                                                         products!
-                                                            .data!.want![i].name
-                                                            .toString(),
+                                                                    .data!
+                                                                    .want![i]
+                                                                    .name!
+                                                                    .isEmpty ||
+                                                                products!
+                                                                        .data!
+                                                                        .want![
+                                                                            i]
+                                                                        .name ==
+                                                                    null
+                                                            ? ""
+                                                            : products!.data!
+                                                                .want![i].name
+                                                                .toString(),
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         maxLines: 2,
@@ -699,12 +711,24 @@ class _FriendProductState extends State<FriendProduct> {
                                                         const EdgeInsets.only(
                                                             left: 16),
                                                     child: Text(
-                                                      products!.data!.want![i]
-                                                              .link
-                                                              .toString()
-                                                              .contains("etsy")
-                                                          ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
-                                                          : '\$ ${products!.data!.want![i].price.toString()}',
+                                                      products!
+                                                                  .data!
+                                                                  .want![i]
+                                                                  .price!
+                                                                  .isEmpty ||
+                                                              products!
+                                                                      .data!
+                                                                      .want![i]
+                                                                      .price ==
+                                                                  null
+                                                          ? ""
+                                                          : products!.data!
+                                                                  .want![i].link
+                                                                  .toString()
+                                                                  .contains(
+                                                                      "etsy")
+                                                              ? '\$ ${normalizedPercent.toStringAsFixed(2)}'
+                                                              : '\$ ${products!.data!.want![i].price.toString()}',
                                                       // '\$ ${normalizedPercent}',
                                                       style: AppTextStyle()
                                                           .textColor29292914w500,
@@ -761,10 +785,10 @@ class _FriendProductState extends State<FriendProduct> {
                             ),
                           ),
                           SizedBox(height: 12),
-                          (products?.data?.want?.isNotEmpty ?? false) ||
-                                  (products?.data?.want == null)
-                              // products!.data!.dontWant!.isEmpty ||
-                              //         products!.data!.dontWant == null
+                          // (products?.data?.want?.isNotEmpty ?? false) ||
+                          //         (products?.data?.want == null)
+                          products!.data!.dontWant!.isEmpty ||
+                                  products!.data!.dontWant == null
                               ? AddProductError(
                                   addButton: SizedBox(),
                                   image: 'assets/images/addproducts2.png',
@@ -1033,10 +1057,10 @@ class _FriendProductState extends State<FriendProduct> {
                             ),
                           ),
                           SizedBox(height: 12),
-                          (products?.data?.want?.isNotEmpty ?? false) ||
-                                  (products?.data?.want == null)
-                              // products!.data!.have!.isEmpty ||
-                              //         products!.data!.have == null
+                          // (products?.data?.want?.isNotEmpty ?? false) ||
+                          //         (products?.data?.want == null)
+                          products!.data!.have!.isEmpty ||
+                                  products!.data!.have == null
                               ? AddProductError(
                                   addButton: SizedBox(),
                                   image: 'assets/images/addproduct3.png',

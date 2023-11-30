@@ -89,7 +89,7 @@ class _ShareProfileFamilyListState extends State<ShareProfileFamilyList> {
                         padding:
                             const EdgeInsets.only(left: 24, right: 24, top: 10),
                         child: Text(
-                          "Add Friends to Share Profile",
+                          "Add family member to share profile",
                           style: AppTextStyle().roboto29292914w500,
                           textAlign: TextAlign.center,
                         ),
@@ -110,7 +110,7 @@ class _ShareProfileFamilyListState extends State<ShareProfileFamilyList> {
                             );
                             // AddFamilyMember
                           },
-                          title: "Add Friend",
+                          title: "Add Family Member",
                           buttonIcon: "assets/images/4xuseradd.png",
                         ),
                       )

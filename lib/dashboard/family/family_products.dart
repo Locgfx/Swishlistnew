@@ -450,6 +450,7 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                               )
                             : SizedBox(
                                 height: 220,
+                                width: 1.sw,
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: ListView.builder(
@@ -714,6 +715,7 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                               )
                             : SizedBox(
                                 height: 220,
+                                width: 1.sw,
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: products!.data!.dontWant!.isEmpty
@@ -1024,6 +1026,7 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                               )
                             : SizedBox(
                                 height: 220,
+                                width: 1.sw,
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: products!.data!.have!.isEmpty

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:swishlist/expanded/add_family_member.dart';
 
 import '../../api/notifications/meber_notifiction_aapi.dart';
 import '../../api/shared_product_api/shared_product_api.dart';
@@ -72,24 +74,46 @@ class _FamilyListState extends State<FamilyList> {
               ),
             )
           : familyA.isEmpty
-              ? Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 60),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/images/addproducts2.png",
-                          height: 200,
-                          width: 200,
+              ? Center(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 80, right: 80),
+                        child: Image.asset("assets/images/addfriends.png"),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 24, right: 24, top: 10),
+                        child: Text(
+                          "Add family member to share profile",
+                          style: AppTextStyle().roboto29292914w500,
+                          textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 10),
-                        Text("No Family Member Yet",
-                            style: AppTextStyle()
-                                .textColor29292912w500
-                                .copyWith(color: Color(0xff292929))),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 20),
+                      SizedBox(
+                        height: 50.h,
+                        width: 1.sw,
+                        child: YellowButtonWithIcon(
+                          backgroundColor: MaterialStateProperty.all(
+                              ColorSelect.colorF7E641),
+                          textStyleColor: ColorSelect.color292929,
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const AddFamilyMember(),
+                              ),
+                            );
+                            // AddFamilyMember
+                          },
+                          title: "Add Family Member",
+                          buttonIcon: "assets/images/4xuseradd.png",
+                        ),
+                      )
+                    ],
                   ),
                 )
               : ListView.builder(

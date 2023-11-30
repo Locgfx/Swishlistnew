@@ -137,6 +137,7 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
                               show = false;
                             });
                           });
+
                           scrappingAddProduct(
                                   name: widget.name,
                                   link: widget.productLink,
