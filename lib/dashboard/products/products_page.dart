@@ -40,7 +40,8 @@ class ProductsPage extends StatefulWidget {
       "PREFERENCES_IS_FIRST_LAUNCH_STRING";
 
   final LoginResponse response;
-  const ProductsPage({
+
+  ProductsPage({
     Key? key,
     required this.response,
   }) : super(key: key);
@@ -62,18 +63,9 @@ class _ProductsPageState extends State<ProductsPage> {
     getWantProducts();
     getNotWant();
     getHaveProducts();
-
-    // Implement your refresh logic here.
-    // For example, fetch new data from an API or update some data.
-    // You can use async/await for asynchronous operations.
-
-    // For demonstration purposes, let's delay for 2 seconds.
     await Future.delayed(Duration(seconds: 2));
 
-    // Once the refresh operation is complete, call setState to rebuild the UI.
-    setState(() {
-      // Update your data or UI state as needed.
-    });
+    setState(() {});
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -235,7 +227,6 @@ class _ProductsPageState extends State<ProductsPage> {
     });
   }
 
-  // GetProductModel? getProducts;
   List<ProductTypeModel> haveProducts = [];
   List<ProductTypeModel> haveProducts2 = [];
 

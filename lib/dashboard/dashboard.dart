@@ -99,6 +99,7 @@ class _DashboardState extends State<Dashboard> {
                       pageIndex,
                     );
                     pageIndex = 0;
+
                     setState(() {});
                   },
                   child: Container(
@@ -213,7 +214,7 @@ class _DashboardState extends State<Dashboard> {
                           width: 24,
                         ),
                         SizedBox(height: 8),
-                        Text("notification",
+                        Text("Notification",
                             style: AppTextStyle()
                                 .textColor29292912w500
                                 .copyWith(
@@ -292,54 +293,53 @@ class _DashboardState extends State<Dashboard> {
         body: TextFieldUnFocusOnTap(
           child: Stack(
             children: [
-              PageView(
-                physics: NeverScrollableScrollPhysics(),
-                allowImplicitScrolling: true,
-                controller: _pageController,
-                onPageChanged: (page) {
-                  setState(
-                    () {
-                      pageIndex = page;
-                    },
-                  );
-                },
+              IndexedStack(
                 children: [
-                  ShowCaseWidget(
-                    builder: Builder(
-                      builder: (context) => ProductsPage(
+                  PageView(
+                    physics: NeverScrollableScrollPhysics(),
+                    allowImplicitScrolling: true,
+                    controller: _pageController,
+                    onPageChanged: (page) {
+                      setState(
+                        () {
+                          pageIndex = page;
+                        },
+                      );
+                    },
+                    children: [
+                      ShowCaseWidget(
+                        builder: Builder(
+                          builder: (context) => ProductsPage(
+                            response: widget.response,
+                          ),
+                        ),
+                      ),
+                      // ProductsPage(response: widget.response, productKey: _one),
+                      // AllEtsyProducts(),
+                      // Search(),
+                      HomeEtsyProducts(
                         response: widget.response,
                       ),
-                    ),
-                  ),
-                  // ProductsPage(response: widget.response, productKey: _one),
-                  // AllEtsyProducts(),
-                  // Search(),
-                  HomeEtsyProducts(),
-                  // ShowCaseWidget(
-                  //   builder: Builder(
-                  //     builder: (context) => Search(),
-                  //   ),
-                  // ),
-                  FcmNotificationScreen(
-                    response: widget.response,
-                  ),
-                  // Activities(
-                  //   response: widget.response,
-                  // ),
-                  ShowCaseWidget(
-                    builder: Builder(
-                      builder: (context) => Friends(
+                      // ShowCaseWidget(
+                      //   builder: Builder(
+                      //     builder: (context) => Search(),
+                      //   ),
+                      // ),
+                      FcmNotificationScreen(
                         response: widget.response,
                       ),
-                    ),
+                      // Activities(
+                      //   response: widget.response,
+                      // ),
+                      ShowCaseWidget(
+                        builder: Builder(
+                          builder: (context) => Friends(
+                            response: widget.response,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  // ProductsPage(
-                  //   response: widget.response,
-                  // ),
-                  // // AllEtsyProducts(),
-                  // Search(),
-                  // Activities(),
-                  // Friends(),
                 ],
               ),
             ],
@@ -391,7 +391,6 @@ class _ExitAppState extends State<ExitApp> {
     return WillPopScope(
       onWillPop: () async {
         DateTime now = DateTime.now();
-
         if (_currentBackPressTime == null ||
             now.difference(_currentBackPressTime!) > Duration(seconds: 2)) {
           _currentBackPressTime = now;
@@ -402,7 +401,6 @@ class _ExitAppState extends State<ExitApp> {
           );
           return false;
         }
-
         return true;
       },
       child: widget.child,

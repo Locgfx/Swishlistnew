@@ -6,6 +6,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/etsy_apis/all_listing_apis.dart';
 import 'package:swishlist/constants/globals/globals.dart';
+import 'package:swishlist/models/login_models.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../api/etsy_apis/etsy_listingid_api.dart';
@@ -16,7 +17,8 @@ import '../../models/etsy_listingid_model.dart';
 import 'etsy_products_details.dart';
 
 class HomeEtsyProducts extends StatefulWidget {
-  const HomeEtsyProducts({Key? key}) : super(key: key);
+  final LoginResponse response;
+  const HomeEtsyProducts({Key? key, required this.response}) : super(key: key);
 
   @override
   State<HomeEtsyProducts> createState() => _HomeEtsyProductsState();
