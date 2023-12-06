@@ -36,6 +36,7 @@ class _WantProductAddBottomSheetWidgetState
 
   // ProductTypeModel? model;
   LinkProductModel? response;
+  // LinkAmazonProductAdd? response;
   ProductStoreModel? respStore;
   bool show = false;
 

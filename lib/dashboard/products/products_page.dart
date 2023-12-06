@@ -1478,7 +1478,7 @@ class _ProductsPageState extends State<ProductsPage> {
                           ? DotsLoader()
                           : notWant2.isEmpty
                               ? AddProductError(
-                                  image: 'assets/images/addproducts2.png',
+                                  image: 'assets/images/notwant.png',
                                   tap: () {
                                     showModalBottomSheet(
                                         backgroundColor: Colors.transparent,

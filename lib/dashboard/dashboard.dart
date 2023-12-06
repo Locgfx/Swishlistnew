@@ -314,23 +314,12 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                       ),
-                      // ProductsPage(response: widget.response, productKey: _one),
-                      // AllEtsyProducts(),
-                      // Search(),
                       HomeEtsyProducts(
                         response: widget.response,
                       ),
-                      // ShowCaseWidget(
-                      //   builder: Builder(
-                      //     builder: (context) => Search(),
-                      //   ),
-                      // ),
                       FcmNotificationScreen(
                         response: widget.response,
                       ),
-                      // Activities(
-                      //   response: widget.response,
-                      // ),
                       ShowCaseWidget(
                         builder: Builder(
                           builder: (context) => Friends(

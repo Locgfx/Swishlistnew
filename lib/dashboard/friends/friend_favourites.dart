@@ -112,7 +112,7 @@ class _FFavouritesState extends State<FFavourites> {
                       ),
                       SizedBox(height: 5),
                       Text(
-                        "Your friend doesn't added favorites yet",
+                        "Your friend doesn't have any favorites yet",
                       )
                     ],
                   ),

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/models/link_product_model.dart';
+// import 'package:swishlist/models/link_product_model.dart';
 
 Future<dynamic> productScrappingApi({
   required String productUrl,
@@ -20,7 +21,11 @@ Future<dynamic> productScrappingApi({
   var resp = jsonDecode(await response.stream.bytesToString());
   if (response.statusCode == 200) {
     if (resp['error'] == false) {
+      print(resp);
       return LinkProductModel.fromJson(resp);
+      // return productUrl.contains("amazon")
+      //     ? LinkAmazonProductModel.fromJson(resp)
+      //     : LinkProductModel.fromJson(resp);
     }
   } else {
     print(resp);

@@ -62,7 +62,7 @@ class _ShareProfileFriendListState extends State<ShareProfileFriendList> {
     return Scaffold(
       body: isLoading
           ? Padding(
-              padding: const EdgeInsets.only(top: 60.0),
+              padding: const EdgeInsets.only(top: 90.0),
               child: Align(
                 alignment: Alignment.topCenter,
                 child: LoadingAnimationWidget.staggeredDotsWave(
@@ -73,44 +73,47 @@ class _ShareProfileFriendListState extends State<ShareProfileFriendList> {
             )
           : friendList.data!.isEmpty
               ? Center(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 80, right: 80),
-                        child: Image.asset("assets/images/addfriends.png"),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 24, right: 24, top: 10),
-                        child: Text(
-                          "Add friends to share profile",
-                          style: AppTextStyle().roboto29292914w500,
-                          textAlign: TextAlign.center,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 24.0),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      SizedBox(
-                        height: 50.h,
-                        width: 1.sw,
-                        child: YellowButtonWithIcon(
-                          backgroundColor: MaterialStateProperty.all(
-                              ColorSelect.colorF7E641),
-                          textStyleColor: ColorSelect.color292929,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        AddFriendByMailPhone()));
-                          },
-                          title: "Add Friend",
-                          buttonIcon: "assets/images/4xuseradd.png",
+                        Padding(
+                          padding: const EdgeInsets.only(left: 80, right: 80),
+                          child: Image.asset("assets/images/addfriends.png"),
                         ),
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 24, right: 24, top: 10),
+                          child: Text(
+                            "Add friends to share profile",
+                            style: AppTextStyle().roboto29292914w500,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        SizedBox(
+                          height: 50.h,
+                          width: 1.sw,
+                          child: YellowButtonWithIcon(
+                            backgroundColor: MaterialStateProperty.all(
+                                ColorSelect.colorF7E641),
+                            textStyleColor: ColorSelect.color292929,
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          AddFriendByMailPhone()));
+                            },
+                            title: "Add Friend",
+                            buttonIcon: "assets/images/4xuseradd.png",
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 )
               : ListView.builder(

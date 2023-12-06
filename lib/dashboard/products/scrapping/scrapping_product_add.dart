@@ -90,6 +90,13 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
     String formattedTime = DateFormat('yyyy-MM-dd').format(now);
     String input = widget.price;
     String priceWithoutDollar = input.replaceAll(r'$', '');
+    String cleanedString = widget.price
+        .replaceAll('[', '')
+        .replaceAll(']', '')
+        .replaceAll('\$', '')
+        .split(',')
+        .toSet()
+        .first;
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
@@ -141,7 +148,8 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
                           scrappingAddProduct(
                                   name: widget.name,
                                   link: widget.productLink,
-                                  price: priceWithoutDollar,
+                                  // price: priceWithoutDollar,
+                                  price: cleanedString,
                                   purchaseDate: formattedTime,
                                   photo: localImagePath,
                                   context: context,
@@ -233,6 +241,7 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
               //   ),
               // ),
               SizedBox(height: 20),
+
               // SizedBox(
               //   height: 52,
               //   child: GreyBorderButtonWithText(
@@ -398,7 +407,8 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
                           style: AppTextStyle().textColor29292914w400,
                         ),
                         Text(
-                          '  ${widget.price}',
+                          // '  ${widget.price}',
+                          '\$ $cleanedString',
                           style: AppTextStyle().roboto32323216w600,
                         ),
                       ],

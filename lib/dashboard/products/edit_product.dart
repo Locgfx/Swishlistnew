@@ -500,7 +500,7 @@ class _EditProductState extends State<EditProduct> {
                               },
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: "Date Purchased",
+                                  hintText: "Date",
                                   hintStyle:
                                       AppTextStyle().textColor70707014w400,
                                   suffixIcon: Image.asset(
