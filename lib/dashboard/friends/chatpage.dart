@@ -393,15 +393,15 @@ class _ChatPageState extends State<ChatPage> {
                                           child: focusNode.hasFocus
                                               ? GestureDetector(
                                                   onTap: () {
-                                                    FocusManager
+                                                   /* FocusManager
                                                         .instance.primaryFocus
                                                         ?.unfocus();
                                                     if (sendMsgController
                                                         .text.isNotEmpty) {
                                                       print(widget.friendId);
                                                       sendMessageApi(
-                                                        sendUserid:
-                                                            widget.friendId,
+                                                        chatId: widget,
+
                                                         message:
                                                             sendMsgController
                                                                 .text,
@@ -421,7 +421,7 @@ class _ChatPageState extends State<ChatPage> {
                                                                   'message']);
                                                         }
                                                       });
-                                                    }
+                                                    }*/
                                                   },
                                                   child: Image.asset(
                                                       'assets/images/sentimage.png'))

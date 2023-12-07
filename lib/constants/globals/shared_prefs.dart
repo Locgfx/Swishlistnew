@@ -9,6 +9,7 @@ class SharedPrefs {
   String gToken = 'gtoken';
   String aToken = 'atoken';
   String emailKey = 'email';
+  String registerToken = 'rtoken';
   String changeEmailKey = 'email';
   String passwordKey = 'password';
   String name = 'name';
@@ -134,6 +135,10 @@ class SharedPrefs {
     return _prefs?.getString(token);
   }
 
+  String? getRegisterToken(){
+    return _prefs?.getString(registerToken);
+  }
+
   Future setEmail(String email) async {
     return await _prefs?.setString(emailKey, email);
   }
@@ -158,6 +163,9 @@ class SharedPrefs {
     return await _prefs?.setString(token, loginToken);
   }
 
+  Future setRegisterToken(String resToken) async {
+    return await _prefs?.setString(registerToken, resToken);
+  }
   Future setLoginTrue() async {
     return await _prefs?.setBool(login, true);
   }

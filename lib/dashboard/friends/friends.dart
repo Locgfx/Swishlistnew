@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/globals.dart';
+import 'package:swishlist/dashboard/friends/new_screens/friends_chat_page.dart';
+import 'package:swishlist/dashboard/friends/profile_chat.dart';
+import 'package:swishlist/dashboard/friends/widget/appbar_icon.dart';
 import 'package:swishlist/models/login_models.dart';
 
 import '../../api/user_apis/friends_api.dart';
@@ -77,6 +80,7 @@ class _FriendsState extends State<Friends> {
     isLoading = true;
     var resp = getFriendsApi();
     resp.then((value) {
+      friendList.clear();
       if(value['error'] == false){
         setState(() {
           for(var v in value['data']){
@@ -97,6 +101,7 @@ class _FriendsState extends State<Friends> {
   List<FriendNotificationModel> friendNotification = [];
   // FriendNotificationModel? friendNotification;
   bool loading = false;
+
   getFriendNotifications() {
     isLoading = true;
     var resp = getFriendNotificationApi();
@@ -163,6 +168,23 @@ class _FriendsState extends State<Friends> {
                                 style: AppTextStyle().textColor29292924w700,
                               ),
                               Spacer(),
+
+                              AppBarIconFriendProduct(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            AllFriendsChatScreen(
+                                              resp: widget.response,
+                                            )
+                                      ),
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    "assets/images/4xchat.png",
+                                    color: Colors.black,
+                                  )),
                               // GestureDetector(
                               //   // behavior: HitTestBehavior.translucent,
                               //   onTap: () {
@@ -356,6 +378,7 @@ class _FriendsState extends State<Friends> {
                                       'Add friends to share your profile and your favorite product',
                                   buttonTxt: 'Add Friend',
                                   tap: () {
+
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(

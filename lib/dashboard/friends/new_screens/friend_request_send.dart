@@ -24,7 +24,7 @@ class _FriendRequestSentState extends State<FriendRequestSent> {
           backgroundColor: MaterialStateProperty.all(ColorSelect.colorF7E641),
           textStyleColor: ColorSelect.color292929,
           onTap: () {
-            Navigator.pop(context);
+            Navigator.of(context)..pop()..pop();
           },
           title: 'Done',
         ),

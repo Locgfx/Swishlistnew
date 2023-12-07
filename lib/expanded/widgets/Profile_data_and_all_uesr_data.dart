@@ -298,6 +298,7 @@ class DateAndEventsRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
+
         CircularPercentIndicator(
           circularStrokeCap: CircularStrokeCap.round,
           radius: 40.w,
@@ -313,6 +314,42 @@ class DateAndEventsRowWidget extends StatelessWidget {
           children: [
             Text(
               "Dates and Events",
+              style: AppTextStyle().textColor29292914w400,
+            ),
+          ],
+        ),
+        Spacer(),
+        Padding(
+            padding: const EdgeInsets.only(right: 27),
+            child: SvgPicture.asset("assets/icons/forwordarrow.svg"))
+      ],
+    );
+  }
+}
+
+class AddressRowWidget extends StatelessWidget {
+  const AddressRowWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+
+        CircularPercentIndicator(
+          circularStrokeCap: CircularStrokeCap.round,
+          radius: 40.w,
+          lineWidth: 2.w,
+          percent: .10,
+          backgroundColor: ColorSelect.colorBA54DE,
+          center: Image.asset('assets/images/agenda1.png'),
+          progressColor: ColorSelect.colorBA54DE,
+        ),
+        SizedBox(width: 10.w),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Manage Address",
               style: AppTextStyle().textColor29292914w400,
             ),
           ],

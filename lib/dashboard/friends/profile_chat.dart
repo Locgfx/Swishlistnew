@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +8,20 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/message_api.dart';
+import 'package:swishlist/models/product_type_model.dart';
 
 import '../../api/user_apis/products_api.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/loading.dart';
 import '../../constants/globals/shared_prefs.dart';
 import '../../constants/urls.dart';
-import '../../models/list_message_model.dart';
-import '../../models/product_type_model.dart';
+import '../../models/login_models.dart';
+import '../../models/new_messages_model.dart';
+
 
 class ProfileChatPage extends StatefulWidget {
+  final  LoginResponse resp;
+  final int chatId;
   final String friendId;
   final String name;
   final String friendImage;
@@ -24,6 +29,8 @@ class ProfileChatPage extends StatefulWidget {
 
   const ProfileChatPage({
     Key? key,
+    required this.resp,
+    required this.chatId,
     required this.friendId,
     required this.name,
     required this.friendImage,
@@ -38,9 +45,9 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
   @override
   void initState() {
     super.initState();
-    print(widget.friendId);
-    getWantProduct();
-    getMessages();
+    // print(widget.friendId);
+     getWantProduct();
+     getMessages();
     focusNode.addListener(() {
       setState(() {});
     });
@@ -49,10 +56,42 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
 
   final GlobalKey _groupListKey = GlobalKey();
   bool isLoading = true;
-  ListMessageModel? listMessages;
+  //ListMessageModel? listMessages;
   int ids = 0;
+  String name  = '';
 
-  getMessages() {
+  // DateTime parseCreatedAt(String? createdAt) {
+  //   if (createdAt == null) {
+  //     // Handle null case or return a default value
+  //     return DateTime(0);
+  //   }
+  //
+  //   if (createdAt.contains('seconds ago')) {
+  //     final secondsAgo = int.parse(createdAt.split(' ')[0]);
+  //     return DateTime.now().subtract(Duration(seconds: secondsAgo));
+  //   } else if (createdAt.contains('minute ago')) {
+  //     return DateTime.now().subtract(Duration(minutes: 1));
+  //   } else if (createdAt.contains('minutes ago')) {
+  //     final minutesAgo = int.parse(createdAt.split(' ')[0]);
+  //     return DateTime.now().subtract(Duration(minutes: minutesAgo));
+  //   } else if (createdAt.contains('hour ago')) {
+  //     return DateTime.now().subtract(Duration(hours: 1));
+  //   } else if (createdAt.contains('hours ago')) {
+  //     final hoursAgo = int.parse(createdAt.split(' ')[0]);
+  //     return DateTime.now().subtract(Duration(hours: hoursAgo));
+  //   } else if (createdAt.contains('day ago')) {
+  //     return DateTime.now().subtract(Duration(days: 1));
+  //   } else if (createdAt.contains('days ago')) {
+  //     final daysAgo = int.parse(createdAt.split(' ')[0]);
+  //     return DateTime.now().subtract(Duration(days: daysAgo));
+  //   } else {
+  //     // Handle other date formats or return a default value
+  //     return DateTime(0);
+  //   }
+  // }
+
+
+  /* getMessages() {
     isLoading = true;
     var resp = listMessageApi(specificUserid: widget.friendId);
     resp.then((value) {
@@ -70,36 +109,95 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
         }
       }
     });
+  }*/
+
+  // List<MessageModel> messageList = [];
+
+
+  MessageModel  response = MessageModel();
+
+
+
+  getMessages(){
+    isLoading = true;
+    var resp = getMessageApi(chatId: widget.chatId, page: '0');
+        resp.then((value) {
+          if(value['error'] == false){
+        setState(() {
+          response = MessageModel.fromJson(value);
+          isLoading = false;
+
+        });
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
+
   }
+
 
   final focusNode = FocusNode();
   final sendMsgController = TextEditingController();
   bool show = false;
   bool show2 = false;
-  List<ProductTypeModel> wantProduct = [];
-  List<ProductTypeModel> wantProduct2 = [];
+
   List<int> selectedItems = [];
   int productIds = 0;
   final key = GlobalKey<FormState>();
 
   // final List<int> selectedItems;
-  getWantProduct() {
+  // getWantProduct() {
+  //   isLoading = true;
+  //   var resp = getProductsApi();
+  //   resp.then((value) {
+  //     if (value['status'] == true) {
+  //       setState(() {
+  //         for (var v in value["data"]) {
+  //           wantProduct.add(ProductTypeModel.fromJson(v));
+  //         }
+  //         for (var v in wantProduct) {
+  //           if (v.type! == "want") {
+  //             wantProduct2.add(v);
+  //           }
+  //         }
+  //         isLoading = false;
+  //       });
+  //     } else {
+  //       isLoading = false;
+  //     }
+  //   });
+  // }
+
+  List<ProductTypeModel> wantProducts = [];
+  List<ProductTypeModel> wantProducts2 = [];
+
+  getWantProduct(){
     isLoading = true;
     var resp = getProductsApi();
+
     resp.then((value) {
-      if (value['status'] == true) {
+
+      wantProducts2.clear();
+      wantProducts.clear();
+
+      if(value['error'] == false){
         setState(() {
-          for (var v in value["data"]) {
-            wantProduct.add(ProductTypeModel.fromJson(v));
+          for(var v in value['data']){
+            wantProducts.add(ProductTypeModel.fromJson(v));
           }
-          for (var v in wantProduct) {
-            if (v.type! == "want") {
-              wantProduct2.add(v);
+
+          for(var q in wantProducts){
+            if(q.type == 'want'){
+              wantProducts2.add(q);
             }
           }
+          print(wantProducts2);
           isLoading = false;
         });
-      } else {
+
+      }else{
         isLoading = false;
       }
     });
@@ -107,9 +205,11 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
+    return
+      isLoading
         ? Loading()
-        : Scaffold(
+        :
+    Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
               backgroundColor: ColorSelect.colorFFFFFF,
@@ -557,26 +657,41 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                             EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                         child: Column(
                           children: [
-                            GroupedListView<Data, String>(
-                                physics: ScrollPhysics(),
-                                padding: EdgeInsets.only(bottom: 100),
+                            GroupedListView<MsgData, String>(
+                                /*itemComparator: (a, b) {
+                                  final createdAtA = a.createdAt ?? ''; // Use empty string as default value
+                                  final createdAtB = b.createdAt ?? ''; // Use empty string as default value
+                                  return createdAtA.compareTo(createdAtB);
+                                },
+                              sort: true,*/
+
+                          physics: ScrollPhysics(),
+
+                                padding: EdgeInsets.only(bottom: 100)
+                                ,
                                 order: GroupedListOrder.DESC,
+
                                 shrinkWrap: true,
-                                elements: listMessages!.data!,
+
+                                elements: response.data ?? [],
+
                                 groupBy: (element) => DateTime.now()
-                                            .difference(DateTime.parse(
-                                                element.createdAt.toString()))
-                                            .inMinutes <=
-                                        59
+                                    .difference(DateTime.parse(
+                                    element.createdAt.toString()))
+                                    .inMinutes <=
+                                    59
                                     ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inMinutes} min ago"
                                     : DateTime.now()
-                                                .difference(DateTime.parse(
-                                                    element.createdAt
-                                                        .toString()))
-                                                .inHours <=
-                                            23
-                                        ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inHours} hr ago"
-                                        : "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inDays} days ago",
+                                    .difference(DateTime.parse(
+                                    element.createdAt
+                                        .toString()))
+                                    .inHours <=
+                                    23
+                                    ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inHours} hr ago"
+                                    : "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inDays} days ago",
+                                // groupBy: (element) =>
+                                //     element.createdAt.toString(),
+
                                 groupSeparatorBuilder: (String groupByValue) =>
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -588,12 +703,102 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
-                                itemBuilder: (context, Data element) {
-                                  print(ids);
-                                  return element.product!.photo!.isEmpty
-                                      ? Align(
+
+
+                                itemBuilder: (context, MsgData element) {
+                                 return (element.product != null &&
+                                      (element.product!.photo != null || element.product!.photo!.isNotEmpty)) ?
+                                 Align(
+                                   alignment:
+                                   ids == element.user!.id
+                                   //ids == element.user!.username.toString()
+                                       //widget.resp.data!.id
+                                   //element.sendFromUserId
+                                       ? Alignment.centerRight
+                                       : Alignment.centerLeft,
+                                   child: Padding(
+                                     padding: const EdgeInsets.symmetric(
+                                         horizontal: 12, vertical: 8),
+                                     child: Container(
+                                       width: 220,
+                                       clipBehavior: Clip.hardEdge,
+                                       decoration: BoxDecoration(
+                                         color: ids ==
+                                            element.user!.id
+                                         //element.sendFromUserId
+                                             ? Colors.grey
+                                             .withOpacity(0.40)
+                                             : Colors.grey
+                                             .withOpacity(0.40),
+                                         borderRadius:
+                                         BorderRadius.circular(16),
+                                       ),
+                                       child:
+                                       // Column(
+                                       //   children: [
+                                       Column(
+                                         children: [
+                                           CachedNetworkImage(
+                                             imageUrl:
+                                             element.product?.photo?.toString() ?? '',
+                                             fit: BoxFit.cover,
+                                             errorWidget:
+                                                 (context, url, error) =>
+                                                 Icon(Icons.error),
+                                             progressIndicatorBuilder:
+                                                 (a, b, c) => Opacity(
+                                               opacity: 0.3,
+                                               child: Shimmer.fromColors(
+                                                 baseColor:
+                                                 Colors.black12,
+                                                 highlightColor:
+                                                 Colors.white,
+                                                 child: Container(
+                                                   width: 45,
+                                                   height: 45,
+                                                   //margin: EdgeInsets.symmetric(horizontal: 24),
+                                                   decoration:
+                                                   BoxDecoration(
+                                                       color: Colors
+                                                           .white,
+                                                       shape: BoxShape
+                                                           .circle),
+                                                 ),
+                                               ),
+                                             ),
+                                           ),
+                                           Padding(
+                                             padding:
+                                             const EdgeInsets.all(
+                                                 8.0),
+                                             child: Align(
+                                               alignment:
+                                               Alignment.centerLeft,
+                                               child: Text(
+                                                 element.message
+                                                     .toString(),
+                                                 style: TextStyle(
+                                                     color: ids == element.user!.id
+                                                         //widget.resp.data!.id
+                                                     //element.sendFromUserId
+                                                         ? Colors.black
+                                                         : Colors.black),
+                                                 maxLines: 4,
+                                                 overflow: TextOverflow
+                                                     .ellipsis,
+                                               ),
+                                             ),
+                                           ),
+
+                                         ],
+                                       ),
+                                     ),
+                                   ),
+                                 ) :
+                                  Align(
                                           alignment:
-                                              ids == element.sendFromUserId
+                                   ids == element.user!.id
+                                             // ids == element.sendFromUserId
                                                   ? Alignment.centerRight
                                                   : Alignment.centerLeft,
                                           child: Container(
@@ -602,8 +807,8 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(8),
-                                                color: ids ==
-                                                        element.sendFromUserId
+                                                color: ids == element.user!.id
+                                                        //element.sendFromUserId
                                                     ? ColorSelect.color343434
                                                     : ColorSelect.colorECEDF0),
                                             child: Padding(
@@ -613,148 +818,12 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                       vertical: 8),
                                               child: Text(
                                                   element.message.toString(),
-                                                  style: ids ==
-                                                          element.sendFromUserId
+                                                  style: ids == element.user!.id
+                                                         // element.sendFromUserId
                                                       ? AppTextStyle()
                                                           .textColorFFFFFF14w400
                                                       : AppTextStyle()
                                                           .textColor00000014w400),
-                                            ),
-                                          ),
-                                        )
-                                      : Align(
-                                          alignment:
-                                              ids == element.sendFromUserId
-                                                  ? Alignment.centerRight
-                                                  : Alignment.centerLeft,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 8),
-                                            child: Container(
-                                              width: 220,
-                                              clipBehavior: Clip.hardEdge,
-                                              decoration: BoxDecoration(
-                                                color: ids ==
-                                                        element.sendFromUserId
-                                                    ? Colors.grey
-                                                        .withOpacity(0.40)
-                                                    : Colors.grey
-                                                        .withOpacity(0.40),
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                              child:
-                                                  // Column(
-                                                  //   children: [
-                                                  Column(
-                                                children: [
-                                                  CachedNetworkImage(
-                                                    imageUrl: element
-                                                        .product!.photo
-                                                        .toString(),
-                                                    fit: BoxFit.cover,
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            Icon(Icons.error),
-                                                    progressIndicatorBuilder:
-                                                        (a, b, c) => Opacity(
-                                                      opacity: 0.3,
-                                                      child: Shimmer.fromColors(
-                                                        baseColor:
-                                                            Colors.black12,
-                                                        highlightColor:
-                                                            Colors.white,
-                                                        child: Container(
-                                                          width: 45,
-                                                          height: 45,
-                                                          //margin: EdgeInsets.symmetric(horizontal: 24),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  shape: BoxShape
-                                                                      .circle),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Text(
-                                                        element.message
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            color: ids ==
-                                                                    element
-                                                                        .sendFromUserId
-                                                                ? Colors.black
-                                                                : Colors.black),
-                                                        maxLines: 4,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  // Padding(
-                                                  //   padding:
-                                                  //       const EdgeInsets.all(8.0),
-                                                  //   child: Align(
-                                                  //     alignment:
-                                                  //         Alignment.centerLeft,
-                                                  //     child: Text(
-                                                  //       element.message
-                                                  //           .toString()
-                                                  //           .toString(),
-                                                  //       style: TextStyle(
-                                                  //           color: ids ==
-                                                  //                   element
-                                                  //                       .sendFromUserId
-                                                  //               ? Colors.white
-                                                  //               : Colors.black),
-                                                  //       maxLines: 4,
-                                                  //       overflow:
-                                                  //           TextOverflow.ellipsis,
-                                                  //     ),
-                                                  //   ),
-                                                  // ),
-                                                ],
-                                              ),
-                                              // SizedBox(
-                                              //   height: 10,
-                                              // ),
-                                              // Padding(
-                                              //   padding:
-                                              //       const EdgeInsets.all(8.0),
-                                              //   child: Align(
-                                              //     alignment:
-                                              //         Alignment.centerLeft,
-                                              //     // child: Text(
-                                              //     //   element.product!.name
-                                              //     //       .toString(),
-                                              //     //   style: TextStyle(
-                                              //     //       color: ids ==
-                                              //     //               element
-                                              //     //                   .sendFromUserId
-                                              //     //           ? Colors.white
-                                              //     //           : Colors.black),
-                                              //     //   maxLines: 4,
-                                              //     //   overflow:
-                                              //     //       TextOverflow.ellipsis,
-                                              //     // ),
-                                              //   ),
-                                              // ),
-                                              // Container(
-                                              //   height: 2,
-                                              //   color: Colors.white,
-                                              // ),
-
-                                              //   ],
-                                              // ),
                                             ),
                                           ),
                                         );
@@ -1172,14 +1241,14 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                     .text.isNotEmpty) {
                                                   print(widget.friendId);
                                                   sendMessageApi(
-                                                    sendUserid: widget.friendId,
+                                                    chatId: widget.chatId,
                                                     message:
                                                         sendMsgController.text,
                                                   ).then((value) async {
                                                     print(widget.friendId);
                                                     print(sendMsgController);
-                                                    if (value['status'] ==
-                                                        true) {
+                                                    if (value['error'] ==
+                                                        false) {
                                                       sendMsgController.clear();
                                                       isLoading
                                                           ? Loading()
@@ -1289,7 +1358,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                               ),
                                                               SizedBox(
                                                                   height: 16),
-                                                              wantProduct2
+                                                              wantProducts2
                                                                       .isEmpty
                                                                   ? Padding(
                                                                       padding: const EdgeInsets
@@ -1310,27 +1379,32 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                   : Expanded(
                                                                       child: ListView.builder(
                                                                           padding: EdgeInsets.only(bottom: 16),
-                                                                          itemCount: wantProduct2.length,
+                                                                          itemCount: wantProducts2.length,
                                                                           shrinkWrap: true,
                                                                           scrollDirection: Axis.vertical,
                                                                           itemBuilder: (context, i) {
-                                                                            print(wantProduct2.length);
+                                                                            print(wantProducts2.length);
                                                                             return Padding(
                                                                               padding: const EdgeInsets.only(top: 16),
                                                                               child: GestureDetector(
                                                                                 onTap: () {
                                                                                   FocusManager.instance.primaryFocus?.unfocus();
                                                                                   // selectedItems.add(wantProduct2[i].id!);
-                                                                                  productIds = wantProduct2[i].id!;
+                                                                                  productIds = wantProducts2[i].id!;
+
+
                                                                                   sendProductMessageApi(
-                                                                                    sendUserid: widget.friendId,
+                                                                                    chatId: widget.chatId,
+
                                                                                     productId: productIds.toString(),
-                                                                                    message: wantProduct2[i].name.toString(),
+                                                                                    message: wantProducts2[i].name.toString(),
                                                                                   ).then((value) async {
-                                                                                    print(widget.friendId);
+
                                                                                     print(sendMsgController);
-                                                                                    if (value['status'] == true) {
+                                                                                    if (value['error'] == false) {
+
                                                                                       sendMsgController.clear();
+
                                                                                       isLoading ? Loading() : getMessages();
                                                                                       Fluttertoast.showToast(msg: value['message']);
                                                                                     } else {
@@ -1354,13 +1428,15 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                                                 borderRadius: BorderRadius.circular(8),
                                                                                                 border: Border.all(
                                                                                                   width: 1,
-                                                                                                  color: selectedItems.contains(wantProduct2[i].id!) ? ColorSelect.colorF7E641 : ColorSelect.colorE0E0E0,
+                                                                                                  color: selectedItems.contains(wantProducts2[i].id!) ?
+                                                                                                  ColorSelect.colorF7E641 : ColorSelect.colorE0E0E0,
                                                                                                 ),
                                                                                               ),
                                                                                               child: Center(
                                                                                                   child: CachedNetworkImage(
                                                                                                 // imageUrl: (baseUrl+wantProduct2[i].photo.toString()),
-                                                                                                imageUrl: wantProduct2[i].photo.toString().contains("https") ? wantProduct2[i].photo.toString() : baseUrl + wantProduct2[i].photo.toString(),
+                                                                                                imageUrl: wantProducts2[i].photo.toString().contains("https") ?
+                                                                                                wantProducts2[i].photo.toString() : baseUrl + wantProducts2[i].photo.toString(),
                                                                                                 fit: BoxFit.cover,
                                                                                                 errorWidget: (context, url, error) => Icon(
                                                                                                   Icons.error,
@@ -1383,7 +1459,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                                             Positioned(
                                                                                               bottom: 0,
                                                                                               right: 0,
-                                                                                              child: selectedItems.contains(wantProduct2[i].id!)
+                                                                                              child: selectedItems.contains(wantProducts2[i].id!)
                                                                                                   ? Image.asset(
                                                                                                       "assets/images/select.png",
                                                                                                       height: 28,
@@ -1401,7 +1477,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                                                   child: SizedBox(
                                                                                                     // width: 230.w,
                                                                                                     child: Text(
-                                                                                                      wantProduct2[i].name.toString(),
+                                                                                                      wantProducts2[i].name.toString(),
                                                                                                       overflow: TextOverflow.ellipsis,
                                                                                                       maxLines: 2,
                                                                                                       style: AppTextStyle().textColor29292912w400,
@@ -1414,7 +1490,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                                                 Padding(
                                                                                                   padding: const EdgeInsets.only(left: 16),
                                                                                                   child: Text(
-                                                                                                    '\$ ${wantProduct2[i].price.toString()}',
+                                                                                                    '\$ ${wantProducts2[i].price.toString()}',
                                                                                                     style: AppTextStyle().textColor29292914w500,
                                                                                                   ),
                                                                                                 ),
@@ -1423,7 +1499,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                                                 ),
                                                                                                 Padding(
                                                                                                   padding: const EdgeInsets.only(left: 16.0),
-                                                                                                  child: selectedItems.contains(wantProduct2[i].id!)
+                                                                                                  child: selectedItems.contains(wantProducts2[i].id!)
                                                                                                       ? GestureDetector(
                                                                                                           onTap: () {
                                                                                                             setState(() {

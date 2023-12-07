@@ -13,6 +13,7 @@ import 'package:swishlist/splash/splash2.dart';
 
 import 'constants/globals/keys.dart';
 import 'constants/globals/shared_prefs.dart';
+import 'create_new_account/register_account.dart';
 import 'notifications/notification_handler.dart';
 
 NotificationServices notificationServices = NotificationServices();
@@ -298,6 +299,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) {
         return MaterialApp(
             debugShowCheckedModeBanner: false,
+            // home: CreateNewAccountWithEmail(email: '',),
             // home: ContactSync(),
             home: SplashScreen()
             // home: IntroFinal(

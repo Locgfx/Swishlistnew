@@ -2,11 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:swishlist/api/friend_apis/user_details_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/family_members/family_members_date_events.dart';
 import 'package:swishlist/family_members/family_members_favourites.dart';
 import 'package:swishlist/family_members/family_members_pets.dart';
 import 'package:swishlist/family_members/family_members_size_weights.dart';
+import 'package:swishlist/models/user_details_model.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
@@ -17,11 +19,17 @@ import 'family_members_details.dart';
 
 class FamilyMemberDetails extends StatefulWidget {
   final String familyMemberId;
+  final String familyPhoto;
+  final String familyName;
+  final String familyUserName;
   // final String friendName;
   // final String friendUserName;
   const FamilyMemberDetails({
     Key? key,
+    required this.familyPhoto,
     required this.familyMemberId,
+    required this.familyName,
+    required this.familyUserName
     /*  required this.friendName,
     required this.friendUserName*/
   }) : super(key: key);
@@ -33,21 +41,22 @@ class FamilyMemberDetails extends StatefulWidget {
 class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
   @override
   void initState() {
-    getFriendInterest();
+    getUserDetails();
+    //getFriendInterest();
     // widget.friendId;
-    getFriendProfile();
+   // getFriendProfile();
 
     super.initState();
   }
 
-  List popList = [];
-  List interestList = ['Cycling', 'Fishing', 'Singing', 'Dancing', 'Biking'];
-  List<String>? elements = [''];
+  // List popList = [];
+  // List interestList = ['Cycling', 'Fishing', 'Singing', 'Dancing', 'Biking'];
+  // List<String>? elements = [''];
   bool isLoading = false;
   // FriendDetailsModel? friendDetails;
 
   // FriendDetailsModel ? friendDetails;
-  FamilyDetailsModel familyDetails = FamilyDetailsModel();
+ /* FamilyDetailsModel familyDetails = FamilyDetailsModel();
 
   FamilyDetailsModel? familyInterest;
 
@@ -135,7 +144,30 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
       }
     });
   }
+*/
 
+  UserDetailsModel ? userDetails;
+
+
+  getUserDetails(){
+    isLoading = true;
+    var resp = userDetailsApi(id: widget.familyMemberId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          userDetails = UserDetailsModel.fromJson(value);
+        });
+        isLoading = false;
+
+      }
+      else{
+        isLoading = false;
+      }
+    });
+
+
+
+  }
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -154,9 +186,12 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                     child: Image.asset('assets/images/Vector190.png')),
               ),
               title: Text(
-                familyDetails.data!.name == ''
+              //  familyDetails.data!.name == ''
+                widget.familyName,
+                /*userDetails?.data?.name == '' || userDetails?.data?.name == null
                     ? 'no data'
-                    : familyDetails.data!.name.toString(),
+                    : userDetails!.data!.name.toString(),*/
+                //familyDetails.data!.name.toString(),
                 // 'Andy Bernard',
                 style: AppTextStyle().textColor29292920w700,
               ),
@@ -207,8 +242,9 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                             shape: BoxShape.circle,
                           ),
                           child: CachedNetworkImage(
-                            imageUrl:
-                                baseUrl + familyDetails.data!.photo.toString(),
+                            imageUrl: widget.familyPhoto,
+                            //userDetails?.data!.profile!.photo.toString(),
+                               // baseUrl + familyDetails.data!.photo.toString(),
                             fit: BoxFit.cover,
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
@@ -236,7 +272,10 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                         SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            familyDetails.data!.name.toString(),
+
+                            widget.familyName,
+                            //userDetails!.data!.name.toString(),
+                            //familyDetails.data!.name.toString(),
                             // 'Andy Bernard',
                             style: AppTextStyle().textColor29292920w700,
                           ),
@@ -251,12 +290,21 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                     SizedBox(height: 12),
                     // friendDetails!.data!.interest! == null ?
                     //     Text('Friend has no interest added yet'):
-                    elements!.isEmpty || elements == null
+                   /* elements!.isEmpty || elements == null
                         ? Text('No data')
                         : Wrap(
                             children:
                                 elements!.map((e) => chipBox(name: e)).toList(),
-                          ),
+                          ),*/
+                    Wrap(
+                      children:
+                      userDetails?.data?.interests?.expand<Widget>((interest) {
+
+                        return interest.interests?.map<Widget>((interestName) {
+                          return chipBox(name: interestName);
+                        }) ?? [];
+                      }).toList() ?? [],
+                    ),
                     // GridView.builder(
                     //   shrinkWrap: true,
                     //   physics: NeverScrollableScrollPhysics(),

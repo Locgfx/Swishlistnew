@@ -11,6 +11,7 @@ import 'package:swishlist/profile_page/add_pets.dart';
 
 import '../api/user_apis/pets_api.dart';
 import '../constants/globals/loading.dart';
+import '../expanded/user_all_details.dart';
 
 class Pets extends StatefulWidget {
   const Pets({Key? key}) : super(key: key);
@@ -38,15 +39,20 @@ class _PetsState extends State<Pets> {
     var resp = getPetsAPi();
     pets.clear();
     resp.then((value){
-      print('rrr${value}');
+
       if(value['error'] == false){
         setState(() {
-          pets.add(PetModel.fromJson(value));
-          // pets = PetsModel.fromJson(value);
+          for(var v in value['data']){
+            pets.add(PetModel.fromJson(v));
+          }
+
+          print('hhhh$pets');
+
           isLoading = false;
         });
       }else{
         setState(() {
+
           isLoading = false;
         });
       }
@@ -132,6 +138,7 @@ class _PetsState extends State<Pets> {
           child: InkWell(
             onTap: () {
               Navigator.pop(context);
+            
             },
             child: SvgPicture.asset(
               "assets/icons/arrowback.svg",
@@ -336,9 +343,10 @@ class _PetsState extends State<Pets> {
                                                     color: Colors.grey.shade200,
                                                   ),
                                                   child: CachedNetworkImage(
-                                                    imageUrl: (baseUrl +
-                                                        pets[index].photo
-                                                            .toString()),
+                                                    imageUrl: (
+                                                        // pets[index].photo
+                                                        //     .toString().contains('http') ? pets[index].photo.toString() :
+                                                     pets[index].photo.toString()),
                                                     fit: BoxFit.cover,
                                                     errorWidget:
                                                         (context, url, error) =>
@@ -375,7 +383,9 @@ class _PetsState extends State<Pets> {
                                               ),
                                               Column(
                                                 children: [
+
                                                   Text(
+                                                   
                                                     pets[index].name
                                                         .toString(),
                                                     maxLines: 5,

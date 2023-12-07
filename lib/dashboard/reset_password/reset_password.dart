@@ -11,6 +11,7 @@ import '../../api/reset_pass_api.dart';
 import '../../buttons/light_yellow.dart';
 import '../../constants/color.dart';
 import '../../constants/globals/globals.dart';
+import '../../login/login.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({Key? key}) : super(key: key);
@@ -20,7 +21,9 @@ class ResetPassword extends StatefulWidget {
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
-  final emailController = TextEditingController();
+  final oldpasscontroller = TextEditingController();
+  final newpasscontroller = TextEditingController();
+  final confirmNewpasscontroller = TextEditingController();
 
   bool show = false;
   @override
@@ -69,7 +72,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   height: 88,
                 ),
                 Text(
-                  'Enter your registered email',
+                  'Enter your old password',
                   style: AppTextStyle().textColor29292916w500,
                 ),
                 Padding(
@@ -86,10 +89,69 @@ class _ResetPasswordState extends State<ResetPassword> {
                         onChanged: (v) {
                           setState(() {});
                         },
-                        controller: emailController,
+                        controller: oldpasscontroller,
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: "email",
+                          hintText: "old password",
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                Text(
+                  'Enter your new password',
+                  style: AppTextStyle().textColor29292916w500,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    width: 1.sw,
+                    height: 52,
+                    decoration: BoxDecoration(
+                        color: ColorSelect.colorEDEDF1,
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: TextFormField(
+                        onChanged: (v) {
+                          setState(() {});
+                        },
+                        controller: newpasscontroller,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "new password",
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24,),
+
+                Text(
+                  'Enter your confirm new password',
+                  style: AppTextStyle().textColor29292916w500,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    width: 1.sw,
+                    height: 52,
+                    decoration: BoxDecoration(
+                        color: ColorSelect.colorEDEDF1,
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: TextFormField(
+                        onChanged: (v) {
+                          setState(() {});
+                        },
+                        controller: confirmNewpasscontroller,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "confirm new password",
                         ),
                       ),
                     ),
@@ -100,13 +162,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                 ),
                 SizedBox(
                   height: 52,
-                  child: emailController.text.isEmpty
+                  child: oldpasscontroller.text.isEmpty || newpasscontroller.text.isEmpty || confirmNewpasscontroller.text.isEmpty
                       ? LightYellowButtonWithText(
                           backgroundColor: MaterialStateProperty.all(
                               ColorSelect.colorFCF5B6),
                           textStyleColor: ColorSelect.colorB5B07A,
                           onTap: () {},
-                          title: 'Please Enter Email')
+                          title: 'Please Enter All Details')
                       : show
                           ? LoadingLightYellowButton()
                           : LightYellowButtonWithText(
@@ -122,7 +184,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                     show = false;
                                   });
                                 });
-                                if (emailController.text.isNotEmpty) {
+                              /*  if (emailController.text.isNotEmpty) {
                                   resetPassApi(email: emailController.text)
                                       .then((value) async {
                                     if (value['status'] == true) {
@@ -142,9 +204,24 @@ class _ResetPasswordState extends State<ResetPassword> {
                                           msg: value['message']);
                                     }
                                   });
+                                }*/
+
+                                if(oldpasscontroller.text.isNotEmpty || newpasscontroller.text.isNotEmpty ||
+                                confirmNewpasscontroller.text.isNotEmpty ) {
+                                  resetPassApi(
+                                      oldPass: oldpasscontroller.text,
+                                      newPass: newpasscontroller.text,
+                                      confirmNewPass: confirmNewpasscontroller.text).then((value) async {
+                                        if(value['error'] == false){
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(builder: (context) => Login()));
+
+                                        }
+                                  },
+                                  );
                                 }
                               },
-                              title: 'Next'),
+                              title: 'Save'),
                 ),
               ],
             ),

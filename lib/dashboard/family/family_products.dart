@@ -244,17 +244,19 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                   Spacer(),
                   AppBarIcon(
                       onTap: () {
-                        Navigator.push(
+                        /*Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) => ProfileChatPage(
+                              chatId: ,
+
                               friendId: widget.familyId,
                               name: widget.familyName,
                               friendImage: widget.familyPhoto,
                               selectedItems: [],
                             ),
                           ),
-                        );
+                        );*/
                       },
                       iconName: '4xchat'),
                   SizedBox(
@@ -395,6 +397,9 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => FamilyMemberDetails(
+                                        familyName: widget.familyName,
+                                        familyUserName: widget.familyUserName,
+                                        familyPhoto: widget.familyPhoto,
                                         familyMemberId: widget.familyId,
                                       ),
                                     ),

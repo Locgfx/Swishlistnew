@@ -28,7 +28,7 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
   bool isLoading = false;
 
 
-  FcmNotificationModel fcmnotification = FcmNotificationModel();
+  /*FcmNotificationModel fcmnotification = FcmNotificationModel();
   // List<FcmNotificationModel> fcmnotification = [];
   getFcmNotifications() {
     isLoading = true;
@@ -51,7 +51,31 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
         }
       }
     });
+  }*/
+
+List< FcmNotificationModel> fcmNotification = [];
+  getFcmNotifications(){
+    isLoading = true;
+    var resp = fcmNotificationApi();
+    resp.then((value) {
+      fcmNotification.clear();
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+           // fcmNotification.clear();
+            fcmNotification.add(FcmNotificationModel.fromJson(v));
+          }
+
+          isLoading = false;
+        });
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
   }
+
 
   List<int> selectedItems = [];
   bool loading = false;
@@ -116,9 +140,11 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                           ),
                         ],
                       ),
-                      fcmnotification.data!.isEmpty ||
-                              fcmnotification.data == null
-                          ? Column(
+                      fcmNotification.isEmpty
+                  //||
+                             // fcmNotification == null
+                          ?
+                      Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -146,22 +172,24 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                 SizedBox(height: 40),
                               ],
                             )
-                          : ListView.separated(
+                          :
+                      ListView.separated(
                               shrinkWrap: true,
-                              itemCount: fcmnotification.data!.length,
+                              itemCount: fcmNotification.length,
+                              //fcmnotification.data!.length,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (_, i) {
                                 return GestureDetector(
-                                  onLongPress: () {
-                                    if (selectedItems.isEmpty) {
-                                      setState(() {
-                                        selectedItems
-                                            .add(fcmnotification.data![i].id!);
-                                      });
-                                    }
-                                  },
+                                  // onLongPress: () {
+                                  //   if (selectedItems.isEmpty) {
+                                  //     setState(() {
+                                  //       selectedItems
+                                  //           .add(fcmNotification[i].id!);
+                                  //     });
+                                  //   }
+                                  // },
                                   onTap: () {
-                                    if (selectedItems.isEmpty) {
+                                    /*if (selectedItems.isEmpty) {
                                       // Navigator.push(
                                       //     context,
                                       //     MaterialPageRoute(
@@ -169,28 +197,30 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                       //             selectedItems()));
                                     } else {
                                       if (selectedItems.contains(
-                                          fcmnotification.data![i].id!)) {
+                                          fcmNotification[i].id!)) {
                                         setState(() {
                                           selectedItems.remove(
-                                              fcmnotification.data![i].id!);
+                                              fcmNotification[i].id!);
                                         });
                                       } else {
                                         setState(() {
                                           selectedItems.add(
-                                              fcmnotification.data![i].id!);
+                                              fcmNotification[i].id!);
                                         });
                                       }
-                                    }
+                                    }*/
                                   },
                                   child: Container(
                                     width: 1.sw,
                                     child: Row(
                                       children: [
                                         Expanded(
-                                          child: fcmnotification
-                                                      .data![i].product ==
-                                                  null
-                                              ? fcmnotification.data![i].title!
+                                          child: fcmNotification[i].data?[i].product == null
+                                                  //     .data![i].product ==
+                                                  // null
+                                              ?
+                                    fcmNotification[i].data![i].title!
+                                   // fcmNotification.data![i].title!
                                                       .contains(
                                                           'Family Member Request')
                                                   ? GestureDetector(
@@ -237,23 +267,26 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                     Clip.hardEdge,
                                                                 child:
                                                                     CachedNetworkImage(
-                                                                  imageUrl: fcmnotification
-                                                                          .data![
-                                                                              i]
-                                                                          .sendBy!
-                                                                          .photo
-                                                                          .toString()
-                                                                          .contains(
-                                                                              'http')
-                                                                      ? fcmnotification
-                                                                          .data![
-                                                                              i]
-                                                                          .sendBy!
-                                                                          .photo
-                                                                          .toString()
+                                                                  imageUrl:
+                                                                  fcmNotification[i].data![i].sendBy!.photo.toString().contains('http')
+                                                                          // .data![
+                                                                          //     i]
+                                                                          // .sendBy!
+                                                                          // .photo
+                                                                          // .toString()
+                                                                          // .contains(
+                                                                          //     'http')
+                                                                      ?
+                                                                      fcmNotification[i].data![i].sendBy!.photo.toString()
+                                                                  // fcmnotification
+                                                                  //         .data![
+                                                                  //             i]
+                                                                  //         .sendBy!
+                                                                  //         .photo
+                                                                  //         .toString()
                                                                       : baseUrl +
-                                                                          fcmnotification
-                                                                              .data![i]
+                                                                          fcmNotification[i].data![i]
+
                                                                               .sendBy!
                                                                               .photo
                                                                               .toString(),
@@ -301,8 +334,8 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                             Expanded(
                                                               flex: 5,
                                                               child: Text(
-                                                                fcmnotification
-                                                                    .data![i]
+                                                                fcmNotification
+                                                                    [i]
                                                                     .message
                                                                     .toString(),
                                                                 maxLines: 4,
@@ -315,8 +348,9 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                         ),
                                                       ),
                                                     )
-                                                  : fcmnotification
-                                                          .data![i].title!
+                                                  :
+                                    fcmNotification
+                                                         [i].data![i].title!
                                                           .contains('Hey')
                                                       ? GestureDetector(
                                                           onTap: () {
@@ -329,36 +363,43 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                   response: widget
                                                                       .response,
                                                                   friendName:
-                                                                      fcmnotification
-                                                                          .data![
-                                                                              i]
-                                                                          .sendBy!
-                                                                          .name
-                                                                          .toString(),
+                                                                      fcmNotification[i].data![i].sendBy!.name.toString(),
+                                                                      // fcmnotification
+                                                                      //     .data![
+                                                                      //         i]
+                                                                      //     .sendBy!
+                                                                      //     .name
+                                                                      //     .toString(),
                                                                   friendUserName:
-                                                                      fcmnotification
-                                                                          .data![
-                                                                              i]
-                                                                          .sendBy!
-                                                                          .name
-                                                                          .toString(),
-                                                                  friendId: fcmnotification
-                                                                      .data![i]
-                                                                      .sendBy!
-                                                                      .id
-                                                                      .toString(),
+                                                                          fcmNotification[i].data![i].sendBy!.name.toString(),
+
+                                                                      // fcmnotification
+                                                                      //     .data![
+                                                                      //         i]
+                                                                      //     .sendBy!
+                                                                      //     .name
+                                                                      //     .toString(),
+                                                                  friendId:
+                                                                      fcmNotification[i].data![i].sendBy!.id.toString(),
+                                                                  // fcmnotification
+                                                                  //     .data![i]
+                                                                  //     .sendBy!
+                                                                  //     .id
+                                                                  //     .toString(),
                                                                   friendPhoto:
-                                                                      fcmnotification
-                                                                          .data![
-                                                                              i]
-                                                                          .sendBy!
-                                                                          .photo
-                                                                          .toString(),
-                                                                  id: fcmnotification
-                                                                      .data![i]
-                                                                      .sendBy!
-                                                                      .id
-                                                                      .toString(),
+                                                                      fcmNotification[i].data![i].sendBy!.photo.toString(),
+                                                                      // fcmnotification
+                                                                      //     .data![
+                                                                      //         i]
+                                                                      //     .sendBy!
+                                                                      //     .photo
+                                                                      //     .toString(),
+                                                                  id: fcmNotification[i].data![i].sendBy!.id.toString()
+                                                                  // fcmnotification
+                                                                  //     .data![i]
+                                                                  //     .sendBy!
+                                                                  //     .id
+                                                                  //     .toString(),
                                                                   /* id: searchList[i].id.toString(),*/
                                                                 ),
                                                               ),
@@ -401,22 +442,35 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                         Clip.hardEdge,
                                                                     child:
                                                                         CachedNetworkImage(
-                                                                      imageUrl: fcmnotification
-                                                                              .data![
-                                                                                  i]
-                                                                              .sendBy!
-                                                                              .photo
-                                                                              .toString()
-                                                                              .contains(
-                                                                                  'http')
-                                                                          ? fcmnotification
-                                                                              .data![
-                                                                                  i]
-                                                                              .sendBy!
-                                                                              .photo
-                                                                              .toString()
+                                                                      imageUrl:
+
+                                                                      fcmNotification[i].data![i].sendBy!.photo.toString().contains('http')
+
+                                                                          ?
+                                                                      fcmNotification[i].data![i].sendBy!.photo.toString()
+
                                                                           : baseUrl +
-                                                                              fcmnotification.data![i].sendBy!.photo.toString(),
+                                                                          fcmNotification[i].data![i]
+
+                                                                              .sendBy!
+                                                                              .photo
+                                                                              .toString(),
+                                                                      // fcmnotification
+                                                                      //         .data![
+                                                                      //             i]
+                                                                      //         .sendBy!
+                                                                      //         .photo
+                                                                      //         .toString()
+                                                                      //         .contains(
+                                                                      //             'http')
+                                                                      //     ? fcmnotification
+                                                                      //         .data![
+                                                                      //             i]
+                                                                      //         .sendBy!
+                                                                      //         .photo
+                                                                      //         .toString()
+                                                                      //     : baseUrl +
+                                                                      //         fcmnotification.data![i].sendBy!.photo.toString(),
                                                                       fit: BoxFit
                                                                           .cover,
                                                                       errorWidget: (context,
@@ -462,10 +516,11 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                             .start,
                                                                     children: [
                                                                       Text(
-                                                                        fcmnotification
-                                                                            .data![i]
-                                                                            .message
-                                                                            .toString(),
+                                                                        fcmNotification[i].message.toString(),
+                                                                        // fcmnotification
+                                                                        //     .data![i]
+                                                                        //     .message
+                                                                        //     .toString(),
                                                                         maxLines:
                                                                             4,
                                                                         overflow:
@@ -525,22 +580,34 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                         Clip.hardEdge,
                                                                     child:
                                                                         CachedNetworkImage(
-                                                                      imageUrl: fcmnotification
-                                                                              .data![
-                                                                                  i]
-                                                                              .sendBy!
-                                                                              .photo
-                                                                              .toString()
-                                                                              .contains(
-                                                                                  'http')
-                                                                          ? fcmnotification
-                                                                              .data![
-                                                                                  i]
-                                                                              .sendBy!
-                                                                              .photo
-                                                                              .toString()
+                                                                      imageUrl:
+                                                                      fcmNotification[i].data![i].sendBy!.photo.toString().contains('http')
+
+                                                                          ?
+                                                                      fcmNotification[i].data![i].sendBy!.photo.toString()
+
                                                                           : baseUrl +
-                                                                              fcmnotification.data![i].sendBy!.photo.toString(),
+                                                                          fcmNotification[i].data![i]
+
+                                                                              .sendBy!
+                                                                              .photo
+                                                                              .toString(),
+                                                                      // fcmnotification
+                                                                      //         .data![
+                                                                      //             i]
+                                                                      //         .sendBy!
+                                                                      //         .photo
+                                                                      //         .toString()
+                                                                      //         .contains(
+                                                                      //             'http')
+                                                                      //     ? fcmnotification
+                                                                      //         .data![
+                                                                      //             i]
+                                                                      //         .sendBy!
+                                                                      //         .photo
+                                                                      //         .toString()
+                                                                      //     : baseUrl +
+                                                                      //         fcmnotification.data![i].sendBy!.photo.toString(),
                                                                       fit: BoxFit
                                                                           .cover,
                                                                       errorWidget: (context,
@@ -586,10 +653,11 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                             .start,
                                                                     children: [
                                                                       Text(
-                                                                        fcmnotification
-                                                                            .data![i]
-                                                                            .message
-                                                                            .toString(),
+                                                                        fcmNotification[i].message.toString(),
+                                                                        // fcmnotification
+                                                                        //     .data![i]
+                                                                        //     .message
+                                                                        //     .toString(),
                                                                         maxLines:
                                                                             4,
                                                                         overflow:
@@ -609,46 +677,56 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                       MaterialPageRoute(
                                                         builder: (context) =>
                                                             FriendProductDetail(
-                                                          name: fcmnotification
-                                                              .data![i]
-                                                              .product!
-                                                              .name
-                                                              .toString(),
-                                                          price: fcmnotification
-                                                              .data![i]
-                                                              .product!
-                                                              .price
-                                                              .toString(),
-                                                          link: fcmnotification
-                                                              .data![i]
-                                                              .product!
-                                                              .link
-                                                              .toString(),
-                                                          image: fcmnotification
-                                                              .data![i]
-                                                              .product!
-                                                              .photo
-                                                              .toString(),
+                                                          name:
+                                                              fcmNotification[i].data![i].product!.name.toString(),
+                                                          // fcmnotification
+                                                          //     .data![i]
+                                                          //     .product!
+                                                          //     .name
+                                                          //     .toString(),
+                                                          price: fcmNotification[i].data![i].product!.price.toString(),
+                                                          // fcmnotification
+                                                          //     .data![i]
+                                                          //     .product!
+                                                          //     .price
+                                                          //     .toString(),
+                                                          link:
+                                                              fcmNotification[i].data![i].product!.url.toString(),
+                                                          // fcmnotification
+                                                          //     .data![i]
+                                                          //     .product!
+                                                          //     .link
+                                                          //     .toString(),
+                                                          image:
+                                                              fcmNotification[i].data![i].product!.photo.toString(),
+                                                          // fcmnotification
+                                                          //     .data![i]
+                                                          //     .product!
+                                                          //     .photo
+                                                          //     .toString(),
                                                           purchaseDate:
-                                                              fcmnotification
-                                                                  .data![i]
-                                                                  .product!
-                                                                  .purchasedDate
-                                                                  .toString(),
+                                                              fcmNotification[i].data![i].product!.purchasedOn.toString(),
+                                                              // fcmnotification
+                                                              //     .data![i]
+                                                              //     .product!
+                                                              //     .purchasedDate
+                                                              //     .toString(),
                                                           id: '',
-                                                          type: fcmnotification
-                                                              .data![i]
-                                                              .product!
-                                                              .type
-                                                              .toString(),
+                                                          type: fcmNotification[i].data![i].product!.type.toString(),
+                                                          // fcmnotification
+                                                          //     .data![i]
+                                                          //     .product!
+                                                          //     .type
+                                                          //     .toString(),
                                                           response:
                                                               widget.response,
                                                           productId:
-                                                              fcmnotification
-                                                                  .data![i]
-                                                                  .product!
-                                                                  .id
-                                                                  .toString(),
+                                                                fcmNotification[i].data![i].product!.id.toString(),
+                                                              // fcmnotification
+                                                              //     .data![i]
+                                                              //     .product!
+                                                              //     .id
+                                                              //     .toString(),
 
                                                           /* id: searchList[i].id.toString(),*/
                                                         ),
@@ -684,25 +762,39 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                 Clip.hardEdge,
                                                             child:
                                                                 CachedNetworkImage(
-                                                              imageUrl: fcmnotification
-                                                                      .data![i]
-                                                                      .sendBy!
-                                                                      .photo
-                                                                      .toString()
-                                                                      .contains(
-                                                                          'http')
-                                                                  ? fcmnotification
-                                                                      .data![i]
-                                                                      .sendBy!
-                                                                      .photo
-                                                                      .toString()
-                                                                  : baseUrl +
-                                                                      fcmnotification
-                                                                          .data![
-                                                                              i]
+                                                                  imageUrl:
+
+                                                                  fcmNotification[i].data![i].sendBy!.photo.toString().contains('http')
+
+                                                                      ?
+                                                                  fcmNotification[i].data![i].sendBy!.photo.toString()
+
+                                                                      : newBaseUrl +
+                                                                      fcmNotification[i].data![i]
+
                                                                           .sendBy!
                                                                           .photo
                                                                           .toString(),
+
+                                                              // imageUrl: fcmnotification
+                                                              //         .data![i]
+                                                              //         .sendBy!
+                                                              //         .photo
+                                                              //         .toString()
+                                                              //         .contains(
+                                                              //             'http')
+                                                              //     ? fcmnotification
+                                                              //         .data![i]
+                                                              //         .sendBy!
+                                                              //         .photo
+                                                              //         .toString()
+                                                              //     : baseUrl +
+                                                              //         fcmnotification
+                                                              //             .data![
+                                                              //                 i]
+                                                              //             .sendBy!
+                                                              //             .photo
+                                                              //             .toString(),
                                                               fit: BoxFit.cover,
                                                               errorWidget: (context,
                                                                       url,
@@ -744,8 +836,8 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                           child: SizedBox(
                                                             width: 220,
                                                             child: Text(
-                                                              fcmnotification
-                                                                  .data![i]
+                                                              fcmNotification
+                                                                  [i]
                                                                   .message
                                                                   .toString(),
                                                               maxLines: 4,
@@ -776,25 +868,37 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                                 Clip.hardEdge,
                                                             child:
                                                                 CachedNetworkImage(
-                                                              imageUrl: fcmnotification
-                                                                      .data![i]
-                                                                      .product!
-                                                                      .photo
-                                                                      .toString()
-                                                                      .contains(
-                                                                          'http')
-                                                                  ? fcmnotification
-                                                                      .data![i]
-                                                                      .product!
-                                                                      .photo
-                                                                      .toString()
+                                                              imageUrl:
+                                                              fcmNotification[i].data![i].product!.photo.toString().contains('http')
+
+                                                                  ?
+                                                              fcmNotification[i].data![i].product!.photo.toString()
+
                                                                   : baseUrl +
-                                                                      fcmnotification
-                                                                          .data![
-                                                                              i]
-                                                                          .product!
-                                                                          .photo
-                                                                          .toString(),
+                                                                  fcmNotification[i].data![i].
+
+                                                                      product!
+                                                                      .photo
+                                                                      .toString(),
+                                                              // fcmnotification
+                                                              //         .data![i]
+                                                              //         .product!
+                                                              //         .photo
+                                                              //         .toString()
+                                                              //         .contains(
+                                                              //             'http')
+                                                              //     ? fcmnotification
+                                                              //         .data![i]
+                                                              //         .product!
+                                                              //         .photo
+                                                              //         .toString()
+                                                              //     : baseUrl +
+                                                              //         fcmnotification
+                                                              //             .data![
+                                                              //                 i]
+                                                              //             .product!
+                                                              //             .photo
+                                                              //             .toString(),
                                                               fit: BoxFit.cover,
                                                               errorWidget: (context,
                                                                       url,

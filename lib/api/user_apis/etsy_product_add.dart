@@ -10,7 +10,7 @@ Future <dynamic> etsyStoreApi({
   required String price,
   required String purchaseDate,
   required String status,
-  required String photo,
+  //required String photo,
   required String photoUrl,
   required String desc,
 })async {
@@ -57,11 +57,11 @@ Future <dynamic> etsyStoreApi({
     'purchased_on': purchaseDate,
     'status': status,
     'description': desc,
-
+    'photo_url': photoUrl
   });
-  if(photo != '') {
-    request.files.add(await http.MultipartFile.fromPath('photo', photo));
-  }
+  // if(photo != '') {
+  //   request.files.add(await http.MultipartFile.fromPath('photo', photo));
+  // }
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
@@ -79,3 +79,4 @@ Future <dynamic> etsyStoreApi({
   }
 
 }
+

@@ -42,6 +42,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
   }
 
   bool show = false;
+
   @override
   Widget build(BuildContext context) {
     return TextFieldUnFocusOnTap(
@@ -133,7 +134,8 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                               // SharedPrefs().setPassword(passwordController.text);
                               // print(passwordController.text);
                               if (formKey.currentState!.validate()) {
-                                signUpApi(
+
+                                /*signUpApi(
                                   context: context,
                                   emailPhone: emailController.text,
                                   password: passwordController.text,
@@ -162,7 +164,26 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                                     Fluttertoast.showToast(
                                         msg: value['message']);
                                   }
+                                });*/
+
+                                signUpApi(email: emailController.text).then((value) {
+                                  if(value['error'] == false){
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EmailVerification(
+                                          email: emailController.text,
+                                          password: passwordController.text,
+                                        ),
+                                      ),
+                                    );
+                                    Fluttertoast.showToast(msg: value['message']);
+
+                                  } else{
+                                    Fluttertoast.showToast(msg: value['message']);
+                                  }
                                 });
+
                               }
                             }
                           },
@@ -234,7 +255,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                     ),
                   ),
                 ),
-                Padding(
+               /* Padding(
                   padding: const EdgeInsets.only(top: 12),
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 16),
@@ -269,7 +290,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                       ),
                     ),
                   ),
-                ),
+                ),*/
               ],
             ),
           ),

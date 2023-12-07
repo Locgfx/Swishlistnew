@@ -591,6 +591,7 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                                       dateController
                                                                           .text
                                                                           .isNotEmpty) {
+
                                                                     etsyStoreApi(
                                                                       type: productTypeController.text ==
                                                                               'have'
@@ -613,7 +614,7 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                                                                               0]
                                                                           .urlFullxfull
                                                                           .toString(),
-                                                                      photo: '',
+                                                                     // photo: '',
                                                                       desc: widget.productDescription
                                                                     ).then(
                                                                         (value) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swishlist/api/friend_apis/user_details_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
+import 'package:swishlist/models/user_details_model.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
@@ -15,7 +17,7 @@ class FFavourites extends StatefulWidget {
 }
 
 class _FFavouritesState extends State<FFavourites> {
-  List thingsDetails = [
+  /*List thingsDetails = [
     'Colors',
     'Sports',
     'Cars',
@@ -36,15 +38,16 @@ class _FFavouritesState extends State<FFavourites> {
     'Cities',
     'Countries',
     'Restaurants',
-  ];
+  ];*/
   @override
   void initState() {
-    getFriendDetails();
+    getUserDetails();
+    //getFriendDetails();
     super.initState();
   }
 
   bool isLoading = false;
-  FriendDetailsModel? friendDetails = FriendDetailsModel();
+ /* FriendDetailsModel? friendDetails = FriendDetailsModel();
   // List<String>? elements = [''];
   getFriendDetails() {
     isLoading = true;
@@ -59,10 +62,33 @@ class _FFavouritesState extends State<FFavourites> {
         isLoading = false;
       }
     });
+  }*/
+
+  UserDetailsModel ? userDetails;
+
+
+  getUserDetails(){
+    isLoading = true;
+    var resp = userDetailsApi(id: widget.friendId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          userDetails = UserDetailsModel.fromJson(value);
+        });
+        isLoading = false;
+
+      }
+      else{
+        isLoading = false;
+      }
+    });
+
+
   }
 
   Future<void> _handleRefresh() async {
-    getFriendDetails();
+    getUserDetails();
+    //getFriendDetails();
     // Implement your refresh logic here.
     // For example, fetch new data from an API or update some data.
     // You can use async/await for asynchronous operations.
@@ -97,7 +123,8 @@ class _FFavouritesState extends State<FFavourites> {
         ),
         centerTitle: false,
       ),
-      body: isLoading
+      body:
+      isLoading
           ? Loading()
           : RefreshIndicator(
               backgroundColor: Colors.white,
@@ -107,7 +134,9 @@ class _FFavouritesState extends State<FFavourites> {
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: friendDetails!.data!.favourite!.isEmpty
+                  child:
+                  userDetails!.data!.favourites == " "
+                 /* friendDetails!.data!.favourite!.isEmpty*/
                       ? Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -134,13 +163,17 @@ class _FFavouritesState extends State<FFavourites> {
                             SizedBox(
                               height: 20.h,
                             ),
-                            friendDetails!.data!.favourite![0].cars
+
+                           /*userDetails!.data!.favourites!.cars!.isEmpty ||
+                               userDetails!.data!.favourites!.cars == null
+                           *//* friendDetails!.data!.favourite![0].cars
                                             .toString() ==
                                         '' ||
                                     friendDetails!.data!.favourite![0].cars ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                           GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -151,17 +184,23 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+
+                                          userDetails!.data!.favourites!.cars!.isEmpty ||
+                                              userDetails!.data!.favourites!.cars == null
+                                          /*friendDetails!.data!.favourite![0]
                                                           .cars
                                                           .toString() ==
                                                       '' ||
                                                   friendDetails!.data!
                                                           .favourite![0].cars ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+                                          userDetails!.data!.favourites!.cars!.join(', '),
+
+                                            /*friendDetails!
                                                   .data!.favourite![0].cars
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Car',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -176,21 +215,29 @@ class _FFavouritesState extends State<FFavourites> {
                                     // child: CarRowWidget(favourites: favourites!,)
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.favourite![0].cars
+                              height:
+                              /*userDetails!.data!.favourites!.cars!.isEmpty ||
+                                  userDetails!.data!.favourites!.cars == null
+                              *//*friendDetails!.data!.favourite![0].cars
                                               .toString() ==
                                           '' ||
                                       friendDetails!.data!.favourite![0].cars ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              10.h,
                             ),
-                            friendDetails!.data!.favourite![0].bikes
+
+                            /*userDetails!.data!.favourites!.bikes!.isEmpty ||
+                                userDetails!.data!.favourites!.bikes == null
+                            *//*friendDetails!.data!.favourite![0].bikes
                                             .toString() ==
                                         '' ||
                                     friendDetails!.data!.favourite![0].bikes ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -201,7 +248,10 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+
+                                          userDetails!.data!.favourites!.bikes!.isEmpty ||
+                                              userDetails!.data!.favourites!.bikes == null
+                                          /*friendDetails!.data!.favourite![0]
                                                           .bikes
                                                           .toString() ==
                                                       '' ||
@@ -209,11 +259,14 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .bikes ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+                                          userDetails!.data!.favourites!.bikes!.join(', '),
+
+                                            /* friendDetails!
                                                   .data!.favourite![0].bikes
-                                                  .toString(),
+                                                  .toString(),*/
                                           // friendDetails!.data!.favourite![0].bikes
                                           //     .toString(),
                                           // 'Bikes',
@@ -225,22 +278,31 @@ class _FFavouritesState extends State<FFavourites> {
                                     // child: BikesRowWidget(favourites: favourites!,),
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.favourite![0].bikes
+                              height:
+
+                              /*userDetails!.data!.favourites!.bikes!.isEmpty ||
+                                  userDetails!.data!.favourites!.bikes == null
+                              *//*friendDetails!.data!.favourite![0].bikes
                                               .toString() ==
                                           '' ||
                                       friendDetails!
                                               .data!.favourite![0].bikes ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              10.h,
                             ),
-                            friendDetails!.data!.favourite![0].movies
+
+                            /*userDetails!.data!.favourites!.movies!.isEmpty ||
+                                userDetails!.data!.favourites!.movies == null
+                            *//*friendDetails!.data!.favourite![0].movies
                                             .toString() ==
                                         '' ||
                                     friendDetails!.data!.favourite![0].movies ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -251,7 +313,10 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+
+                                          userDetails!.data!.favourites!.movies!.isEmpty ||
+                                              userDetails!.data!.favourites!.movies == null
+                                          /*friendDetails!.data!.favourite![0]
                                                           .movies
                                                           .toString() ==
                                                       '' ||
@@ -259,11 +324,14 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .movies ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+                                          userDetails!.data!.favourites!.movies!.join(', '),
+
+                                            /*friendDetails!
                                                   .data!.favourite![0].movies
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Movies',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -272,22 +340,30 @@ class _FFavouritesState extends State<FFavourites> {
                                     ),
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.favourite![0].movies
+                              height:
+                              /*userDetails!.data!.favourites!.movies!.isEmpty ||
+                                  userDetails!.data!.favourites!.movies == null
+                              *//*friendDetails!.data!.favourite![0].movies
                                               .toString() ==
                                           '' ||
                                       friendDetails!
                                               .data!.favourite![0].movies ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              10.h,
                             ),
-                            friendDetails!.data!.favourite![0].shows
+/*
+                            userDetails!.data!.favourites!.movies!.isEmpty ||
+                                userDetails!.data!.favourites!.movies == null
+                            *//*friendDetails!.data!.favourite![0].shows
                                             .toString() ==
                                         '' ||
                                     friendDetails!.data!.favourite![0].shows ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -298,7 +374,10 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+
+                                          userDetails!.data!.favourites!.shows!.isEmpty ||
+                                              userDetails!.data!.favourites!.shows == null
+                                          /* friendDetails!.data!.favourite![0]
                                                           .shows
                                                           .toString() ==
                                                       '' ||
@@ -306,11 +385,15 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .shows ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+
+                                          userDetails!.data!.favourites!.shows!.join(', '),
+
+                                            /*friendDetails!
                                                   .data!.favourite![0].shows
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Shows',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -320,22 +403,29 @@ class _FFavouritesState extends State<FFavourites> {
                                     // child: ShowsRowWidget(favourites: favourites!,),
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.favourite![0].shows
+                              height:
+                              /*userDetails!.data!.favourites!.shows!.isEmpty ||
+                                  userDetails!.data!.favourites!.shows == null
+                              *//* friendDetails!.data!.favourite![0].shows
                                               .toString() ==
                                           '' ||
                                       friendDetails!
                                               .data!.favourite![0].shows ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              10.h,
                             ),
-                            friendDetails!.data!.favourite![0].foods
+                           /* userDetails!.data!.favourites!.foods!.isEmpty ||
+                                userDetails!.data!.favourites!.foods == null
+                            *//* friendDetails!.data!.favourite![0].foods
                                             .toString() ==
                                         '' ||
                                     friendDetails!.data!.favourite![0].foods ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -346,7 +436,9 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+                                          userDetails!.data!.favourites!.foods!.isEmpty ||
+                                              userDetails!.data!.favourites!.foods == null
+                                          /*friendDetails!.data!.favourite![0]
                                                           .foods
                                                           .toString() ==
                                                       '' ||
@@ -354,11 +446,14 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .foods ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+                                          userDetails!.data!.favourites!.foods!.join(', '),
+
+                                            /*friendDetails!
                                                   .data!.favourite![0].foods
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Food',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -368,23 +463,30 @@ class _FFavouritesState extends State<FFavourites> {
                                     // child: FoodRowWidget(favourites: favourites!,)
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.favourite![0].foods
+                              height:
+                             /* userDetails!.data!.favourites!.foods!.isEmpty ||
+                                  userDetails!.data!.favourites!.foods == null
+                              *//*friendDetails!.data!.favourite![0].foods
                                               .toString() ==
                                           '' ||
                                       friendDetails!
                                               .data!.favourite![0].foods ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              10.h,
                             ),
-                            friendDetails!.data!.favourite![0].gadgets
+                            /*userDetails!.data!.favourites!.gadgets!.isEmpty ||
+                                userDetails!.data!.favourites!.gadgets == null
+                            *//*friendDetails!.data!.favourite![0].gadgets
                                             .toString() ==
                                         '' ||
                                     friendDetails!
                                             .data!.favourite![0].gadgets ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -395,7 +497,9 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+                                          userDetails!.data!.favourites!.gadgets!.isEmpty ||
+                                              userDetails!.data!.favourites!.gadgets == null
+                                          /*friendDetails!.data!.favourite![0]
                                                           .gadgets
                                                           .toString() ==
                                                       '' ||
@@ -403,11 +507,14 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .gadgets ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+                                          userDetails!.data!.favourites!.gadgets!.join(', '),
+
+                                            /*friendDetails!
                                                   .data!.favourite![0].gadgets
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Gadgets',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -417,30 +524,39 @@ class _FFavouritesState extends State<FFavourites> {
                                     // child: GadgetsRowWidget(favourites: favourites!),
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.favourite![0].gadgets
+                              height:
+/*
+                              userDetails!.data!.favourites!.gadgets!.isEmpty ||
+                                  userDetails!.data!.favourites!.gadgets == null
+                              *//*friendDetails!.data!.favourite![0].gadgets
                                               .toString() ==
                                           '' ||
                                       friendDetails!
                                               .data!.favourite![0].gadgets ==
-                                          null
+                                          null*//*
                                   ? 20.h
-                                  : 40.h,
+                                  : */
+                              20.h,
                             ),
                             Text(
                               "People",
                               style: AppTextStyle().textColor29292914w600,
                             ),
                             SizedBox(
-                              height: 20.h,
+                              height: 10.h,
                             ),
-                            friendDetails!.data!.favourite![0].superheroes
+
+                           /* userDetails!.data!.favourites!.superheroes!.isEmpty ||
+                                userDetails!.data!.favourites!.superheroes == null
+                            *//*friendDetails!.data!.favourite![0].superheroes
                                             .toString() ==
                                         '' ||
                                     friendDetails!
                                             .data!.favourite![0].superheroes ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -451,7 +567,9 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+                                          userDetails!.data!.favourites!.superheroes!.isEmpty ||
+                                              userDetails!.data!.favourites!.superheroes == null
+                                          /*friendDetails!.data!.favourite![0]
                                                           .superheroes
                                                           .toString() ==
                                                       '' ||
@@ -459,11 +577,13 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .superheroes ==
-                                                      null
-                                              ? ' - -'
-                                              : friendDetails!.data!
+                                                      null*/
+                                              ? ' - -' :
+                                          userDetails!.data!.favourites!.superheroes!.join(', '),
+
+                                            /*friendDetails!.data!
                                                   .favourite![0].superheroes
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Superheroes',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -472,23 +592,31 @@ class _FFavouritesState extends State<FFavourites> {
                                     )),
                             // child: SuperherosRowWidget(favourites: favourites!)),
                             SizedBox(
-                              height: friendDetails!
+                              height:
+                             /* userDetails!.data!.favourites!.superheroes!.isEmpty ||
+                                  userDetails!.data!.favourites!.superheroes == null
+                              *//*     friendDetails!
                                               .data!.favourite![0].superheroes
                                               .toString() ==
                                           '' ||
                                       friendDetails!.data!.favourite![0]
                                               .superheroes ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              10.h,
                             ),
-                            friendDetails!.data!.favourite![0].actors
+
+                            /*userDetails!.data!.favourites!.actors!.isEmpty ||
+                                userDetails!.data!.favourites!.actors == null
+                            *//* friendDetails!.data!.favourite![0].actors
                                             .toString() ==
                                         '' ||
                                     friendDetails!.data!.favourite![0].actors ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -499,7 +627,10 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+
+                                          userDetails!.data!.favourites!.actors!.isEmpty ||
+                                              userDetails!.data!.favourites!.actors == null
+                                          /*friendDetails!.data!.favourite![0]
                                                           .actors
                                                           .toString() ==
                                                       '' ||
@@ -507,11 +638,15 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .actors ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+
+                                          userDetails!.data!.favourites!.actors!.join(', '),
+
+                                            /* friendDetails!
                                                   .data!.favourite![0].actors
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Actors',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -521,23 +656,31 @@ class _FFavouritesState extends State<FFavourites> {
                                     // child: ActorsRowWidget(favourites: favourites!),
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.favourite![0].actors
+                              height:
+                             /* userDetails!.data!.favourites!.actors!.isEmpty ||
+                                  userDetails!.data!.favourites!.actors == null
+                              *//* friendDetails!.data!.favourite![0].actors
                                               .toString() ==
                                           '' ||
                                       friendDetails!
                                               .data!.favourite![0].actors ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              10.h,
                             ),
-                            friendDetails!.data!.favourite![0].actresses
+
+                           /* userDetails!.data!.favourites!.actresses!.isEmpty ||
+                                userDetails!.data!.favourites!.actresses == null
+                            *//* friendDetails!.data!.favourite![0].actresses
                                             .toString() ==
                                         '' ||
                                     friendDetails!
                                             .data!.favourite![0].actresses ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -548,7 +691,9 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+                                          userDetails!.data!.favourites!.actresses!.isEmpty ||
+                                              userDetails!.data!.favourites!.actresses == null
+                                          /* friendDetails!.data!.favourite![0]
                                                           .actresses
                                                           .toString() ==
                                                       '' ||
@@ -556,11 +701,15 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .actresses ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+
+                                          userDetails!.data!.favourites!.actresses!.join(', '),
+
+                                            /*friendDetails!
                                                   .data!.favourite![0].actresses
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Actress',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -569,24 +718,31 @@ class _FFavouritesState extends State<FFavourites> {
                                     ),
                                   ),
                             SizedBox(
-                              height: friendDetails!
+                              height:
+                              /*userDetails!.data!.favourites!.actresses!.isEmpty ||
+                                  userDetails!.data!.favourites!.actresses == null
+                              *//* friendDetails!
                                               .data!.favourite![0].actresses
                                               .toString() ==
                                           '' ||
                                       friendDetails!
                                               .data!.favourite![0].actresses ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              10.h,
                             ),
-                            friendDetails!.data!.favourite![0].singers
+                           /* userDetails!.data!.favourites!.actresses!.isEmpty ||
+                                userDetails!.data!.favourites!.actresses == null
+                            *//* friendDetails!.data!.favourite![0].singers
                                             .toString() ==
                                         '' ||
                                     friendDetails!
                                             .data!.favourite![0].singers ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -597,7 +753,9 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+                                          userDetails!.data!.favourites!.singers!.isEmpty ||
+                                              userDetails!.data!.favourites!.singers == null
+                                          /*friendDetails!.data!.favourite![0]
                                                           .singers
                                                           .toString() ==
                                                       '' ||
@@ -605,11 +763,14 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .singers ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+                                          userDetails!.data!.favourites!.singers!.join(', '),
+
+                                            /* friendDetails!
                                                   .data!.favourite![0].singers
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Singers',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -619,23 +780,31 @@ class _FFavouritesState extends State<FFavourites> {
                                     // child: SingersRowWidget(favourites: favourites!),
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.favourite![0].singers
+                              height:
+                             /* userDetails!.data!.favourites!.singers!.isEmpty ||
+                                  userDetails!.data!.favourites!.singers == null
+                              *//* friendDetails!.data!.favourite![0].singers
                                               .toString() ==
                                           '' ||
                                       friendDetails!
                                               .data!.favourite![0].singers ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              10.h,
                             ),
-                            friendDetails!.data!.favourite![0].players
+
+                          /*  userDetails!.data!.favourites!.players!.isEmpty ||
+                                userDetails!.data!.favourites!.players == null
+                            *//* friendDetails!.data!.favourite![0].players
                                             .toString() ==
                                         '' ||
                                     friendDetails!
                                             .data!.favourite![0].players ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -646,7 +815,9 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+                                          userDetails!.data!.favourites!.players!.isEmpty ||
+                                              userDetails!.data!.favourites!.players == null
+                                          /* friendDetails!.data!.favourite![0]
                                                           .players
                                                           .toString() ==
                                                       '' ||
@@ -654,11 +825,15 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .players ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+
+                                          userDetails!.data!.favourites!.players!.join(', '),
+
+                                            /*friendDetails!
                                                   .data!.favourite![0].players
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Players',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -667,29 +842,38 @@ class _FFavouritesState extends State<FFavourites> {
                                     ),
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.favourite![0].players
+                              height:
+
+                              /*userDetails!.data!.favourites!.players!.isEmpty ||
+                                  userDetails!.data!.favourites!.players == null
+                              *//* friendDetails!.data!.favourite![0].players
                                               .toString() ==
                                           '' ||
                                       friendDetails!
                                               .data!.favourite![0].players ==
-                                          null
+                                          null*//*
                                   ? 20.h
-                                  : 40.h,
+                                  : */
+                              20.h,
                             ),
                             Text(
                               "Places",
                               style: AppTextStyle().textColor29292914w600,
                             ),
                             SizedBox(
-                              height: 20.h,
+                              height: 10.h,
                             ),
-                            friendDetails!.data!.favourite![0].cities
+
+                            /*userDetails!.data!.favourites!.cities!.isEmpty ||
+                                userDetails!.data!.favourites!.cities == null
+                            *//*friendDetails!.data!.favourite![0].cities
                                             .toString() ==
                                         '' ||
                                     friendDetails!.data!.favourite![0].cities ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -700,7 +884,10 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+
+                                          userDetails!.data!.favourites!.cities!.isEmpty ||
+                                              userDetails!.data!.favourites!.cities == null
+                                          /* friendDetails!.data!.favourite![0]
                                                           .cities
                                                           .toString() ==
                                                       '' ||
@@ -708,11 +895,15 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .cities ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+
+                                          userDetails!.data!.favourites!.cities!.join(', '),
+
+                                            /*friendDetails!
                                                   .data!.favourite![0].cities
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Cities',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -722,23 +913,32 @@ class _FFavouritesState extends State<FFavourites> {
                                     // child: CitiesRowWidget(favourites: favourites!,),
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.favourite![0].cities
+                              height:
+
+                              /*userDetails!.data!.favourites!.cities!.isEmpty ||
+                                  userDetails!.data!.favourites!.cities == null
+                              *//*friendDetails!.data!.favourite![0].cities
                                               .toString() ==
                                           '' ||
                                       friendDetails!
                                               .data!.favourite![0].cities ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              10.h,
                             ),
-                            friendDetails!.data!.favourite![0].countries
+                            /*friendDetails!.data!.favourite![0].countries
                                             .toString() ==
                                         '' ||
                                     friendDetails!
                                             .data!.favourite![0].countries ==
-                                        null
+                                        null*/
+/*
+                            userDetails!.data!.favourites!.countries!.isEmpty ||
+                                userDetails!.data!.favourites!.countries== null
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -749,7 +949,10 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+
+                                          userDetails!.data!.favourites!.countries!.isEmpty ||
+                                              userDetails!.data!.favourites!.countries == null
+                                          /*friendDetails!.data!.favourite![0]
                                                           .countries
                                                           .toString() ==
                                                       '' ||
@@ -757,11 +960,15 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .countries ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+
+                                          userDetails!.data!.favourites!.countries!.join(', '),
+
+                                            /* friendDetails!
                                                   .data!.favourite![0].countries
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Countries',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -771,24 +978,33 @@ class _FFavouritesState extends State<FFavourites> {
                                     // child: CountriesRowWidget(favourites: favourites!,)
                                   ),
                             SizedBox(
-                              height: friendDetails!
+                              height:
+
+                             /* userDetails!.data!.favourites!.countries!.isEmpty ||
+                                  userDetails!.data!.favourites!.countries == null
+                              *//*friendDetails!
                                               .data!.favourite![0].countries
                                               .toString() ==
                                           '' ||
                                       friendDetails!
                                               .data!.favourite![0].countries ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              10.h,
                             ),
-                            friendDetails!.data!.favourite![0].restaurants
+
+                            /*userDetails!.data!.favourites!.restaurants!.isEmpty ||
+                                userDetails!.data!.favourites!.restaurants == null
+                            *//*friendDetails!.data!.favourite![0].restaurants
                                             .toString() ==
                                         '' ||
                                     friendDetails!
                                             .data!.favourite![0].restaurants ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -799,7 +1015,10 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+
+                                          userDetails!.data!.favourites!.restaurants!.isEmpty ||
+                                              userDetails!.data!.favourites!.restaurants == null
+                                          /*friendDetails!.data!.favourite![0]
                                                           .restaurants
                                                           .toString() ==
                                                       '' ||
@@ -807,11 +1026,15 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .restaurants ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!.data!
+                                              :
+
+                                          userDetails!.data!.favourites!.restaurants!.join(', '),
+
+                                            /* friendDetails!.data!
                                                   .favourite![0].restaurants
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Restaurants',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -821,23 +1044,32 @@ class _FFavouritesState extends State<FFavourites> {
                                     // child: RestaurantsRowWidget(favourites: favourites!,)
                                   ),
                             SizedBox(
-                              height: friendDetails!
+                              height:
+
+                             /* userDetails!.data!.favourites!.restaurants!.isEmpty ||
+                                  userDetails!.data!.favourites!.restaurants == null
+                              *//*friendDetails!
                                               .data!.favourite![0].restaurants
                                               .toString() ==
                                           '' ||
                                       friendDetails!.data!.favourite![0]
                                               .restaurants ==
-                                          null
+                                          null*//*
                                   ? 0.h
-                                  : 20.h,
+                                  : */
+                              10.h,
                             ),
-                            friendDetails!.data!.favourite![0].hotels
+
+                            /*userDetails!.data!.favourites!.hotels!.isEmpty ||
+                                userDetails!.data!.favourites!.hotels == null
+                            *//*friendDetails!.data!.favourite![0].hotels
                                             .toString() ==
                                         '' ||
                                     friendDetails!.data!.favourite![0].hotels ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -848,7 +1080,10 @@ class _FFavouritesState extends State<FFavourites> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.favourite![0]
+
+                                          userDetails!.data!.favourites!.hotels!.isEmpty ||
+                                              userDetails!.data!.favourites!.hotels == null
+                                          /*friendDetails!.data!.favourite![0]
                                                           .hotels
                                                           .toString() ==
                                                       '' ||
@@ -856,11 +1091,15 @@ class _FFavouritesState extends State<FFavourites> {
                                                           .data!
                                                           .favourite![0]
                                                           .hotels ==
-                                                      null
+                                                      null*/
                                               ? ' - -'
-                                              : friendDetails!
+                                              :
+
+                                          userDetails!.data!.favourites!.hotels!.join(', '),
+
+                                            /* friendDetails!
                                                   .data!.favourite![0].hotels
-                                                  .toString(),
+                                                  .toString(),*/
                                           // 'Hotels',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -870,12 +1109,16 @@ class _FFavouritesState extends State<FFavourites> {
                                     // child: HotelRowWidget(favourites: favourites!,),
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.favourite![0].hotels
+                              height:
+
+                              userDetails!.data!.favourites!.hotels!.isEmpty ||
+                                  userDetails!.data!.favourites!.hotels == null
+                              /*friendDetails!.data!.favourite![0].hotels
                                               .toString() ==
                                           '' ||
                                       friendDetails!
                                               .data!.favourite![0].hotels ==
-                                          null
+                                          null*/
                                   ? 0
                                   : 40.h,
                             ),

@@ -9,11 +9,13 @@ import 'package:swishlist/dashboard/friends/friend_pets.dart';
 import 'package:swishlist/dashboard/friends/friend_profile_page.dart';
 import 'package:swishlist/dashboard/friends/friend_sizes_and_weights.dart';
 
+import '../../api/friend_apis/user_details_api.dart';
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../constants/urls.dart';
 import '../../models/friends_details_model.dart';
 import '../../models/new_models/main_friend_model.dart';
+import '../../models/user_details_model.dart';
 
 class FriendProfile extends StatefulWidget {
   final String friendId;
@@ -38,26 +40,27 @@ class FriendProfile extends StatefulWidget {
 class _FriendProfileState extends State<FriendProfile> {
   @override
   void initState() {
-    getFriendInterest();
+    getUserDetails();
+    //getFriendInterest();
     // widget.friendId;
-    getFriendProfile();
+   // getFriendProfile();
     print(widget.friendId);
     super.initState();
   }
 
-  List popList = [];
-  List interestList = ['Cycling', 'Fishing', 'Singing', 'Dancing', 'Biking'];
-  List<String>? elements = [''];
+  // List popList = [];
+  // List interestList = ['Cycling', 'Fishing', 'Singing', 'Dancing', 'Biking'];
+  // List<String>? elements = [''];
   bool isLoading = false;
   // FriendDetailsModel? friendDetails;
 
   // FriendDetailsModel ? friendDetails;
-  FriendDetailsModel friendDetails = FriendDetailsModel();
+  // FriendDetailsModel friendDetails = FriendDetailsModel();
+  //
+  // FriendDetailsModel? friendInterest;
+  // List<NewModelFriend> friendList = [];
 
-  FriendDetailsModel? friendInterest;
-  List<NewModelFriend> friendList = [];
-
-  getFriendInterest() {
+ /* getFriendInterest() {
     isLoading = true;
     var resp = friendDetailsApi(friendUserId: widget.friendId);
     resp.then((value) {
@@ -120,7 +123,7 @@ class _FriendProfileState extends State<FriendProfile> {
         }
       }
     });
-  }
+  }*/
 
   // getFriendProfile() {
   //   isLoading = true;
@@ -142,7 +145,7 @@ class _FriendProfileState extends State<FriendProfile> {
   //   });
   // }
 
-  getFriendProfile(){
+ /* getFriendProfile(){
     isLoading = true;
     var resp = getFriendsApi();
     resp.then((value) {
@@ -163,12 +166,35 @@ class _FriendProfileState extends State<FriendProfile> {
 
         }
     });
+  }*/
+
+  UserDetailsModel ? userDetails;
+
+
+  getUserDetails(){
+    isLoading = true;
+    var resp = userDetailsApi(id: widget.friendId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          userDetails = UserDetailsModel.fromJson(value);
+        });
+        isLoading = false;
+
+      }
+      else{
+        isLoading = false;
+      }
+    });
+
+
   }
 
   Future<void> _handleRefresh() async {
-    getFriendInterest();
+    getUserDetails();
+   // getFriendInterest();
     // widget.friendId;
-    getFriendProfile();
+    //getFriendProfile();
     // Implement your refresh logic here.
     // For example, fetch new data from an API or update some data.
     // You can use async/await for asynchronous operations.
@@ -308,38 +334,26 @@ class _FriendProfileState extends State<FriendProfile> {
                         style: AppTextStyle().textColor29292914w600,
                       ),
                       SizedBox(height: 12),
+                      Wrap(
+                        children: userDetails?.data?.interests?.expand<Widget>((interest) {
+
+                          return interest.interests?.map<Widget>((interestName) {
+                            return chipBox(name: interestName);
+                          }) ?? [];
+                        }).toList() ?? [],
+                      ),
+
+
+
+
+
                       // friendDetails!.data!.interest! == null ?
                       //     Text('Friend has no interest added yet'):
-                      Wrap(
-                        children:
-                            elements!.map((e) => chipBox(name: e)).toList(),
-                      ),
-                      // GridView.builder(
-                      //   shrinkWrap: true,
-                      //   physics: NeverScrollableScrollPhysics(),
-                      //   itemCount: interestList.length,
-                      //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      //     crossAxisCount: 4,
-                      //     childAspectRatio: 2.1,
-                      //     mainAxisSpacing: 8,
-                      //     crossAxisSpacing: 8,
-                      //   ),
-                      //   itemBuilder: (_, i) {
-                      //     return Container(
-                      //       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-                      //       decoration: BoxDecoration(
-                      //         color: ColorSelect.colorCBE0FA,
-                      //         borderRadius: BorderRadius.circular(48),
-                      //       ),
-                      //       child: Center(
-                      //         child: Text(
-                      //           interestList[i],
-                      //           style: AppTextStyle().textColor29292913w400,
-                      //         ),
-                      //       ),
-                      //     );
-                      //   },
+                      // Wrap(
+                      //   children:
+                      //   userDetails!.data!.interests!.map((e) => chipBox(name: e)).toList(),
                       // ),
+
                       SizedBox(height: 24),
                       ProfileRow(
                         icon: 'userimg',

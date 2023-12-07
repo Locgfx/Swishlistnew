@@ -86,9 +86,9 @@ Future<dynamic> updateFamilyMember({
 }
 
 Future<dynamic> deleteFamilyMembers({
-  required String id,
+  required int id,
 }) async {
-  var headers = {
+ /* var headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
@@ -106,5 +106,31 @@ Future<dynamic> deleteFamilyMembers({
     print(response.statusCode);
     print(response.reasonPhrase);
     return resp;
+  }*/
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  };
+  var request = http.Request('POST', Uri.parse('$newBaseUrl/api/member/delete'));
+  request.body = json.encode({
+    "id": id
+  });
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    print(resBody);
+    return resBody;
   }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+    print(resBody);
+    return resBody;
+  }
+
 }

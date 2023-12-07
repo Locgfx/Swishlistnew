@@ -27,10 +27,12 @@ class ManageFamilyMembers extends StatefulWidget {
 
 class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
   @override
+
+
   void initState() {
     getFamilyRequest();
     //get();
-    getFamilyMembers();
+   getFamilyMembers();
     super.initState();
   }
 
@@ -91,6 +93,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
     isLoading = true;
     var resp = getFamilyRequestIndex();
     resp.then((value) {
+      familyIndex.clear();
 
       if (value['error'] == false) {
         setState(() {
@@ -111,11 +114,14 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
             //print(familyRequested.first.status.toString());
 
           //
-          print(familyIndex);
+          print('vvvv${familyIndex.length}');
           isLoading = false;
         });
       } else {
-        isLoading = false;
+        setState(() {
+          isLoading = false;
+        });
+
       }
     });
   }
@@ -152,9 +158,10 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
   }*/
 
   getFamilyMembers(){
-    isLoading = true;
+   isLoading = true;
     var resp = familyMemberIndexApi();
     resp.then((value) {
+      familyA.clear();
       if(value['error'] == false){
         setState(() {
           for(var v in value['data']){
@@ -162,12 +169,16 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
 
           }
 
+          print('mmm ${familyA.length}');
           isLoading = false;
 
         });
       }
       else{
-        isLoading = false;
+        setState(() {
+          isLoading = false;
+        });
+
       }
     });
 
@@ -253,9 +264,11 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
           ),
         ),
       ),
-      body: isLoading
+      body:
+      isLoading
           ? Loading()
-          : RefreshIndicator(
+          :
+      RefreshIndicator(
               backgroundColor: Colors.white,
               color: ColorSelect.colorF7E641,
               strokeWidth: 3,
@@ -322,7 +335,8 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                         "Linked",
                         style: AppTextStyle().textColor70707012w500,
                       ),
-                      if (familyA.isEmpty )
+                      //if (familyA.isEmpty )
+                    familyA.isEmpty ?
                         Center(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -337,7 +351,8 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                             ],
                           ),
                         )
-                      else
+                    //  else
+                    :
                         ListView.builder(
                           padding: EdgeInsets.only(top: 6),
                           physics: NeverScrollableScrollPhysics(),
@@ -416,6 +431,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                 child: UserRowWidget(
                                   widget2: GestureDetector(
                                     onTap: () {
+
                                       setState(() {
                                         remove[i] = !remove[i];
                                       });
@@ -425,7 +441,9 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                           remove[i] = false;
                                         });
                                       });
-                                      deleteFamilyMembers(
+
+
+                                   /*   deleteFamilyMembers(
                                               id: familyA[i].id.toString())
                                           .then((value) => {
                                                 if (value['status'] == true)
@@ -443,7 +461,25 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                                     Fluttertoast.showToast(
                                                         msg: value['message']),
                                                   }
-                                              });
+                                              });*/
+
+                                      deleteFamilyMembers(id: familyA[i].id!.toInt() ).then((value) {
+                                        if(value['error'] == false){
+                                          setState(() {
+                                            isLoading ? Loading()
+                                            :
+                                                _handleRefresh();
+                                          });
+                                          print(familyA[i].member!.id.toString());
+                                          print(familyA[i].id.toString());
+
+                                        }
+                                        else{
+                                          // Fluttertoast.showToast(
+                                          //     msg: value['message']);
+                                        }
+                                      });
+
                                     },
                                     child: remove[i]
                                         ? CircularProgressIndicator(
@@ -463,9 +499,10 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                             )),
                                   ),
                                   familyName:
-                                  familyA[i]
-                                      .member!
-                                      .name!.isEmpty || familyA[i]
+                                  // familyA[i]
+                                  //     .member!
+                                  //     .name!.isEmpty ||
+                                      familyA[i]
                                       .member!
                                       .name == null ?
                                       '':
@@ -527,14 +564,15 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                     //         });
                                   },
                                   familyUsername:
+                                // familyA[i]
+                                //     .member!
+                                //     .name!.isEmpty ||
+                                    familyA[i]
+                                    .member!
+                                    .name == null ? '':
                                 familyA[i]
                                     .member!
-                                    .name!.isEmpty || familyA[i]
-                                    .member!
-                                    .name == null ?
-                                familyA[i]
-                                    .member!
-                                    .name!.toString() : '',
+                                    .name!.toString() ,
                                 ),
                               ),
                             );
@@ -571,26 +609,26 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                       SizedBox(
                         height: 20.h,
                       ),
-    //                   familyIndex.isEmpty
-    //                       ?
-    // Center(
-    //                           child: Column(
-    //                             crossAxisAlignment: CrossAxisAlignment.center,
-    //                             mainAxisAlignment: MainAxisAlignment.center,
-    //                             children: [
-    //                               // Image.asset("assets/images/delivery.png",height: 100,),
-    //                               SizedBox(height: 5),
-    //                               Text(
-    //                                 'No Family Requests',
-    //                                 style: AppTextStyle().textColor29292914w500,
-    //                               )
-    //                             ],
-    //                           ),
-    //                         )
-    //                       :
+                      familyIndex.isEmpty
+                          ?
+    Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  // Image.asset("assets/images/delivery.png",height: 100,),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    'No Family Requests',
+                                    style: AppTextStyle().textColor29292914w500,
+                                  )
+                                ],
+                              ),
+                            )
+                          :
 
 
-   /* ListView.builder(
+    ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
@@ -611,6 +649,8 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                             accept[i] = false;
                                           });
                                         });
+
+
 
                                         familyMemberUpdateApi(
                                                 status: 'accepted',
@@ -661,6 +701,8 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                               ),
                                             ),
                                     ),
+
+
                                     widget2: GestureDetector(
                                       onTap: () {
                                         setState(() {
@@ -672,6 +714,9 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                             delete[i] = false;
                                           });
                                         });
+
+
+
                                         familyMemberUpdateApi(
                                                 status: 'rejected',
                                                 id: familyIndex[i].id
@@ -764,7 +809,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                   ),
                                 );
                               },
-                            ),*/
+                            ),
                     ],
                   ),
                 ),

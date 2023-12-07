@@ -179,25 +179,33 @@ class _FriendListState extends State<FriendList> {
                                       ColorSelect.colorF7E641),
                                   textStyleColor: Colors.black,
                                   onTap: () {
-                                    sharedProductApi(
-                                            productId: widget.productId,
-                                            // leadUserId: friendList[i].friend!.id
-                                            //     .toString(),
-                                        friendId:  friendList[i].friend!.id.toString())
-                                        .then((value) {
-                                      if (value['error'] == false) {
-                                        Navigator.pop(context);
-                                        // Navigator.of(
-                                        //     context)
-                                        //   ..pop()
-                                        //   ..pop();
-                                        Fluttertoast.showToast(
-                                            msg: value['message']);
-                                      } else {
-                                        Fluttertoast.showToast(
-                                            msg: value[
-                                                'please enter all products details']);
-                                      }
+                                    // sharedProductApi(
+                                    //         productId: widget.productId,
+                                    //         // leadUserId: friendList[i].friend!.id
+                                    //         //     .toString(),
+                                    //     friendId:  friendList[i].friend!.id.toString())
+                                    //     .then((value) {
+                                    //   if (value['error'] == false) {
+                                    //     Navigator.pop(context);
+                                    //     // Navigator.of(
+                                    //     //     context)
+                                    //     //   ..pop()
+                                    //     //   ..pop();
+                                    //     Fluttertoast.showToast(
+                                    //         msg: value['message']);
+                                    //   } else {
+                                    //     Fluttertoast.showToast(
+                                    //         msg: value[
+                                    //             'please enter all products details']);
+                                    //   }
+                                    // });
+
+                                    sharedProductApi(productId: widget.productId,
+                                        shareWithId: friendList[i].friend!.id.toString()).then((value) {
+                                          if(value['error'] == false){
+                                            Navigator.pop(context);
+                                            Fluttertoast.showToast(msg: value['message']);
+                                          } else{}
                                     });
                                   },
                                   title: 'Send')

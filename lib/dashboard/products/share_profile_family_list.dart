@@ -71,14 +71,18 @@ class _ShareProfileFamilyListState extends State<ShareProfileFamilyList> {
             familyA.add(FamilyMemberIndexModel.fromJson(v));
 
           }
-          print(familyA[0].member!.name.toString());
+          // Fluttertoast.showToast(msg: value['message']);
+          // print(familyA[0].member!.name.toString());
 
           isLoading = false;
 
         });
       }
       else{
-        isLoading = false;
+        setState(() {
+         // Fluttertoast.showToast(msg: value['message']);
+          isLoading = false;
+        });
       }
     });
 
@@ -99,27 +103,48 @@ class _ShareProfileFamilyListState extends State<ShareProfileFamilyList> {
                 ),
               ),
             )
-          : familyA.isEmpty
-              ? Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 60),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/images/addproducts2.png",
-                          height: 200,
-                          width: 200,
-                        ),
-                        SizedBox(height: 10),
-                        Text("No Family Member Yet",
-                            style: AppTextStyle()
-                                .textColor29292912w500
-                                .copyWith(color: Color(0xff292929))),
-                      ],
-                    ),
-                  ),
-                )
+          : familyA.isEmpty || familyA == null
+              ?
+      // Align(
+      //             alignment: Alignment.topCenter,
+      //             child: Padding(
+      //               padding: const EdgeInsets.only(top: 60),
+      //               child: Column(
+      //                 children: [
+      //                   Image.asset(
+      //                     "assets/images/addproducts2.png",
+      //                     height: 200,
+      //                     width: 200,
+      //                   ),
+      //                   SizedBox(height: 10),
+      //                   Text("No Family Member Yet",
+      //                       style: AppTextStyle()
+      //                           .textColor29292912w500
+      //                           .copyWith(color: Color(0xff292929))),
+      //                 ],
+      //               ),
+      //             ),
+      //           )
+      Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 60),
+          child: Column(
+            children: [
+              Image.asset(
+                "assets/images/addproducts2.png",
+                height: 200,
+                width: 200,
+              ),
+              SizedBox(height: 10),
+              Text("No Family Member Yet",
+                  style: AppTextStyle()
+                      .textColor29292912w500
+                      .copyWith(color: Color(0xff292929))),
+            ],
+          ),
+        ),
+      )
               : ListView.builder(
                   physics: ScrollPhysics(),
                   itemCount: familyA.length,
@@ -219,6 +244,16 @@ class _ShareProfileFamilyListState extends State<ShareProfileFamilyList> {
                                     //             'please enter all products details']);
                                     //   }
                                     // });
+
+
+                                    sharedProfileApi(sharedWithId: familyA[i].member!.id.toString() ).then((value) {
+                                      if(value['error'] == false ){
+                                        Navigator.pop(context);
+                                        Fluttertoast.showToast(msg: value['message']);
+                                      }else{
+                                        Fluttertoast.showToast(msg: value['message']);
+                                      }
+                                    });
                                   },
                                   title: 'Send')
                             ],

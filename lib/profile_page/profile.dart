@@ -42,7 +42,8 @@ class _UserProfileState extends State<UserProfile> {
   @override
   void initState() {
     getProfile();
-    print(profile!.data!.name!.toString());
+
+   // print(profile!.data!.name!.toString());
     // downloadAndSaveImage();
 
     super.initState();
@@ -62,34 +63,36 @@ class _UserProfileState extends State<UserProfile> {
   //   }
   // }
 
-  ProfileModel? profile = ProfileModel(
-    data: ProfileData(
-      name: '',
-      gender: '',
-      dob: '',
-      occupation: '',
-      relationStatus: '',
-      email: '',
-      phone: '',
-      alternatePhone: '',
-      homeAddress: '',
-      workAddress: '',
-      privacyStatus: '',
-      createdAt: '',
-      completePercent: '',
-      user: ProfileUser(
-        name: '',
-        username: '',
-        email: '',
-        phone: '',
-        type: '',
-        photo: '',
-      ),
-    ),
-  );
+  // ProfileModel? profile = ProfileModel(
+  //   data: ProfileData(
+  //     name: '',
+  //     gender: '',
+  //     dob: '',
+  //     occupation: '',
+  //     relationStatus: '',
+  //     email: '',
+  //     phone: '',
+  //     alternatePhone: '',
+  //     homeAddress: '',
+  //     workAddress: '',
+  //     privacyStatus: '',
+  //     createdAt: '',
+  //     completePercent: '',
+  //     user: ProfileUser(
+  //       name: '',
+  //       username: '',
+  //       email: '',
+  //       phone: '',
+  //       type: '',
+  //       photo: '',
+  //     ),
+  //   ),
+  // );
+
+  ProfileModel  profile = ProfileModel();
 
   getProfile() {
-    isLoading = true;
+  /*  isLoading = true;
     var resp = getProfileDetails();
     resp.then((value) {
       print(value);
@@ -115,20 +118,43 @@ class _UserProfileState extends State<UserProfile> {
           });
         }
       }
+    });*/
+    isLoading = true;
+    var resp = getProfileApi();
+    resp.then((value) {
+      if(value['error'] == false){
+
+        setState(() {
+          profile = ProfileModel.fromJson(value);
+         //get();
+          fields();
+          isLoading = false;
+        });
+
+
+
+      }else{
+        setState(() {
+           isLoading = false;
+        });
+      }
+
     });
+
+
   }
 
   void fields() {
-    nameController.text = profile!.data!.name ?? '';
-    genderController.text = profile!.data!.gender ?? '';
-    dobFormat = profile!.data!.dob ?? '';
-    occupationController.text = profile!.data!.occupation ?? '';
-    relationStatus.text = profile!.data!.relationStatus ?? '';
-    emailController.text = profile!.data!.email ?? '';
-    phoneController.text = profile!.data!.phone ?? '';
-    alternateNo.text = profile!.data!.alternatePhone ?? '';
-    homeController.text = profile!.data!.homeAddress ?? '';
-    workController.text = profile!.data!.workAddress ?? '';
+    nameController.text = profile.data!.name ?? '';
+    genderController.text = profile.data?.profile?.gender ?? '';
+    dobFormat = profile.data?.profile?.dateOfBirth ?? '';
+    occupationController.text = profile.data?.profile?.occupation ?? '';
+    relationStatus.text = profile.data?.profile?.marritalStatus ?? '';
+    emailController.text = profile.data?.email ?? '';
+    phoneController.text = profile.data?.profile?.phone ?? '';
+    alternateNo.text = profile.data?.profile?.additionalPhone ?? '';
+    // homeController.text = profile!.data!.homeAddress ?? '';
+    // workController.text = profile!.data!.workAddress ?? '';
 
     // pickedImage = (localImagePath) as File;
     //pickedImage = File(pickedImage.path ?? '');
@@ -138,44 +164,44 @@ class _UserProfileState extends State<UserProfile> {
   var percent = "";
   List<String> pro = [];
 
-  get() {
-    if (profile!.data!.name != null || profile!.data!.name != '') {
+ /* get() {
+    if (profile.name != null || profile.name != '') {
       pro.add('name');
     }
-    if (profile!.data!.gender != null || profile!.data!.gender != '') {
+    if (profile.profile?.gender != null || profile.profile?.gender != '') {
       pro.add('gender');
     }
-    if (profile!.data!.dob != null || profile!.data!.dob != '') {
+    if (profile.profile?.dateOfBirth != null || profile.profile?.dateOfBirth != '') {
       pro.add('dob');
     }
-    if (profile!.data!.occupation != null || profile!.data!.occupation != '') {
+    if (profile.profile?.occupation != null || profile.profile?.occupation != '') {
       pro.add('occupation');
     }
-    if (profile!.data!.relationStatus != null ||
-        profile!.data!.relationStatus != '') {
+    if (profile.profile?.marritalStatus != null ||
+        profile.profile?.marritalStatus != '') {
       pro.add('relation_status');
     }
-    if (profile!.data!.email != null || profile!.data!.email != '') {
+    if (profile.email != null || profile.email != '') {
       pro.add('email');
     }
-    if (profile!.data!.phone != null || profile!.data!.phone != '') {
+    if (profile.profile?.phone != null || profile.profile?.phone != '') {
       pro.add('phone');
     }
-    if (profile!.data!.alternatePhone != null ||
-        profile!.data!.alternatePhone != '') {
+    if (profile.profile?.additionalPhone != null ||
+        profile.profile?.additionalPhone != '') {
       pro.add('alternate_phone');
     }
-    if (profile!.data!.homeAddress != null ||
-        profile!.data!.homeAddress != '') {
-      pro.add('home_address');
-    }
-    if (profile!.data!.workAddress != null ||
-        profile!.data!.workAddress != '') {
-      pro.add('work_address');
-    }
-    percent = ((pro.length / 10) * 100).toString().split(".").first;
-    dou = (pro.length / 10);
-  }
+    // if (profile!.data!.homeAddress != null ||
+    //     profile!.data!.homeAddress != '') {
+    //   pro.add('home_address');
+    // }
+    // if (profile!.data!.workAddress != null ||
+    //     profile!.data!.workAddress != '') {
+    //   pro.add('work_address');
+    // }
+    // percent = ((pro.length / 10) * 100).toString().split(".").first;
+    // dou = (pro.length / 10);
+  }*/
 
   File pickedImage = File("");
 
@@ -195,9 +221,11 @@ class _UserProfileState extends State<UserProfile> {
   String dobFormat = '';
   // GlobalKey<FormState>  formKey = GlobalKey<FormState>();
 
-  String? completePercent;
-  double parsedPercent = 0.0;
-  double normalizedPercent = 0.0;
+  String? profileComplete;
+  double profileParsedPercent = 0.0;
+
+
+
 
   ProfileModel? response;
 
@@ -231,9 +259,10 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    completePercent = profile?.data?.completePercent;
-    parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
-    normalizedPercent = parsedPercent / 100.0;
+
+    profileComplete = widget.response.data!.complete.toString();
+    profileParsedPercent = double.tryParse(profileComplete!.replaceAll("%", '') ?? '0') ?? 0.0;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -255,10 +284,10 @@ class _UserProfileState extends State<UserProfile> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        profile!.data!.completePercent.toString() == "" ||
-                                profile!.data!.completePercent == null
+                        profile!.data!.complete.toString() == "" ||
+                                profile!.data!.complete== null
                             ? "0"
-                            : profile!.data!.completePercent
+                            : profile!.data!.complete
                                 .toString()
                                 .split(".")
                                 .first,
@@ -281,7 +310,11 @@ class _UserProfileState extends State<UserProfile> {
           padding: const EdgeInsets.only(left: 20),
           child: InkWell(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UserAllDetails(response: widget.response,)));
+              //Navigator.pop(context);
               // profile!.data!.toString().isEmpty
               // (profile!.data!.completePercent.toString() == '' ||
               //         profile!.data!.name.toString() == '' ||
@@ -344,7 +377,7 @@ class _UserProfileState extends State<UserProfile> {
                     width: 1.sw,
                     padding: EdgeInsets.zero,
                     lineHeight: 8.0,
-                    percent: normalizedPercent,
+                    percent: profileParsedPercent/100,
                     backgroundColor: Color(0xff66D340).withOpacity(0.28),
                     progressColor: ColorSelect.color66D340,
                   ),
@@ -386,14 +419,16 @@ class _UserProfileState extends State<UserProfile> {
                                         ),
                                         clipBehavior: Clip.hardEdge,
                                         child: CachedNetworkImage(
-                                          imageUrl: profile!.data!.user!.photo
+                                          imageUrl:
+                                          profile.data?.profile?.photo != null &&
+                                          profile!.data!.profile!.photo
                                                   .toString()
                                                   .contains("https")
-                                              ? profile!.data!.user!.photo
+                                              ? profile!.data!.profile!.photo
                                                   .toString()
-                                              : baseUrl +
-                                                  profile!.data!.user!.photo
-                                                      .toString(),
+                                              : newBaseUrl + ( profile?.data?.profile?.photo
+                                              .toString() ?? "")
+                                                 ,
                                           /* baseUrl+profile!.data!.user!.photo! == '' ?
                               'add photo' :*/
                                           // '$baseUrl${SharedPrefs().getUserPhoto()}',
@@ -530,7 +565,7 @@ class _UserProfileState extends State<UserProfile> {
                                   return CheckBoxWidget(
                                     gender: genderController.text,
                                     onPop: (val) {
-                                      setState(() {});
+                                      //setState(() {});
                                       if (!pro.contains("gender")) {
                                         setState(() {
                                           Navigator.pop(context);
@@ -555,13 +590,13 @@ class _UserProfileState extends State<UserProfile> {
                                 Spacer(),
                                 genderController.text.isEmpty
                                     ? Text(
-                                        profile!.data!.gender.toString() ==
+                                        profile?.data?.profile?.gender?.toString() ==
                                                     "" ||
-                                                profile!.data!.gender == null
+                                                profile?.data?.profile?.gender == null
                                             ? "+ Add"
-                                            : profile!.data!.gender.toString(),
+                                            : profile!.data!.profile!.gender.toString(),
                                         style:
-                                            profile!.data!.gender.toString() ==
+                                            profile?.data?.profile?.gender.toString() ==
                                                     ''
                                                 ? AppTextStyle()
                                                     .textColorD5574514w500
@@ -652,11 +687,11 @@ class _UserProfileState extends State<UserProfile> {
                                 Spacer(),
                                 dobController.text.isEmpty
                                     ? Text(
-                                        profile!.data!.dob.toString() == "" ||
-                                                profile!.data!.dob == null
+                                        profile?.data?.profile?.dateOfBirth?.toString() == "" ||
+                                                profile?.data?.profile?.dateOfBirth == null
                                             ? "+ Add"
-                                            : profile!.data!.dob.toString(),
-                                        style: profile!.data!.dob == ''
+                                            : profile!.data!.profile!.dateOfBirth.toString(),
+                                        style: profile?.data?.profile?.dateOfBirth == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
@@ -725,13 +760,13 @@ class _UserProfileState extends State<UserProfile> {
                               Spacer(),
                               occupationController.text.isEmpty
                                   ? Text(
-                                      profile!.data!.occupation.toString() ==
+                                      profile?.data?.profile?.occupation?.toString() ==
                                                   '' ||
-                                              profile!.data!.occupation == null
+                                              profile?.data?.profile?.occupation == null
                                           ? '+ Add'
-                                          : profile!.data!.occupation
+                                          : profile!.data!.profile!.occupation
                                               .toString(),
-                                      style: profile!.data!.occupation == ''
+                                      style: profile?.data?.profile?.occupation == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -789,15 +824,15 @@ class _UserProfileState extends State<UserProfile> {
                               ),
                               relationStatus.text.isEmpty
                                   ? Text(
-                                      profile!.data!.relationStatus
+                                      profile?.data?.profile?.marritalStatus
                                                       .toString() ==
                                                   '' ||
-                                              profile!.data!.relationStatus ==
+                                              profile?.data?.profile?.marritalStatus ==
                                                   null
                                           ? '+ Add'
-                                          : profile!.data!.relationStatus
+                                          : profile!.data!.profile!.marritalStatus
                                               .toString(),
-                                      style: profile!.data!.relationStatus == ''
+                                      style: profile?.data?.profile?.marritalStatus == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -866,11 +901,11 @@ class _UserProfileState extends State<UserProfile> {
                               Spacer(),
                               emailController.text.isEmpty
                                   ? Text(
-                                      profile!.data!.user!.email.toString() ==
+                                      profile!.data?.email.toString() ==
                                                   '' ||
-                                              profile!.data!.email == null
+                                              profile!.data?.email == null
                                           ? "+ Add"
-                                          : profile!.data!.user!.email
+                                          : profile!.data!.email
                                               .toString(),
                                       // '${SharedPrefs().getEmail()}',
                                       style: profile!.data!.email == ''
@@ -936,14 +971,14 @@ class _UserProfileState extends State<UserProfile> {
                               Spacer(),
                               phoneController.text.isEmpty
                                   ? Text(
-                                      profile!.data!.phone.toString() == '' ||
-                                              profile!.data!.phone == null
+                                      profile?.data?.profile?.phone?.toString() == '' ||
+                                              profile?.data?.profile?.phone == null
                                           ? '+ Add'
-                                          : profile!.data!.phone.toString(),
+                                          : profile!.data!.profile!.phone.toString(),
                                       // profile!.data!.user!.phone.toString() == ''?
                                       // '+ Add' :
                                       // profile!.data!.user!.phone.toString(),
-                                      style: profile!.data!.phone == ''
+                                      style: profile?.data?.profile?.phone == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -1003,18 +1038,18 @@ class _UserProfileState extends State<UserProfile> {
                               Spacer(),
                               alternateNo.text.isEmpty
                                   ? Text(
-                                      profile!.data!.alternatePhone
+                                      profile?.data?.profile?.additionalPhone
                                                       .toString() ==
                                                   '' ||
-                                              profile!.data!.alternatePhone ==
+                                              profile?.data?.profile?.additionalPhone ==
                                                   null
                                           ? '+ Add'
-                                          : profile!.data!.alternatePhone
+                                          : profile!.data!.profile!.additionalPhone
                                               .toString(),
                                       // profile!.data!.user!.phone.toString() == ''?
                                       // '+ Add' :
                                       // profile!.data!.user!.phone.toString(),
-                                      style: profile!.data!.alternatePhone == ''
+                                      style: profile?.data?.profile?.additionalPhone == ''
                                           ? AppTextStyle().textColorD5574514w500
                                           : AppTextStyle()
                                               .textColor29292914w400,
@@ -1029,7 +1064,7 @@ class _UserProfileState extends State<UserProfile> {
                           // child: PhoneRowWidget(profile:profile!),
                         ),
                         SizedBox(
-                          height: 20.h,
+                          height: 40.h,
                         ),
                         // GestureDetector(
                         //   onTap: () {
@@ -1093,10 +1128,10 @@ class _UserProfileState extends State<UserProfile> {
                         //   ),
                         //   // child: AlternatePhoneRowWidget(profile:profile!),
                         // ),
-                        SizedBox(
-                          height: 40.h,
-                        ),
-                        Text(
+                        // SizedBox(
+                        //   height: 40.h,
+                        // ),
+/*                        Text(
                           "Addresses",
                           style: AppTextStyle().textColor29292914w600,
                         ),
@@ -1261,110 +1296,131 @@ class _UserProfileState extends State<UserProfile> {
                           ),
 
                           // child: WorkRowWidget(profile:profile!),
-                        ),
+                        ),*/
 
                         SizedBox(height: 30),
                         Padding(
                             padding: const EdgeInsets.only(bottom: 16),
                             child:
                                 // child: (profile!.data!.occupation.toString() == '')
-                                //     ?
-                                LightYellowButtonWithText(
-                                    size: 16,
-                                    backgroundColor: MaterialStateProperty.all(
-                                        ColorSelect.colorF7E641),
-                                    textStyleColor: Colors.black,
-                                    onTap: () {
-                                      //print(localImagePath);
-                                      postProfile(
-                                        name: nameController.text,
-                                        gender: genderController.text,
-                                        dob: dobFormat,
-                                        occupation: occupationController.text,
-                                        relationStatus: relationStatus.text,
-                                        email: emailController.text,
-                                        phone: phoneController.text,
-                                        alternateNo: alternateNo.text,
-                                        homeAddress: homeController.text,
-                                        workAddress: workController.text,
-                                        privacyStatus: 'public',
-                                        photo:
-                                            // localImagePath
-
-                                            pickedImage.isAbsolute
-                                                ? pickedImage.path
-                                                : '',
-                                      ).then(
-                                        (value) async {
-                                          if (value['status'] == true) {
-                                            SharedPrefs().setPPercent('100 %');
-                                            Navigator.of(context)
-                                                .pushReplacement(
-                                              MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) {
-                                                  // Your new route/widget here
-                                                  return UserAllDetails(
-                                                    response: widget.response,
-                                                  );
-                                                },
-                                              ),
-                                            );
-                                            Fluttertoast.showToast(
-                                                msg: value['message']);
-                                          } else {
-                                            Fluttertoast.showToast(
-                                                msg: value['message']);
-                                          }
-                                        },
-                                      );
-                                    },
-                                    title: 'Add')
+                                // //     ?
+                                // LightYellowButtonWithText(
+                                //     size: 16,
+                                //     backgroundColor: MaterialStateProperty.all(
+                                //         ColorSelect.colorF7E641),
+                                //     textStyleColor: Colors.black,
+                                //     onTap: () {
+                                //       //print(localImagePath);
+                                //    /*   postProfile(
+                                //         name: nameController.text,
+                                //         gender: genderController.text,
+                                //         dob: dobFormat,
+                                //         occupation: occupationController.text,
+                                //         relationStatus: relationStatus.text,
+                                //         email: emailController.text,
+                                //         phone: phoneController.text,
+                                //         alternateNo: alternateNo.text,
+                                //         homeAddress: homeController.text,
+                                //         workAddress: workController.text,
+                                //         privacyStatus: 'public',
+                                //         photo:
+                                //             // localImagePath
+                                //
+                                //             pickedImage.isAbsolute
+                                //                 ? pickedImage.path
+                                //                 : '',
+                                //       ).then(
+                                //         (value) async {
+                                //           if (value['status'] == true) {
+                                //             SharedPrefs().setPPercent('100 %');
+                                //             Navigator.of(context)
+                                //                 .pushReplacement(
+                                //               MaterialPageRoute(
+                                //                 builder:
+                                //                     (BuildContext context) {
+                                //                   // Your new route/widget here
+                                //                   return UserAllDetails(
+                                //                     response: widget.response,
+                                //                   );
+                                //                 },
+                                //               ),
+                                //             );
+                                //             Fluttertoast.showToast(
+                                //                 msg: value['message']);
+                                //           } else {
+                                //             Fluttertoast.showToast(
+                                //                 msg: value['message']);
+                                //           }
+                                //         },
+                                //       );*/
+                                //     },
+                                //     title: 'Add')
                             //     :
-                            // LightYellowButtonWithText(
-                            //     size: 15,
-                            //     backgroundColor: MaterialStateProperty.all(
-                            //         ColorSelect.colorF7E641),
-                            //     textStyleColor: Colors.black,
-                            //     onTap: () {
-                            //       updateProfile(
-                            //               name: nameController.text,
-                            //               gender: genderController.text,
-                            //               dob: dobFormat,
-                            //               occupation:
-                            //                   occupationController.text,
-                            //               relationStatus:
-                            //                   relationStatus.text,
-                            //               email: emailController.text,
-                            //               phone: phoneController.text,
-                            //               alternateNo: alternateNo.text,
-                            //               homeAddress: homeController.text,
-                            //               workAddress: workController.text,
-                            //               privacyStatus: 'public',
-                            //               id: profile!.data!.id.toString(),
-                            //               photo: pickedImage.isAbsolute
-                            //                   ? pickedImage.path
-                            //                   : '')
-                            //           .then((value) {
-                            //         print(pickedImage);
-                            //         if (value['status'] == true) {
-                            //           SharedPrefs()
-                            //               .setName(nameController.text);
-                            //           SharedPrefs()
-                            //               .setEmail(emailController.text);
-                            //           Navigator.pop(context);
-                            //           // setState(() {
-                            //           //   // isLoading ? Loading() :getProfile();
-                            //           // });
-                            //           Fluttertoast.showToast(
-                            //               msg: value['message']);
-                            //         } else {
-                            //           Fluttertoast.showToast(
-                            //               msg: value['message']);
-                            //         }
-                            //       });
-                            //     },
-                            //     title: 'Update')
+                            LightYellowButtonWithText(
+                                size: 15,
+                                backgroundColor: MaterialStateProperty.all(
+                                    ColorSelect.colorF7E641),
+                                textStyleColor: Colors.black,
+                                onTap: () {
+                                 /* updateProfile(
+                                          name: nameController.text,
+                                          gender: genderController.text,
+                                          dob: dobFormat,
+                                          occupation:
+                                              occupationController.text,
+                                          relationStatus:
+                                              relationStatus.text,
+                                          email: emailController.text,
+                                          phone: phoneController.text,
+                                          alternateNo: alternateNo.text,
+                                          homeAddress: homeController.text,
+                                          workAddress: workController.text,
+                                          privacyStatus: 'public',
+                                          id: profile!.data!.id.toString(),
+                                          photo: pickedImage.isAbsolute
+                                              ? pickedImage.path
+                                              : '')
+                                      .then((value) {
+                                    print(pickedImage);
+                                    if (value['status'] == true) {
+                                      SharedPrefs()
+                                          .setName(nameController.text);
+                                      SharedPrefs()
+                                          .setEmail(emailController.text);
+                                      Navigator.pop(context);
+                                      // setState(() {
+                                      //   // isLoading ? Loading() :getProfile();
+                                      // });
+                                      Fluttertoast.showToast(
+                                          msg: value['message']);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: value['message']);
+                                    }
+                                  });*/
+                                  updateProfileApi(
+                                      name: nameController.text,
+                                      userName: nameController.text,
+                                      gender: genderController.text,
+                                      dob: dobFormat,
+                                      occupation: occupationController.text,
+                                      relationStatus: relationStatus.text,
+                                      email: emailController.text,
+                                      phone: phoneController.text,
+                                      alternateNo: alternateNo.text,
+                                      privacyStatus: 'public',
+                                      photo: pickedImage.path,
+                                     ).then((value) {
+                                        if(value['error'] == false){
+                                          Fluttertoast.showToast(msg: value['message']);
+                                          Navigator.pop(context);
+
+                                        }else{
+                                          Fluttertoast.showToast(msg: value['error']);
+                                        }
+                                  });
+                                },
+                                title: 'Update')
                             ),
                         SizedBox(height: 25.h)
                       ],
@@ -1376,130 +1432,130 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  AlertDialog buildAlertDialog(BuildContext context, final String puppyOrigin,
-      final Function(String) onPop) {
-    int _gIndex = 0;
-    return AlertDialog(
-        insetPadding: EdgeInsets.only(
-          left: 20,
-          right: 20,
-        ),
-        contentPadding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        elevation: 0,
-        backgroundColor: Colors.white,
-        content: Container(
-          color: Colors.transparent,
-          padding: EdgeInsets.symmetric(
-            vertical: 20,
-            horizontal: 20,
-          ),
-          width: 1.sw,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Gender',
-                  style: AppTextStyle().textColor29292914w500,
-                ),
-                Row(
-                  children: [
-                    Checkbox(
-                      checkColor: Colors.grey,
-                      activeColor: ColorSelect.colorF7E641,
-                      //fillColor: MaterialStateProperty.resolveWith(getColor),
-                      value: checkedMale,
-                      shape: CircleBorder(),
-                      onChanged: (value) {
-                        setState(() {
-                          checkedMale = value!;
-                        });
-                      },
-                    ),
-                    Text('Male', style: AppTextStyle().textColor29292914w500)
-                  ],
-                ),
-                Row(
-                  children: [
-                    Checkbox(
-                      checkColor: Colors.grey,
-                      activeColor: ColorSelect.colorF7E641,
-                      //fillColor: MaterialStateProperty.resolveWith(getColor),
-                      value: checkedFemale,
-                      shape: CircleBorder(),
-                      onChanged: (value) {
-                        setState(() {
-                          checkedFemale = value!;
-                        });
-                      },
-                    ),
-                    Text('Female', style: AppTextStyle().textColor29292914w500)
-                  ],
-                ),
-                Row(
-                  children: [
-                    Checkbox(
-                      checkColor: Colors.grey,
-                      activeColor: ColorSelect.colorF7E641,
-                      //fillColor: MaterialStateProperty.resolveWith(getColor),
-                      value: checkedOther,
-                      shape: CircleBorder(),
-                      onChanged: (value) {
-                        setState(() {
-                          checkedOther = value!;
-                        });
-                      },
-                    ),
-                    Text('Other', style: AppTextStyle().textColor29292914w500)
-                  ],
-                ),
-                SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => Privacy(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Visible to",
-                          style: AppTextStyle().textColor70707014w400,
-                        ),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        Image.asset("assets/images/image46.png"),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        Text(
-                          'Everyone',
-                          style: AppTextStyle().textColor29292914w400,
-                        ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Image.asset("assets/images/Vector176.png")
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ));
-  }
+  // AlertDialog buildAlertDialog(BuildContext context, final String puppyOrigin,
+  //     final Function(String) onPop) {
+  //   int _gIndex = 0;
+  //   return AlertDialog(
+  //       insetPadding: EdgeInsets.only(
+  //         left: 20,
+  //         right: 20,
+  //       ),
+  //       contentPadding: EdgeInsets.zero,
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(12),
+  //       ),
+  //       elevation: 0,
+  //       backgroundColor: Colors.white,
+  //       content: Container(
+  //         color: Colors.transparent,
+  //         padding: EdgeInsets.symmetric(
+  //           vertical: 20,
+  //           horizontal: 20,
+  //         ),
+  //         width: 1.sw,
+  //         child: SingleChildScrollView(
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Text(
+  //                 'Gender',
+  //                 style: AppTextStyle().textColor29292914w500,
+  //               ),
+  //               Row(
+  //                 children: [
+  //                   Checkbox(
+  //                     checkColor: Colors.grey,
+  //                     activeColor: ColorSelect.colorF7E641,
+  //                     //fillColor: MaterialStateProperty.resolveWith(getColor),
+  //                     value: checkedMale,
+  //                     shape: CircleBorder(),
+  //                     onChanged: (value) {
+  //                       setState(() {
+  //                         checkedMale = value!;
+  //                       });
+  //                     },
+  //                   ),
+  //                   Text('Male', style: AppTextStyle().textColor29292914w500)
+  //                 ],
+  //               ),
+  //               Row(
+  //                 children: [
+  //                   Checkbox(
+  //                     checkColor: Colors.grey,
+  //                     activeColor: ColorSelect.colorF7E641,
+  //                     //fillColor: MaterialStateProperty.resolveWith(getColor),
+  //                     value: checkedFemale,
+  //                     shape: CircleBorder(),
+  //                     onChanged: (value) {
+  //                       setState(() {
+  //                         checkedFemale = value!;
+  //                       });
+  //                     },
+  //                   ),
+  //                   Text('Female', style: AppTextStyle().textColor29292914w500)
+  //                 ],
+  //               ),
+  //               Row(
+  //                 children: [
+  //                   Checkbox(
+  //                     checkColor: Colors.grey,
+  //                     activeColor: ColorSelect.colorF7E641,
+  //                     //fillColor: MaterialStateProperty.resolveWith(getColor),
+  //                     value: checkedOther,
+  //                     shape: CircleBorder(),
+  //                     onChanged: (value) {
+  //                       setState(() {
+  //                         checkedOther = value!;
+  //                       });
+  //                     },
+  //                   ),
+  //                   Text('Other', style: AppTextStyle().textColor29292914w500)
+  //                 ],
+  //               ),
+  //               SizedBox(height: 20),
+  //               GestureDetector(
+  //                 onTap: () {
+  //                   Navigator.pop(context);
+  //                   Navigator.push(
+  //                     context,
+  //                     MaterialPageRoute(
+  //                       builder: (_) => Privacy(),
+  //                     ),
+  //                   );
+  //                 },
+  //                 child: Container(
+  //                   color: Colors.transparent,
+  //                   child: Row(
+  //                     mainAxisAlignment: MainAxisAlignment.end,
+  //                     children: [
+  //                       Text(
+  //                         "Visible to",
+  //                         style: AppTextStyle().textColor70707014w400,
+  //                       ),
+  //                       SizedBox(
+  //                         width: 5.w,
+  //                       ),
+  //                       Image.asset("assets/images/image46.png"),
+  //                       SizedBox(
+  //                         width: 5.w,
+  //                       ),
+  //                       Text(
+  //                         'Everyone',
+  //                         style: AppTextStyle().textColor29292914w400,
+  //                       ),
+  //                       SizedBox(
+  //                         width: 10.w,
+  //                       ),
+  //                       Image.asset("assets/images/Vector176.png")
+  //                     ],
+  //                   ),
+  //                 ),
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ));
+  // }
 }
 
 class CheckBoxWidget extends StatefulWidget {
@@ -1547,7 +1603,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                   onTap: () {
                     setState(() {
                       _gIndex = 0;
-                      Navigator.of(context).pop();
+                     // Navigator.of(context).pop();
                       widget.onPop("male");
                     });
                   },
@@ -1557,7 +1613,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                         onTap: () {
                           setState(() {
                             _gIndex = 0;
-                            Navigator.of(context).pop();
+                            //Navigator.of(context).pop();
                             widget.onPop("male");
                           });
                         },
@@ -1586,7 +1642,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                   onTap: () {
                     setState(() {
                       _gIndex = 1;
-                      Navigator.of(context).pop();
+                      //Navigator.of(context).pop();
                       widget.onPop("female");
                     });
                   },
@@ -1596,7 +1652,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                         onTap: () {
                           setState(() {
                             _gIndex = 1;
-                            Navigator.of(context).pop();
+                            //Navigator.of(context).pop();
                             widget.onPop("female");
                           });
                         },
@@ -1626,7 +1682,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                   onTap: () {
                     setState(() {
                       _gIndex = 2;
-                      Navigator.of(context).pop();
+                      //Navigator.of(context).pop();
                       widget.onPop("neutral");
                     });
                   },
@@ -1636,7 +1692,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                         onTap: () {
                           setState(() {
                             _gIndex = 2;
-                            Navigator.of(context).pop();
+                           // Navigator.of(context).pop();
                             widget.onPop("neutral");
                           });
                         },

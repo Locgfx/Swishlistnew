@@ -144,6 +144,9 @@ class _OptionRowFamilyState extends State<OptionRowFamily> {
                           context,
                           MaterialPageRoute(
                             builder: (_) => FamilyMemberDetails(
+                              familyUserName:'' ,
+                              familyName: '',
+                              familyPhoto: '',
                               familyMemberId: '',
                             ),
                           ),

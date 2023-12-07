@@ -132,7 +132,32 @@ class _ProductsPageState extends State<ProductsPage> {
     return isFirstLaunch;
   }
 
-  ProfileModel? profile = ProfileModel(
+
+
+
+ ProfileModel  profile = ProfileModel();
+  getProfile() {
+
+    isLoading = true;
+    var resp = getProfileApi();
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          profile = ProfileModel.fromJson(value);
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+
+    });
+
+
+  }
+  /*ProfileModel? profile = ProfileModel(
     data: ProfileData(
       name: '',
       gender: '',
@@ -150,9 +175,9 @@ class _ProductsPageState extends State<ProductsPage> {
       user: ProfileUser(
           name: '', username: '', email: '', phone: '', type: '', photo: ''),
     ),
-  );
+  );*/
 
-  getProfile() {
+  /*getProfile() {
     isLoading = true;
     var resp = getProfileDetails();
     resp.then((value) {
@@ -176,7 +201,7 @@ class _ProductsPageState extends State<ProductsPage> {
         }
       }
     });
-  }
+  }*/
 
   // bool isLoading = false;
   GetProductModel? getProducts;
@@ -389,14 +414,19 @@ class _ProductsPageState extends State<ProductsPage> {
                                               //     ? widget.response.data.photo
                                               //         .toString()
                                               //     : '${SharedPrefs().getUserPhoto()}',
-                                              profile!.data!.user!.photo
+                                              /*profile!.profile!.photo
                                                       .toString()
                                                       .contains("https")
-                                                  ? profile!.data!.user!.photo
+                                                  ? profile!.profile!.photo
                                                       .toString()
                                                   : baseUrl +
-                                                      profile!.data!.user!.photo
-                                                          .toString(),
+                                                      profile!.profile!.photo
+                                                          .toString(),*/
+
+                                          profile?.data?.profile?.photo != null
+                                              //&& profile.data?.profile!.photo.toString().contains("https")
+                                              ? profile!.data!.profile!.photo.toString()
+                                              : baseUrl + (profile?.data?.profile?.photo?.toString() ?? ""),
                                           fit: BoxFit.cover,
                                           errorWidget: (context, url, error) =>
                                               Image.asset(
@@ -440,10 +470,10 @@ class _ProductsPageState extends State<ProductsPage> {
                                           children: [
                                             Row(
                                               children: [
-                                                profile!.data!.name
+                                                profile.data?.name
                                                                 .toString() ==
                                                             "" ||
-                                                        profile!.data!.name ==
+                                                        profile.data?.name ==
                                                             null
                                                     ? Text(
                                                         "User",
@@ -1736,7 +1766,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                     context: context,
                                     isScrollControlled: true,
                                     builder: (context) {
-                                      return ManuallyAlreadyAddBottomSheetWidget(
+                                      return ManuallyAddBottomSheetWidget(
                                         productType: 'have',
                                       );
                                     });

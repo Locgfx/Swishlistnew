@@ -10,6 +10,7 @@ import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/dashboard/reset_password/reset_password.dart';
 import 'package:swishlist/expanded/widgets/Profile_data_and_all_uesr_data.dart';
 import 'package:swishlist/models/complete_percent_model.dart';
+import 'package:swishlist/new_screens/tabs_screen/address.dart';
 import 'package:swishlist/profile_page/account.dart';
 import 'package:swishlist/profile_page/date_and_events.dart';
 import 'package:swishlist/profile_page/favorites.dart';
@@ -46,10 +47,12 @@ class UserAllDetails extends StatefulWidget {
 class _UserAllDetailsState extends State<UserAllDetails> {
   @override
   void initState() {
-    // getInterest();
+     getInterest();
     getSizedWeight();
-    // getFavourites();
+    getFavourites();
     getProfile();
+
+    print(interest);
     super.initState();
   }
 
@@ -67,26 +70,33 @@ class _UserAllDetailsState extends State<UserAllDetails> {
 
   List<String>? elements = [''];
   bool isLoading = false;
-  // InterestModel _interest = InterestModel(data: Data(interest: ''));
-  // // InterestModel? _interest;
-  // getInterest() {
-  //   isLoading = true;
-  //   var resp = getInterestApi();
-  //   resp.then((value) {
-  //     if (value['status'] == true) {
-  //       setState(() {
-  //         _interest = InterestModel.fromJson(value);
-  //         elements = _interest.data!.interest!.split(",");
-  //         isLoading = false;
-  //       });
-  //     } else {
-  //       isLoading = false;
-  //     }
-  //   });
-  // }
+
+  InterestModel interest  = InterestModel();
+  List<InterestModel> _interestList = [];
+  // InterestModel? _interest;
+  getInterest() {
+    isLoading = true;
+    var resp = getInterestApi();
+    resp.then((value) {
+      if (value['error'] == false) {
+       /* for(var v in value['data']){
+          _interestList.add(InterestModel.fromJson(v));
+        }
+        isLoading =false;*/
+         setState(() {
+         interest = InterestModel.fromJson(value);
+          elements = interest.data!.interests!;
+          isLoading = false;
+        });
+      } else {
+        isLoading = false;
+      }
+    });
+  }
+
 
   Future<void> _handleRefresh() async {
-    // getInterest();
+     getInterest();
     getSizedWeight();
    getFavourites();
     getProfile();
@@ -127,9 +137,10 @@ class _UserAllDetailsState extends State<UserAllDetails> {
     isLoading = true;
     var resp = getSizeAndWeightApi();
     resp.then((value) {
-      if(value.error == false){
+      if(value['error'] == false){
+        if(mounted){
         setState(() {
-          sizeWeight = value;
+          sizeWeight = SizesAndWeightModel.fromJson(value);
           isLoading = false;
         });
 
@@ -137,7 +148,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
         setState(() {
           isLoading = false;
         });
-      }
+      }}
     });
   }
 
@@ -178,95 +189,85 @@ class _UserAllDetailsState extends State<UserAllDetails> {
   //   createdAt: '',
   // ));
 
-  FavouritesModel? favourites ;
+  FavouritesModel favourites = FavouritesModel();
 
-  getFavourites() {
+  getFavourites() async {
     isLoading = true;
     var resp = getFavouritesApi();
     resp.then((value) {
-   if(value.error == false){
-     setState(() {
-       favourites = value;
-       isLoading = false;
-     });
-   }else{
-     setState(() {
-       isLoading = false;
-     });
-   }
 
-   });
-   }
+      if(value['error'] == false){
+        setState(() {
+          favourites = FavouritesModel.fromJson(value);
+          isLoading = false;
+          print('qwertty${favourites}');
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+
+    });
+  }
+
   //------------------------Profile Model -=--------------------------//
 
   String? proCompletePercent;
   double proParsedPercent = 0.0;
   double proNormalizedPercent = 0.0;
 
-  ProfileModel? profile = ProfileModel(
-    data: ProfileData(
-      name: '',
-      gender: '',
-      dob: '',
-      occupation: '',
-      relationStatus: '',
-      email: '',
-      phone: '',
-      alternatePhone: '',
-      homeAddress: '',
-      workAddress: '',
-      privacyStatus: '',
-      createdAt: '',
-      completePercent: '',
-      user: ProfileUser(
-          name: '',
-          username: '',
-          email: '',
-          phone: '',
-          type: '',
-          photo: '${SharedPrefs().getUserPhoto()}'),
-    ),
-  );
+  ProfileModel ? profile;
 
   getProfile() {
+
     isLoading = true;
-    var resp = getProfileDetails();
+    var resp = getProfileApi();
     resp.then((value) {
-      print(value);
-      if (mounted) {
-        if (value['status'] == true) {
-          if (value['message'] == "No Profile") {
-            setState(() {
-              isLoading = false;
-            });
-          } else {
-            setState(() {
-              profile = ProfileModel.fromJson(value);
-              isLoading = false;
-            });
-          }
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-        }
+      if(value['error'] == false){
+        setState(() {
+          profile = ProfileModel.fromJson(value);
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
       }
+
     });
+
+
   }
+
+  String? favComplete;
+  double favparsedPercent = 0.0;
+
+  String? profileComplete;
+  double profileParsedPercent = 0.0;
 
   @override
   Widget build(BuildContext context) {
     completePercent = sizeWeight.data?.complete;
-    parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
+    parsedPercent = double.tryParse(completePercent?.replaceAll('%', '') ?? '0') ?? 0.0;
+   // parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
     normalizedPercent = parsedPercent / 100.0;
 
+
+    favComplete = favourites?.data?.complete;
+    favparsedPercent = double.tryParse(favComplete?.replaceAll('%', '') ?? '0') ?? 0.0;
     /*FavcompletePercent = favourites?.data?.complete;
     FavparsedPercent = double.tryParse(FavcompletePercent ?? '0') ?? 0.0;
     FavnormalizedPercent = FavparsedPercent / 100.0;*/
 
-    proCompletePercent = profile?.data?.completePercent;
+    profileComplete = widget.response.data!.complete.toString();
+    profileParsedPercent = double.tryParse(profileComplete!.replaceAll("%", '') ?? '0') ?? 0.0;
+
+    /*proCompletePercent = profile?.data?.completePercent;
     proParsedPercent = double.tryParse(proCompletePercent ?? '0') ?? 0.0;
-    proNormalizedPercent = proParsedPercent / 100.0;
+    proNormalizedPercent = proParsedPercent / 100.0;*/
 
     return Stack(
       children: [
@@ -439,13 +440,17 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                     // '${SharedPrefs().getUserPhoto()}'.isEmpty
                                     //     ? widget.response.data.photo.toString()
                                     //     : '${SharedPrefs().getUserPhoto()}',
-                                    profile!.data!.user!.photo
+                                   /* profile!.profile!.photo
                                             .toString()
                                             .contains("https")
-                                        ? profile!.data!.user!.photo.toString()
+                                        ? profile!.profile!.photo.toString()
                                         : baseUrl +
-                                            profile!.data!.user!.photo
-                                                .toString(),
+                                            profile!.profile!.photo
+                                                .toString(),*/
+                                profile?.data?.profile?.photo != null
+                                    //&& profile!.data?.profile!.photo.toString().contains("https")
+                                    ? profile!.data!.profile!.photo.toString()
+                                    : baseUrl + (profile?.data?.profile?.photo?.toString() ?? ""),
                                 fit: BoxFit.cover,
                                 errorWidget: (context, url, error) =>
                                     Image.asset("assets/icons/userico.jpg"),
@@ -478,8 +483,10 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                           children: [
                             Row(
                               children: [
-                                profile!.data!.name.toString() == "" ||
-                                        profile!.data!.name == null
+                                profile?.data?.name?.toString() == "" ||
+                                        profile?.data?.name == null
+
+
                                     ? Text(
                                         "User",
 
@@ -537,7 +544,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                               ],
                             ),
                             SizedBox(height: 10.h),
-                            isLoading
+                            /*isLoading
                                 ? LoadingAnimationWidget.staggeredDotsWave(
                                     size: 30,
                                     color: ColorSelect.colorF7E641,
@@ -589,7 +596,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                         ),
                                       ),
                                     ),
-                                  ),
+                                  ),*/
                           ],
                         ),
                       ],
@@ -641,16 +648,19 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                     // Text('hi'):
                     isLoading == true
                         ?
-
                         // SizedBox()
-                        Text(
-                            "Add Your Interest",
+
+                       Text(
+                         //interest.data!.interests.toString(),
+                           "Add Your Interest",
                             style: AppTextStyle().textColor29292914w400,
                           )
-                        : Padding(
+                        :
+                    Padding(
                             padding: const EdgeInsets.only(right: 2.0),
                             child: Wrap(
-                              children: elements!
+                              children:
+                              elements!
                                   .map((e) => chipBox(name: e))
                                   .toList(),
                             ),
@@ -679,7 +689,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                             circularStrokeCap: CircularStrokeCap.round,
                             radius: 40.w,
                             lineWidth: 2.w,
-                            percent: proNormalizedPercent,
+                            percent: profileParsedPercent/100,
                             // percent: .12,
                             backgroundColor:
                                 Color(0xff66D340).withOpacity(0.28),
@@ -701,17 +711,20 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                           MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          profile!.data!.completePercent
+                                         /* profile!.data!.completePercent
                                                           .toString() ==
                                                       "" ||
                                                   profile!.data!
                                                           .completePercent ==
-                                                      null
+                                                      null*/
+                              widget.response.data!.complete.toString() == "" || widget.response.data!.complete.toString() == null
                                               ? "0"
-                                              : profile!.data!.completePercent
+                                              :
+                                  widget.response.data!.complete.toString().split(".").first,
+                              /*profile!.data!.completePercent
                                                   .toString()
                                                   .split(".")
-                                                  .first,
+                                                  .first,*/
                                           // sizeWeight!.data!.completePercent
                                           //     .toString()
                                           //     .split(".")
@@ -745,6 +758,9 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         onTap: () {
+                          print(completePercent);
+                          print(parsedPercent);
+                          print(parsedPercent/100);
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -758,10 +774,11 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                               circularStrokeCap: CircularStrokeCap.round,
                               radius: 40.w,
                               lineWidth: 2.w,
-                              percent: normalizedPercent,
+                              percent: parsedPercent/100,
                               backgroundColor:
                                   Color(0xff576ACC).withOpacity(0.28),
                               center: Image.asset('assets/images/zoomin.png'),
+
                               progressColor: ColorSelect.color576ACC,
                             ),
                             SizedBox(width: 10.w),
@@ -779,11 +796,17 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                             MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            sizeWeight!.data!.complete
+                                            (sizeWeight.data?.complete?.toString() ?? "") == ""
+                                                ? "0"
+                                                : sizeWeight.data!.complete.toString().split(".").first,
+                                            style: AppTextStyle().textColor70707012w400,
+                                          ),
+                                          /*Text(
+                                            sizeWeight.data!.complete
                                                             .toString() ==
                                                         ""
                                                 ||
-                                                    sizeWeight!.data!
+                                                    sizeWeight.data!
                                                             .complete ==
                                                         null
                                                 ? "0"
@@ -798,7 +821,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                             //     .first,
                                             style: AppTextStyle()
                                                 .textColor70707012w400,
-                                          ),
+                                          ),*/
                                           Text(
                                             "%  Percent",
                                             style: AppTextStyle()
@@ -836,7 +859,7 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                             circularStrokeCap: CircularStrokeCap.round,
                             radius: 40.w,
                             lineWidth: 2.w,
-                            percent: FavnormalizedPercent,
+                            percent: favparsedPercent/100,
                             backgroundColor:
                                 Color(0xffD55745).withOpacity(0.28),
                             center: Image.asset('assets/images/Subtract.png'),
@@ -856,26 +879,28 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        Text(''
-                                          /*favourites!.data!.completePercent
+                                        Text(
+                              (favourites.data?.complete?.toString() ?? "") == ""
+                        ? "0"
+                        : favourites.data!.complete.toString().split(".").first,
+                style: AppTextStyle().textColor70707012w400,
+              ),
+                                          /*favourites?.data!.complete
                                                           .toString() ==
                                                       "" ||
-                                                  favourites!.data!
-                                                          .completePercent ==
+                                                  favourites?.data!
+                                                          .complete ==
                                                       null
                                               ? "0"
                                               : favourites!
-                                                  .data!.completePercent
+                                                  .data!.complete
                                                   .toString()
                                                   .split(".")
                                                   .first,
-                                          // sizeWeight!.data!.completePercent
-                                          //     .toString()
-                                          //     .split(".")
-                                          //     .first,
+
                                           style: AppTextStyle()
                                               .textColor70707012w400,*/
-                                        ),
+                                       // ),
                                         Text(
                                           "%  Percent",
                                           style: AppTextStyle()
@@ -922,7 +947,22 @@ class _UserAllDetailsState extends State<UserAllDetails> {
                                 builder: (context) => DateAndEvents()));
                       },
                       child: DateAndEventsRowWidget(),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    InkWell(
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ManageAddress(response: widget.response,)));
+                      },
+                      child: AddressRowWidget(),
                     )
+
                   ],
                 ),
               ),

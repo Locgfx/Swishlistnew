@@ -50,15 +50,17 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
   //
   //
   // );
-  SizesAndWeightModel?  sizeWeight;
+  SizesAndWeightModel  sizeWeight = SizesAndWeightModel();
 
   getSizedWeight(){
     isLoading = true;
     var resp = getSizeAndWeightApi();
     resp.then((value) {
-      if(value.error == false){
+
+      if(value['error'] == false){
         setState(() {
-          sizeWeight = value;
+          sizeWeight = SizesAndWeightModel.fromJson(value);
+          //print(sizeWeight.data!.waist.toString());
 
           // get();
          fields();
@@ -101,10 +103,10 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
   }*/
 
   void fields() {
-    waistController.text = sizeWeight!.data!.waist ?? '';
-    shirtController.text = sizeWeight!.data!.shirt ?? '';
-    shoeController.text = sizeWeight!.data!.shoe ?? '';
-    bedController.text = sizeWeight!.data!.bed ?? '';
+    waistController.text = sizeWeight.data!.waist ?? '';
+    shirtController.text = sizeWeight.data!.shirt ?? '';
+    shoeController.text = sizeWeight.data!.shoe ?? '';
+    bedController.text = sizeWeight.data!.bed ?? '';
   }
 
   List<String> siz = [];
@@ -112,16 +114,16 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
   var percent = "";
 
   // get() {
-  //   if (sizeWeight!.data.waist != null || sizeWeight!.data.waist != '') {
+  //   if (sizeWeight.data.waist != null || sizeWeight.data.waist != '') {
   //     siz.add('waist');
   //   }
-  //   if (sizeWeight!.data.shirt != null || sizeWeight!.data.shirt != '') {
+  //   if (sizeWeight.data.shirt != null || sizeWeight.data.shirt != '') {
   //     siz.add('shirt');
   //   }
-  //   if (sizeWeight!.data.shoe != null || sizeWeight!.data.shoe != '') {
+  //   if (sizeWeight.data.shoe != null || sizeWeight.data.shoe != '') {
   //     siz.add('shoe');
   //   }
-  //   if (sizeWeight!.data.bed != null || sizeWeight!.data.bed != '') {
+  //   if (sizeWeight.data.bed != null || sizeWeight.data.bed != '') {
   //     siz.add('bed');
   //   }
   //   percent = ((siz.length / 4) * 100).toString().split(".").first;
@@ -130,11 +132,14 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
 
   int selectedSize = 0;
   bool selected = false;
+
   TextEditingController waistController = TextEditingController();
   final shirtController = TextEditingController();
   final shoeController = TextEditingController();
   final bedController = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
+
   bool showInput = false;
 
   String? complete;
@@ -144,9 +149,19 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
   @override
   Widget build(BuildContext context) {
 
-    complete = sizeWeight?.data?.complete;
-    parsedPercent = double.tryParse(complete ?? '0') ?? 0.0;
-    normalizedPercent = parsedPercent / 100.0;
+    // Text(
+    //   (sizeWeight.data?.complete?.toString() ?? "") == ""
+    //       ? "0"
+    //       : sizeWeight.data!.complete.toString().split(".").first,
+    //   style: AppTextStyle().textColor70707012w400,
+    // ),
+
+    // complete = sizeWeight.data?.complete.toString() ?? "";
+    // parsedPercent = double.tryParse(complete ?? '0') ?? 0.0;
+    // normalizedPercent = parsedPercent / 100.0;
+
+    complete = sizeWeight.data?.complete;
+    parsedPercent = double.tryParse(complete?.replaceAll('%', '') ?? '0') ?? 0.0;
 
     return Scaffold(
         appBar: AppBar(
@@ -175,21 +190,27 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                sizeWeight!.data!.complete.toString() ==
+                                (sizeWeight.data?.complete?.toString() ?? "") == ""
+                                    ? "0"
+                                    : sizeWeight.data!.complete.toString().split(".").first,
+                                style: AppTextStyle().textColor70707012w400,
+                              ),
+                           /*   Text(
+                                sizeWeight.data!.complete.toString() ==
                                             "" ||
-                                        sizeWeight!.data!.complete ==
+                                        sizeWeight.data!.complete ==
                                             null
                                     ? "0"
-                                    : sizeWeight!.data!.complete
+                                    : sizeWeight.data!.complete
                                         .toString()
                                         .split(".")
                                         .first,
-                                // sizeWeight!.data.complete
+                                // sizeWeight.data.complete
                                 //     .toString()
                                 //     .split(".")
                                 //     .first,
                                 style: AppTextStyle().textColor70707012w400,
-                              ),
+                              ),*/
                               Text(
                                 "%  Percent",
                                 style: AppTextStyle().textColor70707012w400,
@@ -205,7 +226,11 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
             padding: const EdgeInsets.only(left: 20),
             child: GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+               // Navigator.pop(context);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UserAllDetails(response: widget.response,)));
               },
               child: Image.asset('assets/images/Vector190.png'),
             ),
@@ -223,7 +248,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                       width: 1.sw,
                       padding: EdgeInsets.zero,
                       lineHeight: 8.0,
-                      percent: normalizedPercent,
+                      percent: parsedPercent/100,
                       backgroundColor: Color(0xff576ACC).withOpacity(0.28),
                       progressColor: ColorSelect.color576ACC,
                     ),
@@ -244,6 +269,74 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                               SizedBox(
                                 height: 10.h,
                               ),
+                              // GestureDetector(
+                              //   behavior: HitTestBehavior.translucent,
+                              //   onTap: () {
+                              //
+                              //     showDialog(
+                              //       context: context,
+                              //       builder: (BuildContext context) {
+                              //         return WaistDialog(
+                              //           onPop: (val) {
+                              //             setState(() {
+                              //               Navigator.pop(context);
+                              //               waistController.text = val;
+                              //             });
+                              //             // if (!siz.contains('waist')) {
+                              //             //   setState(() {
+                              //             //     siz.add('waist');
+                              //             //   });
+                              //             // }
+                              //           },
+                              //           title: 'Waist Size',
+                              //         );
+                              //       },
+                              //     );
+                              //   },
+                              //   child: Container(
+                              //     padding: EdgeInsets.symmetric(vertical: 10),
+                              //     child: Row(
+                              //       children: [
+                              //         Text(
+                              //           "Waist",
+                              //           style: AppTextStyle()
+                              //               .textColor70707014w400,
+                              //         ),
+                              //         Spacer(),
+                              //         waistController.text.isNotEmpty
+                              //             ? Text(
+                              //                 waistController.text,
+                              //                 style: AppTextStyle()
+                              //                     .textColor29292914w400,
+                              //               )
+                              //             : Text(
+                              //                 sizeWeight.data?.waist
+                              //                                 .toString() ==
+                              //                             "" ||
+                              //                         sizeWeight.data?.waist ==
+                              //                             null
+                              //                     ? "+ Add"
+                              //                     : sizeWeight.data!.waist
+                              //                         .toString(),
+                              //                 style: sizeWeight.data?.waist ==
+                              //                         ''
+                              //                     ? AppTextStyle()
+                              //                         .textColorD5574514w500
+                              //                     : AppTextStyle()
+                              //                         .textColor29292914w400,
+                              //               ),
+                              //         // SizedBox(
+                              //         //   width: 5.w,
+                              //         // ),
+                              //         // Image.asset("assets/images/image46.png"),
+                              //         // SizedBox(
+                              //         //   width: 20.w,
+                              //         // ),
+                              //         // Image.asset("assets/images/Vector175.png"),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
                               GestureDetector(
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () {
@@ -256,13 +349,12 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                             Navigator.pop(context);
                                             waistController.text = val;
                                           });
-                                          if (!siz.contains('waist')) {
-                                            setState(() {
-                                              siz.add('waist');
-                                            });
-                                          }
-                                        },
-                                        title: 'Waist Size',
+                                          // if (!siz.contains('shirt')) {
+                                          //   setState(() {
+                                          //     siz.add('shirt');
+                                          //   });
+                                          // }
+                                        }, title: 'Waist Size',
                                       );
                                     },
                                   );
@@ -279,30 +371,30 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                       Spacer(),
                                       waistController.text.isNotEmpty
                                           ? Text(
-                                              waistController.text,
-                                              style: AppTextStyle()
-                                                  .textColor29292914w400,
-                                            )
+                                        waistController.text,
+                                        style: AppTextStyle()
+                                            .textColor29292914w400,
+                                      )
                                           : Text(
-                                              sizeWeight!.data!.waist
-                                                              .toString() ==
-                                                          "" ||
-                                                      sizeWeight!.data!.waist ==
-                                                          null
-                                                  ? "+ Add"
-                                                  : sizeWeight!.data!.waist
-                                                      .toString(),
-                                              style: sizeWeight!.data!.waist ==
-                                                      ''
-                                                  ? AppTextStyle()
-                                                      .textColorD5574514w500
-                                                  : AppTextStyle()
-                                                      .textColor29292914w400,
-                                            ),
+                                        sizeWeight.data?.waist
+                                            .toString() ==
+                                            "" ||
+                                            sizeWeight.data?.waist ==
+                                                null
+                                            ? "+ Add"
+                                            : sizeWeight.data!.waist
+                                            .toString(),
+                                        style: sizeWeight.data?.waist ==
+                                            ''
+                                            ? AppTextStyle()
+                                            .textColorD5574514w500
+                                            : AppTextStyle()
+                                            .textColor29292914w400,
+                                      ),
                                       // SizedBox(
                                       //   width: 5.w,
                                       // ),
-                                      // Image.asset("assets/images/image46.png"),
+                                      // Image.asset("assets/images/image461.png"),
                                       // SizedBox(
                                       //   width: 20.w,
                                       // ),
@@ -323,11 +415,11 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                             Navigator.pop(context);
                                             shirtController.text = val;
                                           });
-                                          if (!siz.contains('shirt')) {
-                                            setState(() {
-                                              siz.add('shirt');
-                                            });
-                                          }
+                                          // if (!siz.contains('shirt')) {
+                                          //   setState(() {
+                                          //     siz.add('shirt');
+                                          //   });
+                                          // }
                                         },
                                       );
                                     },
@@ -350,15 +442,15 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                                   .textColor29292914w400,
                                             )
                                           : Text(
-                                              sizeWeight!.data!.shirt
+                                              sizeWeight.data?.shirt
                                                               .toString() ==
                                                           "" ||
-                                                      sizeWeight!.data!.shirt ==
+                                                      sizeWeight.data?.shirt ==
                                                           null
                                                   ? "+ Add"
-                                                  : sizeWeight!.data!.shirt
+                                                  : sizeWeight.data!.shirt
                                                       .toString(),
-                                              style: sizeWeight!.data!.shirt ==
+                                              style: sizeWeight.data?.shirt ==
                                                       ''
                                                   ? AppTextStyle()
                                                       .textColorD5574514w500
@@ -389,11 +481,11 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                             Navigator.pop(context);
                                             shoeController.text = val;
                                           });
-                                          if (!siz.contains('shoe')) {
+                                      /*    if (!siz.contains('shoe')) {
                                             setState(() {
                                               siz.add('shoe');
                                             });
-                                          }
+                                          }*/
                                         },
                                       );
                                     },
@@ -419,15 +511,15 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                                   .textColor29292914w400,
                                             )
                                           : Text(
-                                              sizeWeight!.data!.shoe
+                                              sizeWeight.data?.shoe
                                                               .toString() ==
                                                           "" ||
-                                                      sizeWeight!.data!.shoe ==
+                                                      sizeWeight.data?.shoe ==
                                                           null
                                                   ? "+ Add"
-                                                  : sizeWeight!.data!.shoe
+                                                  : sizeWeight.data!.shoe
                                                       .toString(),
-                                              style: sizeWeight!.data!.shoe ==
+                                              style: sizeWeight.data?.shoe ==
                                                       ''
                                                   ? AppTextStyle()
                                                       .textColorD5574514w500
@@ -465,11 +557,11 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                             Navigator.pop(context);
                                             bedController.text = val;
                                           });
-                                          if (!siz.contains('bed')) {
+                                        /*  if (!siz.contains('bed')) {
                                             setState(() {
                                               siz.add('bed');
                                             });
-                                          }
+                                          }*/
                                         },
                                       );
                                     },
@@ -490,14 +582,14 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                                 .textColor29292914w400,
                                           )
                                         : Text(
-                                            sizeWeight!.data!.bed.toString() ==
+                                            sizeWeight.data?.bed.toString() ==
                                                         "" ||
-                                                    sizeWeight!.data!.bed ==
+                                                    sizeWeight.data?.bed ==
                                                         null
                                                 ? "+ Add"
-                                                : sizeWeight!.data!.bed
+                                                : sizeWeight.data!.bed
                                                     .toString(),
-                                            style: sizeWeight!.data!.bed == ''
+                                            style: sizeWeight.data?.bed == ''
                                                 ? AppTextStyle()
                                                     .textColorD5574514w500
                                                 : AppTextStyle()
@@ -524,7 +616,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                       padding: const EdgeInsets.only(
                           left: 16, right: 16, bottom: 40),
                       child:
-                      // sizeWeight!.data.bed.toString() == ''
+                      // sizeWeight.data.bed.toString() == ''
                       //     ?
                       LightYellowButtonWithText(
                               size: 16,
@@ -536,6 +628,9 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                               textStyleColor: Colors.black,
                               onTap: () {
                                 if (formKey.currentState!.validate()) {
+
+
+
                                   postSizeAndWeightApi(
 
                                           waist: waistController.text,
@@ -556,7 +651,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                           },
                                         ),
                                       );
-                                      SharedPrefs().setSize('100 %');
+                                      //SharedPrefs().setSize('100 %');
                                       // setState(() {
                                       //   isLoading ? Loading(): getSizedWeight();
                                       // });
@@ -564,8 +659,9 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                                           msg: value['message']);
                                     } else {
                                       Fluttertoast.showToast(
-                                          msg:
-                                              "Please fill all details fields");
+                                          msg: value['message']
+                                             // "Please fill all details fields"
+                                      );
                                     }
                                   });
                                 }
@@ -592,7 +688,7 @@ class _SizeAndWeightsState extends State<SizeAndWeights> {
                           //                 shoe: shoeController.text,
                           //                 bed: bedController.text,
                           //                 privacy: 'public',
-                          //                 id: sizeWeight!.data.id.toString())
+                          //                 id: sizeWeight.data.id.toString())
                           //             .then((value) {
                           //           if (value['status'] == true) {
                           //             Navigator.of(context).pushReplacement(

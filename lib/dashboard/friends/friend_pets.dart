@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:swishlist/api/friend_apis/user_details_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/constants/urls.dart';
+import 'package:swishlist/models/user_details_model.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
@@ -20,15 +22,17 @@ class FPets extends StatefulWidget {
 class _FPetsState extends State<FPets> {
   @override
   void initState() {
-    getFriendPets();
+    //getFriendPets();
+    getUserDetails();
     super.initState();
   }
 
   bool isLoading = false;
-  FriendDetailsModel? friendDetails;
+  //FriendDetailsModel? friendDetails;
 
   Future<void> _handleRefresh() async {
-    getFriendPets();
+    getUserDetails();
+    //getFriendPets();
     // Implement your refresh logic here.
     // For example, fetch new data from an API or update some data.
     // You can use async/await for asynchronous operations.
@@ -42,7 +46,7 @@ class _FPetsState extends State<FPets> {
     });
   }
 
-  getFriendPets() {
+/*  getFriendPets() {
     isLoading = true;
     var resp = friendDetailsApi(friendUserId: widget.friendId);
     resp.then((value) {
@@ -61,6 +65,28 @@ class _FPetsState extends State<FPets> {
         }
       }
     });
+  }*/
+
+  UserDetailsModel ? userDetails;
+
+
+  getUserDetails(){
+    isLoading = true;
+    var resp = userDetailsApi(id: widget.friendId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          userDetails = UserDetailsModel.fromJson(value);
+        });
+        isLoading = false;
+
+      }
+      else{
+        isLoading = false;
+      }
+    });
+
+
   }
 
   @override
@@ -84,7 +110,8 @@ class _FPetsState extends State<FPets> {
         ),
         centerTitle: false,
       ),
-      body: isLoading
+      body:
+      isLoading
           ? Loading()
           : RefreshIndicator(
               backgroundColor: Colors.white,
@@ -95,7 +122,9 @@ class _FPetsState extends State<FPets> {
                 physics: AlwaysScrollableScrollPhysics(),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                  child: friendDetails!.data!.pets!.isEmpty
+                  child:
+                  userDetails!.data!.pets!.isEmpty
+                 /* friendDetails!.data!.pets!.isEmpty*/
                       ? Center(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,7 +149,8 @@ class _FPetsState extends State<FPets> {
                             scrollDirection: Axis.vertical,
                             physics: NeverScrollableScrollPhysics(),
                             padding: EdgeInsets.symmetric(horizontal: 10),
-                            itemCount: friendDetails!.data!.pets!.length,
+                            itemCount: userDetails!.data!.pets!.length,
+                            //friendDetails!.data!.pets!.length,
                             shrinkWrap: true,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
@@ -156,10 +186,12 @@ class _FPetsState extends State<FPets> {
                                           color: Colors.grey.shade200,
                                         ),
                                         child: CachedNetworkImage(
-                                          imageUrl: (baseUrl +
+                                          imageUrl: userDetails!.data!.pets![i].photo.toString(),
+                                          //(newBaseUrl + userDetails!.data!.pets![i].photo.toString()),
+                                          /*(baseUrl +
                                               friendDetails!
                                                   .data!.pets![i].photo
-                                                  .toString()),
+                                                  .toString()),*/
                                           fit: BoxFit.cover,
                                           errorWidget: (context, url, error) =>
                                               Icon(
@@ -191,22 +223,25 @@ class _FPetsState extends State<FPets> {
                                     Column(
                                       children: [
                                         Text(
-                                          friendDetails!.data!.pets![i].name
-                                              .toString(),
+                                          userDetails!.data!.pets![i].name.toString(),
+                                         /* friendDetails!.data!.pets![i].name
+                                              .toString(),*/
                                           maxLines: 5,
                                           overflow: TextOverflow.ellipsis,
                                           style: AppTextStyle()
                                               .textColor29292914w400,
                                         ),
                                         Text(
-                                          friendDetails!.data!.pets![i].type
-                                              .toString(),
+                                          userDetails!.data!.pets![i].type.toString(),
+                                          /*friendDetails!.data!.pets![i].type
+                                              .toString(),*/
                                           style: AppTextStyle()
                                               .textColor70707014w400,
                                         ),
                                         Text(
-                                          friendDetails!.data!.pets![i].origin
-                                              .toString(),
+                                          userDetails!.data!.pets![i].origin.toString(),
+                                          /*friendDetails!.data!.pets![i].origin
+                                              .toString(),*/
                                           style: AppTextStyle()
                                               .textColor70707014w400,
                                         ),

@@ -20,36 +20,61 @@ class FcmNotificationDelete extends StatefulWidget {
 
 class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
   bool isLoading = false;
-  FcmNotificationModel fcmnotification = FcmNotificationModel();
+ // FcmNotificationModel fcmnotification = FcmNotificationModel();
   // List<FcmNotificationModel> fcmnotification = [];
-  getFcmNotifications() {
+  // getFcmNotifications() {
+  //   isLoading = true;
+  //   // friendList.clear();
+  //   var resp = fcmNotificationApi();
+  //   resp.then((value) {
+  //     if (mounted) {
+  //       if (value['status'] == true) {
+  //         setState(() {
+  //           fcmnotification = FcmNotificationModel.fromJson(value);
+  //           isLoading = false;
+  //         });
+  //       } else {
+  //         setState(() {
+  //           isLoading = false;
+  //         });
+  //
+  //         // isLoading = false;
+  //       }
+  //     }
+  //   });
+  // }
+
+
+
+  List< FcmNotificationModel> fcmnotification = [];
+  getFcmNotifications(){
     isLoading = true;
-    // friendList.clear();
     var resp = fcmNotificationApi();
     resp.then((value) {
-      if (mounted) {
-        if (value['status'] == true) {
-          setState(() {
-            fcmnotification = FcmNotificationModel.fromJson(value);
-            isLoading = false;
-          });
-        } else {
-          setState(() {
-            isLoading = false;
-          });
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            fcmnotification.add(FcmNotificationModel.fromJson(v));
+          }
 
-          // isLoading = false;
-        }
+          isLoading = false;
+        });
+      }else{
+        setState(() {
+          isLoading = false;
+        });
       }
     });
   }
+
+
 
   List<int> selectedItems = [];
   bool loading = false;
 
   @override
   void initState() {
-    getFcmNotifications();
+   getFcmNotifications();
     super.initState();
   }
 
@@ -71,7 +96,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
               },
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
-                child: fcmnotification.data!.isEmpty
+                child: fcmnotification.isEmpty
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -122,7 +147,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                           setState(() {
                                             loading = true;
                                           });
-                                          for (var v in selectedItems) {
+                                          /*for (var v in selectedItems) {
                                             fcmNotificationDeleteApi(
                                                     id: v.toString())
                                                 .then((value) async {
@@ -145,7 +170,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                                 selectedItems.clear();
                                               });
                                             });
-                                          }
+                                          }*/
                                         },
                                         child: Container(
                                           width: 36,
@@ -176,7 +201,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                             ListView.separated(
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
-                              itemCount: fcmnotification.data!.length,
+                              itemCount: fcmnotification.length,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (_, i) {
                                 return GestureDetector(
@@ -184,7 +209,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                     if (selectedItems.isEmpty) {
                                       setState(() {
                                         selectedItems
-                                            .add(fcmnotification.data![i].id!);
+                                            .add(fcmnotification[i].data![i].id!);
                                       });
                                     }
                                   },
@@ -197,15 +222,15 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                       //             selectedItems()));
                                     } else {
                                       if (selectedItems.contains(
-                                          fcmnotification.data![i].id!)) {
+                                          fcmnotification[i].data![i].id!)) {
                                         setState(() {
                                           selectedItems.remove(
-                                              fcmnotification.data![i].id!);
+                                              fcmnotification[i].data![i].id!);
                                         });
                                       } else {
                                         setState(() {
                                           selectedItems.add(
-                                              fcmnotification.data![i].id!);
+                                              fcmnotification[i].data![i].id!);
                                         });
                                       }
                                     }
@@ -216,7 +241,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                       border: Border.all(
                                           width: 1,
                                           color: selectedItems.contains(
-                                                  fcmnotification.data![i].id!)
+                                                  fcmnotification[i].data![i].id!)
                                               ? Colors.redAccent
                                               : ColorSelect.colorF7E641),
                                       color: Colors.grey.withOpacity(0.02),
@@ -235,15 +260,15 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                             clipBehavior: Clip.hardEdge,
                                             child: CachedNetworkImage(
                                               imageUrl: fcmnotification
-                                                      .data![i].sendBy!.photo
+                                                      [i].data![i].sendBy!.photo
                                                       .toString()
                                                       .contains('http')
                                                   ? fcmnotification
-                                                      .data![i].sendBy!.photo
+                                                      [i].data![i].sendBy!.photo
                                                       .toString()
                                                   : baseUrl +
-                                                      fcmnotification.data![i]
-                                                          .sendBy!.photo
+                                                      fcmnotification[i]
+                                                          .data![i].sendBy!.photo
                                                           .toString(),
                                               fit: BoxFit.cover,
                                               errorWidget:
@@ -279,7 +304,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                                   width: 280,
                                                   child: Text(
                                                     fcmnotification
-                                                        .data![i].message
+                                                        [i].message
                                                         .toString(),
                                                     maxLines: 4,
                                                     overflow:
@@ -290,7 +315,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                             )),
                                         Expanded(
                                           child: fcmnotification
-                                                      .data![i].product ==
+                                                      [i].data![i].product ==
                                                   null
                                               ? SizedBox()
                                               : Container(
@@ -305,7 +330,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                                   clipBehavior: Clip.hardEdge,
                                                   child: CachedNetworkImage(
                                                     imageUrl: fcmnotification
-                                                        .data![i].product!.photo
+                                                        [i].data![i].product!.photo
                                                         .toString(),
                                                     fit: BoxFit.cover,
                                                     errorWidget:

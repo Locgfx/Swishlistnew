@@ -6,6 +6,7 @@ import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/models/sizes_and_weight_model.dart';
 
 Future <dynamic> getSizeAndWeightApi() async {
+/*
   var headers = {
      'Content-Type': 'multipart/form-data',
 
@@ -44,7 +45,34 @@ Future <dynamic> getSizeAndWeightApi() async {
     print(resBody);
     return resBody;
   }
+*/
 
+  var headers = {
+    'Content-Type': 'multipart/form-data',
+    'User-Agent': 'insomnia/8.2.0',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  };
+  var request = http.Request('GET', Uri.parse('$newBaseUrl/api/sizing'));
+
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+   // if(resBody['error'] == false){
+      print(resBody);
+      return resBody;
+   // }
+
+  }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+   print(resBody);
+    return resBody;
+  }
 }
 
 // Future<dynamic> updateSizeAndWeightApi({

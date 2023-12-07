@@ -151,10 +151,11 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
                       //             )));
 
                       if (emailPhoneController.text.isNotEmpty) {
+
                         addFriendByMailPhoneApi(
                           phoneEmail: emailPhoneController.text,
                         ).then((value) async {
-                          if (value['status'] == true) {
+                          if (value['error'] == false) {
                             Fluttertoast.showToast(msg: value['message']);
                             Navigator.push(
                                 context,

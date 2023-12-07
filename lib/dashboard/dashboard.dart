@@ -35,7 +35,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    initializeFirebaseService();
+   // initializeFirebaseService();
   }
 
   @override
@@ -46,7 +46,7 @@ class _DashboardState extends State<Dashboard> {
 
   int selectedIndex = 0;
 
-  String _fcmToken = '';
+  /*String _fcmToken = '';
   Future<void> initializeFirebaseService() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
@@ -67,7 +67,7 @@ class _DashboardState extends State<Dashboard> {
     prefs.setString(SavedKeys().fcmToken, _fcmToken);
     print('Firebase token: $firebaseAppToken');
     // getNoticationByFCM();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {

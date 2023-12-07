@@ -19,9 +19,9 @@ class EmailRowWidget extends StatelessWidget {
         ),
         Spacer(),
         Text(
-          profile.data!.user!.email.toString() == '' ?
+          profile.data!.email.toString() == '' ?
           "+ Add" :
-          profile.data!.user!.email.toString(),
+          profile.data!.email.toString(),
           // '${SharedPrefs().getEmail()}',
           style:profile.data!.email! == '' ? AppTextStyle().textColorD5574514w500 :
           AppTextStyle().textColor29292914w400,
@@ -55,10 +55,10 @@ class PhoneRowWidget extends StatelessWidget {
         ),
         Spacer(),
         Text(
-          profile.data!.user!.phone.toString() == ''?
+          profile.data!.profile!.phone.toString() == ''?
           '+ Add' :
-          profile.data!.user!.phone.toString(),
-          style: profile.data!.phone! == '' ? AppTextStyle().textColorD5574514w500 :
+          profile.data!.profile!.phone.toString(),
+          style: profile.data!.profile!.phone! == '' ? AppTextStyle().textColorD5574514w500 :
           AppTextStyle().textColor29292914w400,
         ),
         // SizedBox(width: 5.w,),
@@ -86,10 +86,10 @@ class AlternatePhoneRowWidget extends StatelessWidget {
         ),
         Spacer(),
         Text(
-          profile.data!.alternatePhone!.toString() == '' ?
+          profile.data!.profile!.additionalPhone!.toString() == '' ?
           '+ Add' :
-          profile.data!.alternatePhone!.toString(),
-          style: profile.data!.alternatePhone! == '' ? AppTextStyle().textColorD5574514w500 :
+          profile.data!.profile!.additionalPhone!.toString(),
+          style: profile.data!.profile!.additionalPhone! == '' ? AppTextStyle().textColorD5574514w500 :
           AppTextStyle().textColor29292914w400,
         ),
         // Spacer(),
@@ -102,61 +102,61 @@ class AlternatePhoneRowWidget extends StatelessWidget {
   }
 }
 
-class AddressRowWidget extends StatelessWidget {
-  final  ProfileModel profile;
-  const AddressRowWidget({
-    Key? key, required this.profile,
-  }) : super(key: key);
+// class AddressRowWidget extends StatelessWidget {
+//   final  ProfileModel profile;
+//   const AddressRowWidget({
+//     Key? key, required this.profile,
+//   }) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       color: Colors.transparent,
+//       child: Row(
+//         children: [
+//           Text(profile.data!.homeAddress!.toString() == '' ?
+//           '+ Add':
+//           profile.data!.homeAddress!.toString(),
+//             style: profile.data!.homeAddress! == '' ? AppTextStyle().textColorD5574514w500 :
+//             AppTextStyle().textColor29292914w400,
+//           ),
+//           // Spacer(),
+//           // Image.asset("assets/images/image462.png"),
+//           // SizedBox(width: 20.w),
+//           // SvgPicture.asset("assets/icons/forwordarrow.svg")
+//         ],
+//       ),
+//     );
+//   }
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.transparent,
-      child: Row(
-        children: [
-          Text(profile.data!.homeAddress!.toString() == '' ?
-          '+ Add':
-          profile.data!.homeAddress!.toString(),
-            style: profile.data!.homeAddress! == '' ? AppTextStyle().textColorD5574514w500 :
-            AppTextStyle().textColor29292914w400,
-          ),
-          // Spacer(),
-          // Image.asset("assets/images/image462.png"),
-          // SizedBox(width: 20.w),
-          // SvgPicture.asset("assets/icons/forwordarrow.svg")
-        ],
-      ),
-    );
-  }
-}
-
-class WorkRowWidget extends StatelessWidget {
-  final  ProfileModel profile;
-  const WorkRowWidget({
-    Key? key, required this.profile,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          "Work",
-          style: AppTextStyle().textColor70707014w400,
-        ),
-        Spacer(),
-        SizedBox(width: 5.w),
-        Text(
-          profile.data!.workAddress!.toString() == '' ?
-          '+ Add' :
-          profile.data!.workAddress!.toString(),
-          style: profile.data!.workAddress! == '' ? AppTextStyle().textColorD5574514w500 :
-          AppTextStyle().textColor29292914w400,
-        ),
-        // Image.asset("assets/images/information1.png"),
-        // SizedBox(width: 20.w),
-        // SvgPicture.asset("assets/icons/forwordarrow.svg")
-      ],
-    );
-  }
-}
+// class WorkRowWidget extends StatelessWidget {
+//   final  ProfileModel profile;
+//   const WorkRowWidget({
+//     Key? key, required this.profile,
+//   }) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: [
+//         Text(
+//           "Work",
+//           style: AppTextStyle().textColor70707014w400,
+//         ),
+//         Spacer(),
+//         SizedBox(width: 5.w),
+//         Text(
+//           profile.data!.workAddress!.toString() == '' ?
+//           '+ Add' :
+//           profile.data!.workAddress!.toString(),
+//           style: profile.data!.workAddress! == '' ? AppTextStyle().textColorD5574514w500 :
+//           AppTextStyle().textColor29292914w400,
+//         ),
+//         // Image.asset("assets/images/information1.png"),
+//         // SizedBox(width: 20.w),
+//         // SvgPicture.asset("assets/icons/forwordarrow.svg")
+//       ],
+//     );
+//   }
+// }

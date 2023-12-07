@@ -26,7 +26,7 @@ class Messages extends StatefulWidget {
 class _MessagesState extends State<Messages> {
   @override
   void initState() {
-    getMessages();
+   // getMessages();
     // print(msgModel);
     super.initState();
   }
@@ -35,11 +35,11 @@ class _MessagesState extends State<Messages> {
   MessageModel?  msgModel;
   // List<MessageModel> msgModel = [];
 
-  getMessages() {
+  /*getMessages() {
     isLoading = true;
-    var resp = getMessageApi();
+    var resp = getMessageApi(chatId: '', page: '');
     resp.then((value) {
-      if (value['status'] == true) {
+      if (value['error'] == false) {
         setState(() {
           // for(var v in value['data']) {
           //   msgModel.add(MessageModel.fromJson(v));
@@ -53,7 +53,7 @@ class _MessagesState extends State<Messages> {
         });
       }
     });
-  }
+  }*/
 
 
   @override
@@ -112,7 +112,7 @@ class _MessagesState extends State<Messages> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
+                           /* Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
@@ -123,7 +123,7 @@ class _MessagesState extends State<Messages> {
                                           selectedItems: [],
                                         ),
                                 ),
-                            );
+                            );*/
                           },
                           child: Container(
                             color: Colors.transparent,

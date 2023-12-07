@@ -46,10 +46,12 @@ class _ShareProfileFriendListState extends State<ShareProfileFriendList> {
 
             friendList.add(NewModelFriend.fromJson(v));
           }
+         // Fluttertoast.showToast(msg: value['message']);
           isLoading = false;
         });
       }else{
         setState(() {
+         // Fluttertoast.showToast(msg: value['message']);
           isLoading = false;
         });
       }
@@ -94,7 +96,7 @@ class _ShareProfileFriendListState extends State<ShareProfileFriendList> {
                 ),
               ),
             )
-          : friendList.isEmpty
+          :  friendList.isEmpty || friendList == null
               ? Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
@@ -184,7 +186,7 @@ class _ShareProfileFriendListState extends State<ShareProfileFriendList> {
                                       ColorSelect.colorF7E641),
                                   textStyleColor: Colors.black,
                                   onTap: () {
-                                    sharedProfileApi(
+                                 /*   sharedProfileApi(
                                             leadUserId: friendList[i].friend!.id
                                                 .toString())
                                         .then((value) {
@@ -200,6 +202,18 @@ class _ShareProfileFriendListState extends State<ShareProfileFriendList> {
                                         Fluttertoast.showToast(
                                             msg: value[
                                                 'please enter all products details']);
+                                      }
+                                    });
+
+
+*/
+
+                                    sharedProfileApi(sharedWithId:friendList[i].friend!.id.toString() ).then((value) {
+                                      if(value['error'] == false ){
+                                        Navigator.pop(context);
+                                        Fluttertoast.showToast(msg: value['message']);
+                                      }else{
+                                        Fluttertoast.showToast(msg: value['message']);
                                       }
                                     });
                                   },

@@ -328,12 +328,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:swishlist/api/user_apis/products_api.dart';
+import 'package:swishlist/models/scrapping_model.dart';
 
 import '../../../buttons/light_yellow.dart';
 import '../../../constants/color.dart';
 import '../../search/all_etsy_products.dart';
 import '../manuallyadd.dart';
 import '../productAdded.dart';
+import '../scrapping_product_add.dart';
 import 'link_product_add.dart';
 
 class ManuallyAddBottomSheetWidget extends StatefulWidget {
@@ -356,6 +359,7 @@ class _ManuallyAddBottomSheetWidgetState
 
   // ProductTypeModel? model;
 
+   ScrappingModel ? response;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -449,7 +453,7 @@ class _ManuallyAddBottomSheetWidgetState
                                     if (website!.isEmpty) {
                                       return "Please enter your website";
                                     } else if (!(regExp.hasMatch(website))) {
-                                      return "Website Url must be started from www";
+                                      return "Website Url must be started from http";
                                     } else {
                                       return null;
                                     }
@@ -484,17 +488,38 @@ class _ManuallyAddBottomSheetWidgetState
                                       textStyleColor: Colors.black,
                                       onTap: () {
                                         if (form.currentState!.validate()) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      LinkProductAdd(
-                                                        productLink:
-                                                            productLinkController
-                                                                .text,
-                                                        productType:
-                                                            widget.productType,
-                                                      )));
+
+                                          scrappingProduct(url: productLinkController.text).then((value) {
+                                            response = value;
+                                            //if(response!.error == false){
+
+
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                                    ScrappingProductAdded(
+                                                      name: response!.data!.title.toString() ,
+                                                      price: response!.data!.price.toString(),
+                                                      productImage: response!.data!.image.toString() ,
+                                                      productLink: productLinkController.text ,
+                                                      type: widget.productType,
+                                                    )));
+
+
+                                              print('ssdd ${response}');
+                                              print(response!.data!.title.toString());
+
+                                           // }else{}
+                                          });
+                                          // Navigator.push(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: (context) =>
+                                          //             LinkProductAdd(
+                                          //               productLink:
+                                          //                   productLinkController
+                                          //                       .text,
+                                          //               productType:
+                                          //                   widget.productType,
+                                          //             )));
                                         }
                                         /* Navigator.pushReplacement(
                                       context,

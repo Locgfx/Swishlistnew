@@ -241,7 +241,7 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                                     SnackBar(content: Text('Passwords do not match')),
                                   );
                                 }else{
-                                  resetNewpApi(
+                                /*  resetNewpApi(
                                       email: SharedPrefs()
                                           .getChangeEmail()
                                           .toString(),
@@ -259,7 +259,7 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                                     msg: value['message']);
                                     }
 
-                                  });
+                                  });*/
                                 }
 
                                 }

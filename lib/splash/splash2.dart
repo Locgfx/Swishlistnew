@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swishlist/api/fcm_notiifcations/fcm_notification_apis.dart';
 import 'package:swishlist/api/login_signup_apis/login_api.dart';
 import 'package:swishlist/api/user_apis/auth_user_api.dart';
 
@@ -36,6 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
     String firebaseAppToken = await messaging.getToken(
           vapidKey:
               "BNBIPSYT_iCs6OeciJS8R3l4vouFWut_AldR16nowfLEgWdHh11q5_NDsRVRZtY4fYLqcvk4vu8B4Lzc_7GSnGk",
+
         ) ??
         '';
     if (!mounted) {
@@ -50,8 +52,11 @@ class _SplashScreenState extends State<SplashScreen> {
     // prefs.setString(Keys().fcmToken, _fcmToken);
     print('Firebase token: $firebaseAppToken');
     print(_fcmToken);
-    //NotificationTokenApi().get();
+    // NotificationTokenApi().get();
     // authUserApi(fcmToken: _fcmToken).then((value) async {});
+    fcmNotificationTokenApi(fcmToken: _fcmToken).then((value) {
+
+    });
   }
 
   setPage() {

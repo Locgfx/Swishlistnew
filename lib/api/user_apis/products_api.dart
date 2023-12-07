@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+
 import 'package:http/http.dart' as http;
 import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/constants/urls.dart';
+import 'package:swishlist/models/scrapping_model.dart';
 
+import '../../constants/globals/globals.dart';
 import '../../models/ProductStoreMode.dart';
 
 Future<dynamic> productStoreApi({
@@ -201,6 +204,115 @@ Future<dynamic> updateProducts({
   request.fields.addAll({
     'name': name,
     'id': id
+  });
+
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    print(resBody);
+    return resBody;
+  }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+    print(resBody);
+    return resBody;
+  }
+
+}
+
+
+Future<dynamic> scrappingProduct({
+  required String url,
+}) async {
+
+  var headers = {
+    'Accept': 'application/json'
+  };
+  var request = http.Request('GET', Uri.parse('$newBaseUrl/api/scrap?url=$url'));
+
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    if(resBody['error'] == false){
+      print(resBody);
+      return ScrappingModel.fromJson(resBody);
+    }
+
+  }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+    print(resBody);
+    return resBody;
+  }
+}
+
+
+Future<dynamic>  scrappingProductStore({
+  required String type,
+  required String name,
+  required String url,
+  required String price,
+  required String purchasesOn,
+  required String status,
+  required String desc,
+  required String photo_url,
+} ) async{
+
+// var headers = {
+// 'Accept': 'application/json',
+// 'Authorization': 'Bear${SharedPrefs().getLoginToken()}'
+// };
+// var request = http.MultipartRequest('POST', Uri.parse('$newBaseUrl/api/product/store'));
+// request.fields.addAll({
+// 'type': type,
+// 'name': name,
+// 'url': url,
+// 'price': price,
+// 'purchased_on': purchasesOn,
+// 'status': 'friend',
+// 'description': desc
+//
+// });
+// request.files.add(await http.MultipartFile.fromPath('photo', photo));
+// request.headers.addAll(headers);
+//
+// http.StreamedResponse response = await request.send();
+// var resBody = jsonDecode(await response.stream.bytesToString());
+//
+// if (response.statusCode == 200) {
+// print(resBody);
+// return resBody;
+// }
+// else {
+// print(response.reasonPhrase);
+// print(response.statusCode);
+// print(resBody);
+// return resBody;
+// }
+
+  var headers = {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer 226|V5TOScD604L2AGPxcf98BbLIzQdxl3damUYWeRVj7b749acd'
+  };
+  var request = http.MultipartRequest('POST', Uri.parse('https://swishlist.cosmeticplugs.com/api/product/store'));
+  request.fields.addAll({
+    'type': type,
+    'name': name,
+    'url': url,
+    'price': price,
+    'purchased_on': purchasesOn,
+    'status': status,
+    'description': desc,
+
+    'photo_url': photo_url
   });
 
   request.headers.addAll(headers);

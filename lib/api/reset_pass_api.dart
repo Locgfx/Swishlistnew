@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/constants/urls.dart';
 
 Future resetPassApi({
-  required String email,
+  required String oldPass,
+  required String newPass,
+  required String confirmNewPass,
 }) async {
-  var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+/*  var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   var request = http.Request('POST', Uri.parse('$baseUrl/api/reset/request'));
   request.bodyFields = {
     'email': email,
@@ -22,9 +25,37 @@ Future resetPassApi({
     print(response.statusCode);
     print(response.reasonPhrase);
     return resp;
+  }*/
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  };
+  var request = http.Request('POST', Uri.parse('$newBaseUrl/api/change-password'));
+  request.body = json.encode({
+    "old_password": oldPass,
+    "new_password": newPass,
+    "new_password_confirmation": confirmNewPass
+  });
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    print(resBody);
+    return resBody;
+  }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+    print(resBody);
+    return resBody;
   }
 }
 
+/*
 Future resetPassOtpApi({
   required String email,
   required String otp,
@@ -75,3 +106,4 @@ Future resetNewpApi({
     return resp;
   }
 }
+*/

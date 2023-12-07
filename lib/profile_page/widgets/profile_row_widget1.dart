@@ -23,10 +23,10 @@ class NameRowWidget extends StatelessWidget {
           ),
           Spacer(),
           Text(
-            profile.data!.name!.toString() == '' ?
+            profile!.data!.name!.toString() == '' ?
             '+ Add':
-            profile.data!.name!.toString(),
-            style: profile.data!.name! == '' ? AppTextStyle().textColorD5574514w500 :
+            profile!.data!.name!.toString(),
+            style: profile!.data!.name! == '' ? AppTextStyle().textColorD5574514w500 :
             AppTextStyle().textColor29292914w400,
           ),
           // SizedBox(
@@ -61,9 +61,9 @@ class GenderRowWidget extends StatelessWidget {
           ),
           Spacer(),
           Text(
-            profile.data!.gender!.toString() == '' ?
-            '+ Add':profile.data!.gender!.toString(),
-            style: profile.data!.gender! == '' ? AppTextStyle().textColorD5574514w500 :
+            profile.data!.profile!.gender!.toString() == '' ?
+            '+ Add':profile.data!.profile!.gender!.toString(),
+            style: profile.data!.profile!.gender! == '' ? AppTextStyle().textColorD5574514w500 :
             AppTextStyle().textColor29292914w400,
           ),
           // SizedBox(
@@ -105,10 +105,10 @@ class DateOfBirthWidget extends StatelessWidget {
             ),
             Spacer(),
             Text(
-              profile.data!.dob!.toString() == '' ?
+              profile.data!.profile!.dateOfBirth!.toString() == '' ?
               '+ Add':
-              profile.data!.dob!.toString(),
-              style: profile.data!.dob! == '' ? AppTextStyle().textColorD5574514w500 :
+              profile.data!.profile!.dateOfBirth!.toString(),
+              style: profile.data!.profile!.dateOfBirth! == '' ? AppTextStyle().textColorD5574514w500 :
               AppTextStyle().textColor29292914w400,
             ),
             // SizedBox(
@@ -142,10 +142,10 @@ class OccupationRowWidget extends StatelessWidget {
         ),
         Spacer(),
         Text(
-          profile.data!.occupation!.toString() == '' ?
+          profile.data!.profile!.occupation!.toString() == '' ?
           '+ Add' :
-          profile.data!.occupation!.toString(),
-          style: profile.data!.occupation! == '' ? AppTextStyle().textColorD5574514w500 :
+          profile.data!.profile!.occupation!.toString(),
+          style: profile.data!.profile!.occupation! == '' ? AppTextStyle().textColorD5574514w500 :
           AppTextStyle().textColor29292914w400,
         ),
         // SizedBox(
@@ -180,10 +180,10 @@ class RelationshipStatusRowWidget extends StatelessWidget {
           width: 5.w,
         ),
          Text(
-           profile.data!.relationStatus!.toString() == ''?
+           profile.data!.profile!.marritalStatus!.toString() == ''?
            '+ Add' :
-           profile.data!.relationStatus!.toString(),
-         style: profile.data!.relationStatus! == '' ? AppTextStyle().textColorD5574514w500 :
+           profile.data!.profile!.marritalStatus!.toString(),
+         style: profile.data!.profile!.marritalStatus == '' ? AppTextStyle().textColorD5574514w500 :
          AppTextStyle().textColor29292914w400,
          ),
         // Image.asset("assets/images/information1.png"),

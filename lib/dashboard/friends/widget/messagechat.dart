@@ -166,7 +166,7 @@ class _MessageChatWidgetState extends State<MessageChatWidget> {
                         child: focusNode.hasFocus
                             ? GestureDetector(
                                 onTap: () {
-                                  if (sendMsgController.text.isNotEmpty) {
+                                 /* if (sendMsgController.text.isNotEmpty) {
                                     print(widget.friendId);
                                     sendMessageApi(
                                       sendUserid: widget.friendId,
@@ -182,7 +182,7 @@ class _MessageChatWidgetState extends State<MessageChatWidget> {
                                             msg: value['message']);
                                       }
                                     });
-                                  }
+                                  }*/
                                 },
                                 child:
                                     Image.asset('assets/images/sentimage.png'))

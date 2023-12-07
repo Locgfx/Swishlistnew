@@ -80,9 +80,9 @@ class _SizeAndWeightRowWidgetState extends State<SizeAndWeightRowWidget> {
     isLoading = true;
     var resp = getSizeAndWeightApi();
     resp.then((value) {
-      if(value.error == false){
+      if(value['error'] == false){
         setState(() {
-          sizeWeight = value;
+          sizeWeight = SizesAndWeightModel.fromJson(value);
 
           // get();
           // fields();

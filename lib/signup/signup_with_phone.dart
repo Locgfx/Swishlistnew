@@ -107,7 +107,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                     onTap: () {
                       if (isChecked) {
                         if (_formKey.currentState!.validate()) {
-                          signUpApi(
+                         /* signUpApi(
                             context: context,
                             emailPhone: phoneNoController.text,
                             password: passwordController.text,
@@ -130,7 +130,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                   msg:
                                       'Already register try with another account');
                             }
-                          });
+                          });*/
                         }
                       }
                     },

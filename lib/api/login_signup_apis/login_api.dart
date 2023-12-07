@@ -25,6 +25,7 @@ Future login({
 
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
+
   if(response.statusCode == 200) {
     if(resp['error'] == false){
       return LoginResponse.fromJson(resp);

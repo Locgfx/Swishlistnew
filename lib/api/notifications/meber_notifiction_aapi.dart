@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../../constants/globals/shared_prefs.dart';
 import '../../constants/urls.dart';
+import '../../models/notification_models/member_index_model.dart';
 
 Future<dynamic> familyMemberIndexApi() async {
   var headers = {
@@ -20,8 +21,14 @@ Future<dynamic> familyMemberIndexApi() async {
   var resBody = jsonDecode(await response.stream.bytesToString());
 
   if (response.statusCode == 200) {
-    print(resBody);
-    return resBody;
+    if(resBody['error'] == false){
+      print(resBody);
+      return resBody;
+    }
+    // else{
+    //   return resBody;
+    // }
+
   }
   else {
     print(response.reasonPhrase);
@@ -71,8 +78,13 @@ Future<dynamic> familyMemberUpdateApi({
   var resBody = jsonDecode(await response.stream.bytesToString());
 
   if (response.statusCode == 200) {
-    print(resBody);
-    return resBody;
+    //if(resBody['error'] == false){
+      print(resBody);
+      return resBody;
+    // }else{
+    //   return resBody;
+    // }
+
   }
   else {
     print(response.reasonPhrase);
@@ -146,8 +158,14 @@ Future<dynamic> getFamilyRequestIndex() async{
   var resBody = jsonDecode(await response.stream.bytesToString());
 
   if (response.statusCode == 200) {
-    print(resBody);
-    return resBody;
+    // if(resBody['error'] == false){
+      print(resBody);
+      return resBody;
+    // }
+    //else{
+    //   return resBody;
+    // }
+
   }
   else {
     print(response.reasonPhrase);

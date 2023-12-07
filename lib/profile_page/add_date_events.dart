@@ -210,17 +210,17 @@ class _AddDateAndEventsState extends State<AddDateAndEvents> {
                       if(nameController.text.isNotEmpty &&
                       typeController.text.isNotEmpty &&
                       dateController.text.isNotEmpty) {
-                        postDateAndEventApi(
-                            name: nameController.text,
-                            date: dateFormat,
-                            type: typeController.text,
-                            privacy: 'public').then((value) async {
-                              if(value['status'] == true) {
-                                Fluttertoast.showToast(msg: value['message']);
-                              } else {
-                                Fluttertoast.showToast(msg: value['message']);
-                              }
-                        });
+                        // postDateAndEventApi(
+                        //     name: nameController.text,
+                        //     date: dateFormat,
+                        //     type: typeController.text,
+                        //     privacy: 'public').then((value) async {
+                        //       if(value['status'] == true) {
+                        //         Fluttertoast.showToast(msg: value['message']);
+                        //       } else {
+                        //         Fluttertoast.showToast(msg: value['message']);
+                        //       }
+                        // });
                       }
 
 

@@ -22,6 +22,7 @@ class FamilyList extends StatefulWidget {
 class _FamilyListState extends State<FamilyList> {
   @override
   void initState() {
+    print('ssdd${widget.productId2}');
     //get();
     getFamilyMembers();
     super.initState();
@@ -199,26 +200,37 @@ class _FamilyListState extends State<FamilyList> {
                                       ColorSelect.colorF7E641),
                                   textStyleColor: Colors.black,
                                   onTap: () {
-                                   /* sharedProductApi(
-                                            productId: widget.productId2,
-                                            leadUserId: familyA[i]
-                                                .familyMemberUserId
-                                                .toString())
-                                        .then((value) {
-                                      if (value['status'] == true) {
-                                        Navigator.pop(context);
-                                        // Navigator.of(
-                                        //     context)
-                                        //   ..pop()
-                                        //   ..pop();
-                                        Fluttertoast.showToast(
-                                            msg: value['message']);
-                                      } else {
-                                        Fluttertoast.showToast(
-                                            msg: value[
-                                                'please enter all products details']);
-                                      }
-                                    });*/
+                                    // sharedProductApi(
+                                    //         productId: widget.productId2,
+                                    //         leadUserId: familyA[i]
+                                    //             .familyMemberUserId
+                                    //             .toString())
+                                    //     .then((value) {
+                                    //   if (value['status'] == true) {
+                                    //     Navigator.pop(context);
+                                    //     // Navigator.of(
+                                    //     //     context)
+                                    //     //   ..pop()
+                                    //     //   ..pop();
+                                    //     Fluttertoast.showToast(
+                                    //         msg: value['message']);
+                                    //   } else {
+                                    //     Fluttertoast.showToast(
+                                    //         msg: value[
+                                    //             'please enter all products details']);
+                                    //   }
+                                    // });
+                                    sharedProductApi(productId: widget.productId2,
+                                        shareWithId: familyA[i].member!.id.toString()).then((value) {
+                                          if(value['error'] == false){
+                                            Navigator.pop(context);
+                                            Fluttertoast.showToast(msg: value['message']);
+                                          } else{
+
+                                          }
+
+                                    });
+
                                   },
                                   title: 'Send')
                             ],

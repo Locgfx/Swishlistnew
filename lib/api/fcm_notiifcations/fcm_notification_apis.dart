@@ -6,7 +6,7 @@ import '../../constants/globals/shared_prefs.dart';
 import '../../constants/urls.dart';
 
 Future<dynamic> fcmNotificationApi() async {
-  var headers = {
+/*  var headers = {
     'Accept': 'application/json',
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
@@ -24,33 +24,91 @@ Future<dynamic> fcmNotificationApi() async {
     print(response.statusCode);
     print(response.reasonPhrase);
     return resp;
-  }
-}
+  }*/
 
-Future<dynamic> fcmNotificationDeleteApi({
-  required String id,
-}) async {
   var headers = {
+    'Content-Type': 'multipart/form-data',
+    'User-Agent': 'insomnia/8.2.0',
     'Accept': 'application/json',
-    'Content-Type': 'application/x-www-form-urlencoded',
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
-  var request = http.Request(
-      'POST', Uri.parse('$baseUrl/api/user/fcm/notification/delete'));
-  request.bodyFields = {
-    'id': id,
-  };
+  var request = http.Request('GET', Uri.parse('$newBaseUrl/api/fcm/notification'));
+
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
-  var resp = jsonDecode(await response.stream.bytesToString());
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
   if (response.statusCode == 200) {
-    print(resp);
-    return resp;
-  } else {
-    print(resp);
-    print(response.statusCode);
-    print(response.reasonPhrase);
-    return resp;
+    print(resBody);
+    return resBody;
   }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+    print(resBody);
+    return resBody;
+  }
+
+}
+
+// Future<dynamic> fcmNotificationDeleteApi({
+//   required String id,
+// }) async {
+//   var headers = {
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/x-www-form-urlencoded',
+//     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+//   };
+//   var request = http.Request(
+//       'POST', Uri.parse('$baseUrl/api/user/fcm/notification/delete'));
+//   request.bodyFields = {
+//     'id': id,
+//   };
+//   request.headers.addAll(headers);
+//
+//   http.StreamedResponse response = await request.send();
+//   var resp = jsonDecode(await response.stream.bytesToString());
+//   if (response.statusCode == 200) {
+//     print(resp);
+//     return resp;
+//   } else {
+//     print(resp);
+//     print(response.statusCode);
+//     print(response.reasonPhrase);
+//     return resp;
+//   }
+// }
+
+
+Future<dynamic> fcmNotificationTokenApi({
+  required String fcmToken,
+}) async{
+
+  var headers = {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  };
+  var request = http.MultipartRequest('POST', Uri.parse('$newBaseUrl/api/update-profile'));
+  request.fields.addAll({
+    'fcm_token': fcmToken
+
+  });
+
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    print(resBody);
+     return resBody;
+  }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+    print(resBody);
+    return resBody;
+  }
+
 }

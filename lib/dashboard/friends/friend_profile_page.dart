@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swishlist/api/friend_apis/user_details_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../models/friends_details_model.dart';
+import '../../models/user_details_model.dart';
 
 class FProfile extends StatefulWidget {
   final String friendId;
@@ -17,13 +19,41 @@ class FProfile extends StatefulWidget {
 class _FProfileState extends State<FProfile> {
   @override
   void initState() {
-    getFriendDetails();
+    getUserDetails();
+   // getFriendDetails();
     super.initState();
   }
 
   bool isLoading = true;
 
-  FriendDetailsModel friendDetails = FriendDetailsModel(
+
+  UserDetailsModel ? userDetails;
+
+
+  getUserDetails(){
+    isLoading = true;
+    var resp = userDetailsApi(id: widget.friendId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          userDetails = UserDetailsModel.fromJson(value);
+          isLoading = false;
+        });
+
+
+      }
+      else{
+        setState(() {
+          isLoading = false;
+        });
+
+      }
+    });
+
+
+  }
+
+  /* FriendDetailsModel friendDetails = FriendDetailsModel(
       data: Data(
           profile: Profile(
     name: '',
@@ -64,9 +94,10 @@ class _FProfileState extends State<FProfile> {
       }
     });
   }
-
+*/
   Future<void> _handleRefresh() async {
-    getFriendDetails();
+    getUserDetails();
+    //getFriendDetails();
     // Implement your refresh logic here.
     // For example, fetch new data from an API or update some data.
     // You can use async/await for asynchronous operations.
@@ -126,10 +157,13 @@ class _FProfileState extends State<FProfile> {
                       SizedBox(
                         height: 20.h,
                       ),
-                      friendDetails.data!.profile!.name.toString() == '' ||
-                              friendDetails.data!.profile!.name == null
+                      // friendDetails.data!.profile!.name.toString() == '' ||
+                      //         friendDetails.data!.profile!.name == null
+                   /* userDetails!.data!.profile!.username.toString() == '' ||
+                    userDetails!.data!.profile!.username == null
                           ? SizedBox()
-                          : InkWell(
+                          : */
+                    InkWell(
                               onTap: () {},
                               child: Row(
                                 children: [
@@ -155,8 +189,10 @@ class _FProfileState extends State<FProfile> {
                                     //         friendDetails.data!.profile!.name == null
                                     //     ? 'friend not added name yet'
                                     //     :
-                                    friendDetails.data!.profile!.name
-                                        .toString(),
+                                      userDetails!.data!.profile!.username.toString() == '' ||
+                                          userDetails!.data!.profile!.username == null ?'- -' :
+
+                                      userDetails!.data!.profile!.username.toString(),
                                     // 'Harry Wilson',
                                     style:
                                         // AppTextStyle().textColorD5574514w500 :
@@ -174,16 +210,24 @@ class _FProfileState extends State<FProfile> {
                               ),
                             ),
                       SizedBox(
-                        height: friendDetails.data!.profile!.name.toString() ==
+                        height:
+                       /* userDetails!.data!.profile!.username.toString() == '' ||
+                            userDetails!.data!.profile!.username == null
+                        *//* friendDetails.data!.profile!.name.toString() ==
                                     '' ||
-                                friendDetails.data!.profile!.name == null
+                                friendDetails.data!.profile!.name == null*//*
                             ? 0
-                            : 20.h,
+                            : */
+                        20.h,
                       ),
-                      friendDetails.data!.profile!.gender.toString() == '' ||
-                              friendDetails.data!.profile!.gender == null
+
+                      /*userDetails!.data!.profile!.gender.toString() == '' ||
+                          userDetails!.data!.profile!.gender == null
+                      *//* friendDetails.data!.profile!.gender.toString() == '' ||
+                              friendDetails.data!.profile!.gender == null*//*
                           ? SizedBox()
-                          : InkWell(
+                          : */
+                      InkWell(
                               onTap: () {
                                 // showDialog(
                                 //   context: context,
@@ -211,8 +255,13 @@ class _FProfileState extends State<FProfile> {
                                     //         friendDetails.data!.profile!.gender == null
                                     //     ? 'friend not added gender yet'
                                     //     :
-                                    friendDetails.data!.profile!.gender
-                                        .toString(),
+
+                                      userDetails!.data!.profile!.gender.toString() == '' ||
+                                          userDetails!.data!.profile!.gender == null ? '- -' :
+                                      userDetails!.data!.profile!.gender.toString() ,
+
+                                      /* friendDetails.data!.profile!.gender
+                                        .toString(),*/
                                     // friendDetails.data!.profile!.gender.toString() == ''
                                     //   friendDetails.data!.profile!.gender == null
                                     //     ? 'Gender is not added yet'
@@ -239,16 +288,22 @@ class _FProfileState extends State<FProfile> {
 
                       SizedBox(
                         height:
-                            friendDetails.data!.profile!.gender.toString() ==
+                        /*userDetails!.data!.profile!.gender.toString() == '' ||
+                            userDetails!.data!.profile!.gender == null
+                        *//*  friendDetails.data!.profile!.gender.toString() ==
                                         '' ||
-                                    friendDetails.data!.profile!.gender == null
+                                    friendDetails.data!.profile!.gender == null*//*
                                 ? 0
-                                : 20.h,
+                                : */
+                        20.h,
                       ),
-                      friendDetails.data!.profile!.dob.toString() == '' ||
-                              friendDetails.data!.profile!.dob == null
+                      /*friendDetails.data!.profile!.dob.toString() == '' ||
+                              friendDetails.data!.profile!.dob == null*/
+                      /*userDetails!.data!.profile!.dateOfBirth.toString() == '' ||
+                          userDetails!.data!.profile!.dateOfBirth == null
                           ? SizedBox()
-                          : GestureDetector(
+                          : */
+                      GestureDetector(
                               onTap: () {
                                 // showDialog(
                                 //   context: context,
@@ -278,8 +333,13 @@ class _FProfileState extends State<FProfile> {
                                     //         friendDetails.data!.profile!.dob == null
                                     //     ? 'friend not added dob yet'
                                     //     :
-                                    friendDetails.data!.profile!.dob.toString(),
-                                    style: AppTextStyle().textColor29292914w400,
+                                    /*friendDetails.data!.profile!.dob.toString(),*/
+
+                                      userDetails!.data!.profile!.dateOfBirth.toString() == '' ||
+                                          userDetails!.data!.profile!.dateOfBirth == null ? '- -':
+                                      userDetails!.data!.profile!.dateOfBirth.toString() ,
+
+                                      style: AppTextStyle().textColor29292914w400,
                                   ),
                                   // Image.asset("assets/images/information2.png"),
                                   // SizedBox(
@@ -291,16 +351,22 @@ class _FProfileState extends State<FProfile> {
                             ),
                       SizedBox(
                         height:
-                            friendDetails.data!.profile!.dob.toString() == '' ||
-                                    friendDetails.data!.profile!.dob == null
+                       /* userDetails!.data!.profile!.dateOfBirth.toString() == '' ||
+                            userDetails!.data!.profile!.dateOfBirth == null
+                        *//* friendDetails.data!.profile!.dob.toString() == '' ||
+                                    friendDetails.data!.profile!.dob == null*//*
                                 ? 0
-                                : 20.h,
+                                : */
+                        20.h,
                       ),
-                      friendDetails.data!.profile!.occupation.toString() ==
+                      /*userDetails!.data!.profile!.occupation.toString() == '' ||
+                          userDetails!.data!.profile!.occupation == null
+                      *//*friendDetails.data!.profile!.occupation.toString() ==
                                   '' ||
-                              friendDetails.data!.profile!.occupation == null
+                              friendDetails.data!.profile!.occupation == null*//*
                           ? SizedBox()
-                          : Row(
+                          : */
+                      Row(
                               children: [
                                 Text(
                                   "Occupation",
@@ -323,26 +389,39 @@ class _FProfileState extends State<FProfile> {
                                   //             null
                                   //     ? 'friend not added dob yet'
                                   //     :
-                                  friendDetails.data!.profile!.occupation
-                                      .toString(),
-                                  style: AppTextStyle().textColor29292914w400,
+                                  /*friendDetails.data!.profile!.occupation
+                                      .toString(),*/
+
+                                    userDetails!.data!.profile!.occupation.toString() == '' ||
+                                        userDetails!.data!.profile!.occupation == null ? '- -' :
+                                    userDetails!.data!.profile!.occupation.toString(),
+
+                                    style: AppTextStyle().textColor29292914w400,
                                 ),
                               ],
                             ),
                       SizedBox(
-                        height: friendDetails.data!.profile!.occupation
+                        height:
+                       /* userDetails!.data!.profile!.occupation.toString() == '' ||
+                            userDetails!.data!.profile!.occupation == null
+                        *//*friendDetails.data!.profile!.occupation
                                         .toString() ==
                                     '' ||
-                                friendDetails.data!.profile!.occupation == null
+                                friendDetails.data!.profile!.occupation == null*//*
                             ? 0
-                            : 20.h,
+                            :*/
+                        20.h,
                       ),
-                      friendDetails.data!.profile!.relationStatus.toString() ==
+
+                      /* userDetails!.data!.profile!.marritalStatus.toString() == '' ||
+                          userDetails!.data!.profile!.marritalStatus == null
+                      *//* friendDetails.data!.profile!.relationStatus.toString() ==
                                   '' ||
                               friendDetails.data!.profile!.relationStatus ==
-                                  null
+                                  null*//*
                           ? SizedBox()
-                          : Row(
+                          : */
+                       Row(
                               children: [
                                 Text(
                                   "Relationship Status",
@@ -366,9 +445,14 @@ class _FProfileState extends State<FProfile> {
                                   //             null
                                   //     ? 'not update yet'
                                   //     :
-                                  friendDetails.data!.profile!.relationStatus
-                                      .toString(),
-                                  style: AppTextStyle().textColor29292914w400,
+                                  /*friendDetails.data!.profile!.relationStatus
+                                      .toString(),*/
+
+                                    userDetails!.data!.profile!.marritalStatus.toString() == '' ||
+                                        userDetails!.data!.profile!.marritalStatus == null ? '- -' :
+                                    userDetails!.data!.profile!.marritalStatus.toString() ,
+
+                                    style: AppTextStyle().textColor29292914w400,
                                 ),
                                 // Image.asset("assets/images/information2.png"),
                                 // SizedBox(
@@ -378,11 +462,15 @@ class _FProfileState extends State<FProfile> {
                               ],
                             ),
                       SizedBox(
-                        height: friendDetails.data!.profile!.relationStatus
+                        height:
+
+                        userDetails!.data!.profile!.marritalStatus.toString() == '' ||
+                            userDetails!.data!.profile!.marritalStatus == null
+                        /* friendDetails.data!.profile!.relationStatus
                                         .toString() ==
                                     '' ||
                                 friendDetails.data!.profile!.relationStatus ==
-                                    null
+                                    null*/
                             ? 20.h
                             : 40.h,
                       ),
@@ -393,10 +481,14 @@ class _FProfileState extends State<FProfile> {
                       SizedBox(
                         height: 20.h,
                       ),
-                      friendDetails.data!.profile!.phone.toString() == '' ||
-                              friendDetails.data!.profile!.phone == null
+
+               /* userDetails!.data!.profile!.phone.toString() == '' ||
+                    userDetails!.data!.profile!.phone == null
+                *//*friendDetails.data!.profile!.phone.toString() == '' ||
+                              friendDetails.data!.profile!.phone == null*//*
                           ? SizedBox()
-                          : GestureDetector(
+                          : */
+                GestureDetector(
                               onTap: () {
                                 // showDialog(
                                 //   context: context,
@@ -426,26 +518,40 @@ class _FProfileState extends State<FProfile> {
                                       //             null
                                       //     ? 'friend not updated ph no yet'
                                       //     :
-                                      friendDetails.data!.profile!.phone
-                                          .toString(),
+                                      /*friendDetails.data!.profile!.phone
+                                          .toString(),*/
+
+                                      userDetails!.data!.profile!.phone.toString() == '' ||
+                                          userDetails!.data!.profile!.phone == null ? '- -' :
+
+                                      userDetails!.data!.profile!.phone.toString() ,
+
                                       style:
                                           AppTextStyle().textColor29292914w400),
                                 ],
                               ),
                             ),
                       SizedBox(
-                        height: friendDetails.data!.profile!.phone.toString() ==
+                        height:
+                       /* userDetails!.data!.profile!.phone.toString() == '' ||
+                            userDetails!.data!.profile!.phone == null
+                        *//*friendDetails.data!.profile!.phone.toString() ==
                                     '' ||
-                                friendDetails.data!.profile!.phone == null
+                                friendDetails.data!.profile!.phone == null*//*
                             ? 0
-                            : 20.h,
+                            : */
+                        20.h,
                       ),
-                      friendDetails.data!.profile!.alternatePhone.toString() ==
+
+                /*userDetails!.data!.profile!.additionalPhone.toString() == '' ||
+                    userDetails!.data!.profile!.additionalPhone == null
+                *//*friendDetails.data!.profile!.alternatePhone.toString() ==
                                   '' ||
                               friendDetails.data!.profile!.alternatePhone ==
-                                  null
+                                  null*//*
                           ? SizedBox()
-                          : Row(
+                          : */
+                Row(
                               children: [
                                 Text(
                                   "Alternate Phone",
@@ -468,19 +574,29 @@ class _FProfileState extends State<FProfile> {
                                   //         friendDetails.data!.profile!.alternatePhone ==
                                   //             null
                                   //     ? 'friend not updated alternate no yet'
+                                  //
+                                  //
                                   //     :
-                                  friendDetails.data!.profile!.alternatePhone
-                                      .toString(),
-                                  style: AppTextStyle().textColor29292914w400,
+                                  /*friendDetails.data!.profile!.alternatePhone
+                                      .toString(),*/
+
+                                    userDetails!.data!.profile!.additionalPhone.toString() == '' ||
+                                        userDetails!.data!.profile!.additionalPhone == null ? '- -':
+
+                                    userDetails!.data!.profile!.additionalPhone.toString() ,
+
+                                    style: AppTextStyle().textColor29292914w400,
                                 ),
                               ],
                             ),
                       SizedBox(
                         height: 20.h,
                       ),
-                      friendDetails.data!.profile!.email.toString() == '' ||
-                              friendDetails.data!.profile!.email == null
-                          ? SizedBox()
+                      /*friendDetails.data!.profile!.email.toString() == '' ||
+                              friendDetails.data!.profile!.email == null*/
+                /*userDetails!.data!.profile!.email.toString() == '' ||
+                    userDetails!.data!.profile!.username == null
+                    ? SizedBox()
                           : Row(
                               children: [
                                 Text(
@@ -509,8 +625,8 @@ class _FProfileState extends State<FProfile> {
                                 friendDetails.data!.profile!.email == null
                             ? 20.h
                             : 40.h,
-                      ),
-                      Text(
+                      ),*/
+   /*                   Text(
                         "Address",
                         style: AppTextStyle().textColor29292914w600,
                       ),
@@ -596,7 +712,7 @@ class _FProfileState extends State<FProfile> {
                               friendDetails.data!.profile!.workAddress
                                   .toString(),
                               style: AppTextStyle().textColor29292914w400,
-                            ),
+                            ),*/
                       // SizedBox(height: 20.h,),
                       // Row(
                       //   children: [

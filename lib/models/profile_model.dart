@@ -1,195 +1,8 @@
-class ProfileModel {
-  int? code;
-  bool? status;
-  String? message;
-  ProfileData? data;
-
-  ProfileModel({this.code, this.status, this.message, this.data});
-
-  ProfileModel.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
-    status = json['status'];
-    message = json['message'];
-    if (json['data'].runtimeType == List<dynamic>) {
-      print('v');
-      // data = Data.fromJson({
-      //
-      // });
-      data = ProfileData(
-          name: '',
-          gender: '',
-          dob: '',
-          occupation: '',
-          relationStatus: '',
-          email: '',
-          phone: '',
-          alternatePhone: '',
-          homeAddress: '',
-          workAddress: '',
-          privacyStatus: '',
-          createdAt: '',
-          updatedAt: '',
-          deletedAt: '',
-          user: ProfileUser(
-            name: '',
-            username: '',
-            phone: '',
-            email: '',
-            photo: '',
-            type: '',
-          ));
-    } else if (json['data'] == null) {
-      print('kkk');
-      data = ProfileData.fromJson({});
-    } else {
-      print('mdkmc');
-      data = ProfileData.fromJson(json['data']);
-    }
-    // data = json ['data'] == [] ? null :json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
-}
-
-class ProfileData {
-  int? id;
-  int? userId;
-  String? name;
-  String? gender;
-  String? dob;
-  String? occupation;
-  String? relationStatus;
-  String? email;
-  String? phone;
-  String? alternatePhone;
-  String? homeAddress;
-  String? workAddress;
-  String? privacyStatus;
-  String? completePercent;
-  String? createdAt;
-  String? updatedAt;
-  String? deletedAt;
-  ProfileUser? user;
-
-  ProfileData(
-      {this.id,
-      this.userId,
-      this.name,
-      this.gender,
-      this.dob,
-      this.occupation,
-      this.relationStatus,
-      this.email,
-      this.phone,
-      this.alternatePhone,
-      this.homeAddress,
-      this.workAddress,
-      this.privacyStatus,
-      this.completePercent,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.user});
-
-  ProfileData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
-    name = json['name'];
-    gender = json['gender'];
-    dob = json['dob'];
-    occupation = json['occupation'];
-    relationStatus = json['relation_status'];
-    email = json['email'];
-    phone = json['phone'];
-    alternatePhone = json['alternate_phone'];
-    homeAddress = json['home_address'];
-    workAddress = json['work_address'];
-    privacyStatus = json['privacy_status'];
-    completePercent = json['complete_percent'];
-    deletedAt = json['deleted_at'];
-    user = json['user'] != null ? new ProfileUser.fromJson(json['user']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['name'] = this.name;
-    data['gender'] = this.gender;
-    data['dob'] = this.dob;
-    data['occupation'] = this.occupation;
-    data['relation_status'] = this.relationStatus;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['alternate_phone'] = this.alternatePhone;
-    data['home_address'] = this.homeAddress;
-    data['work_address'] = this.workAddress;
-    data['privacy_status'] = this.privacyStatus;
-    data['complete_percent'] = this.completePercent;
-    data['created_at'] = this.createdAt;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
-    }
-    return data;
-  }
-}
-
-class ProfileUser {
-  int? id;
-  String? name;
-  String? username;
-  String? phone;
-  String? email;
-  String? photo;
-  String? type;
-
-  ProfileUser(
-      {this.id,
-      this.name,
-      this.username,
-      this.phone,
-      this.email,
-      this.photo,
-      this.type});
-
-  ProfileUser.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    username = json['username'].toString();
-    phone = json['phone'].toString();
-    email = json['email'].toString();
-    photo = json['photo'];
-    type = json['type'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['username'] = this.username;
-    data['phone'] = this.phone;
-    data['email'] = this.email;
-    data['photo'] = this.photo;
-    data['type'] = this.type;
-    return data;
-  }
-}
-
-//
 // class ProfileModel {
 //   int? code;
 //   bool? status;
 //   String? message;
-//   Data? data;
+//   ProfileData? data;
 //
 //   ProfileModel({this.code, this.status, this.message, this.data});
 //
@@ -197,43 +10,42 @@ class ProfileUser {
 //     code = json['code'];
 //     status = json['status'];
 //     message = json['message'];
-//
-//     if(json['data'].runtimeType == List<dynamic> ) {
+//     if (json['data'].runtimeType == List<dynamic>) {
 //       print('v');
 //       // data = Data.fromJson({
 //       //
 //       // });
-//       data = Data(
-//         name: '',
-//         gender: '',
-//         dob: '',
-//         occupation: '',
-//         relationStatus: '',
-//         email: '',
-//         phone: '',
-//         alternatePhone: '',
-//         homeAddress: '',
-//         workAddress:'',
-//         privacyStatus: '',
-//         createdAt: '',
-//         user: User(
+//       data = ProfileData(
 //           name: '',
-//           username: '',
-//           phone: '',
+//           gender: '',
+//           dob: '',
+//           occupation: '',
+//           relationStatus: '',
 //           email: '',
-//           photo: '',
-//           type: '',
-//         )
-//       );
-//     } else if(json['data'] == null) {
+//           phone: '',
+//           alternatePhone: '',
+//           homeAddress: '',
+//           workAddress: '',
+//           privacyStatus: '',
+//           createdAt: '',
+//           updatedAt: '',
+//           deletedAt: '',
+//           user: ProfileUser(
+//             name: '',
+//             username: '',
+//             phone: '',
+//             email: '',
+//             photo: '',
+//             type: '',
+//           ));
+//     } else if (json['data'] == null) {
 //       print('kkk');
-//       data = Data.fromJson({});
-//     } else{
+//       data = ProfileData.fromJson({});
+//     } else {
 //       print('mdkmc');
-//       data = Data.fromJson(json['data']);
+//       data = ProfileData.fromJson(json['data']);
 //     }
 //     // data = json ['data'] == [] ? null :json['data'] != null ? new Data.fromJson(json['data']) : null;
-//   }
 //   }
 //
 //   Map<String, dynamic> toJson() {
@@ -248,11 +60,10 @@ class ProfileUser {
 //   }
 // }
 //
-// class Data {
+// class ProfileData {
 //   int? id;
 //   int? userId;
 //   String? name;
-//   String? photo;
 //   String? gender;
 //   String? dob;
 //   String? occupation;
@@ -265,32 +76,34 @@ class ProfileUser {
 //   String? privacyStatus;
 //   String? completePercent;
 //   String? createdAt;
-//   User? user;
+//   String? updatedAt;
+//   String? deletedAt;
+//   ProfileUser? user;
 //
-//   Data(
+//   ProfileData(
 //       {this.id,
-//         this.userId,
-//         this.name,
-//         this.photo,
-//         this.gender,
-//         this.dob,
-//         this.occupation,
-//         this.relationStatus,
-//         this.email,
-//         this.phone,
-//         this.alternatePhone,
-//         this.homeAddress,
-//         this.workAddress,
-//         this.privacyStatus,
-//         this.completePercent,
-//         this.createdAt,
-//         this.user});
+//       this.userId,
+//       this.name,
+//       this.gender,
+//       this.dob,
+//       this.occupation,
+//       this.relationStatus,
+//       this.email,
+//       this.phone,
+//       this.alternatePhone,
+//       this.homeAddress,
+//       this.workAddress,
+//       this.privacyStatus,
+//       this.completePercent,
+//       this.createdAt,
+//       this.updatedAt,
+//       this.deletedAt,
+//       this.user});
 //
-//   Data.fromJson(Map<String, dynamic> json) {
+//   ProfileData.fromJson(Map<String, dynamic> json) {
 //     id = json['id'];
 //     userId = json['user_id'];
 //     name = json['name'];
-//     photo = json['photo'];
 //     gender = json['gender'];
 //     dob = json['dob'];
 //     occupation = json['occupation'];
@@ -302,8 +115,8 @@ class ProfileUser {
 //     workAddress = json['work_address'];
 //     privacyStatus = json['privacy_status'];
 //     completePercent = json['complete_percent'];
-//     createdAt = json['created_at'];
-//     user = json['user'] != null ? new User.fromJson(json['user']) : null;
+//     deletedAt = json['deleted_at'];
+//     user = json['user'] != null ? new ProfileUser.fromJson(json['user']) : null;
 //   }
 //
 //   Map<String, dynamic> toJson() {
@@ -311,7 +124,6 @@ class ProfileUser {
 //     data['id'] = this.id;
 //     data['user_id'] = this.userId;
 //     data['name'] = this.name;
-//     data['photo'] = this.photo;
 //     data['gender'] = this.gender;
 //     data['dob'] = this.dob;
 //     data['occupation'] = this.occupation;
@@ -331,7 +143,7 @@ class ProfileUser {
 //   }
 // }
 //
-// class User {
+// class ProfileUser {
 //   int? id;
 //   String? name;
 //   String? username;
@@ -340,21 +152,21 @@ class ProfileUser {
 //   String? photo;
 //   String? type;
 //
-//   User(
+//   ProfileUser(
 //       {this.id,
-//         this.name,
-//         this.username,
-//         this.phone,
-//         this.email,
-//         this.photo,
-//         this.type});
+//       this.name,
+//       this.username,
+//       this.phone,
+//       this.email,
+//       this.photo,
+//       this.type});
 //
-//   User.fromJson(Map<String, dynamic> json) {
+//   ProfileUser.fromJson(Map<String, dynamic> json) {
 //     id = json['id'];
 //     name = json['name'];
-//     username = json['username'];
-//     phone = json['phone'];
-//     email = json['email'];
+//     username = json['username'].toString();
+//     phone = json['phone'].toString();
+//     email = json['email'].toString();
 //     photo = json['photo'];
 //     type = json['type'];
 //   }
@@ -371,3 +183,312 @@ class ProfileUser {
 //     return data;
 //   }
 // }
+//
+// //
+// // class ProfileModel {
+// //   int? code;
+// //   bool? status;
+// //   String? message;
+// //   Data? data;
+// //
+// //   ProfileModel({this.code, this.status, this.message, this.data});
+// //
+// //   ProfileModel.fromJson(Map<String, dynamic> json) {
+// //     code = json['code'];
+// //     status = json['status'];
+// //     message = json['message'];
+// //
+// //     if(json['data'].runtimeType == List<dynamic> ) {
+// //       print('v');
+// //       // data = Data.fromJson({
+// //       //
+// //       // });
+// //       data = Data(
+// //         name: '',
+// //         gender: '',
+// //         dob: '',
+// //         occupation: '',
+// //         relationStatus: '',
+// //         email: '',
+// //         phone: '',
+// //         alternatePhone: '',
+// //         homeAddress: '',
+// //         workAddress:'',
+// //         privacyStatus: '',
+// //         createdAt: '',
+// //         user: User(
+// //           name: '',
+// //           username: '',
+// //           phone: '',
+// //           email: '',
+// //           photo: '',
+// //           type: '',
+// //         )
+// //       );
+// //     } else if(json['data'] == null) {
+// //       print('kkk');
+// //       data = Data.fromJson({});
+// //     } else{
+// //       print('mdkmc');
+// //       data = Data.fromJson(json['data']);
+// //     }
+// //     // data = json ['data'] == [] ? null :json['data'] != null ? new Data.fromJson(json['data']) : null;
+// //   }
+// //   }
+// //
+// //   Map<String, dynamic> toJson() {
+// //     final Map<String, dynamic> data = new Map<String, dynamic>();
+// //     data['code'] = this.code;
+// //     data['status'] = this.status;
+// //     data['message'] = this.message;
+// //     if (this.data != null) {
+// //       data['data'] = this.data!.toJson();
+// //     }
+// //     return data;
+// //   }
+// // }
+// //
+// // class Data {
+// //   int? id;
+// //   int? userId;
+// //   String? name;
+// //   String? photo;
+// //   String? gender;
+// //   String? dob;
+// //   String? occupation;
+// //   String? relationStatus;
+// //   String? email;
+// //   String? phone;
+// //   String? alternatePhone;
+// //   String? homeAddress;
+// //   String? workAddress;
+// //   String? privacyStatus;
+// //   String? completePercent;
+// //   String? createdAt;
+// //   User? user;
+// //
+// //   Data(
+// //       {this.id,
+// //         this.userId,
+// //         this.name,
+// //         this.photo,
+// //         this.gender,
+// //         this.dob,
+// //         this.occupation,
+// //         this.relationStatus,
+// //         this.email,
+// //         this.phone,
+// //         this.alternatePhone,
+// //         this.homeAddress,
+// //         this.workAddress,
+// //         this.privacyStatus,
+// //         this.completePercent,
+// //         this.createdAt,
+// //         this.user});
+// //
+// //   Data.fromJson(Map<String, dynamic> json) {
+// //     id = json['id'];
+// //     userId = json['user_id'];
+// //     name = json['name'];
+// //     photo = json['photo'];
+// //     gender = json['gender'];
+// //     dob = json['dob'];
+// //     occupation = json['occupation'];
+// //     relationStatus = json['relation_status'];
+// //     email = json['email'];
+// //     phone = json['phone'];
+// //     alternatePhone = json['alternate_phone'];
+// //     homeAddress = json['home_address'];
+// //     workAddress = json['work_address'];
+// //     privacyStatus = json['privacy_status'];
+// //     completePercent = json['complete_percent'];
+// //     createdAt = json['created_at'];
+// //     user = json['user'] != null ? new User.fromJson(json['user']) : null;
+// //   }
+// //
+// //   Map<String, dynamic> toJson() {
+// //     final Map<String, dynamic> data = new Map<String, dynamic>();
+// //     data['id'] = this.id;
+// //     data['user_id'] = this.userId;
+// //     data['name'] = this.name;
+// //     data['photo'] = this.photo;
+// //     data['gender'] = this.gender;
+// //     data['dob'] = this.dob;
+// //     data['occupation'] = this.occupation;
+// //     data['relation_status'] = this.relationStatus;
+// //     data['email'] = this.email;
+// //     data['phone'] = this.phone;
+// //     data['alternate_phone'] = this.alternatePhone;
+// //     data['home_address'] = this.homeAddress;
+// //     data['work_address'] = this.workAddress;
+// //     data['privacy_status'] = this.privacyStatus;
+// //     data['complete_percent'] = this.completePercent;
+// //     data['created_at'] = this.createdAt;
+// //     if (this.user != null) {
+// //       data['user'] = this.user!.toJson();
+// //     }
+// //     return data;
+// //   }
+// // }
+// //
+// // class User {
+// //   int? id;
+// //   String? name;
+// //   String? username;
+// //   String? phone;
+// //   String? email;
+// //   String? photo;
+// //   String? type;
+// //
+// //   User(
+// //       {this.id,
+// //         this.name,
+// //         this.username,
+// //         this.phone,
+// //         this.email,
+// //         this.photo,
+// //         this.type});
+// //
+// //   User.fromJson(Map<String, dynamic> json) {
+// //     id = json['id'];
+// //     name = json['name'];
+// //     username = json['username'];
+// //     phone = json['phone'];
+// //     email = json['email'];
+// //     photo = json['photo'];
+// //     type = json['type'];
+// //   }
+// //
+// //   Map<String, dynamic> toJson() {
+// //     final Map<String, dynamic> data = new Map<String, dynamic>();
+// //     data['id'] = this.id;
+// //     data['name'] = this.name;
+// //     data['username'] = this.username;
+// //     data['phone'] = this.phone;
+// //     data['email'] = this.email;
+// //     data['photo'] = this.photo;
+// //     data['type'] = this.type;
+// //     return data;
+// //   }
+// // }
+
+
+class ProfileModel {
+  bool? error;
+  String? message;
+  Data? data;
+
+
+  ProfileModel({this.error, this.message, this.data});
+
+  ProfileModel.fromJson(Map<String, dynamic> json) {
+    error = json['error'];
+    message = json['message'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['error'] = this.error;
+    data['message'] = this.message;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+
+    return data;
+  }
+}
+
+class Data {
+  int? id;
+  String? name;
+  String? email;
+
+  String? status;
+  Profile? profile;
+  String? complete;
+
+  Data(
+      {this.id,
+        this.name,
+        this.email,
+
+        this.status,
+        this.profile,
+        this.complete});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+
+    status = json['status'];
+    profile =
+    json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
+    complete = json['complete'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['email'] = this.email;
+
+    data['status'] = this.status;
+    if (this.profile != null) {
+      data['profile'] = this.profile!.toJson();
+    }
+    data['complete'] = this.complete;
+    return data;
+  }
+}
+
+class Profile {
+  String? username;
+  String? gender;
+  String? marritalStatus;
+  String? dateOfBirth;
+  String? occupation;
+  String? phone;
+  String? additionalPhone;
+  String? privacy;
+  String? photo;
+
+  Profile(
+      {this.username,
+        this.gender,
+        this.marritalStatus,
+        this.dateOfBirth,
+        this.occupation,
+        this.phone,
+        this.additionalPhone,
+        this.privacy,
+        this.photo});
+
+  Profile.fromJson(Map<String, dynamic> json) {
+    username = json['username'];
+    gender = json['gender'];
+    marritalStatus = json['marrital_status'];
+    dateOfBirth = json['date_of_birth'];
+    occupation = json['occupation'];
+    phone = json['phone'];
+    additionalPhone = json['additional_phone'];
+    privacy = json['privacy'];
+    photo = json['photo'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['username'] = this.username;
+    data['gender'] = this.gender;
+    data['marrital_status'] = this.marritalStatus;
+    data['date_of_birth'] = this.dateOfBirth;
+    data['occupation'] = this.occupation;
+    data['phone'] = this.phone;
+    data['additional_phone'] = this.additionalPhone;
+    data['privacy'] = this.privacy;
+    data['photo'] = this.photo;
+    return data;
+  }
+}

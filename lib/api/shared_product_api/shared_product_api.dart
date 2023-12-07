@@ -7,8 +7,34 @@ import '../../constants/globals/shared_prefs.dart';
 
 Future sharedProductApi({
   required String productId,
-  required String friendId,
+  required String shareWithId,
 }) async {
+
+  // var headers = {
+  //   'Accept': 'application/json',
+  //   'Content-Type': 'application/json',
+  //   'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  // };
+  // var request = http.Request('POST', Uri.parse('$newBaseUrl/api/shared/store'));
+  // request.body = json.encode({
+  //   "product_id": productId,
+  //   "shared_with": friendId
+  // });
+  // request.headers.addAll(headers);
+  //
+  // http.StreamedResponse response = await request.send();
+  // var resBody = jsonDecode(await response.stream.bytesToString());
+  //
+  // if (response.statusCode == 200) {
+  //   print(resBody);
+  //   return resBody;
+  // }
+  // else {
+  //   print(response.reasonPhrase);
+  //   print(response.statusCode);
+  //   print(resBody);
+  //   return resBody;
+  // }
 
   var headers = {
     'Accept': 'application/json',
@@ -18,7 +44,7 @@ Future sharedProductApi({
   var request = http.Request('POST', Uri.parse('$newBaseUrl/api/shared/store'));
   request.body = json.encode({
     "product_id": productId,
-    "shared_with": friendId
+    "shared_with": shareWithId
   });
   request.headers.addAll(headers);
 
@@ -35,6 +61,7 @@ Future sharedProductApi({
     print(resBody);
     return resBody;
   }
+
 
 }
  /* var headers = {'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'};

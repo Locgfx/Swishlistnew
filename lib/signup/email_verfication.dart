@@ -27,10 +27,13 @@ class EmailVerification extends StatefulWidget {
 }
 
 class _EmailVerificationState extends State<EmailVerification> {
+
   final otpController = TextEditingController();
   bool loading = false;
   LoginResponse? response;
   bool show = false;
+
+
   @override
   Widget build(BuildContext context) {
     return TextFieldUnFocusOnTap(
@@ -39,7 +42,7 @@ class _EmailVerificationState extends State<EmailVerification> {
         bottomNavigationBar: SingleChildScrollView(
           child: Column(
             children: [
-         /*     SizedBox(
+              SizedBox(
                 height: 52.h,
                 width: 328.w,
                 child: show
@@ -62,7 +65,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                             });
                           });
                           if (otpController.text.length == 4) {
-                            verifyOtp(
+                     /*       verifyOtp(
                               context: context,
                               otp: otpController.text,
                               email: widget.email,
@@ -83,12 +86,28 @@ class _EmailVerificationState extends State<EmailVerification> {
                                   ),
                                 );
                               }
+                            });*/
+
+                            verifySignUpOtp(otp: otpController.text).then((value) {
+                              if(value['error'] == false){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => SetPassword(
+                                      email: widget.email,
+                                    ),
+                                  ),
+                                );
+                                Fluttertoast.showToast(msg: value['message']);
+                              } else{
+                                Fluttertoast.showToast(msg: value['message']);
+                              }
                             });
                           }
                         },
                         title: 'Submit',
                       ),
-              ),*/
+              ),
               SizedBox(
                 height: 20,
               ),

@@ -90,11 +90,12 @@ class _DeleteAccountState extends State<DeleteAccount> {
                             });
                           });
                           if (otpController.text.length == 4) {
-                            deleteAccountOtpApi(otp: otpController.text)
+                            accountDeleteApi(otp: otpController.text)
                                 .then((value) async {
-                              Fluttertoast.showToast(msg: value['message']);
-                              if (value['status'] == true) {
+                            //  Fluttertoast.showToast(msg: value['message']);
+                              if (value['error'] == false) {
                                 // SharedPrefs().clearPrefs();
+                                Fluttertoast.showToast(msg: value['message']);
                                 SharedPrefs().setLoginFalse();
                                 Navigator.push(
                                   context,
@@ -103,7 +104,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
                                   ),
                                 );
                               } else {
-                                Fluttertoast.showToast(msg: value['message']);
+                                Fluttertoast.showToast(msg: 'Unsuccessful');
                               }
                             });
                           }
@@ -121,18 +122,20 @@ class _DeleteAccountState extends State<DeleteAccount> {
                           _start = 60;
                         });
                         _startTimer();
-                        deleteAccountApi().then((value) async {
-                          if (value['status'] ==
-                                  true /*&&
+                        deleteAccountRequestApi().then((value) async {
+                          if (value['error'] ==
+                                  false /*&&
                               response!.status == true*/
                               ) {
                             Fluttertoast.showToast(
-                                msg: 'Please check your mail for Otp');
+                                msg: value['message']
+                                //'Please check your mail for Otp'
+                            );
 
                             // print(pickedImage.toString());
                             // print(updateNameController.text);
                           } else {
-                            Fluttertoast.showToast(msg: value['message']);
+                            //Fluttertoast.showToast(msg: value['message']);
                           }
                         });
                       }

@@ -26,10 +26,9 @@ Future<dynamic> getPetsAPi() async {
     print(response.reasonPhrase);
     print(response.statusCode);
     print(resBody);
-
     return resBody;
-
   }
+
   // var headers = {
   //   'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   // };

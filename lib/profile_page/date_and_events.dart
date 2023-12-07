@@ -34,7 +34,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
   EventModel? event;
   // EventModel? eventUpcoming;
 
-  List<DateModel> eventUpcoming2 = [];
+
   List<int> selectedItems = [];
   bool showLoad = false;
 
@@ -79,8 +79,11 @@ class _DateAndEventsState extends State<DateAndEvents> {
   // ModelEvent
   // List<ModelEvent> eventUp = [];
   DateTime currentDateTime = DateTime.now();
-  List<DateModel> eventUpcoming = [];
+  List<DateModel> eventList = [];
+  List<DateModel> upcomingList = [];
   // final filteredItems = eventUpcoming2.where((item) => item.dateTime.isAfter(now)).toList();
+
+/*
   getUpcomingEvent() {
     isLoading = true;
     var resp = getDateAndEventApi();
@@ -138,6 +141,40 @@ class _DateAndEventsState extends State<DateAndEvents> {
       }
     });
   }
+*/
+
+
+  getUpcomingEvent(){
+    isLoading = true;
+    var resp = getDateAndEventApi();
+    resp.then((value) {
+      upcomingList.clear();
+      eventList.clear();
+      if(value['error'] == false){
+
+        setState(() {
+          for(var v in value['data']){
+            eventList.add(DateModel.fromJson(v));
+          }
+          for(var q in eventList){
+            if(q.type == "upcoming"){
+              upcomingList.add(q);
+            }
+          }
+
+
+
+          isLoading = false;
+        });
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
+
+  }
+
 
   final nameController = TextEditingController();
   final typeController = TextEditingController();
@@ -146,7 +183,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
 
   DateTime? selectedDate;
 
-  final List<bool> accept = List.generate(1000, (index) => false);
+  //final List<bool> accept = List.generate(1000, (index) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -189,11 +226,13 @@ class _DateAndEventsState extends State<DateAndEvents> {
                           isLoading = true;
                         });
                         for (var v in selectedItems) {
-                          deleteEventAndDate(id: v.toString())
+                          deleteEventAndDateApi(id: v.toString())
                               .then((value) async {
                             print(selectedItems.toString());
-                            if (value['status'] == true) {
-                              setState(() {});
+                            if (value['error'] == false) {
+                              setState(() {
+                                isLoading = false;
+                              });
                               Fluttertoast.showToast(msg: value['message']);
                             } else {
                               Fluttertoast.showToast(msg: value['message']);
@@ -478,20 +517,22 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                                 .isNotEmpty &&
                                                             dateController.text
                                                                 .isNotEmpty) {
+
                                                           postDateAndEventApi(
+                                                            time: '',
                                                                   name:
                                                                       nameController
                                                                           .text,
                                                                   date:
                                                                       dateFormat,
-                                                                  type: "all",
+
                                                                   privacy:
                                                                       'public')
                                                               .then(
                                                                   (value) async {
                                                             if (value[
-                                                                    'status'] ==
-                                                                true) {
+                                                                    'error'] ==
+                                                                false) {
                                                               setState(() {
                                                                 showLoad =
                                                                     false;
@@ -515,8 +556,9 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                             } else {
                                                               Fluttertoast
                                                                   .showToast(
-                                                                      msg:
-                                                                          'Please fill all details fields');
+                                                                      msg: value['message']
+                                                                          //'Please fill all details fields'
+                                                              );
                                                             }
                                                           });
                                                         }
@@ -568,15 +610,15 @@ class _DateAndEventsState extends State<DateAndEvents> {
                           SizedBox(
                             height: 20.h,
                           ),
-                          eventUpcoming2.isEmpty
+                          upcomingList.isEmpty
                               ? Center(
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      /*      Icon(Icons.error_outline,color: Colors.black,size: 80,),
-                          SizedBox(height: 5),*/
+                                            Icon(Icons.error_outline,color: Colors.black,size: 80,),
+                          SizedBox(height: 5),
                                       Text("No Upcoming Dates yet")
                                     ],
                                   ),
@@ -584,7 +626,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                               : ListView.separated(
                                   padding: EdgeInsets.all(0),
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemCount: eventUpcoming2.length,
+                                  itemCount: upcomingList.length,
                                   // itemCount: 6,
                                   shrinkWrap: true,
                                   scrollDirection: Axis.vertical,
@@ -616,7 +658,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                             .textColor29292914w600,
                                                       ),
                                                       Text(
-                                                        eventUpcoming2[i]
+                                                        upcomingList[i]
                                                             .name
                                                             .toString(),
                                                         style: AppTextStyle()
@@ -632,7 +674,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                             .textColor29292914w600,
                                                       ),
                                                       Text(
-                                                        eventUpcoming2[i]
+                                                        upcomingList[i]
                                                             .date
                                                             .toString(),
                                                         style: AppTextStyle()
@@ -662,6 +704,96 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                   // ),
                                                 ],
                                               ),
+                                             /* GestureDetector(
+                                                onTap: () {
+                                                  *//*setState(() {
+                                                        accept[i] = !accept[i];
+                                                      });*//*
+                                                  Timer timer = Timer(
+                                                      Duration(seconds: 2),
+                                                          () {
+                                                        *//*setState(() {
+                                                          accept[i] = false;
+                                                        });*//*
+                                                      });
+                                                  deleteEventAndDateApi(
+                                                      id: upcomingList[i]
+                                                          .id
+                                                          .toString())
+                                                      .then((value) async {
+
+                                                    if (value['error'] ==
+                                                        false) {
+                                                      isLoading
+                                                          ? Loading()
+                                                          : getUpcomingEvent();
+
+                                                      Fluttertoast.showToast(
+                                                          msg: value[
+                                                          'message']);
+                                                    } else {
+                                                      Fluttertoast.showToast(
+                                                          msg: value[
+                                                          'message']);
+                                                    }
+
+                                                    setState(() {
+                                                      isLoading = false;
+                                                    });
+                                                  });
+                                                },
+                                                child:
+
+                                                *//*  accept[i]
+                                                        ? Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    right:
+                                                                        10.0),
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                              color: ColorSelect
+                                                                  .colorF7E641,
+                                                            ),
+                                                          )
+                                                        : *//*
+                                                isLoading
+                                                    ?
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .only(
+                                                      right:
+                                                      10.0),
+                                                  child:
+                                                  CircularProgressIndicator(
+                                                    color: ColorSelect
+                                                        .colorF7E641,
+                                                  ),
+                                                )
+
+                                                    :
+                                                Container(
+                                                    decoration:
+                                                    BoxDecoration(
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(
+                                                          12),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                      const EdgeInsets
+                                                          .all(8.0),
+                                                      child: Text(
+                                                        "Delete",
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .redAccent),
+                                                      ),
+                                                    )),
+                                              )*/
                                             ],
                                           ),
                                         ),
@@ -700,7 +832,6 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                     height: 16,
                                   ),
                                 ),
-
                           SizedBox(
                             height: 20.h,
                           ),
@@ -714,7 +845,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              eventUpcoming.isEmpty
+                              eventList.isEmpty
                                   ? Center(
                                       child: Column(
                                         crossAxisAlignment:
@@ -731,7 +862,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                   : ListView.separated(
                                       padding: EdgeInsets.only(bottom: 16),
                                       physics: NeverScrollableScrollPhysics(),
-                                      itemCount: eventUpcoming.length,
+                                      itemCount: eventList.length,
                                       // itemCount: 6,
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
@@ -768,7 +899,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                                 .textColor29292914w600,
                                                           ),
                                                           Text(
-                                                            eventUpcoming[i]
+                                                            eventList[i]
                                                                 .name
                                                                 .toString(),
                                                             maxLines: 1,
@@ -788,7 +919,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                                 .textColor29292914w600,
                                                           ),
                                                           Text(
-                                                            eventUpcoming[i]
+                                                            eventList[i]
                                                                 .date
                                                                 .toString(),
                                                             style: AppTextStyle()
@@ -820,26 +951,24 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                   ),
                                                   GestureDetector(
                                                     onTap: () {
-                                                      setState(() {
+                                                      /*setState(() {
                                                         accept[i] = !accept[i];
-                                                      });
+                                                      });*/
                                                       Timer timer = Timer(
                                                           Duration(seconds: 2),
                                                           () {
-                                                        setState(() {
+                                                        /*setState(() {
                                                           accept[i] = false;
-                                                        });
+                                                        });*/
                                                       });
-                                                      deleteEventAndDate(
-                                                              id: eventUpcoming[
-                                                                      i]
+                                                      deleteEventAndDateApi(
+                                                              id: eventList[i]
                                                                   .id
                                                                   .toString())
                                                           .then((value) async {
-                                                        print(selectedItems
-                                                            .toString());
-                                                        if (value['status'] ==
-                                                            true) {
+
+                                                        if (value['error'] ==
+                                                            false) {
                                                           isLoading
                                                               ? Loading()
                                                               : getUpcomingEvent();
@@ -858,7 +987,9 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                         });
                                                       });
                                                     },
-                                                    child: accept[i]
+                                                    child:
+
+                                                  /*  accept[i]
                                                         ? Padding(
                                                             padding:
                                                                 const EdgeInsets
@@ -871,7 +1002,24 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                                   .colorF7E641,
                                                             ),
                                                           )
-                                                        : Container(
+                                                        : */
+                                                    isLoading
+                                                        ?
+                                                    Padding(
+                                                      padding:
+                                                      const EdgeInsets
+                                                          .only(
+                                                          right:
+                                                          10.0),
+                                                      child:
+                                                      CircularProgressIndicator(
+                                                        color: ColorSelect
+                                                            .colorF7E641,
+                                                      ),
+                                                    )
+
+                                                        :
+                                                    Container(
                                                             decoration:
                                                                 BoxDecoration(
                                                               borderRadius:

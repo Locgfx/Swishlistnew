@@ -70,6 +70,7 @@ class _ProductDetailState extends State<ProductDetail> {
   int selectedIndex = 0;
 
   bool seenBy = false;
+
   final textController = TextEditingController();
   final privacyController = TextEditingController();
 
@@ -81,6 +82,8 @@ class _ProductDetailState extends State<ProductDetail> {
 
   FriendModel friendList = FriendModel();
   bool isLoading = false;
+
+
   getFriends() {
     isLoading = true;
     // friendList.clear();

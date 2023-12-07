@@ -32,7 +32,7 @@ class _AccountState extends State<Account> {
 
   bool isLoading = false;
   // ProfileModel? profile;
-  ProfileModel profile = ProfileModel();
+/*  ProfileModel profile = ProfileModel();
   getProfile() {
     isLoading = true;
     var resp = getProfileDetails();
@@ -48,8 +48,32 @@ class _AccountState extends State<Account> {
         });
       }
     });
-  }
+  }*/
 
+
+  ProfileModel ? profile;
+
+  getProfile() {
+
+    isLoading = true;
+    var resp = getProfileApi();
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          profile = ProfileModel.fromJson(value);
+          isLoading = false;
+        });
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+
+    });
+
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,10 +132,10 @@ class _AccountState extends State<Account> {
                         style: AppTextStyle().textColor70707014w400,
                       ),
                       Spacer(),
-                      Text(
-                        profile.data!.user!.username!.toString() == "null"
-                            ? "Add Your Username"
-                            : profile.data!.user!.username!.toString(),
+                      Text( widget.response.data!.username.toString(),
+                        // profile.data!.user!.username!.toString() == "null"
+                        //     ? "Add Your Username"
+                        //     : profile.data!.user!.username!.toString(),
                         style: AppTextStyle().textColor29292914w400,
                       ),
                       /*SizedBox(
@@ -131,9 +155,10 @@ class _AccountState extends State<Account> {
                       ),
                       Spacer(),
                       Text(
-                        profile.data!.user!.email!.toString() == "null"
-                            ? "Add your email"
-                            : profile.data!.user!.email!.toString(),
+                      widget.response.data!.email.toString(),
+                        // profile.data!.user!.email!.toString() == "null"
+                        //     ? "Add your email"
+                        //     : profile.data!.user!.email!.toString(),
                         style: AppTextStyle().textColor29292914w400,
                       ),
                       /*SizedBox(
@@ -153,9 +178,10 @@ class _AccountState extends State<Account> {
                       ),
                       Spacer(),
                       Text(
-                        profile.data!.user!.phone!.toString() == "null"
-                            ? "Add your phone no"
-                            : profile.data!.user!.phone!.toString(),
+                      widget.response.data!.phone.toString(),
+                        // profile.data!.user!.phone!.toString() == "null"
+                        //     ? "Add your phone no"
+                        //     : profile.data!.user!.phone!.toString(),
                         // "+18397840844",
                         style: AppTextStyle().textColor29292914w400,
                       ),
@@ -315,15 +341,18 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
                             MaterialStateProperty.all(ColorSelect.colorCE5252),
                         textStyleColor: ColorSelect.colorFFFFFF,
                         onTap: () {
-                          deleteAccountApi().then((value) async {
-                            if (value['status'] ==
-                                    true /*&&
+                          deleteAccountRequestApi().then((value) async {
+                            if (value['error'] ==
+                                    false /*&&
                               response!.status == true*/
                                 ) {
                               // Fluttertoast.showToast(
                               //     msg: 'Your OTP is ${value['data']['otp']}');
                               Fluttertoast.showToast(
-                                  msg: 'Otp Send to your mail');
+                                  msg:
+                                  //'Otp Send to your mail'
+                                value['message']
+                              );
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -333,7 +362,7 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
                               // print(pickedImage.toString());
                               // print(updateNameController.text);
                             } else {
-                              Fluttertoast.showToast(msg: value['message']);
+                              //Fluttertoast.showToast(msg: value['message']);
                             }
                           });
                         },

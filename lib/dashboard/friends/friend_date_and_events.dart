@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swishlist/api/friend_apis/user_details_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/models/friends_details_model.dart';
+import 'package:swishlist/models/user_details_model.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
+import '../../models/DateModel.dart';
 
 class FDatesAndEvents extends StatefulWidget {
   final String friendId;
@@ -16,7 +19,8 @@ class FDatesAndEvents extends StatefulWidget {
 
 class _FDatesAndEventsState extends State<FDatesAndEvents> {
   Future<void> _handleRefresh() async {
-    getAllFriendEventDetails();
+    //getAllFriendEventDetails();
+    getUserDetails();
 
     // Implement your refresh logic here.
     // For example, fetch new data from an API or update some data.
@@ -39,7 +43,8 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
   ];
   @override
   void initState() {
-    getAllFriendEventDetails();
+    getUserDetails();
+   // getAllFriendEventDetails();
     // getUpFriendEventDetails();
     super.initState();
   }
@@ -47,10 +52,13 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
   bool isLoading = false;
   // FriendDetailsModel? friendDetails;
   FriendDetailsModel? friendDetails1;
-  List<EventDate> eventListAll = [];
-  List<EventDate> eventListUp = [];
+  // List<EventDate> eventListAll = [];
+  // List<EventDate> eventListUp = [];
 
-  getAllFriendEventDetails() {
+  List<Events> eventList = [];
+  List<Events> upcomingList = [];
+
+/*  getAllFriendEventDetails() {
     isLoading = true;
     var resp = friendDetailsApi(friendUserId: widget.friendId);
     resp.then((value) {
@@ -75,8 +83,7 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
         isLoading = false;
       }
     });
-  }
-
+  }*/
   // getUpFriendEventDetails() {
   //   isLoading = true;
   //   var resp = friendDetailsApi(friendUserId: widget.friendId);
@@ -96,6 +103,37 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
   //     }
   //   });
   // }
+
+  UserDetailsModel ? userDetails;
+
+
+  getUserDetails(){
+    isLoading = true;
+    var resp = userDetailsApi(id: widget.friendId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          userDetails = UserDetailsModel.fromJson(value);
+          for(var v in userDetails!.data!.events!.toList()){
+            eventList.add(v);
+
+          }
+          for(var q in eventList){
+            if(q.type == "upcoming"){
+              upcomingList.add(q);
+            }
+          }
+        });
+        isLoading = false;
+
+      }
+      else{
+        isLoading = false;
+      }
+    });
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +156,8 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
           ),
           centerTitle: false,
         ),
-        body: isLoading
+        body:
+        isLoading
             ? Loading()
             : RefreshIndicator(
                 backgroundColor: Colors.white,
@@ -141,7 +180,7 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                         SizedBox(
                           height: 15.h,
                         ),
-                        eventListUp.isEmpty
+                        upcomingList.isEmpty
                             ? Center(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -156,7 +195,8 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                             : ListView.separated(
                                 padding: EdgeInsets.zero,
                                 shrinkWrap: true,
-                                itemCount: eventListUp.length,
+                                itemCount: upcomingList.length,
+                                //eventListUp.length,
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, i) {
                                   return Container(
@@ -184,9 +224,10 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                                                         .textColor29292914w600,
                                                   ),
                                                   Text(
-                                                    eventListUp[i]
-                                                        .name
-                                                        .toString(),
+                                                    upcomingList[i].name.toString(),
+                                                    // eventListUp[i]
+                                                    //     .name
+                                                    //     .toString(),
                                                     style: AppTextStyle()
                                                         .textColor29292914w400,
                                                   ),
@@ -200,9 +241,10 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                                                         .textColor29292914w600,
                                                   ),
                                                   Text(
-                                                    eventListUp[i]
-                                                        .date
-                                                        .toString(),
+                                                    upcomingList[i].date.toString(),
+                                                    // eventListUp[i]
+                                                    //     .date
+                                                    //     .toString(),
                                                     style: AppTextStyle()
                                                         .textColor29292914w400,
                                                   ),
@@ -273,7 +315,8 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                         SizedBox(
                           height: 10.h,
                         ),
-                        friendDetails1!.data!.eventDate!.isEmpty
+                        //friendDetails1!.data!.eventDate!.isEmpty
+                      userDetails!.data!.events!.isEmpty
                             ? Center(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -286,7 +329,8 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                             : ListView.separated(
                                 padding: EdgeInsets.only(bottom: 16),
                                 shrinkWrap: true,
-                                itemCount: eventListAll.length,
+                                itemCount: eventList.length,
+                                //eventListAll.length,
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, i) {
                                   return Container(
@@ -314,9 +358,10 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                                                         .textColor29292914w600,
                                                   ),
                                                   Text(
-                                                    eventListAll[i]
-                                                        .name
-                                                        .toString(),
+                                                    eventList[i].name.toString(),
+                                                    // eventListAll[i]
+                                                    //     .name
+                                                    //     .toString(),
                                                     style: AppTextStyle()
                                                         .textColor29292914w400,
                                                   ),
@@ -330,9 +375,10 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
                                                         .textColor29292914w600,
                                                   ),
                                                   Text(
-                                                    eventListAll[i]
-                                                        .date
-                                                        .toString(),
+                                                    eventList[i].date.toString(),
+                                                    // eventListAll[i]
+                                                    //     .date
+                                                    //     .toString(),
                                                     style: AppTextStyle()
                                                         .textColor29292914w400,
                                                   ),

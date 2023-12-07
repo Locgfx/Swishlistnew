@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:swishlist/api/friend_apis/user_details_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
+import 'package:swishlist/models/user_details_model.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
@@ -17,13 +19,37 @@ class FSizesAndWeights extends StatefulWidget {
 class _FSizesAndWeightsState extends State<FSizesAndWeights> {
   @override
   void initState() {
-    getFriendDetails();
+    getUserDetails();
+    //getFriendDetails();
     super.initState();
   }
 
   bool isLoading = false;
 
-  FriendDetailsModel? friendDetails = FriendDetailsModel(
+
+  UserDetailsModel ? userDetails;
+
+
+  getUserDetails(){
+    isLoading = true;
+    var resp = userDetailsApi(id: widget.friendId);
+    resp.then((value) {
+      if(value['error'] == false){
+        setState(() {
+          userDetails = UserDetailsModel.fromJson(value);
+        });
+        isLoading = false;
+
+      }
+      else{
+        isLoading = false;
+      }
+    });
+
+
+  }
+
+ /* FriendDetailsModel? friendDetails = FriendDetailsModel(
       data: Data(
           sizeWeight: SizeWeight(
     shirt: '',
@@ -55,10 +81,11 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
         }
       }
     });
-  }
+  }*/
 
   Future<void> _handleRefresh() async {
-    getFriendDetails();
+    getUserDetails();
+    //getFriendDetails();
     // Implement your refresh logic here.
     // For example, fetch new data from an API or update some data.
     // You can use async/await for asynchronous operations.
@@ -120,12 +147,16 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
                             SizedBox(
                               height: 20.h,
                             ),
-                            friendDetails!.data!.sizeWeight!.waist.toString() ==
+/*
+                           userDetails!.data!.sizing!.waist.toString() == '' ||
+                          userDetails!.data!.sizing!.waist == null
+                           *//* friendDetails!.data!.sizeWeight!.waist.toString() ==
                                         "" ||
                                     friendDetails!.data!.sizeWeight!.waist ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : InkWell(
+                                :*/
+                           InkWell(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -136,16 +167,21 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          friendDetails!.data!.sizeWeight!.waist
+                                          userDetails!.data!.sizing!.waist.toString() == '' ||
+                                              userDetails!.data!.sizing!.waist == null
+                                          /*friendDetails!.data!.sizeWeight!.waist
                                                           .toString() ==
                                                       "" ||
                                                   friendDetails!.data!
                                                           .sizeWeight!.waist ==
-                                                      null
+                                                      null*/
                                               ? "friend not updated shirt size"
-                                              : friendDetails!
+                                              :
+                                          userDetails!.data!.sizing!.waist.toString(),
+
+                                          /*friendDetails!
                                                   .data!.sizeWeight!.waist
-                                                  .toString(),
+                                                  .toString(),*/
                                           // '+ Add',
                                           style:
                                               // AppTextStyle().textColorD5574514w500 :
@@ -164,20 +200,29 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
                                     ),
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.sizeWeight!.waist
+                              height:
+
+                              /*userDetails!.data!.sizing!.waist.toString() == '' ||
+                                  userDetails!.data!.sizing!.waist == null
+                              *//*friendDetails!.data!.sizeWeight!.waist
                                               .toString() ==
                                           "" ||
                                       friendDetails!.data!.sizeWeight!.waist ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              20.h,
                             ),
-                            friendDetails!.data!.sizeWeight!.shirt.toString() ==
+
+                           /* userDetails!.data!.sizing!.shirt.toString() == '' ||
+                                userDetails!.data!.sizing!.shirt == null
+                           *//* friendDetails!.data!.sizeWeight!.shirt.toString() ==
                                         "" ||
                                     friendDetails!.data!.sizeWeight!.shirt ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : InkWell(
+                                : */
+                            InkWell(
                                     onTap: () {
                                       // showDialog(
                                       //   context: context,
@@ -198,16 +243,23 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
                                           /*  friendDetails!.data!.sizeWeight!.shirt.toString() == '' ?
                         'waist is not added yet' :*/
                                           // friendDetails!.data!.sizeWeight!.shirt.toString(),
-                                          friendDetails!.data!.sizeWeight!.shirt
+
+                                          userDetails!.data!.sizing!.shirt.toString() == '' ||
+                                              userDetails!.data!.sizing!.shirt == null
+                                         /* friendDetails!.data!.sizeWeight!.shirt
                                                           .toString() ==
                                                       "" ||
                                                   friendDetails!.data!
                                                           .sizeWeight!.shirt ==
-                                                      null
+                                                      null*/
                                               ? "friend not updated shirt size"
-                                              : friendDetails!
+                                              :
+
+                                          userDetails!.data!.sizing!.waist.toString() ,
+
+                                          /*friendDetails!
                                                   .data!.sizeWeight!.shirt
-                                                  .toString(),
+                                                  .toString(),*/
                                           // '+ Add',
                                           /*:
                         sizeWeight!.data!.shirt!.toString(),
@@ -228,20 +280,28 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
                                     ),
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.sizeWeight!.shirt
+                              height:
+                            /*  userDetails!.data!.sizing!.shirt.toString() == '' ||
+                                  userDetails!.data!.sizing!.shirt == null
+                              *//*friendDetails!.data!.sizeWeight!.shirt
                                               .toString() ==
                                           "" ||
                                       friendDetails!.data!.sizeWeight!.shirt ==
-                                          null
+                                          null*//*
                                   ? 0
-                                  : 20.h,
+                                  : */
+                              20.h,
                             ),
-                            friendDetails!.data!.sizeWeight!.shoes.toString() ==
+
+                            /*userDetails!.data!.sizing!.shoe.toString() == '' ||
+                                userDetails!.data!.sizing!.shoe == null
+                            *//*friendDetails!.data!.sizeWeight!.shoes.toString() ==
                                         "" ||
                                     friendDetails!.data!.sizeWeight!.shoes ==
-                                        null
+                                        null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {
                                       // showDialog(
                                       //   context: context,
@@ -263,16 +323,22 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
                                         Text(
                                           /* friendDetails!.data!.sizeWeight!.shoes.toString() == '' ?
                         'waist is not added yet' :*/
-                                          friendDetails!.data!.sizeWeight!.shoes
+
+                                          userDetails!.data!.sizing!.shoe.toString() == '' ||
+                                              userDetails!.data!.sizing!.shoe == null
+                                         /* friendDetails!.data!.sizeWeight!.shoes
                                                           .toString() ==
                                                       "" ||
                                                   friendDetails!.data!
                                                           .sizeWeight!.shoes ==
-                                                      null
+                                                      null*/
                                               ? "friend not updated shoes size"
-                                              : friendDetails!
+                                              :
+                                          userDetails!.data!.sizing!.shoe.toString() ,
+
+                                         /* friendDetails!
                                                   .data!.sizeWeight!.shoes
-                                                  .toString(),
+                                                  .toString(),*/
                                           // '+ Add',
                                           style: AppTextStyle()
                                               .textColor29292914w400,
@@ -286,13 +352,18 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
                                     ),
                                   ),
                             SizedBox(
-                              height: friendDetails!.data!.sizeWeight!.shoes
+                              height:
+
+                             /* userDetails!.data!.sizing!.shoe.toString() == '' ||
+                                  userDetails!.data!.sizing!.shoe == null
+                             *//* friendDetails!.data!.sizeWeight!.shoes
                                               .toString() ==
                                           "" ||
                                       friendDetails!.data!.sizeWeight!.shoes ==
-                                          null
+                                          null*//*
                                   ? 20.h
-                                  : 40.h,
+                                  : */
+                              40.h,
                             ),
                             Text(
                               "Home",
@@ -301,11 +372,15 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
                             SizedBox(
                               height: 20.h,
                             ),
-                            friendDetails!.data!.sizeWeight!.bed.toString() ==
+
+                           /* userDetails!.data!.sizing!.bed.toString() == '' ||
+                                userDetails!.data!.sizing!.bed == null
+                            *//*friendDetails!.data!.sizeWeight!.bed.toString() ==
                                         "" ||
-                                    friendDetails!.data!.sizeWeight!.bed == null
+                                    friendDetails!.data!.sizeWeight!.bed == null*//*
                                 ? SizedBox()
-                                : GestureDetector(
+                                : */
+                            GestureDetector(
                                     onTap: () {},
                                     child: Row(
                                       children: [
@@ -316,16 +391,24 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
                                         ),
                                         Spacer(),
                                         Text(
-                                            friendDetails!.data!.sizeWeight!.bed
+
+
+                                            userDetails!.data!.sizing!.bed.toString() == '' ||
+                                                userDetails!.data!.sizing!.bed == null
+                                            /*friendDetails!.data!.sizeWeight!.bed
                                                             .toString() ==
                                                         "" ||
                                                     friendDetails!.data!
                                                             .sizeWeight!.bed ==
-                                                        null
-                                                ? "friend not updated shoes size"
-                                                : friendDetails!
+                                                        null*/
+                                                ? "friend not updated bed size"
+                                                :
+
+                                            userDetails!.data!.sizing!.bed.toString() ,
+
+                                           /* friendDetails!
                                                     .data!.sizeWeight!.bed
-                                                    .toString(),
+                                                    .toString(),*/
                                             //  Add' ,
                                             style: AppTextStyle()
                                                 .textColor29292914w400),

@@ -64,6 +64,29 @@ class _FavoritesState extends State<Favorites> {
   // FavouritesModel? favourites ;
 
   List<String> cars = [];
+  List<String> bikes = [];
+  List<String> movies = [];
+  List<String> shows = [];
+  List<String> food = [];
+  List<String> gadgets = [];
+  List<String> superheroes = [];
+  List<String> actors = [];
+  List<String> actresses = [];
+  List<String> singers = [];
+  List<String> players = [];
+  List<String> cities = [];
+  List<String> countries = [];
+  List<String> restaurants = [];
+  List<String> hotels = [];
+
+
+
+
+
+  // favComplete = favourites.data?.complete;
+  // parsedPercent = double.tryParse(complete?.replaceAll('%', '') ?? '0') ?? 0.0;
+
+
 
 
   FavouritesModel favourites = FavouritesModel();
@@ -72,13 +95,14 @@ class _FavoritesState extends State<Favorites> {
     isLoading = true;
     var resp = getFavouritesApi();
     resp.then((value) {
-      print('abcdefghjkl ${value}');
+     // print('abcdefghjkl ${value}');
       if(value['error'] == false){
         setState(() {
           favourites = FavouritesModel.fromJson(value);
           isLoading = false;
           print('qwertty${favourites}');
         });
+        fields();
       }else{
         setState(() {
           isLoading = false;
@@ -88,18 +112,18 @@ class _FavoritesState extends State<Favorites> {
     });
   }
 
-  void fields() {
-    carController.text = favourites.data?.cars.toString() ?? '' ;
+ /* void fields() {
+    //carController.text = favourites.data?.cars.toString() ?? '' ;
     // shirtController.text = sizeWeight!.data!.shirt ?? '';
     // shoeController.text = sizeWeight!.data!.shoe ?? '';
     // bedController.text = sizeWeight!.data!.bed ?? '';
   }
+*/
 
 
-
-  List<String> fav = [];
-  double dou = 00;
-  var percent = "";
+  // List<String> fav = [];
+  // double dou = 00;
+  // var percent = "";
 
   // get() {
   //   if (favourites!.data.cars != null || favourites!.data.cars != '') {
@@ -183,23 +207,24 @@ class _FavoritesState extends State<Favorites> {
   //   });
   // }
 
-  // void fields() {
-  //   carController.text = favourites!.data!.cars ?? '';
-  //   bikesController.text = favourites!.data!.bikes ?? '';
-  //   moviesController.text = favourites!.data!.movies ?? '';
-  //   showsController.text = favourites!.data!.shows ?? '';
-  //   foodController.text = favourites!.data!.foods ?? '';
-  //   gadgetsController.text = favourites!.data!.gadgets ?? '';
-  //   superheroesController.text = favourites!.data!.superheroes ?? '';
-  //   actorController.text = favourites!.data!.actors ?? '';
-  //   actressController.text = favourites!.data!.actresses ?? '';
-  //   singersController.text = favourites!.data!.singers ?? '';
-  //   playersController.text = favourites!.data!.players ?? '';
-  //   citiesController.text = favourites!.data!.cities ?? '';
-  //   countriesController.text = favourites!.data!.countries ?? '';
-  //   restaurantsController.text = favourites!.data!.restaurants ?? '';
-  //   hotelsController.text = favourites!.data!.hotels ?? '';
-  // }
+  void fields() {
+    cars = favourites.data?.cars ?? [];
+     bikes = favourites.data?.bikes ?? [];
+    movies = favourites.data?.movies ?? [];
+    shows = favourites.data?.shows ?? [];
+    food = favourites.data?.foods ?? [];
+    gadgets = favourites.data?.gadgets ?? [];
+    superheroes = favourites.data?.superheroes ?? [];
+    actors = favourites.data?.actors ?? [];
+    actresses = favourites.data?.actresses ?? [];
+    singers = favourites.data?.singers ?? [];
+    players = favourites.data?.players ?? [];
+    cities = favourites.data?.cities ?? [];
+    countries = favourites.data?.countries ?? [];
+    restaurants = favourites.data?.restaurants ?? [];
+    hotels = favourites.data?.hotels ?? [];
+  }
+
 
   final carController = TextEditingController();
   final bikesController = TextEditingController();
@@ -219,12 +244,20 @@ class _FavoritesState extends State<Favorites> {
 
   bool index1 = false;
 
-  String? completePercent;
+  // String? completePercent;
+  // double parsedPercent = 0.0;
+  // double normalizedPercent = 0.0;
+
+  String? favComplete;
   double parsedPercent = 0.0;
-  double normalizedPercent = 0.0;
+
 
   @override
   Widget build(BuildContext context) {
+
+    favComplete = favourites.data?.complete;
+    parsedPercent = double.tryParse(favComplete?.replaceAll('%', '') ?? '0') ?? 0.0;
+
     // completePercent = favourites?.data?.completePercent;
     // parsedPercent = double.tryParse(completePercent ?? '0') ?? 0.0;
     // normalizedPercent = parsedPercent / 100.0;
@@ -254,20 +287,24 @@ class _FavoritesState extends State<Favorites> {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text('',
-                              // favourites!.data!.completePercent.toString() ==
-                              //             "" ||
-                              //         favourites!.data!.completePercent == null
-                              //     ? "0"
-                              //     : favourites!.data!.completePercent
-                              //         .toString()
-                              //         .split(".")
-                              //         .first,
-                              // sizeWeight!.data!.completePercent
-                              //     .toString()
-                              //     .split(".")
-                              //     .first,
-                              style: AppTextStyle().textColor70707012w400,
+                            Text(
+
+                                (favourites.data == null || favourites.data!.complete == "" || favourites.data!.complete == null)
+                                    ? "0"
+                                    : favourites.data!.complete.toString().split(".").first,
+                                style: AppTextStyle().textColor70707012w400,
+
+
+                              /*  favourites.data!.complete ==
+                                          "" ||
+                                      favourites.data!.complete == null
+                                  ? "0"
+                                  : favourites.data!.complete
+                                      .toString()
+                                      .split(".")
+                                      .first,*/
+
+
                             ),
                             Text(
                               "%  Percent",
@@ -283,7 +320,11 @@ class _FavoritesState extends State<Favorites> {
         leadingWidth: 40,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            //Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => UserAllDetails(response: widget.response,)));
           },
           child: Container(
             color: Colors.transparent,
@@ -305,7 +346,7 @@ class _FavoritesState extends State<Favorites> {
                     width: 1.sw,
                     padding: EdgeInsets.zero,
                     lineHeight: 8.0,
-                    percent: normalizedPercent,
+                    percent: parsedPercent/100,
                     backgroundColor: Color(0xffD55745).withOpacity(0.28),
                     progressColor: ColorSelect.colorD55745,
                   ),
@@ -338,14 +379,13 @@ class _FavoritesState extends State<Favorites> {
                                     ],
 
                                     onChanged: (v) {
-                                      setState(() {});
-                                      if (carController.text.isEmpty) {
-                                        setState(() {
+                                 /*     setState(() {
                                           cars.add(carController.text);
-                                          carController.clear();
+
                                         });
+                                        print(cars);
                                         // Clear the TextField
-                                      }
+
                                       // if (!fav.contains("cars")) {
                                       //   setState(() {
                                       //
@@ -353,11 +393,21 @@ class _FavoritesState extends State<Favorites> {
                                       //   });
                                       // }
                                       print(carController);
-
+*/
                                     },
                                     onEditingComplete: () {
+                                      setState(() {
+                                        cars.clear();
+                                        cars.add(carController.text);
+                                        print(carController.text);
+
+                                      });
+
                                       Navigator.pop(context);
                                     },
+                                    /*onEditingComplete: () {
+                                      Navigator.pop(context);
+                                    },*/
                                     controller: carController,
                                     cursorColor: ColorSelect.colorF7E641,
                                     decoration:
@@ -378,29 +428,45 @@ class _FavoritesState extends State<Favorites> {
                                   style: AppTextStyle().textColor70707014w400,
                                 ),
                                 Spacer(),
+                              /* cars.isEmpty ?
+                               Text("+ Add",
+                                 style: cars.isEmpty
+                                 //favourites.data?.cars == ''
+                                     ? AppTextStyle()
+                                     .textColorD5574514w500
+                                     : AppTextStyle()
+                                     .textColor29292914w400,)
+                                   :
+                                   Text(carController.text.substring(1,carController.text.length - 1))*/
                                 carController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.cars.toString() ==
-                                                    "" ||
-                                                favourites.data?.cars == null
+                                  cars.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.cars.toString(),
-                                        style: favourites.data?.cars == ''
+                                            :
+                                  favourites.data!.cars!.join(', '),
+                                        style:
+                                        cars.isEmpty
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
                                                 .textColor29292914w400,
                                       )
-                                    : Text(
-                                        carController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      )
+                                    : SizedBox(
+                                  width: 180,
+                                      child: Text(
+                                        overflow: TextOverflow.ellipsis,
+
+                                          carController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    )
                                 // Image.asset("assets/images/information3.png"),
                                 // SizedBox(
                                 //   width: 20.w,
                                 // ),
                                 // Image.asset("assets/images/Vector175.png"),
+
                               ],
                             ),
                           ),
@@ -420,15 +486,22 @@ class _FavoritesState extends State<Favorites> {
                                       LengthLimitingTextInputFormatter(25),
                                     ],
 
-                                    onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("bikes")) {
-                                        setState(() {
-                                          fav.add('bikes');
-                                        });
-                                      }
-                                    },
+                                    onChanged: (v) {},
                                     onEditingComplete: () {
+                                      setState(() {
+                                        bikes.clear();
+                                        bikes.add(bikesController.text);
+                                        //bikesController.clear();
+                                      });
+                                      // Clear the TextField
+
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(bikesController);
                                       Navigator.pop(context);
                                     },
                                     controller: bikesController,
@@ -453,23 +526,25 @@ class _FavoritesState extends State<Favorites> {
                                 Spacer(),
                                 bikesController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.bikes.toString() ==
-                                                    "" ||
-                                                favourites.data?.bikes == null
+                                  bikes.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.bikes
-                                                .toString(),
-                                        style: favourites.data?.bikes == ''
+                                            : favourites.data!.bikes!
+                                            .join(', '),
+                                        style: bikes.isEmpty
+                                        //favourites.data?.bikes == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
                                                 .textColor29292914w400,
                                       )
-                                    : Text(
-                                        bikesController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      ),
+                                    : SizedBox(
+                                  width: 180,
+                                      child: Text(
+                                          bikesController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    ),
                                 // Image.asset("assets/images/information3.png"),
                                 // SizedBox(
                                 //   width: 20.w,
@@ -494,15 +569,24 @@ class _FavoritesState extends State<Favorites> {
                                       LengthLimitingTextInputFormatter(25),
                                     ],
 
-                                    onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("movies")) {
-                                        setState(() {
-                                          fav.add('movies');
-                                        });
-                                      }
-                                    },
+                                    onChanged: (v) {},
                                     onEditingComplete: () {
+                                      setState(() {});
+
+                                        setState(() {
+                                          movies.clear();
+                                          movies.add(moviesController.text);
+                                          //moviesController.clear();
+                                        });
+                                        // Clear the TextField
+
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(moviesController);
                                       Navigator.pop(context);
                                     },
                                     controller: moviesController,
@@ -527,23 +611,28 @@ class _FavoritesState extends State<Favorites> {
                                 Spacer(),
                                 moviesController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.movies.toString() ==
-                                                    "" ||
-                                                favourites.data?.movies == null
+                                        // favourites.data?.movies.toString() ==
+                                        //             "" ||
+                                        //         favourites.data?.movies == null
+                                  movies.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.movies
-                                                .toString(),
-                                        style: favourites.data?.movies == ''
+                                            : favourites.data!.movies!
+                                            .join(', '),
+                                        style: movies.isEmpty
+                                        //favourites.data?.movies == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
                                                 .textColor29292914w400,
                                       )
-                                    : Text(
-                                        moviesController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      )
+                                    : SizedBox(
+                                  width: 180,
+                                      child: Text(
+                                          moviesController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    )
                                 // SizedBox(
                                 //   width: 5.w,
                                 // ),
@@ -571,14 +660,24 @@ class _FavoritesState extends State<Favorites> {
                                     ],
 
                                     onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("shows")) {
-                                        setState(() {
-                                          fav.add('shows');
-                                        });
-                                      }
+
                                     },
                                     onEditingComplete: () {
+
+
+                                        setState(() {
+                                          shows.clear();
+                                          shows.add(showsController.text);
+                                         // showsController.clear();
+                                        });
+                                        // Clear the TextField
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(showsController);
                                       Navigator.pop(context);
                                     },
                                     controller: showsController,
@@ -603,23 +702,29 @@ class _FavoritesState extends State<Favorites> {
                                 Spacer(),
                                 showsController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.shows.toString() ==
-                                                    "" ||
-                                                favourites.data?.shows == null
+                                        // favourites.data?.shows.toString() ==
+                                        //             "" ||
+                                        //         favourites.data?.shows == null
+                                  shows.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.shows
-                                                .toString(),
-                                        style: favourites.data?.shows == ''
+                                            : favourites.data!.shows!
+                                            .join(', '),
+                                        style: shows.isEmpty
+                                        //favourites.data?.shows == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
                                                 .textColor29292914w400,
                                       )
-                                    : Text(
-                                        showsController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      ),
+                                    : SizedBox(
+                                  width: 180,
+
+                                      child: Text(
+                                          showsController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    ),
                                 // SizedBox(
                                 //   width: 5.w,
                                 // ),
@@ -648,14 +753,25 @@ class _FavoritesState extends State<Favorites> {
                                     ],
 
                                     onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("foods")) {
-                                        setState(() {
-                                          fav.add('foods');
-                                        });
-                                      }
+
                                     },
                                     onEditingComplete: () {
+                                      setState(() {});
+
+                                        setState(() {
+                                          food.clear();
+                                          food.add(foodController.text);
+                                         // foodController.clear();
+                                        });
+                                        // Clear the TextField
+
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(foodController);
                                       Navigator.pop(context);
                                     },
                                     controller: foodController,
@@ -680,23 +796,28 @@ class _FavoritesState extends State<Favorites> {
                                 Spacer(),
                                 foodController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.foods.toString() ==
-                                                    "" ||
-                                                favourites.data?.foods == null
+                                        // favourites.data?.foods.toString() ==
+                                        //             "" ||
+                                        //         favourites.data?.foods == null
+                                  food.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.foods
-                                                .toString(),
-                                        style: favourites.data?.foods == ''
+                                            : favourites.data!.foods!
+                                            .join(', '),
+                                        style: food.isEmpty
+                                        //favourites.data?.foods == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
                                                 .textColor29292914w400,
                                       )
-                                    : Text(
-                                        foodController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      ), // SizedBox(
+                                    : SizedBox(
+                                  width: 180,
+                                      child: Text(
+                                          foodController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    ), // SizedBox(
                                 //   width: 5.w,
                                 // ),
                                 // // Image.asset("assets/images/image46.png"),
@@ -724,14 +845,25 @@ class _FavoritesState extends State<Favorites> {
                                     ],
 
                                     onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("gadgets")) {
-                                        setState(() {
-                                          fav.add('gadgets');
-                                        });
-                                      }
+
                                     },
                                     onEditingComplete: () {
+
+
+                                        setState(() {
+                                          gadgets.clear();
+                                          gadgets.add(gadgetsController.text);
+                                          //gadgetsController.clear();
+                                        });
+                                        // Clear the TextField
+
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(gadgetsController);
                                       Navigator.pop(context);
                                     },
                                     controller: gadgetsController,
@@ -756,24 +888,29 @@ class _FavoritesState extends State<Favorites> {
                                 Spacer(),
                                 gadgetsController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.gadgets.toString() ==
-                                                    "" ||
-                                                favourites.data?.gadgets ==
-                                                    null
+                                        // favourites.data?.gadgets.toString() ==
+                                        //             "" ||
+                                        //         favourites.data?.gadgets ==
+                                        //             null
+                                  gadgets.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.gadgets
-                                                .toString(),
-                                        style: favourites.data?.gadgets == ''
+                                            : favourites.data!.gadgets!
+                                            .join(', '),
+                                        style: gadgets.isEmpty
+                                        //favourites.data?.gadgets == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
                                                 .textColor29292914w400,
                                       )
-                                    : Text(
-                                        gadgetsController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      )
+                                    : SizedBox(
+                                  width: 180,
+                                      child: Text(
+                                          gadgetsController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    )
                                 // Image.asset("assets/images/information3.png"),
                                 // SizedBox(
                                 //   width: 20.w,
@@ -809,13 +946,24 @@ class _FavoritesState extends State<Favorites> {
 
                                       onChanged: (v) {
                                         setState(() {});
-                                        if (!fav.contains("superheroes")) {
-                                          setState(() {
-                                            fav.add('superheroes');
-                                          });
-                                        }
+
                                       },
                                       onEditingComplete: () {
+                                       // if (superheroesController.text.isEmpty) {
+                                          setState(() {
+                                            superheroes.clear();
+                                            superheroes.add(superheroesController.text);
+                                            //superheroesController.clear();
+                                          });
+                                          // Clear the TextField
+                                      //  }
+                                        // if (!fav.contains("cars")) {
+                                        //   setState(() {
+                                        //
+                                        //     fav.add('cars');
+                                        //   });
+                                        // }
+                                        print(superheroesController);
                                         Navigator.pop(context);
                                       },
                                       controller: superheroesController,
@@ -841,28 +989,33 @@ class _FavoritesState extends State<Favorites> {
                                   superheroesController.text.isEmpty
                                       ? Text(
                                           // "Deadpool",
-                                          favourites.data?.superheroes
-                                                          .toString() ==
-                                                      "" ||
-                                                  favourites
-                                                          .data?.superheroes ==
-                                                      null
+                                          // favourites.data?.superheroes
+                                          //                 .toString() ==
+                                          //             "" ||
+                                          //         favourites
+                                          //                 .data?.superheroes ==
+                                          //             null
+                                    superheroes.isEmpty
                                               ? "+ Add"
-                                              : favourites.data!.superheroes
-                                                  .toString(),
+                                              : favourites.data!.superheroes!
+                                              .join(', '),
                                           style:
-                                              favourites.data?.superheroes ==
-                                                      ''
+                                              superheroes.isEmpty
+                                              //favourites.data?.superheroes ==
+                                                     // ''
                                                   ? AppTextStyle()
                                                       .textColorD5574514w500
                                                   : AppTextStyle()
                                                       .textColor29292914w400,
                                         )
-                                      : Text(
-                                          superheroesController.text,
-                                          style: AppTextStyle()
-                                              .textColor29292914w400,
-                                        ),
+                                      : SizedBox(
+                                    width: 180,
+                                        child: Text(
+                                            superheroesController.text,
+                                            style: AppTextStyle()
+                                                .textColor29292914w400,
+                                          ),
+                                      ),
                                 ],
                               ),
                             )),
@@ -881,14 +1034,25 @@ class _FavoritesState extends State<Favorites> {
                                     ],
 
                                     onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("actors")) {
-                                        setState(() {
-                                          fav.add('actors');
-                                        });
-                                      }
+
                                     },
                                     onEditingComplete: () {
+
+                                      //if (actorController.text.isEmpty) {
+                                        setState(() {
+                                          actors.clear();
+;                                          actors.add(actorController.text);
+                                         // actorController.clear();
+                                        });
+                                        // Clear the TextField
+                                     // }
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(actorController);
                                       Navigator.pop(context);
                                     },
                                     controller: actorController,
@@ -913,13 +1077,15 @@ class _FavoritesState extends State<Favorites> {
                                 Spacer(),
                                 actorController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.actors.toString() ==
-                                                    "" ||
-                                                favourites.data?.actors == null
+                                        // favourites.data?.actors.toString() ==
+                                        //             "" ||
+                                        //         favourites.data?.actors == null
+                                  actors.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.actors
-                                                .toString(),
-                                        style: favourites.data?.actors == ''
+                                            : favourites.data!.actors!
+                                            .join(', '),
+                                        style: actors.isEmpty
+                                        //favourites.data?.actors == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
@@ -927,11 +1093,14 @@ class _FavoritesState extends State<Favorites> {
                                         // "+ Add",
                                         // style: AppTextStyle().textColorD5574514w500,
                                       )
-                                    : Text(
-                                        actorController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      ),
+                                    : SizedBox(
+                                  width: 180,
+                                      child: Text(
+                                          actorController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    ),
                               ],
                             ),
                           ),
@@ -952,14 +1121,25 @@ class _FavoritesState extends State<Favorites> {
                                     ],
 
                                     onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("actresses")) {
-                                        setState(() {
-                                          fav.add('actresses');
-                                        });
-                                      }
+
                                     },
                                     onEditingComplete: () {
+
+                                      //if (actressController.text.isEmpty) {
+                                        setState(() {
+                                          actresses.clear();
+                                          actresses.add(actressController.text);
+                                          //actressController.clear();
+                                        });
+                                        // Clear the TextField
+                                      //}
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(actressController);
                                       Navigator.pop(context);
                                     },
                                     controller: actressController,
@@ -984,15 +1164,17 @@ class _FavoritesState extends State<Favorites> {
                                 Spacer(),
                                 actressController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.actresses
-                                                        .toString() ==
-                                                    "" ||
-                                                favourites.data?.actresses ==
-                                                    null
+                                        // favourites.data?.actresses
+                                        //                 .toString() ==
+                                        //             "" ||
+                                        //         favourites.data?.actresses ==
+                                        //             null
+                                  actresses.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.actresses
-                                                .toString(),
-                                        style: favourites.data?.actresses == ''
+                                            : favourites.data!.actresses!
+                                            .join(', '),
+                                        style: actresses.isEmpty
+                                        //favourites.data?.actresses == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
@@ -1000,11 +1182,14 @@ class _FavoritesState extends State<Favorites> {
                                         // "+ Add",
                                         // style: AppTextStyle().textColorD5574514w500,
                                       )
-                                    : Text(
-                                        actressController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      ),
+                                    : SizedBox(
+                                  width: 180,
+                                      child: Text(
+                                          actressController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    ),
                               ],
                             ),
                           ),
@@ -1026,14 +1211,25 @@ class _FavoritesState extends State<Favorites> {
 
                                     controller: singersController,
                                     onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("singers")) {
-                                        setState(() {
-                                          fav.add('singers');
-                                        });
-                                      }
+
                                     },
                                     onEditingComplete: () {
+                                    //  setState(() {});
+                                     // if (singersController.text.isEmpty) {
+                                        setState(() {
+                                          singers.clear();
+                                          singers.add(singersController.text);
+                                          //singersController.clear();
+                                        });
+                                        // Clear the TextField
+                                     // }
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(singersController);
                                       Navigator.pop(context);
                                     },
                                     cursorColor: ColorSelect.colorF7E641,
@@ -1057,24 +1253,29 @@ class _FavoritesState extends State<Favorites> {
                                 Spacer(),
                                 singersController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.singers.toString() ==
-                                                    "" ||
-                                                favourites.data?.singers ==
-                                                    null
+                                        // favourites.data?.singers.toString() ==
+                                        //             "" ||
+                                        //         favourites.data?.singers ==
+                                        //             null
+                                  singers.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.singers
-                                                .toString(),
-                                        style: favourites.data?.singers == ''
+                                            : favourites.data!.singers!
+                                            .join(', '),
+                                        style: singers.isEmpty
+                                        //favourites.data?.singers == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
                                                 .textColor29292914w400,
                                       )
-                                    : Text(
-                                        singersController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      ),
+                                    : SizedBox(
+                                  width: 180,
+                                      child: Text(
+                                          singersController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    ),
                               ],
                             ),
                           ),
@@ -1094,14 +1295,25 @@ class _FavoritesState extends State<Favorites> {
                                       LengthLimitingTextInputFormatter(25),
                                     ],
                                     onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("players")) {
-                                        setState(() {
-                                          fav.add('players');
-                                        });
-                                      }
+
                                     },
                                     onEditingComplete: () {
+                                     // setState(() {});
+                                     // if (playersController.text.isEmpty) {
+                                        setState(() {
+                                          players.clear();
+                                          players.add(playersController.text);
+                                          //playersController.clear();
+                                        });
+                                        // Clear the TextField
+                                     //}
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(playersController);
                                       Navigator.pop(context);
                                     },
                                     controller: playersController,
@@ -1126,14 +1338,17 @@ class _FavoritesState extends State<Favorites> {
                                 Spacer(),
                                 playersController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.players.toString() ==
-                                                    "" ||
-                                                favourites.data?.players ==
-                                                    null
+                                        // favourites.data?.players.toString() ==
+                                        //             "" ||
+                                        //         favourites.data?.players ==
+                                        //             null
+                                  players.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.players
-                                                .toString(),
-                                        style: favourites.data?.players == ''
+                                            : favourites.data!.players!
+                                            .join(', '),
+                                        style:
+                                        //favourites.data?.players == ''
+                                    players.isEmpty
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
@@ -1141,11 +1356,14 @@ class _FavoritesState extends State<Favorites> {
                                         // "+ Add",
                                         // style: AppTextStyle().textColorD5574514w500,
                                       )
-                                    : Text(
-                                        playersController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      ),
+                                    : SizedBox(
+                                  width: 180,
+                                      child: Text(
+                                          playersController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    ),
                               ],
                             ),
                           ),
@@ -1173,15 +1391,23 @@ class _FavoritesState extends State<Favorites> {
                                     inputFormatters: [
                                       LengthLimitingTextInputFormatter(25),
                                     ],
-                                    onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("cities")) {
-                                        setState(() {
-                                          fav.add('cities');
-                                        });
-                                      }
-                                    },
+                                    onChanged: (v) {},
                                     onEditingComplete: () {
+                                      setState(() {
+                                        cities.clear();
+                                        cities.add(citiesController.text);
+                                        //playersController.clear();
+                                      });
+                                      // Clear the TextField
+                                      //}
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(citiesController);
+
                                       Navigator.pop(context);
                                     },
 
@@ -1207,23 +1433,28 @@ class _FavoritesState extends State<Favorites> {
                                 Spacer(),
                                 citiesController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.cities.toString() ==
-                                                    "" ||
-                                                favourites.data?.cities == null
+                                        // favourites.data?.cities.toString() ==
+                                        //             "" ||
+                                        //         favourites.data?.cities == null
+                                  cities.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.cities
-                                                .toString(),
-                                        style: favourites.data?.cities == ''
+                                            : favourites.data!.cities!
+                                            .join(', '),
+                                        style: cities.isEmpty
+                                        //favourites.data?.cities == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
                                                 .textColor29292914w400,
                                       )
-                                    : Text(
-                                        citiesController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      ),
+                                    : SizedBox(
+                                  width: 180,
+                                      child: Text(
+                                          citiesController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    ),
                                 // Text(
                                 //   "+ Add",
                                 //   style: AppTextStyle().textColorD5574514w500,
@@ -1248,14 +1479,25 @@ class _FavoritesState extends State<Favorites> {
                                     ],
                                     controller: countriesController,
                                     onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("countries")) {
-                                        setState(() {
-                                          fav.add('countries');
-                                        });
-                                      }
+
                                     },
                                     onEditingComplete: () {
+                                     // setState(() {});
+                                     // if (countriesController.text.isEmpty) {
+                                        setState(() {
+                                          countries.clear();
+                                          countries.add(countriesController.text);
+                                         // countriesController.clear();
+                                        });
+                                        // Clear the TextField
+                                     // }
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(countriesController);
                                       Navigator.pop(context);
                                     },
 
@@ -1280,25 +1522,30 @@ class _FavoritesState extends State<Favorites> {
                                 Spacer(),
                                 countriesController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.countries
-                                                        .toString() ==
-                                                    "" ||
-                                                favourites.data?.countries ==
-                                                    null
+                                        // favourites.data?.countries
+                                        //                 .toString() ==
+                                        //             "" ||
+                                        //         favourites.data?.countries ==
+                                        //             null
+                                  countries.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.countries
-                                                .toString(),
-                                        style: favourites.data?.countries == ''
+                                            : favourites.data!.countries!
+                                            .join(', '),
+                                        style: countries.isEmpty
+                                        //favourites.data?.countries == ''
                                             ? AppTextStyle()
                                                 .textColorD5574514w500
                                             : AppTextStyle()
                                                 .textColor29292914w400,
                                       )
-                                    : Text(
-                                        countriesController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      ),
+                                    : SizedBox(
+                                  width: 180,
+                                      child: Text(
+                                          countriesController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    ),
                                 // Text(
                                 //   "+ Add",
                                 //   style: AppTextStyle().textColorD5574514w500,
@@ -1322,14 +1569,25 @@ class _FavoritesState extends State<Favorites> {
                                       LengthLimitingTextInputFormatter(25),
                                     ],
                                     onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("restaurants")) {
-                                        setState(() {
-                                          fav.add('restaurants');
-                                        });
-                                      }
+                                      //setState(() {});
+
                                     },
                                     onEditingComplete: () {
+
+                                        setState(() {
+                                          restaurants.clear();
+                                          restaurants.add(restaurantsController.text);
+                                          //restaurantsController.clear();
+                                        });
+                                        // Clear the TextField
+
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(restaurantsController);
                                       Navigator.pop(context);
                                     },
 
@@ -1355,26 +1613,30 @@ class _FavoritesState extends State<Favorites> {
                                 Spacer(),
                                 restaurantsController.text.isEmpty
                                     ? Text(
-                                        favourites.data?.restaurants
-                                                        .toString() ==
-                                                    "" ||
-                                                favourites.data?.restaurants ==
-                                                    null
+                                        // favourites.data?.restaurants
+                                        //                 .toString() ==
+                                        //             "" ||
+                                        //         favourites.data?.restaurants ==
+                                        //             null
+                                  restaurants.isEmpty
                                             ? "+ Add"
-                                            : favourites.data!.restaurants
-                                                .toString(),
-                                        style:
-                                            favourites.data?.restaurants == ''
+                                            : favourites.data!.restaurants!
+                                            .join(', '),
+                                        style: restaurants.isEmpty
+                                            //favourites.data?.restaurants == ''
                                                 ? AppTextStyle()
                                                     .textColorD5574514w500
                                                 : AppTextStyle()
                                                     .textColor29292914w400,
                                       )
-                                    : Text(
-                                        restaurantsController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      )
+                                    : SizedBox(
+                                  width: 180,
+                                      child: Text(
+                                          restaurantsController.text,
+                                          style: AppTextStyle()
+                                              .textColor29292914w400,
+                                        ),
+                                    )
                                 // Text(
                                 //   "+ Add",
                                 //   style: AppTextStyle().textColorD5574514w500,
@@ -1398,14 +1660,25 @@ class _FavoritesState extends State<Favorites> {
                                       LengthLimitingTextInputFormatter(25),
                                     ],
                                     onChanged: (v) {
-                                      setState(() {});
-                                      if (!fav.contains("hotels")) {
-                                        setState(() {
-                                          fav.add('hotels');
-                                        });
-                                      }
+
                                     },
                                     onEditingComplete: () {
+                                   //   setState(() {});
+                                     // if (hotelsController.text.isEmpty) {
+                                        setState(() {
+                                          hotels.clear();
+                                          hotels.add(hotelsController.text);
+                                          //hotelsController.clear();
+                                        });
+                                        // Clear the TextField
+                                      //}
+                                      // if (!fav.contains("cars")) {
+                                      //   setState(() {
+                                      //
+                                      //     fav.add('cars');
+                                      //   });
+                                      // }
+                                      print(hotelsController);
                                       Navigator.pop(context);
                                     },
                                     controller: hotelsController,
@@ -1420,38 +1693,48 @@ class _FavoritesState extends State<Favorites> {
                             );
                           },
                           child: Container(
+
                             padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Hotels",
-                                  style: AppTextStyle().textColor70707014w400,
-                                ),
-                                Spacer(),
-                                hotelsController.text.isEmpty
-                                    ? Text(
-                                        favourites.data?.hotels.toString() ==
-                                                    "" ||
-                                                favourites.data?.hotels == null
-                                            ? "+ Add"
-                                            : favourites.data!.hotels
-                                                .toString(),
-                                        style: favourites.data?.hotels == ''
-                                            ? AppTextStyle()
-                                                .textColorD5574514w500
-                                            : AppTextStyle()
+                            child: Expanded(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Hotels",
+                                    style: AppTextStyle().textColor70707014w400,
+                                  ),
+                                  Spacer(),
+                                  hotelsController.text.isEmpty
+                                      ? Text(
+                                          // favourites.data?.hotels.toString() ==
+                                          //             "" ||
+                                          //         favourites.data?.hotels == null
+                                    hotels.isEmpty
+                                              ? "+ Add"
+                                              : favourites.data!.hotels!
+                                              .join(', '),
+                                          style: hotels.isEmpty
+                                          //favourites.data?.hotels == ''
+                                              ? AppTextStyle()
+                                                  .textColorD5574514w500
+                                              : AppTextStyle()
+                                                  .textColor29292914w400,
+                                        )
+                                      : SizedBox(
+                                    width: 180,
+                                        child: Text(
+                                            hotelsController.text,
+                                            overflow: TextOverflow.ellipsis,
+
+                                            style: AppTextStyle()
                                                 .textColor29292914w400,
-                                      )
-                                    : Text(
-                                        hotelsController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
+                                          ),
                                       ),
-                                // Text(
-                                //   "+ Add",
-                                //   style: AppTextStyle().textColorD5574514w500,
-                                // ),
-                              ],
+                                  // Text(
+                                  //   "+ Add",
+                                  //   style: AppTextStyle().textColorD5574514w500,
+                                  // ),
+                                ],
+                              ),
                             ),
                           ),
                           // child: HotelRowWidget(favourites: favourites!,),
@@ -1467,29 +1750,32 @@ class _FavoritesState extends State<Favorites> {
                                     ColorSelect.colorF7E641),
                                 textStyleColor: Colors.black,
                                 onTap: () {
-                                  print(fav);
+
+
+
                                   postFavouriteApi(
                                           car: cars,
-                                          bike: fav,
-                                          movies: fav,
-                                          shows: fav,
-                                          food: fav,
-                                          gadgets: fav,
+                                          bike: bikes,
+                                          movies: movies,
+                                          shows: shows,
+                                          food: food,
+                                          gadgets: gadgets,
                                           superheroes:
-                                              fav,
-                                          actors:fav,
-                                          singer: fav,
-                                          actress: fav,
-                                          player: fav,
-                                          cities:fav,
-                                          countries:fav,
+                                              superheroes,
+                                          actors: actors,
+                                          singer: singers,
+                                          actress: actresses,
+                                          player: players,
+                                          cities: cities,
+                                          countries: countries,
                                           restaurants:
-                                              fav,
-                                          hotels: fav,
+                                              restaurants,
+                                          hotels: hotels,
                                           privacy: 'friend')
                                       .then((value) async {
-                                        print('hhhh${value}');
+
                                         print(cars);
+                                        print(bikes);
                                     if (value['error'] == false) {
                                       //SharedPrefs().setFavourites('100 %');
 
@@ -1511,7 +1797,9 @@ class _FavoritesState extends State<Favorites> {
                                     } else {
                                       Fluttertoast.showToast(
                                           msg:
-                                              'please fill all details field' /*value['message']*/);
+                                              //'please fill all details field'
+                                        value['message']
+                                      );
                                     }
                                   });
                                 },

@@ -296,24 +296,25 @@ class _FriendProductState extends State<FriendProduct> {
                     style: AppTextStyle().textColor39393916w500,
                   ),
                   Spacer(),
-                  AppBarIconFriendProduct(
+                  /*AppBarIconFriendProduct(
                       onTap: () {
-                        Navigator.push(
+                       *//* Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) => ProfileChatPage(
+
                               friendId: widget.friendId,
                               name: widget.friendName,
                               friendImage: widget.friendPhoto,
                               selectedItems: [],
                             ),
                           ),
-                        );
+                        );*//*
                       },
                       child: Image.asset(
                         "assets/images/4xchat.png",
                         color: Colors.black,
-                      )),
+                      )),*/
                   SizedBox(width: 6),
                   GestureDetector(
                       behavior: HitTestBehavior.translucent,
