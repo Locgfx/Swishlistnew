@@ -47,6 +47,7 @@ fn(RemoteMessage message) async {
           ticker: 'ticker');
   NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: androidPlatformChannelSpecifics);
+
   // log(event.data['content']['id'].toString());
   // log(a['id']);
   // if (a['id'] != null && a['id'].runtimeType == String) {
