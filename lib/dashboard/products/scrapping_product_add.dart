@@ -93,6 +93,13 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
     String formattedTime = DateFormat('yyyy-MM-dd').format(now);
     String input = widget.price;
     String priceWithoutDollar = input.replaceAll(r'$', '');
+    String cleanedString = widget.price
+        .replaceAll('[', '')
+        .replaceAll(']', '')
+        .replaceAll('\$', '')
+        .split(',')
+        .toSet()
+        .first;
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
@@ -165,8 +172,15 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
                       },
                     );*/
 
-                    scrappingProductStore(type: widget.type , name: widget.name, url: widget.productLink, price: widget.price.substring(1),
-                        purchasesOn: '', status: 'friend', desc: '', photo_url: widget.productImage).then((value) {
+                    scrappingProductStore(
+                        type: widget.type ,
+                        name: widget.name,
+                        url: widget.productLink,
+                        price: cleanedString,
+                        purchasesOn: '',
+                        status: 'friend',
+                        desc: '',
+                        photo_url: widget.productImage).then((value) {
                           print(widget.price);
                           if(value['error'] == false){
                             Fluttertoast.showToast(msg: value['message']);
@@ -277,20 +291,6 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
               child: Column(
                 children: [
                   SizedBox(height: 24.h),
-
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     // print(widget.productImage);
-                  //   },
-                  //   child: Padding(
-                  //     padding: EdgeInsets.symmetric(vertical: 12),
-                  //     child: SizedBox(
-                  //       width: 36.w,
-                  //       height: 36.w,
-                  //       child: Image.asset('assets/images/done.png'),
-                  //     ),
-                  //   ),
-                  // ),
                   Row(
                     children: [
                       Padding(
@@ -318,11 +318,6 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
                     ],
                   ),
                   SizedBox(height: 8),
-
-                  // Text(
-                  //   'to products you want.',
-                  //   style: AppTextStyle().textColor29292914w400,
-                  // ),
                   SizedBox(height: 40),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 16),
@@ -334,12 +329,7 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    // child: Image.file(
-                    //   File(widget.productImage),
-                    //   width: 1.sw,
-                    //   height: 420,
-                    //   fit: BoxFit.cover,
-                    // ),
+
                     child: CachedNetworkImage(
                       // imageUrl: (baseUrl+haveProducts2[i].photo.toString()),
                       imageUrl: widget.productImage.toString().contains("https")
@@ -412,7 +402,8 @@ class _ScrappingProductAddedState extends State<ScrappingProductAdded> {
                           style: AppTextStyle().textColor29292914w400,
                         ),
                         Text(
-                          '  ${widget.price}',
+                          '\$ $cleanedString',
+                          // '  ${widget.price}',
                           style: AppTextStyle().roboto32323216w600,
                         ),
                       ],

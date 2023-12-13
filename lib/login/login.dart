@@ -140,86 +140,92 @@ class _LoginState extends State<Login> {
                   width: 328.w,
                   child: show
                       ? LoadingLightYellowButton()
-                      : LightYellowButtonWithText(
-                          backgroundColor:
-                              (phoneEmailController.text.isNotEmpty &&
-                                      passwordController.text.isNotEmpty)
-                                  ? MaterialStateProperty.all(
-                                      ColorSelect.colorF7E641)
-                                  : MaterialStateProperty.all(
-                                      ColorSelect.colorFCF5B6),
-                          textStyleColor:
-                              (phoneEmailController.text.isNotEmpty &&
-                                      passwordController.text.isNotEmpty)
-                                  ? Colors.black
-                                  : ColorSelect.colorB5B07A,
-                          onTap: () {
-                            setState(() {
-                              show = !show;
-                            });
-                            Timer timer = Timer(Duration(seconds: 2), () {
-                              setState(() {
-                                show = false;
-                              });
-                            });
-                            /*Navigator.pushReplacement(
+                      :  (phoneEmailController.text.isNotEmpty &&
+                      passwordController.text.isNotEmpty) ?
+                  LightYellowButtonWithText(
+                      backgroundColor:
+                      MaterialStateProperty.all(
+                          ColorSelect.colorF7E641),
+
+                      textStyleColor:
+                      Colors.black,
+
+                      onTap: () {
+                        setState(() {
+                          show = !show;
+                        });
+                        Timer timer = Timer(Duration(seconds: 2), () {
+                          setState(() {
+                            show = false;
+                          });
+                        });
+                        /*Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PhoneVerification()));*/
-                            if (phoneEmailController.text.isNotEmpty &&
-                                passwordController.text.isNotEmpty) {
-                              if (_formKey.currentState!.validate()) {
-                                /* setState(() {
+                        if (phoneEmailController.text.isNotEmpty &&
+                            passwordController.text.isNotEmpty) {
+                          if (_formKey.currentState!.validate()) {
+                            /* setState(() {
                           loading = true;
                         });*/
-                                login(
-                                  context: context,
-                                  email: phoneEmailController.text,
-                                  password: passwordController.text,
-                                ).then((value) {
-                                  response = value;
-                                  if (response?.error != null &&
-                                      response!.error == false) {
-                                    SharedPrefs().setLoginTrue();
-                                    SharedPrefs()
-                                        .setEmail(phoneEmailController.text);
-                                    SharedPrefs()
-                                        .setPassword(passwordController.text);
-                                    SharedPrefs()
-                                        .setLoginToken(response!.token.toString());
-                                    SharedPrefs()
-                                        .setId(response!.data!.id.toString());
-                                    // SharedPrefs().setName(
-                                    //     response!.data.name.toString());
-                                    // SharedPrefs().setUsername(
-                                    //     response!.data.username.toString());
-                                    // SharedPrefs().setUserPhoto(
-                                    //     response!.data.photo.toString());
-                                    Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            Dashboard(response: response!),
-                                      ),
-                                    );
-                                    // Navigator.pushReplacement(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (_) => ShowCaseWidget(
-                                    //         builder: Builder(
-                                    //       builder: (context) =>
-                                    //           Dashboard(response: response!),
-                                    //     )),
-                                    //   ),
-                                    // );
-                                  }
-                                });
-                              } else {
-                                loading = false;
-                                Fluttertoast.showToast(
-                                    msg: "Login Failed Please Try Again");
+                            login(
+                              context: context,
+                              email: phoneEmailController.text,
+                              password: passwordController.text,
+                            ).then((value) {
+                              response = value;
+                              if (response?.error != null &&
+                                  response!.error == false) {
+                                SharedPrefs().setLoginTrue();
+                                SharedPrefs()
+                                    .setEmail(phoneEmailController.text);
+                                SharedPrefs()
+                                    .setPassword(passwordController.text);
+                                SharedPrefs()
+                                    .setLoginToken(response!.token.toString());
+                                SharedPrefs()
+                                    .setId(response!.data!.id.toString());
+                                // SharedPrefs().setName(
+                                //     response!.data.name.toString());
+                                // SharedPrefs().setUsername(
+                                //     response!.data.username.toString());
+                                // SharedPrefs().setUserPhoto(
+                                //     response!.data.photo.toString());
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        Dashboard(response: response!),
+                                  ),
+                                );
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (_) => ShowCaseWidget(
+                                //         builder: Builder(
+                                //       builder: (context) =>
+                                //           Dashboard(response: response!),
+                                //     )),
+                                //   ),
+                                // );
                               }
-                            }
-                          },
+                            });
+                          } else {
+                            loading = false;
+                            Fluttertoast.showToast(
+                                msg: "Please check username and password");
+                          }
+                        }
+                      },
+                      title: 'Next'):
+
+                  LightYellowButtonWithText(
+                          backgroundColor:
+                               MaterialStateProperty.all(
+                                      ColorSelect.colorFCF5B6),
+                          textStyleColor:
+                              ColorSelect.colorB5B07A,
+                        onTap: () {},
                           title: 'Next'),
                 ),
 

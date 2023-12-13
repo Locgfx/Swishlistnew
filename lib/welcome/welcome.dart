@@ -72,59 +72,8 @@ class _WelcomeState extends State<Welcome> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // Expanded(
-                  //   child: GestureDetector(
-                  //     onTap: () {
-                  //       Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //           builder: (_) => SignUpWithEmail(),
-                  //         ),
-                  //       );
-                  //     },
-                  //     child: Container(
-                  //       height: 48,
-                  //       width: 120,
-                  //       decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.all(Radius.circular(8)),
-                  //           border: Border.all(
-                  //               width: 1, color: ColorSelect.colorA3A3A3)),
-                  //       child: Row(
-                  //         children: [
-                  //           Padding(
-                  //             padding: const EdgeInsets.only(left: 20),
-                  //             child: SvgPicture.asset(
-                  //               "assets/icons/gmail.svg",
-                  //             ),
-                  //           ),
-                  //           Padding(
-                  //             padding: const EdgeInsets.only(left: 5),
-                  //             child: Text(
-                  //               'Email',
-                  //               style: AppTextStyle().textColor00000014w400,
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   SizedBox(width: 6),
-                  // Expanded(
-                  //   child: Container(
-                  //       height: 48,
-                  //       width: 120,
-                  //       decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.all(Radius.circular(8)),
-                  //           border: Border.all(
-                  //               width: 1, color: ColorSelect.colorA3A3A3)),
-                  //       child: SvgPicture.asset(
-                  //           "assets/icons/logos_facebook.svg",
-                  //           height: 20,
-                  //           width: 20,
-                  //           fit: BoxFit.scaleDown)),
-                  // ),
-                  // SizedBox(width: 6),
+
                   Expanded(child: GoogleSigninButton())
                   // GestureDetector(
                   //   onTap: () async {

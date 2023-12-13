@@ -24,7 +24,8 @@ class SharedPrefs {
   String pets = 'pets';
   String dateAndEvent = 'date';
   String userId = 'userId';
-
+  // int chatId = 0;
+  String intKey = 'intKey';
   static SharedPreferences? _prefs;
 
   Future setPPercent(String percent) async {
@@ -221,4 +222,14 @@ class SharedPrefs {
   Future setLoginFalse() async {
     return await _prefs?.setBool(login, false);
   }
+
+  Future setIntValue(int value) async {
+    return await _prefs?.setString(intKey, value.toString());
+  }
+
+  int? getIntValue() {
+    String? stringValue = _prefs?.getString(intKey);
+    return stringValue != null ? int.tryParse(stringValue) : null;
+  }
+
 }

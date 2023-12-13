@@ -157,53 +157,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
 
   }
-  /*ProfileModel? profile = ProfileModel(
-    data: ProfileData(
-      name: '',
-      gender: '',
-      dob: '',
-      occupation: '',
-      relationStatus: '',
-      email: '',
-      phone: '',
-      alternatePhone: '',
-      homeAddress: '',
-      workAddress: '',
-      privacyStatus: '',
-      createdAt: '',
-      completePercent: '',
-      user: ProfileUser(
-          name: '', username: '', email: '', phone: '', type: '', photo: ''),
-    ),
-  );*/
 
-  /*getProfile() {
-    isLoading = true;
-    var resp = getProfileDetails();
-    resp.then((value) {
-      print(value);
-      if (mounted) {
-        if (value['status'] == true) {
-          if (value['message'] == "No Profile") {
-            setState(() {
-              isLoading = false;
-            });
-          } else {
-            setState(() {
-              profile = ProfileModel.fromJson(value);
-              isLoading = false;
-            });
-          }
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      }
-    });
-  }*/
-
-  // bool isLoading = false;
   GetProductModel? getProducts;
   List<ProductTypeModel> wantProducts = [];
   List<ProductTypeModel> wantProducts2 = [];
@@ -211,29 +165,23 @@ class _ProductsPageState extends State<ProductsPage> {
   getWantProduct(){
     isLoading = true;
     var resp = getProductsApi();
-
     resp.then((value) {
-
       wantProducts2.clear();
       wantProducts.clear();
-
       if(value['error'] == false){
         setState(() {
           for(var v in value['data']){
             wantProducts.add(ProductTypeModel.fromJson(v));
           }
-
           for(var q in wantProducts){
             if(q.type == 'want'){
               wantProducts2.add(q);
             }
-
           }
           print(wantProducts2);
           isLoading = false;
         });
-
-      }else{
+          }else{
         isLoading = false;
       }
     });
@@ -304,27 +252,30 @@ class _ProductsPageState extends State<ProductsPage> {
   }
 
 
-  List<FriendNotificationModel> friendNotification = [];
-  getFriendNotifications() {
+  List<FriendRequestNotificationModel> friendNotification = [];
+  // FriendNotificationModel? friendNotification;
+
+
+
+  getFriendRequestNotifications() {
+
     isLoading = true;
-    var resp = getFriendNotificationApi();
+    var resp = getFriendRequestNotificationApi();
     resp.then((value) {
       friendNotification.clear();
-      if (mounted) {
-        if (value['status'] == true) {
-          setState(() {
-            for (var v in value['data']) {
-              friendNotification.add(FriendNotificationModel.fromJson(v));
-            }
+      if(value['error'] == false){
+        setState(() {
+          for(var v in value['data']){
+            friendNotification.add(FriendRequestNotificationModel.fromJson(v));
+          }
+          isLoading = false;
+        });
 
-            isLoading = false;
-          });
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-        }
       }
+      else{
+        isLoading = false;
+      }
+
     });
   }
 
@@ -541,24 +492,25 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       ),
                                               ],
                                             ),
-                                          //   Padding(
-                                          //     padding:
-                                          //         const EdgeInsets.only(top: 8),
-                                          //     child: Text(
-                                          //       // '${SharedPrefs().getEmail()}'
-                                          //       //         .isEmpty
-                                          //       //     ? widget.response.data.name
-                                          //       //         .toString()
-                                          //       //     :
-                                          //       // '${SharedPrefs().getEmail()}',
-                                          //       /* '${SharedPrefs().getUsername()}' == 'null' ?
-                                          // 'Add your Username' :*/
-                                          //       widget.response.data.email
-                                          //           .toString(),
-                                          //       style: AppTextStyle()
-                                          //           .textColor70707014w400,
-                                          //     ),
-                                          //   ),
+
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 8),
+                                              child: Text(
+                                                // '${SharedPrefs().getEmail()}'
+                                                //         .isEmpty
+                                                //     ? widget.response.data.name
+                                                //         .toString()
+                                                //     :
+                                                // '${SharedPrefs().getEmail()}',
+                                                /* '${SharedPrefs().getUsername()}' == 'null' ?
+                                          'Add your Username' :*/
+                                                widget.response.data!.email
+                                                    .toString(),
+                                                style: AppTextStyle()
+                                                    .textColor70707014w400,
+                                              ),
+                                            ),
                                           ],
                                         ),
                                         // SizedBox(
@@ -577,40 +529,6 @@ class _ProductsPageState extends State<ProductsPage> {
                                   ),
                                 ),
                                 Spacer(),
-                                // showExpandedScreen
-                                //     ? GestureDetector(
-                                //         behavior: HitTestBehavior.translucent,
-                                //         onTap: () {
-                                //           Navigator.push(
-                                //             context,
-                                //             MaterialPageRoute(
-                                //               builder: (_) => UserAllDetails(
-                                //                 response: widget.response,
-                                //               ),
-                                //             ),
-                                //           );
-                                //         },
-                                //         child: Container(
-                                //           color: Colors.redAccent,
-                                //           padding: EdgeInsets.all(16),
-                                //           child: Icon(Icons.more_vert),
-                                //         ),
-                                //       )
-                                //     :
-                                // Padding(
-                                //   padding: const EdgeInsets.only(right: 4.0),
-                                //   child: GestureDetector(
-                                //     onTap: () {},
-                                //     child: Container(
-                                //         // color: Colors.red,
-                                //         height: 48,
-                                //         width: 48,
-                                //         padding: EdgeInsets.all(8),
-                                //         child:
-                                //             Icon(Icons.shopping_bag_rounded)),
-                                //   ),
-                                // ),
-
                                 Showcase(
                                   key: _first,
                                   description: 'Share your profile with others',
@@ -771,152 +689,9 @@ class _ProductsPageState extends State<ProductsPage> {
                                                             children: [
                                                               ShareProfileFriendList(),
                                                               ShareProfileFamilyList(),
-
-                                                              // ProductsPage(
-                                                              //   response: widget.response,
-                                                              // ),
-                                                              // // AllEtsyProducts(),
-                                                              // Search(),
-                                                              // Activities(),
-                                                              // Friends(),
                                                             ],
                                                           ),
                                                         ),
-
-                                                        // isLoading
-                                                        //     ? Center(
-                                                        //         child: LoadingAnimationWidget.inkDrop(
-                                                        //           size: 40,
-                                                        //           color: ColorSelect.colorF7E641,
-                                                        //         ),
-                                                        //       )
-                                                        //     : friendList.data!.isEmpty
-                                                        //         ? Padding(
-                                                        //             padding: const EdgeInsets.only(
-                                                        //                 bottom: 80.0, top: 20),
-                                                        //             child: Image.asset(
-                                                        //               "assets/images/addproducts2.png",
-                                                        //               height: 200,
-                                                        //               width: 200,
-                                                        //             ),
-                                                        //           )
-                                                        //         : ListView.builder(
-                                                        //             physics: ScrollPhysics(),
-                                                        //             itemCount: friendList.data!.length,
-                                                        //             shrinkWrap: true,
-                                                        //             scrollDirection: Axis.vertical,
-                                                        //             itemBuilder: (context, i) {
-                                                        //               return Padding(
-                                                        //                 padding: const EdgeInsets.only(
-                                                        //                     top: 16),
-                                                        //                 child: GestureDetector(
-                                                        //                   onTap: () {},
-                                                        //                   child: Container(
-                                                        //                     color: Colors.transparent,
-                                                        //                     child: Row(
-                                                        //                       children: [
-                                                        //                         Container(
-                                                        //                           height: 60,
-                                                        //                           width: 60,
-                                                        //                           clipBehavior:
-                                                        //                               Clip.hardEdge,
-                                                        //                           decoration:
-                                                        //                               BoxDecoration(
-                                                        //                             color: Colors
-                                                        //                                 .redAccent,
-                                                        //                             shape:
-                                                        //                                 BoxShape.circle,
-                                                        //                           ),
-                                                        //                           child:
-                                                        //                               CachedNetworkImage(
-                                                        //                             imageUrl: friendList
-                                                        //                                     .data![i]
-                                                        //                                     .friend!
-                                                        //                                     .photo
-                                                        //                                     .toString()
-                                                        //                                     .contains(
-                                                        //                                         "https")
-                                                        //                                 ? friendList
-                                                        //                                     .data![i]
-                                                        //                                     .friend!
-                                                        //                                     .photo
-                                                        //                                     .toString()
-                                                        //                                 : baseUrl +
-                                                        //                                     friendList
-                                                        //                                         .data![
-                                                        //                                             i]
-                                                        //                                         .friend!
-                                                        //                                         .photo
-                                                        //                                         .toString(),
-                                                        //                             fit: BoxFit.cover,
-                                                        //                             errorWidget: (context,
-                                                        //                                     url,
-                                                        //                                     error) =>
-                                                        //
-                                                        //                                 // Image.asset(
-                                                        //                                 // "assets/icons/userico.jpg"),
-                                                        //                                 Image.asset(
-                                                        //                                     "assets/icons/userico.jpg"),
-                                                        //                             progressIndicatorBuilder:
-                                                        //                                 (a, b, c) =>
-                                                        //                                     Opacity(
-                                                        //                               opacity: 0.3,
-                                                        //                               child: Shimmer
-                                                        //                                   .fromColors(
-                                                        //                                 baseColor: Colors
-                                                        //                                     .black12,
-                                                        //                                 highlightColor:
-                                                        //                                     Colors
-                                                        //                                         .white,
-                                                        //                                 child:
-                                                        //                                     Container(
-                                                        //                                   width: 60,
-                                                        //                                   height: 60,
-                                                        //                                   decoration:
-                                                        //                                       BoxDecoration(
-                                                        //                                     shape: BoxShape
-                                                        //                                         .circle,
-                                                        //                                     color: ColorSelect
-                                                        //                                         .colorFFFFFF,
-                                                        //                                   ),
-                                                        //                                 ),
-                                                        //                               ),
-                                                        //                             ),
-                                                        //                           ),
-                                                        //                         ),
-                                                        //                         Padding(
-                                                        //                           padding:
-                                                        //                               const EdgeInsets
-                                                        //                                       .only(
-                                                        //                                   left: 8.0),
-                                                        //                           child: Text(
-                                                        //                             friendList.data![i]
-                                                        //                                 .friend!.name
-                                                        //                                 .toString(),
-                                                        //                             overflow:
-                                                        //                                 TextOverflow
-                                                        //                                     .ellipsis,
-                                                        //                             maxLines: 2,
-                                                        //                             style: AppTextStyle()
-                                                        //                                 .textColor29292914w400,
-                                                        //                           ),
-                                                        //                         ),
-                                                        //                         Spacer(),
-                                                        //                         YellowButtonWithText(
-                                                        //                             backgroundColor:
-                                                        //                                 MaterialStateProperty
-                                                        //                                     .all(ColorSelect
-                                                        //                                         .colorF7E641),
-                                                        //                             textStyleColor:
-                                                        //                                 Colors.black,
-                                                        //                             onTap: () {},
-                                                        //                             title: 'Send')
-                                                        //                       ],
-                                                        //                     ),
-                                                        //                   ),
-                                                        //                 ),
-                                                        //               );
-                                                        //             }),
                                                       ],
                                                     ),
                                                   ),
@@ -924,7 +699,6 @@ class _ProductsPageState extends State<ProductsPage> {
                                               );
                                             });
                                           });
-                                      // Share.share(widget.link);
                                     },
                                     child: Padding(
                                       padding:
@@ -951,7 +725,7 @@ class _ProductsPageState extends State<ProductsPage> {
                           duration: Duration(milliseconds: 500),
                           curve: Curves.fastOutSlowIn,
                           width: 1.sw,
-                          height: showExpandedScreen ? 220.h : 0,
+                          height: showExpandedScreen ? 180.h : 0,
                           decoration: BoxDecoration(
                             color: Colors.white,
                           ),
@@ -961,7 +735,6 @@ class _ProductsPageState extends State<ProductsPage> {
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
-                                // OptionRowFamily(),
                                 SizedBox(height: 10),
                                 GestureDetector(
                                   onTap: () {
@@ -1011,58 +784,58 @@ class _ProductsPageState extends State<ProductsPage> {
                                     );
                                   },
                                 ),
-                                SizedBox(height: 20),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => ShowCaseWidget(
-                                          builder: Builder(
-                                              builder: (context) => Friends(
-                                                    response: widget.response,
-                                                  )),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    color: Colors.transparent,
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          width: 44,
-                                          height: 44,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: ColorSelect.colorEDEDF1,
-                                          ),
-                                          padding: EdgeInsets.all(8),
-                                          child: Image.asset(
-                                            'assets/images/send1.png',
-                                          ),
-                                        ),
-                                        SizedBox(width: 8),
-                                        Text(
-                                          'Share Product with friend',
-                                          style: AppTextStyle()
-                                              .textColor29292914w500,
-                                        ),
-                                        Spacer(),
-                                        Container(
-                                          width: 32,
-                                          height: 16,
-                                          padding: EdgeInsets.only(right: 16),
-                                          color: Colors.transparent,
-                                          child: Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                // SizedBox(height: 20),
+                                // InkWell(
+                                //   onTap: () {
+                                //     Navigator.push(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //         builder: (_) => ShowCaseWidget(
+                                //           builder: Builder(
+                                //               builder: (context) => Friends(
+                                //                     response: widget.response,
+                                //                   )),
+                                //         ),
+                                //       ),
+                                //     );
+                                //   },
+                                //   child: Container(
+                                //     color: Colors.transparent,
+                                //     child: Row(
+                                //       children: [
+                                //         Container(
+                                //           width: 44,
+                                //           height: 44,
+                                //           decoration: BoxDecoration(
+                                //             shape: BoxShape.circle,
+                                //             color: ColorSelect.colorEDEDF1,
+                                //           ),
+                                //           padding: EdgeInsets.all(8),
+                                //           child: Image.asset(
+                                //             'assets/images/send1.png',
+                                //           ),
+                                //         ),
+                                //         SizedBox(width: 8),
+                                //         Text(
+                                //           'Share Product with friend',
+                                //           style: AppTextStyle()
+                                //               .textColor29292914w500,
+                                //         ),
+                                //         Spacer(),
+                                //         Container(
+                                //           width: 32,
+                                //           height: 16,
+                                //           padding: EdgeInsets.only(right: 16),
+                                //           color: Colors.transparent,
+                                //           child: Icon(
+                                //             Icons.arrow_forward_ios_rounded,
+                                //             color: Colors.black,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
                                 SizedBox(height: 20),
                                 OptionRow(
                                   icon: 'setting',
@@ -1270,13 +1043,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                       itemCount: wantProducts2.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
-                                        double price = double.tryParse(
-                                                wantProducts2[i]
-                                                    .price
-                                                    .toString()) ??
-                                            0.0;
-                                        double normalizedPercent =
-                                            price / 100.0;
+                                        String originalPrice = wantProducts2[i].price.toString().replaceAll("\$", "");
+                                        double priceInDouble = double.parse(originalPrice.replaceAll(',', '')) / 100.0;
                                         return Container(
                                           color: Colors.transparent,
                                           child: Column(
@@ -1442,9 +1210,14 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
+                                                      "\$${priceInDouble.toStringAsFixed(2)}",
+                                                    // '${priceInDouble}',
+                                                    //   result,
+                                                    //   wantProducts2[i]
+                                                    //       .price
+                                                    //       .toString(),
                                                     // '\$ ${normalizedPercent.toString()}',
-
-                                                     ' ${wantProducts2[i].price.toString()}',
+                                                    //  ' ${normalizedPercent}',
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,
                                                   ),
@@ -1546,11 +1319,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                       itemCount: notWant2.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
-                                        double price = double.tryParse(
-                                                notWant2[i].price.toString()) ??
-                                            0.0;
-                                        double normalizedPercent =
-                                            price / 100.0;
+                                        String originalPrice = notWant2[i].price.toString().replaceAll("\$", "");
+                                        double priceInDouble = double.parse(originalPrice.replaceAll(',', '')) / 100.0;
                                         return Container(
                                           color: Colors.transparent,
                                           child: Column(
@@ -1710,7 +1480,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                                           left: 16),
                                                   child: Text(
                                                     //'\$ ${normalizedPercent.toString()}',
-                                                     ' ${notWant2[i].price.toString()}',
+                                                    "\$${priceInDouble.toStringAsFixed(2)}",
                                                     // widget.itemPrice[i],
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,
@@ -1811,13 +1581,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                       itemCount: haveProducts2.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
-                                        double price = double.tryParse(
-                                                haveProducts2[i]
-                                                    .price
-                                                    .toString()) ??
-                                            0.0;
-                                        double normalizedPercent =
-                                            price / 100.0;
+                                        String originalPrice = haveProducts2[i].price.toString().replaceAll("\$", "");
+                                        double priceInDouble = double.parse(originalPrice.replaceAll(',', '')) / 100.0;
                                         return Container(
                                           color: Colors.transparent,
                                           child: Column(
@@ -1973,8 +1738,9 @@ class _ProductsPageState extends State<ProductsPage> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
+                                                    "\$${priceInDouble.toStringAsFixed(2)}",
                                                     //'\$ ${normalizedPercent.toString()}',
-                                                     ' ${haveProducts2[i].price.toString()}',
+                                                    //  ' ${haveProducts2[i].price.toString()}',
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,
                                                   ),

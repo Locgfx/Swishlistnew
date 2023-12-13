@@ -5,7 +5,9 @@ import 'package:swishlist/api/user_apis/friends_api.dart';
 import 'package:swishlist/api/user_apis/message_api.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/loading.dart';
+import 'package:swishlist/constants/globals/shared_prefs.dart';
 import 'package:swishlist/dashboard/friends/profile_chat.dart';
+import 'package:swishlist/models/new_models/room_create_model.dart';
 
 import '../../../constants/globals/globals.dart';
 import '../../../constants/urls.dart';
@@ -35,6 +37,7 @@ class _AllFriendsChatScreenState extends State<AllFriendsChatScreen> {
   bool isLoading = false;
 
   List<NewModelFriend> friendList = [];
+  ChatRoomModel? resp;
 
 
   getFriends(){
@@ -89,208 +92,18 @@ class _AllFriendsChatScreenState extends State<AllFriendsChatScreen> {
                     Row(
                       children: [
                         Text(
-                          "Friends",
+                          "Chat",
                           style: AppTextStyle().textColor29292924w700,
                         ),
-                  /*      Spacer(),
-
-                        AppBarIconFriendProduct(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) =>
-                                        AllFriendsChatScreen()
-                                ),
-                              );
-                            },
-                            child: Image.asset(
-                              "assets/images/4xchat.png",
-                              color: Colors.black,
-                            )),
-                        // GestureDetector(
-                        //   // behavior: HitTestBehavior.translucent,
-                        //   onTap: () {
-                        //     setState(() {
-                        //       showSearch = !showSearch;
-                        //     });
-                        //   },
-                        //   child: showSearch
-                        //       ? Container(
-                        //           color: Colors.transparent,
-                        //           height: 24,
-                        //           width: 24,
-                        //           child: Image.asset(
-                        //             "assets/images/Frame 1000002471.png",
-                        //             fit: BoxFit.cover,
-                        //             // color: ColorSelect.color292929,
-                        //           ),
-                        //         )
-                        //       : Container(
-                        //           color: Colors.transparent,
-                        //           height: 24,
-                        //           width: 24,
-                        //           child: Image.asset(
-                        //             "assets/images/search 03.png",
-                        //             fit: BoxFit.cover,
-                        //             color: ColorSelect.color292929,
-                        //           ),
-                        //         ),
-                        // ),
-                        SizedBox(width: 16),
-                        GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        AddFriendByMailPhone()));
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => AddFriends()));
-                          },
-                          child: Container(
-                            height: 26,
-                            width: 26,
-                            color: Colors.transparent,
-                            child: Image.asset(
-                              "assets/images/user-add.png",
-                              color: ColorSelect.color292929,
-                            ),
-                          ),
-                        ),
-                        // SizedBox(width: 16),
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => Messages(
-                        //                 // friendId: friendList[0].friend!.id.toString(),
-                        //                 // friendName: friendList[0].friend!.name.toString(),
-                        //                 // friendPhoto: baseUrl+friendList[0].friend!.photo!,
-                        //                 )));
-                        //   },
-                        //   child: Container(
-                        //     height: 24,
-                        //     width: 24,
-                        //     color: Colors.transparent,
-                        //     child: Image.asset(
-                        //       "assets/images/messageicon.png",
-                        //       color: ColorSelect.color292929,
-                        //     ),
-                        //   ),
-                        // ),
-                        // SizedBox(width: 10),
-                        // GestureDetector(
-                        //   behavior: HitTestBehavior.translucent,
-                        //   onTap: () {
-                        //     Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) =>
-                        //                 FriendNotification()));
-                        //   },
-                        //   child: friendNotification.isNotEmpty
-                        //       ? Container(
-                        //           color: Colors.transparent,
-                        //           height: 28,
-                        //           width: 28,
-                        //           child: Stack(
-                        //             children: [
-                        //               Image.asset(
-                        //                 "assets/images/notification-pngrepo-com.png",
-                        //                 color: ColorSelect.color292929,
-                        //               ),
-                        //               Positioned(
-                        //                 top: 0,
-                        //                 right: 0,
-                        //                 child: Container(
-                        //                   height: 6,
-                        //                   width: 6,
-                        //                   decoration: BoxDecoration(
-                        //                       color: Colors.redAccent,
-                        //                       shape: BoxShape.circle),
-                        //                 ),
-                        //               )
-                        //             ],
-                        //           ))
-                        //       : Container(
-                        //           color: Colors.transparent,
-                        //           height: 24,
-                        //           width: 24,
-                        //           child: Image.asset(
-                        //             "assets/images/notification-pngrepo-com.png",
-                        //             color: ColorSelect.color292929,
-                        //           )),
-                        //   // child: Container(
-                        //   //     color: Colors.transparent,
-                        //   //     height: 24,
-                        //   //     width: 24,
-                        //   //     child: Image.asset(
-                        //   //       "assets/images/notification-pngrepo-com.png",
-                        //   //       color: ColorSelect.color292929,
-                        //   //     )),
-                        // )
-                      ],*/
-                   ] ),
+                      ],
+                    ),
                     SizedBox(
                       height: 32,
                     ),
-                    // showSearch
-                    //     ? Container(
-                    //         color: Colors.transparent,
-                    //         child: TextFormField(
-                    //           onChanged: (val) {
-                    //             print(friendList);
-                    //             print(searchController.text);
-                    //             print(friendList[0].friend!.name);
-                    //             for (var v in friendList) {
-                    //               if (v.friend!.name! == val) {
-                    //                 if (searchList.contains(v)) {
-                    //                 } else {
-                    //                   searchList.add(v);
-                    //                 }
-                    //               }
-                    //             }
-                    //             final suggestions = friendList
-                    //                 .where((element) =>
-                    //                     element.friend!.name ==
-                    //                     searchController.text)
-                    //                 .toList();
-                    //             print(suggestions);
-                    //             setState(() {
-                    //               searchList = suggestions;
-                    //               print(searchList);
-                    //               if (searchController.text.isEmpty) {
-                    //                 searchList.clear();
-                    //               }
-                    //             });
-                    //           },
-                    //           controller: searchController,
-                    //           cursorColor: ColorSelect.colorF7E641,
-                    //           decoration:
-                    //               AppTFDecoration(hint: 'Enter Friend Name')
-                    //                   .decoration(),
-                    //           //keyboardType: TextInputType.phone,
-                    //         ),
-                    //       )
-                    //     : SizedBox(),
                     SizedBox(
                       height: 20,
                     ),
-                    // Row(
-                    //   children: [
-                    //     Text(
-                    //       "${friendList.data!.length.toString()} Friends",
-                    //       // "24",
-                    //       style: AppTextStyle().textColor70707012w500,
-                    //     ),
-                    //     Spacer(),
-                    //   ],
-                    // ),
+
                     SizedBox(
                       height: 14,
                     ),
@@ -301,7 +114,6 @@ class _AllFriendsChatScreenState extends State<AllFriendsChatScreen> {
                       'Add friends to share your profile and your favorite product',
                       buttonTxt: 'Add Friend',
                       tap: () {
-
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -314,7 +126,6 @@ class _AllFriendsChatScreenState extends State<AllFriendsChatScreen> {
                       padding: const EdgeInsets.only(bottom: 200.0),
                       child: ListView.separated(
                         padding: EdgeInsets.zero,
-                        // itemCount: 4,
                         itemCount: friendList.length,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -323,32 +134,69 @@ class _AllFriendsChatScreenState extends State<AllFriendsChatScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
+                                    postChatApi(friendId: friendList[i].friend!.id.toString()).then((value) {
+                                      resp = value;
+                                      if(resp?.error != null &&
+                                          resp!.error == false){
 
-                                  postChatApi(friendId: friendList[0].friend!.id.toString()).then((value) {
-                                    if(value['error'] == false){
-                                      final int chat_Id = value['data']['last_message']['chat_id'];
-                                      print('nnnn$chat_Id');
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProfileChatPage(
-                                                  resp: widget.resp,
-                                                  chatId: chat_Id,
-                                                    friendId: friendList[0].friend!.id.toString(),
-                                                    name: friendList[0].friend!.name.toString(),
-                                                    friendImage: friendList[0].friend!.photo.toString(),
-                                                    selectedItems: [])
-                                        ),
-                                      );
-                                    }
-                                    else{
+                                        // chatRoomId = resp!.data!.lastMessage!.chatId!;
+                                        SharedPrefs().setIntValue(resp!.data!.lastMessage!.chatId!);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ProfileChatPage(
+                                                      resp: widget.resp,
+                                                      friendId: friendList[i].friend!.id.toString(),
+                                                      name: friendList[i].friend!.name.toString(),
+                                                      friendImage: friendList[i].friend!.photo.toString(),
+                                                      selectedItems: [])
+                                          ),
+                                        );
+                                        // print(resp!.data!.lastMessage!.chatId);
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ProfileChatPage(
+                                                      resp: widget.resp,
+                                                      friendId: friendList[i].friend!.id.toString(),
+                                                      name: friendList[i].friend!.name.toString(),
+                                                      friendImage: friendList[i].friend!.photo.toString(),
+                                                      selectedItems: [])
+                                          ),
+                                        );
+                                      }
+                                    });
 
-                                    }
-                                  });
+
 
 
                                 },
+                                // onTap: () {
+                                //   postChatApi(friendId: friendList[0].friend!.id.toString()).then((value) {
+                                //     if(value['error'] == false){
+                                //       final int chat_Id = value['data']['last_message']['chat_id'];
+                                //       print('nnnn$chat_Id');
+                                //       Navigator.push(
+                                //         context,
+                                //         MaterialPageRoute(
+                                //             builder: (context) =>
+                                //                 ProfileChatPage(
+                                //                   resp: widget.resp,
+                                //                   chatId: chat_Id,
+                                //                     friendId: friendList[0].friend!.id.toString(),
+                                //                     name: friendList[0].friend!.name.toString(),
+                                //                     friendImage: friendList[0].friend!.photo.toString(),
+                                //                     selectedItems: [])
+                                //         ),
+                                //       );
+                                //     }
+                                //   });
+                                //
+                                //
+                                // },
                                 child: Container(
                                   color: Colors.transparent,
                                   child: Row(

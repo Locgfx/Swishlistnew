@@ -32,7 +32,7 @@ class Data {
   String? email;
   String? phone;
   String? photo;
-  Null? deviceToken;
+  String? deviceToken;
   String? fcmToken;
   String? status;
   String? complete;

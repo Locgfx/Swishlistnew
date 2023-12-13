@@ -148,7 +148,7 @@ class _EtsyProductDetailsState extends State<EtsyProductDetails> {
                       children: [
                         Text(
                           // normalizedPercent.toString(),
-                          '\$ ${normalizedPercent.toString()}',
+                          '\$ ${normalizedPercent.toStringAsFixed(2)}',
 
                           // '\$ ${widget.productPrice}',
                           style: AppTextStyle().textColor29292924w700,

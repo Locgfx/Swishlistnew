@@ -78,7 +78,11 @@ Future<dynamic> updateProfileApi({
     'name': name,
 
   });
-  request.files.add(await http.MultipartFile.fromPath('photo', photo));
+  print(request.fields);
+  if (photo != '') {
+    request.files.add(await http.MultipartFile.fromPath('photo', photo));
+  }
+
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();

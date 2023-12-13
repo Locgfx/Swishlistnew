@@ -6,26 +6,6 @@ import '../../constants/globals/shared_prefs.dart';
 import '../../constants/urls.dart';
 
 Future<dynamic> fcmNotificationApi() async {
-/*  var headers = {
-    'Accept': 'application/json',
-    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
-  };
-  var request =
-      http.Request('GET', Uri.parse('$baseUrl/api/user/fcm/notification'));
-  request.bodyFields = {};
-  request.headers.addAll(headers);
-  http.StreamedResponse response = await request.send();
-  var resp = jsonDecode(await response.stream.bytesToString());
-  if (response.statusCode == 200) {
-    print(resp);
-    return resp;
-  } else {
-    print(resp);
-    print(response.statusCode);
-    print(response.reasonPhrase);
-    return resp;
-  }*/
-
   var headers = {
     'Content-Type': 'multipart/form-data',
     'User-Agent': 'insomnia/8.2.0',

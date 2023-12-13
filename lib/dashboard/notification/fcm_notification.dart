@@ -17,6 +17,7 @@ import 'fcm_notification_delete.dart';
 
 class FcmNotificationScreen extends StatefulWidget {
   final LoginResponse response;
+
   const FcmNotificationScreen({Key? key, required this.response})
       : super(key: key);
 
@@ -26,7 +27,6 @@ class FcmNotificationScreen extends StatefulWidget {
 
 class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
   bool isLoading = false;
-
 
   /*FcmNotificationModel fcmnotification = FcmNotificationModel();
   // List<FcmNotificationModel> fcmnotification = [];
@@ -53,29 +53,29 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
     });
   }*/
 
-List< FcmNotificationModel> fcmNotification = [];
-  getFcmNotifications(){
+  List<FcmNotificationModel> fcmNotification = [];
+
+  getFcmNotifications() {
     isLoading = true;
     var resp = fcmNotificationApi();
     resp.then((value) {
       fcmNotification.clear();
-      if(value['error'] == false){
+      if (value['error'] == false) {
         setState(() {
-          for(var v in value['data']){
-           // fcmNotification.clear();
+          for (var v in value['data']) {
+
             fcmNotification.add(FcmNotificationModel.fromJson(v));
           }
 
           isLoading = false;
         });
-      }else{
+      } else {
         setState(() {
           isLoading = false;
         });
       }
     });
   }
-
 
   List<int> selectedItems = [];
   bool loading = false;
@@ -125,12 +125,12 @@ List< FcmNotificationModel> fcmNotification = [];
                           //     :
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => FcmNotificationDelete(),
-                                ),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (_) => FcmNotificationDelete(),
+                              //   ),
+                              // );
                             },
                             child: Container(
                               width: 36,
@@ -141,10 +141,9 @@ List< FcmNotificationModel> fcmNotification = [];
                         ],
                       ),
                       fcmNotification.isEmpty
-                  //||
-                             // fcmNotification == null
-                          ?
-                      Column(
+                          //||
+                          // fcmNotification == null
+                          ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -172,775 +171,662 @@ List< FcmNotificationModel> fcmNotification = [];
                                 SizedBox(height: 40),
                               ],
                             )
-                          :
-                      ListView.separated(
+                          : ListView.separated(
                               shrinkWrap: true,
                               itemCount: fcmNotification.length,
-                              //fcmnotification.data!.length,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (_, i) {
-                                return GestureDetector(
-                                  // onLongPress: () {
-                                  //   if (selectedItems.isEmpty) {
-                                  //     setState(() {
-                                  //       selectedItems
-                                  //           .add(fcmNotification[i].id!);
-                                  //     });
-                                  //   }
-                                  // },
-                                  onTap: () {
-                                    /*if (selectedItems.isEmpty) {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             selectedItems()));
-                                    } else {
-                                      if (selectedItems.contains(
-                                          fcmNotification[i].id!)) {
-                                        setState(() {
-                                          selectedItems.remove(
-                                              fcmNotification[i].id!);
-                                        });
-                                      } else {
-                                        setState(() {
-                                          selectedItems.add(
-                                              fcmNotification[i].id!);
-                                        });
-                                      }
-                                    }*/
-                                  },
-                                  child: Container(
+                                return
+                                  Container(
                                     width: 1.sw,
                                     child: Row(
                                       children: [
                                         Expanded(
-                                          child: fcmNotification[i].data?[i].product == null
-                                                  //     .data![i].product ==
-                                                  // null
-                                              ?
-                                    fcmNotification[i].data![i].title!
-                                   // fcmNotification.data![i].title!
-                                                      .contains(
-                                                          'Family Member Request')
-                                                  ? GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (_) =>
-                                                                ManageFamilyMembers(),
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.all(8),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              width: 1,
-                                                              color: Colors
-                                                                  .yellow),
-                                                          color: Colors.grey
-                                                              .withOpacity(
-                                                                  0.02),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            Expanded(
-                                                              child: Container(
-                                                                height: 50,
-                                                                width: 50,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  color: Colors
-                                                                      .grey
-                                                                      .shade200,
-                                                                ),
-                                                                clipBehavior:
-                                                                    Clip.hardEdge,
+                                          child: fcmNotification[i].product ==
+                                              null
+                                              ? fcmNotification[i].message!
+                                              .contains(
+                                              'family member request')
+                                              ? GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      ManageFamilyMembers(),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              padding:
+                                              EdgeInsets.all(8),
+                                              decoration:
+                                              BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Colors
+                                                        .yellow),
+                                                color: Colors.grey
+                                                    .withOpacity(
+                                                    0.02),
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(10),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Container(
+                                                      height: 50,
+                                                      width: 50,
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        shape: BoxShape
+                                                            .circle,
+                                                        color: Colors
+                                                            .grey
+                                                            .shade200,
+                                                      ),
+                                                      clipBehavior:
+                                                      Clip.hardEdge,
+                                                      child:
+                                                      CachedNetworkImage(
+                                                        maxWidthDiskCache:
+                                                        65,
+                                                        maxHeightDiskCache:
+                                                        65,
+                                                        imageUrl:
+                                                            fcmNotification[i].sendBy!.photo == null ?
+                                                                '' :
+                                                        fcmNotification[i]
+                                                            .sendBy!
+                                                            .photo
+                                                            .toString()
+                                                            .contains(
+                                                            'http')
+                                                            ? fcmNotification
+                                                            [
+                                                        i]
+                                                            .sendBy!
+                                                            .photo
+                                                            .toString()
+                                                            : baseUrl +
+                                                            fcmNotification
+                                                                [i]
+                                                                .sendBy!
+                                                                .photo
+                                                                .toString(),
+                                                        fit: BoxFit
+                                                            .cover,
+                                                        errorWidget: (context,
+                                                            url,
+                                                            error) =>
+                                                            Image.asset(
+                                                                "assets/icons/userico.jpg"),
+                                                        progressIndicatorBuilder:
+                                                            (a, b, c) =>
+                                                            Opacity(
+                                                              opacity:
+                                                              0.3,
+                                                              child: Shimmer
+                                                                  .fromColors(
+                                                                baseColor:
+                                                                Colors
+                                                                    .black12,
+                                                                highlightColor:
+                                                                Colors
+                                                                    .white,
                                                                 child:
-                                                                    CachedNetworkImage(
-                                                                  imageUrl:
-                                                                  fcmNotification[i].data![i].sendBy!.photo.toString().contains('http')
-                                                                          // .data![
-                                                                          //     i]
-                                                                          // .sendBy!
-                                                                          // .photo
-                                                                          // .toString()
-                                                                          // .contains(
-                                                                          //     'http')
-                                                                      ?
-                                                                      fcmNotification[i].data![i].sendBy!.photo.toString()
-                                                                  // fcmnotification
-                                                                  //         .data![
-                                                                  //             i]
-                                                                  //         .sendBy!
-                                                                  //         .photo
-                                                                  //         .toString()
-                                                                      : baseUrl +
-                                                                          fcmNotification[i].data![i]
-
-                                                                              .sendBy!
-                                                                              .photo
-                                                                              .toString(),
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                  errorWidget: (context,
-                                                                          url,
-                                                                          error) =>
-                                                                      Icon(Icons
-                                                                          .error),
-                                                                  progressIndicatorBuilder:
-                                                                      (a, b, c) =>
-                                                                          Opacity(
-                                                                    opacity:
-                                                                        0.3,
-                                                                    child: Shimmer
-                                                                        .fromColors(
-                                                                      baseColor:
-                                                                          Colors
-                                                                              .black12,
-                                                                      highlightColor:
-                                                                          Colors
-                                                                              .white,
-                                                                      child:
-                                                                          Container(
-                                                                        width:
-                                                                            50,
-                                                                        height:
-                                                                            50,
-                                                                        //margin: EdgeInsets.symmetric(horizontal: 24),
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          color:
-                                                                              Colors.white,
-                                                                        ),
-                                                                      ),
-                                                                    ),
+                                                                Container(
+                                                                  width:
+                                                                  50,
+                                                                  height:
+                                                                  50,
+                                                                  //margin: EdgeInsets.symmetric(horizontal: 24),
+                                                                  decoration:
+                                                                  BoxDecoration(
+                                                                    color:
+                                                                    Colors.white,
                                                                   ),
                                                                 ),
                                                               ),
                                                             ),
-                                                            SizedBox(
-                                                              width: 8,
-                                                            ),
-                                                            Expanded(
-                                                              flex: 5,
-                                                              child: Text(
-                                                                fcmNotification
-                                                                    [i]
-                                                                    .message
-                                                                    .toString(),
-                                                                maxLines: 4,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
                                                       ),
-                                                    )
-                                                  :
-                                    fcmNotification
-                                                         [i].data![i].title!
-                                                          .contains('Hey')
-                                                      ? GestureDetector(
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        FriendProduct(
-                                                                  response: widget
-                                                                      .response,
-                                                                  friendName:
-                                                                      fcmNotification[i].data![i].sendBy!.name.toString(),
-                                                                      // fcmnotification
-                                                                      //     .data![
-                                                                      //         i]
-                                                                      //     .sendBy!
-                                                                      //     .name
-                                                                      //     .toString(),
-                                                                  friendUserName:
-                                                                          fcmNotification[i].data![i].sendBy!.name.toString(),
-
-                                                                      // fcmnotification
-                                                                      //     .data![
-                                                                      //         i]
-                                                                      //     .sendBy!
-                                                                      //     .name
-                                                                      //     .toString(),
-                                                                  friendId:
-                                                                      fcmNotification[i].data![i].sendBy!.id.toString(),
-                                                                  // fcmnotification
-                                                                  //     .data![i]
-                                                                  //     .sendBy!
-                                                                  //     .id
-                                                                  //     .toString(),
-                                                                  friendPhoto:
-                                                                      fcmNotification[i].data![i].sendBy!.photo.toString(),
-                                                                      // fcmnotification
-                                                                      //     .data![
-                                                                      //         i]
-                                                                      //     .sendBy!
-                                                                      //     .photo
-                                                                      //     .toString(),
-                                                                  id: fcmNotification[i].data![i].sendBy!.id.toString()
-                                                                  // fcmnotification
-                                                                  //     .data![i]
-                                                                  //     .sendBy!
-                                                                  //     .id
-                                                                  //     .toString(),
-                                                                  /* id: searchList[i].id.toString(),*/
-                                                                ),
-                                                              ),
-                                                            );
-                                                          },
-                                                          child: Container(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    8),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              border: Border.all(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .yellow),
-                                                              color: Colors.grey
-                                                                  .withOpacity(
-                                                                      0.02),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                            ),
-                                                            child: Row(
-                                                              children: [
-                                                                Expanded(
-                                                                  child:
-                                                                      Container(
-                                                                    height: 50,
-                                                                    width: 50,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      shape: BoxShape
-                                                                          .circle,
-                                                                      color: Colors
-                                                                          .grey
-                                                                          .shade200,
-                                                                    ),
-                                                                    clipBehavior:
-                                                                        Clip.hardEdge,
-                                                                    child:
-                                                                        CachedNetworkImage(
-                                                                      imageUrl:
-
-                                                                      fcmNotification[i].data![i].sendBy!.photo.toString().contains('http')
-
-                                                                          ?
-                                                                      fcmNotification[i].data![i].sendBy!.photo.toString()
-
-                                                                          : baseUrl +
-                                                                          fcmNotification[i].data![i]
-
-                                                                              .sendBy!
-                                                                              .photo
-                                                                              .toString(),
-                                                                      // fcmnotification
-                                                                      //         .data![
-                                                                      //             i]
-                                                                      //         .sendBy!
-                                                                      //         .photo
-                                                                      //         .toString()
-                                                                      //         .contains(
-                                                                      //             'http')
-                                                                      //     ? fcmnotification
-                                                                      //         .data![
-                                                                      //             i]
-                                                                      //         .sendBy!
-                                                                      //         .photo
-                                                                      //         .toString()
-                                                                      //     : baseUrl +
-                                                                      //         fcmnotification.data![i].sendBy!.photo.toString(),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                      errorWidget: (context,
-                                                                              url,
-                                                                              error) =>
-                                                                          Image.asset(
-                                                                              "assets/icons/userico.jpg"),
-                                                                      progressIndicatorBuilder: (a,
-                                                                              b,
-                                                                              c) =>
-                                                                          Opacity(
-                                                                        opacity:
-                                                                            0.3,
-                                                                        child: Shimmer
-                                                                            .fromColors(
-                                                                          baseColor:
-                                                                              Colors.black12,
-                                                                          highlightColor:
-                                                                              Colors.white,
-                                                                          child:
-                                                                              Container(
-                                                                            width:
-                                                                                50,
-                                                                            height:
-                                                                                50,
-                                                                            //margin: EdgeInsets.symmetric(horizontal: 24),
-                                                                            decoration:
-                                                                                BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 8,
-                                                                ),
-                                                                Expanded(
-                                                                  flex: 5,
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Text(
-                                                                        fcmNotification[i].message.toString(),
-                                                                        // fcmnotification
-                                                                        //     .data![i]
-                                                                        //     .message
-                                                                        //     .toString(),
-                                                                        maxLines:
-                                                                            4,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        )
-                                                      : GestureDetector(
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                builder: (_) =>
-                                                                    FriendNotification(),
-                                                              ),
-                                                            );
-                                                          },
-                                                          child: Container(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    8),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              border: Border.all(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .yellow),
-                                                              color: Colors.grey
-                                                                  .withOpacity(
-                                                                      0.02),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                            ),
-                                                            child: Row(
-                                                              children: [
-                                                                Expanded(
-                                                                  child:
-                                                                      Container(
-                                                                    height: 50,
-                                                                    width: 50,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      shape: BoxShape
-                                                                          .circle,
-                                                                      color: Colors
-                                                                          .grey
-                                                                          .shade200,
-                                                                    ),
-                                                                    clipBehavior:
-                                                                        Clip.hardEdge,
-                                                                    child:
-                                                                        CachedNetworkImage(
-                                                                      imageUrl:
-                                                                      fcmNotification[i].data![i].sendBy!.photo.toString().contains('http')
-
-                                                                          ?
-                                                                      fcmNotification[i].data![i].sendBy!.photo.toString()
-
-                                                                          : baseUrl +
-                                                                          fcmNotification[i].data![i]
-
-                                                                              .sendBy!
-                                                                              .photo
-                                                                              .toString(),
-                                                                      // fcmnotification
-                                                                      //         .data![
-                                                                      //             i]
-                                                                      //         .sendBy!
-                                                                      //         .photo
-                                                                      //         .toString()
-                                                                      //         .contains(
-                                                                      //             'http')
-                                                                      //     ? fcmnotification
-                                                                      //         .data![
-                                                                      //             i]
-                                                                      //         .sendBy!
-                                                                      //         .photo
-                                                                      //         .toString()
-                                                                      //     : baseUrl +
-                                                                      //         fcmnotification.data![i].sendBy!.photo.toString(),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                      errorWidget: (context,
-                                                                              url,
-                                                                              error) =>
-                                                                          Image.asset(
-                                                                              "assets/icons/userico.jpg"),
-                                                                      progressIndicatorBuilder: (a,
-                                                                              b,
-                                                                              c) =>
-                                                                          Opacity(
-                                                                        opacity:
-                                                                            0.3,
-                                                                        child: Shimmer
-                                                                            .fromColors(
-                                                                          baseColor:
-                                                                              Colors.black12,
-                                                                          highlightColor:
-                                                                              Colors.white,
-                                                                          child:
-                                                                              Container(
-                                                                            width:
-                                                                                50,
-                                                                            height:
-                                                                                50,
-                                                                            //margin: EdgeInsets.symmetric(horizontal: 24),
-                                                                            decoration:
-                                                                                BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 8,
-                                                                ),
-                                                                Expanded(
-                                                                  flex: 5,
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Text(
-                                                                        fcmNotification[i].message.toString(),
-                                                                        // fcmnotification
-                                                                        //     .data![i]
-                                                                        //     .message
-                                                                        //     .toString(),
-                                                                        maxLines:
-                                                                            4,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        )
-                                              : GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            FriendProductDetail(
-                                                          name:
-                                                              fcmNotification[i].data![i].product!.name.toString(),
-                                                          // fcmnotification
-                                                          //     .data![i]
-                                                          //     .product!
-                                                          //     .name
-                                                          //     .toString(),
-                                                          price: fcmNotification[i].data![i].product!.price.toString(),
-                                                          // fcmnotification
-                                                          //     .data![i]
-                                                          //     .product!
-                                                          //     .price
-                                                          //     .toString(),
-                                                          link:
-                                                              fcmNotification[i].data![i].product!.url.toString(),
-                                                          // fcmnotification
-                                                          //     .data![i]
-                                                          //     .product!
-                                                          //     .link
-                                                          //     .toString(),
-                                                          image:
-                                                              fcmNotification[i].data![i].product!.photo.toString(),
-                                                          // fcmnotification
-                                                          //     .data![i]
-                                                          //     .product!
-                                                          //     .photo
-                                                          //     .toString(),
-                                                          purchaseDate:
-                                                              fcmNotification[i].data![i].product!.purchasedOn.toString(),
-                                                              // fcmnotification
-                                                              //     .data![i]
-                                                              //     .product!
-                                                              //     .purchasedDate
-                                                              //     .toString(),
-                                                          id: '',
-                                                          type: fcmNotification[i].data![i].product!.type.toString(),
-                                                          // fcmnotification
-                                                          //     .data![i]
-                                                          //     .product!
-                                                          //     .type
-                                                          //     .toString(),
-                                                          response:
-                                                              widget.response,
-                                                          productId:
-                                                                fcmNotification[i].data![i].product!.id.toString(),
-                                                              // fcmnotification
-                                                              //     .data![i]
-                                                              //     .product!
-                                                              //     .id
-                                                              //     .toString(),
-
-                                                          /* id: searchList[i].id.toString(),*/
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(8),
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          width: 1,
-                                                          color: Colors.yellow),
-                                                      color: Colors.grey
-                                                          .withOpacity(0.02),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
                                                     ),
-                                                    child: Row(
+                                                  ),
+                                                  SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  Expanded(
+                                                    flex: 5,
+                                                    child: Text(
+                                                      fcmNotification[i]
+                                                          .message
+                                                          .toString(),
+                                                      maxLines: 4,
+                                                      overflow:
+                                                      TextOverflow
+                                                          .ellipsis,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                              : fcmNotification[i].message!
+                                              .contains('shared profile with you')
+                                              ? GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder:
+                                                      (context) =>
+                                                      FriendProduct(
+                                                        response: widget
+                                                            .response,
+                                                        friendName:
+                                                        fcmNotification[
+                                                        i]
+                                                            .sendBy!
+                                                            .name
+                                                            .toString(),
+                                                        friendUserName:
+                                                        fcmNotification[
+                                                        i]
+                                                            .sendBy!
+                                                            .name
+                                                            .toString(),
+                                                        friendId: fcmNotification[i]
+                                                            .sendBy!
+                                                            .id
+                                                            .toString(),
+                                                        friendPhoto:
+                                                        fcmNotification[
+                                                        i]
+                                                            .sendBy!
+                                                            .photo
+                                                            .toString(),
+                                                        id: fcmNotification[i]
+                                                            .sendBy!
+                                                            .id
+                                                            .toString(),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                            child: Container(
+                                              padding:
+                                              EdgeInsets.all(
+                                                  8),
+                                              decoration:
+                                              BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Colors
+                                                        .yellow),
+                                                color: Colors.grey
+                                                    .withOpacity(
+                                                    0.02),
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(
+                                                    10),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child:
+                                                    Container(
+                                                      height: 50,
+                                                      width: 50,
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        shape: BoxShape
+                                                            .circle,
+                                                        color: Colors
+                                                            .grey
+                                                            .shade200,
+                                                      ),
+                                                      clipBehavior:
+                                                      Clip.hardEdge,
+                                                      child:
+                                                      CachedNetworkImage(
+                                                        maxWidthDiskCache:
+                                                        65,
+                                                        maxHeightDiskCache:
+                                                        65,
+                                                        imageUrl: fcmNotification[
+                                                        i]
+                                                            .sendBy!
+                                                            .photo
+                                                            .toString()
+                                                            .contains(
+                                                            'http')
+                                                            ? fcmNotification[
+                                                        i]
+                                                            .sendBy!
+                                                            .photo
+                                                            .toString()
+                                                            : baseUrl +
+                                                            fcmNotification[i].sendBy!.photo.toString(),
+                                                        fit: BoxFit
+                                                            .cover,
+                                                        errorWidget: (context,
+                                                            url,
+                                                            error) =>
+                                                            Image.asset(
+                                                                "assets/icons/userico.jpg"),
+                                                        progressIndicatorBuilder: (a,
+                                                            b,
+                                                            c) =>
+                                                            Opacity(
+                                                              opacity:
+                                                              0.3,
+                                                              child: Shimmer
+                                                                  .fromColors(
+                                                                baseColor:
+                                                                Colors.black12,
+                                                                highlightColor:
+                                                                Colors.white,
+                                                                child:
+                                                                Container(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  decoration:
+                                                                  BoxDecoration(
+                                                                      color: Colors.white,
+                                                                      shape: BoxShape.circle),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  Expanded(
+                                                    flex: 5,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .start,
                                                       children: [
-                                                        Expanded(
-                                                          child: Container(
-                                                            height: 50,
-                                                            width: 50,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              color: Colors.grey
-                                                                  .shade200,
-                                                            ),
-                                                            clipBehavior:
-                                                                Clip.hardEdge,
-                                                            child:
-                                                                CachedNetworkImage(
-                                                                  imageUrl:
-
-                                                                  fcmNotification[i].data![i].sendBy!.photo.toString().contains('http')
-
-                                                                      ?
-                                                                  fcmNotification[i].data![i].sendBy!.photo.toString()
-
-                                                                      : newBaseUrl +
-                                                                      fcmNotification[i].data![i]
-
-                                                                          .sendBy!
-                                                                          .photo
-                                                                          .toString(),
-
-                                                              // imageUrl: fcmnotification
-                                                              //         .data![i]
-                                                              //         .sendBy!
-                                                              //         .photo
-                                                              //         .toString()
-                                                              //         .contains(
-                                                              //             'http')
-                                                              //     ? fcmnotification
-                                                              //         .data![i]
-                                                              //         .sendBy!
-                                                              //         .photo
-                                                              //         .toString()
-                                                              //     : baseUrl +
-                                                              //         fcmnotification
-                                                              //             .data![
-                                                              //                 i]
-                                                              //             .sendBy!
-                                                              //             .photo
-                                                              //             .toString(),
-                                                              fit: BoxFit.cover,
-                                                              errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                  Image.asset(
-                                                                      "assets/icons/userico.jpg"),
-                                                              progressIndicatorBuilder:
-                                                                  (a, b, c) =>
-                                                                      Opacity(
-                                                                opacity: 0.3,
-                                                                child: Shimmer
-                                                                    .fromColors(
-                                                                  baseColor: Colors
-                                                                      .black12,
-                                                                  highlightColor:
-                                                                      Colors
-                                                                          .white,
-                                                                  child:
-                                                                      Container(
-                                                                    width: 50,
-                                                                    height: 50,
-                                                                    //margin: EdgeInsets.symmetric(horizontal: 24),
-                                                                    decoration: BoxDecoration(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        shape: BoxShape
-                                                                            .circle),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
+                                                        Text(
+                                                          fcmNotification[i]
+                                                              .message
+                                                              .toString(),
+                                                          maxLines:
+                                                          4,
+                                                          overflow:
+                                                          TextOverflow.ellipsis,
                                                         ),
-                                                        SizedBox(
-                                                          width: 6,
-                                                        ),
-                                                        Expanded(
-                                                          flex: 4,
-                                                          child: SizedBox(
-                                                            width: 220,
-                                                            child: Text(
-                                                              fcmNotification
-                                                                  [i]
-                                                                  .message
-                                                                  .toString(),
-                                                              maxLines: 4,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 6,
-                                                        ),
-                                                        // SizedBox(width: 16),
-                                                        Expanded(
-                                                          child: Container(
-                                                            height: 50,
-                                                            width: 50,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          12),
-                                                              color: Colors.grey
-                                                                  .shade200,
-                                                            ),
-                                                            clipBehavior:
-                                                                Clip.hardEdge,
-                                                            child:
-                                                                CachedNetworkImage(
-                                                              imageUrl:
-                                                              fcmNotification[i].data![i].product!.photo.toString().contains('http')
-
-                                                                  ?
-                                                              fcmNotification[i].data![i].product!.photo.toString()
-
-                                                                  : baseUrl +
-                                                                  fcmNotification[i].data![i].
-
-                                                                      product!
-                                                                      .photo
-                                                                      .toString(),
-                                                              // fcmnotification
-                                                              //         .data![i]
-                                                              //         .product!
-                                                              //         .photo
-                                                              //         .toString()
-                                                              //         .contains(
-                                                              //             'http')
-                                                              //     ? fcmnotification
-                                                              //         .data![i]
-                                                              //         .product!
-                                                              //         .photo
-                                                              //         .toString()
-                                                              //     : baseUrl +
-                                                              //         fcmnotification
-                                                              //             .data![
-                                                              //                 i]
-                                                              //             .product!
-                                                              //             .photo
-                                                              //             .toString(),
-                                                              fit: BoxFit.cover,
-                                                              errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                  Image.asset(
-                                                                      "assets/icons/userico.jpg"),
-                                                              progressIndicatorBuilder:
-                                                                  (a, b, c) =>
-                                                                      Opacity(
-                                                                opacity: 0.3,
-                                                                child: Shimmer
-                                                                    .fromColors(
-                                                                  baseColor: Colors
-                                                                      .black12,
-                                                                  highlightColor:
-                                                                      Colors
-                                                                          .white,
-                                                                  child:
-                                                                      Container(
-                                                                    width: 50,
-                                                                    height: 50,
-                                                                    //margin: EdgeInsets.symmetric(horizontal: 24),
-                                                                    decoration: BoxDecoration(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        shape: BoxShape
-                                                                            .circle),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        )
                                                       ],
                                                     ),
                                                   ),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                              : GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      FriendNotification(),
                                                 ),
+                                              );
+                                            },
+                                            child: Container(
+                                              padding:
+                                              EdgeInsets.all(
+                                                  8),
+                                              decoration:
+                                              BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Colors
+                                                        .yellow),
+                                                color: Colors.grey
+                                                    .withOpacity(
+                                                    0.02),
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(
+                                                    10),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child:
+                                                    Container(
+                                                      height: 50,
+                                                      width: 50,
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        shape: BoxShape
+                                                            .circle,
+                                                        color: Colors
+                                                            .grey
+                                                            .shade200,
+                                                      ),
+                                                      clipBehavior:
+                                                      Clip.hardEdge,
+                                                      child:
+                                                      CachedNetworkImage(
+                                                        maxWidthDiskCache:
+                                                        65,
+                                                        maxHeightDiskCache:
+                                                        65,
+                                                        imageUrl:
+                                                            fcmNotification[i].sendBy!.photo == null ?
+                                                                '' :
+                                                        fcmNotification[i]
+                                                            .sendBy!
+                                                            .photo
+                                                            .toString()
+                                                            .contains(
+                                                            'http')
+                                                            ? fcmNotification[
+                                                        i]
+                                                            .sendBy!
+                                                            .photo
+                                                            .toString()
+                                                            : baseUrl +
+                                                            fcmNotification[i].sendBy!.photo.toString(),
+                                                        fit: BoxFit
+                                                            .cover,
+                                                        errorWidget: (context,
+                                                            url,
+                                                            error) =>
+                                                            Image.asset(
+                                                                "assets/icons/userico.jpg"),
+                                                        progressIndicatorBuilder: (a,
+                                                            b,
+                                                            c) =>
+                                                            Opacity(
+                                                              opacity:
+                                                              0.3,
+                                                              child: Shimmer
+                                                                  .fromColors(
+                                                                baseColor:
+                                                                Colors.black12,
+                                                                highlightColor:
+                                                                Colors.white,
+                                                                child:
+                                                                Container(
+                                                                  width:
+                                                                  50,
+                                                                  height:
+                                                                  50,
+                                                                  //margin: EdgeInsets.symmetric(horizontal: 24),
+                                                                  decoration:
+                                                                  BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  Expanded(
+                                                    flex: 5,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .start,
+                                                      children: [
+                                                        Text(
+                                                          fcmNotification[i]
+                                                              .message
+                                                              .toString(),
+                                                          maxLines:
+                                                          4,
+                                                          overflow:
+                                                          TextOverflow.ellipsis,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                              : GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                print(fcmNotification[i]
+                                                    .product!
+                                                    .price
+                                                    .toString());
+                                              });
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      FriendProductDetail(
+                                                        name: fcmNotification[i]
+                                                            .product!.name
+                                                            .toString(),
+                                                        price: fcmNotification[i]
+                                                            .product!
+                                                            .price
+                                                            .toString(),
+                                                        link: fcmNotification[i]
+                                                            .product!
+                                                            .url
+                                                            .toString(),
+                                                        image: fcmNotification[i]
+                                                            .product!
+                                                            .photo
+                                                            .toString(),
+                                                        purchaseDate:
+                                                        '',
+                                                        id: '',
+                                                        type: fcmNotification[i]
+                                                            .product!
+                                                            .type
+                                                            .toString(),
+                                                        response:
+                                                        widget.response,
+                                                        productId:
+                                                        fcmNotification[i]
+                                                            .product!
+                                                            .id
+                                                            .toString(),
+
+                                                        /* id: searchList[i].id.toString(),*/
+                                                      ),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Colors.yellow),
+                                                color: Colors.grey
+                                                    .withOpacity(0.02),
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    10),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Container(
+                                                      height: 50,
+                                                      width: 50,
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        shape: BoxShape
+                                                            .circle,
+                                                        color: Colors.grey
+                                                            .shade200,
+                                                      ),
+                                                      clipBehavior:
+                                                      Clip.hardEdge,
+                                                      child:
+                                                      CachedNetworkImage(
+                                                        maxWidthDiskCache:
+                                                        65,
+                                                        maxHeightDiskCache:
+                                                        65,
+                                                        imageUrl:
+                                                        fcmNotification[i].sendBy!.photo == null ?
+                                                        '' :fcmNotification[i]
+                                                            .sendBy!
+                                                            .photo
+                                                            .toString()
+                                                            .contains(
+                                                            'http')
+                                                            ? fcmNotification[i]
+                                                            .sendBy!
+                                                            .photo
+                                                            .toString()
+                                                            : baseUrl +
+                                                            fcmNotification[
+                                                            i]
+                                                                .sendBy!
+                                                                .photo
+                                                                .toString(),
+                                                        fit: BoxFit.cover,
+                                                        errorWidget: (context,
+                                                            url,
+                                                            error) =>
+                                                            Image.asset(
+                                                                "assets/icons/userico.jpg"),
+                                                        progressIndicatorBuilder:
+                                                            (a, b, c) =>
+                                                            Opacity(
+                                                              opacity: 0.3,
+                                                              child: Shimmer
+                                                                  .fromColors(
+                                                                baseColor: Colors
+                                                                    .black12,
+                                                                highlightColor:
+                                                                Colors
+                                                                    .white,
+                                                                child:
+                                                                Container(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  //margin: EdgeInsets.symmetric(horizontal: 24),
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      shape: BoxShape
+                                                                          .circle),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 6,
+                                                  ),
+                                                  Expanded(
+                                                    flex: 4,
+                                                    child: SizedBox(
+                                                      width: 220,
+                                                      child: Text(
+                                                        fcmNotification[i]
+                                                            .message
+                                                            .toString(),
+                                                        maxLines: 4,
+                                                        overflow:
+                                                        TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 6,
+                                                  ),
+                                                  // SizedBox(width: 16),
+                                                  Expanded(
+                                                    child: Container(
+                                                      height: 50,
+                                                      width: 50,
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            12),
+                                                        color: Colors.grey
+                                                            .shade200,
+                                                      ),
+                                                      clipBehavior:
+                                                      Clip.hardEdge,
+                                                      child:
+                                                      CachedNetworkImage(
+                                                        maxWidthDiskCache:
+                                                        65,
+                                                        maxHeightDiskCache:
+                                                        65,
+                                                        imageUrl: fcmNotification[i]
+                                                            .product!
+                                                            .photo
+                                                            .toString()
+                                                            .contains(
+                                                            'http')
+                                                            ? fcmNotification[i]
+                                                            .product!
+                                                            .photo
+                                                            .toString()
+                                                            : baseUrl +
+                                                            fcmNotification[i]
+                                                                .product!
+                                                                .photo
+                                                                .toString(),
+                                                        fit: BoxFit.cover,
+                                                        errorWidget: (context,
+                                                            url,
+                                                            error) =>
+                                                            Image.asset(
+                                                                "assets/icons/userico.jpg"),
+                                                        progressIndicatorBuilder:
+                                                            (a, b, c) =>
+                                                            Opacity(
+                                                              opacity: 0.3,
+                                                              child: Shimmer
+                                                                  .fromColors(
+                                                                baseColor: Colors
+                                                                    .black12,
+                                                                highlightColor:
+                                                                Colors
+                                                                    .white,
+                                                                child:
+                                                                Container(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  //margin: EdgeInsets.symmetric(horizontal: 24),
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      shape: BoxShape
+                                                                          .circle),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                         )
                                       ],
                                     ),
-                                  ),
-                                );
+                                  );
                               },
                               separatorBuilder:
                                   (BuildContext context, int index) => SizedBox(

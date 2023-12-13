@@ -23,11 +23,13 @@ class FriendNotification extends StatefulWidget {
 class _FriendNotificationState extends State<FriendNotification> {
   final requestController = TextEditingController();
 
-  List<FriendNotificationModel> friendNotification = [];
+  List<FriendRequestNotificationModel> friendNotification = [];
   // FriendNotificationModel? friendNotification;
   bool isLoading = false;
-  getFriendNotifications() {
-    isLoading = true;
+
+
+  getFriendRequestNotifications() {
+/*    isLoading = true;
     var resp = getFriendNotificationApi();
     resp.then((value) {
       friendNotification.clear();
@@ -46,7 +48,28 @@ class _FriendNotificationState extends State<FriendNotification> {
           });
         }
       }
-    });
+    });*/
+  isLoading = true;
+  var resp = getFriendRequestNotificationApi();
+  resp.then((value) {
+    friendNotification.clear();
+    if(value['error'] == false){
+      setState(() {
+        for(var v in value['data']){
+          friendNotification.add(FriendRequestNotificationModel.fromJson(v));
+        }
+        isLoading = false;
+      });
+
+    }
+    else{
+      setState(() {
+        isLoading = false;
+      });
+
+    }
+
+  });
   }
 
   final List<bool> delete = List.generate(1000, (index) => false);
@@ -56,7 +79,7 @@ class _FriendNotificationState extends State<FriendNotification> {
 
   @override
   void initState() {
-    getFriendNotifications();
+    getFriendRequestNotifications();
     super.initState();
   }
 
@@ -95,9 +118,11 @@ class _FriendNotificationState extends State<FriendNotification> {
           ),
         ),
       ),
-      body: isLoading
+      body:
+      isLoading
           ? Loading()
-          : friendNotification.isEmpty
+          :
+      friendNotification.isEmpty
               ? Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -143,17 +168,17 @@ class _FriendNotificationState extends State<FriendNotification> {
                                   clipBehavior: Clip.hardEdge,
                                   child: CachedNetworkImage(
                                     imageUrl: friendNotification[i]
-                                            .user!
+                                            .requestBy!
                                             .photo
                                             .toString()
                                             .contains('http')
                                         ? friendNotification[i]
-                                            .user!
+                                            .requestBy!
                                             .photo
                                             .toString()
                                         : baseUrl +
                                             friendNotification[i]
-                                                .user!
+                                                .requestBy!
                                                 .photo
                                                 .toString(),
                                     fit: BoxFit.cover,
@@ -188,7 +213,7 @@ class _FriendNotificationState extends State<FriendNotification> {
                                     children: [
                                       Text(
                                         friendNotification[i]
-                                            .user!
+                                            .requestBy!
                                             .name!
                                             .toString(),
                                         // "Andy Bernard",
@@ -198,7 +223,7 @@ class _FriendNotificationState extends State<FriendNotification> {
                                       SizedBox(height: 4),
                                       Text(
                                         friendNotification[i]
-                                            .user!
+                                            .requestBy!
                                             .username!
                                             .toString(),
                                         // "AndyAngie3260",
@@ -219,6 +244,8 @@ class _FriendNotificationState extends State<FriendNotification> {
                                         accept[i] = false;
                                       });
                                     });
+
+
                                     updateFriendRequestApi(
                                             status: 'accepted',
                                             id: friendNotification[i]
@@ -229,7 +256,7 @@ class _FriendNotificationState extends State<FriendNotification> {
                                         setState(() {
                                           isLoading
                                               ? Loading()
-                                              : getFriendNotifications();
+                                              : getFriendRequestNotifications();
                                         });
                                         Fluttertoast.showToast(
                                             msg: value['message']);
@@ -288,7 +315,7 @@ class _FriendNotificationState extends State<FriendNotification> {
                                           setState(() {
                                             isLoading
                                                 ? Loading()
-                                                : getFriendNotifications();
+                                                : getFriendRequestNotifications();
                                           });
                                         });
 

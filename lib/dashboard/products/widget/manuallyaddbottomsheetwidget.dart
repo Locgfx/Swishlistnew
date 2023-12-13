@@ -359,7 +359,7 @@ class _ManuallyAddBottomSheetWidgetState
 
   // ProductTypeModel? model;
 
-   ScrappingModel ? response;
+  LinkProductModel ? response;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -504,8 +504,6 @@ class _ManuallyAddBottomSheetWidgetState
                                                     )));
 
 
-                                              print('ssdd ${response}');
-                                              print(response!.data!.title.toString());
 
                                            // }else{}
                                           });

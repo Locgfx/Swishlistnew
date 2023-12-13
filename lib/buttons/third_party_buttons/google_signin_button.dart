@@ -21,16 +21,19 @@ class GoogleSigninButton extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         final auth = await GoogleSignInClass().googleLogin();
-        log(auth.idToken.toString());
-        final resp = googleValidateToken(token: auth.idToken!);
+        // log(auth.idToken.toString());
+        // print(auth.idToken!.length);
+        // print('fff');
+        print(auth.accessToken);
+        final resp = googleValidateAccessToken(token: auth.accessToken!);
         resp.then((value) {
           response = value;
           if (response?.error != null && response!.error == false) {
             SharedPrefs().setLoginTrue();
             // SharedPrefs().setGoogleTrue();
-            SharedPrefs().setGoogleToken(auth.idToken!);
+            SharedPrefs().setGoogleToken(auth.accessToken!);
             SharedPrefs().setName(response!.data!.name.toString());
-            // SharedPrefs().setUsername(response!.data.username.toString());
+             SharedPrefs().setUsername(response!.data!.username.toString());
             SharedPrefs().setUserPhoto(response!.data!.photo.toString());
             // SharedPrefs().setEmail(response!.data.email.toString());
             SharedPrefs().setPassword(response!.token.toString());

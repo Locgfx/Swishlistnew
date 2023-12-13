@@ -37,7 +37,7 @@ class _FriendsState extends State<Friends> {
 
   void initState() {
     getFriends();
-    getFriendNotifications();
+    getFriendRequestNotifications();
     super.initState();
     focusNode = FocusNode();
     // searchList = widget.searchList;
@@ -49,31 +49,6 @@ class _FriendsState extends State<Friends> {
   // NewModelFriend friendList = NewModelFriend();
   List<NewModelFriend> friendList = [];
 
-  /*getFriends() {
-    isLoading = true;
-    friendList.clear();
-    var resp = getFriendsApi();
-    resp.then((value) {
-      if (mounted) {
-        if (value['status'] == true) {
-          setState(() {
-            // friendList = NewModelFriend.fromJson(value);
-            // friendList.add(NewModelFriend.fromJson(value));
-            for (var v in value['data']) {
-              friendList.add(NewModelFriend.fromJson(v));
-            }
-            isLoading = false;
-          });
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-
-          // isLoading = false;
-        }
-      }
-    });
-  }*/
 
 
   getFriends(){
@@ -84,7 +59,6 @@ class _FriendsState extends State<Friends> {
       if(value['error'] == false){
         setState(() {
           for(var v in value['data']){
-
             friendList.add(NewModelFriend.fromJson(v));
           }
           isLoading = false;
@@ -98,26 +72,30 @@ class _FriendsState extends State<Friends> {
   }
 
 
-  List<FriendNotificationModel> friendNotification = [];
+  List<FriendRequestNotificationModel> friendNotification = [];
   // FriendNotificationModel? friendNotification;
-  bool loading = false;
 
-  getFriendNotifications() {
+
+
+  getFriendRequestNotifications() {
+
     isLoading = true;
-    var resp = getFriendNotificationApi();
+    var resp = getFriendRequestNotificationApi();
     resp.then((value) {
-      if (value['status'] == true) {
+      friendNotification.clear();
+      if(value['error'] == false){
         setState(() {
-          for (var v in value['data']) {
-            friendNotification.add(FriendNotificationModel.fromJson(v));
+          for(var v in value['data']){
+            friendNotification.add(FriendRequestNotificationModel.fromJson(v));
           }
           isLoading = false;
         });
-      } else {
-        setState(() {
-          isLoading = false;
-        });
+
       }
+      else{
+        isLoading = false;
+      }
+
     });
   }
 
@@ -208,11 +186,11 @@ class _FriendsState extends State<Friends> {
                               //           height: 24,
                               //           width: 24,
                               //           child: Image.asset(
-                              //             "assets/images/search 03.png",
-                              //             fit: BoxFit.cover,
-                              //             color: ColorSelect.color292929,
-                              //           ),
-                              //         ),
+                              //           "assets/images/search 03.png",
+                              //           fit: BoxFit.cover,
+                              //           color: ColorSelect.color292929,
+                              //       ),
+                              //    ),
                               // ),
                               SizedBox(width: 16),
                               GestureDetector(
@@ -469,7 +447,8 @@ class _FriendsState extends State<Friends> {
                                                       fit: BoxFit.cover,
                                                       errorWidget: (context,
                                                               url, error) =>
-                                                          Icon(Icons.error),
+                                                          Image.asset(
+                                                              "assets/icons/userico.jpg"),
                                                       progressIndicatorBuilder:
                                                           (a, b, c) => Opacity(
                                                         opacity: 0.3,

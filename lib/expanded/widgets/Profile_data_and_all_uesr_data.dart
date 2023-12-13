@@ -334,15 +334,14 @@ class AddressRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-
         CircularPercentIndicator(
           circularStrokeCap: CircularStrokeCap.round,
           radius: 40.w,
           lineWidth: 2.w,
           percent: .10,
-          backgroundColor: ColorSelect.colorBA54DE,
-          center: Image.asset('assets/images/agenda1.png'),
-          progressColor: ColorSelect.colorBA54DE,
+          backgroundColor: ColorSelect.color478EF8,
+          center: Image.asset('assets/images/Manage address.svg'),
+          progressColor: ColorSelect.color478EF8,
         ),
         SizedBox(width: 10.w),
         Column(

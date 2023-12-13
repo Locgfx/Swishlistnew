@@ -75,6 +75,8 @@ class ColorSelect {
 
   static const colorBA54DE = Color(0xffBA54DE);
 
+  static const color478EF8 = Color(0xff478EF8);
+
   static const colorC33C3C = Color(0xffC33C3C);
 
   static const color3D3D3D = Color(0xff3D3D3D);

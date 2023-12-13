@@ -11,7 +11,7 @@ Future<dynamic> getAddressApi() async {
 
   var headers = {
     'Accept': 'application/json',
-    'Authorization': 'Bearer ${ SharedPrefs().getLoginToken() }'
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
   var request = http.Request('GET', Uri.parse('$newBaseUrl/api/address'));
 

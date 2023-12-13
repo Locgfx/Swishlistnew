@@ -42,83 +42,16 @@ class _UserProfileState extends State<UserProfile> {
   @override
   void initState() {
     getProfile();
-
-   // print(profile!.data!.name!.toString());
-    // downloadAndSaveImage();
-
     super.initState();
   }
-  //
-  // late String localImagePath;
-  //
-  // Future<void> downloadAndSaveImage() async {
-  //   final documentDirectory = await getApplicationDocumentsDirectory();
-  //   final filePath = '${documentDirectory.path}/image.png';
-  //   File file = File(filePath);
-  //   await file.writeAsString(profile!.data!.user!.photo.toString());
-  //   if (mounted) {
-  //     setState(() {
-  //       localImagePath = filePath;
-  //     });
-  //   }
-  // }
 
-  // ProfileModel? profile = ProfileModel(
-  //   data: ProfileData(
-  //     name: '',
-  //     gender: '',
-  //     dob: '',
-  //     occupation: '',
-  //     relationStatus: '',
-  //     email: '',
-  //     phone: '',
-  //     alternatePhone: '',
-  //     homeAddress: '',
-  //     workAddress: '',
-  //     privacyStatus: '',
-  //     createdAt: '',
-  //     completePercent: '',
-  //     user: ProfileUser(
-  //       name: '',
-  //       username: '',
-  //       email: '',
-  //       phone: '',
-  //       type: '',
-  //       photo: '',
-  //     ),
-  //   ),
-  // );
+
+
 
   ProfileModel  profile = ProfileModel();
 
   getProfile() {
-  /*  isLoading = true;
-    var resp = getProfileDetails();
-    resp.then((value) {
-      print(value);
-      if (mounted) {
-        if (value['status'] == true) {
-          if (value['message'] == "No Profile") {
-            setState(() {
-              isLoading = false;
-            });
-          } else {
-            setState(() {
-              profile = ProfileModel.fromJson(value);
-              get();
-              fields();
-              isLoading = false;
-              print(
-                  'check photo${baseUrl + profile!.data!.user!.photo.toString()}');
-            });
-          }
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      }
-    });*/
+
     isLoading = true;
     var resp = getProfileApi();
     resp.then((value) {
@@ -147,64 +80,21 @@ class _UserProfileState extends State<UserProfile> {
   void fields() {
     nameController.text = profile.data!.name ?? '';
     genderController.text = profile.data?.profile?.gender ?? '';
-    dobFormat = profile.data?.profile?.dateOfBirth ?? '';
+    respDate = profile.data?.profile?.dateOfBirth ?? "";
     occupationController.text = profile.data?.profile?.occupation ?? '';
     relationStatus.text = profile.data?.profile?.marritalStatus ?? '';
     emailController.text = profile.data?.email ?? '';
     phoneController.text = profile.data?.profile?.phone ?? '';
     alternateNo.text = profile.data?.profile?.additionalPhone ?? '';
-    // homeController.text = profile!.data!.homeAddress ?? '';
-    // workController.text = profile!.data!.workAddress ?? '';
-
-    // pickedImage = (localImagePath) as File;
-    //pickedImage = File(pickedImage.path ?? '');
   }
 
   double dou = 00;
   var percent = "";
   List<String> pro = [];
 
- /* get() {
-    if (profile.name != null || profile.name != '') {
-      pro.add('name');
-    }
-    if (profile.profile?.gender != null || profile.profile?.gender != '') {
-      pro.add('gender');
-    }
-    if (profile.profile?.dateOfBirth != null || profile.profile?.dateOfBirth != '') {
-      pro.add('dob');
-    }
-    if (profile.profile?.occupation != null || profile.profile?.occupation != '') {
-      pro.add('occupation');
-    }
-    if (profile.profile?.marritalStatus != null ||
-        profile.profile?.marritalStatus != '') {
-      pro.add('relation_status');
-    }
-    if (profile.email != null || profile.email != '') {
-      pro.add('email');
-    }
-    if (profile.profile?.phone != null || profile.profile?.phone != '') {
-      pro.add('phone');
-    }
-    if (profile.profile?.additionalPhone != null ||
-        profile.profile?.additionalPhone != '') {
-      pro.add('alternate_phone');
-    }
-    // if (profile!.data!.homeAddress != null ||
-    //     profile!.data!.homeAddress != '') {
-    //   pro.add('home_address');
-    // }
-    // if (profile!.data!.workAddress != null ||
-    //     profile!.data!.workAddress != '') {
-    //   pro.add('work_address');
-    // }
-    // percent = ((pro.length / 10) * 100).toString().split(".").first;
-    // dou = (pro.length / 10);
-  }*/
+
 
   File pickedImage = File("");
-
   final ImagePicker _imgPicker = ImagePicker();
 
   String networkImage = '';
@@ -219,7 +109,8 @@ class _UserProfileState extends State<UserProfile> {
   final homeController = TextEditingController();
   final workController = TextEditingController();
   String dobFormat = '';
-  // GlobalKey<FormState>  formKey = GlobalKey<FormState>();
+  String respDate = '';
+
 
   String? profileComplete;
   double profileParsedPercent = 0.0;
@@ -263,6 +154,7 @@ class _UserProfileState extends State<UserProfile> {
     profileComplete = widget.response.data!.complete.toString();
     profileParsedPercent = double.tryParse(profileComplete!.replaceAll("%", '') ?? '0') ?? 0.0;
 
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -291,10 +183,6 @@ class _UserProfileState extends State<UserProfile> {
                                 .toString()
                                 .split(".")
                                 .first,
-                        // sizeWeight!.data!.completePercent
-                        //     .toString()
-                        //     .split(".")
-                        //     .first,
                         style: AppTextStyle().textColor70707012w400,
                       ),
                       Text(
@@ -314,50 +202,6 @@ class _UserProfileState extends State<UserProfile> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => UserAllDetails(response: widget.response,)));
-              //Navigator.pop(context);
-              // profile!.data!.toString().isEmpty
-              // (profile!.data!.completePercent.toString() == '' ||
-              //         profile!.data!.name.toString() == '' ||
-              //         profile!.data!.email.toString() == '' ||
-              //         profile!.data!.workAddress.toString() == '' ||
-              //         profile!.data!.homeAddress.toString() == '' ||
-              //         profile!.data!.completePercent.toString() == '' ||
-              //         profile!.data!.alternatePhone.toString() == '' ||
-              //         profile!.data!.relationStatus.toString() == '' ||
-              //         profile!.data!.gender.toString() == '' ||
-              //         profile!.data!.dob.toString() == '' ||
-              //         profile!.data!.occupation.toString() == '' ||
-              //         profile!.data!.phone.toString() == '')
-              // updateProfile(
-              //         name: nameController.text,
-              //         gender: genderController.text,
-              //         dob: dobFormat,
-              //         occupation: occupationController.text,
-              //         relationStatus: relationStatus.text,
-              //         email: emailController.text,
-              //         phone: phoneController.text,
-              //         alternateNo: alternateNo.text,
-              //         homeAddress: homeController.text,
-              //         workAddress: workController.text,
-              //         privacyStatus: 'public',
-              //         id: profile!.data!.id.toString(),
-              //         photo: profile!.data!.user!.photo!.isEmpty
-              //             ? pickedImage.isAbsolute
-              //                 ? pickedImage.path
-              //                 : ''
-              //             : profile!.data!.user!.photo!)
-              //     .then((value) {
-              //   print(pickedImage);
-              //   if (value['status'] == true) {
-              //     Navigator.pop(context);
-              //     // setState(() {
-              //     //   // isLoading ? Loading() :getProfile();
-              //     // });
-              //     Fluttertoast.showToast(msg: value['message']);
-              //   } else {
-              //     Fluttertoast.showToast(msg: value['message']);
-              //   }
-              // });
             },
             child: SvgPicture.asset(
               "assets/icons/arrowback.svg",
@@ -469,10 +313,10 @@ class _UserProfileState extends State<UserProfile> {
                                   child: GestureDetector(
                                     onTap: () async {
                                       XFile? v = await _imgPicker.pickImage(
-                                          source: ImageSource.gallery);
+                                          imageQuality: 40, source: ImageSource.gallery);
                                       if (v != null) {
                                         setState(
-                                          () {
+                                              () {
                                             pickedImage = File(v.path);
                                           },
                                         );
@@ -1066,350 +910,39 @@ class _UserProfileState extends State<UserProfile> {
                         SizedBox(
                           height: 40.h,
                         ),
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     showDialog(
-                        //       context: context,
-                        //       builder: (BuildContext context) {
-                        //         return NameEditDialogWidget(
-                        //           title: 'Alternate phone no',
-                        //           addTextField: TextFormField(
-                        //             keyboardType: TextInputType.number,
-                        //             onChanged: (v) {
-                        //               setState(() {});
-                        //               if (!pro.contains("alternate_phone")) {
-                        //                 setState(() {
-                        //                   pro.add('alternate_phone');
-                        //                 });
-                        //               }
-                        //             },
-                        //             onEditingComplete: () {
-                        //               Navigator.pop(context);
-                        //             },
-                        //             controller: alternateNo,
-                        //             cursorColor: ColorSelect.colorF7E641,
-                        //             decoration: AppTFDecoration(
-                        //                     hint: 'Alternate phone no')
-                        //                 .decoration(),
-                        //             //keyboardType: TextInputType.phone,
-                        //           ),
-                        //         );
-                        //       },
-                        //     );
-                        //   },
-                        //   child: Row(
-                        //     children: [
-                        //       Text(
-                        //         "Alternate phone no",
-                        //         style: AppTextStyle().textColor70707014w400,
-                        //       ),
-                        //       Spacer(),
-                        //       alternateNo.text.isEmpty
-                        //           ? Text(
-                        //               profile!.data!.alternatePhone
-                        //                               .toString() ==
-                        //                           '' ||
-                        //                       profile!.data!.alternatePhone ==
-                        //                           null
-                        //                   ? '+ Add'
-                        //                   : profile!.data!.alternatePhone
-                        //                       .toString(),
-                        //               style: profile!.data!.alternatePhone == ''
-                        //                   ? AppTextStyle().textColorD5574514w500
-                        //                   : AppTextStyle()
-                        //                       .textColor29292914w400,
-                        //             )
-                        //           : Text(
-                        //               alternateNo.text,
-                        //               style:
-                        //                   AppTextStyle().textColor29292914w400,
-                        //             )
-                        //     ],
-                        //   ),
-                        //   // child: AlternatePhoneRowWidget(profile:profile!),
-                        // ),
-                        // SizedBox(
-                        //   height: 40.h,
-                        // ),
-/*                        Text(
-                          "Addresses",
-                          style: AppTextStyle().textColor29292914w600,
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Text(
-                          "Home",
-                          style: AppTextStyle().textColor70707014w400,
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return NameEditDialogWidget(
-                                  title: 'Home Address',
-                                  addTextField: TextFormField(
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(70),
-                                    ],
-                                    onChanged: (v) {
-                                      setState(() {});
-                                      if (!pro.contains("home_address")) {
-                                        setState(() {
-                                          pro.add('home_address');
-                                        });
-                                      }
-                                    },
-                                    onEditingComplete: () {
-                                      Navigator.pop(context);
-                                    },
-                                    controller: homeController,
-                                    cursorColor: ColorSelect.colorF7E641,
-                                    decoration:
-                                        AppTFDecoration(hint: 'Home Address')
-                                            .decoration(),
-                                    //keyboardType: TextInputType.phone,
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            child: Column(
-                              children: [
-                                homeController.text.isEmpty
-                                    ? Text(
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        profile!.data!.homeAddress.toString() ==
-                                                    '' ||
-                                                profile!.data!.homeAddress ==
-                                                    null
-                                            ? '+ Add'
-                                            : profile!.data!.homeAddress
-                                                .toString(),
-                                        style: profile!.data!.homeAddress == ''
-                                            ? AppTextStyle()
-                                                .textColorD5574514w500
-                                            : AppTextStyle()
-                                                .textColor29292914w400,
-                                      )
-                                    : Text(
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        homeController.text,
-                                        style: AppTextStyle()
-                                            .textColor29292914w400,
-                                      )
-                                // Spacer(),
-                                // Image.asset("assets/images/image462.png"),
-                                // SizedBox(width: 20.w),
-                                // SvgPicture.asset("assets/icons/forwordarrow.svg")
-                              ],
-                            ),
-                          ),
-                          // child: AddressRowWidget(profile:profile!),
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return NameEditDialogWidget(
-                                  title: 'Work Address',
-                                  addTextField: TextFormField(
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(70),
-                                    ],
-                                    onChanged: (v) {
-                                      setState(() {});
-                                      if (!pro.contains("work_address")) {
-                                        setState(() {
-                                          pro.add('work_address');
-                                        });
-                                      }
-                                    },
-                                    onEditingComplete: () {
-                                      Navigator.pop(context);
-                                    },
-                                    controller: workController,
-                                    cursorColor: ColorSelect.colorF7E641,
-                                    decoration:
-                                        AppTFDecoration(hint: 'Work Address')
-                                            .decoration(),
-                                    onTap: () {},
-                                    //keyboardType: TextInputType.phone,
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    "Work",
-                                    style: AppTextStyle().textColor70707014w400,
-                                  ),
-                                  Spacer(),
-                                  SizedBox(width: 5.w),
-
-                                  // Image.asset("assets/images/information1.png"),
-                                  // SizedBox(width: 20.w),
-                                  // SvgPicture.asset("assets/icons/forwordarrow.svg")
-                                ],
-                              ),
-                              workController.text.isEmpty
-                                  ? Text(
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      profile!.data!.workAddress.toString() ==
-                                                  '' ||
-                                              profile!.data!.workAddress == null
-                                          ? '+ Add'
-                                          : profile!.data!.workAddress
-                                              .toString(),
-                                      style: profile!.data!.workAddress == ''
-                                          ? AppTextStyle().textColorD5574514w500
-                                          : AppTextStyle()
-                                              .textColor29292914w400,
-                                    )
-                                  : Text(
-                                      workController.text,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style:
-                                          AppTextStyle().textColor29292914w400,
-                                    ),
-                            ],
-                          ),
-
-                          // child: WorkRowWidget(profile:profile!),
-                        ),*/
 
                         SizedBox(height: 30),
                         Padding(
                             padding: const EdgeInsets.only(bottom: 16),
                             child:
-                                // child: (profile!.data!.occupation.toString() == '')
-                                // //     ?
-                                // LightYellowButtonWithText(
-                                //     size: 16,
-                                //     backgroundColor: MaterialStateProperty.all(
-                                //         ColorSelect.colorF7E641),
-                                //     textStyleColor: Colors.black,
-                                //     onTap: () {
-                                //       //print(localImagePath);
-                                //    /*   postProfile(
-                                //         name: nameController.text,
-                                //         gender: genderController.text,
-                                //         dob: dobFormat,
-                                //         occupation: occupationController.text,
-                                //         relationStatus: relationStatus.text,
-                                //         email: emailController.text,
-                                //         phone: phoneController.text,
-                                //         alternateNo: alternateNo.text,
-                                //         homeAddress: homeController.text,
-                                //         workAddress: workController.text,
-                                //         privacyStatus: 'public',
-                                //         photo:
-                                //             // localImagePath
-                                //
-                                //             pickedImage.isAbsolute
-                                //                 ? pickedImage.path
-                                //                 : '',
-                                //       ).then(
-                                //         (value) async {
-                                //           if (value['status'] == true) {
-                                //             SharedPrefs().setPPercent('100 %');
-                                //             Navigator.of(context)
-                                //                 .pushReplacement(
-                                //               MaterialPageRoute(
-                                //                 builder:
-                                //                     (BuildContext context) {
-                                //                   // Your new route/widget here
-                                //                   return UserAllDetails(
-                                //                     response: widget.response,
-                                //                   );
-                                //                 },
-                                //               ),
-                                //             );
-                                //             Fluttertoast.showToast(
-                                //                 msg: value['message']);
-                                //           } else {
-                                //             Fluttertoast.showToast(
-                                //                 msg: value['message']);
-                                //           }
-                                //         },
-                                //       );*/
-                                //     },
-                                //     title: 'Add')
-                            //     :
                             LightYellowButtonWithText(
                                 size: 15,
                                 backgroundColor: MaterialStateProperty.all(
                                     ColorSelect.colorF7E641),
                                 textStyleColor: Colors.black,
                                 onTap: () {
-                                 /* updateProfile(
-                                          name: nameController.text,
-                                          gender: genderController.text,
-                                          dob: dobFormat,
-                                          occupation:
-                                              occupationController.text,
-                                          relationStatus:
-                                              relationStatus.text,
-                                          email: emailController.text,
-                                          phone: phoneController.text,
-                                          alternateNo: alternateNo.text,
-                                          homeAddress: homeController.text,
-                                          workAddress: workController.text,
-                                          privacyStatus: 'public',
-                                          id: profile!.data!.id.toString(),
-                                          photo: pickedImage.isAbsolute
-                                              ? pickedImage.path
-                                              : '')
-                                      .then((value) {
-                                    print(pickedImage);
-                                    if (value['status'] == true) {
-                                      SharedPrefs()
-                                          .setName(nameController.text);
-                                      SharedPrefs()
-                                          .setEmail(emailController.text);
-                                      Navigator.pop(context);
-                                      // setState(() {
-                                      //   // isLoading ? Loading() :getProfile();
-                                      // });
-                                      Fluttertoast.showToast(
-                                          msg: value['message']);
-                                    } else {
-                                      Fluttertoast.showToast(
-                                          msg: value['message']);
-                                    }
-                                  });*/
+                                  // setState(() {
+                                  //   DateTime date = DateFormat("dd MMMM, yyyy").parse(respDate);
+                                  //   respDate = DateFormat('yyyy-MM-dd').format(date);
+                                  // });
                                   updateProfileApi(
                                       name: nameController.text,
                                       userName: nameController.text,
                                       gender: genderController.text,
-                                      dob: dobFormat,
+                                    dob: dobController.text,
+                                    //   dob: dobFormat.isEmpty ?
+                                    // respDate :
+                                    // dobFormat,
                                       occupation: occupationController.text,
                                       relationStatus: relationStatus.text,
                                       email: emailController.text,
                                       phone: phoneController.text,
                                       alternateNo: alternateNo.text,
                                       privacyStatus: 'public',
-                                      photo: pickedImage.path,
+                                      photo:
+                                      pickedImage.isAbsolute
+                                          ? pickedImage.path
+                                          : '',
                                      ).then((value) {
                                         if(value['error'] == false){
                                           Fluttertoast.showToast(msg: value['message']);
@@ -1432,130 +965,7 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  // AlertDialog buildAlertDialog(BuildContext context, final String puppyOrigin,
-  //     final Function(String) onPop) {
-  //   int _gIndex = 0;
-  //   return AlertDialog(
-  //       insetPadding: EdgeInsets.only(
-  //         left: 20,
-  //         right: 20,
-  //       ),
-  //       contentPadding: EdgeInsets.zero,
-  //       shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(12),
-  //       ),
-  //       elevation: 0,
-  //       backgroundColor: Colors.white,
-  //       content: Container(
-  //         color: Colors.transparent,
-  //         padding: EdgeInsets.symmetric(
-  //           vertical: 20,
-  //           horizontal: 20,
-  //         ),
-  //         width: 1.sw,
-  //         child: SingleChildScrollView(
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Text(
-  //                 'Gender',
-  //                 style: AppTextStyle().textColor29292914w500,
-  //               ),
-  //               Row(
-  //                 children: [
-  //                   Checkbox(
-  //                     checkColor: Colors.grey,
-  //                     activeColor: ColorSelect.colorF7E641,
-  //                     //fillColor: MaterialStateProperty.resolveWith(getColor),
-  //                     value: checkedMale,
-  //                     shape: CircleBorder(),
-  //                     onChanged: (value) {
-  //                       setState(() {
-  //                         checkedMale = value!;
-  //                       });
-  //                     },
-  //                   ),
-  //                   Text('Male', style: AppTextStyle().textColor29292914w500)
-  //                 ],
-  //               ),
-  //               Row(
-  //                 children: [
-  //                   Checkbox(
-  //                     checkColor: Colors.grey,
-  //                     activeColor: ColorSelect.colorF7E641,
-  //                     //fillColor: MaterialStateProperty.resolveWith(getColor),
-  //                     value: checkedFemale,
-  //                     shape: CircleBorder(),
-  //                     onChanged: (value) {
-  //                       setState(() {
-  //                         checkedFemale = value!;
-  //                       });
-  //                     },
-  //                   ),
-  //                   Text('Female', style: AppTextStyle().textColor29292914w500)
-  //                 ],
-  //               ),
-  //               Row(
-  //                 children: [
-  //                   Checkbox(
-  //                     checkColor: Colors.grey,
-  //                     activeColor: ColorSelect.colorF7E641,
-  //                     //fillColor: MaterialStateProperty.resolveWith(getColor),
-  //                     value: checkedOther,
-  //                     shape: CircleBorder(),
-  //                     onChanged: (value) {
-  //                       setState(() {
-  //                         checkedOther = value!;
-  //                       });
-  //                     },
-  //                   ),
-  //                   Text('Other', style: AppTextStyle().textColor29292914w500)
-  //                 ],
-  //               ),
-  //               SizedBox(height: 20),
-  //               GestureDetector(
-  //                 onTap: () {
-  //                   Navigator.pop(context);
-  //                   Navigator.push(
-  //                     context,
-  //                     MaterialPageRoute(
-  //                       builder: (_) => Privacy(),
-  //                     ),
-  //                   );
-  //                 },
-  //                 child: Container(
-  //                   color: Colors.transparent,
-  //                   child: Row(
-  //                     mainAxisAlignment: MainAxisAlignment.end,
-  //                     children: [
-  //                       Text(
-  //                         "Visible to",
-  //                         style: AppTextStyle().textColor70707014w400,
-  //                       ),
-  //                       SizedBox(
-  //                         width: 5.w,
-  //                       ),
-  //                       Image.asset("assets/images/image46.png"),
-  //                       SizedBox(
-  //                         width: 5.w,
-  //                       ),
-  //                       Text(
-  //                         'Everyone',
-  //                         style: AppTextStyle().textColor29292914w400,
-  //                       ),
-  //                       SizedBox(
-  //                         width: 10.w,
-  //                       ),
-  //                       Image.asset("assets/images/Vector176.png")
-  //                     ],
-  //                   ),
-  //                 ),
-  //               )
-  //             ],
-  //           ),
-  //         ),
-  //       ));
-  // }
+
 }
 
 class CheckBoxWidget extends StatefulWidget {
@@ -1818,6 +1228,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
               ),
               SizedBox(height: 20),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   setState(() {
                     _gIndex = 0;
@@ -1828,6 +1239,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
                 child: Row(
                   children: [
                     GestureDetector(
+                      behavior: HitTestBehavior.translucent,
                       onTap: () {
                         setState(() {
                           _gIndex = 0;
@@ -1857,6 +1269,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
               ),
               SizedBox(height: 20),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   setState(() {
                     _gIndex = 1;

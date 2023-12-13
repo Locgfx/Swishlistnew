@@ -52,7 +52,7 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
         for (var v in value['results']) {
           productId.add(v['listing_id']);
           isLoading = false;
-          print(productId);
+          // print(productId);
         }
         getListingId();
       });
@@ -331,7 +331,7 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
                                                     ),
                                                     Text(
                                                       // normalizedPercent.toString(),
-                                                      '\$ ${normalizedPercent} ',
+                                                      '\$ ${normalizedPercent.toStringAsFixed(2)} ',
                                                       // ' \$ ${listings[i].price!.amount.toString()}',
                                                       overflow:
                                                           TextOverflow.ellipsis,
@@ -398,6 +398,8 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
                                     itemCount: searchListings.length + 1,
                                     itemBuilder: (_, i) {
                                       if (i < searchListings.length) {
+                                        normalizedPercent =
+                                            searchListings[i].price!.amount! / 100.00;
                                         return GestureDetector(
                                           onTap: () {
                                             Navigator.push(
@@ -511,7 +513,7 @@ class _HomeEtsyProductsState extends State<HomeEtsyProducts> {
                                                         height: 8.0,
                                                       ),
                                                       Text(
-                                                        ' \$ ${searchListings[i].price!.amount.toString()}',
+                                                        ' \$ ${normalizedPercent.toStringAsFixed(2)}',
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         style: AppTextStyle()

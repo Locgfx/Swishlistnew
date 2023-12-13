@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/message_api.dart';
+import 'package:swishlist/models/new_models/room_create_model.dart';
 import 'package:swishlist/models/product_type_model.dart';
 
 import '../../api/user_apis/products_api.dart';
@@ -21,7 +22,6 @@ import '../../models/new_messages_model.dart';
 
 class ProfileChatPage extends StatefulWidget {
   final  LoginResponse resp;
-  final int chatId;
   final String friendId;
   final String name;
   final String friendImage;
@@ -30,7 +30,6 @@ class ProfileChatPage extends StatefulWidget {
   const ProfileChatPage({
     Key? key,
     required this.resp,
-    required this.chatId,
     required this.friendId,
     required this.name,
     required this.friendImage,
@@ -45,9 +44,9 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
   @override
   void initState() {
     super.initState();
-    // print(widget.friendId);
      getWantProduct();
      getMessages();
+     // createChatRoom();
     focusNode.addListener(() {
       setState(() {});
     });
@@ -55,51 +54,45 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
   }
 
   final GlobalKey _groupListKey = GlobalKey();
+
   bool isLoading = true;
   //ListMessageModel? listMessages;
   int ids = 0;
   String name  = '';
 
-  // DateTime parseCreatedAt(String? createdAt) {
-  //   if (createdAt == null) {
-  //     // Handle null case or return a default value
-  //     return DateTime(0);
-  //   }
-  //
-  //   if (createdAt.contains('seconds ago')) {
-  //     final secondsAgo = int.parse(createdAt.split(' ')[0]);
-  //     return DateTime.now().subtract(Duration(seconds: secondsAgo));
-  //   } else if (createdAt.contains('minute ago')) {
-  //     return DateTime.now().subtract(Duration(minutes: 1));
-  //   } else if (createdAt.contains('minutes ago')) {
-  //     final minutesAgo = int.parse(createdAt.split(' ')[0]);
-  //     return DateTime.now().subtract(Duration(minutes: minutesAgo));
-  //   } else if (createdAt.contains('hour ago')) {
-  //     return DateTime.now().subtract(Duration(hours: 1));
-  //   } else if (createdAt.contains('hours ago')) {
-  //     final hoursAgo = int.parse(createdAt.split(' ')[0]);
-  //     return DateTime.now().subtract(Duration(hours: hoursAgo));
-  //   } else if (createdAt.contains('day ago')) {
-  //     return DateTime.now().subtract(Duration(days: 1));
-  //   } else if (createdAt.contains('days ago')) {
-  //     final daysAgo = int.parse(createdAt.split(' ')[0]);
-  //     return DateTime.now().subtract(Duration(days: daysAgo));
-  //   } else {
-  //     // Handle other date formats or return a default value
-  //     return DateTime(0);
-  //   }
+  //ChatRoomModel? resp;
+  int chatRoomId = 0;
+
+  // createChatRoom() {
+  //     postChatApi(friendId: widget.friendId).then((value) {
+  //       resp = value;
+  //       if(resp?.error != null &&
+  //           resp!.error == false){
+  //         // chatRoomId = resp!.data!.lastMessage!.chatId!;
+  //         SharedPrefs().setIntValue(resp!.data!.lastMessage!.chatId!);
+  //         // print(resp!.data!.lastMessage!.chatId);
+  //       }
+  //     });
   // }
 
+  MessageModel  response = MessageModel();
 
-  /* getMessages() {
+
+
+  getMessages() {
     isLoading = true;
-    var resp = listMessageApi(specificUserid: widget.friendId);
-    resp.then((value) {
-      // print(widget.friendId);
-      if (mounted) {
-        if (value['status'] == true) {
+    int? chatId = SharedPrefs().getIntValue();
+    if (chatId != null) {
+      var resp = getMessageApi(chatId: chatId, page: '0');
+      resp.then((value) {
+        if (value['error'] == false) {
           setState(() {
-            listMessages = ListMessageModel.fromJson(value);
+            response = MessageModel.fromJson(value);
+            response.data?.sort((a, b) {
+              final createdAtA = a.createdAt ?? "";
+              final createdAtB = b.createdAt ?? "";
+              return createdAtB.compareTo(createdAtA);
+            });
             isLoading = false;
           });
         } else {
@@ -107,35 +100,14 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
             isLoading = false;
           });
         }
-      }
-    });
-  }*/
-
-  // List<MessageModel> messageList = [];
-
-
-  MessageModel  response = MessageModel();
-
-
-
-  getMessages(){
-    isLoading = true;
-    var resp = getMessageApi(chatId: widget.chatId, page: '0');
-        resp.then((value) {
-          if(value['error'] == false){
-        setState(() {
-          response = MessageModel.fromJson(value);
-          isLoading = false;
-
-        });
-      }else{
-        setState(() {
-          isLoading = false;
-        });
-      }
-    });
-
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
+
 
 
   final focusNode = FocusNode();
@@ -147,47 +119,20 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
   int productIds = 0;
   final key = GlobalKey<FormState>();
 
-  // final List<int> selectedItems;
-  // getWantProduct() {
-  //   isLoading = true;
-  //   var resp = getProductsApi();
-  //   resp.then((value) {
-  //     if (value['status'] == true) {
-  //       setState(() {
-  //         for (var v in value["data"]) {
-  //           wantProduct.add(ProductTypeModel.fromJson(v));
-  //         }
-  //         for (var v in wantProduct) {
-  //           if (v.type! == "want") {
-  //             wantProduct2.add(v);
-  //           }
-  //         }
-  //         isLoading = false;
-  //       });
-  //     } else {
-  //       isLoading = false;
-  //     }
-  //   });
-  // }
-
   List<ProductTypeModel> wantProducts = [];
   List<ProductTypeModel> wantProducts2 = [];
 
   getWantProduct(){
     isLoading = true;
     var resp = getProductsApi();
-
     resp.then((value) {
-
       wantProducts2.clear();
       wantProducts.clear();
-
       if(value['error'] == false){
         setState(() {
           for(var v in value['data']){
             wantProducts.add(ProductTypeModel.fromJson(v));
           }
-
           for(var q in wantProducts){
             if(q.type == 'want'){
               wantProducts2.add(q);
@@ -196,11 +141,10 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
           print(wantProducts2);
           isLoading = false;
         });
-
-      }else{
+          }  else{
         isLoading = false;
-      }
-    });
+        }
+      });
   }
 
   @override
@@ -232,10 +176,8 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                             ? widget.friendImage
                             : baseUrl + widget.friendImage,
                         fit: BoxFit.cover,
-                        errorWidget: (context, url, error) => Icon(
-                          Icons.error,
-                          color: Colors.black,
-                        ),
+                        errorWidget: (context, url, error) =>   Image.asset(
+                            "assets/icons/userico.jpg"),
                         progressIndicatorBuilder: (a, b, c) => Opacity(
                           opacity: 0.3,
                           child: Shimmer.fromColors(
@@ -252,9 +194,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 8,
-                    ),
+                    SizedBox(width: 8,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -279,12 +219,6 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                         ),
                       ],
                     ),
-                    // Spacer(),
-                    // Image.asset(
-                    //   "assets/images/Vector.png",
-                    //   height: 40,
-                    //   width: 40,
-                    // )
                   ],
                 ),
               ),
@@ -299,342 +233,6 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
               ),
             ),
             backgroundColor: Colors.white,
-            // bottomNavigationBar: Container(
-            //   width: 328.w,
-            //   height: 52.h,
-            //   margin: EdgeInsets.only(top: 16, bottom: 26, left: 16, right: 16),
-            //   decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(8),
-            //       color: focusNode.hasFocus
-            //           ? ColorSelect.colorFDFAE3
-            //           : ColorSelect.colorEDEDF1),
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(left: 12),
-            //     child: Form(
-            //       key: key,
-            //       child: Row(
-            //         children: [
-            //           Expanded(
-            //             child: TextFormField(
-            //               focusNode: focusNode,
-            //               cursorColor: ColorSelect.colorF7E641,
-            //               cursorWidth: 3,
-            //               controller: sendMsgController,
-            //               validator: (value) {
-            //                 if (value == null || value.isEmpty) {
-            //                   return 'Please enter your msg';
-            //                 }
-            //                 return null;
-            //               },
-            //               decoration: InputDecoration(
-            //                   border: InputBorder.none,
-            //                   hintText: "Message",
-            //                   hintStyle: AppTextStyle().textColor70707014w400,
-            //                   suffixIcon: show
-            //                       ? Padding(
-            //                           padding: const EdgeInsets.all(10.0),
-            //                           child: CircularProgressIndicator(
-            //                             color: ColorSelect.colorF7E641,
-            //                           ),
-            //                         )
-            //                       : /*focusNode.hasFocus
-            //                                 ?*/
-            //                       Row(
-            //                           mainAxisAlignment: MainAxisAlignment
-            //                               .spaceBetween, // added line
-            //                           mainAxisSize: MainAxisSize.min,
-            //                           children: [
-            //                             GestureDetector(
-            //                                 onTap: () {
-            //                                   if (sendMsgController
-            //                                       .text.isNotEmpty) {
-            //                                     setState(() {
-            //                                       show = !show;
-            //                                     });
-            //                                     Timer timer = Timer(
-            //                                         Duration(seconds: 3), () {
-            //                                       setState(() {
-            //                                         show = false;
-            //                                       });
-            //                                     });
-            //                                     FocusManager
-            //                                         .instance.primaryFocus
-            //                                         ?.unfocus();
-            //                                     if (sendMsgController
-            //                                         .text.isNotEmpty) {
-            //                                       print(widget.friendId);
-            //                                       sendMessageApi(
-            //                                               sendUserid:
-            //                                                   widget.friendId,
-            //                                               message:
-            //                                                   sendMsgController
-            //                                                       .text,
-            //                                               productId: productIds
-            //                                                   .toString())
-            //                                           .then((value) async {
-            //                                         print(widget.friendId);
-            //                                         print(sendMsgController);
-            //                                         if (value['status'] ==
-            //                                             true) {
-            //                                           isLoading
-            //                                               ? Loading()
-            //                                               : getMessages();
-            //                                           // Fluttertoast.showToast(msg: value['message']);
-            //                                         } else {
-            //                                           Fluttertoast.showToast(
-            //                                               msg:
-            //                                                   value['message']);
-            //                                         }
-            //                                       });
-            //                                     }
-            //                                   } else {
-            //                                     Fluttertoast.showToast(
-            //                                         msg: "Please Add your msg");
-            //                                   }
-            //                                 },
-            //                                 child: Image.asset(
-            //                                     'assets/images/sentimage.png')),
-            //                             SizedBox(width: 8),
-            //                             GestureDetector(
-            //                               onTap: () {
-            //                                 showModalBottomSheet(
-            //                                     backgroundColor:
-            //                                         Colors.transparent,
-            //                                     context: context,
-            //                                     builder: (context) {
-            //                                       return StatefulBuilder(
-            //                                           builder:
-            //                                               (BuildContext context,
-            //                                                   StateSetter
-            //                                                       setState) {
-            //                                         return Container(
-            //                                           decoration: BoxDecoration(
-            //                                             color: ColorSelect
-            //                                                 .colorFFFFFF,
-            //                                             borderRadius:
-            //                                                 BorderRadius
-            //                                                     .vertical(
-            //                                               top: Radius.circular(
-            //                                                   20),
-            //                                             ),
-            //                                           ),
-            //                                           child:
-            //                                               SingleChildScrollView(
-            //                                             physics:
-            //                                                 NeverScrollableScrollPhysics(),
-            //                                             child: Padding(
-            //                                               padding:
-            //                                                   const EdgeInsets
-            //                                                       .symmetric(
-            //                                                       horizontal:
-            //                                                           16),
-            //                                               child: Column(
-            //                                                 children: [
-            //                                                   SizedBox(
-            //                                                     height: 8,
-            //                                                   ),
-            //                                                   Container(
-            //                                                     width: 48.w,
-            //                                                     height: 4.h,
-            //                                                     decoration: BoxDecoration(
-            //                                                         borderRadius:
-            //                                                             BorderRadius
-            //                                                                 .circular(
-            //                                                                     8),
-            //                                                         color: ColorSelect
-            //                                                             .colorDCDCDC),
-            //                                                   ),
-            //                                                   SizedBox(
-            //                                                     height: 20,
-            //                                                   ),
-            //                                                   Row(
-            //                                                     mainAxisAlignment:
-            //                                                         MainAxisAlignment
-            //                                                             .center,
-            //                                                     children: [
-            //                                                       Row(
-            //                                                         children: [
-            //                                                           Text(
-            //                                                             "Products I Want",
-            //                                                             style: AppTextStyle()
-            //                                                                 .textColor29292914w500,
-            //                                                           ),
-            //                                                           // SizedBox(width: 8),
-            //                                                           // Image.asset("assets/images/directiondown01.png"),
-            //                                                         ],
-            //                                                       )
-            //                                                     ],
-            //                                                   ),
-            //                                                   SizedBox(
-            //                                                       height: 16),
-            //                                                   wantProduct2
-            //                                                           .isEmpty
-            //                                                       ? Padding(
-            //                                                           padding: const EdgeInsets
-            //                                                               .only(
-            //                                                               bottom:
-            //                                                                   80.0,
-            //                                                               top:
-            //                                                                   20),
-            //                                                           child: Image
-            //                                                               .asset(
-            //                                                             "assets/images/addproducts2.png",
-            //                                                             height:
-            //                                                                 200,
-            //                                                             width:
-            //                                                                 200,
-            //                                                           ),
-            //                                                         )
-            //                                                       : Container(
-            //                                                           height:
-            //                                                               600,
-            //                                                           child: ListView.builder(
-            //                                                               physics: ScrollPhysics(),
-            //                                                               itemCount: wantProduct2.length,
-            //                                                               shrinkWrap: true,
-            //                                                               scrollDirection: Axis.vertical,
-            //                                                               itemBuilder: (context, i) {
-            //                                                                 print(wantProduct2.length);
-            //                                                                 return Padding(
-            //                                                                   padding: const EdgeInsets.only(top: 16),
-            //                                                                   child: GestureDetector(
-            //                                                                     onTap: () {
-            //                                                                       print(selectedItems);
-            //                                                                       // selectedItems.add(wantProduct2[i].id!);
-            //                                                                       productIds = wantProduct2[i].id!;
-            //                                                                       Navigator.pop(context);
-            //                                                                     },
-            //                                                                     child: Container(
-            //                                                                       color: Colors.transparent,
-            //                                                                       child: Column(
-            //                                                                         children: [
-            //                                                                           Row(
-            //                                                                             children: [
-            //                                                                               Stack(children: [
-            //                                                                                 Container(
-            //                                                                                   height: 86,
-            //                                                                                   width: 86,
-            //                                                                                   clipBehavior: Clip.hardEdge,
-            //                                                                                   decoration: BoxDecoration(
-            //                                                                                     borderRadius: BorderRadius.circular(8),
-            //                                                                                     border: Border.all(
-            //                                                                                       width: 1,
-            //                                                                                       color: selectedItems.contains(wantProduct2[i].id!) ? ColorSelect.colorF7E641 : ColorSelect.colorE0E0E0,
-            //                                                                                     ),
-            //                                                                                   ),
-            //                                                                                   child: Center(
-            //                                                                                       child: CachedNetworkImage(
-            //                                                                                     // imageUrl: (baseUrl+wantProduct2[i].photo.toString()),
-            //                                                                                     imageUrl: wantProduct2[i].photo.toString().contains("https") ? wantProduct2[i].photo.toString() : baseUrl + wantProduct2[i].photo.toString(),
-            //                                                                                     fit: BoxFit.cover,
-            //                                                                                     errorWidget: (context, url, error) => Icon(
-            //                                                                                       Icons.error,
-            //                                                                                       size: 40,
-            //                                                                                     ),
-            //                                                                                     progressIndicatorBuilder: (a, b, c) => Opacity(
-            //                                                                                       opacity: 0.3,
-            //                                                                                       child: Shimmer.fromColors(
-            //                                                                                         baseColor: Colors.black12,
-            //                                                                                         highlightColor: Colors.white,
-            //                                                                                         child: Container(
-            //                                                                                           width: 173,
-            //                                                                                           height: 129,
-            //                                                                                           decoration: BoxDecoration(border: Border.all(color: ColorSelect.colorE0E0E0, width: 1), color: ColorSelect.colorFFFFFF, borderRadius: BorderRadius.circular(12)),
-            //                                                                                         ),
-            //                                                                                       ),
-            //                                                                                     ),
-            //                                                                                   )),
-            //                                                                                 ),
-            //                                                                                 Positioned(
-            //                                                                                   bottom: 0,
-            //                                                                                   right: 0,
-            //                                                                                   child: selectedItems.contains(wantProduct2[i].id!)
-            //                                                                                       ? Image.asset(
-            //                                                                                           "assets/images/select.png",
-            //                                                                                           height: 28,
-            //                                                                                           width: 28,
-            //                                                                                         )
-            //                                                                                       : SizedBox(),
-            //                                                                                 )
-            //                                                                               ]),
-            //                                                                               Expanded(
-            //                                                                                 child: Column(
-            //                                                                                   crossAxisAlignment: CrossAxisAlignment.start,
-            //                                                                                   children: [
-            //                                                                                     Padding(
-            //                                                                                       padding: const EdgeInsets.only(left: 16),
-            //                                                                                       child: SizedBox(
-            //                                                                                         // width: 230.w,
-            //                                                                                         child: Text(
-            //                                                                                           wantProduct2[i].name.toString(),
-            //                                                                                           overflow: TextOverflow.ellipsis,
-            //                                                                                           maxLines: 2,
-            //                                                                                           style: AppTextStyle().textColor29292912w400,
-            //                                                                                         ),
-            //                                                                                       ),
-            //                                                                                     ),
-            //                                                                                     SizedBox(
-            //                                                                                       height: 8,
-            //                                                                                     ),
-            //                                                                                     Padding(
-            //                                                                                       padding: const EdgeInsets.only(left: 16),
-            //                                                                                       child: Text(
-            //                                                                                         '\$ ${wantProduct2[i].price.toString()}',
-            //                                                                                         style: AppTextStyle().textColor29292914w500,
-            //                                                                                       ),
-            //                                                                                     ),
-            //                                                                                     SizedBox(
-            //                                                                                       height: 4,
-            //                                                                                     ),
-            //                                                                                     Padding(
-            //                                                                                       padding: const EdgeInsets.only(left: 16.0),
-            //                                                                                       child: selectedItems.contains(wantProduct2[i].id!)
-            //                                                                                           ? GestureDetector(
-            //                                                                                               onTap: () {
-            //                                                                                                 setState(() {
-            //                                                                                                   selectedItems.clear();
-            //                                                                                                 });
-            //                                                                                               },
-            //                                                                                               child: Icon(Icons.cancel))
-            //                                                                                           : SizedBox(),
-            //                                                                                     ),
-            //                                                                                   ],
-            //                                                                                 ),
-            //                                                                               ),
-            //                                                                             ],
-            //                                                                           ),
-            //                                                                         ],
-            //                                                                       ),
-            //                                                                     ),
-            //                                                                   ),
-            //                                                                 );
-            //                                                               }),
-            //                                                         ),
-            //                                                 ],
-            //                                               ),
-            //                                             ),
-            //                                           ),
-            //                                         );
-            //                                       });
-            //                                     });
-            //                               },
-            //                               child: Padding(
-            //                                 padding: const EdgeInsets.only(
-            //                                     right: 15.0),
-            //                                 child: Image.asset(
-            //                                     "assets/images/shoppingbag.png"),
-            //                               ),
-            //                             )
-            //                           ],
-            //                         )),
-            //               keyboardType: TextInputType.text,
-            //             ),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
             body: RefreshIndicator(
               displacement: 500,
               backgroundColor: Colors.white,
@@ -658,41 +256,29 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                         child: Column(
                           children: [
                             GroupedListView<MsgData, String>(
-                                /*itemComparator: (a, b) {
-                                  final createdAtA = a.createdAt ?? ''; // Use empty string as default value
-                                  final createdAtB = b.createdAt ?? ''; // Use empty string as default value
-                                  return createdAtA.compareTo(createdAtB);
-                                },
-                              sort: true,*/
-
-                          physics: ScrollPhysics(),
-
-                                padding: EdgeInsets.only(bottom: 100)
-                                ,
+                                physics: ScrollPhysics(),
+                                padding: EdgeInsets.only(bottom: 100),
                                 order: GroupedListOrder.DESC,
-
                                 shrinkWrap: true,
-
                                 elements: response.data ?? [],
-
                                 groupBy: (element) => DateTime.now()
                                     .difference(DateTime.parse(
                                     element.createdAt.toString()))
                                     .inMinutes <=
                                     59
-                                    ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inMinutes} min ago"
+                                    ? "${DateTime.now().difference(DateTime.parse(
+                                    element.createdAt.toString())).inMinutes} min ago"
                                     : DateTime.now()
                                     .difference(DateTime.parse(
                                     element.createdAt
                                         .toString()))
                                     .inHours <=
                                     23
-                                    ? "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inHours} hr ago"
-                                    : "${DateTime.now().difference(DateTime.parse(element.createdAt.toString())).inDays} days ago",
-                                // groupBy: (element) =>
-                                //     element.createdAt.toString(),
-
-                                groupSeparatorBuilder: (String groupByValue) =>
+                                    ? "${DateTime.now().difference(DateTime.parse(
+                                    element.createdAt.toString())).inHours} hr ago"
+                                    : "${DateTime.now().difference(DateTime.parse(
+                                    element.createdAt.toString())).inDays} days ago",
+                                    groupSeparatorBuilder: (String groupByValue) =>
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 8.0),
@@ -703,8 +289,6 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
-
-
                                 itemBuilder: (context, MsgData element) {
                                  return (element.product != null &&
                                       (element.product!.photo != null || element.product!.photo!.isNotEmpty)) ?
@@ -734,8 +318,6 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                          BorderRadius.circular(16),
                                        ),
                                        child:
-                                       // Column(
-                                       //   children: [
                                        Column(
                                          children: [
                                            CachedNetworkImage(
@@ -789,7 +371,6 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                ),
                                              ),
                                            ),
-
                                          ],
                                        ),
                                      ),
@@ -798,7 +379,6 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                   Align(
                                           alignment:
                                    ids == element.user!.id
-                                             // ids == element.sendFromUserId
                                                   ? Alignment.centerRight
                                                   : Alignment.centerLeft,
                                           child: Container(
@@ -808,7 +388,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                 borderRadius:
                                                     BorderRadius.circular(8),
                                                 color: ids == element.user!.id
-                                                        //element.sendFromUserId
+
                                                     ? ColorSelect.color343434
                                                     : ColorSelect.colorECEDF0),
                                             child: Padding(
@@ -827,352 +407,10 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                             ),
                                           ),
                                         );
-                                }),
-                          ],
-                        ),
-                        // Positioned(
-                        //   bottom: 0,
-                        //   child: Container(
-                        //     width: 328.w,
-                        //     height: 52.h,
-                        //     margin: EdgeInsets.only(top: 16),
-                        //     decoration: BoxDecoration(
-                        //         borderRadius: BorderRadius.circular(8),
-                        //         color: focusNode.hasFocus
-                        //             ? ColorSelect.colorFDFAE3
-                        //             : ColorSelect.colorEDEDF1),
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.only(left: 12),
-                        //       child: Form(
-                        //         key: key,
-                        //         child: Row(
-                        //           children: [
-                        //             Expanded(
-                        //               child: TextFormField(
-                        //                 focusNode: focusNode,
-                        //                 cursorColor: ColorSelect.colorF7E641,
-                        //                 cursorWidth: 3,
-                        //                 controller: sendMsgController,
-                        //                 validator: (value) {
-                        //                   if (value == null || value.isEmpty) {
-                        //                     return 'Please enter your msg';
-                        //                   }
-                        //                   return null;
-                        //                 },
-                        //                 decoration: InputDecoration(
-                        //                     border: InputBorder.none,
-                        //                     hintText: "Message",
-                        //                     hintStyle:
-                        //                         AppTextStyle().textColor70707014w400,
-                        //                     suffixIcon: show
-                        //                         ? Padding(
-                        //                             padding:
-                        //                                 const EdgeInsets.all(10.0),
-                        //                             child: CircularProgressIndicator(
-                        //                               color: ColorSelect.colorF7E641,
-                        //                             ),
-                        //                           )
-                        //                         : /*focusNode.hasFocus
-                        //                           ?*/
-                        //                         Row(
-                        //                             mainAxisAlignment: MainAxisAlignment
-                        //                                 .spaceBetween, // added line
-                        //                             mainAxisSize: MainAxisSize.min,
-                        //                             children: [
-                        //                               GestureDetector(
-                        //                                   onTap: () {
-                        //                                     if (sendMsgController
-                        //                                         .text.isNotEmpty) {
-                        //                                       setState(() {
-                        //                                         show = !show;
-                        //                                       });
-                        //                                       Timer timer = Timer(
-                        //                                           Duration(
-                        //                                               seconds: 3),
-                        //                                           () {
-                        //                                         setState(() {
-                        //                                           show = false;
-                        //                                         });
-                        //                                       });
-                        //                                       FocusManager.instance
-                        //                                           .primaryFocus
-                        //                                           ?.unfocus();
-                        //                                       if (sendMsgController
-                        //                                           .text.isNotEmpty) {
-                        //                                         print(
-                        //                                             widget.friendId);
-                        //                                         sendMessageApi(
-                        //                                                 sendUserid: widget
-                        //                                                     .friendId,
-                        //                                                 message:
-                        //                                                     sendMsgController
-                        //                                                         .text,
-                        //                                                 productId:
-                        //                                                     productIds
-                        //                                                         .toString())
-                        //                                             .then(
-                        //                                                 (value) async {
-                        //                                           print(widget
-                        //                                               .friendId);
-                        //                                           print(
-                        //                                               sendMsgController);
-                        //                                           if (value[
-                        //                                                   'status'] ==
-                        //                                               true) {
-                        //                                             isLoading
-                        //                                                 ? Loading()
-                        //                                                 : getMessages();
-                        //                                             // Fluttertoast.showToast(msg: value['message']);
-                        //                                           } else {
-                        //                                             Fluttertoast.showToast(
-                        //                                                 msg: value[
-                        //                                                     'message']);
-                        //                                           }
-                        //                                         });
-                        //                                       }
-                        //                                     } else {
-                        //                                       Fluttertoast.showToast(
-                        //                                           msg:
-                        //                                               "Please Add your msg");
-                        //                                     }
-                        //                                   },
-                        //                                   child: Image.asset(
-                        //                                       'assets/images/sentimage.png')),
-                        //                               SizedBox(width: 8),
-                        //                               GestureDetector(
-                        //                                 onTap: () {
-                        //                                   showModalBottomSheet(
-                        //                                       backgroundColor:
-                        //                                           Colors.transparent,
-                        //                                       context: context,
-                        //                                       builder: (context) {
-                        //                                         return StatefulBuilder(
-                        //                                             builder: (BuildContext
-                        //                                                     context,
-                        //                                                 StateSetter
-                        //                                                     setState) {
-                        //                                           return Container(
-                        //                                             decoration:
-                        //                                                 BoxDecoration(
-                        //                                               color: ColorSelect
-                        //                                                   .colorFFFFFF,
-                        //                                               borderRadius:
-                        //                                                   BorderRadius
-                        //                                                       .vertical(
-                        //                                                 top: Radius
-                        //                                                     .circular(
-                        //                                                         20),
-                        //                                               ),
-                        //                                             ),
-                        //                                             child:
-                        //                                                 SingleChildScrollView(
-                        //                                               physics:
-                        //                                                   NeverScrollableScrollPhysics(),
-                        //                                               child: Padding(
-                        //                                                 padding: const EdgeInsets
-                        //                                                     .symmetric(
-                        //                                                     horizontal:
-                        //                                                         16),
-                        //                                                 child: Column(
-                        //                                                   children: [
-                        //                                                     SizedBox(
-                        //                                                       height:
-                        //                                                           8,
-                        //                                                     ),
-                        //                                                     Container(
-                        //                                                       width:
-                        //                                                           48.w,
-                        //                                                       height:
-                        //                                                           4.h,
-                        //                                                       decoration: BoxDecoration(
-                        //                                                           borderRadius:
-                        //                                                               BorderRadius.circular(8),
-                        //                                                           color: ColorSelect.colorDCDCDC),
-                        //                                                     ),
-                        //                                                     SizedBox(
-                        //                                                       height:
-                        //                                                           20,
-                        //                                                     ),
-                        //                                                     Row(
-                        //                                                       mainAxisAlignment:
-                        //                                                           MainAxisAlignment.center,
-                        //                                                       children: [
-                        //                                                         Row(
-                        //                                                           children: [
-                        //                                                             Text(
-                        //                                                               "Products I Want",
-                        //                                                               style: AppTextStyle().textColor29292914w500,
-                        //                                                             ),
-                        //                                                             // SizedBox(width: 8),
-                        //                                                             // Image.asset("assets/images/directiondown01.png"),
-                        //                                                           ],
-                        //                                                         )
-                        //                                                       ],
-                        //                                                     ),
-                        //                                                     SizedBox(
-                        //                                                         height:
-                        //                                                             16),
-                        //                                                     wantProduct2
-                        //                                                             .isEmpty
-                        //                                                         ? Padding(
-                        //                                                             padding: const EdgeInsets.only(bottom: 80.0, top: 20),
-                        //                                                             child: Image.asset(
-                        //                                                               "assets/images/addproducts2.png",
-                        //                                                               height: 200,
-                        //                                                               width: 200,
-                        //                                                             ),
-                        //                                                           )
-                        //                                                         : Container(
-                        //                                                             height: 600,
-                        //                                                             child: ListView.builder(
-                        //                                                                 physics: ScrollPhysics(),
-                        //                                                                 itemCount: wantProduct2.length,
-                        //                                                                 shrinkWrap: true,
-                        //                                                                 scrollDirection: Axis.vertical,
-                        //                                                                 itemBuilder: (context, i) {
-                        //                                                                   print(wantProduct2.length);
-                        //                                                                   return Padding(
-                        //                                                                     padding: const EdgeInsets.only(top: 16),
-                        //                                                                     child: GestureDetector(
-                        //                                                                       onTap: () {
-                        //                                                                         print(selectedItems);
-                        //                                                                         // selectedItems.add(wantProduct2[i].id!);
-                        //                                                                         productIds = wantProduct2[i].id!;
-                        //                                                                         Navigator.pop(context);
-                        //                                                                       },
-                        //                                                                       child: Container(
-                        //                                                                         color: Colors.transparent,
-                        //                                                                         child: Column(
-                        //                                                                           children: [
-                        //                                                                             Row(
-                        //                                                                               children: [
-                        //                                                                                 Stack(children: [
-                        //                                                                                   Container(
-                        //                                                                                     height: 86,
-                        //                                                                                     width: 86,
-                        //                                                                                     clipBehavior: Clip.hardEdge,
-                        //                                                                                     decoration: BoxDecoration(
-                        //                                                                                       borderRadius: BorderRadius.circular(8),
-                        //                                                                                       border: Border.all(
-                        //                                                                                         width: 1,
-                        //                                                                                         color: selectedItems.contains(wantProduct2[i].id!) ? ColorSelect.colorF7E641 : ColorSelect.colorE0E0E0,
-                        //                                                                                       ),
-                        //                                                                                     ),
-                        //                                                                                     child: Center(
-                        //                                                                                         child: CachedNetworkImage(
-                        //                                                                                       // imageUrl: (baseUrl+wantProduct2[i].photo.toString()),
-                        //                                                                                       imageUrl: wantProduct2[i].photo.toString().contains("https") ? wantProduct2[i].photo.toString() : baseUrl + wantProduct2[i].photo.toString(),
-                        //                                                                                       fit: BoxFit.cover,
-                        //                                                                                       errorWidget: (context, url, error) => Icon(
-                        //                                                                                         Icons.error,
-                        //                                                                                         size: 40,
-                        //                                                                                       ),
-                        //                                                                                       progressIndicatorBuilder: (a, b, c) => Opacity(
-                        //                                                                                         opacity: 0.3,
-                        //                                                                                         child: Shimmer.fromColors(
-                        //                                                                                           baseColor: Colors.black12,
-                        //                                                                                           highlightColor: Colors.white,
-                        //                                                                                           child: Container(
-                        //                                                                                             width: 173,
-                        //                                                                                             height: 129,
-                        //                                                                                             decoration: BoxDecoration(border: Border.all(color: ColorSelect.colorE0E0E0, width: 1), color: ColorSelect.colorFFFFFF, borderRadius: BorderRadius.circular(12)),
-                        //                                                                                           ),
-                        //                                                                                         ),
-                        //                                                                                       ),
-                        //                                                                                     )),
-                        //                                                                                   ),
-                        //                                                                                   Positioned(
-                        //                                                                                     bottom: 0,
-                        //                                                                                     right: 0,
-                        //                                                                                     child: selectedItems.contains(wantProduct2[i].id!)
-                        //                                                                                         ? Image.asset(
-                        //                                                                                             "assets/images/select.png",
-                        //                                                                                             height: 28,
-                        //                                                                                             width: 28,
-                        //                                                                                           )
-                        //                                                                                         : SizedBox(),
-                        //                                                                                   )
-                        //                                                                                 ]),
-                        //                                                                                 Expanded(
-                        //                                                                                   child: Column(
-                        //                                                                                     crossAxisAlignment: CrossAxisAlignment.start,
-                        //                                                                                     children: [
-                        //                                                                                       Padding(
-                        //                                                                                         padding: const EdgeInsets.only(left: 16),
-                        //                                                                                         child: SizedBox(
-                        //                                                                                           // width: 230.w,
-                        //                                                                                           child: Text(
-                        //                                                                                             wantProduct2[i].name.toString(),
-                        //                                                                                             overflow: TextOverflow.ellipsis,
-                        //                                                                                             maxLines: 2,
-                        //                                                                                             style: AppTextStyle().textColor29292912w400,
-                        //                                                                                           ),
-                        //                                                                                         ),
-                        //                                                                                       ),
-                        //                                                                                       SizedBox(
-                        //                                                                                         height: 8,
-                        //                                                                                       ),
-                        //                                                                                       Padding(
-                        //                                                                                         padding: const EdgeInsets.only(left: 16),
-                        //                                                                                         child: Text(
-                        //                                                                                           '\$ ${wantProduct2[i].price.toString()}',
-                        //                                                                                           style: AppTextStyle().textColor29292914w500,
-                        //                                                                                         ),
-                        //                                                                                       ),
-                        //                                                                                       SizedBox(
-                        //                                                                                         height: 4,
-                        //                                                                                       ),
-                        //                                                                                       Padding(
-                        //                                                                                         padding: const EdgeInsets.only(left: 16.0),
-                        //                                                                                         child: selectedItems.contains(wantProduct2[i].id!)
-                        //                                                                                             ? GestureDetector(
-                        //                                                                                                 onTap: () {
-                        //                                                                                                   setState(() {
-                        //                                                                                                     selectedItems.clear();
-                        //                                                                                                   });
-                        //                                                                                                 },
-                        //                                                                                                 child: Icon(Icons.cancel))
-                        //                                                                                             : SizedBox(),
-                        //                                                                                       ),
-                        //                                                                                     ],
-                        //                                                                                   ),
-                        //                                                                                 ),
-                        //                                                                               ],
-                        //                                                                             ),
-                        //                                                                           ],
-                        //                                                                         ),
-                        //                                                                       ),
-                        //                                                                     ),
-                        //                                                                   );
-                        //                                                                 }),
-                        //                                                           ),
-                        //                                                   ],
-                        //                                                 ),
-                        //                                               ),
-                        //                                             ),
-                        //                                           );
-                        //                                         });
-                        //                                       });
-                        //                                 },
-                        //                                 child: Padding(
-                        //                                   padding:
-                        //                                       const EdgeInsets.only(
-                        //                                           right: 15.0),
-                        //                                   child: Image.asset(
-                        //                                       "assets/images/shoppingbag.png"),
-                        //                                 ),
-                        //                               )
-                        //                             ],
-                        //                           )),
-                        //                 keyboardType: TextInputType.text,
-                        //               ),
-                        //             )
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
+                                },
+                              ),
+                            ],
+                         ),
                       ),
                     ),
                   ),
@@ -1241,7 +479,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                     .text.isNotEmpty) {
                                                   print(widget.friendId);
                                                   sendMessageApi(
-                                                    chatId: widget.chatId,
+                                                    chatId: chatRoomId,
                                                     message:
                                                         sendMsgController.text,
                                                   ).then((value) async {
@@ -1376,7 +614,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                             200,
                                                                       ),
                                                                     )
-                                                                  : Expanded(
+                                                                  :  Expanded(
                                                                       child: ListView.builder(
                                                                           padding: EdgeInsets.only(bottom: 16),
                                                                           itemCount: wantProducts2.length,
@@ -1391,20 +629,14 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                                   FocusManager.instance.primaryFocus?.unfocus();
                                                                                   // selectedItems.add(wantProduct2[i].id!);
                                                                                   productIds = wantProducts2[i].id!;
-
-
                                                                                   sendProductMessageApi(
-                                                                                    chatId: widget.chatId,
-
+                                                                                    chatId: chatRoomId,
                                                                                     productId: productIds.toString(),
                                                                                     message: wantProducts2[i].name.toString(),
                                                                                   ).then((value) async {
-
                                                                                     print(sendMsgController);
                                                                                     if (value['error'] == false) {
-
                                                                                       sendMsgController.clear();
-
                                                                                       isLoading ? Loading() : getMessages();
                                                                                       Fluttertoast.showToast(msg: value['message']);
                                                                                     } else {
@@ -1451,10 +683,11 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                                                                       width: 173,
                                                                                                       height: 129,
                                                                                                       decoration: BoxDecoration(border: Border.all(color: ColorSelect.colorE0E0E0, width: 1), color: ColorSelect.colorFFFFFF, borderRadius: BorderRadius.circular(12)),
-                                                                                                    ),
-                                                                                                  ),
+                                                                                                     ),
+                                                                                                   ),
+                                                                                                 ),
                                                                                                 ),
-                                                                                              )),
+                                                                                              ),
                                                                                             ),
                                                                                             Positioned(
                                                                                               bottom: 0,

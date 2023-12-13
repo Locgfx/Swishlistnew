@@ -42,111 +42,12 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
   @override
   void initState() {
     getUserDetails();
-    //getFriendInterest();
-    // widget.friendId;
-   // getFriendProfile();
 
     super.initState();
   }
-
-  // List popList = [];
-  // List interestList = ['Cycling', 'Fishing', 'Singing', 'Dancing', 'Biking'];
-  // List<String>? elements = [''];
   bool isLoading = false;
-  // FriendDetailsModel? friendDetails;
-
-  // FriendDetailsModel ? friendDetails;
- /* FamilyDetailsModel familyDetails = FamilyDetailsModel();
-
-  FamilyDetailsModel? familyInterest;
-
-  getFriendInterest() {
-    isLoading = true;
-    var resp = familyMemberUserId(familyMemberUserId: widget.familyMemberId);
-    resp.then((value) {
-      if (mounted) {
-        if (value['status'] == true) {
-          setState(() {
-            familyInterest = FamilyDetailsModel.fromJson(value);
-            elements = familyInterest!.data!.interest!.interest!.split(",");
-            if (familyDetails.data != null) {
-              if (familyDetails.data!.interest == null) {
-              } else {
-                elements = familyDetails.data!.interest!.interest!.split(",");
-              }
-            } else {
-              familyDetails = FamilyDetailsModel(
-                  data: Data(
-                id: 0,
-                name: '',
-                username: '',
-                phone: '',
-                email: '',
-                photo: '',
-                type: '',
-                profile: Profile(
-                  id: 0,
-                  userId: 0,
-                  name: '',
-                  photo: '',
-                  gender: '',
-                  dob: '',
-                  occupation: '',
-                  relationStatus: '',
-                  email: '',
-                  phone: '',
-                  alternatePhone: '',
-                  homeAddress: '',
-                  workAddress: '',
-                  privacyStatus: '',
-                  createdAt: '',
-                ),
-                sizeWeight: SizeWeight(
-                  id: 0,
-                  userId: 0,
-                  waist: '',
-                  shirt: '',
-                  shoes: '',
-                  bed: '',
-                  privacyStatus: '',
-                  createdAt: '',
-                ),
-                interest: Interest(interest: ''),
-              ));
-            }
-            isLoading = false;
-          });
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      }
-    });
-  }
-
-  getFriendProfile() {
-    isLoading = true;
-    var resp = friendDetailsApi(friendUserId: widget.familyMemberId);
-    resp.then((value) {
-      if (mounted) {
-        if (value['status'] == true) {
-          familyDetails = FamilyDetailsModel.fromJson(value);
-          // if(friendDetails!.data!.interest == null ) {
-          // } else {
-          //   elements =  friendDetails!.data!.interest!.interest!.split(",");
-          //
-          // }
-          isLoading = false;
-        } else {
-          isLoading = false;
-        }
-      }
-    });
-  }
-*/
-
   UserDetailsModel ? userDetails;
+  List<String>? elements = [''];
 
 
   getUserDetails(){
@@ -156,6 +57,8 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
       if(value['error'] == false){
         setState(() {
           userDetails = UserDetailsModel.fromJson(value);
+          var interestsString = userDetails!.data!.interests![0].interests!.join(", ");
+          elements = interestsString.split(", ");
         });
         isLoading = false;
 
@@ -296,41 +199,12 @@ class _FamilyMemberDetailsState extends State<FamilyMemberDetails> {
                             children:
                                 elements!.map((e) => chipBox(name: e)).toList(),
                           ),*/
-                    Wrap(
-                      children:
-                      userDetails?.data?.interests?.expand<Widget>((interest) {
-
-                        return interest.interests?.map<Widget>((interestName) {
-                          return chipBox(name: interestName);
-                        }) ?? [];
-                      }).toList() ?? [],
+                    Padding(
+                      padding: const EdgeInsets.only(right: 2.0),
+                      child: Wrap(
+                        children: elements!.map((e) => chipBox(name: e)).toList(),
+                      ),
                     ),
-                    // GridView.builder(
-                    //   shrinkWrap: true,
-                    //   physics: NeverScrollableScrollPhysics(),
-                    //   itemCount: interestList.length,
-                    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //     crossAxisCount: 4,
-                    //     childAspectRatio: 2.1,
-                    //     mainAxisSpacing: 8,
-                    //     crossAxisSpacing: 8,
-                    //   ),
-                    //   itemBuilder: (_, i) {
-                    //     return Container(
-                    //       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-                    //       decoration: BoxDecoration(
-                    //         color: ColorSelect.colorCBE0FA,
-                    //         borderRadius: BorderRadius.circular(48),
-                    //       ),
-                    //       child: Center(
-                    //         child: Text(
-                    //           interestList[i],
-                    //           style: AppTextStyle().textColor29292913w400,
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
                     SizedBox(height: 24),
                     ProfileRow(
                       icon: 'userimg',

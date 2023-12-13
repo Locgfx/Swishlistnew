@@ -213,6 +213,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       newPass: newpasscontroller.text,
                                       confirmNewPass: confirmNewpasscontroller.text).then((value) async {
                                         if(value['error'] == false){
+                                          SharedPrefs().setLoginFalse();
                                           Navigator.of(context).pushReplacement(
                                               MaterialPageRoute(builder: (context) => Login()));
 
@@ -223,6 +224,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                               },
                               title: 'Save'),
                 ),
+                SizedBox(height: 100,),
               ],
             ),
           ),

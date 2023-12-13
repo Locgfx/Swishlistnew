@@ -193,6 +193,11 @@ Future<dynamic> deleteProductsApi({
 Future<dynamic> updateProducts({
   required String name,
   required String id,
+  required String type,
+  required String url,
+  required String date,
+  required String price,
+  required String photo,
 }) async {
 
 
@@ -202,8 +207,55 @@ Future<dynamic> updateProducts({
   };
   var request = http.MultipartRequest('POST', Uri.parse('$newBaseUrl/api/product/update'));
   request.fields.addAll({
+    // 'name': name,
+    // 'id': id
+    'type': type,
     'name': name,
-    'id': id
+    'url': url,
+    'price': price,
+    'purchased_on': date,
+    'id': id,
+  });
+  if (photo != '') {
+    request.files.add(await http.MultipartFile.fromPath('photo', photo));
+  }
+
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    print(resBody);
+    return resBody;
+  }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+    print(resBody);
+    return resBody;
+  }
+}
+
+Future<dynamic> updateShareProducts({
+  required String name,
+  required String id,
+
+}) async {
+
+
+  var headers = {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  };
+  var request = http.MultipartRequest('POST', Uri.parse('$newBaseUrl/api/product/update'));
+  request.fields.addAll({
+    // 'name': name,
+    // 'id': id
+
+    'name': name,
+
+    'id': id,
   });
 
   request.headers.addAll(headers);
@@ -221,9 +273,7 @@ Future<dynamic> updateProducts({
     print(resBody);
     return resBody;
   }
-
 }
-
 
 Future<dynamic> scrappingProduct({
   required String url,
@@ -242,7 +292,7 @@ Future<dynamic> scrappingProduct({
   if (response.statusCode == 200) {
     if(resBody['error'] == false){
       print(resBody);
-      return ScrappingModel.fromJson(resBody);
+      return LinkProductModel.fromJson(resBody);
     }
 
   }
@@ -300,7 +350,7 @@ Future<dynamic>  scrappingProductStore({
 
   var headers = {
     'Accept': 'application/json',
-    'Authorization': 'Bearer 226|V5TOScD604L2AGPxcf98BbLIzQdxl3damUYWeRVj7b749acd'
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
   var request = http.MultipartRequest('POST', Uri.parse('https://swishlist.cosmeticplugs.com/api/product/store'));
   request.fields.addAll({

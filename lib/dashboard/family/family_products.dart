@@ -44,13 +44,7 @@ class FamilyMemberProduct extends StatefulWidget {
 }
 
 class _FamilyMemberProductState extends State<FamilyMemberProduct> {
-  List imageList = ["assets/images/image11.png", "assets/images/image10.png"];
-  List itemNameList = [
-    "MorePro Fitness Tracker, Heart Rate Monitor Blood Pressure ...",
-    "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergon..."
-  ];
-  List itemPrice = ["87.29", "127.99"];
-  List popList = ['Send Profile', 'Notification', 'Block', 'Unfriend'];
+
 
   @override
   void initState() {
@@ -64,36 +58,6 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
   }
 
   bool isLoading = false;
-  // List <FriendProductModel> products = [];
-  //FriendProductModel? products;
-  //List<FriendProductModel> haveProducts2 = [];
-  // FriendModel?  haveProducts = FriendModel();
-
-  /*getProducts() {
-    isLoading = true;
-    var resp = getFamilyProductsApi(familyId: widget.familyId);
-    resp.then((value) {
-      if (value['status'] == true) {
-        setState(() {
-          products = FriendProductModel.fromJson(value);
-          // for(var v in value["data"]) {
-          //   haveProducts.add(FriendProductModel.fromJson(v));
-          // }
-          // for(var v in haveProducts){
-          //   if(v.data.want){
-          //     haveProducts2.add(v);
-          //   }
-          // }
-          // print(haveProducts2);
-          isLoading = false;
-        });
-      } else {
-        isLoading = false;
-        setState(() {});
-      }
-      // haveProducts2.clear();
-    });
-  }*/
 
   List<FamilyMemberProductModel> wantProducts = [];
   List<FamilyMemberProductModel> wantProductsType = [];
@@ -110,7 +74,6 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
           for(var q in wantProducts){
             if(q.type == 'want'){
               wantProductsType.add(q);
-
             }
           }
           print(wantProducts);
@@ -123,7 +86,6 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
         });
       }
     });
-
   }
 
   List<FamilyMemberProductModel> dontWantProducts = [];
@@ -190,31 +152,6 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
   }
 
 
-  // FriendModel friendList = FriendModel();
-  // getFriends() {
-  //   isLoading = true;
-  //   // friendList.clear();
-  //   var resp = getFriendsApi();
-  //   resp.then((value) {
-  //     if (mounted) {
-  //       if (value['status'] == true) {
-  //         setState(() {
-  //           friendList = FriendModel.fromJson(value);
-  //           // for (var v in value) {
-  //           //   friendList.add(ModelFriend.fromJson(v));
-  //           // }
-  //           isLoading = false;
-  //         });
-  //       } else {
-  //         setState(() {
-  //           isLoading = false;
-  //         });
-  //
-  //         // isLoading = false;
-  //       }
-  //     }
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -283,23 +220,6 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                     child: SingleChildScrollView(
                                       child: Column(
                                         children: [
-                                          // ListTile(
-                                          //   title: GestureDetector(
-                                          //     onTap: () {
-                                          //       setState(() {
-                                          //         Share.share(
-                                          //             'Share your friend details');
-                                          //       });
-                                          //     },
-                                          //     child: Text(
-                                          //       'Send Profile',
-                                          //       style:
-                                          //           // AppTextStyle().textColorBA505014w500
-                                          //           AppTextStyle()
-                                          //               .textColor39393914w500,
-                                          //     ),
-                                          //   ),
-                                          // ),
                                           ListTile(
                                             title: GestureDetector(
                                               onTap: () {
@@ -346,13 +266,6 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                         ],
                                       ),
                                     ),
-                                    // margin: EdgeInsets.only(
-                                    //     right: 10,
-                                    //     top: 10,
-                                    //     left: 60,
-                                    //     bottom: 6004
-                                    // ),
-                                    // ),
                                   ),
                                 ),
                               ),
@@ -393,6 +306,7 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                               ),
                               GestureDetector(
                                 onTap: () {
+                                  print(widget.familyId.toString());
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -563,15 +477,8 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                     // itemCount: 2,
                                     shrinkWrap: true,
                                     itemBuilder: (context, i) {
-                                      double price = double.tryParse(
-                                        wantProductsType[i].price.toString()
-                                          // products!
-                                          //     .data!.want![i].price
-                                          //     .toString()
-                                      )
-                                          ??
-                                          0.0;
-                                      double normalizedPercent = price / 100.0;
+                                      String originalPrice = wantProductsType[i].price.toString().replaceAll("\$", "");
+                                      double priceInDouble = double.parse(originalPrice.replaceAll(',', '')) / 100.0;
                                       return Container(
                                         color: Colors.transparent,
                                         child: Column(
@@ -611,55 +518,13 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                                         wantProductsType[i].photo.toString()
                                                                     :
                                                                         baseUrl + wantProductsType[i].photo.toString(),
-                                                                // products!
-                                                                //         .data!
-                                                                //         .want![
-                                                                //             i]
-                                                                //         .photo
-                                                                //         .toString()
-                                                                //         .contains(
-                                                                //             'http')
-                                                                //     ? products!
-                                                                //         .data!
-                                                                //         .want![
-                                                                //             i]
-                                                                //         .photo
-                                                                //         .toString()
-                                                                //     : baseUrl +
-                                                                //         products!
-                                                                //             .data!
-                                                                //             .want![i]
-                                                                //             .photo
-                                                                //             .toString(),
                                                                 purchaseDate: wantProductsType[i].purchasedOn.toString(),
-                                                                // products!
-                                                                //     .data!
-                                                                //     .want![i]
-                                                                //     .purchasedDate
-                                                                //     .toString(),
+
                                                                 id: wantProductsType[i].id.toString(),
-                                                                // products!
-                                                                //     .data!
-                                                                //     .want![i]
-                                                                //     .id
-                                                                //     .toString(),
+
                                                                 type: '',
-                                                                // products!
-                                                                //     .data!
-                                                                //     .want![i]
-                                                                //     .type
-                                                                //     .toString(),
                                                                 productId: '',
                                                               )));
-                                                  // Navigator.push(
-                                                  //   context,
-                                                  //   MaterialPageRoute(
-                                                  //     builder: (context) =>
-                                                  //         WantProducts(
-                                                  //       isUser: true,
-                                                  //     ),
-                                                  //   ),
-                                                  // );
                                                 },
                                                 child: Container(
                                                   width: 173,
@@ -682,16 +547,7 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                         wantProductsType[i].photo.toString().contains('https') ?
                                                             wantProductsType[i].photo.toString() :
                                                             wantProductsType[i].photo.toString(),
-                                                    // products!.data!
-                                                    //         .want![i].photo
-                                                    //         .toString()
-                                                    //         .contains("https")
-                                                    //     ? products!.data!
-                                                    //         .want![i].photo
-                                                    //         .toString()
-                                                    //     : products!.data!
-                                                    //         .want![i].photo
-                                                    //         .toString(),
+
                                                     fit: BoxFit.cover,
                                                     errorWidget:
                                                         (context, url, error) =>
@@ -755,8 +611,9 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                 padding: const EdgeInsets.only(
                                                     left: 16),
                                                 child: Text(
+                                                  "\$${priceInDouble.toStringAsFixed(2)}",
                                                   //'\$ ${normalizedPercent}',
-                                                  wantProducts[i].price.toString(),
+                                                  // wantProducts[i].price.toString(),
                                                   style: AppTextStyle()
                                                       .textColor29292914w500,
                                                 ),
@@ -847,13 +704,8 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                           // itemCount: 2,
                                           shrinkWrap: true,
                                           itemBuilder: (context, i) {
-                                            double price = double.tryParse(
-                                                dontWantProductsType[i]
-                                                        .price
-                                                        .toString()) ??
-                                                0.0;
-                                            double normalizedPercent =
-                                                price / 100.0;
+                                            String originalPrice = dontWantProductsType[i].price.toString().replaceAll("\$", "");
+                                            double priceInDouble = double.parse(originalPrice.replaceAll(',', '')) / 100.0;
                                             return Container(
                                               color: Colors.transparent,
                                               child: Column(
@@ -917,59 +769,9 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                                           //     .toString(),
                                                                           productId:
                                                                               '',
-                                                                        )));
-                                                        // Navigator.push(
-                                                        //     context,
-                                                        //     MaterialPageRoute(
-                                                        //         builder:
-                                                        //             (context) =>
-                                                        //                 FriendProductDetail(
-                                                        //                   response:
-                                                        //                       widget.response,
-                                                        //                   name: products!
-                                                        //                       .data!
-                                                        //                       .dontWant![i]
-                                                        //                       .name
-                                                        //                       .toString(),
-                                                        //                   price: products!
-                                                        //                       .data!
-                                                        //                       .dontWant![i]
-                                                        //                       .price
-                                                        //                       .toString(),
-                                                        //                   link: products!
-                                                        //                       .data!
-                                                        //                       .dontWant![i]
-                                                        //                       .link
-                                                        //                       .toString(),
-                                                        //                   image: products!.data!.dontWant![i].photo.toString().contains('http')
-                                                        //                       ? products!.data!.dontWant![i].photo.toString()
-                                                        //                       : baseUrl + products!.data!.dontWant![i].photo.toString(),
-                                                        //                   purchaseDate: products!
-                                                        //                       .data!
-                                                        //                       .dontWant![i]
-                                                        //                       .purchasedDate
-                                                        //                       .toString(),
-                                                        //                   id: products!
-                                                        //                       .data!
-                                                        //                       .dontWant![i]
-                                                        //                       .id
-                                                        //                       .toString(),
-                                                        //                   type: products!
-                                                        //                       .data!
-                                                        //                       .dontWant![i]
-                                                        //                       .type
-                                                        //                       .toString(),
-                                                        //                   productId:
-                                                        //                       '',
-                                                        //                 )));
-                                                        // Navigator.push(
-                                                        //   context,
-                                                        //   MaterialPageRoute(
-                                                        //     builder: (context) => WantProducts(
-                                                        //       isUser: true,
-                                                        //     ),
-                                                        //   ),
-                                                        // );
+                                                                        ),
+                                                            ),
+                                                        );
                                                       },
                                                       child: Container(
                                                         width: 173,
@@ -1079,8 +881,9 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                           const EdgeInsets.only(
                                                               left: 16),
                                                       child: Text(
+                                                        "\$${priceInDouble.toStringAsFixed(2)}",
                                                         //'\$ ${normalizedPercent}',
-                                                          dontWantProductsType[i].price.toString(),
+                                                        //   dontWantProductsType[i].price.toString(),
                                                         style: AppTextStyle()
                                                             .textColor29292914w500,
                                                       ),
@@ -1171,12 +974,9 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                           // itemCount: 2,
                                           shrinkWrap: true,
                                           itemBuilder: (context, i) {
-                                            double price = double.tryParse(
-                                                    haveProductsType[i].price
-                                                        .toString()) ??
-                                                0.0;
-                                            double normalizedPercent =
-                                                price / 100.0;
+                                            String originalPrice = haveProductsType[i].price.toString().replaceAll("\$", "");
+                                            double priceInDouble = double.parse(originalPrice.replaceAll(',', '')) / 100.0;
+
                                             return Container(
                                               color: Colors.transparent,
                                               child: Column(
@@ -1400,8 +1200,9 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                                           const EdgeInsets.only(
                                                               left: 16),
                                                       child: Text(
+                                                        "\$${priceInDouble.toStringAsFixed(2)}",
                                                        // '\$ ${normalizedPercent}',
-                                                        haveProductsType[i].price.toString(),
+                                                       //  haveProductsType[i].price.toString(),
                                                         style: AppTextStyle()
                                                             .textColor29292914w500,
                                                       ),

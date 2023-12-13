@@ -183,7 +183,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
 
   DateTime? selectedDate;
 
-  //final List<bool> accept = List.generate(1000, (index) => false);
+  final List<bool> delete = List.generate(1000, (index) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -682,148 +682,12 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                       ),
                                                     ],
                                                   ),
-
-                                                  // Row(
-                                                  //   children: [
-                                                  //     Text(
-                                                  //       eventUpcoming!
-                                                  //           .data![i].name
-                                                  //           .toString(),
-                                                  //       style: AppTextStyle()
-                                                  //           .textColor70707014w400,
-                                                  //     ),
-                                                  //     Spacer(),
-                                                  //     Text(
-                                                  //       eventUpcoming!
-                                                  //           .data![i].date
-                                                  //           .toString(),
-                                                  //       style: AppTextStyle()
-                                                  //           .textColor29292914w400,
-                                                  //     ),
-                                                  //   ],
-                                                  // ),
                                                 ],
                                               ),
-                                             /* GestureDetector(
-                                                onTap: () {
-                                                  *//*setState(() {
-                                                        accept[i] = !accept[i];
-                                                      });*//*
-                                                  Timer timer = Timer(
-                                                      Duration(seconds: 2),
-                                                          () {
-                                                        *//*setState(() {
-                                                          accept[i] = false;
-                                                        });*//*
-                                                      });
-                                                  deleteEventAndDateApi(
-                                                      id: upcomingList[i]
-                                                          .id
-                                                          .toString())
-                                                      .then((value) async {
-
-                                                    if (value['error'] ==
-                                                        false) {
-                                                      isLoading
-                                                          ? Loading()
-                                                          : getUpcomingEvent();
-
-                                                      Fluttertoast.showToast(
-                                                          msg: value[
-                                                          'message']);
-                                                    } else {
-                                                      Fluttertoast.showToast(
-                                                          msg: value[
-                                                          'message']);
-                                                    }
-
-                                                    setState(() {
-                                                      isLoading = false;
-                                                    });
-                                                  });
-                                                },
-                                                child:
-
-                                                *//*  accept[i]
-                                                        ? Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    right:
-                                                                        10.0),
-                                                            child:
-                                                                CircularProgressIndicator(
-                                                              color: ColorSelect
-                                                                  .colorF7E641,
-                                                            ),
-                                                          )
-                                                        : *//*
-                                                isLoading
-                                                    ?
-                                                Padding(
-                                                  padding:
-                                                  const EdgeInsets
-                                                      .only(
-                                                      right:
-                                                      10.0),
-                                                  child:
-                                                  CircularProgressIndicator(
-                                                    color: ColorSelect
-                                                        .colorF7E641,
-                                                  ),
-                                                )
-
-                                                    :
-                                                Container(
-                                                    decoration:
-                                                    BoxDecoration(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          12),
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .all(8.0),
-                                                      child: Text(
-                                                        "Delete",
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .redAccent),
-                                                      ),
-                                                    )),
-                                              )*/
                                             ],
                                           ),
                                         ),
                                       ),
-                                      // child: Padding(
-                                      //   padding: const EdgeInsets.all(8.0),
-                                      //   child: Column(
-                                      //     children: [
-                                      //       Row(
-                                      //         children: [
-                                      //           Text(
-                                      //             eventUpcoming2[i]
-                                      //                 .name
-                                      //                 .toString(),
-                                      //             style: AppTextStyle()
-                                      //                 .textColor70707014w400,
-                                      //           ),
-                                      //           Spacer(),
-                                      //           Text(
-                                      //             eventUpcoming2[i]
-                                      //                 .date
-                                      //                 .toString(),
-                                      //             style: AppTextStyle()
-                                      //                 .textColor29292914w400,
-                                      //           ),
-                                      //         ],
-                                      //       ),
-                                      //     ],
-                                      //   ),
-                                      // ),
                                     );
                                   },
                                   separatorBuilder:
@@ -927,39 +791,19 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                           ),
                                                         ],
                                                       ),
-
-                                                      // Row(
-                                                      //   children: [
-                                                      //     Text(
-                                                      //       eventUpcoming!
-                                                      //           .data![i].name
-                                                      //           .toString(),
-                                                      //       style: AppTextStyle()
-                                                      //           .textColor70707014w400,
-                                                      //     ),
-                                                      //     Spacer(),
-                                                      //     Text(
-                                                      //       eventUpcoming!
-                                                      //           .data![i].date
-                                                      //           .toString(),
-                                                      //       style: AppTextStyle()
-                                                      //           .textColor29292914w400,
-                                                      //     ),
-                                                      //   ],
-                                                      // ),
                                                     ],
                                                   ),
                                                   GestureDetector(
                                                     onTap: () {
-                                                      /*setState(() {
-                                                        accept[i] = !accept[i];
-                                                      });*/
+                                                      setState(() {
+                                                        delete[i] = !delete[i];
+                                                      });
                                                       Timer timer = Timer(
                                                           Duration(seconds: 2),
                                                           () {
-                                                        /*setState(() {
-                                                          accept[i] = false;
-                                                        });*/
+                                                        setState(() {
+                                                          delete[i] = false;
+                                                        });
                                                       });
                                                       deleteEventAndDateApi(
                                                               id: eventList[i]
@@ -989,7 +833,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                     },
                                                     child:
 
-                                                  /*  accept[i]
+                                                    delete[i]
                                                         ? Padding(
                                                             padding:
                                                                 const EdgeInsets
@@ -1002,7 +846,7 @@ class _DateAndEventsState extends State<DateAndEvents> {
                                                                   .colorF7E641,
                                                             ),
                                                           )
-                                                        : */
+                                                        :
                                                     isLoading
                                                         ?
                                                     Padding(

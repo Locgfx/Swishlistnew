@@ -111,31 +111,33 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                   width: 328.w,
                   child: show
                       ? LoadingLightYellowButton()
-                      : LightYellowButtonWithText(
-                          backgroundColor: isChecked
-                              ? MaterialStateProperty.all(
-                                  ColorSelect.colorF7E641)
-                              : MaterialStateProperty.all(
-                                  ColorSelect.colorFCF5B6),
-                          textStyleColor: isChecked
-                              ? Colors.black
-                              : ColorSelect.colorB5B07A,
-                          onTap: () {
-                            setState(() {
-                              show = !show;
-                            });
-                            Timer timer = Timer(Duration(seconds: 2), () {
-                              setState(() {
-                                show = false;
-                              });
-                            });
+                      : isChecked ?
+                  LightYellowButtonWithText(
+                    backgroundColor: isChecked
+                        ? MaterialStateProperty.all(
+                        ColorSelect.colorF7E641)
+                        : MaterialStateProperty.all(
+                        ColorSelect.colorFCF5B6),
+                    textStyleColor: isChecked
+                        ? Colors.black
+                        : ColorSelect.colorB5B07A,
+                    onTap: () {
+                      if(emailController.text.contains("@")) {
+                        setState(() {
+                          show = !show;
+                        });
+                        Timer timer = Timer(Duration(seconds: 2), () {
+                          setState(() {
+                            show = false;
+                          });
+                        });
 
-                            if (isChecked) {
-                              // SharedPrefs().setPassword(passwordController.text);
-                              // print(passwordController.text);
-                              if (formKey.currentState!.validate()) {
+                        if (isChecked) {
+                          // SharedPrefs().setPassword(passwordController.text);
+                          // print(passwordController.text);
+                          if (formKey.currentState!.validate()) {
 
-                                /*signUpApi(
+                            /*signUpApi(
                                   context: context,
                                   emailPhone: emailController.text,
                                   password: passwordController.text,
@@ -166,29 +168,45 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                                   }
                                 });*/
 
-                                signUpApi(email: emailController.text).then((value) {
-                                  if(value['error'] == false){
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => EmailVerification(
-                                          email: emailController.text,
-                                          password: passwordController.text,
-                                        ),
-                                      ),
-                                    );
-                                    Fluttertoast.showToast(msg: value['message']);
+                            signUpApi(email: emailController.text).then((value) {
+                              if(value['error'] == false){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EmailVerification(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    ),
+                                  ),
+                                );
+                                Fluttertoast.showToast(msg: value['message']);
 
-                                  } else{
-                                    Fluttertoast.showToast(msg: value['message']);
-                                  }
-                                });
-
+                              } else{
+                                Fluttertoast.showToast(msg: value['message']);
                               }
-                            }
-                          },
-                          title: 'Next',
-                        ),
+                            });
+
+                          }
+                        }
+                      } else {
+                        CustomFlutterToast.show(context: context, message: "Please Enter Valid Email");
+
+                      }
+
+
+                    },
+                    title: 'Next',
+                  ):
+                  LightYellowButtonWithText(
+                    backgroundColor:
+                         MaterialStateProperty.all(
+                        ColorSelect.colorFCF5B6),
+                    textStyleColor:  ColorSelect.colorB5B07A,
+                    onTap: () {},
+                    title: 'Next',
+                  ),
+
+
                 ),
                 SizedBox(height: 50),
               ],
@@ -228,15 +246,15 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'This field is required';
-                          }
-                          if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-                            return "Please enter a valid email address";
-                          }
-                          return null;
-                        },
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'This field is required';
+                        //   }
+                        //   if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                        //     return "Please enter a valid email address";
+                        //   }
+                        //   return null;
+                        // },
                         // validator: (val) {
                         //   if (val!.isEmpty ||
                         //       !val.contains('@')

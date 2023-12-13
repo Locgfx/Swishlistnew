@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/buttons/yellow_button.dart';
 
 import '../color.dart';
@@ -123,6 +124,18 @@ class AddProductError extends StatelessWidget {
               ),
             )
       ],
+    );
+  }
+}
+
+
+class CustomFlutterToast {
+  static void show({required BuildContext context, required String message}) {
+    Fluttertoast.showToast(
+      fontSize: 20,
+      msg: message,
+      backgroundColor: Colors.yellow,
+      textColor: Colors.white,
     );
   }
 }

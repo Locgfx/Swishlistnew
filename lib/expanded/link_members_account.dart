@@ -92,9 +92,6 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
                       print(memberId.text);
                       if (emailPhoneController.text.isNotEmpty) {
                         postFamilyMemberApi(
-                          relation: _selectedText,
-                          status: 'requested',
-                          privacy: "public",
                           familyMemberMail: emailPhoneController.text,
                         ).then((value) async {
                           if (value['status'] == true) {
@@ -249,52 +246,52 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
               // ),
 
               SizedBox(height: 20.h),
-              Container(
-                height: 52.h,
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                    color: ColorSelect.colorEDEDF1,
-                    borderRadius: BorderRadius.all(Radius.circular(8))),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    hint: Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Text(
-                        'Select relationship',
-                        style: AppTextStyle().textColor70707014w400,
-                      ),
-                    ),
-                    icon: Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: Image.asset('assets/images/Vector123.png'),
-                    ),
-                    iconSize: 24,
-                    elevation: 0,
-                    underline: SizedBox(),
-                    value: _selectedText,
-                    items: <String>[
-                      'father',
-                      'mother',
-                      'brother',
-                      'child',
-                      'sister'
-                    ].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? val) {
-                      setState(() {
-                        _selectedText = val!;
-                      });
-                      print(_selectedText);
-                    },
-                  ),
-                ),
-              ),
+              // Container(
+              //   height: 52.h,
+              //   margin: EdgeInsets.symmetric(horizontal: 16),
+              //   decoration: BoxDecoration(
+              //       color: ColorSelect.colorEDEDF1,
+              //       borderRadius: BorderRadius.all(Radius.circular(8))),
+              //   child: Padding(
+              //     padding: const EdgeInsets.only(left: 10),
+              //     child: DropdownButton<String>(
+              //       isExpanded: true,
+              //       hint: Padding(
+              //         padding: const EdgeInsets.only(left: 16),
+              //         child: Text(
+              //           'Select relationship',
+              //           style: AppTextStyle().textColor70707014w400,
+              //         ),
+              //       ),
+              //       icon: Padding(
+              //         padding: const EdgeInsets.only(right: 16),
+              //         child: Image.asset('assets/images/Vector123.png'),
+              //       ),
+              //       iconSize: 24,
+              //       elevation: 0,
+              //       underline: SizedBox(),
+              //       value: _selectedText,
+              //       items: <String>[
+              //         'father',
+              //         'mother',
+              //         'brother',
+              //         'child',
+              //         'sister'
+              //       ].map((String value) {
+              //         return DropdownMenuItem<String>(
+              //           value: value,
+              //           child: Text(value),
+              //         );
+              //       }).toList(),
+              //       onChanged: (String? val) {
+              //         setState(() {
+              //           _selectedText = val!;
+              //         });
+              //         print(_selectedText);
+              //       },
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

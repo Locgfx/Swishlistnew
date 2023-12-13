@@ -516,7 +516,7 @@ class _ShareProductDetailState extends State<ShareProductDetail> {
                                                           ColorSelect
                                                               .color292929,
                                                       onTap: () {
-                                                        updateProducts(name: textController.text, id: widget.id).then((value){
+                                                        updateShareProducts(name: textController.text, id: widget.id).then((value){
                                                           if(value['error'] == false){
                                                             Navigator.of(context)..pop()..pop()..pop();
                                                             Fluttertoast.showToast(

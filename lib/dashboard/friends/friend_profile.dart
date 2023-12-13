@@ -169,6 +169,7 @@ class _FriendProfileState extends State<FriendProfile> {
   }*/
 
   UserDetailsModel ? userDetails;
+  List<String>? elements = [''];
 
 
   getUserDetails(){
@@ -178,6 +179,8 @@ class _FriendProfileState extends State<FriendProfile> {
       if(value['error'] == false){
         setState(() {
           userDetails = UserDetailsModel.fromJson(value);
+          var interestsString = userDetails!.data!.interests![0].interests!.join(", ");
+          elements = interestsString.split(", ");
         });
         isLoading = false;
 
@@ -186,8 +189,6 @@ class _FriendProfileState extends State<FriendProfile> {
         isLoading = false;
       }
     });
-
-
   }
 
   Future<void> _handleRefresh() async {
@@ -272,12 +273,12 @@ class _FriendProfileState extends State<FriendProfile> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 30),
+                      // SizedBox(height: 5),
                       Row(
                         children: [
                           Container(
-                            width: 70,
-                            height: 70,
+                            width: 60,
+                            height: 60,
                             clipBehavior: Clip.hardEdge,
                             decoration: BoxDecoration(
                               color: Colors.transparent,
@@ -334,13 +335,19 @@ class _FriendProfileState extends State<FriendProfile> {
                         style: AppTextStyle().textColor29292914w600,
                       ),
                       SizedBox(height: 12),
-                      Wrap(
-                        children: userDetails?.data?.interests?.expand<Widget>((interest) {
-
-                          return interest.interests?.map<Widget>((interestName) {
-                            return chipBox(name: interestName);
-                          }) ?? [];
-                        }).toList() ?? [],
+                      // Wrap(
+                      //   children: userDetails?.data?.interests?.expand<Widget>((interest) {
+                      //
+                      //     return interest.interests?.map<Widget>((interestName) {
+                      //       return chipBox(name: interestName);
+                      //     }) ?? [];
+                      //   }).toList() ?? [],
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 2.0),
+                        child: Wrap(
+                          children: elements!.map((e) => chipBox(name: e)).toList(),
+                        ),
                       ),
 
 

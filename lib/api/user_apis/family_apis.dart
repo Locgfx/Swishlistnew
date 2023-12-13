@@ -26,21 +26,24 @@ Future<dynamic> getFamilyMemberApi() async {
 Future<dynamic> postFamilyMemberApi({
   // required String userid,
   required String familyMemberMail,
-  required String relation,
-  required String status,
-  required String privacy,
 }) async {
-  var headers = {'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'};
-  var request = http.MultipartRequest(
-      'POST', Uri.parse('$baseUrl/api/user/familyMember/store2'));
-  request.fields.addAll({
-    'phone_email': familyMemberMail,
-    'relation': relation.toLowerCase(),
-    'status': status,
-    'privacy_status': privacy,
+  var headers = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  };
+  var request = http.Request('POST', Uri.parse('$newBaseUrl/api/member/request'));
+  request.body = json.encode({
+    "member_email": familyMemberMail,
   });
+  // request.fields.addAll({
+  //   'phone_email': familyMemberMail,
+  //   'relation': relation.toLowerCase(),
+  //   'status': status,
+  //   'privacy_status': privacy,
+  // });
   request.headers.addAll(headers);
-  print(request.fields);
+  // print(request.fields);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   if (response.statusCode == 200) {

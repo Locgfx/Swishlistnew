@@ -292,7 +292,6 @@ class _FriendProductState extends State<FriendProduct> {
                 children: [
                   Text(
                     widget.friendUserName,
-                    // "AndyAngie3260",
                     style: AppTextStyle().textColor39393916w500,
                   ),
                   Spacer(),
@@ -640,15 +639,8 @@ class _FriendProductState extends State<FriendProduct> {
                                       // itemCount: 2,
                                       shrinkWrap: true,
                                       itemBuilder: (context, i) {
-                                        // double price = double.tryParse(products!
-                                        //         .data!.want![i].price
-                                        //         .toString()) ??
-                                        //     0.0;
-                                        double price = double.tryParse(wantProductsType[i].price
-                                            .toString()) ??
-                                            0.0;
-                                        double normalizedPercent =
-                                            price / 100.0;
+                                        String originalPrice = wantProductsType[i].price.toString().replaceAll("\$", "");
+                                        double priceInDouble = double.parse(originalPrice.replaceAll(',', '')) / 100.0;
                                         return Container(
                                           color: Colors.transparent,
                                           child: Column(
@@ -841,7 +833,8 @@ class _FriendProductState extends State<FriendProduct> {
                                                       const EdgeInsets.only(
                                                           left: 16),
                                                   child: Text(
-                                                    wantProductsType[i].price.toString(),
+                                                    "\$${priceInDouble.toStringAsFixed(2)}",
+                                                    // wantProductsType[i].price.toString(),
                                                     //'\$ ${normalizedPercent}',
                                                     style: AppTextStyle()
                                                         .textColor29292914w500,
@@ -956,16 +949,8 @@ class _FriendProductState extends State<FriendProduct> {
                                             // itemCount: 2,
                                             shrinkWrap: true,
                                             itemBuilder: (context, i) {
-                                              // double price = double.tryParse(
-                                              //         products!.data!
-                                              //             .dontWant![i].price
-                                              //             .toString()) ??
-                                              //     0.0;
-                                              double price = double.tryParse(dontWantProductsType[i].price
-                                                  .toString()) ??
-                                                  0.0;
-                                              double normalizedPercent =
-                                                  price / 100.0;
+                                              String originalPrice = dontWantProductsType[i].price.toString().replaceAll("\$", "");
+                                              double priceInDouble = double.parse(originalPrice.replaceAll(',', '')) / 100.0;
                                               return Container(
                                                 color: Colors.transparent,
                                                 child: Column(
@@ -1130,7 +1115,7 @@ class _FriendProductState extends State<FriendProduct> {
                                                             const EdgeInsets
                                                                 .only(left: 16),
                                                         child: Text(
-                                                            dontWantProductsType[i].price.toString(),
+                                                          "\$${priceInDouble.toStringAsFixed(2)}",
                                                          // '\$ ${normalizedPercent}',
                                                           style: AppTextStyle()
                                                               .textColor29292914w500,
@@ -1243,16 +1228,8 @@ class _FriendProductState extends State<FriendProduct> {
                                             // itemCount: 2,
                                             shrinkWrap: true,
                                             itemBuilder: (context, i) {
-                                              // double price = double.tryParse(
-                                              //         products!
-                                              //             .data!.have![i].price
-                                              //             .toString()) ??
-                                              //     0.0;
-                                              double price = double.tryParse(haveProductsType[i].price
-                                                  .toString()) ??
-                                                  0.0;
-                                              double normalizedPercent =
-                                                  price / 100.0;
+                                              String originalPrice = haveProductsType[i].price.toString().replaceAll("\$", "");
+                                              double priceInDouble = double.parse(originalPrice.replaceAll(',', '')) / 100.0;
                                               return Container(
                                                 color: Colors.transparent,
                                                 child: Column(
@@ -1413,7 +1390,7 @@ class _FriendProductState extends State<FriendProduct> {
                                                             const EdgeInsets
                                                                 .only(left: 16),
                                                         child: Text(
-                                                            haveProductsType[i].price.toString(),
+                                                          "\$${priceInDouble.toStringAsFixed(2)}",
                                                           //'\$ ${normalizedPercent}',
                                                           style: AppTextStyle()
                                                               .textColor29292914w500,

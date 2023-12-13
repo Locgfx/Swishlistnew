@@ -83,8 +83,8 @@ Future<dynamic> friendDetailsApi({
   }
 }
 
-Future<dynamic> getFriendNotificationApi()async {
-  var headers = {
+Future<dynamic> getFriendRequestNotificationApi()async {
+ /* var headers = {
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
   var request = http.Request('POST', Uri.parse('$baseUrl/api/user/friend/request'));
@@ -100,33 +100,78 @@ Future<dynamic> getFriendNotificationApi()async {
     print(response.statusCode);
     print(response.reasonPhrase);
     return resp;
+  }*/
+  var headers = {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  };
+  var request = http.Request('GET', Uri.parse('$newBaseUrl/api/friend/requests'));
+
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+   var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    print(resBody);
+    return resBody;
   }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+    print(resBody);
+    return resBody;
+  }
+
 }
 
 Future<dynamic> updateFriendRequestApi({
   required String status,
   required String id,
 }) async {
+  // var headers = {
+  //   'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  // };
+  // var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/api/user/friend/request/update'));
+  // request.fields.addAll({
+  //   'status': status,
+  //   'id': id,
+  // });
+  // request.headers.addAll(headers);
+  // http.StreamedResponse response = await request.send();
+  // var resp = jsonDecode(await response.stream.bytesToString());
+  // if(response.statusCode == 200) {
+  //   print(resp);
+  //   return resp;
+  // } else {
+  //   print(resp);
+  //   print(response.statusCode);
+  //   print(response.reasonPhrase);
+  //   return resp;
+  // }
   var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
-  var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/api/user/friend/request/update'));
-  request.fields.addAll({
-    'status': status,
-    'id': id,
+  var request = http.Request('POST', Uri.parse('$newBaseUrl/api/friend/request/update'));
+  request.body = json.encode({
+    "id": id,
+    "status": status
   });
   request.headers.addAll(headers);
+
   http.StreamedResponse response = await request.send();
-  var resp = jsonDecode(await response.stream.bytesToString());
-  if(response.statusCode == 200) {
-    print(resp);
-    return resp;
-  } else {
-    print(resp);
-    print(response.statusCode);
-    print(response.reasonPhrase);
-    return resp;
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    print(resBody);
+    return resBody;
   }
+  else {
+    print(response.reasonPhrase);
+  }
+
 }
 
 Future<dynamic> deleteFriendApi({
