@@ -30,7 +30,7 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
   UserDetailsModel ? userDetails;
 
 
-  getUserDetails(){
+  getUserDetails() {
     isLoading = true;
     var resp = userDetailsApi(id: widget.friendId);
     resp.then((value) {
@@ -45,8 +45,6 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
         isLoading = false;
       }
     });
-
-
   }
 // dsnkdnknsd
  /* FriendDetailsModel? friendDetails = FriendDetailsModel(
