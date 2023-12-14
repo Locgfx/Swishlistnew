@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/user_apis/message_api.dart';
 import 'package:swishlist/models/new_models/room_create_model.dart';
@@ -79,7 +80,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
 
 
 
-  getMessages() {
+  /*getMessages() {
     isLoading = true;
     int? chatId = SharedPrefs().getIntValue();
     if (chatId != null) {
@@ -88,11 +89,70 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
         if (value['error'] == false) {
           setState(() {
             response = MessageModel.fromJson(value);
+
+
             response.data?.sort((a, b) {
-              final createdAtA = a.createdAt ?? "";
-              final createdAtB = b.createdAt ?? "";
+              final createdAtA = DateTime.parse(a.createdAt ?? "1970-01-01T00:00:00Z").millisecondsSinceEpoch;
+              final createdAtB = DateTime.parse(b.createdAt ?? "1970-01-01T00:00:00Z").millisecondsSinceEpoch;
+            //  print('lhgftstatararatatattttuuuuuu');
+
+              print("Message A: ${a.message}, createdAtA: $createdAtA");
+              print("Message B: ${b.message}, createdAtB: $createdAtB");
+
               return createdAtB.compareTo(createdAtA);
             });
+
+
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }*/
+
+  /*String timeAgoSinceDate(String date) {
+    DateTime messageTime = DateTime.parse(date);
+    DateTime now = DateTime.now();
+
+    Duration difference = now.difference(messageTime);
+
+    if (difference.inDays > 0) {
+      return DateFormat.yMMMMd().format(messageTime);
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}h ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes}m ago';
+    } else {
+      return 'just now';
+    }
+  }*/
+  getMessages() {
+    isLoading = true;
+    int? chatId = SharedPrefs().getIntValue();
+
+    if (chatId != null) {
+      var resp = getMessageApi(chatId: chatId, page: '0');
+
+      resp.then((value) {
+        if (value['error'] == false) {
+          setState(() {
+            response = MessageModel.fromJson(value);
+
+            // Sort the messages in ascending order based on createdAt
+            if (response.data != null) {
+              response.data!.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+              // Reverse the order to display the latest message at the bottom
+              response.data!.reversed;
+            }
+
             isLoading = false;
           });
         } else {
@@ -107,6 +167,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
       });
     }
   }
+
 
 
 
@@ -255,13 +316,174 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                             EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                         child: Column(
                           children: [
-                            GroupedListView<MsgData, String>(
+                           ListView.separated(
+
+                             shrinkWrap: true,
+                              physics: ScrollPhysics(),
+                              padding: EdgeInsets.only(bottom: 100),
+                              itemCount: response.data?.length ?? 0,
+                              itemBuilder: (context, index) {
+                                //MsgData element = response.data![index];
+
+                                //String timeAgo = timeAgoSinceDate(response.data![index].createdAt ?? "");
+
+                                return (response.data![index].product != null &&
+                                    (response.data![index].product!.photo != null || response.data![index].product!.photo!.isNotEmpty))
+                                    ?
+                                Align(
+                                  alignment: ids == response.data![index].user!.id ? Alignment.centerRight : Alignment.centerLeft,
+                                  //alignment: ids == element.user!.id ? Alignment.centerRight : Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          width: 220,
+                                          clipBehavior: Clip.hardEdge,
+                                          decoration: BoxDecoration(
+                                            color: ids == response.data![index].user!.id ?
+                                //element.user!.id ?
+                                            Colors.grey.withOpacity(0.40) :
+                                            Colors.grey.withOpacity(0.40),
+                                            borderRadius: BorderRadius.circular(16),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              CachedNetworkImage(
+                                                imageUrl:  response.data![index].product?.photo?.toString() ?? '',
+                               // element.product?.photo?.toString() ?? '',
+                                                fit: BoxFit.cover,
+                                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                                progressIndicatorBuilder: (a, b, c) => Opacity(
+                                                  opacity: 0.3,
+                                                  child: Shimmer.fromColors(
+                                                    baseColor: Colors.black12,
+                                                    highlightColor: Colors.white,
+                                                    child: Container(
+                                                      width: 45,
+                                                      height: 45,
+                                                      decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Text(
+                                                    response.data![index].message.toString(),
+                                                    style: TextStyle(
+                                                      color: ids == response.data![index].user!.id ? Colors.black : Colors.black,
+                                                    ),
+                                                    maxLines: 4,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                       /* Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              timeAgo,
+                                              style: TextStyle(fontWeight: FontWeight.w700),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),*/
+                                      ],
+                                    ),
+                                  ),
+                                )
+
+                                    : Align(
+                                  alignment: ids == response.data![index].user!.id
+                                //element.user!.id
+                                      ? Alignment.centerRight
+                                      : Alignment.centerLeft,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end, // or CrossAxisAlignment.start
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.symmetric(vertical: 12),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          color: ids == response.data![index].user!.id
+                                          //element.user!.id
+                                              ? ColorSelect.color343434
+                                              : ColorSelect.colorECEDF0,
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                          child: Text(
+                                            response.data![index].message.toString(),
+                                            style: ids == response.data![index].user!.id
+                                                ? AppTextStyle().textColorFFFFFF14w400
+                                                : AppTextStyle().textColor00000014w400,
+                                          ),
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+                                )
+                                ;
+                              }, separatorBuilder: (BuildContext context, int index) {
+                             //String timeAgo = timeAgoSinceDate(response.data![index].createdAt ?? "");
+
+                               /*return Padding(
+                                 padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                 child: Text(
+                                   timeAgo,
+                                   style: TextStyle(fontWeight: FontWeight.w700),
+                                   textAlign: TextAlign.center,
+                                 ),
+                               );*/
+                             return
+                                Padding(
+                                 padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                 child: Text(
+                                     DateTime.now()
+                                         .difference(DateTime.parse(
+                                         response.data![index].createdAt.toString()))
+                                         .inMinutes <=
+                                         59
+                                         ? "${DateTime.now().difference(DateTime.parse(
+                                         response.data![index].createdAt.toString())).inMinutes} min ago"
+                                         : DateTime.now()
+                                         .difference(DateTime.parse(
+                                         response.data![index].createdAt
+                                             .toString()))
+                                         .inHours <=
+                                         23
+                                         ? "${DateTime.now().difference(DateTime.parse(
+                                         response.data![index].createdAt.toString())).inHours} hr ago"
+                                         : "${DateTime.now().difference(DateTime.parse(
+                                         response.data![index].createdAt.toString())).inDays} days ago",
+                                   style: TextStyle(fontWeight: FontWeight.w700),
+                                   textAlign: TextAlign.center,
+                                 ),
+                               );
+
+
+
+                           },
+                            )
+
+
+                            /*GroupedListView<MsgData, String>(
                                 physics: ScrollPhysics(),
                                 padding: EdgeInsets.only(bottom: 100),
                                 order: GroupedListOrder.DESC,
                                 shrinkWrap: true,
                                 elements: response.data ?? [],
-                                groupBy: (element) => DateTime.now()
+                                groupBy: (element) =>
+                                 DateTime.now()
                                     .difference(DateTime.parse(
                                     element.createdAt.toString()))
                                     .inMinutes <=
@@ -408,7 +630,7 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                           ),
                                         );
                                 },
-                              ),
+                              )*/,
                             ],
                          ),
                       ),
@@ -478,8 +700,12 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                                                 if (sendMsgController
                                                     .text.isNotEmpty) {
                                                   print(widget.friendId);
+
+
                                                   sendMessageApi(
-                                                    chatId: chatRoomId,
+                                                    chatId: SharedPrefs().getIntValue() ?? 0, // Default value if getIntValue() returns null
+
+                                                    //chatRoomId,
                                                     message:
                                                         sendMsgController.text,
                                                   ).then((value) async {

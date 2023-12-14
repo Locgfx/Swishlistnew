@@ -259,9 +259,11 @@ class _ProductDetailState extends State<ProductDetail> {
                               ),
                             ),
                           ),
-                        );
-                      });
-                    });
+                         );
+                        },
+                      );
+                     },
+                  );
                 // Share.share(widget.link);
               },
               child: Container(

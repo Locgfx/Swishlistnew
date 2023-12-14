@@ -26,6 +26,7 @@ class SharedPrefs {
   String userId = 'userId';
   // int chatId = 0;
   String intKey = 'intKey';
+  String fcmToken = 'fcmToken';
   static SharedPreferences? _prefs;
 
   Future setPPercent(String percent) async {
@@ -230,6 +231,13 @@ class SharedPrefs {
   int? getIntValue() {
     String? stringValue = _prefs?.getString(intKey);
     return stringValue != null ? int.tryParse(stringValue) : null;
+  }
+  String? getFcmToken() {
+    return _prefs?.getString(fcmToken);
+  }
+
+  Future setFcmToken(String loginToken) async {
+    return await _prefs?.setString(fcmToken, loginToken);
   }
 
 }

@@ -10,6 +10,7 @@ import 'package:swishlist/login/widgets/row_create_new_account_widget.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
 import 'package:swishlist/welcome/welcome.dart';
 
+import '../api/fcm_notiifcations/fcm_notification_apis.dart';
 import '../api/login_signup_apis/login_api.dart';
 import '../dashboard/dashboard.dart';
 import '../models/login_models.dart';
@@ -186,34 +187,20 @@ class _LoginState extends State<Login> {
                                     .setLoginToken(response!.token.toString());
                                 SharedPrefs()
                                     .setId(response!.data!.id.toString());
-                                // SharedPrefs().setName(
-                                //     response!.data.name.toString());
-                                // SharedPrefs().setUsername(
-                                //     response!.data.username.toString());
-                                // SharedPrefs().setUserPhoto(
-                                //     response!.data.photo.toString());
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                     builder: (context) =>
                                         Dashboard(response: response!),
                                   ),
                                 );
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (_) => ShowCaseWidget(
-                                //         builder: Builder(
-                                //       builder: (context) =>
-                                //           Dashboard(response: response!),
-                                //     )),
-                                //   ),
-                                // );
+                              }
+                              else {
+                                print("check else");
+                                // loading = false;
+                                Fluttertoast.showToast(
+                                    msg: "Please check username and password");
                               }
                             });
-                          } else {
-                            loading = false;
-                            Fluttertoast.showToast(
-                                msg: "Please check username and password");
                           }
                         }
                       },

@@ -40,7 +40,7 @@ class FriendProfile extends StatefulWidget {
 class _FriendProfileState extends State<FriendProfile> {
   @override
   void initState() {
-    getUserDetails();
+    // getUserDetails();
     //getFriendInterest();
     // widget.friendId;
    // getFriendProfile();

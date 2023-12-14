@@ -48,6 +48,8 @@ class _SplashScreenState extends State<SplashScreen> {
       });
     }
 
+    SharedPrefs().setFcmToken(_fcmToken);
+
     // var prefs = await SharedPreferences.getInstance();
     // prefs.setString(Keys().fcmToken, _fcmToken);
     print('Firebase token: $firebaseAppToken');
@@ -104,42 +106,70 @@ class _SplashScreenState extends State<SplashScreen> {
             email: SharedPrefs().getEmail().toString(),
             password: SharedPrefs().getPassword().toString(),
           ).then((value) {
-            response = value;
-            if (response?.error != null &&
-                response!.error == false) {
-
-              SharedPrefs().setLoginTrue();
-              SharedPrefs()
-                  .setEmail(response!.data!.email.toString());
-              // SharedPrefs()
-              //     .setPassword(passwordController.text);
-              SharedPrefs()
-                  .setLoginToken(response!.token.toString());
-              SharedPrefs()
-                  .setId(response!.data!.id.toString());
-              // SharedPrefs().setName(
-              //     response!.data.name.toString());
-              // SharedPrefs().setUsername(
-              //     response!.data.username.toString());
-              // SharedPrefs().setUserPhoto(
-              //     response!.data.photo.toString());
-              Navigator.of(context).pushReplacement(
+            if (value is LoginResponse) {
+              response = value;
+              if (response?.error != null &&
+                  response!.error == false) {
+                SharedPrefs().setLoginTrue();
+                SharedPrefs()
+                    .setEmail(response!.data!.email.toString());
+                // SharedPrefs()
+                //     .setPassword(passwordController.text);
+                SharedPrefs()
+                    .setLoginToken(response!.token.toString());
+                SharedPrefs()
+                    .setId(response!.data!.id.toString());
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => Dashboard(response: response!),
+                  ),
+                );
+              }
+            } else {
+              Navigator.pushReplacement(
+                context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      Dashboard(response: response!),
+                  builder: (_) => Login(),
                 ),
               );
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (_) => ShowCaseWidget(
-              //         builder: Builder(
-              //       builder: (context) =>
-              //           Dashboard(response: response!),
-              //     )),
-              //   ),
-              // );
+              // Handle the case where authTokenLoginApi returns an unexpected type
             }
+            // response = value;
+            // if (response?.error != null &&
+            //     response!.error == false) {
+            //
+            //   SharedPrefs().setLoginTrue();
+            //   SharedPrefs()
+            //       .setEmail(response!.data!.email.toString());
+            //   // SharedPrefs()
+            //   //     .setPassword(passwordController.text);
+            //   SharedPrefs()
+            //       .setLoginToken(response!.token.toString());
+            //   SharedPrefs()
+            //       .setId(response!.data!.id.toString());
+            //   // SharedPrefs().setName(
+            //   //     response!.data.name.toString());
+            //   // SharedPrefs().setUsername(
+            //   //     response!.data.username.toString());
+            //   // SharedPrefs().setUserPhoto(
+            //   //     response!.data.photo.toString());
+            //   Navigator.of(context).pushReplacement(
+            //     MaterialPageRoute(
+            //       builder: (context) =>
+            //           Dashboard(response: response!),
+            //     ),
+            //   );
+            //   // Navigator.pushReplacement(
+            //   //   context,
+            //   //   MaterialPageRoute(
+            //   //     builder: (_) => ShowCaseWidget(
+            //   //         builder: Builder(
+            //   //       builder: (context) =>
+            //   //           Dashboard(response: response!),
+            //   //     )),
+            //   //   ),
+            //   // );
+            // }
           });
       /*    authTokenLoginApi(
                   token: '${SharedPrefs().getLoginToken()}',

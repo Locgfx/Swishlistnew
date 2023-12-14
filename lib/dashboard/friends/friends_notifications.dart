@@ -29,26 +29,6 @@ class _FriendNotificationState extends State<FriendNotification> {
 
 
   getFriendRequestNotifications() {
-/*    isLoading = true;
-    var resp = getFriendNotificationApi();
-    resp.then((value) {
-      friendNotification.clear();
-      if (mounted) {
-        if (value['status'] == true) {
-          setState(() {
-            for (var v in value['data']) {
-              friendNotification.add(FriendNotificationModel.fromJson(v));
-            }
-
-            isLoading = false;
-          });
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      }
-    });*/
   isLoading = true;
   var resp = getFriendRequestNotificationApi();
   resp.then((value) {

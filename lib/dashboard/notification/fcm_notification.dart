@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/constants/urls.dart';
@@ -66,7 +67,10 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
 
             fcmNotification.add(FcmNotificationModel.fromJson(v));
           }
+          fcmNotification.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
 
+          // Reverse the order to display the latest message at the bottom
+          fcmNotification = fcmNotification.reversed.toList();
           isLoading = false;
         });
       } else {
@@ -125,12 +129,12 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                           //     :
                           GestureDetector(
                             onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (_) => FcmNotificationDelete(),
-                              //   ),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => FcmNotificationDelete(),
+                                ),
+                              );
                             },
                             child: Container(
                               width: 36,
@@ -188,6 +192,19 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                               .contains(
                                               'family member request')
                                               ? GestureDetector(
+                                            // onDoubleTap: () {
+                                            //   print(fcmNotification[i].id.toString());
+                                            //   fcmNotificationDeleteApi(id:fcmNotification[i].id.toString() ).then((value) {
+                                            //     if(value['error'] == false){
+                                            //
+                                            //       Fluttertoast.showToast(msg: value['message']);
+                                            //
+                                            //     } else{
+                                            //       Fluttertoast.showToast(msg: value['message']);
+                                            //     }
+                                            //   });
+                                            //
+                                            // },
                                             onTap: () {
                                               Navigator.push(
                                                 context,
@@ -308,7 +325,16 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                       TextOverflow
                                                           .ellipsis,
                                                     ),
-                                                  )
+                                                  ),
+                                                  // Expanded(
+                                                  //     child: Container(
+                                                  //       padding: EdgeInsets.all(9),
+                                                  //
+                                                  //       child: Image.asset(
+                                                  //         "assets/images/del.png",
+                                                  //       ),
+                                                  //     ),
+                                                  // )
                                                 ],
                                               ),
                                             ),
@@ -465,6 +491,15 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                       ],
                                                     ),
                                                   ),
+                                                  // Expanded(
+                                                  //   child: Container(
+                                                  //     padding: EdgeInsets.all(9),
+                                                  //
+                                                  //     child: Image.asset(
+                                                  //       "assets/images/del.png",
+                                                  //     ),
+                                                  //   ),
+                                                  // )
                                                 ],
                                               ),
                                             ),
@@ -592,6 +627,15 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                       ],
                                                     ),
                                                   ),
+                                                  // Expanded(
+                                                  //   child: Container(
+                                                  //     padding: EdgeInsets.all(9),
+                                                  //
+                                                  //     child: Image.asset(
+                                                  //       "assets/images/del.png",
+                                                  //     ),
+                                                  //   ),
+                                                  // )
                                                 ],
                                               ),
                                             ),
@@ -818,7 +862,16 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                             ),
                                                       ),
                                                     ),
-                                                  )
+                                                  ),
+                                                  // Expanded(
+                                                  //   child: Container(
+                                                  //     padding: EdgeInsets.all(9),
+                                                  //
+                                                  //     child: Image.asset(
+                                                  //       "assets/images/del.png",
+                                                  //     ),
+                                                  //   ),
+                                                  // )
                                                 ],
                                               ),
                                             ),

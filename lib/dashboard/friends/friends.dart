@@ -378,6 +378,9 @@ class _FriendsState extends State<Friends> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
+                                              print(friendList[i]
+                                                  .friend!.id
+                                                  .toString());
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(

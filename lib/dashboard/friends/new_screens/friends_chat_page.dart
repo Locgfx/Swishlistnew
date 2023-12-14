@@ -134,10 +134,14 @@ class _AllFriendsChatScreenState extends State<AllFriendsChatScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
+
+
                                     postChatApi(friendId: friendList[i].friend!.id.toString()).then((value) {
                                       resp = value;
                                       if(resp?.error != null &&
                                           resp!.error == false){
+                                        print('ggg');
+                                        print(resp!.data!.lastMessage!.chatId);
 
                                         // chatRoomId = resp!.data!.lastMessage!.chatId!;
                                         SharedPrefs().setIntValue(resp!.data!.lastMessage!.chatId!);
@@ -153,20 +157,19 @@ class _AllFriendsChatScreenState extends State<AllFriendsChatScreen> {
                                                       selectedItems: [])
                                           ),
                                         );
-                                        // print(resp!.data!.lastMessage!.chatId);
                                       } else {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ProfileChatPage(
-                                                      resp: widget.resp,
-                                                      friendId: friendList[i].friend!.id.toString(),
-                                                      name: friendList[i].friend!.name.toString(),
-                                                      friendImage: friendList[i].friend!.photo.toString(),
-                                                      selectedItems: [])
-                                          ),
-                                        );
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //       builder: (context) =>
+                                        //           ProfileChatPage(
+                                        //               resp: widget.resp,
+                                        //               friendId: friendList[i].friend!.id.toString(),
+                                        //               name: friendList[i].friend!.name.toString(),
+                                        //               friendImage: friendList[i].friend!.photo.toString(),
+                                        //               selectedItems: [])
+                                        //   ),
+                                        // );
                                       }
                                     });
 

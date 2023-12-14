@@ -20,7 +20,6 @@ import 'package:swishlist/expanded/manage_family_members.dart';
 import 'package:swishlist/expanded/member_settings.dart';
 import 'package:swishlist/expanded/user_all_details.dart';
 import 'package:swishlist/expanded/widgets/expanded_section_row_option.dart';
-
 import '../../api/user_apis/friends_api.dart';
 import '../../api/user_apis/products_api.dart';
 import '../../api/user_apis/profile_apis.dart';

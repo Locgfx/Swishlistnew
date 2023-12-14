@@ -46,13 +46,7 @@ class FriendProduct extends StatefulWidget {
 }
 
 class _FriendProductState extends State<FriendProduct> {
-  List imageList = ["assets/images/image11.png", "assets/images/image10.png"];
-  List itemNameList = [
-    "MorePro Fitness Tracker, Heart Rate Monitor Blood Pressure ...",
-    "RESPAWN 110 Racing Style Gaming Chair, Reclining Ergon..."
-  ];
-  List itemPrice = ["87.29", "127.99"];
-  List popList = ['Send Profile', 'Notification', 'Block', 'Unfriend'];
+
 
   @override
   void initState() {
@@ -454,6 +448,7 @@ class _FriendProductState extends State<FriendProduct> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
+                                    print(widget.friendId);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

@@ -32,33 +32,32 @@ Future<dynamic> fcmNotificationApi() async {
 
 }
 
-// Future<dynamic> fcmNotificationDeleteApi({
-//   required String id,
-// }) async {
-//   var headers = {
-//     'Accept': 'application/json',
-//     'Content-Type': 'application/x-www-form-urlencoded',
-//     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
-//   };
-//   var request = http.Request(
-//       'POST', Uri.parse('$baseUrl/api/user/fcm/notification/delete'));
-//   request.bodyFields = {
-//     'id': id,
-//   };
-//   request.headers.addAll(headers);
-//
-//   http.StreamedResponse response = await request.send();
-//   var resp = jsonDecode(await response.stream.bytesToString());
-//   if (response.statusCode == 200) {
-//     print(resp);
-//     return resp;
-//   } else {
-//     print(resp);
-//     print(response.statusCode);
-//     print(response.reasonPhrase);
-//     return resp;
-//   }
-// }
+Future<dynamic> fcmNotificationDeleteApi({
+  required String id,
+}) async {
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  };
+  var request = http.Request('POST', Uri.parse('$newBaseUrl/api/fcm/notification/delete'));
+  request.body = json.encode({
+    "ids": [id],
+  });
+  print(request.body);
+  request.headers.addAll(headers);
+  http.StreamedResponse response = await request.send();
+  var resp = jsonDecode(await response.stream.bytesToString());
+  if (response.statusCode == 200) {
+    print(resp);
+    return resp;
+  } else {
+    print(resp);
+    print(response.statusCode);
+    print(response.reasonPhrase);
+    return resp;
+  }
+}
 
 
 Future<dynamic> fcmNotificationTokenApi({

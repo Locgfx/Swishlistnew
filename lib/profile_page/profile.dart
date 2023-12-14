@@ -45,36 +45,25 @@ class _UserProfileState extends State<UserProfile> {
     super.initState();
   }
 
-
-
-
   ProfileModel  profile = ProfileModel();
 
   getProfile() {
-
     isLoading = true;
     var resp = getProfileApi();
     resp.then((value) {
       if(value['error'] == false){
-
         setState(() {
           profile = ProfileModel.fromJson(value);
          //get();
           fields();
           isLoading = false;
         });
-
-
-
-      }else{
+        } else{
         setState(() {
            isLoading = false;
         });
       }
-
     });
-
-
   }
 
   void fields() {
@@ -507,6 +496,7 @@ class _UserProfileState extends State<UserProfile> {
                                                 dobFormat =
                                                     DateFormat('yyyy-MM-dd')
                                                         .format(date);
+                                                respDate = DateFormat('yyyy-MM-dd').format(date);
                                               },
                                               maximumDate: 2023,
                                             ),
@@ -929,7 +919,7 @@ class _UserProfileState extends State<UserProfile> {
                                       name: nameController.text,
                                       userName: nameController.text,
                                       gender: genderController.text,
-                                    dob: dobController.text,
+                                    dob: respDate,
                                     //   dob: dobFormat.isEmpty ?
                                     // respDate :
                                     // dobFormat,

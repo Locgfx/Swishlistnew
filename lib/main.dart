@@ -54,14 +54,24 @@ fn(RemoteMessage message) async {
   NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: androidPlatformChannelSpecifics);
   //log(event.data['content']['id'].toString());
-  log(a['id']);
-  flutterPlugin.show(
-    a['id'],
-    a['title'].toString(),
-    a['body'].toString(),
-    platformChannelSpecifics,
-    payload: a['payload'].toString(),
-  );
+  // log(a['id']);
+  if (a['id'] != null && a['id'] is int) {
+    flutterPlugin.show(
+      a['id'],
+      a['title'].toString(),
+      a['body'].toString(),
+      platformChannelSpecifics,
+      payload: a['payload'].toString(),
+    );
+  }
+
+  // flutterPlugin.show(
+  //   a['id'],
+  //   a['title'].toString(),
+  //   a['body'].toString(),
+  //   platformChannelSpecifics,
+  //   payload: a['payload'].toString(),
+  // );
   /*if (message.data['content']['payload']['type'].toString() == 'story') {
     Navigator.push(
         _navigatorKey.currentState!.context,
@@ -131,6 +141,7 @@ void main() async {
             badge: true,
             sound: true,
           );
+
   await SharedPrefs().init();
   await Firebase.initializeApp();
   await SystemChrome.setPreferredOrientations(
@@ -139,6 +150,11 @@ void main() async {
 
   runApp(const MyApp());
 }
+
+
+
+
+
 
 void onDidReceiveLocalNotification(
     int? id, String? title, String? body, String? payload) async {

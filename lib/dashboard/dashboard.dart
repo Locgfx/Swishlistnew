@@ -45,6 +45,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   int selectedIndex = 0;
+  int _index = 0;
 
   /*String _fcmToken = '';
   Future<void> initializeFirebaseService() async {
@@ -94,12 +95,14 @@ class _DashboardState extends State<Dashboard> {
               children: [
                 InkWell(
                   onTap: () {
-                    selectedIndex = pageIndex = 0;
-                    _pageController.jumpToPage(
-                      pageIndex,
-                    );
-                    pageIndex = 0;
-                    setState(() {});
+                    // selectedIndex = pageIndex = 0;
+                    // _pageController.jumpToPage(
+                    //   pageIndex,
+                    // );
+
+                    setState(() {
+                      pageIndex = 0;
+                    });
                   },
                   child: Container(
                     color: Colors.transparent,
@@ -141,10 +144,10 @@ class _DashboardState extends State<Dashboard> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      selectedIndex = pageIndex = 1;
+                      /*selectedIndex = pageIndex = 1;
                       _pageController.jumpToPage(
                         pageIndex,
-                      );
+                      );*/
                       pageIndex = 1;
                     });
                   },
@@ -190,10 +193,10 @@ class _DashboardState extends State<Dashboard> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      selectedIndex = pageIndex = 2;
+                      /*selectedIndex = pageIndex = 2;
                       _pageController.jumpToPage(
                         pageIndex,
-                      );
+                      );*/
                       pageIndex = 2;
                     });
                   },
@@ -237,10 +240,10 @@ class _DashboardState extends State<Dashboard> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      selectedIndex = pageIndex = 3;
+                      /*selectedIndex = pageIndex = 3;
                       _pageController.jumpToPage(
                         pageIndex,
-                      );
+                      );*/
                       pageIndex = 3;
                     });
                   },
@@ -289,7 +292,47 @@ class _DashboardState extends State<Dashboard> {
             ),
           ),
         ),
-        body: TextFieldUnFocusOnTap(
+        body:
+        [
+          ShowCaseWidget(
+            builder: Builder(
+              builder: (context) => ProductsPage(
+                response: widget.response,
+              ),
+            ),
+          ),
+          // ProductsPage(response: widget.response, productKey: _one),
+          // AllEtsyProducts(),
+          // Search(),
+          HomeEtsyProducts(),
+          // ShowCaseWidget(
+          //   builder: Builder(
+          //     builder: (context) => Search(),
+          //   ),
+          // ),
+          FcmNotificationScreen(
+            response: widget.response,
+          ),
+          // Activities(
+          //   response: widget.response,
+          // ),
+          ShowCaseWidget(
+            builder: Builder(
+              builder: (context) => Friends(
+                response: widget.response,
+              ),
+            ),
+          ),
+          // ProductsPage(
+          //   response: widget.response,
+          // ),
+          // // AllEtsyProducts(),
+          // Search(),
+          // Activities(),
+          // Friends(),
+
+        ].elementAt(pageIndex)
+       /* TextFieldUnFocusOnTap(
           child: Stack(
             children: [
               PageView(
@@ -344,7 +387,7 @@ class _DashboardState extends State<Dashboard> {
               ),
             ],
           ),
-        ),
+        ),*/
       ),
     );
   }

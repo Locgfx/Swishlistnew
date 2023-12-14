@@ -94,7 +94,7 @@ class _LinkMembersAccountState extends State<LinkMembersAccount> {
                         postFamilyMemberApi(
                           familyMemberMail: emailPhoneController.text,
                         ).then((value) async {
-                          if (value['status'] == true) {
+                          if (value['error'] == false) {
                             Fluttertoast.showToast(msg: value['message']);
                             Navigator.push(
                                 context,
