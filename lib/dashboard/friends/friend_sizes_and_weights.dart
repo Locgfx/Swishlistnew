@@ -48,7 +48,7 @@ class _FSizesAndWeightsState extends State<FSizesAndWeights> {
 
 
   }
-
+// dsnkdnknsd
  /* FriendDetailsModel? friendDetails = FriendDetailsModel(
       data: Data(
           sizeWeight: SizeWeight(
