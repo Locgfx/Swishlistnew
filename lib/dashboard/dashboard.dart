@@ -5,7 +5,6 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:swishlist/constants/globals/globals.dart';
 import 'package:swishlist/dashboard/products/products_page.dart';
 import 'package:swishlist/dashboard/search/home_etsy_products.dart';
-
 import '../constants/color.dart';
 import '../constants/globals/keys.dart';
 import '../models/login_models.dart';
@@ -94,13 +93,13 @@ class _DashboardState extends State<Dashboard> {
               children: [
                 InkWell(
                   onTap: () {
-                    selectedIndex = pageIndex = 0;
-                    _pageController.jumpToPage(
-                      pageIndex,
-                    );
-                    pageIndex = 0;
-
-                    setState(() {});
+                    // selectedIndex = pageIndex = 0;
+                    // _pageController.jumpToPage(
+                    //   pageIndex,
+                    // );
+                    setState(() {
+                      pageIndex = 0;
+                    });
                   },
                   child: Container(
                     color: Colors.transparent,
@@ -142,10 +141,10 @@ class _DashboardState extends State<Dashboard> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      selectedIndex = pageIndex = 1;
-                      _pageController.jumpToPage(
-                        pageIndex,
-                      );
+                      // selectedIndex = pageIndex = 1;
+                      // _pageController.jumpToPage(
+                      //   pageIndex,
+                      // );
                       pageIndex = 1;
                     });
                   },
@@ -191,10 +190,10 @@ class _DashboardState extends State<Dashboard> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      selectedIndex = pageIndex = 2;
-                      _pageController.jumpToPage(
-                        pageIndex,
-                      );
+                      // selectedIndex = pageIndex = 2;
+                      // _pageController.jumpToPage(
+                      //   pageIndex,
+                      // );
                       pageIndex = 2;
                     });
                   },
@@ -238,10 +237,10 @@ class _DashboardState extends State<Dashboard> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      selectedIndex = pageIndex = 3;
-                      _pageController.jumpToPage(
-                        pageIndex,
-                      );
+                      // selectedIndex = pageIndex = 3;
+                      // _pageController.jumpToPage(
+                      //   pageIndex,
+                      // );
                       pageIndex = 3;
                     });
                   },
@@ -290,50 +289,74 @@ class _DashboardState extends State<Dashboard> {
             ),
           ),
         ),
-        body: TextFieldUnFocusOnTap(
-          child: Stack(
-            children: [
-              IndexedStack(
-                children: [
-                  PageView(
-                    physics: NeverScrollableScrollPhysics(),
-                    allowImplicitScrolling: true,
-                    controller: _pageController,
-                    onPageChanged: (page) {
-                      setState(
-                        () {
-                          pageIndex = page;
-                        },
-                      );
-                    },
-                    children: [
-                      ShowCaseWidget(
-                        builder: Builder(
-                          builder: (context) => ProductsPage(
-                            response: widget.response,
-                          ),
-                        ),
-                      ),
-                      HomeEtsyProducts(
-                        response: widget.response,
-                      ),
-                      FcmNotificationScreen(
-                        response: widget.response,
-                      ),
-                      ShowCaseWidget(
-                        builder: Builder(
-                          builder: (context) => Friends(
-                            response: widget.response,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+        body: [
+          ShowCaseWidget(
+            builder: Builder(
+              builder: (context) => ProductsPage(
+                response: widget.response,
               ),
-            ],
+            ),
           ),
-        ),
+          HomeEtsyProducts(
+            response: widget.response,
+          ),
+          FcmNotificationScreen(
+            response: widget.response,
+          ),
+          ShowCaseWidget(
+            builder: Builder(
+              builder: (context) => Friends(
+                response: widget.response,
+              ),
+            ),
+          ),
+
+
+        ].elementAt(pageIndex),
+        // body: TextFieldUnFocusOnTap(
+        //   child: Stack(
+        //     children: [
+        //       IndexedStack(
+        //         children: [
+        //           PageView(
+        //             physics: NeverScrollableScrollPhysics(),
+        //             allowImplicitScrolling: true,
+        //             controller: _pageController,
+        //             onPageChanged: (page) {
+        //               setState(
+        //                 () {
+        //                   pageIndex = page;
+        //                 },
+        //               );
+        //             },
+        //             children: [
+        //               ShowCaseWidget(
+        //                 builder: Builder(
+        //                   builder: (context) => ProductsPage(
+        //                     response: widget.response,
+        //                   ),
+        //                 ),
+        //               ),
+        //               HomeEtsyProducts(
+        //                 response: widget.response,
+        //               ),
+        //               FcmNotificationScreen(
+        //                 response: widget.response,
+        //               ),
+        //               ShowCaseWidget(
+        //                 builder: Builder(
+        //                   builder: (context) => Friends(
+        //                     response: widget.response,
+        //                   ),
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //         ],
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }

@@ -18,7 +18,6 @@ AndroidNotificationChannel androidChannel = AndroidNotificationChannel(
   'basic_channel',
   'basic_channel',
   description: 'Description',
-  //groupId: 'basic_channel_group',
   importance: Importance.high,
   showBadge: true,
   playSound: true,
@@ -28,17 +27,10 @@ FlutterLocalNotificationsPlugin flutterPlugin =
     FlutterLocalNotificationsPlugin();
 
 fn(RemoteMessage message) async {
-  //log(message.data['content']['payload']['type'].toString());
-  //AwesomeNotifications().createdStream.listen((event) {});
-  //AwesomeNotifications().displayedStream.listen((event) {});
-  //AwesomeNotifications().dismissedStream.listen((event) {});
-  //AwesomeNotifications().setGlobalBadgeCounter(0);
+
   log(message.data.toString());
   String t = message.data['content'].toString();
   Map a = jsonDecode(t.toString());
-
-  // http.Response response = await http.get(Uri.parse(a['bigPicture']));
-  // final bytes = response.bodyBytes;
   AndroidNotificationDetails androidPlatformChannelSpecifics =
       AndroidNotificationDetails('basic_channel', 'basic_channel',
           channelDescription: 'your channel description',
@@ -47,29 +39,6 @@ fn(RemoteMessage message) async {
           ticker: 'ticker');
   NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: androidPlatformChannelSpecifics);
-
-  // log(event.data['content']['id'].toString());
-  // log(a['id']);
-  // if (a['id'] != null && a['id'].runtimeType == String) {
-  // flutterPlugin.show(
-  //   a['id'],
-  //   // a['id'] ?? '',
-  //   a['title'].toString(),
-  //   a['body'].toString(),
-  //   platformChannelSpecifics,
-  //   payload: a['payload'].toString(),
-  // );
-  // show notification
-  // }
-  // if (a['id'] != null && a['id'] is String) {
-  //   flutterPlugin.show(
-  //     a['id'],
-  //     a['title'].toString(),
-  //     a['body'].toString(),
-  //     platformChannelSpecifics,
-  //     payload: a['payload'].toString(),
-  //   );
-  // }
 
   if (a['id'] != null && a['id'] is int) {
     flutterPlugin.show(
@@ -81,42 +50,6 @@ fn(RemoteMessage message) async {
     );
   }
 
-  // flutterPlugin.show(
-  //   a['id'],
-  //   a['title'].toString(),
-  //   a['body'].toString(),
-  //   platformChannelSpecifics,
-  //   payload: a['payload'].toString(),
-  // );
-
-  /*if (message.data['content']['payload']['type'].toString() == 'story') {
-    Navigator.push(
-        _navigatorKey.currentState!.context,
-        MaterialPageRoute(
-            builder: (ctx) => DetailsScreen(
-                userName: message.data['content']['payload']['channel_name'],
-                storyType: message.data['content']['payload']['story_type'],
-                siteUrl: message.data['content']['payload']['href'])));
-    */
-  /*_navigatorKey.currentState?.push(MaterialPageRoute(
-        builder: (ctx) =>
-            DetailsScreen(
-                userName: message.data['content']['payload']['channel_name'],
-                storyType: message.data['content']['payload']['story_type'],
-                siteUrl: message.data['content']['payload']['href'])));*/ /*
-  } else */ /*if (message.data['content']['payload']['type'] == 'system')*/ /* {
-    Navigator.push(
-        _navigatorKey.currentState!.context,
-        MaterialPageRoute(
-            builder: (ctx) => TabsScreen(
-                  tabIndex: 3,
-                )));
-  }*/
-  /*AwesomeNotifications().actionStream.listen((event) {
-    log(message.data.toString());
-    log(message.data['content']['payload']['type'].toString());
-    */ /* else {}*/ /*
-  });*/
 }
 
 // bool _sendNotif = true;
@@ -125,8 +58,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
   await Firebase.initializeApp();
-  // --------- var _prefs = await SharedPreferences.getInstance();
-  // ---------  _sendNotif = _prefs.getBool(SavedKeys().notificationValue) ?? true;
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   final IOSInitializationSettings initializationSettingsIOS =
@@ -139,7 +70,6 @@ void main() async {
   await flutterPlugin.initialize(initializationSettings,
       onSelectNotification: selectNotification);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   await FlutterLocalNotificationsPlugin()
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
@@ -170,8 +100,7 @@ void main() async {
 
 void onDidReceiveLocalNotification(
     int? id, String? title, String? body, String? payload) async {
-  // display a dialog with the notification details, tap ok to go to another page
-  //fn(message)
+
 }
 void selectNotification(var payload) async {}
 
@@ -179,9 +108,8 @@ void selectNotification(var payload) async {}
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 
-  // if (_sendotif) {
   fn(message);
-  // }
+
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -202,21 +130,14 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Future<void> setupInteractedMessage() async {
-    // Get any messages which caused the application to open from
-    // a terminated state.
+
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
+
     if (initialMessage != null) {
-      // if (_sendNotif) {
+
       fn(initialMessage);
     }
-    // }
-
-    // Also handle any interaction when the app is in the background via a
-    // Stream listener
-    //FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
 
   NotificationServices notificationServices = NotificationServices();
@@ -243,36 +164,11 @@ class _MyAppState extends State<MyApp> {
                 ),
               ));
         }
-        // if (_sendNotif) {
         fn(event);
-        // }
-        //log(event.data['content']['payload']['type'].toString());
-        /*if (event.data['content']['payload']['type'] == 'story') {
-          _navigatorKey.currentState?.push(MaterialPageRoute(
-              builder: (ctx) => DetailsScreen(
-                  userName: event.data['content']['payload']['channel_name'],
-                  storyType: event.data['content']['payload']['story_type'],
-                  siteUrl: event.data['content']['payload']['href'])));
-        } else if (event.data['content']['payload']['type'] == 'system') {
-          _navigatorKey.currentState!.push(
-            MaterialPageRoute(
-              builder: (_) => TabsScreen(
-                tabIndex: 3,
-              ),
-            ),
-          );
-        } else {
-          log('else');
-        }*/
-        //log('onmessage' + event.data.toString());
       },
     );
     FirebaseMessaging.onMessageOpenedApp.listen(
       (event) async {
-        /* AwesomeNotifications().createNotificationFromJsonData(event.data);
-        AwesomeNotifications().actionStream.listen((event1) {
-          fn(event);
-        });*/
         RemoteNotification? notification = event.notification;
         AndroidNotification? android = event.notification?.android;
         if (notification != null && android != null) {
@@ -291,27 +187,8 @@ class _MyAppState extends State<MyApp> {
                 ),
               ));
         }
-        // if (_sendNotif) {
         fn(event);
-        // }
-        /*if (event.data['content']['payload']['type'] == 'story') {
-        _navigatorKey.currentState?.push(MaterialPageRoute(
-            builder: (ctx) => DetailsScreen(
-                userName: event.data['content']['payload']['channel_name'],
-                storyType: event.data['content']['payload']['story_type'],
-                siteUrl: event.data['content']['payload']['href'])));
-      } else if (event.data['content']['payload']['type'] == 'system') {
-        _navigatorKey.currentState!.push(
-          MaterialPageRoute(
-            builder: (_) => TabsScreen(
-              tabIndex: 3,
-            ),
-          ),
-        );
-      } else {
-        log('else');
-      }*/
-        //log('onMessageOpened' + event.data.toString());
+
       },
     );
     notificationServices.initializeNotification();
@@ -329,17 +206,7 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             // home: ContactSync(),
             home: SplashScreen()
-            // home: CreateNewAccountWithEmail(
-            //   email: '',
-            // ),
-            // home: IntroFinal(
-            //   onBackTap: () {},
-            // ),
-
-            // home: IntroFinal(onBackTap: () {},),
-            // home:ProductAdded(name: '', price: '', productImage: '',)
             );
-        //Dashboard());
       },
     );
   }
