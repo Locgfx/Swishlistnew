@@ -55,14 +55,17 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
   }*/
 
   List<FcmNotificationModel> fcmNotification = [];
-
+  bool shouldRefresh = false;
   getFcmNotifications() {
     isLoading = true;
     var resp = fcmNotificationApi();
     resp.then((value) {
+      // shouldRefresh = false;
       fcmNotification.clear();
       if (value['error'] == false) {
         setState(() {
+
+
           for (var v in value['data']) {
 
             fcmNotification.add(FcmNotificationModel.fromJson(v));
@@ -132,10 +135,36 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => FcmNotificationDelete(),
+                                  builder: (context) => FcmNotificationDelete(response: widget.response,),
                                 ),
-                              );
-                            },
+                              ); },
+
+                              // onTap: () async {
+                              //   // Navigate to ScreenB
+                              //   final result = await Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(builder: (context) => FcmNotificationDelete(response:  widget.response,)),
+                              //   );
+                              //
+                              //   // Check the result from ScreenB to determine whether to refresh
+                              //   if (result != null && result is bool && result) {
+                              //     shouldRefresh = true;
+                              //   }
+                              //
+                              //   // If a refresh is needed, call getFcmNotifications()
+                              //   if (shouldRefresh) {
+                              //     await getFcmNotifications();
+                              //   }
+                              // },
+
+
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (_) => FcmNotificationDelete(response: widget.response,),
+                              //   ),
+                              // );
+                            // },
                             child: Container(
                               width: 36,
                               height: 36,
@@ -210,7 +239,7 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (_) =>
-                                                      ManageFamilyMembers(),
+                                                      ManageFamilyMembers(response: widget.response,),
                                                 ),
                                               );
                                             },
@@ -249,30 +278,34 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                       child:
                                                       CachedNetworkImage(
                                                         maxWidthDiskCache:
-                                                        65,
+                                                        80,
                                                         maxHeightDiskCache:
-                                                        65,
-                                                        imageUrl:
-                                                            fcmNotification[i].sendBy!.photo == null ?
-                                                                '' :
-                                                        fcmNotification[i]
-                                                            .sendBy!
-                                                            .photo
-                                                            .toString()
-                                                            .contains(
-                                                            'http')
-                                                            ? fcmNotification
-                                                            [
+                                                        80,
+                                                        imageUrl: fcmNotification[
                                                         i]
                                                             .sendBy!
                                                             .photo
-                                                            .toString()
-                                                            : baseUrl +
-                                                            fcmNotification
-                                                                [i]
-                                                                .sendBy!
-                                                                .photo
-                                                                .toString(),
+                                                            .toString(),
+                                                        //     fcmNotification[i].sendBy!.photo == null ?
+                                                        //         '' :
+                                                        // fcmNotification[i]
+                                                        //     .sendBy!
+                                                        //     .photo
+                                                        //     .toString()
+                                                        //     .contains(
+                                                        //     'http')
+                                                        //     ? fcmNotification
+                                                        //     [
+                                                        // i]
+                                                        //     .sendBy!
+                                                        //     .photo
+                                                        //     .toString()
+                                                        //     : newBaseUrl +
+                                                        //     fcmNotification
+                                                        //         [i]
+                                                        //         .sendBy!
+                                                        //         .photo
+                                                        //         .toString(),
                                                         fit: BoxFit
                                                             .cover,
                                                         errorWidget: (context,
@@ -373,6 +406,11 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                             .sendBy!
                                                             .photo
                                                             .toString(),
+                                                        // fcmNotification[
+                                                        // i]
+                                                        //     .sendBy!
+                                                        //     .photo
+                                                        //     .toString(),
                                                         id: fcmNotification[i]
                                                             .sendBy!
                                                             .id
@@ -419,23 +457,29 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                       child:
                                                       CachedNetworkImage(
                                                         maxWidthDiskCache:
-                                                        65,
+                                                        80,
                                                         maxHeightDiskCache:
-                                                        65,
-                                                        imageUrl: fcmNotification[
+                                                        80,
+                                                        imageUrl:
+                                                        fcmNotification[
                                                         i]
                                                             .sendBy!
                                                             .photo
-                                                            .toString()
-                                                            .contains(
-                                                            'http')
-                                                            ? fcmNotification[
-                                                        i]
-                                                            .sendBy!
-                                                            .photo
-                                                            .toString()
-                                                            : baseUrl +
-                                                            fcmNotification[i].sendBy!.photo.toString(),
+                                                            .toString(),
+                                                        // fcmNotification[
+                                                        // i]
+                                                        //     .sendBy!
+                                                        //     .photo
+                                                        //     .toString()
+                                                        //     .contains(
+                                                        //     'http')
+                                                        //     ? fcmNotification[
+                                                        // i]
+                                                        //     .sendBy!
+                                                        //     .photo
+                                                        //     .toString()
+                                                        //     : baseUrl +
+                                                        //     fcmNotification[i].sendBy!.photo.toString(),
                                                         fit: BoxFit
                                                             .cover,
                                                         errorWidget: (context,
@@ -552,25 +596,30 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                       child:
                                                       CachedNetworkImage(
                                                         maxWidthDiskCache:
-                                                        65,
+                                                        80,
                                                         maxHeightDiskCache:
-                                                        65,
+                                                        80,
                                                         imageUrl:
-                                                            fcmNotification[i].sendBy!.photo == null ?
-                                                                '' :
-                                                        fcmNotification[i]
-                                                            .sendBy!
-                                                            .photo
-                                                            .toString()
-                                                            .contains(
-                                                            'http')
-                                                            ? fcmNotification[
+                                                        fcmNotification[
                                                         i]
                                                             .sendBy!
                                                             .photo
-                                                            .toString()
-                                                            : baseUrl +
-                                                            fcmNotification[i].sendBy!.photo.toString(),
+                                                            .toString(),
+                                                        //     fcmNotification[i].sendBy!.photo == null ?
+                                                        //         '' :
+                                                        // fcmNotification[i]
+                                                        //     .sendBy!
+                                                        //     .photo
+                                                        //     .toString()
+                                                        //     .contains(
+                                                        //     'http')
+                                                        //     ? fcmNotification[
+                                                        // i]
+                                                        //     .sendBy!
+                                                        //     .photo
+                                                        //     .toString()
+                                                        //     : baseUrl +
+                                                        //     fcmNotification[i].sendBy!.photo.toString(),
                                                         fit: BoxFit
                                                             .cover,
                                                         errorWidget: (context,
@@ -718,27 +767,32 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                       child:
                                                       CachedNetworkImage(
                                                         maxWidthDiskCache:
-                                                        65,
+                                                        80,
                                                         maxHeightDiskCache:
-                                                        65,
+                                                        80,
                                                         imageUrl:
-                                                        fcmNotification[i].sendBy!.photo == null ?
-                                                        '' :fcmNotification[i]
+                                                        fcmNotification[
+                                                        i]
                                                             .sendBy!
                                                             .photo
-                                                            .toString()
-                                                            .contains(
-                                                            'http')
-                                                            ? fcmNotification[i]
-                                                            .sendBy!
-                                                            .photo
-                                                            .toString()
-                                                            : baseUrl +
-                                                            fcmNotification[
-                                                            i]
-                                                                .sendBy!
-                                                                .photo
-                                                                .toString(),
+                                                            .toString(),
+                                                        // fcmNotification[i].sendBy!.photo == null ?
+                                                        // '' :fcmNotification[i]
+                                                        //     .sendBy!
+                                                        //     .photo
+                                                        //     .toString()
+                                                        //     .contains(
+                                                        //     'http')
+                                                        //     ? fcmNotification[i]
+                                                        //     .sendBy!
+                                                        //     .photo
+                                                        //     .toString()
+                                                        //     : baseUrl +
+                                                        //     fcmNotification[
+                                                        //     i]
+                                                        //         .sendBy!
+                                                        //         .photo
+                                                        //         .toString(),
                                                         fit: BoxFit.cover,
                                                         errorWidget: (context,
                                                             url,
@@ -812,24 +866,30 @@ class _FcmNotificationScreenState extends State<FcmNotificationScreen> {
                                                       child:
                                                       CachedNetworkImage(
                                                         maxWidthDiskCache:
-                                                        65,
+                                                        80,
                                                         maxHeightDiskCache:
-                                                        65,
-                                                        imageUrl: fcmNotification[i]
-                                                            .product!
+                                                        80,
+                                                        imageUrl:
+                                                        fcmNotification[
+                                                        i]
+                                                            .sendBy!
                                                             .photo
-                                                            .toString()
-                                                            .contains(
-                                                            'http')
-                                                            ? fcmNotification[i]
-                                                            .product!
-                                                            .photo
-                                                            .toString()
-                                                            : baseUrl +
-                                                            fcmNotification[i]
-                                                                .product!
-                                                                .photo
-                                                                .toString(),
+                                                            .toString(),
+                                                        // fcmNotification[i]
+                                                        //     .product!
+                                                        //     .photo
+                                                        //     .toString()
+                                                        //     .contains(
+                                                        //     'http')
+                                                        //     ? fcmNotification[i]
+                                                        //     .product!
+                                                        //     .photo
+                                                        //     .toString()
+                                                        //     : baseUrl +
+                                                        //     fcmNotification[i]
+                                                        //         .product!
+                                                        //         .photo
+                                                        //         .toString(),
                                                         fit: BoxFit.cover,
                                                         errorWidget: (context,
                                                             url,

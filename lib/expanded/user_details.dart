@@ -13,7 +13,7 @@ import 'package:swishlist/models/login_models.dart';
 
 class UserDetails extends StatefulWidget {
   final LoginResponse response;
-  const UserDetails({Key? key, 
+  const UserDetails({Key? key,
     required this.response,
   }) : super(key: key);
 
@@ -139,7 +139,7 @@ class _UserDetailsState extends State<UserDetails> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ManageFamilyMembers()));
+                          builder: (context) => ManageFamilyMembers(response: widget.response,)));
                 },
                 child: ManageFamilyMembersWidget(),
               ),

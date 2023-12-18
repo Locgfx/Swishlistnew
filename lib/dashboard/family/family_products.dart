@@ -4,9 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/color.dart';
+import 'package:swishlist/dashboard/friends/friendproduct.dart';
 import 'package:swishlist/dashboard/friends/profile_chat.dart';
 import 'package:swishlist/dashboard/friends/widget/appbar_icon.dart';
 import 'package:swishlist/models/friend_product_model.dart';
+import 'package:swishlist/models/login_models.dart';
 
 import '../../api/family_member_apis/family_products_api.dart';
 import '../../api/user_apis/friends_api.dart';
@@ -29,6 +31,8 @@ class FamilyMemberProduct extends StatefulWidget {
   final String familyId;
   final String familyPhoto;
   final String id;
+  final LoginResponse response;
+
 
   const FamilyMemberProduct({
     Key? key,
@@ -36,7 +40,7 @@ class FamilyMemberProduct extends StatefulWidget {
     required this.familyUserName,
     required this.familyId,
     required this.familyPhoto,
-    required this.id,
+    required this.id, required this.response,
   }) : super(key: key);
 
   @override
@@ -310,14 +314,31 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => FamilyMemberDetails(
-                                        familyName: widget.familyName,
-                                        familyUserName: widget.familyUserName,
-                                        familyPhoto: widget.familyPhoto,
-                                        familyMemberId: widget.familyId,
+                                      builder: (_) => FriendProduct(
+                                        friendName: widget.familyName,
+                                        friendUserName: widget.familyUserName,
+                                        friendId: widget.familyId,
+                                        friendPhoto: widget.familyPhoto,
+                                        id: widget.id,
+                                        response: widget.response,
+                                        // familyName: widget.familyName,
+                                        // familyUserName: widget.familyUserName,
+                                        // familyPhoto: widget.familyPhoto,
+                                        // familyMemberId: widget.familyId,
                                       ),
                                     ),
                                   );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (_) => FamilyMemberDetails(
+                                  //       familyName: widget.familyName,
+                                  //       familyUserName: widget.familyUserName,
+                                  //       familyPhoto: widget.familyPhoto,
+                                  //       familyMemberId: widget.familyId,
+                                  //     ),
+                                  //   ),
+                                  // );
                                 },
                                 child: Container(
                                   width: 1.sw,

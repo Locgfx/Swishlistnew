@@ -8,29 +8,6 @@ Future<dynamic> postInterestApi({
 required String interest,
 
 }) async{
-  // var headers = {
-  //   'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
-  // };
-  // var request = http.MultipartRequest('POST',
-  //     Uri.parse('$baseUrl/api/user/interest/store')
-  // );
-  // request.fields.addAll({
-  //   'interest': interest,
-  // });
-  // request.headers.addAll(headers);
-  // print(headers);
-  // print(request.fields);
-  // http.StreamedResponse response = await request.send();
-  // var resp = jsonDecode(await response.stream.bytesToString());
-  // if(response.statusCode == 200) {
-  //   return resp;
-  // } else {
-  //   print(resp);
-  //   print(response.statusCode);
-  //   print(response.reasonPhrase);
-  //   return resp;
-  // }
-
   var headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
@@ -49,6 +26,7 @@ required String interest,
     "privacy": "friend"
   });
   request.headers.addAll(headers);
+  print(request.body);
 
   http.StreamedResponse response = await request.send();
   var resBody = jsonDecode(await response.stream.bytesToString());

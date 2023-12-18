@@ -3,11 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/api/friend_apis/user_details_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/models/friends_details_model.dart';
-import 'package:swishlist/models/user_details_model.dart';
+//import 'package:swishlist/models/user_details_model.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../models/DateModel.dart';
+import '../../models/friend_date_model.dart';
 
 class FDatesAndEvents extends StatefulWidget {
   final String friendId;
@@ -20,7 +21,8 @@ class FDatesAndEvents extends StatefulWidget {
 class _FDatesAndEventsState extends State<FDatesAndEvents> {
   Future<void> _handleRefresh() async {
     //getAllFriendEventDetails();
-    getUserDetails();
+    getFriendEvents();
+    //getUserDetails();
 
     // Implement your refresh logic here.
     // For example, fetch new data from an API or update some data.
@@ -43,7 +45,8 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
   ];
   @override
   void initState() {
-    getUserDetails();
+    getFriendEvents();
+    //getUserDetails();
    // getAllFriendEventDetails();
     // getUpFriendEventDetails();
     super.initState();
@@ -104,16 +107,17 @@ class _FDatesAndEventsState extends State<FDatesAndEvents> {
   //   });
   // }
 
-  UserDetailsModel ? userDetails;
+  //UserDetailsModel ? userDetails;
+  FriendEventModel ? userDetails;
 
 
-  getUserDetails(){
+  getFriendEvents(){
     isLoading = true;
     var resp = userDetailsApi(id: widget.friendId);
     resp.then((value) {
       if(value['error'] == false){
         setState(() {
-          userDetails = UserDetailsModel.fromJson(value);
+          userDetails = FriendEventModel.fromJson(value);
           for(var v in userDetails!.data!.events!.toList()){
             eventList.add(v);
 

@@ -65,52 +65,23 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPrefs().init();
     bool loginBool;
     bool firstRun;
-    bool signLogin;
-    bool googleLoginBool;
-    bool appleLoginBool;
     Future.delayed(Duration(seconds: 3), () {
       firstRun = SharedPrefs().getFirstRun() ?? false;
       loginBool = SharedPrefs().getLogin() ?? false;
-      signLogin = SharedPrefs().getSignLogin() ?? false;
-      googleLoginBool = SharedPrefs().getGoogleLogin() ?? false;
-      appleLoginBool = SharedPrefs().getAppleLogin() ?? false;
       if (firstRun) {
-        // if (loginBool) {
-        //   print('login');
-        //   LoginResponse response;
-        //   login(
-        //     context: context,
-        //     email: SharedPrefs().getEmail()!,
-        //     password: SharedPrefs().getPassword()!,
-        //   ).then((value) async {
-        //     response = value;
-        //     if (response.status == true) {
-        //       SharedPrefs().setLoginTrue();
-        //       SharedPrefs().setLoginToken(response.token);
-        //       print(response.token);
-        //       SharedPrefs().setId(response.data.id.toString());
-        //       print(response.data.id.toString());
-        //       Navigator.of(context).pushReplacement(
-        //         MaterialPageRoute(
-        //           builder: (context) => Dashboard(response: response),
-        //         ),
-        //       );
-        //     }
-        //   });
-        // }
         if (loginBool) {
           print('check token${SharedPrefs().getLoginToken()}');
           LoginResponse? response;
           login(
-            context: context,
+            //context: context,
             email: SharedPrefs().getEmail().toString(),
             password: SharedPrefs().getPassword().toString(),
-          ).then((value) {
+          ).then((value)async {
             if (value is LoginResponse) {
               response = value;
               if (response?.error != null &&
                   response!.error == false) {
-                SharedPrefs().setLoginTrue();
+                SharedPrefs().setLoginToken(response!.token.toString());
                 SharedPrefs()
                     .setEmail(response!.data!.email.toString());
                 // SharedPrefs()

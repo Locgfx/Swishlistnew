@@ -24,7 +24,7 @@ Future<dynamic> userDetailsApi({
   var resBody = jsonDecode(await response.stream.bytesToString());
 
   if (response.statusCode == 200) {
-    print(resBody);
+    // print(resBody);
     return resBody;
   }
   else {

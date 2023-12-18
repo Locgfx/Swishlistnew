@@ -10,7 +10,6 @@ import 'package:swishlist/login/widgets/row_create_new_account_widget.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
 import 'package:swishlist/welcome/welcome.dart';
 
-import '../api/fcm_notiifcations/fcm_notification_apis.dart';
 import '../api/login_signup_apis/login_api.dart';
 import '../dashboard/dashboard.dart';
 import '../models/login_models.dart';
@@ -85,9 +84,9 @@ class _LoginState extends State<Login> {
                         },
                         controller: phoneEmailController,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 24),
-                          border: InputBorder.none,
-                          hintText: "Enter email"
+                            contentPadding: EdgeInsets.symmetric(vertical: 24),
+                            border: InputBorder.none,
+                            hintText: "Enter email"
                           // "Enter phone number/email",
                         ),
                       ),
@@ -165,20 +164,19 @@ class _LoginState extends State<Login> {
                             MaterialPageRoute(
                                 builder: (context) => PhoneVerification()));*/
                         if (phoneEmailController.text.isNotEmpty &&
-                            passwordController.text.isNotEmpty) {
-                          if (_formKey.currentState!.validate()) {
-                            /* setState(() {
-                          loading = true;
-                        });*/
+                            passwordController.text.isNotEmpty
+                           ) {
+                          if(_formKey.currentState!.validate()) {
                             login(
-                              context: context,
+                              //  context: context,
                               email: phoneEmailController.text,
                               password: passwordController.text,
                             ).then((value) {
                               response = value;
-                              if (response?.error != null &&
+                              if(response?.error != null &&
                                   response!.error == false) {
                                 SharedPrefs().setLoginTrue();
+                                // response = LoginResponse.fromJson(value);
                                 SharedPrefs()
                                     .setEmail(phoneEmailController.text);
                                 SharedPrefs()
@@ -187,6 +185,7 @@ class _LoginState extends State<Login> {
                                     .setLoginToken(response!.token.toString());
                                 SharedPrefs()
                                     .setId(response!.data!.id.toString());
+                                print(response!.token.toString());
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                     builder: (context) =>
@@ -194,26 +193,27 @@ class _LoginState extends State<Login> {
                                   ),
                                 );
                               }
-                              else {
-                                print("check else");
-                                // loading = false;
-                                Fluttertoast.showToast(
-                                    msg: "Please check username and password");
-                              }
                             });
+
+                          }
+                          else{
+                            loading =false;
+                            Fluttertoast.showToast(
+                                msg: "Please check username and password");
+                            print('no');
                           }
                         }
                       },
                       title: 'Next'):
 
                   LightYellowButtonWithText(
-                          backgroundColor:
-                               MaterialStateProperty.all(
-                                      ColorSelect.colorFCF5B6),
-                          textStyleColor:
-                              ColorSelect.colorB5B07A,
-                        onTap: () {},
-                          title: 'Next'),
+                      backgroundColor:
+                      MaterialStateProperty.all(
+                          ColorSelect.colorFCF5B6),
+                      textStyleColor:
+                      ColorSelect.colorB5B07A,
+                      onTap: () {},
+                      title: 'Next'),
                 ),
 
                 Padding(
@@ -236,3 +236,4 @@ class _LoginState extends State<Login> {
     );
   }
 }
+

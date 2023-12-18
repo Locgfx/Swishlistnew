@@ -1,18 +1,24 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/constants/urls.dart';
+import 'package:swishlist/dashboard/notification/fcm_notification.dart';
+import 'package:swishlist/models/login_models.dart';
 
 import '../../api/fcm_notiifcations/fcm_notification_apis.dart';
 import '../../constants/color.dart';
 import '../../models/fcm_notification_model/fcm_notification_model.dart';
 
 class FcmNotificationDelete extends StatefulWidget {
+  final LoginResponse response;
   const FcmNotificationDelete({
-    Key? key,
+    Key? key, required this.response,
   }) : super(key: key);
 
   @override
@@ -23,6 +29,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
   bool isLoading = false;
 
   List<FcmNotificationModel> fcmNotification = [];
+  LoginResponse? response;
 
   getFcmNotifications() {
     isLoading = true;
@@ -81,6 +88,11 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
   List<int> delete = [];
   List tagsList = [];
 
+  bool show = false;
+  bool selectAll = false;
+
+
+
   @override
   void initState() {
    getFcmNotifications();
@@ -105,36 +117,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
               },
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
-                child: fcmNotification.isEmpty
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 100),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 30.0),
-                            child:
-                                Image.asset("assets/images/empty activity.png"),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 60, right: 60, top: 24),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "No notifications yet",
-                                  maxLines: 2,
-                                  style: AppTextStyle().roboto29292914w500,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 40),
-                        ],
-                      )
-                    : Padding(
+                child:  Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,6 +131,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                   behavior: HitTestBehavior.translucent,
                                   onTap: () {
                                     Navigator.pop(context);
+                                    // Navigator.pop(context);
                                   },
                                   child: Container(
                                     height: 32,
@@ -160,29 +144,69 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
 
                                 Text(
                                   "Delete Notification",
-                                  style: AppTextStyle().textColor29292920w500,
+                                  style: AppTextStyle().textColor29292916w500,
                                 ),
                                 Spacer(),
-                                tagsList.isEmpty
+                                selectedItems.isEmpty ?
+                                    SizedBox() :
+                                GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectAll = !selectAll;
+
+                                        if (selectAll) {
+                                          selectedItems.clear();
+                                          selectedItems.addAll(fcmNotification.map((item) => item.id!));
+                                        } else {
+                                          selectedItems.clear();
+                                        }
+                                      });
+                                    },
+                                  behavior: HitTestBehavior.translucent,
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    padding: EdgeInsets.all(10),
+                                      child: Image.asset(
+                                        selectAll ?
+                                            "assets/icons/remove-button-svgrepo-com.png":
+                                        "assets/icons/selectallicon.png",
+                                        height: 24,
+                                        width: 24,)),
+                                ),
+                                SizedBox(width: 1,),
+                                selectedItems.isEmpty
                                     ? SizedBox()
-                                    : GestureDetector(
+                                    :
+                                GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
                                         onTap: () {
+                                          setState(() {
+                                            show = !show;
+                                          });
+                                          Timer timer = Timer(Duration(seconds: 2), () {
+                                            setState(() {
+                                              show = false;
+                                            });
+                                          });
                                           setState(() {
                                             loading = true;
                                           });
-                                          // List<String> stringIds = selectedItems.map((v) => v.toString()).toList();
-                                          for (var v in tagsList) {
-                                            // int intId = int.parse(v.toString()); // Convert String to int
-                                            fcmNotificationDeleteApi(
-                                                    id:  v.toString())
+                                          // for (var v in selectedItems) {
+                                          // List<String> stringIds = tagsList.map((id) => id.toString()).toList();
+                                          fcmNotificationDeleteApi(
+                                                  id:
+                                                  selectedItems)
                                                 .then((value) async {
-                                              print(v);
-                                              print(tagsList.toString());
+                                              print("check selected items${selectedItems.toString()}");
                                               if (value['error'] == false) {
+                                                setState(() {
+                                                  isLoading ? Loading() :getFcmNotifications();
+                                                });
                                                 setState(() {
                                                   fcmNotification
                                                       .removeWhere((element) =>
-                                                          element.id == v);
+                                                          element.id == selectedItems.toString());
                                                 });
                                                 Fluttertoast.showToast(
                                                     msg: value['message']);
@@ -192,24 +216,56 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                               }
                                               setState(() {
                                                 isLoading = false;
-                                                tagsList.clear();
+                                                selectedItems.clear();
                                               });
                                             });
-                                          }
+                                          // }
                                         },
-                                        child: Container(
-                                          width: 36,
-                                          height: 36,
+                                        child:
+                                        show
+                                            ? LoadingAnimationWidget.staggeredDotsWave(
+                                          size: 30,
+                                          color: Colors.black,
+                                        ):
+                                            // selectedItems.isEmpty ?
+                                            //     Text("Delete All",style: TextStyle(color: Colors.black),) :
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          // color: Colors.red,
+                                          padding: EdgeInsets.all(8),
                                           child: Image.asset(
-                                              'assets/images/del.png'),
+                                              'assets/icons/trash-svgrepo-com.png',
+                                          color: Colors.black,),
                                         ),
                                       ),
+                                    ],
+                                  ),
+                            fcmNotification.isEmpty
+                                ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 100),
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 30.0),
+                                  child:
+                                  Image.asset("assets/images/empty activity.png"),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 60, right: 60, top: 24),
+                                  child: Text(
+                                    "No notifications yet",
+                                    maxLines: 2,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                SizedBox(height: 40),
                               ],
-                            ),
-                            // Text(
-                            //   "hold item to delete",
-                            //   style: TextStyle(fontSize: 10),
-                            // ),
+                            )
+                                :
                             Padding(
                               padding: const EdgeInsets.only(top: 16),
                               child: Center(
@@ -220,7 +276,6 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                 ),
                               ),
                             ),
-
                             SizedBox(height: 16),
 
                             ListView.separated(
@@ -231,30 +286,30 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                               itemBuilder: (_, i) {
                                 return GestureDetector(
                                   onLongPress: () {
-                                    if (tagsList.isEmpty) {
+                                    if (selectedItems.isEmpty) {
                                       setState(() {
-                                        tagsList
+                                        selectedItems
                                             .add(fcmNotification[i].id!);
                                       });
                                     }
                                   },
                                   onTap: () {
-                                    if (tagsList.isEmpty) {
+                                    if (selectedItems.isEmpty) {
                                       // Navigator.push(
                                       //     context,
                                       //     MaterialPageRoute(
                                       //         builder: (context) =>
                                       //             selectedItems()));
                                     } else {
-                                      if (tagsList.contains(
+                                      if (selectedItems.contains(
                                           fcmNotification[i].id!)) {
                                         setState(() {
-                                          tagsList.remove(
+                                          selectedItems.remove(
                                               fcmNotification[i].id!);
                                         });
                                       } else {
                                         setState(() {
-                                          tagsList.add(
+                                          selectedItems.add(
                                               fcmNotification[i].id!);
                                         });
                                       }
@@ -265,7 +320,7 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                           width: 1,
-                                          color: tagsList.contains(
+                                          color: selectedItems.contains(
                                               fcmNotification[i].id!)
                                               ? Colors.redAccent
                                               : ColorSelect.colorF7E641),
@@ -384,17 +439,38 @@ class _FcmNotificationDeleteState extends State<FcmNotificationDelete> {
                                                     ),
                                                   ),
                                                 ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
+                                            ),
+                                         ],
+                                     ),
+                                   ),
+                                 );
                               },
                               separatorBuilder:
                                   (BuildContext context, int index) => SizedBox(
                                 height: 16,
                               ),
                             ),
+                            // selectedItems.isNotEmpty ?
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     setState(() {
+                            //       selectAll = !selectAll;
+                            //
+                            //       if (selectAll) {
+                            //         selectedItems.clear();
+                            //         selectedItems.addAll(fcmNotification.map((item) => item.id!));
+                            //       } else {
+                            //         selectedItems.clear();
+                            //       }
+                            //     });
+                            //   },
+                            //   child: Container(
+                            //     color: ColorSelect.colorFCF5B6,
+                            //       padding: EdgeInsets.all(16),
+                            //       child: Text(selectAll ? "Deselect All" : "Select All"),
+                            //   ),
+                            // )
+
                             SizedBox(height: 24),
                           ],
                         ),

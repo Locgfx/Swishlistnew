@@ -5,6 +5,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:swishlist/api/friend_apis/user_details_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
 import 'package:swishlist/constants/urls.dart';
+import 'package:swishlist/models/friend_pets_model.dart';
 import 'package:swishlist/models/user_details_model.dart';
 
 import '../../api/user_apis/friends_api.dart';
@@ -23,7 +24,8 @@ class _FPetsState extends State<FPets> {
   @override
   void initState() {
     //getFriendPets();
-    getUserDetails();
+    getFriendPets();
+    //getUserDetails();
     super.initState();
   }
 
@@ -31,7 +33,8 @@ class _FPetsState extends State<FPets> {
   //FriendDetailsModel? friendDetails;
 
   Future<void> _handleRefresh() async {
-    getUserDetails();
+    getFriendPets();
+    //getUserDetails();
     //getFriendPets();
     // Implement your refresh logic here.
     // For example, fetch new data from an API or update some data.
@@ -67,16 +70,17 @@ class _FPetsState extends State<FPets> {
     });
   }*/
 
-  UserDetailsModel ? userDetails;
+  //UserDetailsModel ? userDetails;
+  FriendPetModel ? userDetails;
 
 
-  getUserDetails(){
+  getFriendPets(){
     isLoading = true;
     var resp = userDetailsApi(id: widget.friendId);
     resp.then((value) {
       if(value['error'] == false){
         setState(() {
-          userDetails = UserDetailsModel.fromJson(value);
+          userDetails = FriendPetModel.fromJson(value);
         });
         isLoading = false;
 

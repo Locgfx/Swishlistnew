@@ -13,6 +13,7 @@ import '../../api/friend_apis/user_details_api.dart';
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
 import '../../constants/urls.dart';
+import '../../models/friend_interest_model.dart';
 import '../../models/friends_details_model.dart';
 import '../../models/new_models/main_friend_model.dart';
 import '../../models/user_details_model.dart';
@@ -40,6 +41,7 @@ class FriendProfile extends StatefulWidget {
 class _FriendProfileState extends State<FriendProfile> {
   @override
   void initState() {
+    getFriendInterest();
     // getUserDetails();
     //getFriendInterest();
     // widget.friendId;
@@ -168,17 +170,19 @@ class _FriendProfileState extends State<FriendProfile> {
     });
   }*/
 
-  UserDetailsModel ? userDetails;
+  //UserDetailsModel ? userDetails;
+  FriendInterestModel ? userDetails;
   List<String>? elements = [''];
 
 
-  getUserDetails(){
+
+  getFriendInterest(){
     isLoading = true;
     var resp = userDetailsApi(id: widget.friendId);
     resp.then((value) {
       if(value['error'] == false){
         setState(() {
-          userDetails = UserDetailsModel.fromJson(value);
+          userDetails = FriendInterestModel.fromJson(value);
           var interestsString = userDetails!.data!.interests![0].interests!.join(", ");
           elements = interestsString.split(", ");
         });
@@ -192,7 +196,8 @@ class _FriendProfileState extends State<FriendProfile> {
   }
 
   Future<void> _handleRefresh() async {
-    getUserDetails();
+    getFriendInterest();
+
    // getFriendInterest();
     // widget.friendId;
     //getFriendProfile();
@@ -335,6 +340,23 @@ class _FriendProfileState extends State<FriendProfile> {
                         style: AppTextStyle().textColor29292914w600,
                       ),
                       SizedBox(height: 12),
+                      userDetails!.data!.interests!.isEmpty || userDetails!.data!.interests == null ||
+                          elements == null ?
+                          Text('Friend has no interest added yet') :
+
+                      Wrap(
+                        spacing: 8.0,
+                        children: elements!
+                            .map(
+                              (interest) => Chip(
+                                backgroundColor: ColorSelect.colorCBE0FA,
+                            label: Text(interest),
+
+                          ),
+                        )
+                            .toList(),
+                      ),
+
                       // Wrap(
                       //   children: userDetails?.data?.interests?.expand<Widget>((interest) {
                       //
@@ -343,12 +365,14 @@ class _FriendProfileState extends State<FriendProfile> {
                       //     }) ?? [];
                       //   }).toList() ?? [],
                       // ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 2.0),
-                        child: Wrap(
-                          children: elements!.map((e) => chipBox(name: e)).toList(),
-                        ),
-                      ),
+
+
+                      // Padding(
+                      //   padding: const EdgeInsets.only(right: 2.0),
+                      //   child: Wrap(
+                      //     children: elements!.map((e) => chipBox(name: e)).toList(),
+                      //   ),
+                      // ),
 
 
 
@@ -379,7 +403,7 @@ class _FriendProfileState extends State<FriendProfile> {
                       SizedBox(height: 36),
                       ProfileRow(
                         icon: 'zoomin',
-                        title: 'Sized and Weights',
+                        title: 'Size and Weights',
                         onTap: () {
                           Navigator.push(
                             context,

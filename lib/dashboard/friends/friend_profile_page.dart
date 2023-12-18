@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swishlist/api/friend_apis/user_details_api.dart';
 import 'package:swishlist/constants/globals/loading.dart';
+import 'package:swishlist/models/friend_profile_model.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
@@ -19,28 +20,28 @@ class FProfile extends StatefulWidget {
 class _FProfileState extends State<FProfile> {
   @override
   void initState() {
-    getUserDetails();
+    //getUserDetails();
    // getFriendDetails();
+    getFriendProfile();
     super.initState();
   }
 
   bool isLoading = true;
 
 
-  UserDetailsModel ? userDetails;
+  //UserDetailsModel ? userDetails;
+  FriendProfileModel ? userDetails;
 
 
-  getUserDetails(){
+  getFriendProfile(){
     isLoading = true;
     var resp = userDetailsApi(id: widget.friendId);
     resp.then((value) {
       if(value['error'] == false){
         setState(() {
-          userDetails = UserDetailsModel.fromJson(value);
+          userDetails = FriendProfileModel.fromJson(value);
           isLoading = false;
         });
-
-
       }
       else{
         setState(() {
@@ -96,7 +97,8 @@ class _FProfileState extends State<FProfile> {
   }
 */
   Future<void> _handleRefresh() async {
-    getUserDetails();
+    getFriendProfile();
+    //getUserDetails();
     //getFriendDetails();
     // Implement your refresh logic here.
     // For example, fetch new data from an API or update some data.
@@ -134,9 +136,11 @@ class _FProfileState extends State<FProfile> {
         ),
         centerTitle: false,
       ),
-      body: isLoading
+      body:
+      isLoading
           ? Loading()
-          : RefreshIndicator(
+          :
+      RefreshIndicator(
               backgroundColor: Colors.white,
               color: ColorSelect.colorF7E641,
               strokeWidth: 3,
@@ -159,10 +163,11 @@ class _FProfileState extends State<FProfile> {
                       ),
                       // friendDetails.data!.profile!.name.toString() == '' ||
                       //         friendDetails.data!.profile!.name == null
-                   /* userDetails!.data!.profile!.username.toString() == '' ||
-                    userDetails!.data!.profile!.username == null
-                          ? SizedBox()
-                          : */
+
+                      // userDetails!.data!.profile!.username == '' ||
+                      //     userDetails!.data!.profile!.username == null
+                      //     ? SizedBox()
+                      //     :
                     InkWell(
                               onTap: () {},
                               child: Row(

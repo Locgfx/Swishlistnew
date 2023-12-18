@@ -6,6 +6,7 @@ import 'package:swishlist/models/user_details_model.dart';
 
 import '../../api/user_apis/friends_api.dart';
 import '../../constants/color.dart';
+import '../../models/friend_favorite_model.dart';
 import '../../models/friends_details_model.dart';
 
 class FFavourites extends StatefulWidget {
@@ -41,7 +42,8 @@ class _FFavouritesState extends State<FFavourites> {
   ];*/
   @override
   void initState() {
-    getUserDetails();
+    getFriendFavourites();
+    //getUserDetails();
     //getFriendDetails();
     super.initState();
   }
@@ -64,16 +66,17 @@ class _FFavouritesState extends State<FFavourites> {
     });
   }*/
 
-  UserDetailsModel ? userDetails;
+  //UserDetailsModel ? userDetails;
 
+  FriendFavoriteModel ?  userDetails;
 
-  getUserDetails(){
+  getFriendFavourites(){
     isLoading = true;
     var resp = userDetailsApi(id: widget.friendId);
     resp.then((value) {
       if(value['error'] == false){
         setState(() {
-          userDetails = UserDetailsModel.fromJson(value);
+          userDetails = FriendFavoriteModel.fromJson(value);
         });
         isLoading = false;
 
@@ -87,7 +90,8 @@ class _FFavouritesState extends State<FFavourites> {
   }
 
   Future<void> _handleRefresh() async {
-    getUserDetails();
+    getFriendFavourites();
+    //getUserDetails();
     //getFriendDetails();
     // Implement your refresh logic here.
     // For example, fetch new data from an API or update some data.
@@ -118,7 +122,7 @@ class _FFavouritesState extends State<FFavourites> {
               child: Image.asset('assets/images/Vector190.png')),
         ),
         title: Text(
-          "Favourites",
+          "Favorites",
           style: AppTextStyle().textColor39393916w500,
         ),
         centerTitle: false,
@@ -148,7 +152,7 @@ class _FFavouritesState extends State<FFavourites> {
                               ),
                               SizedBox(height: 5),
                               Text(
-                                'Your friend not added favourites yet',
+                                'Your friend not added favorites yet',
                               )
                             ],
                           ),

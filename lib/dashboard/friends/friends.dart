@@ -102,9 +102,6 @@ class _FriendsState extends State<Friends> {
   late FocusNode focusNode;
   final searchController = TextEditingController();
 
-  // List<ModelFriend> searchList = [];
-  // List<ModelFriend> friendList = [];
-
   @override
   void dispose() {
     searchController.dispose();
@@ -356,7 +353,6 @@ class _FriendsState extends State<Friends> {
                                       'Add friends to share your profile and your favorite product',
                                   buttonTxt: 'Add Friend',
                                   tap: () {
-
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(

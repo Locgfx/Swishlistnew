@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/urls.dart';
 import 'package:swishlist/expanded/widgets/managed_family_member_row.dart';
+import 'package:swishlist/models/login_models.dart';
 
 import '../api/notifications/meber_notifiction_aapi.dart';
 import '../api/user_apis/family_apis.dart';
@@ -17,8 +18,9 @@ import '../models/notification_models/member_index_model.dart';
 //import '../models/notification_models/member_notification_models.dart';
 
 class ManageFamilyMembers extends StatefulWidget {
+  final LoginResponse response;
   const ManageFamilyMembers({
-    Key? key,
+    Key? key, required this.response,
   }) : super(key: key);
 
   @override
@@ -412,7 +414,7 @@ class _ManageFamilyMembersState extends State<ManageFamilyMembers> {
                                             .toString() ,
 
                                         id: familyA[i].id.toString().isEmpty || familyA[i].id == null ? '':
-                                        familyA[i].id.toString(),
+                                        familyA[i].id.toString(), response: widget.response,
                                       ),
                                     ),
                                   );

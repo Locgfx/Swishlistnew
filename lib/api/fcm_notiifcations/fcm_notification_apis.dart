@@ -33,19 +33,22 @@ Future<dynamic> fcmNotificationApi() async {
 }
 
 Future<dynamic> fcmNotificationDeleteApi({
-  required String id,
+  required List<int> id,
 }) async {
   var headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Type': 'application/json',
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
   var request = http.Request('POST', Uri.parse('$newBaseUrl/api/fcm/notification/delete'));
+  // List<String> stringIds = notificationIds.map((id) => '"$id"').toList();
+
   request.body = json.encode({
-    "ids": [id],
+    "ids": id,
   });
-  print(request.body);
+
   request.headers.addAll(headers);
+  print(request.body);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   if (response.statusCode == 200) {

@@ -98,9 +98,6 @@ class _AllFriendsChatScreenState extends State<AllFriendsChatScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 32,
-                    ),
-                    SizedBox(
                       height: 20,
                     ),
 
@@ -133,6 +130,7 @@ class _AllFriendsChatScreenState extends State<AllFriendsChatScreen> {
                           return Column(
                             children: [
                               GestureDetector(
+
                                 onTap: () {
 
 

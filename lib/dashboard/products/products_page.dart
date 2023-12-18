@@ -778,7 +778,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) => ManageFamilyMembers(),
+                                        builder: (_) => ManageFamilyMembers(response: widget.response,),
                                       ),
                                     );
                                   },
@@ -1294,7 +1294,7 @@ class _ProductsPageState extends State<ProductsPage> {
                           ? DotsLoader()
                           : notWant2.isEmpty
                               ? AddProductError(
-                                  image: 'assets/images/addproducts2.png',
+                                  image: 'assets/images/notwant.png',
                                   tap: () {
                                     showModalBottomSheet(
                                         backgroundColor: Colors.transparent,
