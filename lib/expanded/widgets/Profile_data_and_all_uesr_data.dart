@@ -339,9 +339,17 @@ class AddressRowWidget extends StatelessWidget {
           radius: 40.w,
           lineWidth: 2.w,
           percent: .10,
-          backgroundColor: ColorSelect.color478EF8,
-          center: Image.asset('assets/images/Manage address.svg'),
-          progressColor: ColorSelect.color478EF8,
+          backgroundColor: Color(0xFF4FC2E9),
+          center: Image.asset(
+
+            'assets/images/address1.png',
+          filterQuality: FilterQuality.low,
+          cacheHeight: 20,
+          cacheWidth: 20,
+         // height:  20,
+         // width: 20,
+          fit: BoxFit.cover,),
+          progressColor: Color(0xFF4FC2E9),
         ),
         SizedBox(width: 10.w),
         Column(

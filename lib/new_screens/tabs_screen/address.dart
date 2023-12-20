@@ -113,7 +113,7 @@ setState(() {
               Padding(
                 padding: const EdgeInsets.only(right: 100),
                 child: Text(
-                  "Addresses",
+                  "Address",
                   style: AppTextStyle().textColor29292916w500,
                 ),
               ),

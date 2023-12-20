@@ -56,9 +56,9 @@ class _SplashScreenState extends State<SplashScreen> {
     print(_fcmToken);
     // NotificationTokenApi().get();
     // authUserApi(fcmToken: _fcmToken).then((value) async {});
-    fcmNotificationTokenApi(fcmToken: _fcmToken).then((value) {
-
-    });
+    // fcmNotificationTokenApi(fcmToken: _fcmToken).then((value) {
+    //
+    // });
   }
 
   setPage() {
@@ -90,6 +90,9 @@ class _SplashScreenState extends State<SplashScreen> {
                     .setLoginToken(response!.token.toString());
                 SharedPrefs()
                     .setId(response!.data!.id.toString());
+                fcmNotificationTokenApi(fcmToken: _fcmToken).then((value) {
+
+                });
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => Dashboard(response: response!),

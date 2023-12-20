@@ -189,7 +189,7 @@ class _LoginState extends State<Login> {
                                   response!.data!.id.toString()
                                 );
                                 fcmNotificationTokenApi(
-                                    fcmToken: response!.data!.fcmToken.toString()
+                                    fcmToken:  "${SharedPrefs().getFcmToken()}"
                                 ).then((value) {
                                 });
                                 Navigator.of(context).pushReplacement(

@@ -69,7 +69,12 @@ class _UserProfileState extends State<UserProfile> {
   void fields() {
     nameController.text = profile.data!.name ?? '';
     genderController.text = profile.data?.profile?.gender ?? '';
-    respDate = profile.data?.profile?.dateOfBirth ?? "";
+    respDate = profile.data?.profile?.dateOfBirth != null
+        ? DateFormat('yyyy-MM-dd').format(
+      DateFormat('dd MMMM, yyyy').parse(profile.data?.profile?.dateOfBirth ?? "", true),
+    )
+        : "";
+    // respDate = profile.data?.profile?.dateOfBirth ?? "";
     occupationController.text = profile.data?.profile?.occupation ?? '';
     relationStatus.text = profile.data?.profile?.marritalStatus ?? '';
     emailController.text = profile.data?.email ?? '';
@@ -497,6 +502,10 @@ class _UserProfileState extends State<UserProfile> {
                                                     DateFormat('yyyy-MM-dd')
                                                         .format(date);
                                                 respDate = DateFormat('yyyy-MM-dd').format(date);
+                                               // respDate = DateFormat('dd MMMM, yyyy').format(date);
+
+                                               // respDate = DateFormat('dd MMMM, yyyy').format(date);
+
                                               },
                                               maximumDate: 2023,
                                             ),
@@ -919,10 +928,9 @@ class _UserProfileState extends State<UserProfile> {
                                       name: nameController.text,
                                       userName: nameController.text,
                                       gender: genderController.text,
-                                    dob: respDate,
-                                    //   dob: dobFormat.isEmpty ?
-                                    // respDate :
-                                    // dobFormat,
+                                    dob:
+                                    //dobController.text,
+                                       respDate,
                                       occupation: occupationController.text,
                                       relationStatus: relationStatus.text,
                                       email: emailController.text,
@@ -936,7 +944,17 @@ class _UserProfileState extends State<UserProfile> {
                                      ).then((value) {
                                         if(value['error'] == false){
                                           Fluttertoast.showToast(msg: value['message']);
-                                          Navigator.pop(context);
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (BuildContext context) {
+                                                // Your new route/widget here
+                                                return UserAllDetails(
+                                                  response: widget.response,
+                                                );
+                                              },
+                                            ),
+                                          );
+                                          // Navigator.pop(context);
 
                                         }else{
                                           Fluttertoast.showToast(msg: value['error']);

@@ -97,8 +97,9 @@ class _FriendProductDetailState extends State<FriendProductDetail> {
 
   @override
   Widget build(BuildContext context) {
-    double price = double.tryParse(widget.price) ?? 0.0;
-    double normalizedPercent = price / 100.0;
+    String originalPrice = widget.price.replaceAll("\$", "");
+    double priceInDouble = double.parse(originalPrice.replaceAll(',', '')) /
+    100.0;
     return DefaultTabController(
       length: 2,
       initialIndex: 1,
@@ -147,7 +148,9 @@ class _FriendProductDetailState extends State<FriendProductDetail> {
                 Row(
                   children: [
                     Text(
-                      '\$ ${normalizedPercent}',
+                      widget.link.contains("etsy")
+                          ? '\$ ${priceInDouble.toStringAsFixed(2)}'
+                          : '\$ ${widget.price}',
                       // "47.99",
                       style: AppTextStyle().textColor29292924w700,
                     ),
