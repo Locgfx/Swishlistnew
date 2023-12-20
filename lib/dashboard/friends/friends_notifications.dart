@@ -193,13 +193,18 @@ class _FriendNotificationState extends State<FriendNotification> {
                                     children: [
                                       Text(
                                         friendNotification[i]
-                                            .requestBy!
-                                            .name!
-                                            .toString(),
-                                        // "Andy Bernard",
-                                        style: AppTextStyle()
-                                            .textColor29292914w500,
+                                            .requestBy?.name ?? "",
+                                        style: AppTextStyle().textColor29292914w500,
                                       ),
+                                      // Text(
+                                      //   friendNotification[i]
+                                      //       .requestBy!
+                                      //       .name!
+                                      //       .toString(),
+                                      //   // "Andy Bernard",
+                                      //   style: AppTextStyle()
+                                      //       .textColor29292914w500,
+                                      // ),
                                       SizedBox(height: 4),
                                       Text(
                                         friendNotification[i]

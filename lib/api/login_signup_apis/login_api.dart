@@ -75,7 +75,7 @@ Future login({
 
   if(response.statusCode == 200) {
    // if(resp['error'] == false){
-    print(resp);
+   // print(resp);
       // return resp;
         return LoginResponse.fromJson(resp);
     // } else {
@@ -93,9 +93,14 @@ Future login({
     //     token: 'token',);
     // }
   } else {
-    print(resp);
+    //print(resp);
     print(response.statusCode);
     print(response.reasonPhrase);
-    return resp;
+    return LoginResponse(
+      error: true,
+      message: '',
+      token: '',
+      data: Data()
+    );
   }
 }

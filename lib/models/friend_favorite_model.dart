@@ -8,8 +8,14 @@ class FriendFavoriteModel {
   FriendFavoriteModel.fromJson(Map<String, dynamic> json) {
     error = json['error'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
+
+  // FriendFavoriteModel.fromJson(Map<String, dynamic> json) {
+  //   error = json['error'] as bool?;
+  //   message = json['message'] as String?;
+  //   data = json['data'] != null ? new Data.fromJson(json['data'] as Map<String, dynamic>) : null;
+  // }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -26,7 +32,7 @@ class Data {
   int? id;
   String? name;
   String? email;
-  Null? token;
+  String? token;
   String? fcmToken;
   String? status;
   Favourites? favourites;
@@ -40,6 +46,19 @@ class Data {
         this.status,
         this.favourites});
 
+  // Data.fromJson(Map<String, dynamic> json) {
+  //   id = json['id'];
+  //   name = json['name'];
+  //   email = json['email'];
+  //   token = json['token'];
+  //   fcmToken = json['fcm_token'];
+  //   status = json['status'];
+  //   favourites = json['favourites'] != null
+  //       ? Favourites.fromJson(json['favourites'])
+  //       : null;
+  // }
+
+
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
@@ -47,9 +66,15 @@ class Data {
     token = json['token'];
     fcmToken = json['fcm_token'];
     status = json['status'];
-    favourites = json['favourites'] != null
-        ? new Favourites.fromJson(json['favourites'])
-        : null;
+
+    // Check if 'favourites' is a Map or a String
+    var favouritesJson = json['favourites'];
+    if (favouritesJson is Map<String, dynamic>) {
+      favourites = Favourites.fromJson(favouritesJson);
+    } else {
+      // Handle the case where 'favourites' is a String or null
+      favourites = null; // Or set it to a default value based on your requirements
+    }
   }
 
   Map<String, dynamic> toJson() {

@@ -135,27 +135,53 @@ class _AllFriendsChatScreenState extends State<AllFriendsChatScreen> {
 
 
                                     postChatApi(friendId: friendList[i].friend!.id.toString()).then((value) {
-                                      resp = value;
-                                      if(resp?.error != null &&
-                                          resp!.error == false){
+                                      if(value.error == false){
+                                        resp = value;
+                                        print(resp);
                                         print('ggg');
-                                        print(resp!.data!.lastMessage!.chatId);
-
-                                        // chatRoomId = resp!.data!.lastMessage!.chatId!;
+                                        if (resp != null && resp?.data != null && resp?.data!.lastMessage != null) {
+                                          print(resp?.data!.lastMessage!.chatId);
                                         SharedPrefs().setIntValue(resp!.data!.lastMessage!.chatId!);
+                                        }
+                                        //print(resp!.data!.lastMessage!.chatId);
+                                        //SharedPrefs().setIntValue(resp!.data!.lastMessage!.chatId!);
+
                                         Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ProfileChatPage(
-                                                      resp: widget.resp,
-                                                      friendId: friendList[i].friend!.id.toString(),
-                                                      name: friendList[i].friend!.name.toString(),
-                                                      friendImage: friendList[i].friend!.photo.toString(),
-                                                      selectedItems: [])
-                                          ),
-                                        );
-                                      } else {
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ProfileChatPage(
+                                                            resp: widget.resp,
+                                                            friendId: friendList[i].friend!.id.toString(),
+                                                            name: friendList[i].friend!.name.toString(),
+                                                            friendImage: friendList[i].friend!.photo.toString(),
+                                                            selectedItems: [])
+                                                ),
+                                              );
+
+                                      }
+                                      // resp = value;
+                                      // if(resp?.error != null &&
+                                      //     resp!.error == false){
+                                      //   print('ggg');
+                                      //   print(resp!.data!.lastMessage!.chatId);
+                                      //
+                                      //   // chatRoomId = resp!.data!.lastMessage!.chatId!;
+                                      //   SharedPrefs().setIntValue(resp!.data!.lastMessage!.chatId!);
+                                      //   Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             ProfileChatPage(
+                                      //                 resp: widget.resp,
+                                      //                 friendId: friendList[i].friend!.id.toString(),
+                                      //                 name: friendList[i].friend!.name.toString(),
+                                      //                 friendImage: friendList[i].friend!.photo.toString(),
+                                      //                 selectedItems: [])
+                                      //     ),
+                                      //   );
+                                      // }
+                                      else {
                                         // Navigator.push(
                                         //   context,
                                         //   MaterialPageRoute(

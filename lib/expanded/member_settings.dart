@@ -63,12 +63,13 @@ class _MemberSettingsState extends State<MemberSettings> {
             child: Stack(
               children: [
                 Container(
-                  height: 350.h,
+                  height: 380.h,
                   width: 1.sw,
                   color: ColorSelect.colorF7E641,
                 ),
                 Column(
                   children: [
+
                     // Padding(
                     //   padding: const EdgeInsets.only(top: 30.0),
                     //   child: Center(
@@ -180,32 +181,32 @@ class _MemberSettingsState extends State<MemberSettings> {
                             "App",
                             style: AppTextStyle().textColorA3A3A312w400,
                           ),
-                          SizedBox(
-                            height: 20.h,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Notifications()));
-                            },
-                            child: Container(
-                              color: Colors.transparent,
-                              padding: EdgeInsets.symmetric(vertical: 5),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Notifications",
-                                    style: AppTextStyle().textColor39393914w500,
-                                  ),
-                                  Spacer(),
-                                  SvgPicture.asset(
-                                      "assets/icons/forwordarrow.svg")
-                                ],
-                              ),
-                            ),
-                          ),
+                          // SizedBox(
+                          //   height: 20.h,
+                          // ),
+                          // InkWell(
+                          //   onTap: () {
+                          //     Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //             builder: (context) => Notifications()));
+                          //   },
+                          //   child: Container(
+                          //     color: Colors.transparent,
+                          //     padding: EdgeInsets.symmetric(vertical: 5),
+                          //     child: Row(
+                          //       children: [
+                          //         Text(
+                          //           "Notifications",
+                          //           style: AppTextStyle().textColor39393914w500,
+                          //         ),
+                          //         Spacer(),
+                          //         SvgPicture.asset(
+                          //             "assets/icons/forwordarrow.svg")
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
                           SizedBox(height: 20),
                           GestureDetector(
                             onTap: () async {
@@ -316,7 +317,7 @@ class _MemberSettingsState extends State<MemberSettings> {
                                     "assets/icons/forwordarrow.svg")
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

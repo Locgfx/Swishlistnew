@@ -134,10 +134,12 @@ Future<dynamic> postChatApi({
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
+
   var request = http.Request('POST', Uri.parse('$newBaseUrl/api/chat/store'));
   request.body = json.encode({
     "user_id": friendId
   });
+
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
@@ -145,11 +147,11 @@ Future<dynamic> postChatApi({
 
   if(resBody['error'] == false){
     return ChatRoomModel.fromJson(resBody);
-} else {
+  } else {
 
-print(response.statusCode);
-print(response.reasonPhrase);
-return false;
+  print(response.statusCode);
+  print(response.reasonPhrase);
+  return false;
 }
 
 }

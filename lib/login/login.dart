@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:swishlist/api/fcm_notiifcations/fcm_notification_apis.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
 import 'package:swishlist/constants/color.dart';
 import 'package:swishlist/constants/globals/shared_prefs.dart';
@@ -163,20 +164,16 @@ class _LoginState extends State<Login> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PhoneVerification()));*/
-                        if (phoneEmailController.text.isNotEmpty &&
-                            passwordController.text.isNotEmpty
-                           ) {
+
+                        if(phoneEmailController.text.isNotEmpty && passwordController.text.isNotEmpty){
                           if(_formKey.currentState!.validate()) {
-                            login(
-                              //  context: context,
-                              email: phoneEmailController.text,
-                              password: passwordController.text,
-                            ).then((value) {
-                              response = value;
-                              if(response?.error != null &&
-                                  response!.error == false) {
+                            login(email: phoneEmailController.text,
+                                password: passwordController.text).then((
+                                value) {
+                              if (value.error == false && value.error != null ) {
+                                response = value;
+                                print('yes');
                                 SharedPrefs().setLoginTrue();
-                                // response = LoginResponse.fromJson(value);
                                 SharedPrefs()
                                     .setEmail(phoneEmailController.text);
                                 SharedPrefs()
@@ -186,23 +183,70 @@ class _LoginState extends State<Login> {
                                 SharedPrefs()
                                     .setId(response!.data!.id.toString());
                                 print(response!.token.toString());
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        Dashboard(response: response!),
-                                  ),
+                                print(response!.data!.email.toString());
+                                print(response!.data!.username.toString());
+                                print(
+                                  response!.data!.id.toString()
                                 );
+                                fcmNotificationTokenApi(
+                                    fcmToken: response!.data!.fcmToken.toString()
+                                ).then((value) {
+                                });
+                                Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Dashboard(response: response!),
+                                              ),
+                                            );
+                              } else {
+                                loading = false;
+                                Fluttertoast.showToast(msg: "Please Check Login Credentials");
                               }
                             });
-
-                          }
-                          else{
-                            loading =false;
-                            Fluttertoast.showToast(
-                                msg: "Please check username and password");
-                            print('no');
                           }
                         }
+                        // if (phoneEmailController.text.isNotEmpty &&
+                        //     passwordController.text.isNotEmpty
+                        //    ) {
+                        //   if(_formKey.currentState!.validate()) {
+                        //     login(
+                        //       //  context: context,
+                        //       email: phoneEmailController.text,
+                        //       password: passwordController.text,
+                        //     ).then((value)
+                        //     {
+                        //       response = value;
+                        //       if(response?.error != null &&
+                        //           response!.error == false) {
+                        //         SharedPrefs().setLoginTrue();
+                        //         // response = LoginResponse.fromJson(value);
+                        //         SharedPrefs()
+                        //             .setEmail(phoneEmailController.text);
+                        //         SharedPrefs()
+                        //             .setPassword(passwordController.text);
+                        //         SharedPrefs()
+                        //             .setLoginToken(response!.token.toString());
+                        //         SharedPrefs()
+                        //             .setId(response!.data!.id.toString());
+                        //         print(response!.token.toString());
+                        //         Navigator.of(context).pushReplacement(
+                        //           MaterialPageRoute(
+                        //             builder: (context) =>
+                        //                 Dashboard(response: response!),
+                        //           ),
+                        //         );
+                        //       }
+                        //     }
+                        //     );
+                        //
+                        //   }
+                        //   else{
+                        //     loading =false;
+                        //     Fluttertoast.showToast(
+                        //         msg: ""Please check username and password"");
+                        //     print('no');
+                        //   }
+                        // }
                       },
                       title: 'Next'):
 

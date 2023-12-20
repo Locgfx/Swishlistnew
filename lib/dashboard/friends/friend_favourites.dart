@@ -194,28 +194,36 @@ class _FFavouritesState extends State<FFavourites> {
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               Text(
-                                                userDetails!.data!.favourites!.cars!.isEmpty ||
-                                                    userDetails!.data!.favourites!.cars == null
-                                                /*friendDetails!.data!.favourite![0]
-                                                                .cars
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!.data!
-                                                                .favourite![0].cars ==
-                                                            null*/
+                                                userDetails?.data?.favourites?.cars?.isEmpty ?? true
                                                     ? ' - -'
-                                                    :
-                                                userDetails!.data!.favourites!.cars!.join(', '),
-                                                  textAlign: TextAlign.right,
-
-
-                                                  /*friendDetails!
-                                                        .data!.favourite![0].cars
-                                                        .toString(),*/
-                                                // 'Car',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                                    : userDetails!.data!.favourites!.cars!.join(', '),
+                                                textAlign: TextAlign.right,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //   userDetails!.data!.favourites!.cars!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.cars == null
+                                              //   /*friendDetails!.data!.favourite![0]
+                                              //                   .cars
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!.data!
+                                              //                   .favourite![0].cars ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //   userDetails!.data!.favourites!.cars!.join(', '),
+                                              //     textAlign: TextAlign.right,
+                                              //
+                                              //
+                                              //     /*friendDetails!
+                                              //           .data!.favourite![0].cars
+                                              //           .toString(),*/
+                                              //   // 'Car',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -245,32 +253,40 @@ class _FFavouritesState extends State<FFavourites> {
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               Text(
-
-                                                userDetails!.data!.favourites!.bikes!.isEmpty ||
-                                                    userDetails!.data!.favourites!.bikes == null
-                                                /*friendDetails!.data!.favourite![0]
-                                                                .bikes
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .bikes ==
-                                                            null*/
+                                                userDetails?.data?.favourites?.bikes?.isEmpty ?? true
                                                     ? ' - -'
-                                                    :
-                                                userDetails!.data!.favourites!.bikes!.join(', '),
-                                                  textAlign: TextAlign.right,
-
-                                                  /* friendDetails!
-                                                        .data!.favourite![0].bikes
-                                                        .toString(),*/
-                                                // friendDetails!.data!.favourite![0].bikes
-                                                //     .toString(),
-                                                // 'Bikes',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                                    : userDetails!.data!.favourites!.bikes!.join(', '),
+                                                textAlign: TextAlign.right,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //
+                                              //   userDetails!.data!.favourites!.bikes!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.bikes == null
+                                              //   /*friendDetails!.data!.favourite![0]
+                                              //                   .bikes
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .bikes ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //   userDetails!.data!.favourites!.bikes!.join(', '),
+                                              //     textAlign: TextAlign.right,
+                                              //
+                                              //     /* friendDetails!
+                                              //           .data!.favourite![0].bikes
+                                              //           .toString(),*/
+                                              //   // friendDetails!.data!.favourite![0].bikes
+                                              //   //     .toString(),
+                                              //   // 'Bikes',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -319,31 +335,40 @@ class _FFavouritesState extends State<FFavourites> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
+                                              // Text(
+                                              //
+                                              //   userDetails!.data!.favourites!.movies!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.movies == null
+                                              //   /*friendDetails!.data!.favourite![0]
+                                              //                   .movies
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .movies ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //   userDetails!.data!.favourites!.movies!.join(', '),
+                                              //     textAlign: TextAlign.right,
+                                              //
+                                              //     /*friendDetails!
+                                              //           .data!.favourite![0].movies
+                                              //           .toString(),*/
+                                              //   // 'Movies',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
+
                                               Text(
-
-                                                userDetails!.data!.favourites!.movies!.isEmpty ||
-                                                    userDetails!.data!.favourites!.movies == null
-                                                /*friendDetails!.data!.favourite![0]
-                                                                .movies
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .movies ==
-                                                            null*/
+                                                userDetails?.data?.favourites?.movies?.isEmpty ?? true
                                                     ? ' - -'
-                                                    :
-                                                userDetails!.data!.favourites!.movies!.join(', '),
-                                                  textAlign: TextAlign.right,
-
-                                                  /*friendDetails!
-                                                        .data!.favourite![0].movies
-                                                        .toString(),*/
-                                                // 'Movies',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                                    : userDetails!.data!.favourites!.movies!.join(', '),
+                                                textAlign: TextAlign.right,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
                                             ],
                                           ),
                                         ),
@@ -391,31 +416,39 @@ class _FFavouritesState extends State<FFavourites> {
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               Text(
-
-                                                userDetails!.data!.favourites!.shows!.isEmpty ||
-                                                    userDetails!.data!.favourites!.shows == null
-                                                /* friendDetails!.data!.favourite![0]
-                                                                .shows
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .shows ==
-                                                            null*/
+                                                userDetails?.data?.favourites?.shows?.isEmpty ?? true
                                                     ? ' - -'
-                                                    :
-
-                                                userDetails!.data!.favourites!.shows!.join(', '),
+                                                    : userDetails!.data!.favourites!.shows!.join(', '),
                                                 textAlign: TextAlign.right,
-
-                                                  /*friendDetails!
-                                                        .data!.favourite![0].shows
-                                                        .toString(),*/
-                                                // 'Shows',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //
+                                              //   userDetails!.data!.favourites!.shows!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.shows == null
+                                              //   /* friendDetails!.data!.favourite![0]
+                                              //                   .shows
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .shows ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //
+                                              //   userDetails!.data!.favourites!.shows!.join(', '),
+                                              //   textAlign: TextAlign.right,
+                                              //
+                                              //     /*friendDetails!
+                                              //           .data!.favourite![0].shows
+                                              //           .toString(),*/
+                                              //   // 'Shows',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -462,30 +495,39 @@ class _FFavouritesState extends State<FFavourites> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
-                                              Text(
-                                                userDetails!.data!.favourites!.foods!.isEmpty ||
-                                                    userDetails!.data!.favourites!.foods == null
-                                                /*friendDetails!.data!.favourite![0]
-                                                                .foods
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .foods ==
-                                                            null*/
-                                                    ? ' - -'
-                                                    :
-                                                userDetails!.data!.favourites!.foods!.join(', '),
-                                                textAlign: TextAlign.right,
 
-                                                  /*friendDetails!
-                                                        .data!.favourite![0].foods
-                                                        .toString(),*/
-                                                // 'Food',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                              Text(
+                                                userDetails?.data?.favourites?.foods?.isEmpty ?? true
+                                                    ? ' - -'
+                                                    : userDetails!.data!.favourites!.foods!.join(', '),
+                                                textAlign: TextAlign.right,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //   userDetails!.data!.favourites!.foods!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.foods == null
+                                              //   /*friendDetails!.data!.favourite![0]
+                                              //                   .foods
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .foods ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //   userDetails!.data!.favourites!.foods!.join(', '),
+                                              //   textAlign: TextAlign.right,
+                                              //
+                                              //     /*friendDetails!
+                                              //           .data!.favourite![0].foods
+                                              //           .toString(),*/
+                                              //   // 'Food',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -534,29 +576,37 @@ class _FFavouritesState extends State<FFavourites> {
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               Text(
-                                                userDetails!.data!.favourites!.gadgets!.isEmpty ||
-                                                    userDetails!.data!.favourites!.gadgets == null
-                                                /*friendDetails!.data!.favourite![0]
-                                                                .gadgets
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .gadgets ==
-                                                            null*/
+                                                userDetails?.data?.favourites?.gadgets?.isEmpty ?? true
                                                     ? ' - -'
-                                                    :
-                                                userDetails!.data!.favourites!.gadgets!.join(', '),
+                                                    : userDetails!.data!.favourites!.gadgets!.join(', '),
                                                 textAlign: TextAlign.right,
-
-                                                  /*friendDetails!
-                                                        .data!.favourite![0].gadgets
-                                                        .toString(),*/
-                                                // 'Gadgets',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //   userDetails!.data!.favourites!.gadgets!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.gadgets == null
+                                              //   /*friendDetails!.data!.favourite![0]
+                                              //                   .gadgets
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .gadgets ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //   userDetails!.data!.favourites!.gadgets!.join(', '),
+                                              //   textAlign: TextAlign.right,
+                                              //
+                                              //     /*friendDetails!
+                                              //           .data!.favourite![0].gadgets
+                                              //           .toString(),*/
+                                              //   // 'Gadgets',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -613,29 +663,38 @@ class _FFavouritesState extends State<FFavourites> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
-                                              Text(
-                                                userDetails!.data!.favourites!.superheroes!.isEmpty ||
-                                                    userDetails!.data!.favourites!.superheroes == null
-                                                /*friendDetails!.data!.favourite![0]
-                                                                .superheroes
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .superheroes ==
-                                                            null*/
-                                                    ? ' - -' :
-                                                userDetails!.data!.favourites!.superheroes!.join(', '),
-                                                textAlign: TextAlign.right,
 
-                                                  /*friendDetails!.data!
-                                                        .favourite![0].superheroes
-                                                        .toString(),*/
-                                                // 'Superheroes',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                              Text(
+                                                userDetails?.data?.favourites?.superheroes?.isEmpty ?? true
+                                                    ? ' - -'
+                                                    : userDetails!.data!.favourites!.superheroes!.join(', '),
+                                                textAlign: TextAlign.right,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //   userDetails!.data!.favourites!.superheroes!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.superheroes == null
+                                              //   /*friendDetails!.data!.favourite![0]
+                                              //                   .superheroes
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .superheroes ==
+                                              //               null*/
+                                              //       ? ' - -' :
+                                              //   userDetails!.data!.favourites!.superheroes!.join(', '),
+                                              //   textAlign: TextAlign.right,
+                                              //
+                                              //     /*friendDetails!.data!
+                                              //           .favourite![0].superheroes
+                                              //           .toString(),*/
+                                              //   // 'Superheroes',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -684,31 +743,39 @@ class _FFavouritesState extends State<FFavourites> {
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               Text(
-
-                                                userDetails!.data!.favourites!.actors!.isEmpty ||
-                                                    userDetails!.data!.favourites!.actors == null
-                                                /*friendDetails!.data!.favourite![0]
-                                                                .actors
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .actors ==
-                                                            null*/
+                                                userDetails?.data?.favourites?.actors?.isEmpty ?? true
                                                     ? ' - -'
-                                                    :
-
-                                                userDetails!.data!.favourites!.actors!.join(', '),
+                                                    : userDetails!.data!.favourites!.actors!.join(', '),
                                                 textAlign: TextAlign.right,
-
-                                                  /* friendDetails!
-                                                        .data!.favourite![0].actors
-                                                        .toString(),*/
-                                                // 'Actors',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //
+                                              //   userDetails!.data!.favourites!.actors!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.actors == null
+                                              //   /*friendDetails!.data!.favourite![0]
+                                              //                   .actors
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .actors ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //
+                                              //   userDetails!.data!.favourites!.actors!.join(', '),
+                                              //   textAlign: TextAlign.right,
+                                              //
+                                              //     /* friendDetails!
+                                              //           .data!.favourite![0].actors
+                                              //           .toString(),*/
+                                              //   // 'Actors',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -757,31 +824,40 @@ class _FFavouritesState extends State<FFavourites> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
+
                                               Text(
-                                                userDetails!.data!.favourites!.actresses!.isEmpty ||
-                                                    userDetails!.data!.favourites!.actresses == null
-                                                /* friendDetails!.data!.favourite![0]
-                                                                .actresses
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .actresses ==
-                                                            null*/
+                                                userDetails?.data?.favourites?.actresses?.isEmpty ?? true
                                                     ? ' - -'
-                                                    :
-
-                                                userDetails!.data!.favourites!.actresses!.join(', '),
+                                                    : userDetails!.data!.favourites!.actresses!.join(', '),
                                                 textAlign: TextAlign.right,
-
-                                                  /*friendDetails!
-                                                        .data!.favourite![0].actresses
-                                                        .toString(),*/
-                                                // 'Actress',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //   userDetails!.data!.favourites!.actresses!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.actresses == null
+                                              //   /* friendDetails!.data!.favourite![0]
+                                              //                   .actresses
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .actresses ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //
+                                              //   userDetails!.data!.favourites!.actresses!.join(', '),
+                                              //   textAlign: TextAlign.right,
+                                              //
+                                              //     /*friendDetails!
+                                              //           .data!.favourite![0].actresses
+                                              //           .toString(),*/
+                                              //   // 'Actress',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -829,30 +905,39 @@ class _FFavouritesState extends State<FFavourites> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
-                                              Text(
-                                                userDetails!.data!.favourites!.singers!.isEmpty ||
-                                                    userDetails!.data!.favourites!.singers == null
-                                                /*friendDetails!.data!.favourite![0]
-                                                                .singers
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .singers ==
-                                                            null*/
-                                                    ? ' - -'
-                                                    :
-                                                userDetails!.data!.favourites!.singers!.join(', '),
-                                                textAlign: TextAlign.right,
 
-                                                  /* friendDetails!
-                                                        .data!.favourite![0].singers
-                                                        .toString(),*/
-                                                // 'Singers',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                              Text(
+                                                userDetails?.data?.favourites?.singers?.isEmpty ?? true
+                                                    ? ' - -'
+                                                    : userDetails!.data!.favourites!.singers!.join(', '),
+                                                textAlign: TextAlign.right,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //   userDetails!.data!.favourites!.singers!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.singers == null
+                                              //   /*friendDetails!.data!.favourite![0]
+                                              //                   .singers
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .singers ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //   userDetails!.data!.favourites!.singers!.join(', '),
+                                              //   textAlign: TextAlign.right,
+                                              //
+                                              //     /* friendDetails!
+                                              //           .data!.favourite![0].singers
+                                              //           .toString(),*/
+                                              //   // 'Singers',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -901,31 +986,40 @@ class _FFavouritesState extends State<FFavourites> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
+
                                               Text(
-                                                userDetails!.data!.favourites!.players!.isEmpty ||
-                                                    userDetails!.data!.favourites!.players == null
-                                                /* friendDetails!.data!.favourite![0]
-                                                                .players
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .players ==
-                                                            null*/
+                                                userDetails?.data?.favourites?.players?.isEmpty ?? true
                                                     ? ' - -'
-                                                    :
-
-                                                userDetails!.data!.favourites!.players!.join(', '),
-                                                textAlign: TextAlign.end,
-
-                                                  /*friendDetails!
-                                                        .data!.favourite![0].players
-                                                        .toString(),*/
-                                                // 'Players',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                                    : userDetails!.data!.favourites!.players!.join(', '),
+                                                textAlign: TextAlign.right,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //   userDetails!.data!.favourites!.players!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.players == null
+                                              //   /* friendDetails!.data!.favourite![0]
+                                              //                   .players
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .players ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //
+                                              //   userDetails!.data!.favourites!.players!.join(', '),
+                                              //   textAlign: TextAlign.end,
+                                              //
+                                              //     /*friendDetails!
+                                              //           .data!.favourite![0].players
+                                              //           .toString(),*/
+                                              //   // 'Players',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -980,31 +1074,40 @@ class _FFavouritesState extends State<FFavourites> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
+
                                               Text(
-                                                userDetails!.data!.favourites!.cities!.isEmpty ||
-                                                    userDetails!.data!.favourites!.cities == null
-                                                /* friendDetails!.data!.favourite![0]
-                                                                .cities
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .cities ==
-                                                            null*/
+                                                userDetails?.data?.favourites?.cities?.isEmpty ?? true
                                                     ? ' - -'
-                                                    :
-
-                                                userDetails!.data!.favourites!.cities!.join(', '),
+                                                    : userDetails!.data!.favourites!.cities!.join(', '),
                                                 textAlign: TextAlign.right,
-
-                                                  /*friendDetails!
-                                                        .data!.favourite![0].cities
-                                                        .toString(),*/
-                                                // 'Cities',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //   userDetails!.data!.favourites!.cities!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.cities == null
+                                              //   /* friendDetails!.data!.favourite![0]
+                                              //                   .cities
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .cities ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //
+                                              //   userDetails!.data!.favourites!.cities!.join(', '),
+                                              //   textAlign: TextAlign.right,
+                                              //
+                                              //     /*friendDetails!
+                                              //           .data!.favourite![0].cities
+                                              //           .toString(),*/
+                                              //   // 'Cities',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -1054,31 +1157,40 @@ class _FFavouritesState extends State<FFavourites> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
+
                                               Text(
-                                                userDetails!.data!.favourites!.countries!.isEmpty ||
-                                                    userDetails!.data!.favourites!.countries == null
-                                                /*friendDetails!.data!.favourite![0]
-                                                                .countries
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .countries ==
-                                                            null*/
+                                                userDetails?.data?.favourites?.countries?.isEmpty ?? true
                                                     ? ' - -'
-                                                    :
-
-                                                userDetails!.data!.favourites!.countries!.join(', '),
+                                                    : userDetails!.data!.favourites!.countries!.join(', '),
                                                 textAlign: TextAlign.right,
-
-                                                  /* friendDetails!
-                                                        .data!.favourite![0].countries
-                                                        .toString(),*/
-                                                // 'Countries',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //   userDetails!.data!.favourites!.countries!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.countries == null
+                                              //   /*friendDetails!.data!.favourite![0]
+                                              //                   .countries
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .countries ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //
+                                              //   userDetails!.data!.favourites!.countries!.join(', '),
+                                              //   textAlign: TextAlign.right,
+                                              //
+                                              //     /* friendDetails!
+                                              //           .data!.favourite![0].countries
+                                              //           .toString(),*/
+                                              //   // 'Countries',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -1129,31 +1241,40 @@ class _FFavouritesState extends State<FFavourites> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
+
                                               Text(
-                                                userDetails!.data!.favourites!.restaurants!.isEmpty ||
-                                                    userDetails!.data!.favourites!.restaurants == null
-                                                /*friendDetails!.data!.favourite![0]
-                                                                .restaurants
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .restaurants ==
-                                                            null*/
+                                                userDetails?.data?.favourites?.restaurants?.isEmpty ?? true
                                                     ? ' - -'
-                                                    :
-
-                                                userDetails!.data!.favourites!.restaurants!.join(', '),
+                                                    : userDetails!.data!.favourites!.restaurants!.join(', '),
                                                 textAlign: TextAlign.right,
-
-                                                  /* friendDetails!.data!
-                                                        .favourite![0].restaurants
-                                                        .toString(),*/
-                                                // 'Restaurants',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //   userDetails!.data!.favourites!.restaurants!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.restaurants == null
+                                              //   /*friendDetails!.data!.favourite![0]
+                                              //                   .restaurants
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .restaurants ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //
+                                              //   userDetails!.data!.favourites!.restaurants!.join(', '),
+                                              //   textAlign: TextAlign.right,
+                                              //
+                                              //     /* friendDetails!.data!
+                                              //           .favourite![0].restaurants
+                                              //           .toString(),*/
+                                              //   // 'Restaurants',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -1206,30 +1327,38 @@ class _FFavouritesState extends State<FFavourites> {
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               Text(
-                                                userDetails!.data!.favourites!.hotels!.isEmpty ||
-                                                    userDetails!.data!.favourites!.hotels == null
-                                                /*friendDetails!.data!.favourite![0]
-                                                                .hotels
-                                                                .toString() ==
-                                                            '' ||
-                                                        friendDetails!
-                                                                .data!
-                                                                .favourite![0]
-                                                                .hotels ==
-                                                            null*/
+                                                userDetails?.data?.favourites?.hotels?.isEmpty ?? true
                                                     ? ' - -'
-                                                    :
-
-                                                userDetails!.data!.favourites!.hotels!.join(', '),
-                                                  textAlign: TextAlign.end,
-
-                                                  /* friendDetails!
-                                                        .data!.favourite![0].hotels
-                                                        .toString(),*/
-                                                // 'Hotels',
-                                                style: AppTextStyle()
-                                                    .textColor29292914w400,
+                                                    : userDetails!.data!.favourites!.hotels!.join(', '),
+                                                textAlign: TextAlign.right,
+                                                style: AppTextStyle().textColor29292914w400,
                                               ),
+
+                                              // Text(
+                                              //   userDetails!.data!.favourites!.hotels!.isEmpty ||
+                                              //       userDetails!.data!.favourites!.hotels == null
+                                              //   /*friendDetails!.data!.favourite![0]
+                                              //                   .hotels
+                                              //                   .toString() ==
+                                              //               '' ||
+                                              //           friendDetails!
+                                              //                   .data!
+                                              //                   .favourite![0]
+                                              //                   .hotels ==
+                                              //               null*/
+                                              //       ? ' - -'
+                                              //       :
+                                              //
+                                              //   userDetails!.data!.favourites!.hotels!.join(', '),
+                                              //     textAlign: TextAlign.end,
+                                              //
+                                              //     /* friendDetails!
+                                              //           .data!.favourite![0].hotels
+                                              //           .toString(),*/
+                                              //   // 'Hotels',
+                                              //   style: AppTextStyle()
+                                              //       .textColor29292914w400,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -1240,8 +1369,14 @@ class _FFavouritesState extends State<FFavourites> {
                             SizedBox(
                               height:
 
-                              userDetails!.data!.favourites!.hotels!.isEmpty ||
-                                  userDetails!.data!.favourites!.hotels == null
+
+                                userDetails?.data?.favourites?.bikes?.isEmpty ?? true
+
+
+
+
+                              // userDetails!.data?.favourites?.hotels!.isEmpty ||
+                              //     userDetails!.data!.favourites!.hotels == null
                               /*friendDetails!.data!.favourite![0].hotels
                                               .toString() ==
                                           '' ||

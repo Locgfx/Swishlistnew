@@ -181,11 +181,25 @@ class _FriendProfileState extends State<FriendProfile> {
     var resp = userDetailsApi(id: widget.friendId);
     resp.then((value) {
       if(value['error'] == false){
+
         setState(() {
           userDetails = FriendInterestModel.fromJson(value);
-          var interestsString = userDetails!.data!.interests![0].interests!.join(", ");
-          elements = interestsString.split(", ");
+
+          if (userDetails?.data?.interests != null &&
+              userDetails!.data!.interests!.isNotEmpty) {
+            var interestsString = userDetails!.data!.interests![0].interests!.join(", ");
+            elements = interestsString.split(", ");
+          } else {
+            // Handle the case where interests are null or empty
+            elements = []; // or provide a default value
+          }
         });
+
+        // setState(() {
+        //   userDetails = FriendInterestModel.fromJson(value);
+        //   var interestsString = userDetails!.data!.interests![0].interests!.join(", ");
+        //   elements = interestsString.split(", ");
+        // });
         isLoading = false;
 
       }
