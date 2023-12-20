@@ -36,6 +36,7 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
   @override
   void initState() {
     loadContacts();
+    print(friendList);
     super.initState();
   }
 
@@ -51,8 +52,10 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
     isLoading = true;
     var resp = getContactApi(contacts: phNo);
     resp.then((value) {
-      if (mounted) {
-        if (value['status'] == true) {
+      friendList.clear();
+      print(value);
+     // if (mounted) {
+        if (value['error'] == false) {
           setState(() {
             for (var v in value['data']) {
               friendList.add(ModelContact.fromJson(v));
@@ -64,7 +67,7 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
             isLoading = false;
           });
         }
-      }
+      //}
     });
   }
 
@@ -303,8 +306,9 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
                                   ),
                                   clipBehavior: Clip.hardEdge,
                                   child: CachedNetworkImage(
-                                    imageUrl: baseUrl +
-                                        friendList[i].photo.toString(),
+                                    imageUrl:
+
+                                        friendList[i].photo.toString() ,
                                     // imageUrl: baseUrl+contactModel.data![i].photo.toString(),
                                     fit: BoxFit.cover,
                                     errorWidget: (context, url, error) =>
@@ -373,16 +377,16 @@ class _AddFriendByMailPhoneState extends State<AddFriendByMailPhone> {
                                                       accept[i] = false;
                                                     });
                                                   });
-                                                  addFriendApi(
+                                                  addFriendByIdApi(
                                                           friendsId:
                                                               friendList[i]
                                                                   .id
                                                                   .toString(),
-                                                          status: 'requested')
+                                                          )
                                                       .then((value) {
                                                     print(value);
-                                                    if (value['status'] ==
-                                                        true) {
+                                                    if (value['error'] ==
+                                                        false) {
                                                       Navigator.push(
                                                           context,
                                                           MaterialPageRoute(

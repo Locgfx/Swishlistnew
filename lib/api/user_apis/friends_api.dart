@@ -32,30 +32,55 @@ Future getFriendsApi() async {
 }
 
 
-Future<dynamic> addFriendApi({
+Future<dynamic> addFriendByIdApi({
   required String friendsId,
-  required String status,
+
 })  async {
+  // var headers = {
+  //   'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
+  // };
+  // var request = http.MultipartRequest("POST", Uri.parse('$baseUrl/api/user/friend/store'));
+  // request.fields.addAll({
+  //   'friend_user_id': friendsId,
+  //   'status': 'requested'
+  // });
+  // request.headers.addAll(headers);
+  // http.StreamedResponse response = await request.send();
+  // var resp = jsonDecode(await response.stream.bytesToString());
+  // if(response.statusCode == 200) {
+  //   print(resp);
+  //   return resp;
+  // } else {
+  //   print(resp);
+  //   print(response.statusCode);
+  //   print(response.reasonPhrase);
+  //   return resp;
+  // }
   var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
     'Authorization': 'Bearer ${SharedPrefs().getLoginToken()}'
   };
-  var request = http.MultipartRequest("POST", Uri.parse('$baseUrl/api/user/friend/store'));
-  request.fields.addAll({
-    'friend_user_id': friendsId,
-    'status': 'requested'
+  var request = http.Request('POST', Uri.parse('$newBaseUrl/api/friend/request'));
+  request.body = json.encode({
+    "friend_id": friendsId
   });
   request.headers.addAll(headers);
+
   http.StreamedResponse response = await request.send();
-  var resp = jsonDecode(await response.stream.bytesToString());
-  if(response.statusCode == 200) {
-    print(resp);
-    return resp;
-  } else {
-    print(resp);
-    print(response.statusCode);
-    print(response.reasonPhrase);
-    return resp;
+  var resBody = jsonDecode(await response.stream.bytesToString());
+
+  if (response.statusCode == 200) {
+    print(resBody);
+    return resBody;
   }
+  else {
+    print(response.reasonPhrase);
+    print(response.statusCode);
+    print(resBody);
+    return resBody;
+  }
+
 }
 
 

@@ -573,8 +573,8 @@ class _ProductDetailState extends State<ProductDetail> {
                                                                     .then(
                                                                         (value) {
                                                                       if (value[
-                                                                      'status'] ==
-                                                                          true) {
+                                                                      'error'] ==
+                                                                          false) {
                                                                         // Navigator
                                                                         //     .pushReplacement(
                                                                         //   context,
@@ -589,11 +589,14 @@ class _ProductDetailState extends State<ProductDetail> {
                                                                         //     ),
                                                                         //   ),
                                                                         // );
-                                                                        Navigator.of(
-                                                                            context)
-                                                                          ..pop()
-                                                                          ..pop()
-                                                                          ..pop();
+                                                                        // Navigator.of(
+                                                                        //     context)
+                                                                        //   ..pop()
+                                                                        //   ..pop()
+                                                                        //   ..pop();
+                                                                        Navigator.pop(context);
+                                                                        Navigator.pop(context);
+                                                                        Navigator.pop(context);
                                                                         Fluttertoast
                                                                             .showToast(
                                                                             msg:

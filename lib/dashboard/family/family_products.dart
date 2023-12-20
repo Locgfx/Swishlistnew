@@ -22,6 +22,7 @@ import '../../family_members/family_product_details.dart';
 import '../../family_members/family_want_products.dart';
 import '../../models/add_friend_model.dart';
 import '../../models/family_member_product_model.dart';
+import '../friends/friend_profile.dart';
 import '../friends/friends_notifications.dart';
 import '../products/widget/manuallyaddbottomsheetwidget.dart';
 
@@ -245,9 +246,9 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                           ListTile(
                                             title: GestureDetector(
                                               onTap: () {
-                                                   deleteFriendApi(id: widget.id)
+                                                deleteFriendApi(id: widget.id)
                                                     .then((value) {
-                                                  if (value['status'] == true) {
+                                                  if (value['error'] == false) {
                                                     Fluttertoast.showToast(
                                                         msg: value['message']);
                                                     Navigator.pop(context);
@@ -261,9 +262,9 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                                               child: Text(
                                                 'Unfriend',
                                                 style:
-                                                    // AppTextStyle().textColorBA505014w500
-                                                    AppTextStyle()
-                                                        .textColor39393914w500,
+                                                // AppTextStyle().textColorBA505014w500
+                                                AppTextStyle()
+                                                    .textColor39393914w500,
                                               ),
                                             ),
                                           ),
@@ -310,24 +311,37 @@ class _FamilyMemberProductState extends State<FamilyMemberProduct> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  print(widget.familyId.toString());
+
+                                  print(widget.familyId);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => FriendProduct(
+                                      builder: (_) => FriendProfile(
+                                        friendId: widget.familyId,
                                         friendName: widget.familyName,
                                         friendUserName: widget.familyUserName,
-                                        friendId: widget.familyId,
-                                        friendPhoto: widget.familyPhoto,
-                                        id: widget.id,
-                                        response: widget.response,
-                                        // familyName: widget.familyName,
-                                        // familyUserName: widget.familyUserName,
-                                        // familyPhoto: widget.familyPhoto,
-                                        // familyMemberId: widget.familyId,
+                                        photo: widget.familyPhoto,
                                       ),
                                     ),
                                   );
+                                  // print(widget.familyId.toString());
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (_) => FriendProduct(
+                                  //       friendName: widget.familyName,
+                                  //       friendUserName: widget.familyUserName,
+                                  //       friendId: widget.familyId,
+                                  //       friendPhoto: widget.familyPhoto,
+                                  //       id: widget.id,
+                                  //       response: widget.response,
+                                  //       // familyName: widget.familyName,
+                                  //       // familyUserName: widget.familyUserName,
+                                  //       // familyPhoto: widget.familyPhoto,
+                                  //       // familyMemberId: widget.familyId,
+                                  //     ),
+                                  //   ),
+                                  // );
                                   // Navigator.push(
                                   //   context,
                                   //   MaterialPageRoute(

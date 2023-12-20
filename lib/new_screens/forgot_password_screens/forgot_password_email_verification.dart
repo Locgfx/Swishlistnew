@@ -7,34 +7,25 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:swishlist/api/forgot_password_api/forgot_password_api.dart';
 import 'package:swishlist/api/login_signup_apis/signup_api.dart';
 import 'package:swishlist/buttons/light_yellow.dart';
+import 'package:swishlist/buttons/white_button.dart';
 import 'package:swishlist/constants/color.dart';
+import 'package:swishlist/constants/globals/globals.dart';
+import 'package:swishlist/dashboard/reset_password/reset_password.dart';
+import 'package:swishlist/models/login_models.dart';
+import 'package:swishlist/new_screens/forgot_password_screens/forgot_set_new_password.dart';
 import 'package:swishlist/signup/widgets/text_term_widget.dart';
 
-import '../buttons/white_button.dart';
-import '../constants/globals/globals.dart';
-import '../constants/globals/shared_prefs.dart';
-import '../create_new_account/create_new_account.dart';
-import '../models/login_models.dart';
-
-class EmailVerification extends StatefulWidget {
+class ForgotPasswordEmailVerification extends StatefulWidget {
   final String email;
-  final String password;
-  const EmailVerification(
-      {Key? key, required this.email, required this.password})
+  const ForgotPasswordEmailVerification(
+      {Key? key, required this.email,})
       : super(key: key);
 
   @override
-  State<EmailVerification> createState() => _EmailVerificationState();
+  State<ForgotPasswordEmailVerification> createState() => _ForgotPasswordEmailVerificationState();
 }
 
-class _EmailVerificationState extends State<EmailVerification> {
-
-
-  @override
-  void initState() {
-    _startTimer();
-    super.initState();
-  }
+class _ForgotPasswordEmailVerificationState extends State<ForgotPasswordEmailVerification> {
 
   final otpController = TextEditingController();
   bool loading = false;
@@ -65,6 +56,14 @@ class _EmailVerificationState extends State<EmailVerification> {
 
 
   @override
+  void initState() {
+    _startTimer();
+    super.initState();
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
     return TextFieldUnFocusOnTap(
       child: Scaffold(
@@ -78,24 +77,45 @@ class _EmailVerificationState extends State<EmailVerification> {
                 child: show
                     ? LoadingLightYellowButton()
                     : LightYellowButtonWithText(
-                        backgroundColor: otpController.text.length == 4
-                            ? MaterialStateProperty.all(ColorSelect.colorF7E641)
-                            : MaterialStateProperty.all(
-                                ColorSelect.colorFCF5B6),
-                        textStyleColor: otpController.text.length == 4
-                            ? Colors.black
-                            : ColorSelect.colorB5B07A,
-                        onTap: () {
-                          setState(() {
-                            show = !show;
-                          });
-                          Timer timer = Timer(Duration(seconds: 2), () {
-                            setState(() {
-                              show = false;
-                            });
-                          });
-                          if (otpController.text.length == 4) {
-                     /*       verifyOtp(
+                  backgroundColor: otpController.text.length == 4
+                      ? MaterialStateProperty.all(ColorSelect.colorF7E641)
+                      : MaterialStateProperty.all(
+                      ColorSelect.colorFCF5B6),
+                  textStyleColor: otpController.text.length == 4
+                      ? Colors.black
+                      : ColorSelect.colorB5B07A,
+                  onTap: () {
+                    setState(() {
+                      show = !show;
+                    });
+                    Timer timer = Timer(Duration(seconds: 2), () {
+                      setState(() {
+                        show = false;
+                      });
+                    });
+                    if (otpController.text.length == 4) {
+
+                      forgotPasswordVerifyOtpApi(otp: otpController.text).then((value) {
+                        if(value['error'] == false){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ForgotSetPassword(email: widget.email,
+
+                              ),
+                            ),
+                          );
+                          Fluttertoast.showToast(msg: value['message']);
+
+                        } else{
+                          Fluttertoast.showToast(msg: value['message']);
+                        }
+                      });
+
+
+
+
+                      /*  verifyOtp(
                               context: context,
                               otp: otpController.text,
                               email: widget.email,
@@ -118,25 +138,25 @@ class _EmailVerificationState extends State<EmailVerification> {
                               }
                             });*/
 
-                            verifySignUpOtp(otp: otpController.text).then((value) {
-                              if(value['error'] == false){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => SetPassword(
-                                      email: widget.email,
-                                    ),
-                                  ),
-                                );
-                                Fluttertoast.showToast(msg: value['message']);
-                              } else{
-                                Fluttertoast.showToast(msg: value['message']);
-                              }
-                            });
-                          }
-                        },
-                        title: 'Submit',
-                      ),
+                      // verifySignUpOtp(otp: otpController.text).then((value) {
+                      //   if(value['error'] == false){
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (_) => SetPassword(
+                      //           email: widget.email,
+                      //         ),
+                      //       ),
+                      //     );
+                      //     Fluttertoast.showToast(msg: value['message']);
+                      //   } else{
+                      //     Fluttertoast.showToast(msg: value['message']);
+                      //   }
+                      // });
+                    }
+                  },
+                  title: 'Submit',
+                ),
               ),
               SizedBox(
                 height: 20,
@@ -153,7 +173,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                       _start = 60;
                     });
                     _startTimer();
-                    resendCreateAccountOtpApi(email: widget.email).then((value) {
+                    forgotPasswordApi(email: widget.email).then((value) {
                       if(value['error'] == false){
                         // Navigator.push(
                         //   context,
@@ -172,23 +192,19 @@ class _EmailVerificationState extends State<EmailVerification> {
                   }
                       : () {},
                   // onTap: () {
-                  //   resendOtp(
-                  //     context: context,
-                  //     emailPhone: widget.email,
-                  //   ).then((value) async {
-                  //     if (value['status'] == true) {
-                  //       // Navigator.push(
-                  //       //   context,
-                  //       //   MaterialPageRoute(
-                  //       //     builder: (context) => CreateNewAccount(
-                  //       //     ),
-                  //       //   ),
-                  //       // );
-                  //       Fluttertoast.showToast(
-                  //           msg: 'Please check your mail for Otp');
-                  //       // Fluttertoast.showToast(
-                  //       //     msg: 'Your OTP is ${value['data']['otp']}');
-                  //     } else {
+                  //   forgotPasswordApi(email: widget.email).then((value) {
+                  //     if(value['error'] == false){
+                  //       Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (context) => ForgotPasswordEmailVerification(
+                  //             email: widget.email,
+                  //           ),
+                  //         ),
+                  //       );
+                  //       Fluttertoast.showToast(msg: value['message']);
+                  //
+                  //     } else{
                   //       Fluttertoast.showToast(msg: value['message']);
                   //     }
                   //   });
