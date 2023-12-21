@@ -924,43 +924,107 @@ class _UserProfileState extends State<UserProfile> {
                                   //   DateTime date = DateFormat("dd MMMM, yyyy").parse(respDate);
                                   //   respDate = DateFormat('yyyy-MM-dd').format(date);
                                   // });
+                                  print("check controller");
+                                  print(nameController.text);
+                                  const String defaultNamePlaceholder = "+ Add";
+                                  const String defaultProfileNamePlaceholder = "User";
+                                  const String defaultGenderPlaceholder = "male";
+                                  const String defaultMaritalPlaceholder = "single";
                                   updateProfileApi(
-                                      name: nameController.text,
-                                      userName: nameController.text,
-                                      gender: genderController.text,
-                                    dob:
-                                    //dobController.text,
-                                       respDate,
-                                      occupation: occupationController.text,
-                                      relationStatus: relationStatus.text,
-                                      email: emailController.text,
-                                      phone: phoneController.text,
-                                      alternateNo: alternateNo.text,
-                                      privacyStatus: 'public',
-                                      photo:
-                                      pickedImage.isAbsolute
-                                          ? pickedImage.path
-                                          : '',
-                                     ).then((value) {
-                                        if(value['error'] == false){
-                                          Fluttertoast.showToast(msg: value['message']);
-                                          Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                              builder: (BuildContext context) {
-                                                // Your new route/widget here
-                                                return UserAllDetails(
-                                                  response: widget.response,
-                                                );
-                                              },
-                                            ),
-                                          );
-                                          // Navigator.pop(context);
+                                    name: nameController.text.isNotEmpty ? nameController.text : defaultProfileNamePlaceholder,
+                                    userName: nameController.text.isNotEmpty ? nameController.text : defaultNamePlaceholder,
+                                    gender: genderController.text.isNotEmpty ? genderController.text : defaultGenderPlaceholder,
+                                    dob: respDate.isNotEmpty ? respDate  :defaultNamePlaceholder,
+                                    occupation: occupationController.text.isNotEmpty ? occupationController.text : defaultNamePlaceholder,
+                                    relationStatus: relationStatus.text.isNotEmpty ? relationStatus.text : defaultMaritalPlaceholder,
+                                    email: emailController.text.isNotEmpty ? emailController.text : defaultNamePlaceholder,
+                                    phone: phoneController.text.isNotEmpty ? phoneController.text : defaultNamePlaceholder,
+                                    alternateNo: alternateNo.text.isNotEmpty ? alternateNo.text : defaultNamePlaceholder,
+                                    privacyStatus: 'public',
+                                    photo:
+                                    pickedImage.isAbsolute
+                                        ? pickedImage.path
+                                        : '',
+                                  ).then((value) {
+                                    if(value['error'] == false){
+                                      Fluttertoast.showToast(msg: value['message']);
+                                      Navigator.pop(context);
 
-                                        }else{
-                                          Fluttertoast.showToast(msg: value['error']);
-                                        }
+                                    }else{
+                                      Fluttertoast.showToast(msg: value['error']);
+                                    }
                                   });
                                 },
+    //                             onTap: () {
+    //
+    //                               // setState(() {
+    //                               //   DateTime date = DateFormat("dd MMMM, yyyy").parse(respDate);
+    //                               //   respDate = DateFormat('yyyy-MM-dd').format(date);
+    //                               // });
+    //                               const String defaultNamePlaceholder = "+ Add";
+    //                               const String defaultProfileNamePlaceholder = "User";
+    //                               const String defaultGenderPlaceholder = "empty";
+    //                               const String defaultMaritalPlaceholder = "single";
+    //                               updateProfileApi(
+    //                               name: nameController.text.isNotEmpty ? nameController.text : defaultProfileNamePlaceholder,
+    //                               userName: nameController.text.isNotEmpty ? nameController.text : defaultNamePlaceholder,
+    //                               gender: genderController.text.isNotEmpty ? genderController.text : defaultGenderPlaceholder,
+    //                               dob: respDate.isNotEmpty ? respDate  :defaultNamePlaceholder,
+    //                               occupation: occupationController.text.isNotEmpty ? occupationController.text : defaultNamePlaceholder,
+    // relationStatus: relationStatus.text.isNotEmpty ? relationStatus.text : defaultMaritalPlaceholder,
+    // email: emailController.text.isNotEmpty ? emailController.text : defaultNamePlaceholder,
+    // phone: phoneController.text.isNotEmpty ? phoneController.text : defaultNamePlaceholder,
+    // alternateNo: alternateNo.text.isNotEmpty ? alternateNo.text : defaultNamePlaceholder,
+    // privacyStatus: 'public',
+    // photo:
+    // pickedImage.isAbsolute
+    // ? pickedImage.path
+    //     : '',
+    // ).then((value) {
+    // if(value['error'] == false){
+    // Fluttertoast.showToast(msg: value['message']);
+    // Navigator.pop(context);
+    //
+    // }else{
+    // Fluttertoast.showToast(msg: value['error']);
+    // }
+    // });
+    //
+    //                               // updateProfileApi(
+    //                               //     name: nameController.text,
+    //                               //     userName: nameController.text,
+    //                               //     gender: genderController.text,
+    //                               //   dob:
+    //                               //   //dobController.text,
+    //                               //      respDate,
+    //                               //     occupation: occupationController.text,
+    //                               //     relationStatus: relationStatus.text,
+    //                               //     email: emailController.text,
+    //                               //     phone: phoneController.text,
+    //                               //     alternateNo: alternateNo.text,
+    //                               //     privacyStatus: 'public',
+    //                               //     photo:
+    //                               //     pickedImage.isAbsolute
+    //                               //         ? pickedImage.path
+    //                               //         : '',
+    //                               //    ).then((value) {
+    //                               //       if(value['error'] == false){
+    //                               //         Fluttertoast.showToast(msg: value['message']);
+    //                               //         Navigator.of(context).pushReplacement(
+    //                               //           MaterialPageRoute(
+    //                               //             builder: (BuildContext context) {
+    //                               //               // Your new route/widget here
+    //                               //               return UserAllDetails(
+    //                               //                 response: widget.response,
+    //                               //               );
+    //                               //             },
+    //                               //           ),
+    //                               //         );
+    //                                       // Navigator.pop(context);
+    //
+    //
+    //                               });
+    //                             },
                                 title: 'Update')
                             ),
                         SizedBox(height: 25.h)
